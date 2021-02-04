@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Menu Item is the items main container for Class Menu control
     /// </summary>
     [Obsolete("This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.")]
-    public class MenuItem : HeaderedItemsControl
+    public class MenuItem : ItemsControl
     {
         private const string FlyoutButtonName = "FlyoutButton";
         private const char UnderlineCharacter = '^';
@@ -48,6 +48,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _isInternalHeaderUpdate = false;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the header of each control.
+        /// </summary>
+        public object Header
+        {
+            get { return (object)GetValue(HeaderProperty); }
+            set { SetValue(HeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Header"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderProperty =
+            DependencyProperty.Register(nameof(Header), typeof(object), typeof(MenuItem), new PropertyMetadata(null, OnHeaderChanged));
+
+        /// <summary>
+        /// Gets or sets the template used to display the content of the control's header.
+        /// </summary>
+        public DataTemplate HeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="HeaderTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty HeaderTemplateProperty = DependencyProperty.Register(
+            nameof(HeaderTemplate),
+            typeof(DataTemplate),
+            typeof(MenuItem),
+            new PropertyMetadata(null));
 
         /// <summary>
         /// Gets a value indicating whether the menu is opened or not
@@ -497,40 +530,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InternalHeader = text;
         }
 
-        /// <inheritdoc />
-        protected override void OnHeaderChanged(object oldValue, object newValue)
+        private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            base.OnHeaderChanged(oldValue, newValue);
-
-            if (_isInternalHeaderUpdate)
+            if (d is MenuItem menuitem)
             {
-                return;
+                if (menuitem._isInternalHeaderUpdate)
+                {
+                    return;
+                }
+
+                menuitem._originalHeader = null;
+
+                var headerString = e.NewValue as string;
+
+                if (string.IsNullOrEmpty(headerString))
+                {
+                    return;
+                }
+
+                var underlineCharacterIndex = headerString.IndexOf(UnderlineCharacter);
+
+                if (underlineCharacterIndex == -1)
+                {
+                    return;
+                }
+
+                if (underlineCharacterIndex == headerString.Length - 1)
+                {
+                    menuitem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
+                    return;
+                }
+
+                menuitem._originalHeader = headerString;
+                menuitem.InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
             }
-
-            _originalHeader = null;
-
-            var headerString = newValue as string;
-
-            if (string.IsNullOrEmpty(headerString))
-            {
-                return;
-            }
-
-            var underlineCharacterIndex = headerString.IndexOf(UnderlineCharacter);
-
-            if (underlineCharacterIndex == -1)
-            {
-                return;
-            }
-
-            if (underlineCharacterIndex == headerString.Length - 1)
-            {
-                InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
-                return;
-            }
-
-            _originalHeader = headerString;
-            InternalHeader = headerString.Replace(UnderlineCharacter.ToString(), string.Empty);
         }
 
         internal void RemoveUnderline()

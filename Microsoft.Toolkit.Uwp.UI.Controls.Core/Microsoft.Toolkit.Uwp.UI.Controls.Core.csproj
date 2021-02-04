@@ -7,21 +7,12 @@
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
 
       Controls:
-        - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
         - CameraPreview: Easily preview video from camera sources and get realtime frames from the selected source.
-        - Carousel: Presents items in a carousel control.
         - ColorPicker/ColorPickerButton: Improved ColorPicker and DropDownButton version.
         - DropShadowPanel: DropShadowPanel control allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
-        - Expander: Expander allows user to show/hide content based on a boolean state.
-        - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
-        - HeaderedContentControl: Provides a header to content.
-        - HeaderedItemsControl: Provides a header to items.
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
-        - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
-        - ListDetailsView: Implements the List/Details design pattern.
-        - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
         - RadialGauge: Displays a value within a range, using a needle on a circular face.
         - RadialProgressBar: Displays progress as a circle getting filled.
         - RangeSelector: "Double slider" control for range values.
@@ -31,7 +22,7 @@
         - TileControl: A ContentControl that show an image repeated many times.
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Range Markdown BladeView Blade CameraPreview Camera Carousel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas List Details ListDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader Tile Tokenizing TextBox</PackageTags>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range Markdown CameraPreview Camera DropShadow ImageEx InAppNotification InfiniteCanvas Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader Tile Tokenizing TextBox</PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>

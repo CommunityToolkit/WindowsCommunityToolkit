@@ -86,14 +86,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties {
                 return ResourceManager.GetString("CategoryCommon", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop Shadow.
-        /// </summary>
-        internal static string CategoryDropShadow {
-            get {
-                return ResourceManager.GetString("CategoryDropShadow", resourceCulture);
-            }
-        }
     }
 }

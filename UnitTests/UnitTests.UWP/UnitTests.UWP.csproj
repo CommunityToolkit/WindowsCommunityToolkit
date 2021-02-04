@@ -249,6 +249,10 @@
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
+      <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj">
       <Project>{43bd2a36-9e12-4788-80ae-2377e41e6d05}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Media</Name>

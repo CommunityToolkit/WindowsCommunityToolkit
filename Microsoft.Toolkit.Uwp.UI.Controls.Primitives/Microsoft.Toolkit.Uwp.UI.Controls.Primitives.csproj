@@ -25,6 +25,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.UI.Xaml" Version="2.4.2" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
 		<None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
 	</ItemGroup>

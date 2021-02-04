@@ -2,23 +2,40 @@
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <Title>Windows Community Toolkit Layout</Title>
     <Description>
       This library provides XAML layout controls. It is part of the Windows Community Toolkit.
+
+      Controls:
+        - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
+        - Carousel: Presents items in a carousel control.
+        - Expander: Expander allows user to show/hide content based on a boolean state.
+        - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
+        - HeaderedContentControl: Provides a header to content.
+        - HeaderedItemsControl: Provides a header to items.
+        - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
+        - ListDetailsView: Implements the List/Details design pattern.
+        - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
     </Description>
+    <PackageTags>BladeView Blade Carousel Expander GridSplitter HeaderedContent List Details ListDetails Orbit</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.4.2" />
+    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+    <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+  <ItemGroup>
+    <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">

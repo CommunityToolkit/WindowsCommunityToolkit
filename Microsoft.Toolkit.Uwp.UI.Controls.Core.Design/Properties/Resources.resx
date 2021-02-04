@@ -129,28 +129,4 @@
   <data name="CategoryDropShadow" xml:space="preserve">
     <value>Drop Shadow</value>
   </data>
-  <data name="CategoryInteractions" xml:space="preserve">
-    <value>Interactions</value>
-  </data>
-  <data name="CategoryMarkdownCodeStyle" xml:space="preserve">
-    <value>Markdown Style - Code</value>
-  </data>
-  <data name="CategoryMarkdownHeaderStyle" xml:space="preserve">
-    <value>Markdown Style - Header {0}</value>
-  </data>
-  <data name="CategoryMarkdownListStyle" xml:space="preserve">
-    <value>Markdown Style - List</value>
-  </data>
-  <data name="CategoryMarkdownQuoteStyle" xml:space="preserve">
-    <value>Markdown Style - Quote</value>
-  </data>
-  <data name="CategoryMarkdownStyle" xml:space="preserve">
-    <value>Markdown Style</value>
-  </data>
-  <data name="CategoryMarkdownTableStyle" xml:space="preserve">
-    <value>Markdown Style - Table</value>
-  </data>
-  <data name="CategoryText" xml:space="preserve">
-    <value>Text</value>
-  </data>
 </root>
