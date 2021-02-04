@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+    <LangVersion>9.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <Title>Windows Community Toolkit Diagnostics .NET Standard</Title>
+    <Description>
+      This package includes .NET Standard code only helpers such as:
+        - Guard: Helper methods to verify conditions when running code.
+        - ThrowHelper: Helper methods to efficiently throw exceptions.
+    </Description>
+    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
+  </PropertyGroup>
+  <Choose>
+    <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
+      <ItemGroup>
+
+        <!-- .NET Standard 1.4 doesn't have the Span<T> type, ValueTuple or the [Pure] attribute -->
+        <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
+        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+        <PackageReference Include="System.Memory" Version="4.5.4" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+      <ItemGroup>
+
+        <!-- .NET Standard 2.0 doesn't have the Span<T> type -->
+        <PackageReference Include="System.Memory" Version="4.5.4" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+      <PropertyGroup>
+        <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+
+        <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(TargetFramework)' == 'net5.0' ">
+      <PropertyGroup>
+        <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <ItemGroup>
+    <None Update="Generated\Guard.Comparable.Numeric.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Guard.Comparable.Numeric.g.cs</LastGenOutput>
+    </None>
+    <None Update="Generated\Guard.Collection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Guard.Collection.g.cs</LastGenOutput>
+    </None>
+    <None Update="Generated\ThrowHelper.Collection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ThrowHelper.Collection.g.cs</LastGenOutput>
+    </None>
+    <None Update="Generated\TypeInfo.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TypeInfo.g.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <!-- T4 service used by the Guard APIs -->
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Compile Update="Generated\Guard.Comparable.Numeric.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Guard.Comparable.Numeric.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\Guard.Collection.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Guard.Collection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\ThrowHelper.Collection.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ThrowHelper.Collection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\TypeInfo.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TypeInfo.ttinclude</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>
