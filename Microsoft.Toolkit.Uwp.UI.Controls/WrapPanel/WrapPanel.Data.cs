@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
@@ -63,8 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Orientation.Vertical => new Rect(Position.V, Position.U, Size.V, Size.U),
                 Orientation.Horizontal => new Rect(Position.U, Position.V, Size.U, Size.V),
-                _ => ThrowHelper.ThrowNotSupportedException<Rect>("unsupported orientation"),
+                _ => ThrowArgumentException()
             };
+
+            private static Rect ThrowArgumentException() => throw new ArgumentException("The input orientation is not valid.");
         }
 
         private struct Row

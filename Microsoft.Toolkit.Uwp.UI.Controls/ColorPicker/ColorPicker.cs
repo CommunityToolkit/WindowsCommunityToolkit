@@ -3,14 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
-using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -233,10 +230,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             T child = this.GetTemplateChild(childName) as T;
             if ((child == null) && isRequired)
             {
-                ThrowHelper.ThrowArgumentNullException(childName);
+                ThrowArgumentNullException();
             }
 
             return child;
+
+            static void ThrowArgumentNullException() => throw new ArgumentNullException(nameof(childName));
         }
 
         /// <summary>

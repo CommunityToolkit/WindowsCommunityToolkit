@@ -238,6 +238,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Diagnostics\Microsoft.Toolkit.Diagnostics.csproj">
+      <Project>{76f89522-ca28-458d-801d-947ab033a758}</Project>
+      <Name>Microsoft.Toolkit.Diagnostics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
       <Name>Microsoft.Toolkit.Mvvm</Name>
