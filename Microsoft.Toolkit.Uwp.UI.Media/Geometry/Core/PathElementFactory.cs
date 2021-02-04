@@ -4,7 +4,6 @@
 
 using System;
 using System.Text.RegularExpressions;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
@@ -21,18 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         /// <returns>ICanvasPathElement</returns>
         internal static ICanvasPathElement CreateDefaultPathElement(PathFigureType figureType)
         {
-            ICanvasPathElement result = null;
-
             if (figureType == PathFigureType.FillRule)
             {
-                result = new FillRuleElement();
-            }
-            else
-            {
-                ThrowHelper.ThrowArgumentException("Creation of Only Default FillRuleElement is supported.", nameof(figureType));
+                return new FillRuleElement();
             }
 
-            return result;
+            static ICanvasPathElement Throw() => throw new ArgumentException("Creation of Only Default FillRuleElement is supported.");
+
+            return Throw();
         }
 
         /// <summary>
@@ -42,18 +37,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
         /// <returns>ICanvasPathElement</returns>
         internal static ICanvasPathElement CreateDefaultPathElement(PathElementType elementType)
         {
-            ICanvasPathElement result = null;
-
             if (elementType == PathElementType.ClosePath)
             {
-                result = new ClosePathElement();
-            }
-            else
-            {
-                ThrowHelper.ThrowArgumentException("Creation of Only Default ClosePathElement is supported.", nameof(elementType));
+                return new ClosePathElement();
             }
 
-            return result;
+            static ICanvasPathElement Throw() => throw new ArgumentException("Creation of Only Default ClosePathElement is supported.");
+
+            return Throw();
         }
 
         /// <summary>

@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Graphics.Canvas;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke;
 
@@ -26,16 +26,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
             // If no match is found or no captures in the match, then it means
             // that the stroke data is invalid.
-            Guard.IsFalse(matches.Count == 0, "(strokeData matches.Count == 0)", $"STROKE_ERR001:Invalid Stroke data! No matching CanvasStroke found!\nStroke Data: {strokeData}");
+            if (matches.Count == 0)
+            {
+                ThrowForZeroCount();
+            }
 
             // If the match contains more than one captures, it means that there
             // are multiple CanvasStrokes present in the stroke data. There should
             // be only one CanvasStroke defined in the stroke data.
-            Guard.IsFalse(matches.Count > 1, "(strokeData matches.Count > 1)", "STROKE_ERR002:Multiple CanvasStrokes defined in Stroke Data! " +
-                                                                               "There should be only one CanvasStroke definition within the Stroke Data. " +
-                                                                               "You can either remove CanvasStroke definitions or split the Stroke Data " +
-                                                                               "into multiple Stroke Data and call the CanvasPathGeometry.CreateStroke() method on each of them." +
-                                                                               $"\nStroke Data: {strokeData}");
+            if (matches.Count > 1)
+            {
+                ThrowForNotOneCount();
+            }
 
             // There should be only one match
             var match = matches[0];
@@ -48,24 +50,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             // If there are invalid characters, extract them and add them to the ArgumentException message
             if (preValidationCount != postValidationCount)
             {
-                var parseIndex = 0;
-                if (!string.IsNullOrWhiteSpace(strokeElement.Data))
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static void ThrowForInvalidCharacters(CanvasStrokeElement strokeElement, string strokeData)
                 {
-                    parseIndex = strokeData.IndexOf(strokeElement.Data, parseIndex, StringComparison.Ordinal);
+                    var parseIndex = 0;
+                    if (!string.IsNullOrWhiteSpace(strokeElement.Data))
+                    {
+                        parseIndex = strokeData.IndexOf(strokeElement.Data, parseIndex, StringComparison.Ordinal);
+                    }
+
+                    var errorString = strokeData.Substring(parseIndex);
+                    if (errorString.Length > 30)
+                    {
+                        errorString = $"{errorString.Substring(0, 30)}...";
+                    }
+
+                    throw new ArgumentException($"STROKE_ERR003:Stroke data contains invalid characters!\nIndex: {parseIndex}\n{errorString}");
                 }
 
-                var errorString = strokeData.Substring(parseIndex);
-                if (errorString.Length > 30)
-                {
-                    errorString = $"{errorString.Substring(0, 30)}...";
-                }
-
-                errorString = $"STROKE_ERR003:Stroke data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
-
-                ThrowHelper.ThrowArgumentException(errorString);
+                ThrowForInvalidCharacters(strokeElement, strokeData);
             }
 
             return strokeElement;
+
+            static void ThrowForZeroCount() => throw new ArgumentException("STROKE_ERR001:Invalid Stroke data! No matching CanvasStroke found!");
+            static void ThrowForNotOneCount() => throw new ArgumentException("STROKE_ERR002:Multiple CanvasStrokes defined in Stroke Data! " +
+                                                                             "There should be only one CanvasStroke definition within the Stroke Data. " +
+                                                                             "You can either remove CanvasStroke definitions or split the Stroke Data " +
+                                                                             "into multiple Stroke Data and call the CanvasPathGeometry.CreateStroke() method on each of them.");
         }
 
         /// <summary>

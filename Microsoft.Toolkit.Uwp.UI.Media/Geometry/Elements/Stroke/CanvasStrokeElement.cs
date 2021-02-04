@@ -5,7 +5,6 @@
 using System;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
@@ -70,8 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
             // If the ICanvasBrushElement was not created, then the ICanvasStroke cannot be created
             if (_brush == null)
             {
-                ThrowHelper.ThrowArgumentException("Unable to create a valid ICanvasBrush for the " +
-                                                   $"ICanvasStroke with the following Brush data - '{group.Value}'");
+                static void Throw(string value) => throw new ArgumentException($"Unable to create a valid ICanvasBrush for the ICanvasStroke with the following Brush data - '{value}'.");
+
+                Throw(group.Value);
             }
 
             // Stroke Style

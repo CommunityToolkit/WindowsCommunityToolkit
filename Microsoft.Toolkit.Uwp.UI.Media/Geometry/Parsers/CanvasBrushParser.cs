@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush;
 
@@ -26,14 +26,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             var matches = RegexFactory.CanvasBrushRegex.Matches(brushData);
 
             // If no match is found or no captures in the match, then it means that the brush data is invalid.
-            Guard.IsFalse(matches.Count == 0, "(brushData matches.Count == 0)", $"BRUSH_ERR001:Invalid Brush data! No matching brush data found!\nBrush Data: {brushData}");
+            if (matches.Count == 0)
+            {
+                ThrowForZeroCount();
+            }
 
-            // If the match contains more than one captures, it means that there are multiple brushes present in the brush data. There should be only one brush defined in the brush data.
-            Guard.IsFalse(matches.Count > 1, "(brushData matches.Count > 1)", "BRUSH_ERR002:Multiple Brushes defined in Brush Data! " +
-                                                                              "There should be only one Brush definition within the Brush Data. " +
-                                                                              "You can either remove Brush definitions or split the Brush Data " +
-                                                                              "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them." +
-                                                                              $"\nBrush Data: {brushData}");
+            // If the match contains more than one captures, it means that there are multiple brushes present in the brush data.
+            // There should be only one brush defined in the brush data.
+            if (matches.Count > 1)
+            {
+                ThrowForNotOneCount();
+            }
 
             // There should be only one match
             var match = matches[0];
@@ -71,24 +74,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             // If there are invalid characters, extract them and add them to the ArgumentException message
             if (preValidationCount != postValidationCount)
             {
-                var parseIndex = 0;
-                if (!string.IsNullOrWhiteSpace(brushElement.Data))
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static void ThrowForInvalidCharacters(AbstractCanvasBrushElement brushElement, string brushData)
                 {
-                    parseIndex = brushData.IndexOf(brushElement.Data, parseIndex, StringComparison.Ordinal);
+                    var parseIndex = 0;
+                    if (!string.IsNullOrWhiteSpace(brushElement.Data))
+                    {
+                        parseIndex = brushData.IndexOf(brushElement.Data, parseIndex, StringComparison.Ordinal);
+                    }
+
+                    var errorString = brushData.Substring(parseIndex);
+                    if (errorString.Length > 30)
+                    {
+                        errorString = $"{errorString.Substring(0, 30)}...";
+                    }
+
+                    throw new ArgumentException($"BRUSH_ERR003:Brush data contains invalid characters!\nIndex: {parseIndex}\n{errorString}");
                 }
 
-                var errorString = brushData.Substring(parseIndex);
-                if (errorString.Length > 30)
-                {
-                    errorString = $"{errorString.Substring(0, 30)}...";
-                }
-
-                errorString = $"BRUSH_ERR003:Brush data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
-
-                ThrowHelper.ThrowArgumentException(errorString);
+                ThrowForInvalidCharacters(brushElement, brushData);
             }
 
             return brushElement;
+
+            static void ThrowForZeroCount() => throw new ArgumentException("BRUSH_ERR001:Invalid Brush data! No matching brush data found!");
+            static void ThrowForNotOneCount() => throw new ArgumentException("BRUSH_ERR002:Multiple Brushes defined in Brush Data! " +
+                                                                             "There should be only one Brush definition within the Brush Data. " +
+                                                                             "You can either remove Brush definitions or split the Brush Data " +
+                                                                             "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them.");
         }
 
         /// <summary>

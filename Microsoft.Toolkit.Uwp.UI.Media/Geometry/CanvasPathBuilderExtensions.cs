@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
@@ -98,11 +97,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
             catch (ArgumentException)
             {
-                // An ArgumentException will be raised if another figure was already begun( and not ended)
-                // before calling AddEllipseFigure() method.
-                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddEllipseFigure occurred, " +
-                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                           "before calling CanvasPathBuilder.AddEllipseFigure, to end the previous figure.");
+                // An ArgumentException will be raised if another figure was already begun( and not ended) before calling AddEllipseFigure() method.
+                static void Throw() => throw new InvalidOperationException("A call to CanvasPathBuilder.AddEllipseFigure occurred, " +
+                                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                                           "before calling CanvasPathBuilder.AddEllipseFigure, to end the previous figure.");
+
+                Throw();
             }
 
             // First Semi-Ellipse
@@ -143,7 +143,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             radius = Math.Abs(radius);
 
             // A polygon should have at least 3 sides
-            Guard.IsGreaterThan(numSides, 2, nameof(numSides));
+            if (numSides <= 2)
+            {
+                ThrowArgumentOutOfRangeException();
+            }
 
             // Calculate the first vertex location based on the number of sides
             var angle = Scalar.TwoPi / numSides;
@@ -158,11 +161,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
             catch (ArgumentException)
             {
-                // An ArgumentException will be raised if another figure was already begun( and not ended)
-                // before calling AddPolygonFigure() method.
-                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddPolygonFigure occurred, " +
-                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                           "before calling CanvasPathBuilder.AddPolygonFigure, to end the previous figure.");
+                // An ArgumentException will be raised if another figure was already begun( and not ended) before calling AddPolygonFigure() method.
+                static void Throw() => throw new InvalidOperationException("A call to CanvasPathBuilder.AddPolygonFigure occurred, " +
+                                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                                           "before calling CanvasPathBuilder.AddPolygonFigure, to end the previous figure.");
+
+                Throw();
             }
 
             // Add lines to the remaining vertices
@@ -178,6 +182,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 
             // End the Figure
             pathBuilder.EndFigure(CanvasFigureLoop.Closed);
+
+            static void ThrowArgumentOutOfRangeException() => throw new ArgumentOutOfRangeException($"Parameter {nameof(numSides)} must be greater than 2.");
         }
 
         /// <summary>
@@ -202,11 +208,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
             catch (ArgumentException)
             {
-                // An ArgumentException will be raised if another figure was already begun( and not ended)
-                // before calling AddPolygonFigure() method.
-                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddRectangleFigure occurred, " +
-                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                           "before calling CanvasPathBuilder.AddRectangleFigure, to end the previous figure.");
+                // An ArgumentException will be raised if another figure was already begun( and not ended) before calling AddPolygonFigure() method.
+                static void Throw() => throw new InvalidOperationException("A call to CanvasPathBuilder.AddRectangleFigure occurred, " +
+                                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                                           "before calling CanvasPathBuilder.AddRectangleFigure, to end the previous figure.");
+
+                Throw();
             }
 
             // Top Side
@@ -267,11 +274,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
                     return;
                 }
 
-                // An ArgumentException will be raised if another figure was already begun( and not ended)
-                // before calling AddPolygonFigure() method.
-                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddRoundedRectangleFigure occurred, " +
-                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                           "before calling CanvasPathBuilder.AddRoundedRectangleFigure, to end the previous figure.");
+                // An ArgumentException will be raised if another figure was already begun( and not ended) before calling AddPolygonFigure() method.
+                static void Throw() => throw new InvalidOperationException("A call to CanvasPathBuilder.AddRoundedRectangleFigure occurred, " +
+                                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                                           "before calling CanvasPathBuilder.AddRoundedRectangleFigure, to end the previous figure.");
+
+                Throw();
             }
 
             // Top line
@@ -356,11 +364,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
                     return;
                 }
 
-                // An ArgumentException will be raised if another figure was already begun( and not ended)
-                // before calling AddPolygonFigure() method.
-                ThrowHelper.ThrowInvalidOperationException("A call to CanvasPathBuilder.AddSquircleFigure occurred, " +
-                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
-                                                           "before calling CanvasPathBuilder.AddSquircleFigure, to end the previous figure.");
+                // An ArgumentException will be raised if another figure was already begun( and not ended) before calling AddPolygonFigure() method.
+                static void Throw() => throw new InvalidOperationException("A call to CanvasPathBuilder.AddSquircleFigure occurred, " +
+                                                                           "when another figure was already begun. Please call CanvasPathBuilder.EndFigure method, " +
+                                                                           "before calling CanvasPathBuilder.AddSquircleFigure, to end the previous figure.");
+
+                Throw();
             }
 
             // Top line
