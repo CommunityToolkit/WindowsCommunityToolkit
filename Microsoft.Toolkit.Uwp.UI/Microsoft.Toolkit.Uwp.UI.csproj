@@ -40,8 +40,8 @@
       - ThemeListener: Class which listens for changes to Application Theme or High Contrast Modes and Signals an Event when they occur.
       </Description>
     <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers</PackageTags>
-
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   
   <ItemGroup>

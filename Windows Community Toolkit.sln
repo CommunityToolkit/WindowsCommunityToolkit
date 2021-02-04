@@ -137,6 +137,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UITests.Tests.Shared", "UIT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Behaviors", "Microsoft.Toolkit.Uwp.UI.Behaviors\Microsoft.Toolkit.Uwp.UI.Behaviors.csproj", "{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Diagnostics", "Microsoft.Toolkit.Diagnostics\Microsoft.Toolkit.Diagnostics.csproj", "{76F89522-CA28-458D-801D-947AB033A758}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UITests\UITests.Tests.Shared\UITests.Tests.Shared.projitems*{05c83067-fa46-45e2-bec4-edee84ad18d0}*SharedItemsImports = 4
@@ -978,6 +980,26 @@ Global
 		{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}.Release|x64.Build.0 = Release|Any CPU
 		{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}.Release|x86.Build.0 = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|ARM.Build.0 = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|x64.Build.0 = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Debug|x86.Build.0 = Debug|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|ARM.ActiveCfg = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|ARM.Build.0 = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|ARM64.Build.0 = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|x64.ActiveCfg = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|x64.Build.0 = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|x86.ActiveCfg = Release|Any CPU
+		{76F89522-CA28-458D-801D-947AB033A758}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
