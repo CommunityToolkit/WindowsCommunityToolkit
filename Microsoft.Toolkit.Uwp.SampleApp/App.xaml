@@ -14,10 +14,6 @@
         <ResourceDictionary Source="ms-appx:///Styles/Themes.xaml" />
         <ResourceDictionary Source="ms-appx:///Styles/Generic.xaml" />
 
-        <!-- Workaround for https://github.com/microsoft/CsWinRT/issues/345 -->
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid/DataGrid.xaml"/>
-        <!--<ResourceDictionary Source="ms-appx:///MonacoEditorComponent/Themes/Generic.xaml" />-->
-
       </ResourceDictionary.MergedDictionaries>
 
       <!-- Converters -->
