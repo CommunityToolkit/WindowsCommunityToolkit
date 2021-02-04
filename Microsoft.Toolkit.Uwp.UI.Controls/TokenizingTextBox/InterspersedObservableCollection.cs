@@ -194,19 +194,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Inner ItemsSource Index.</returns>
         private int ToInnerIndex(int outerIndex)
         {
-#if DEBUG
             if ((uint)outerIndex >= Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(outerIndex));
+                ThrowArgumentOutOfRangeException();
             }
 
             if (_interspersedObjects.ContainsKey(outerIndex))
             {
-                throw new ArgumentException("The outer index can't be inserted as a key to the original collection.");
+                ThrowArgumentException();
             }
-#endif
 
             return outerIndex - _interspersedObjects.Keys.Count(key => key.Value <= outerIndex);
+
+            static void ThrowArgumentOutOfRangeException() => throw new ArgumentOutOfRangeException(nameof(outerIndex));
+            static void ThrowArgumentException() => throw new ArgumentException("The outer index can't be inserted as a key to the original collection.");
         }
 
         /// <summary>
@@ -216,12 +217,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Index into the entire collection.</returns>
         private int ToOuterIndex(int innerIndex)
         {
-#if DEBUG
             if ((uint)innerIndex >= ItemsSource.Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(innerIndex));
+                ThrowArgumentOutOfRangeException();
             }
-#endif
 
             var keys = _interspersedObjects.OrderBy(v => v.Key);
 
@@ -238,6 +237,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return innerIndex;
+
+            static void ThrowArgumentOutOfRangeException() => throw new ArgumentOutOfRangeException(nameof(innerIndex));
         }
 
         /// <summary>
@@ -247,12 +248,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Projected index in the entire collection.</returns>
         private int ToOuterIndexAfterRemoval(int innerIndexToProject)
         {
-#if DEBUG
             if ((uint)innerIndexToProject >= ItemsSource.Count + 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(innerIndexToProject));
+                ThrowArgumentOutOfRangeException();
             }
-#endif
 
             //// TODO: Deal with bounds (0 / Count)? Or is it the same?
 
@@ -271,6 +270,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return innerIndexToProject;
+
+            static void ThrowArgumentOutOfRangeException() => throw new ArgumentOutOfRangeException(nameof(innerIndexToProject));
         }
 
         /// <summary>
