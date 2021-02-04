@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources")
+                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Input/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
             var menuFlyout = new MenuFlyout();
@@ -349,7 +349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var removeMenuItem = new MenuFlyoutItem
             {
-                Text = "WCT_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources")
+                Text = "WCT_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Input/Resources")
             };
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
@@ -361,7 +361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources")
+                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Input/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
 
