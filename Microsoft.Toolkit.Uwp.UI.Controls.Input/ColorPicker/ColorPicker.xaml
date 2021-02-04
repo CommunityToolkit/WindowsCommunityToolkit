@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
                     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters">
+                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
+                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
         <SolidColorBrush.Color>
@@ -449,7 +449,7 @@
                 </Border>
                 <!--  Main Color Preview Box at Bottom  -->
                 <!--  Must be last for drop shadow Z-index  -->
-                <controls:DropShadowPanel Grid.RowSpan="3"
+                <!--<controls:DropShadowPanel Grid.RowSpan="3"
                                           Grid.Column="2"
                                           HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
@@ -457,24 +457,26 @@
                                           OffsetX="0.0"
                                           OffsetY="0.0"
                                           ShadowOpacity="0.75"
-                                          Color="Black">
-                    <Grid>
-                        <Border HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                Background="{ThemeResource FlyoutPresenterBackground}"
-                                CornerRadius="2" />
-                        <Border x:Name="CheckeredBackground3Border"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                CornerRadius="2" />
-                        <Border x:Name="PreviewBorder"
-                                CornerRadius="2">
-                            <Border.Background>
-                                <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color}" />
-                            </Border.Background>
-                        </Border>
-                    </Grid>
-                </controls:DropShadowPanel>
+                                          Color="Black"> Not too far off without it, maybe we can fake?-->
+                <Grid Grid.RowSpan="3"
+                      Grid.Column="2"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                    <Border HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="{ThemeResource FlyoutPresenterBackground}"
+                            CornerRadius="2" />
+                    <Border x:Name="CheckeredBackground3Border"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            CornerRadius="2" />
+                    <Border x:Name="PreviewBorder"
+                            CornerRadius="2">
+                        <Border.Background>
+                            <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color}" />
+                        </Border.Background>
+                    </Border>
+                </Grid>
             </Grid>
             <VisualStateManager.VisualStateGroups>
 
