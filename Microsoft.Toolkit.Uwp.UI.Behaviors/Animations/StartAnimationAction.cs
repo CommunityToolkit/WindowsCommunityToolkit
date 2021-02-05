@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Diagnostics;
+using System;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
@@ -53,7 +53,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <inheritdoc/>
         public object Execute(object sender, object parameter)
         {
-            Guard.IsNotNull(Animation, nameof(Animation));
+            if (Animation is null)
+            {
+                ThrowArgumentNullException();
+            }
 
             if (TargetObject is not null)
             {
@@ -65,6 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             }
 
             return null!;
+
+            static void ThrowArgumentNullException() => throw new ArgumentNullException(nameof(Animation));
         }
     }
 }

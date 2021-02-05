@@ -6,7 +6,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -85,10 +84,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (ParentReference?.TryGetTarget(out parent) != true)
             {
-                ThrowHelper.ThrowInvalidOperationException("The current animation collection isn't bound to a parent UIElement instance.");
+                ThrowInvalidOperationException();
             }
 
             return parent!;
+
+            static void ThrowInvalidOperationException() => throw new InvalidOperationException("The current ImplicitAnimationSet object isn't bound to a parent UIElement instance.");
         }
     }
 }

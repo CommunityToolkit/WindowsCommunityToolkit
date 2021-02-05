@@ -6,7 +6,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
 using Microsoft.UI;
@@ -235,10 +234,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             T child = this.GetTemplateChild(childName) as T;
             if ((child == null) && isRequired)
             {
-                ThrowHelper.ThrowArgumentNullException(childName);
+                ThrowArgumentNullException();
             }
 
             return child;
+
+            static void ThrowArgumentNullException() => throw new ArgumentNullException(nameof(childName));
         }
 
         /// <summary>

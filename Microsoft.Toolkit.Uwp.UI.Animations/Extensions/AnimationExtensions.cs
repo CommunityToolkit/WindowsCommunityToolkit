@@ -6,12 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Numerics;
-using System.Threading.Tasks;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.Toolkit.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -112,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "AnchorPoint.X",
                     Axis.Y => "AnchorPoint.Y",
                     Axis.Z => "AnchorPoint.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -133,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Translation.X",
                     Axis.Y => "Translation.Y",
                     Axis.Z => "Translation.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -154,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Offset.X",
                     Axis.Y => "Offset.Y",
                     Axis.Z => "Offset.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -175,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Scale.X",
                     Axis.Y => "Scale.Y",
                     Axis.Z => "Scale.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -196,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "CenterPoint.X",
                     Axis.Y => "CenterPoint.Y",
                     Axis.Z => "CenterPoint.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -218,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Side.Bottom => nameof(InsetClip.BottomInset),
                     Side.Right => nameof(InsetClip.RightInset),
                     Side.Left => nameof(InsetClip.LeftInset),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid clip side")
+                    _ => ThrowArgumentException<string>("Invalid clip side")
                 };
 
                 /// <summary>
@@ -239,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Size.X",
                     Axis.Y => "Size.Y",
                     Axis.Z => "Size.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
             }
 
@@ -258,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(CompositeTransform.TranslateX),
                     Axis.Y => nameof(CompositeTransform.TranslateY),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -271,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(CompositeTransform.ScaleX),
                     Axis.Y => nameof(CompositeTransform.ScaleY),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -284,7 +282,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(CompositeTransform.CenterX),
                     Axis.Y => nameof(CompositeTransform.CenterY),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -297,8 +295,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(FrameworkElement.Width),
                     Axis.Y => nameof(FrameworkElement.Height),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
+            }
+
+            /// <summary>
+            /// Throws a new <see cref="ArgumentException"/> with a given message.
+            /// </summary>
+            private static T ThrowArgumentException<T>(string message)
+            {
+                throw new ArgumentException(message);
             }
         }
     }

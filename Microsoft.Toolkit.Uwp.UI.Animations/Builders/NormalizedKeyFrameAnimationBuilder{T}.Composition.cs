@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.UI;
@@ -33,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay,
             TimeSpan duration,
             RepeatOption repeat,
-            ReadOnlySpan<TKeyFrame> keyFrames)
+            ArraySegment<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
             KeyFrameAnimation animation;
@@ -42,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 BooleanKeyFrameAnimation boolAnimation = target.Compositor.CreateBooleanKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(boolAnimation, duration))
                     {
@@ -58,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(scalarAnimation, duration))
                     {
@@ -83,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(scalarAnimation, duration))
                     {
@@ -108,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector2KeyFrameAnimation vector2Animation = target.Compositor.CreateVector2KeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(vector2Animation, duration))
                     {
@@ -133,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector3KeyFrameAnimation vector3Animation = target.Compositor.CreateVector3KeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(vector3Animation, duration))
                     {
@@ -158,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector4KeyFrameAnimation vector4Animation = target.Compositor.CreateVector4KeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(vector4Animation, duration))
                     {
@@ -183,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ColorKeyFrameAnimation colorAnimation = target.Compositor.CreateColorKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(colorAnimation, duration))
                     {
@@ -208,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 QuaternionKeyFrameAnimation quaternionAnimation = target.Compositor.CreateQuaternionKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(quaternionAnimation, duration))
                     {
@@ -231,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
             else
             {
-                return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             animation.Duration = duration;
@@ -284,7 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     this.duration,
                     this.repeat,
-                    this.keyFrames.AsSpan());
+                    this.keyFrames.GetArraySegment());
             }
         }
     }

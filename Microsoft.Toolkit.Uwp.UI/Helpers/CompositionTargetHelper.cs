@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
@@ -22,7 +21,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <returns>Awaitable Task</returns>
         public static Task<bool> ExecuteAfterCompositionRenderingAsync(Action action)
         {
-            Guard.IsNotNull(action, nameof(action));
+            if (action is null)
+            {
+                ThrowArgumentNullException();
+            }
 
             var taskCompletionSource = new TaskCompletionSource<bool>();
 
@@ -45,6 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
             }
 
             return taskCompletionSource.Task;
+
+            static void ThrowArgumentNullException() => throw new ArgumentNullException("The parameter \"action\" must not be null.");
         }
     }
 }

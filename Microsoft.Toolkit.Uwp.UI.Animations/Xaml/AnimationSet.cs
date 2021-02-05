@@ -9,7 +9,6 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -218,10 +217,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (ParentReference?.TryGetTarget(out parent) != true)
             {
-                ThrowHelper.ThrowInvalidOperationException("The current animation collection isn't bound to a parent UIElement instance.");
+                ThrowInvalidOperationException();
             }
 
             return parent!;
+
+            static void ThrowInvalidOperationException() => throw new InvalidOperationException("The current AnimationSet object isn't bound to a parent UIElement instance.");
         }
     }
 }

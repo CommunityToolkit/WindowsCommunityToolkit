@@ -901,6 +901,14 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/MarkdownParser.md"
       },
       {
+        "Name": "Win2d Path Mini Language Parser",
+        "Type": "CanvasPathGeometryPage",
+        "Subcategory": "Parser",
+        "About": "CanvasPathGeometry class allows you to convert Win2d Path Mini Language string to CanvasGeometry, Brushes, CanvasStrokes or CanvasStrokeStyles.",
+        "Icon": "/SamplePages/CanvasPathGeometry/CanvasPathGeometry.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/CanvasPathGeometry.md"
+      },
+      {
         "Name": "LiveTile",
         "Type": "LiveTilePage",
         "Subcategory": "Notifications",
