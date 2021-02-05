@@ -67,7 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             }
 
             // If they are the same type but fail with Equals check, don't bother with conversion.
-            if (value1 != null && value2 != null && value1.GetType() != value2.GetType() && convertType)
+            if (value1 is not null && value2 is not null && convertType
+                && value1.GetType() != value2.GetType())
             {
                 // Try the conversion in both ways:
                 return ConvertTypeEquals(value1, value2) || ConvertTypeEquals(value2, value1);
@@ -94,20 +95,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         private static object ConvertToEnum(Type enumType, object value)
         {
             // value cannot be the same type of enum now
-            if (value is string str)
+            return value switch
             {
-                return Enum.TryParse(enumType, str, out var e) ? e : null;
-            }
-
-            if (value is int || value is uint
-                || value is byte || value is sbyte
-                || value is long || value is ulong
-                || value is short || value is ushort)
-            {
-                return Enum.ToObject(enumType, value);
-            }
-
-            return null;
+                string str => Enum.TryParse(enumType, str, out var e) ? e : null,
+                int or uint or byte or sbyte or long or ulong or short or ushort
+                    => Enum.ToObject(enumType, value),
+                _ => null
+            };
         }
     }
 }
