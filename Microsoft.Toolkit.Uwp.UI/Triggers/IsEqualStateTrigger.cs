@@ -94,13 +94,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         private static object ConvertToEnum(Type enumType, object value)
         {
             // value cannot be the same type of enum now
-            return value switch
+            if (value is string str)
             {
-                string str when Enum.TryParse(enumType, str, out var e) => e, // string is most common for enum comparison
-                _ when Type.GetTypeCode(enumType) == Convert.GetTypeCode(value) // previous implementation uses Enum.IsDefeind which only allows the same type code
-                    => Enum.ToObject(enumType, value),
-                _ => null
-            };
+                return Enum.TryParse(enumType, str, out var e) ? e : null;
+            }
+
+            if (value is int || value is uint
+                || value is byte || value is sbyte
+                || value is long || value is ulong
+                || value is short || value is ushort)
+            {
+                return Enum.ToObject(enumType, value);
+            }
+
+            return null;
         }
     }
 }
