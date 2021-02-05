@@ -188,7 +188,6 @@
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
     <Compile Include="UI\Controls\Test_BladeView.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
-    <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
     <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_General.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_InterspersedCollection.cs" />
