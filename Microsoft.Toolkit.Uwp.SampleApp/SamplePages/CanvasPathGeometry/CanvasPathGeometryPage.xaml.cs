@@ -6,16 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.System;
+
+//using Microsoft.Graphics.Canvas.Geometry;
+//using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
-using Windows.System;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
 using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -97,8 +99,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private bool _selectionChanged = false;
         private bool _isParsing = false;
 
-        private CanvasGeometry _errorGeometry;
-        private GeometryStreamReader _reader;
+        //private CanvasGeometry _errorGeometry;
+        //private GeometryStreamReader _reader;
 
         private SolidColorBrush _commandBrush;
         private SolidColorBrush _commandErrorBrush;
@@ -108,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public CanvasPathGeometryPage()
         {
             this.InitializeComponent();
-            _reader = new GeometryStreamReader();
+            //_reader = new GeometryStreamReader();
             _logger = new StringBuilder();
             _colors = new List<Color>()
             {
@@ -173,10 +175,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _data = InputData.Text;
             _isParsing = true;
-            RenderCanvas.Invalidate();
+            //RenderCanvas.Invalidate();
             _isParsing = false;
         }
 
+        /*
         private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(_data))
@@ -244,12 +247,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 CommandsList.Foreground = _commandErrorBrush;
             }
         }
+        */
 
         private void OnStrokeThicknessChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             _strokeThickness = (float)StrokeThickness.Value;
             _selectionChanged = true;
-            RenderCanvas.Invalidate();
+            //RenderCanvas.Invalidate();
         }
 
         private void OnStrokeColorChanged(object sender, SelectionChangedEventArgs e)
@@ -260,7 +264,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _selectionChanged = true;
             }
 
-            RenderCanvas.Invalidate();
+            //RenderCanvas.Invalidate();
         }
 
         private void OnFillColorChanged(object sender, SelectionChangedEventArgs e)
@@ -271,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _selectionChanged = true;
             }
 
-            RenderCanvas.Invalidate();
+            //RenderCanvas.Invalidate();
         }
 
         private void ShowSample(int index)
@@ -287,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             _data = InputData.Text;
-            RenderCanvas.Invalidate();
+            //RenderCanvas.Invalidate();
         }
 
         private void OnClearCanvas(object sender, RoutedEventArgs e)

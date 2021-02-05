@@ -92,6 +92,7 @@
                 <ScrollViewer x:Name="RenderScroll"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto">
+                    <!--
                     <win2d:CanvasControl x:Name="RenderCanvas"
                                          Width="{Binding ElementName=RenderScroll, Path=ActualWidth}"
                                          Height="{Binding ElementName=RenderScroll, Path=ActualHeight}"
@@ -103,6 +104,7 @@
                                          VerticalContentAlignment="Stretch"
                                          ClearColor="#A7A7A7"
                                          Draw="{x:Bind OnCanvasDraw}" />
+                    -->
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Foreground="Black"
