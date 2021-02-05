@@ -292,16 +292,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Paste?.Invoke(this, e);
 
-            if (e.Handled || TextDocument == null)
+            if (e.Handled || TextDocument == null || ClipboardPasteFormat != RichEditClipboardFormat.PlainText)
             {
                 return;
             }
 
-            if (ClipboardPasteFormat == RichEditClipboardFormat.PlainText)
-            {
-                e.Handled = true;
-            }
-
+            e.Handled = true;
             var dataPackageView = Clipboard.GetContent();
             if (dataPackageView.Contains(StandardDataFormats.Text))
             {
