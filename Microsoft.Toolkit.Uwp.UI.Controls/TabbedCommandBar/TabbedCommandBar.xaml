@@ -32,8 +32,7 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
         <Setter Property="Background" Value="{ThemeResource SystemChromeMediumLowColor}" />
-        <!-- TODO: Despite being used in both the Border and RibbonContent, this background is nowhere to be seen. -->
-        <Setter Property="ContentBackground" Value="{ThemeResource SystemChromeLowColor}" />
+        <Setter Property="ItemBackground" Value="{ThemeResource SystemChromeLowColor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TabbedCommandBar">
@@ -267,25 +266,24 @@
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
 
-                        <Border Grid.Row="1"
-                                HorizontalAlignment="Stretch"
-                                Background="{TemplateBinding ContentBackground}" />
-                        <ContentControl x:Name="PART_RibbonContent"
-                                        Grid.Row="1"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
-                                        Background="{TemplateBinding ContentBackground}">
-                            <ContentControl.Resources>
-                                <Storyboard x:Name="TabChangedStoryboard">
-                                    <PopInThemeAnimation TargetName="PART_RibbonContent" />
-                                </Storyboard>
-                                <Style TargetType="AppBarElementContainer">
-                                    <Setter Property="VerticalAlignment" Value="Stretch" />
-                                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                                    <Setter Property="Margin" Value="0,0,1,0" />
-                                </Style>
-                            </ContentControl.Resources>
-                        </ContentControl>
+
+                        <Border x:Name="PART_RibbonContentBorder"
+                                Background="{TemplateBinding ItemBackground}" Grid.Row="1"
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <ContentControl x:Name="PART_RibbonContent" Content="{TemplateBinding SelectedItem}"
+                                            HorizontalContentAlignment="Stretch">
+                                <ContentControl.Resources>
+                                    <Storyboard x:Name="TabChangedStoryboard">
+                                        <PopInThemeAnimation TargetName="PART_RibbonContent"/>
+                                    </Storyboard>
+                                    <Style TargetType="AppBarElementContainer">
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        <Setter Property="Margin" Value="1,0" />
+                                    </Style>
+                                </ContentControl.Resources>
+                            </ContentControl>
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
