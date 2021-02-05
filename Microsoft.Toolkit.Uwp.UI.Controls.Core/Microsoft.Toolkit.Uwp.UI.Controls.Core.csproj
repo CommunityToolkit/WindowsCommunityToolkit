@@ -34,6 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DropShadowPanel\**" />
+    <EmbeddedResource Remove="DropShadowPanel\**" />
+    <None Remove="DropShadowPanel\**" />
+    <Page Remove="DropShadowPanel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
 
