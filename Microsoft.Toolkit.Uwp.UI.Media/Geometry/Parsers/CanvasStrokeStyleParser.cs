@@ -5,7 +5,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke;
 
@@ -16,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
     /// </summary>
     internal static class CanvasStrokeStyleParser
     {
+        /*
         /// <summary>
         /// Parses the given style data and converts it to CanvasStrokeStyle.
         /// </summary>
@@ -79,6 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
                                                                              "You can either remove CanvasStrokeStyle definitions or split the CanvasStrokeStyle Data " +
                                                                              "into multiple CanvasStrokeStyle Data and call the CanvasPathGeometry.CreateStrokeStyle() method on each of them.");
         }
+        */
 
         /// <summary>
         /// Parses and constructs a ICanvasStrokeStyleElement from the specified Match object.

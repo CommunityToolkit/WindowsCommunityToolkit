@@ -5,7 +5,8 @@
 using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas.Geometry;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
 {
@@ -53,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
         /// absolute or relative</param>
         void InitializeAdditional(Capture capture, int index, bool isRelative);
 
+        /*
         /// <summary>
         /// Adds the Path Element to the PathBuilder.
         /// </summary>
@@ -61,5 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
         /// <param name="lastElement">The previous PathElement in the Path.</param>
         /// <returns>The current point on the path after the path element is added</returns>
         Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement);
+        */
     }
 }

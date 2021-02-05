@@ -4,7 +4,8 @@
 
 using System;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas;
+
+//using Microsoft.Graphics.Canvas;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
@@ -35,6 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
             Initialize(match);
         }
 
+        /*
         /// <summary>
         /// Creates the ICanvasStroke from the parsed data.
         /// </summary>
@@ -43,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         {
             return new CanvasStroke(_brush.CreateBrush(resourceCreator), _width, _style.Style);
         }
+        */
 
         /// <summary>
         /// Gets the Stroke Element Attributes from the Match.

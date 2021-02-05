@@ -4,7 +4,8 @@
 
 using System.Numerics;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
@@ -29,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
             _x = _y = 0;
         }
 
+        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -83,6 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
             // Return current point
             return point;
         }
+        */
 
         /// <summary>
         /// Gets the Second Control Point of this Cubic Bezier

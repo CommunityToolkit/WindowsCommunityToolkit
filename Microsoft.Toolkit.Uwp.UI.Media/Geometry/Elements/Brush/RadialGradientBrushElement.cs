@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Brushes;
+
+//using Microsoft.Graphics.Canvas;
+//using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
 using Windows.UI;
@@ -24,12 +25,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
         private float _radiusY;
         private Vector2 _center;
         private Vector2 _originOffset;
+        /*
         private CanvasAlphaMode _alphaMode;
         private CanvasBufferPrecision _bufferPrecision;
         private CanvasEdgeBehavior _edgeBehavior;
         private CanvasColorSpace _preInterpolationColorSpace;
         private CanvasColorSpace _postInterpolationColorSpace;
         private List<CanvasGradientStop> _gradientStops;
+        */
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialGradientBrushElement"/> class.
@@ -43,6 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
             _center = Vector2.Zero;
             _originOffset = Vector2.Zero;
             _opacity = 1f;
+            /*
             _alphaMode = (CanvasAlphaMode)0;
             _bufferPrecision = (CanvasBufferPrecision)0;
             _edgeBehavior = (CanvasEdgeBehavior)0;
@@ -51,11 +55,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
             _preInterpolationColorSpace = CanvasColorSpace.Srgb;
             _postInterpolationColorSpace = CanvasColorSpace.Srgb;
             _gradientStops = new List<CanvasGradientStop>();
+            */
 
             // Initialize
             Initialize(capture);
         }
 
+        /*
         /// <summary>
         /// Creates the CanvasLinearGradientBrush from the parsed data
         /// </summary>
@@ -81,6 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
 
             return brush;
         }
+        */
 
         /// <summary>
         /// Gets the Regex for extracting Brush Element Attributes
@@ -97,6 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
         /// <param name="match">Match object</param>
         protected override void GetAttributes(Match match)
         {
+            /*
             // RadiusX
             float.TryParse(match.Groups["RadiusX"].Value, out _radiusX);
 
@@ -225,6 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
                     _gradientStops = _gradientStops.OrderBy(g => g.Position).ToList();
                 }
             }
+            */
         }
     }
 }

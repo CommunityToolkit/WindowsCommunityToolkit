@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
@@ -27,11 +28,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         /// </summary>
         public int ValidationCount { get; private set; }
 
+        /*
         /// <summary>
         /// Gets the CanvasStrokeStyle obtained by parsing
         /// the style data.
         /// </summary>
         public CanvasStrokeStyle Style { get; private set; }
+        */
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CanvasStrokeStyleElement"/> class.
@@ -41,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         {
             Data = match.Groups["CanvasStrokeStyle"].Value;
 
-            Style = new CanvasStrokeStyle();
+            //Style = new CanvasStrokeStyle();
 
             Initialize(match);
 
@@ -55,6 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         /// <param name="match">Match object</param>
         public void Initialize(Match match)
         {
+            /*
             var group = match.Groups["CanvasStrokeStyle"];
             if (group.Success)
             {
@@ -177,6 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
                     }
                 }
             }
+            */
         }
     }
 }

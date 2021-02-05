@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
@@ -97,6 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
             // Do nothing as this scenario is not valid for CanvasPathFigure
         }
 
+        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -114,6 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
 
             return currentPoint;
         }
+        */
 
         /// <summary>
         /// Get the Regex for extracting Path Element Attributes

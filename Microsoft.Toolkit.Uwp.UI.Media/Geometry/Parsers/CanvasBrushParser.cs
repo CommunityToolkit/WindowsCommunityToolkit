@@ -4,8 +4,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Brushes;
+
+//using Microsoft.Graphics.Canvas;
+//using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush;
 
@@ -104,6 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
                                                                              "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them.");
         }
 
+        /*
         /// <summary>
         /// Parses the Brush data string and converts it into ICanvasBrush.
         /// </summary>
@@ -118,5 +120,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             // Create ICanvasBrush from the brushElement
             return brushElement.CreateBrush(resourceCreator);
         }
+        */
     }
 }

@@ -5,7 +5,8 @@
 using System;
 using System.Numerics;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
@@ -26,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
             _radius = _x = _y = 0;
         }
 
+        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -50,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
             // a separate closed figure here. So current point will not change.
             return currentPoint;
         }
+        */
 
         /// <summary>
         /// Get the Regex for extracting Path Element Attributes

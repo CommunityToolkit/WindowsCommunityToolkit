@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas.Geometry;
-using Windows.UI.Composition;
+//using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
     /// </summary>
     public static class CompositorGeometryExtensions
     {
+        /*
         /// <summary>
         /// Creates a <see cref="CompositionPath"/> based on the specified path data.
         /// </summary>
@@ -92,5 +93,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             // Create the CompositionGeometricClip
             return compositor.CreateGeometricClip(geometry);
         }
+        */
     }
 }

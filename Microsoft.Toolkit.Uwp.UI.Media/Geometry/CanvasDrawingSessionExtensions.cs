@@ -3,14 +3,16 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Graphics.Canvas.Geometry;
+
+// using Microsoft.Graphics.Canvas;
+// using Microsoft.Graphics.Canvas.Brushes;
+// using Microsoft.Graphics.Canvas.Geometry;
 using Windows.Foundation;
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
+    /*
     /// <summary>
     /// Extension methods for CanvasDrawingSession.
     /// </summary>
@@ -304,4 +306,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             session.FillGeometry(geometry, offset, brush);
         }
     }
+    */
 }

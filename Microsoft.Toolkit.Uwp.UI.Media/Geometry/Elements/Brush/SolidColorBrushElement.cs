@@ -3,10 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Brushes;
+
+//using Microsoft.Graphics.Canvas;
+//using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
+using Microsoft.UI;
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
@@ -31,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
             Initialize(capture);
         }
 
+        /*
         /// <summary>
         /// Creates the ICanvasBrush from the parsed data
         /// </summary>
@@ -43,6 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
                 Opacity = _opacity
             };
         }
+        */
 
         /// <summary>
         /// Gets the Regex for extracting Brush Element Attributes

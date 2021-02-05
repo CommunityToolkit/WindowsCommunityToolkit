@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas;
+//using Microsoft.Graphics.Canvas;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
 {
@@ -28,10 +28,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
         /// <param name="match">Match object</param>
         void Initialize(Match match);
 
+        /*
         /// <summary>
         /// Creates the ICanvasStroke from the parsed data.
         /// </summary>
         /// <returns>ICanvasStroke</returns>
         ICanvasStroke CreateStroke(ICanvasResourceCreator resourceCreator);
+        */
     }
 }

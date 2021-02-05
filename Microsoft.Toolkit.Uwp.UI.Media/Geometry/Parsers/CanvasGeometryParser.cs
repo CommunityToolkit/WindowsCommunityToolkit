@@ -8,8 +8,9 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Microsoft.Graphics.Canvas;
-using Microsoft.Graphics.Canvas.Geometry;
+
+//using Microsoft.Graphics.Canvas;
+//using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path;
 
@@ -20,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
     /// </summary>
     internal static class CanvasGeometryParser
     {
+        /*
         /// <summary>
         /// Parses the Path data in string format and converts it to <see cref="CanvasGeometry"/>.
         /// </summary>
@@ -133,5 +135,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
                                                                              "You can either remove additional FillRule elements or split the Path Data " +
                                                                              "into multiple Path Data and call the CanvasPathGeometry.CreateGeometry() method on each of them.");
         }
+        */
     }
 }

@@ -4,7 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Graphics.Canvas;
+
+//using Microsoft.Graphics.Canvas;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke;
 
@@ -80,6 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
                                                                              "into multiple Stroke Data and call the CanvasPathGeometry.CreateStroke() method on each of them.");
         }
 
+        /*
         /// <summary>
         /// Parses the Stroke Data string and converts it into CanvasStroke.
         /// </summary>
@@ -94,5 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             // Create the CanvasStroke from the strokeElement
             return strokeElement.CreateStroke(resourceCreator);
         }
+        */
     }
 }

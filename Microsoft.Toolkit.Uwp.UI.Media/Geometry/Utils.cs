@@ -4,11 +4,11 @@
 
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
