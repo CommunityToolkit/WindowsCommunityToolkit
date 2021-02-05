@@ -84,6 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         };
 
         private RichSuggestBox _rsb;
+        private RichSuggestBox _tsb;
 
         public RichSuggestBoxPage()
         {
@@ -107,9 +108,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 this._rsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
             }
 
-            if (control.FindChildByName("TokenListView") is ListView tls)
+            if (control.FindChildByName("PlainTextSuggestingBox") is RichSuggestBox tsb)
             {
-                tls.ItemsSource = this._rsb?.Tokens;
+                this._tsb = tsb;
+                this._tsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
+                this._tsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
+            }
+
+            if (control.FindChildByName("TokenListView1") is ListView tls1)
+            {
+                tls1.ItemsSource = this._rsb?.Tokens;
+            }
+
+            if (control.FindChildByName("TokenListView2") is ListView tls2)
+            {
+                tls2.ItemsSource = this._tsb?.Tokens;
             }
         }
 

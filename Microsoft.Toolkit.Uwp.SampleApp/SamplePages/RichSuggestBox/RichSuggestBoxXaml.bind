@@ -40,18 +40,37 @@
     <Grid Margin="40">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="250" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="250" />
         </Grid.RowDefinitions>
 
         <controls:RichSuggestBox x:Name="SuggestingBox"
                                  MaxHeight="400"
                                  HorizontalAlignment="Stretch"
-                                 Header="RichSuggestBox:"
+                                 Header="Rich suggest box sample"
                                  ItemTemplateSelector="{StaticResource SuggestionTemplateSelector}"
                                  Prefixes="@#" />
 
-        <ListView x:Name="TokenListView" 
+        <ListView x:Name="TokenListView1" 
                   Grid.Row="1"
+                  Margin="0,16,0,0"
+                  HorizontalAlignment="Stretch"
+                  ItemTemplate="{StaticResource TokenTemplate}" />
+
+        <controls:RichSuggestBox x:Name="PlainTextSuggestingBox"
+                                 Grid.Row="2"
+                                 MaxHeight="400"
+                                 HorizontalAlignment="Stretch"
+                                 Header="Plain text only suggest box sample"
+                                 DisabledFormattingAccelerators="All"
+                                 ClipboardCopyFormat="PlainText"
+                                 ClipboardPasteFormat="PlainText"
+                                 ItemTemplateSelector="{StaticResource SuggestionTemplateSelector}"
+                                 Prefixes="@#" />
+
+        <ListView x:Name="TokenListView2"
+                  Grid.Row="3"
                   Margin="0,16,0,0"
                   HorizontalAlignment="Stretch"
                   ItemTemplate="{StaticResource TokenTemplate}" />
