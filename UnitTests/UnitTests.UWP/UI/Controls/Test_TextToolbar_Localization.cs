@@ -21,6 +21,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
+    [Ignore]
     public class Test_TextToolbar_Localization
     {
         /// <summary>

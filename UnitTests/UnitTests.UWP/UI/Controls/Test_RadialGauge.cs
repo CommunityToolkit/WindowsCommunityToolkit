@@ -17,6 +17,7 @@ namespace UnitTests.UWP.UI.Controls
         /// </summary>
         [TestCategory("Test_TextToolbar_Localization")]
         [UITestMethod]
+        [Ignore]
         public void VerifyUIAName()
         {
             var gauge = new RadialGauge()
