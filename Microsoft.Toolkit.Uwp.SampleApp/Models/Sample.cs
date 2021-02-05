@@ -648,9 +648,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls
-            var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
-            assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Core
+            var controlsCoreProxyType = StackMode.Replace;
+            assembly = controlsCoreProxyType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {
@@ -718,9 +718,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Layout
+            var controlsLayoutProxyType = GridSplitter.GridResizeDirection.Auto;
+            assembly = controlsLayoutProxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
             // Search in Microsoft.Toolkit.Uwp.UI.Controls.Markdown
             var markdownTextBlockType = typeof(MarkdownTextBlock);
             assembly = markdownTextBlockType.GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Media
+            var controlsMediaProxyType = BitmapFileFormat.Bmp;
+            assembly = controlsMediaProxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
+            var controlsPrimitivsProxyType = StretchChild.Last;
+            assembly = controlsPrimitivsProxyType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {
