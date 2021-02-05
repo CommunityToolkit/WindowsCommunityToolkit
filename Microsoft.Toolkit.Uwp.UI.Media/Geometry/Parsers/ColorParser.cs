@@ -4,8 +4,8 @@
 
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 using Windows.UI;
 
@@ -28,7 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
         internal static Color Parse(string colorString)
         {
             var match = RegexFactory.ColorRegex.Match(colorString);
-            Guard.IsTrue(match.Success, nameof(colorString), "COLOR_ERR001:Invalid value provided in Color Data! No matching color found in the Color Data.");
+
+            if (!match.Success)
+            {
+                ThrowArgumentException();
+            }
 
             // Perform validation to check if there are any invalid characters in the colorString that were not captured
             var preValidationCount = RegexFactory.ValidationRegex.Replace(colorString, string.Empty).Length;
@@ -37,24 +41,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             // If there are invalid characters, extract them and add them to the ArgumentException message
             if (preValidationCount != postValidationCount)
             {
-                var parseIndex = 0;
-                if (!string.IsNullOrWhiteSpace(match.Value))
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static void ThrowForInvalidCharacters(Match match, string colorString)
                 {
-                    parseIndex = colorString.IndexOf(match.Value, parseIndex, StringComparison.Ordinal);
+                    var parseIndex = 0;
+                    if (!string.IsNullOrWhiteSpace(match.Value))
+                    {
+                        parseIndex = colorString.IndexOf(match.Value, parseIndex, StringComparison.Ordinal);
+                    }
+
+                    var errorString = colorString.Substring(parseIndex);
+                    if (errorString.Length > 30)
+                    {
+                        errorString = $"{errorString.Substring(0, 30)}...";
+                    }
+
+                    throw new ArgumentException($"COLOR_ERR003:Color data contains invalid characters!\nIndex: {parseIndex}\n{errorString}");
                 }
 
-                var errorString = colorString.Substring(parseIndex);
-                if (errorString.Length > 30)
-                {
-                    errorString = $"{errorString.Substring(0, 30)}...";
-                }
-
-                errorString = $"COLOR_ERR003:Color data contains invalid characters!\nIndex: {parseIndex}\n{errorString}";
-
-                ThrowHelper.ThrowArgumentException(errorString);
+                ThrowForInvalidCharacters(match, colorString);
             }
 
             return Parse(match);
+
+            static void ThrowArgumentException() => throw new ArgumentException("COLOR_ERR001:Invalid value provided in Color Data! No matching color found in the Color Data.");
         }
 
         /// <summary>

@@ -4,7 +4,6 @@
 
 using System.Collections;
 using System.Drawing;
-using Microsoft.Toolkit.Diagnostics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -28,9 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="columns">The number of columns to track.</param>
         public TakenSpotsReferenceHolder(int rows, int columns)
         {
-            Guard.IsGreaterThanOrEqualTo(rows, 0, nameof(rows));
-            Guard.IsGreaterThanOrEqualTo(columns, 0, nameof(columns));
-
             Height = rows;
             Width = columns;
 

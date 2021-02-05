@@ -15,6 +15,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -99,6 +100,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private CanvasGeometry _errorGeometry;
         private GeometryStreamReader _reader;
 
+        private SolidColorBrush _commandBrush;
+        private SolidColorBrush _commandErrorBrush;
+
         public string InputText { get; set; }
 
         public CanvasPathGeometryPage()
@@ -118,6 +122,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 CanvasPathGeometry.CreateColor("#ff9500"),
                 CanvasPathGeometry.CreateColor("#ffd60a")
             };
+
+            _commandBrush = new SolidColorBrush(Colors.White);
+            _commandErrorBrush = new SolidColorBrush(Colors.Red);
 
             var colorList = new List<string>()
             {
@@ -174,7 +181,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (string.IsNullOrWhiteSpace(_data))
             {
-                ParseError.Text = string.Empty;
                 CommandsList.Text = string.Empty;
                 return;
             }
@@ -183,7 +189,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             _logger?.Clear();
             CommandsList.Text = string.Empty;
-            ParseError.Text = string.Empty;
 
             try
             {
@@ -197,40 +202,46 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 args.DrawingSession.FillGeometry(geometry, _fillColor);
                 args.DrawingSession.DrawGeometry(geometry, _strokeColor, _strokeThickness);
+                RootPivot.SelectedIndex = 0;
+                CommandsList.Foreground = _commandBrush;
             }
             catch (ArgumentException argEx)
             {
                 var message = argEx.Message;
                 var errorCode = message.Substring(0, 11);
+                var parseError = string.Empty;
                 if (message.StartsWith(ParseError1))
                 {
-                    ParseError.Text = "Parse Error: No matching data!";
+                    parseError = "Parse Error: No matching data!";
                 }
                 else if (message.StartsWith(ParseError2))
                 {
-                    ParseError.Text = "Parse Error: Multiple FillRule elements present in Path Data!";
+                    parseError = "Parse Error: Multiple FillRule elements present in Path Data!";
                 }
                 else if (message.StartsWith(ParseError3))
                 {
                     var tokens = message.Split('\n', StringSplitOptions.RemoveEmptyEntries);
                     if (tokens.Length == 3)
                     {
-                        ParseError.Text = $"Parse Error at {tokens[1]}. Cannot parse '{tokens[2]}'.";
+                        parseError = $"Parse Error at {tokens[1]}. Cannot parse '{tokens[2]}'.";
                     }
                 }
                 else
                 {
-                    ParseError.Text = "Parsing error! Invalid input data!";
+                    parseError = "Parsing error! Invalid input data!";
                 }
 
                 args.DrawingSession.FillGeometry(_errorGeometry, Colors.Black);
-                CommandsList.Text = ParseError.Text;
+                CommandsList.Text = parseError;
+                RootPivot.SelectedIndex = 1;
+                CommandsList.Foreground = _commandErrorBrush;
             }
             catch (Exception)
             {
                 args.DrawingSession.FillGeometry(_errorGeometry, Colors.Black);
-                ParseError.Text = "Parsing error! Invalid input data!";
                 CommandsList.Text = "Parsing error! Invalid input data!";
+                RootPivot.SelectedIndex = 1;
+                CommandsList.Foreground = _commandErrorBrush;
             }
         }
 

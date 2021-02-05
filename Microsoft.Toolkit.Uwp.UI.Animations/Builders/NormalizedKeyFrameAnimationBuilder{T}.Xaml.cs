@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     this.duration,
                     this.repeat,
-                    this.keyFrames.AsSpan());
+                    this.keyFrames.GetArraySegment());
             }
         }
     }

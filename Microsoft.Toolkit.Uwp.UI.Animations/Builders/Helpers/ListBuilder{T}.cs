@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers
 {
     /// <summary>
-    /// A small generic builder type that allows to create <see cref="ReadOnlySpan{T}"/> instances.
+    /// A small generic builder type that allows to create <see cref="ArraySegment{T}"/> instances.
     /// </summary>
     /// <typeparam name="T">The type of items to create a sequence of.</typeparam>
     internal struct ListBuilder<T>
@@ -56,14 +56,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers
         }
 
         /// <summary>
-        /// Gets a <see cref="ReadOnlySpan{T}"/> instance with the current items.
+        /// Gets a <see cref="ArraySegment{T}"/> instance with the current items.
         /// </summary>
-        /// <returns>A <see cref="ReadOnlySpan{T}"/> instance with the current items.</returns>
+        /// <returns>A <see cref="ArraySegment{T}"/> instance with the current items.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ReadOnlySpan<T> AsSpan()
+        public ArraySegment<T> GetArraySegment()
         {
-            return this.array.AsSpan(0, this.index);
+            return new(this.array, 0, this.index);
         }
     }
 }
