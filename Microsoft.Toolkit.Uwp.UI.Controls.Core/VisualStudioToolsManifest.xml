@@ -3,8 +3,6 @@
     <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CameraPreview" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageEx" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ImageExBase" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Loading" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Menu" />

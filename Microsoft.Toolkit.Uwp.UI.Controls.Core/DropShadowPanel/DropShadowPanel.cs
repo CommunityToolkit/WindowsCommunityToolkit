@@ -180,17 +180,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
                 }
-                else if (Content is ImageExBase imageExBase)
-                {
-                    imageExBase.ImageExInitialized += ImageExInitialized;
+                ////else if (Content is ImageExBase imageExBase)
+                ////{
+                ////    imageExBase.ImageExInitialized += ImageExInitialized;
 
-                    if (imageExBase.IsInitialized)
-                    {
-                        imageExBase.ImageExInitialized -= ImageExInitialized;
+                ////    if (imageExBase.IsInitialized)
+                ////    {
+                ////        imageExBase.ImageExInitialized -= ImageExInitialized;
 
-                        mask = ((ImageExBase)Content).GetAlphaMask();
-                    }
-                }
+                ////        mask = ((ImageExBase)Content).GetAlphaMask();
+                ////    }
+                ////}
 
                 _dropShadow.Mask = mask;
             }
@@ -200,16 +200,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ImageExInitialized(object sender, EventArgs e)
-        {
-            var imageExBase = (ImageExBase)Content;
+        ////private void ImageExInitialized(object sender, EventArgs e)
+        ////{
+        ////    var imageExBase = (ImageExBase)Content;
 
-            imageExBase.ImageExInitialized -= ImageExInitialized;
+        ////    imageExBase.ImageExInitialized -= ImageExInitialized;
 
-            CompositionBrush mask = ((ImageExBase)Content).GetAlphaMask();
+        ////    CompositionBrush mask = ((ImageExBase)Content).GetAlphaMask();
 
-            _dropShadow.Mask = mask;
-        }
+        ////    _dropShadow.Mask = mask;
+        ////}
 
         private void UpdateShadowOffset(float x, float y, float z)
         {

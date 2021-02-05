@@ -34,6 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ImageEx\**" />
+    <EmbeddedResource Remove="ImageEx\**" />
+    <None Remove="ImageEx\**" />
+    <Page Remove="ImageEx\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
 
