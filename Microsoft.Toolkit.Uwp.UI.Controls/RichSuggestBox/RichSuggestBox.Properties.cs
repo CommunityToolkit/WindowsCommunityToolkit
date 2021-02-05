@@ -156,6 +156,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null, OnPrefixesChanged));
 
         /// <summary>
+        /// Identifies the <see cref="ClipboardPasteFormat"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ClipboardPasteFormatProperty =
+            DependencyProperty.Register(
+                nameof(ClipboardPasteFormat),
+                typeof(RichEditClipboardFormat),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(RichEditClipboardFormat.AllFormats));
+
+        /// <summary>
+        /// Identifies the <see cref="ClipboardCopyFormat"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ClipboardCopyFormatProperty =
+            DependencyProperty.Register(
+                nameof(ClipboardCopyFormat),
+                typeof(RichEditClipboardFormat),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(RichEditClipboardFormat.AllFormats));
+
+        /// <summary>
+        /// Identifies the <see cref="DisabledFormattingAccelerators"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisabledFormattingAcceleratorsProperty =
+            DependencyProperty.Register(
+                nameof(DisabledFormattingAccelerators),
+                typeof(DisabledFormattingAccelerators),
+                typeof(RichSuggestBox),
+                new PropertyMetadata(DisabledFormattingAccelerators.None));
+
+        /// <summary>
         /// Gets or sets the text that is displayed in the control until the value is changed by a user action or some other operation.
         /// </summary>
         public string PlaceholderText
@@ -287,6 +317,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (string)GetValue(PrefixesProperty);
             set => SetValue(PrefixesProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value that specifies whether pasted text preserves all formats, or as plain text only.
+        /// </summary>
+        public RichEditClipboardFormat ClipboardPasteFormat
+        {
+            get => (RichEditClipboardFormat)GetValue(ClipboardPasteFormatProperty);
+            set => SetValue(ClipboardPasteFormatProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value that specifies whether text is copied with all formats, or as plain text only.
+        /// </summary>
+        public RichEditClipboardFormat ClipboardCopyFormat
+        {
+            get => (RichEditClipboardFormat)GetValue(ClipboardCopyFormatProperty);
+            set => SetValue(ClipboardCopyFormatProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates which keyboard shortcuts for formatting are disabled.
+        /// </summary>
+        public DisabledFormattingAccelerators DisabledFormattingAccelerators
+        {
+            get => (DisabledFormattingAccelerators)GetValue(DisabledFormattingAcceleratorsProperty);
+            set => SetValue(DisabledFormattingAcceleratorsProperty, value);
         }
 
         /// <summary>

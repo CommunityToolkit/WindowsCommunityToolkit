@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Text;
@@ -106,6 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.TextChanged += RichEditBox_TextChanged;
             _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
+            _richEditBox.Paste += RichEditBox_Paste;
             _richEditBox.AddHandler(PointerPressedEvent, new PointerEventHandler(RichEditBoxPointerEventHandler), true);
             _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
 
@@ -270,7 +272,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            TextChanged?.Invoke((RichEditBox)sender, e);
+            TextChanged?.Invoke(this, e);
             UpdateVisibleTokenList();
         }
 
@@ -284,6 +286,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _suggestionChoice = 0;
             ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
+        }
+
+        private async void RichEditBox_Paste(object sender, TextControlPasteEventArgs e)
+        {
+            Paste?.Invoke(this, e);
+
+            if (e.Handled || TextDocument == null)
+            {
+                return;
+            }
+
+            if (ClipboardPasteFormat == RichEditClipboardFormat.PlainText)
+            {
+                e.Handled = true;
+            }
+
+            var dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                var text = await dataPackageView.GetTextAsync();
+                TextDocument.Selection.SetText(TextSetOptions.None, text);
+            }
         }
 
         private async Task RequestForSuggestionsAsync()

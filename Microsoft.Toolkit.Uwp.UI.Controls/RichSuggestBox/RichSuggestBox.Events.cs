@@ -27,6 +27,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when text is changed, either by user or by internal formatting.
         /// </summary>
-        public event TypedEventHandler<RichEditBox, RoutedEventArgs> TextChanged;
+        public event TypedEventHandler<RichSuggestBox, RoutedEventArgs> TextChanged;
+
+        /// <summary>
+        /// Event raised when text is pasted into the control.
+        /// </summary>
+        public event TypedEventHandler<RichSuggestBox, TextControlPasteEventArgs> Paste;
     }
 }

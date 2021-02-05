@@ -236,6 +236,9 @@
         <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
         <Setter Property="PopupCornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+        <Setter Property="ClipboardCopyFormat" Value="AllFormats" />
+        <Setter Property="ClipboardPasteFormat" Value="AllFormats" />
+        <Setter Property="DisabledFormattingAccelerators" Value="None" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RichSuggestBox">
@@ -276,7 +279,9 @@
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      BorderThickness="{TemplateBinding BorderThickness}"
                                      Canvas.ZIndex="0"
+                                     ClipboardCopyFormat="{TemplateBinding ClipboardCopyFormat}"
                                      DesiredCandidateWindowAlignment="BottomEdge"
+                                     DisabledFormattingAccelerators="{TemplateBinding DisabledFormattingAccelerators}"
                                      FontFamily="{TemplateBinding FontFamily}"
                                      FontSize="{TemplateBinding FontSize}"
                                      FontStretch="{TemplateBinding FontStretch}"
