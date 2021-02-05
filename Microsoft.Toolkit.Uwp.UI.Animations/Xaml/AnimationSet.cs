@@ -37,13 +37,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public event EventHandler? Completed;
 
         /// <summary>
-        /// An interface representing a node in an <see cref="AnimationSet"/> instance.
-        /// </summary>
-        public interface INode
-        {
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether top level animation nodes in this collection are invoked
         /// sequentially. This applies to both <see cref="AnimationScope"/> nodes (which will still trigger
         /// contained animations at the same time), and other top level animation nodes. The default value
@@ -124,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (IsSequential)
             {
-                foreach (INode node in this)
+                foreach (object node in this)
                 {
                     if (node is ITimeline timeline)
                     {
@@ -151,6 +144,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             break;
                         }
                     }
+                    else
+                    {
+                        ThrowArgumentException();
+                    }
 
                     // This should in theory only be necessary in the timeline branch, but doing this check
                     // after running activities too help guard against 3rd party activities that might not
@@ -165,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 var builder = AnimationBuilder.Create();
 
-                foreach (INode node in this)
+                foreach (object node in this)
                 {
                     switch (node)
                     {
@@ -175,6 +172,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         case IActivity activity:
                             _ = activity.InvokeAsync(element, token);
                             break;
+                        default:
+                            ThrowArgumentException();
+                            break;
                     }
                 }
 
@@ -182,6 +182,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             Completed?.Invoke(this, EventArgs.Empty);
+
+            static void ThrowArgumentException() => throw new ArgumentException($"An animation set can only contain nodes implementing either ITimeline or IActivity");
         }
 
         /// <summary>
