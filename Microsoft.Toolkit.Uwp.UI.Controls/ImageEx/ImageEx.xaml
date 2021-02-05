@@ -6,6 +6,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="LazyLoadingThreshold" Value="300" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEx">

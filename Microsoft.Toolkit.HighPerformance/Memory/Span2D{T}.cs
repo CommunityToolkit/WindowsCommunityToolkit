@@ -17,7 +17,7 @@ using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.Runti
 
 #pragma warning disable CS0809, CA1065
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// <see cref="Span2D{T}"/> represents a 2D region of arbitrary memory. Like the <see cref="Span{T}"/> type,
@@ -1130,7 +1130,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Span2D<{typeof(T)}>[{Height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.Span2D<{typeof(T)}>[{Height}, {this.width}]";
         }
 
         /// <summary>

@@ -119,8 +119,18 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>2.1.0</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+      <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
+    </PackageReference>
+    <PackageReference Include="System.Text.Json">
+      <Version>4.7.2</Version>
+    </PackageReference>
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Win2D.uwp">
+      <Version>1.25.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -133,13 +143,19 @@
     <Compile Include="Converters\Test_TypeToObjectConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
     <Compile Include="Extensions\Test_PointExtensions.cs" />
+    <Compile Include="Extensions\Test_RectExtensions.cs" />
     <Compile Include="Extensions\Test_SizeExtensions.cs" />
     <Compile Include="Extensions\Test_BitmapIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconSourceExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_FontIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_EnumValuesExtension.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
+    <Compile Include="Geometry\Test_CanvasPathGeometry.cs" />
+    <Compile Include="Geometry\Test_RegexFactory.cs" />
+    <Compile Include="Geometry\Test_Utils.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\JsonObjectSerializer.cs" />
+    <Compile Include="Helpers\SystemTextJsonSerializer.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
     <Compile Include="Extensions\Test_DispatcherQueueExtensions.cs" />
@@ -222,6 +238,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Diagnostics\Microsoft.Toolkit.Diagnostics.csproj">
+      <Project>{76f89522-ca28-458d-801d-947ab033a758}</Project>
+      <Name>Microsoft.Toolkit.Diagnostics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
       <Name>Microsoft.Toolkit.Mvvm</Name>
@@ -238,9 +258,17 @@
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
+      <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
+      <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>

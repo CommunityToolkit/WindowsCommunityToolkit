@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc cref="XamlCompositionEffectBrushBase"/>
-        protected override PipelineBuilder OnBrushRequested() => this.Pipeline;
+        protected override PipelineBuilder OnPipelineRequested() => this.Pipeline;
 
         /// <summary>
         /// Clones the current instance by rebuilding the source <see cref="Windows.UI.Xaml.Media.Brush"/>. Use this method to reuse the same effects pipeline on a different <see cref="Windows.UI.Core.CoreDispatcher"/>

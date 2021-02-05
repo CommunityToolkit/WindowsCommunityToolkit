@@ -10,9 +10,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals.Interfaces;
-#if SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Memory;
-#endif
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions

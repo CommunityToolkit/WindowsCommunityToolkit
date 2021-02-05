@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>uap10.0.17763</TargetFramework>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <Title>Windows Community Toolkit UI Media</Title>
     <Description>
       This library provides UI brushes. It is part of the Windows Community Toolkit.
@@ -35,6 +35,9 @@
       - SurfaceLoader: A class that can load and draw images and other objects to Win2D surfaces and brushes.
 
       PipelineBuilder: A class that allows to build custom effects pipelines and create CompositionBrush instances from them.
+
+      Geometry:
+      - CanvasPathGeometry: A class that parses Win2d Path Mini Language and converts it to CanvasGeometry, CanvasBrush, CanvasStroke, CanvasStrokeStyle or Color.
     </Description>
     <PackageTags>UWP Toolkit Windows UI XAML brushes blur</PackageTags>
   </PropertyGroup>
@@ -42,5 +45,9 @@
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
   </ItemGroup>
 </Project>
