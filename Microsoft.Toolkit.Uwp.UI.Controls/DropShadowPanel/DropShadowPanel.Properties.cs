@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The <see cref="DropShadowPanel"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
-    /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
+    /// making it easier to add shadows to Xaml without having to directly drop down to Microsoft.UI.Composition APIs.
     /// </summary>
     public partial class DropShadowPanel
     {
@@ -57,13 +57,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsMasked), typeof(bool), typeof(DropShadowPanel), new PropertyMetadata(true, OnIsMaskedChanged));
 
         /// <summary>
-         /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
-         /// </summary>
+        /// Gets DropShadow. Exposes the underlying composition object to allow custom Microsoft.UI.Composition animations.
+        /// </summary>
         public DropShadow DropShadow => _dropShadow;
 
         /// <summary>
-        /// Gets or sets the mask of the underlying <see cref="Windows.UI.Composition.DropShadow"/>.
-        /// Allows for a custom <see cref="Windows.UI.Composition.CompositionBrush"/> to be set.
+        /// Gets or sets the mask of the underlying <see cref="Microsoft.UI.Composition.DropShadow"/>.
+        /// Allows for a custom <see cref="Microsoft.UI.Composition.CompositionBrush"/> to be set.
         /// </summary>
         public CompositionBrush Mask
         {

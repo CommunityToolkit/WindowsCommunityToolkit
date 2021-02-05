@@ -4,7 +4,7 @@
 
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Composition;
+using Microsoft.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {

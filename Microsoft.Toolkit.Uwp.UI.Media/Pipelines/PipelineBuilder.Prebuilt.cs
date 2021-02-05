@@ -11,7 +11,7 @@ using Windows.UI;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
     /// <summary>
-    /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="Windows.UI.Composition.CompositionBrush"/> instances from them
+    /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="Microsoft.UI.Composition.CompositionBrush"/> instances from them
     /// </summary>
     public sealed partial class PipelineBuilder
     {

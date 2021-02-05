@@ -5,7 +5,7 @@
 #nullable enable
 
 using System.Diagnostics.Contracts;
-using Windows.UI.Composition;
+using Microsoft.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {

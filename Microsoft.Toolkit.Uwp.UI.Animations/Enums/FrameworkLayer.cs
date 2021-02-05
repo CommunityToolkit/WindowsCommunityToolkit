@@ -10,12 +10,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public enum FrameworkLayer
     {
         /// <summary>
-        /// Indicates the <see cref="Windows.UI.Composition"/> APIs.
+        /// Indicates the <see cref="Microsoft.UI.Composition"/> APIs.
         /// </summary>
         Composition,
 
         /// <summary>
-        /// Indicates the <see cref="Windows.UI.Xaml.Media.Animation"/> APIs.
+        /// Indicates the <see cref="Microsoft.UI.Xaml.Media.Animation"/> APIs.
         /// </summary>
         Xaml
     }
