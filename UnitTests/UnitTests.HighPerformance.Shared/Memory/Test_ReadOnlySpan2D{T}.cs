@@ -5,12 +5,12 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Extensions;
-using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Memory
+namespace UnitTests.HighPerformance
 {
     /* ====================================================================
     *                                 NOTE
@@ -636,7 +636,7 @@ namespace UnitTests.HighPerformance.Memory
 
             string text = span2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.ReadOnlySpan2D<System.Int32>[2, 3]";
+            const string expected = "Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

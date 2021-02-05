@@ -5,7 +5,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.HighPerformance.Memory;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
