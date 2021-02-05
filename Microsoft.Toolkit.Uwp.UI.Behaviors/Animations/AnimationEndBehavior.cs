@@ -48,14 +48,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 
             if (this.animationCollection is not null)
             {
-                this.animationCollection.Ended -= AnimationCollection_Ended;
+                this.animationCollection.Completed -= AnimationCollection_Completed;
             }
 
             this.animationCollection = animationCollection;
 
             if (animationCollection is not null)
             {
-                animationCollection.Ended += AnimationCollection_Ended;
+                animationCollection.Completed += AnimationCollection_Completed;
             }
         }
 
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// </summary>
         /// <param name="sender">The source <see cref="AnimationSet"/> instance.</param>
         /// <param name="e">The arguments for the event (unused).</param>
-        private void AnimationCollection_Ended(object sender, System.EventArgs e)
+        private void AnimationCollection_Completed(object sender, System.EventArgs e)
         {
             Interaction.ExecuteActions(sender, Actions, e);
         }

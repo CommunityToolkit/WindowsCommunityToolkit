@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Raised whenever the current animation ends.
         /// </summary>
-        public event EventHandler? Ended;
+        public event EventHandler? Completed;
 
         /// <summary>
         /// An interface representing a node in an <see cref="AnimationSet"/> instance.
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // Here we're using an async void method on purpose, in order to be able to await
             // the completion of the animation and rethrow exceptions. We can't just use the
             // synchronous AnimationBuilder.Start method here, as we also need to await for the
-            // animation to complete in either case in order to raise the Ended event when that
+            // animation to complete in either case in order to raise the Completed event when that
             // happens. So we add an async state machine here to work around this.
             await StartAsync();
         }
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 await builder.StartAsync(element, token);
             }
 
-            Ended?.Invoke(this, EventArgs.Empty);
+            Completed?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
