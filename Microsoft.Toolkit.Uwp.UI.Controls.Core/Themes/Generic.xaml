@@ -9,7 +9,6 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/Menu/Menu.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/RadialProgressBar/RadialProgressBar.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/RotatorTile/RotatorTile.xaml" />
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/TextToolbar/TextToolbar.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/TileControl/TileControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

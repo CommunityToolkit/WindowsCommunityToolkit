@@ -34,6 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="TextToolbar\**" />
+    <EmbeddedResource Remove="TextToolbar\**" />
+    <None Remove="TextToolbar\**" />
+    <Page Remove="TextToolbar\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
 
