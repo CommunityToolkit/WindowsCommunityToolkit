@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 linkRange.Expand(TextRangeUnit.Link);
 
                 // Adjacent links have the same index. Manually check each link with Collapse and Expand.
-                var previousText = linkRange.Text;
+                var previousStart = linkRange.StartPosition;
                 var hasAdjacentToken = true;
                 while (hasAdjacentToken)
                 {
@@ -83,8 +83,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     linkRange.Collapse(false);
                     linkRange.Expand(TextRangeUnit.Link);
-                    hasAdjacentToken = !string.IsNullOrEmpty(linkRange.Text) && linkRange.Text != previousText;
-                    previousText = linkRange.Text;
+                    hasAdjacentToken = !string.IsNullOrEmpty(linkRange.Link) && linkRange.StartPosition != previousStart;
+                    previousStart = linkRange.StartPosition;
                 }
 
                 nextIndex = range.GetIndex(TextRangeUnit.Link);

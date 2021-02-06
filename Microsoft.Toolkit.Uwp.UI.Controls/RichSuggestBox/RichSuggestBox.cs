@@ -388,7 +388,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _ignoreChange = true;
             TextDocument.BeginUndoGroup();
 
-            range.SetText(TextSetOptions.Unhide, displayText);
+            // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
+            range.GetText(TextGetOptions.NoHidden, out var existingText);
+            if (existingText != displayText)
+            {
+                range.SetText(TextSetOptions.Unhide, displayText);
+            }
+
             range.Link = $"\"{id}\"";
 
             range.CharacterFormat.BackgroundColor = format.Background;
