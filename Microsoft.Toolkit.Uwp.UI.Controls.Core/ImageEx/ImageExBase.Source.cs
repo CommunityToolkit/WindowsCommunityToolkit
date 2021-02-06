@@ -138,17 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (IsCacheEnabled)
                 {
-                    switch (CachingStrategy)
-                    {
-                        case ImageExCachingStrategy.Custom when _isHttpSource:
-                            await SetHttpSourceCustomCached(imageUri);
-                            break;
-                        case ImageExCachingStrategy.Custom:
-                        case ImageExCachingStrategy.Internal:
-                        default:
-                            AttachSource(new BitmapImage(imageUri));
-                            break;
-                    }
+                    AttachSource(new BitmapImage(imageUri));
                 }
                 else if (string.Equals(_uri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
                 {
@@ -169,58 +159,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         CreateOptions = BitmapCreateOptions.IgnoreImageCache
                     });
-                }
-            }
-        }
-
-        private async Task SetHttpSourceCustomCached(Uri imageUri)
-        {
-            try
-            {
-                var propValues = new List<KeyValuePair<string, object>>();
-
-                if (DecodePixelHeight > 0)
-                {
-                    propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelHeight), DecodePixelHeight));
-                }
-
-                if (DecodePixelWidth > 0)
-                {
-                    propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelWidth), DecodePixelWidth));
-                }
-
-                if (propValues.Count > 0)
-                {
-                    propValues.Add(new KeyValuePair<string, object>(nameof(DecodePixelType), DecodePixelType));
-                }
-
-                var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, _tokenSource.Token, propValues);
-
-                lock (LockObj)
-                {
-                    // If you have many imageEx in a virtualized ListView for instance
-                    // controls will be recycled and the uri will change while waiting for the previous one to load
-                    if (_uri == imageUri)
-                    {
-                        AttachSource(img);
-                        ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
-                        VisualStateManager.GoToState(this, LoadedState, true);
-                    }
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                // nothing to do as cancellation has been requested.
-            }
-            catch (Exception e)
-            {
-                lock (LockObj)
-                {
-                    if (_uri == imageUri)
-                    {
-                        ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
-                        VisualStateManager.GoToState(this, FailedState, true);
-                    }
                 }
             }
         }
