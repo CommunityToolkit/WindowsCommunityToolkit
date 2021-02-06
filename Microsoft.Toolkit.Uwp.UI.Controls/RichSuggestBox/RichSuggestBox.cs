@@ -303,6 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var text = await dataPackageView.GetTextAsync();
                 TextDocument.Selection.SetText(TextSetOptions.None, text);
+                TextDocument.Selection.Collapse(false);
             }
         }
 
@@ -376,13 +377,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var displayText = prefix + text;
                 var tokenRange = CommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format);
 
-                var token = new SuggestionInfo(id, displayText, this) { Active = true, Item = selectedItem };
+                var token = new SuggestionInfo(id, displayText) { Active = true, Item = selectedItem };
                 token.UpdateTextRange(tokenRange);
                 _tokens.Add(tokenRange.Link, token);
             }
         }
 
-        private ITextRange CommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, SuggestionTokenFormat format)
+        private ITextRange CommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, SuggestionTokenFormat format, bool addTrailingSpace = true)
         {
             _ignoreChange = true;
             TextDocument.BeginUndoGroup();
@@ -398,10 +399,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var returnRange = TextDocument.GetRange(range.StartPosition, range.EndPosition);
 
-            range.Collapse(false);
-            range.SetText(TextSetOptions.Unhide, " ");
-            range.Collapse(false);
-            TextDocument.Selection.SetRange(range.EndPosition, range.EndPosition);
+            if (addTrailingSpace)
+            {
+                range.Collapse(false);
+                range.SetText(TextSetOptions.Unhide, " ");
+                range.Collapse(false);
+                TextDocument.Selection.SetRange(range.EndPosition, range.EndPosition);
+            }
 
             TextDocument.EndUndoGroup();
             _ignoreChange = false;
@@ -415,39 +419,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 token.Active = false;
             }
 
-            var range = TextDocument.GetRange(0, 0);
-            range.SetIndex(TextRangeUnit.Character, -1, false);
-
-            // Handle link at the very end of the document where GetIndex fails to detect
-            range.Expand(TextRangeUnit.Link);
-            ValidateTokenFromRange(range);
-
-            var nextIndex = range.GetIndex(TextRangeUnit.Link);
-            while (nextIndex != 0 && nextIndex != 1)
-            {
-                range.Move(TextRangeUnit.Link, -1);
-
-                var validateRange = range.GetClone();
-                validateRange.Expand(TextRangeUnit.Link);
-
-                // Adjacent links have the same index. Manually check each link with Collapse and Expand.
-                var previousText = validateRange.Text;
-                var hasAdjacentToken = true;
-                while (hasAdjacentToken)
-                {
-                    ValidateTokenFromRange(validateRange);
-                    validateRange.Collapse(false);
-                    validateRange.Expand(TextRangeUnit.Link);
-
-                    hasAdjacentToken = validateRange.Text != previousText;
-                    previousText = validateRange.Text;
-                }
-
-                nextIndex = range.GetIndex(TextRangeUnit.Link);
-            }
+            ForEachLinkInDocument(TextDocument, ValidateTokenFromRange);
         }
 
-        private bool ValidateTokenFromRange(ITextRange range)
+        private void ValidateTokenFromRange(ITextRange range)
         {
             if (range.Length == 0 || string.IsNullOrEmpty(range.Link) ||
                 !_tokens.TryGetValue(range.Link, out var token))
@@ -458,7 +433,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     range.Link = string.Empty;
                 }
 
-                return false;
+                return;
+            }
+
+            // Check for duplicate tokens. This can happen if the user copies and pastes the token multiple times.
+            if (token.Active && token.RangeStart != range.StartPosition && token.RangeEnd != range.EndPosition)
+            {
+                lock (LockObj)
+                {
+                    var guid = Guid.NewGuid();
+                    range = CommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateSuggestionTokenFormat(), false);
+                    token = new SuggestionInfo(guid, token.DisplayText) { Active = true, Item = token.Item };
+                    token.UpdateTextRange(range);
+                    _tokens.Add(range.Link, token);
+                    return;
+                }
             }
 
             if (token.ToString() != range.Text)
@@ -467,12 +456,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Setting CharacterFormat to default format will also clear the Link property.
                 range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
                 token.Active = false;
-                return false;
+                return;
             }
 
             token.UpdateTextRange(range);
             token.Active = true;
-            return true;
         }
 
         private void ConditionallyLoadElement(object property, string elementName)

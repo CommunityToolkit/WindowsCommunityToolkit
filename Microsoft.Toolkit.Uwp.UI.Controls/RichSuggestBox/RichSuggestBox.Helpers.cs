@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Graphics.Display;
+using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -50,6 +52,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var possibles = string.Concat(value.Where(char.IsPunctuation));
             return string.IsNullOrEmpty(possibles) ? "@" : possibles;
+        }
+
+        private static void ForEachLinkInDocument(ITextDocument document, Action<ITextRange> action)
+        {
+            var range = document.GetRange(0, 0);
+            range.SetIndex(TextRangeUnit.Character, -1, false);
+
+            // Handle link at the very end of the document where GetIndex fails to detect
+            range.Expand(TextRangeUnit.Link);
+            if (!string.IsNullOrEmpty(range.Link))
+            {
+                action?.Invoke(range);
+            }
+
+            var nextIndex = range.GetIndex(TextRangeUnit.Link);
+            while (nextIndex != 0 && nextIndex != 1)
+            {
+                range.Move(TextRangeUnit.Link, -1);
+
+                var linkRange = range.GetClone();
+                linkRange.Expand(TextRangeUnit.Link);
+
+                // Adjacent links have the same index. Manually check each link with Collapse and Expand.
+                var previousText = linkRange.Text;
+                var hasAdjacentToken = true;
+                while (hasAdjacentToken)
+                {
+                    action?.Invoke(linkRange);
+
+                    linkRange.Collapse(false);
+                    linkRange.Expand(TextRangeUnit.Link);
+                    hasAdjacentToken = !string.IsNullOrEmpty(linkRange.Text) && linkRange.Text != previousText;
+                    previousText = linkRange.Text;
+                }
+
+                nextIndex = range.GetIndex(TextRangeUnit.Link);
+            }
         }
     }
 }

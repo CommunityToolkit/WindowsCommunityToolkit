@@ -17,11 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets the <see cref="RichSuggestBox"/> instance that owns this token.
-        /// </summary>
-        public RichSuggestBox Owner { get; }
-
-        /// <summary>
         /// Gets the token ID.
         /// </summary>
         public Guid Id { get; }
@@ -60,12 +55,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="id">Token ID</param>
         /// <param name="displayText">Text in the document</param>
-        /// <param name="owner"><see cref="RichSuggestBox"/> instance that owns this token</param>
-        public SuggestionInfo(Guid id, string displayText, RichSuggestBox owner)
+        public SuggestionInfo(Guid id, string displayText)
         {
             Id = id;
             DisplayText = displayText;
-            Owner = owner;
         }
 
         internal void UpdateTextRange(ITextRange range)
