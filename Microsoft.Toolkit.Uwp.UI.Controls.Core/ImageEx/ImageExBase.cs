@@ -21,7 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = UnloadedState, GroupName = CommonGroup)]
     [TemplateVisualState(Name = FailedState, GroupName = CommonGroup)]
     [TemplatePart(Name = PartImage, Type = typeof(object))]
-    [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
     public abstract partial class ImageExBase : Control
     {
         private bool _isInViewport;
@@ -30,11 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Image name in template
         /// </summary>
         protected const string PartImage = "Image";
-
-        /// <summary>
-        /// ProgressRing name in template
-        /// </summary>
-        protected const string PartProgress = "Progress";
 
         /// <summary>
         /// VisualStates name in template
@@ -65,11 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the backing image object
         /// </summary>
         protected object Image { get; private set; }
-
-        /// <summary>
-        /// Gets backing object for the ProgressRing
-        /// </summary>
-        protected ProgressRing Progress { get; private set; }
 
         /// <summary>
         /// Gets object used for lock
@@ -169,7 +158,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RemoveImageFailed(OnImageFailed);
 
             Image = GetTemplateChild(PartImage) as object;
-            Progress = GetTemplateChild(PartProgress) as ProgressRing;
 
             IsInitialized = true;
 
@@ -189,19 +177,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             AttachImageFailed(OnImageFailed);
 
             base.OnApplyTemplate();
-        }
-
-        /// <inheritdoc/>
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
-
-            if (Progress?.Width == newSquareSize)
-            {
-                Progress.Height = newSquareSize;
-            }
-
-            return base.ArrangeOverride(finalSize);
         }
 
         private void OnImageOpened(object sender, RoutedEventArgs e)
