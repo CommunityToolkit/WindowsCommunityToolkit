@@ -4,16 +4,16 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A luminance to alpha effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.LuminanceToAlphaEffect"/> effect</remarks>
-    public sealed class LuminanceToAlphaEffect : IPipelineEffect
+    public sealed class LuminanceToAlphaEffect : PipelineEffect
     {
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
             return builder.LuminanceToAlpha();
         }

@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = VsNormal, GroupName = CommonStateGroup)]
     [TemplateVisualState(Name = VsPressed, GroupName = CommonStateGroup)]
     [TemplateVisualState(Name = VsPointerOver, GroupName = CommonStateGroup)]
-    public class OrbitViewItem : ContentControl
+    public partial class OrbitViewItem : ContentControl
     {
         private const string CommonStateGroup = "CommonStates";
         private const string VsNormal = "Normal";

@@ -5,13 +5,15 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+#nullable enable
+
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An opacity effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
-    public sealed class OpacityEffect : IPipelineEffect
+    public sealed class OpacityEffect : PipelineEffect
     {
         private double value = 1;
 
@@ -24,9 +26,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
             set => this.value = Math.Clamp(value, 0, 1);
         }
 
+        /// <summary>
+        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
+        /// </summary>
+        internal string? Id { get; private set; }
+
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
+            if (IsAnimatable)
+            {
+                builder = builder.Opacity((float)Value, out string id);
+
+                Id = id;
+
+                return builder;
+            }
+
             return builder.Opacity((float)Value);
         }
     }

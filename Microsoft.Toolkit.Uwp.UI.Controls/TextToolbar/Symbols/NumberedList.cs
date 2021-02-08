@@ -7,7 +7,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
     /// <summary>
     /// Creates a Numbered List Icon
     /// </summary>
-    public class NumberedList : Symbol
+    public partial class NumberedList : Symbol
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NumberedList"/> class.

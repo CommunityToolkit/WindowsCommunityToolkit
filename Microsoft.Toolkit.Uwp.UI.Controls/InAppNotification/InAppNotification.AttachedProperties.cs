@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Using a DependencyProperty as the backing store for KeyFrameDuration. This enables animation, styling, binding, etc
         /// </summary>
         public static readonly DependencyProperty KeyFrameDurationProperty =
-            DependencyProperty.RegisterAttached("KeyFrameDuration", typeof(TimeSpan), typeof(InAppNotification), new PropertyMetadata(0, OnKeyFrameAnimationChanged));
+            DependencyProperty.RegisterAttached("KeyFrameDuration", typeof(TimeSpan), typeof(InAppNotification), new PropertyMetadata(TimeSpan.Zero, OnKeyFrameAnimationChanged));
 
         private static void OnKeyFrameAnimationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

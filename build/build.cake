@@ -135,7 +135,6 @@ Task("Verify")
 
 Task("Version")
     .Description("Updates the version information in all Projects")
-    .IsDependentOn("Verify")
     .Does(() =>
 {
     Information("\nDownloading NerdBank GitVersioning...");
@@ -210,6 +209,7 @@ Task("InheritDoc")
 
 Task("Build")
     .Description("Build all projects runs InheritDoc")
+    .IsDependentOn("Verify")
     .IsDependentOn("BuildProjects")
     .IsDependentOn("InheritDoc");
 
@@ -289,10 +289,19 @@ Task("UITest")
 
 Task("SmokeTest")
 	.Description("Runs all Smoke Tests")
+    .IsDependentOn("Version")
     .Does(() =>
 {
+    // Need to do full NuGet restore here to grab proper UWP dependencies...
     NuGetRestore(baseDir + "/SmokeTests/SmokeTest.csproj");
-    MSBuild(baseDir + "/SmokeTests/SmokeTests.proj");
+
+    var buildSettings = new MSBuildSettings()
+    {
+        Restore = true,
+    }
+    .WithProperty("NuGetPackageVersion", Version);
+
+    MSBuild(baseDir + "/SmokeTests/SmokeTests.proj", buildSettings);
 }).DeferOnError();
 
 Task("MSTestUITest")

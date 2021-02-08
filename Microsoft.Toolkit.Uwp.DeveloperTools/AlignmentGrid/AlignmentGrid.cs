@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
     /// <summary>
     /// AlignmentGrid is used to display a grid to help aligning controls
     /// </summary>
-    public class AlignmentGrid : ContentControl
+    public partial class AlignmentGrid : ContentControl
     {
         /// <summary>
         /// Identifies the <see cref="LineBrush"/> dependency property.

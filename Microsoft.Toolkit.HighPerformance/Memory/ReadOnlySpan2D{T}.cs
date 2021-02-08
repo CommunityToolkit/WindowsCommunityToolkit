@@ -17,7 +17,7 @@ using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.Runti
 
 #pragma warning disable CS0809, CA1065
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// A readonly version of <see cref="Span2D{T}"/>.
@@ -628,15 +628,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 nint width = (nint)(uint)this.width;
 
                 ref T destinationRef = ref MemoryMarshal.GetReference(destination);
-                nint offset = 0;
 
                 for (int i = 0; i < height; i++)
                 {
-                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+                    ref T sourceStart = ref DangerousGetReferenceAt(i, 0);
+                    ref T sourceEnd = ref Unsafe.Add(ref sourceStart, width);
 
-                    for (nint j = 0; j < width; j += 1, offset += 1)
+                    while (Unsafe.IsAddressLessThan(ref sourceStart, ref sourceEnd))
                     {
-                        Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
+                        destinationRef = sourceStart;
+
+                        sourceStart = ref Unsafe.Add(ref sourceStart, 1);
+                        destinationRef = ref Unsafe.Add(ref destinationRef, 1);
                     }
                 }
 #endif
@@ -682,12 +685,16 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 for (int i = 0; i < height; i++)
                 {
-                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+                    ref T sourceStart = ref DangerousGetReferenceAt(i, 0);
+                    ref T sourceEnd = ref Unsafe.Add(ref sourceStart, width);
                     ref T destinationRef = ref destination.DangerousGetReferenceAt(i, 0);
 
-                    for (nint j = 0; j < width; j += 1)
+                    while (Unsafe.IsAddressLessThan(ref sourceStart, ref sourceEnd))
                     {
-                        Unsafe.Add(ref destinationRef, j) = Unsafe.Add(ref sourceRef, j);
+                        destinationRef = sourceStart;
+
+                        sourceStart = ref Unsafe.Add(ref sourceStart, 1);
+                        destinationRef = ref Unsafe.Add(ref destinationRef, 1);
                     }
                 }
 #endif
@@ -928,15 +935,18 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 nint width = (nint)(uint)this.width;
 
                 ref T destinationRef = ref array.DangerousGetReference();
-                nint offset = 0;
 
                 for (int i = 0; i < height; i++)
                 {
-                    ref T sourceRef = ref DangerousGetReferenceAt(i, 0);
+                    ref T sourceStart = ref DangerousGetReferenceAt(i, 0);
+                    ref T sourceEnd = ref Unsafe.Add(ref sourceStart, width);
 
-                    for (nint j = 0; j < width; j += 1, offset += 1)
+                    while (Unsafe.IsAddressLessThan(ref sourceStart, ref sourceEnd))
                     {
-                        Unsafe.Add(ref destinationRef, offset) = Unsafe.Add(ref sourceRef, j);
+                        destinationRef = sourceStart;
+
+                        sourceStart = ref Unsafe.Add(ref sourceStart, 1);
+                        destinationRef = ref Unsafe.Add(ref destinationRef, 1);
                     }
                 }
             }
@@ -964,7 +974,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.ReadOnlySpan2D<{typeof(T)}>[{Height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<{typeof(T)}>[{Height}, {this.width}]";
         }
 
         /// <summary>

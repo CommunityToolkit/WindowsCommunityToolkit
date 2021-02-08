@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <see cref="Case"/> is the value container for the <see cref="SwitchPresenter"/>.
     /// </summary>
     [ContentProperty(Name = nameof(Content))]
-    public class Case : DependencyObject
+    public partial class Case : DependencyObject
     {
         internal SwitchPresenter Parent { get; set; } // TODO: Can we remove Parent need here and just use events?
 

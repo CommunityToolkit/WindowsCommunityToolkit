@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// <summary>
     /// Separates a collection of <see cref="IToolbarItem"/>
     /// </summary>
-    public class ToolbarSeparator : AppBarSeparator, IToolbarItem
+    public partial class ToolbarSeparator : AppBarSeparator, IToolbarItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ToolbarSeparator"/> class.

@@ -1,8 +1,0 @@
-// XAML UIElement
-<Image x:Name="MyImage" Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg">
-
-// C# - Saturation can be applied to any UIElement. In this case it is an image called ToolkitLogo.
-using Microsoft.Toolkit.Uwp.UI.Animations;
-
-await MyImage.Saturation(value: 10, duration: 10, delay: 0).StartAsync();
-

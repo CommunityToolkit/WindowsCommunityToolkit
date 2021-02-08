@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// When provided a set of <see cref="Case"/>s and a <see cref="Value"/>, it will pick the matching <see cref="Case"/> with the corresponding <see cref="Case.Value"/>.
     /// </summary>
     [ContentProperty(Name = nameof(SwitchCases))]
-    public sealed class SwitchPresenter : ContentPresenter
+    public sealed partial class SwitchPresenter : ContentPresenter
     {
         /// <summary>
         /// Gets the current <see cref="Case"/> which is being displayed.

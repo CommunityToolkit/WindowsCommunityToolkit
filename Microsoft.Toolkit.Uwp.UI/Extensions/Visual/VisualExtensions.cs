@@ -160,11 +160,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
+        /// Converts a <see cref="string"/> to <see cref="Quaternion"/>
+        /// </summary>
+        /// <param name="str">A string in the format of "float, float, float, float"</param>
+        /// <returns><see cref="Quaternion"/></returns>
+        public static unsafe Quaternion ToQuaternion(this string str)
+        {
+            Vector4 vector = str.ToVector4();
+
+            return *(Quaternion*)&vector;
+        }
+
+        /// <summary>
         /// Retrieves the <see cref="Visual"/> object of a <see cref="UIElement"/>
         /// </summary>
         /// <param name="element">The <see cref="UIElement"/></param>
         /// <returns>The <see cref="Visual"/> backing the <see cref="UIElement"/></returns>
-        public static Visual GetVisual(UIElement element)
+        public static Visual GetVisual(this UIElement element)
         {
             return ElementCompositionPreview.GetElementVisual(element);
         }
@@ -444,7 +456,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// is centered even when the visual is resized
         /// </summary>
         /// <param name="obj">The <see cref="UIElement"/></param>
-        /// <returns>a string representing Vector3 as the normalized <see cref="Visual.CenterPoint"/></returns>
+        /// <returns>a string representing Vector2 as the normalized <see cref="Visual.CenterPoint"/></returns>
         public static string GetNormalizedCenterPoint(DependencyObject obj)
         {
             return (string)obj.GetValue(NormalizedCenterPointProperty);
@@ -455,7 +467,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// is centered even when the visual is resized
         /// </summary>
         /// <param name="obj">The <see cref="UIElement"/></param>
-        /// <param name="value">A string representing a Vector3 normalized between 0.0 and 1.0</param>
+        /// <param name="value">A string representing a Vector2 normalized between 0.0 and 1.0</param>
         public static void SetNormalizedCenterPoint(DependencyObject obj, string value)
         {
             obj.SetValue(NormalizedCenterPointProperty, value);
@@ -595,34 +607,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnNormalizedCenterPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is FrameworkElement element && !DesignTimeHelpers.IsRunningInLegacyDesignerMode)
+            if (d is FrameworkElement element &&
+                !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
+                e.NewValue is string newValue)
             {
-                SetupNormalizedCenterPoint(e, element);
+                Vector2 center = newValue.ToVector2();
+                Visual visual = element.GetVisual();
+                const string expression = "Vector2(this.Target.Size.X * X, this.Target.Size.Y * Y)";
+                ExpressionAnimation animation = visual.Compositor.CreateExpressionAnimation(expression);
+
+                animation.SetScalarParameter("X", center.X);
+                animation.SetScalarParameter("Y", center.Y);
+
+                visual.StopAnimation("CenterPoint.XY");
+                visual.StartAnimation("CenterPoint.XY", animation);
             }
-        }
-
-        private static void SetupNormalizedCenterPoint(DependencyPropertyChangedEventArgs e, FrameworkElement element)
-        {
-            element.SizeChanged -= KeepCenteredElementSizeChanged;
-
-            if (e.NewValue is string normalizedValue)
-            {
-                var vectorValue = normalizedValue.ToVector3();
-                var visual = GetVisual(element);
-                visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
-
-                element.SizeChanged += KeepCenteredElementSizeChanged;
-            }
-        }
-
-        private static void KeepCenteredElementSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var element = sender as FrameworkElement;
-
-            var normalizedValue = GetNormalizedCenterPoint(element);
-            var vectorValue = normalizedValue.ToVector3();
-            var visual = GetVisual(element);
-            visual.CenterPoint = new Vector3((float)element.ActualWidth * vectorValue.X, (float)element.ActualHeight * vectorValue.Y, 0);
         }
 
         private static string GetAnchorPointForElement(UIElement element)

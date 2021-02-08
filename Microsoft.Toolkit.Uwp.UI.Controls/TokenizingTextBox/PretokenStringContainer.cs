@@ -6,7 +6,10 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class PretokenStringContainer : DependencyObject, ITokenStringContainer
+    /// <summary>
+    /// <see cref="TokenizingTextBox"/> support class
+    /// </summary>
+    internal partial class PretokenStringContainer : DependencyObject, ITokenStringContainer
     {
         public string Text
         {
