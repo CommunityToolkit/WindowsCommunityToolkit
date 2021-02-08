@@ -71,12 +71,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(HorizontalAlignment.Left));
 
         /// <summary>
-        /// Gets or sets a value indicating whether this tab is contextual.
+        /// Gets or sets a value indicating the alignment of the command overflow button.
         /// </summary>
         public HorizontalAlignment OverflowButtonAlignment
         {
             get => (HorizontalAlignment)GetValue(OverflowButtonAlignmentProperty);
             set => SetValue(OverflowButtonAlignmentProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="CommandAlignment"/> property.
+        /// </summary>
+        public static readonly DependencyProperty CommandAlignmentProperty = DependencyProperty.Register(
+            nameof(CommandAlignment),
+            typeof(HorizontalAlignment),
+            typeof(TabbedCommandBarItem),
+            new PropertyMetadata(HorizontalAlignment.Stretch));
+
+        /// <summary>
+        /// Gets or sets a value indicating the alignment of the commands in the <see cref="TabbedCommandBarItem"/>.
+        /// </summary>
+        public HorizontalAlignment CommandAlignment
+        {
+            get => (HorizontalAlignment)GetValue(CommandAlignmentProperty);
+            set => SetValue(CommandAlignmentProperty, value);
         }
 
         /// <inheritdoc/>
@@ -87,13 +105,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _primaryItemsControl = GetTemplateChild("PrimaryItemsControl") as ItemsControl;
             if (_primaryItemsControl != null)
             {
-                _primaryItemsControl.HorizontalAlignment = HorizontalAlignment.Stretch;
+                _primaryItemsControl.HorizontalAlignment = CommandAlignment;
+                RegisterPropertyChangedCallback(CommandAlignmentProperty, (sender, dp) =>
+                {
+                    _primaryItemsControl.HorizontalAlignment = (HorizontalAlignment)sender.GetValue(dp);
+                });
             }
 
             _moreButton = GetTemplateChild("MoreButton") as Button;
             if (_moreButton != null)
             {
                 _moreButton.HorizontalAlignment = OverflowButtonAlignment;
+                RegisterPropertyChangedCallback(OverflowButtonAlignmentProperty, (sender, dp) =>
+                {
+                    _moreButton.HorizontalAlignment = (HorizontalAlignment)sender.GetValue(dp);
+                });
             }
         }
     }
