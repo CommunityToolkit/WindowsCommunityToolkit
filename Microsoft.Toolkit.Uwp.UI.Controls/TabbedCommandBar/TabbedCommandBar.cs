@@ -26,19 +26,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Storyboard _tabChangedStoryboard = null;
 
         /// <summary>
-        /// Gets or sets the brush to use as the background for <see cref="TabbedCommandBarItem"/>s in MenuItems.
+        /// The last selected <see cref="TabbedCommandBarItem"/>.
         /// </summary>
-        public Brush ItemBackground
-        {
-            get => (Brush)GetValue(ItemBackgroundProperty);
-            set => SetValue(ItemBackgroundProperty, value);
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ItemBackground"/> property.
-        /// </summary>
-        public static readonly DependencyProperty ItemBackgroundProperty =
-            DependencyProperty.Register(nameof(ItemBackground), typeof(Brush), typeof(TabbedCommandBar), new PropertyMetadata(null));
+        private TabbedCommandBarItem _previousSelectedItem = null;
+        private long _visibilityChangedToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabbedCommandBar"/> class.
@@ -47,11 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(TabbedCommandBar);
 
-            SelectionChanged += (NavigationView sender, NavigationViewSelectionChangedEventArgs args) =>
-            {
-                _ribbonContentBorder.Background = (sender.SelectedItem as Control).Background;
-                _tabChangedStoryboard?.Begin();
-            };
+            SelectionChanged += SelectedItemChanged;
         }
 
         /// <inheritdoc/>
@@ -70,6 +57,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tabChangedStoryboard = GetTemplateChild("TabChangedStoryboard") as Storyboard;
 
             SelectedItem = MenuItems.FirstOrDefault();
+        }
+
+        private void SelectedItemChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            var item = sender.SelectedItem as TabbedCommandBarItem;
+            if (item == null || item.Visibility == Visibility.Collapsed)
+            {
+                // If the item is now hidden, select the first item instead.
+                // I can't think of any way that the visibiltiy would be null
+                // and still be selectable, but let's handle it just in case.
+                sender.SelectedItem = sender.MenuItems.FirstOrDefault();
+                return;
+            }
+
+            // Remove the visibility PropertyChanged handler from the
+            // previously selected item
+            if (_previousSelectedItem != null)
+            {
+                _previousSelectedItem.UnregisterPropertyChangedCallback(TabbedCommandBarItem.VisibilityProperty, _visibilityChangedToken);
+            }
+
+            // Register a new visibility PropertyChangedcallback for the
+            // currently selected item
+            _previousSelectedItem = item;
+            _visibilityChangedToken =
+            _previousSelectedItem.RegisterPropertyChangedCallback(TabbedCommandBarItem.VisibilityProperty, SelectedItemVisibilityChanged);
+
+            // Set the ribbon background and start the transition animation
+            _ribbonContentBorder.Background = item.Background;
+            _tabChangedStoryboard?.Begin();
+        }
+
+        private void SelectedItemVisibilityChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            // If the item is not visible, default to the first tab
+            if (sender.GetValue(dp) is Visibility vis && vis == Visibility.Collapsed)
+            {
+                SelectedItem = MenuItems.FirstOrDefault();
+            }
         }
     }
 }

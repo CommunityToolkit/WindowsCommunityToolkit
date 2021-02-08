@@ -15,7 +15,6 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
         <Setter Property="Background" Value="{ThemeResource SystemChromeMediumLowColor}" />
-        <Setter Property="ItemBackground" Value="{ThemeResource SystemChromeLowColor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:TabbedCommandBar">
