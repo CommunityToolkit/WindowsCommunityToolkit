@@ -93,6 +93,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // If the item is not visible, default to the first tab
             if (sender.GetValue(dp) is Visibility vis && vis == Visibility.Collapsed)
             {
+                // FIXME: This will cause WinUI to throw an exception if run
+                // when the tabs overflow
                 SelectedItem = MenuItems.FirstOrDefault();
             }
         }

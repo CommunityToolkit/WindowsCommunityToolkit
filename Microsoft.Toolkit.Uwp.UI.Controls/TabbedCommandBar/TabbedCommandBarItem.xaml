@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <SolidColorBrush x:Key="ContextualTabBackground" Color="{StaticResource SystemAltMediumColor}"/>
+    <SolidColorBrush x:Key="ContextualTabBackground" Color="{ThemeResource SystemAltMediumColor}"/>
 
     <Style BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem"/>
 
