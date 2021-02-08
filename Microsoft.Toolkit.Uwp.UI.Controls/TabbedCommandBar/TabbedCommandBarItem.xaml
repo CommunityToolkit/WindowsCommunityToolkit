@@ -3,6 +3,8 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <SolidColorBrush x:Key="ContextualTabBackground" Color="{ThemeResource SystemAltMediumColor}"/>
+    <SolidColorBrush x:Key="NormalTabBackground" Color="{ThemeResource SystemChromeLowColor}"/>
+    <SolidColorBrush x:Key="NormalTabAcrylicBackground" Color="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"/>
 
     <Style BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem"/>
 
@@ -10,7 +12,7 @@
         <!-- TODO: Copy CommandBarRevealStyle instead of referencing it -->
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="DefaultLabelPosition" Value="Right" />
-        <Setter Property="Background" Value="{ThemeResource SystemChromeLowColor}" />
+        <Setter Property="Background" Value="{ThemeResource NormalTabBackground}" />
         <!--
             Is there a way to prevent the overflow button from showing if there aren't any buttons to send to the overflow menu?
             (See this message in the WinUI channel: https://discord.com/channels/372137812037730304/671870147354427422/771057634203402300 )
@@ -21,7 +23,7 @@
     </Style>
 
     <Style x:Key="AcrylicTabbedCommandBarItemStyle" BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem">
-        <Setter Property="Background" Value="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"/>
+        <Setter Property="Background" Value="{ThemeResource NormalTabAcrylicBackground}"/>
     </Style>
 
     <DataTemplate x:Key="NormalTabTemplate">
@@ -30,6 +32,7 @@
     <DataTemplate x:Key="ContextualTabTemplate">
         <NavigationViewItem Content="{Binding Header}" Background="{StaticResource ContextualTabBackground}" Visibility="{Binding Visibility}">
             <NavigationViewItem.Resources>
+                <!-- TODO: These should reference TabbedCommandBarItem-specific resources so they can overriden -->
                 <SolidColorBrush x:Key="TopNavigationViewItemForeground" Color="{ThemeResource SystemAccentColor}" />
                 <SolidColorBrush x:Key="TopNavigationViewItemForegroundSelected" Color="{ThemeResource SystemAccentColor}" />
                 <SolidColorBrush x:Key="TopNavigationViewItemForegroundPointerOver" Color="{ThemeResource SystemAccentColorLight2}" />
@@ -44,9 +47,15 @@
                                                    Contextual="{StaticResource ContextualTabTemplate}"
                                                    Normal="{StaticResource NormalTabTemplate}" />
 
+    <Style x:Key="TabbedCommandBarElementContainerStyle" TargetType="AppBarElementContainer">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="1,0" />
+    </Style>
+
     <Style x:Key="AppBarSplitButtonStyle" TargetType="SplitButton">
         <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}" />
-        <Setter Property="Foreground" Value="{ThemeResource SplitButtonForeground}" />
+        <Setter Property="Foreground" Value="{ThemeResource AppBarItemForegroundThemeBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SplitButtonBorderBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource SplitButtonBorderThemeThickness}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -98,8 +107,8 @@
                                                         <VisualState x:Name="PointerOver">
                                                             <VisualState.Setters>
                                                                 <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver" />
-                                                                <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}"/>
-                                                                <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
+                                                                <Setter Target="RootGrid.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPointerOver}"/>
+                                                                <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPointerOver}"/>
                                                                 <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
                                                             </VisualState.Setters>
                                                             <Storyboard>
@@ -110,8 +119,8 @@
                                                         <VisualState x:Name="Pressed">
                                                             <VisualState.Setters>
                                                                 <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed" />
-                                                                <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}"/>
-                                                                <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
+                                                                <Setter Target="RootGrid.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPressed}"/>
+                                                                <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPressed}"/>
                                                                 <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
                                                             </VisualState.Setters>
                                                             <Storyboard>

@@ -257,11 +257,7 @@
                                     
                                     <!--FIXME: Ideally, these resources would be set by the TabbedCommandBarItem,
                                         but there isn't a way to do that without duplicating the CommandBar template.-->
-                                    <Style TargetType="AppBarElementContainer">
-                                        <Setter Property="VerticalAlignment" Value="Stretch" />
-                                        <Setter Property="VerticalContentAlignment" Value="Center" />
-                                        <Setter Property="Margin" Value="1,0" />
-                                    </Style>
+                                    <Style TargetType="AppBarElementContainer" BasedOn="{StaticResource TabbedCommandBarElementContainerStyle}"/>
                                     <Style TargetType="SplitButton" BasedOn="{StaticResource AppBarSplitButtonStyle}"/>
                                 </ContentControl.Resources>
                             </ContentControl>
@@ -272,8 +268,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="AcrylicTabbedCommandBarStyle" TargetType="controls:TabbedCommandBar" BasedOn="{StaticResource DefaultTabbedCommandBarStyle}">
-        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}" />
+    <SolidColorBrush x:Key="TabbedCommandBarAcrylicBackground" Color="{ThemeResource SystemControlChromeMediumLowAcrylicWindowMediumBrush}"/>
+    <Style x:Key="TabbedCommandBarAcrylicStyle" TargetType="controls:TabbedCommandBar" BasedOn="{StaticResource DefaultTabbedCommandBarStyle}">
+        <Setter Property="Background" Value="{ThemeResource TabbedCommandBarAcrylicBackground}" />
     </Style>
     
 </ResourceDictionary>
