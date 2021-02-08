@@ -629,144 +629,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static Type LookForTypeByName(string typeName)
         {
             // First search locally
-            var result = System.Type.GetType(typeName);
-
-            if (result != null)
+            if (System.Type.GetType(typeName) is Type systemType)
             {
-                return result;
+                return systemType;
             }
 
-            // Search in Windows
-            var proxyType = VerticalAlignment.Center;
-            var assembly = proxyType.GetType().GetTypeInfo().Assembly;
+            return
+                VerticalAlignment.Center.GetType().Assembly.ExportedTypes // Windows
+                .Concat(StackMode.Replace.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Core
 
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Core
-            var controlsCoreProxyType = StackMode.Replace;
-            assembly = controlsCoreProxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // TODO Reintroduce graph controls
-            //// Search in Microsoft.Toolkit.Graph.Controls
-            //var graphControlsProxyType = typeof(UserToPersonConverter);
-            //assembly = graphControlsProxyType.GetTypeInfo().Assembly;
-
-            //foreach (var typeInfo in assembly.ExportedTypes)
-            //{
-            //    if (typeInfo.Name == typeName)
-            //    {
-            //        return typeInfo;
-            //    }
-            //}
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Animations
-            var animationsProxyType = EasingType.Default;
-            assembly = animationsProxyType.GetType().GetTypeInfo().Assembly;
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI
-            var uiProxyType = ImageBlendMode.Multiply;
-            assembly = uiProxyType.GetType().GetTypeInfo().Assembly;
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
-            var gazeType = Interaction.Enabled;
-            assembly = gazeType.GetType().GetTypeInfo().Assembly;
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
-            var dataGridProxyType = DataGridGridLinesVisibility.None;
-            assembly = dataGridProxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Layout
-            var controlsLayoutProxyType = GridSplitter.GridResizeDirection.Auto;
-            assembly = controlsLayoutProxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Markdown
-            var markdownTextBlockType = typeof(MarkdownTextBlock);
-            assembly = markdownTextBlockType.GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Media
-            var controlsMediaProxyType = BitmapFileFormat.Bmp;
-            assembly = controlsMediaProxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
-            var controlsPrimitivsProxyType = StretchChild.Last;
-            assembly = controlsPrimitivsProxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
-            return null;
+              // TODO Reintroduce graph controls
+              // .Concat(typeof(UserToPersonConverter).Assembly.ExportedTypes) // Search in Microsoft.Toolkit.Graph.Controls 
+               .Concat(EasingType.Default.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Animations
+               .Concat(ImageBlendMode.Multiply.GetType().Assembly.ExportedTypes) // Search in Microsoft.Toolkit.Uwp.UI
+               .Concat(Interaction.Enabled.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.Input.GazeInteraction
+               .Concat(DataGridGridLinesVisibility.None.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
+               .Concat(GridSplitter.GridResizeDirection.Auto.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Layout
+               .Concat(typeof(MarkdownTextBlock).Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
+               .Concat(BitmapFileFormat.Bmp.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Media
+               .Concat(StretchChild.Last.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
+               .FirstOrDefault(t => t.Name == typeName);
         }
 
         private static async Task<string> GetDocsSHA()
