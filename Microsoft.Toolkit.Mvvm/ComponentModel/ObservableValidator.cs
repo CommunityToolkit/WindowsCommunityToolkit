@@ -63,6 +63,29 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableValidator"/> class.
+        /// This constructor will create a new <see cref="ValidationContext"/> that will
+        /// be used to validate all properties, which will reference the current instance.
+        /// </summary>
+        /// <param name="items">A set of key/value pairs to make available to consumers.</param>
+        protected ObservableValidator(IDictionary<object, object> items)
+        {
+            this.validationContext = new ValidationContext(this, items);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableValidator"/> class.
+        /// This constructor will create a new <see cref="ValidationContext"/> that will
+        /// be used to validate all properties, which will reference the current instance.
+        /// </summary>
+        /// <param name="serviceProvider">An <see cref="IServiceProvider"/> instance to make available during validation.</param>
+        /// <param name="items">A set of key/value pairs to make available to consumers.</param>
+        protected ObservableValidator(IServiceProvider serviceProvider, IDictionary<object, object> items)
+        {
+            this.validationContext = new ValidationContext(this, serviceProvider, items);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableValidator"/> class.
         /// This constructor will store the input <see cref="ValidationContext"/> instance,
         /// and it will use it to validate all properties for the current viewmodel.
         /// </summary>

@@ -339,6 +339,22 @@ namespace UnitTests.Mvvm
             Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_CustomValidation()
+        {
+            var items = new Dictionary<object, object> { [nameof(CustomValidationModel.A)] = 42 };
+            var model = new CustomValidationModel(items);
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.A = 10;
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(events.Count, 0);
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -442,6 +458,39 @@ namespace UnitTests.Mvvm
                 }
 
                 return new ValidationResult("The current value is smaller than the other one");
+            }
+        }
+
+        /// <summary>
+        /// Test model for custom validation properties.
+        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3729 for the original request for this feature.
+        /// </summary>
+        public class CustomValidationModel : ObservableValidator
+        {
+            public CustomValidationModel(IDictionary<object, object> items)
+                : base(items)
+            {
+            }
+
+            private int a;
+
+            [CustomValidation(typeof(CustomValidationModel), nameof(ValidateA))]
+            public int A
+            {
+                get => this.a;
+                set => SetProperty(ref this.a, value, true);
+            }
+
+            public static ValidationResult ValidateA(int x, ValidationContext context)
+            {
+                Assert.AreEqual(context.MemberName, nameof(A));
+
+                if ((int)context.Items[nameof(A)] == 42)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("Missing the magic number");
             }
         }
     }
