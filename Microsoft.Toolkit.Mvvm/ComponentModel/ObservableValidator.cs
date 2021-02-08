@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// be used to validate all properties, which will reference the current instance.
         /// </summary>
         /// <param name="items">A set of key/value pairs to make available to consumers.</param>
-        protected ObservableValidator(IDictionary<object, object> items)
+        protected ObservableValidator(IDictionary<object, object?> items)
         {
             this.validationContext = new ValidationContext(this, items);
         }
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </summary>
         /// <param name="serviceProvider">An <see cref="IServiceProvider"/> instance to make available during validation.</param>
         /// <param name="items">A set of key/value pairs to make available to consumers.</param>
-        protected ObservableValidator(IServiceProvider serviceProvider, IDictionary<object, object> items)
+        protected ObservableValidator(IServiceProvider serviceProvider, IDictionary<object, object?> items)
         {
             this.validationContext = new ValidationContext(this, serviceProvider, items);
         }

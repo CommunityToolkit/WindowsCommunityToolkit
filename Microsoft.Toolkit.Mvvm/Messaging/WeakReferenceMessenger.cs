@@ -408,7 +408,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     {
                         // Get the key and value for the current node
                         if (node.Value.TryGetTarget(out TKey? target) &&
-                            this.owner.table.TryGetValue(target!, out TValue value))
+                            this.owner.table.TryGetValue(target!, out TValue? value))
                         {
                             this.node = node;
                             this.current = new KeyValuePair<TKey, TValue>(target, value);
