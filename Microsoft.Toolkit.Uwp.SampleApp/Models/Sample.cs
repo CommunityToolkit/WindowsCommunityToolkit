@@ -634,21 +634,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return systemType;
             }
 
-            return
-                VerticalAlignment.Center.GetType().Assembly.ExportedTypes // Windows
-                .Concat(StackMode.Replace.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Core
+            var targets = new Type[]
+            {
+                VerticalAlignment.Center.GetType(), // Windows
+                StackMode.Replace.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Core
 
               // TODO Reintroduce graph controls
-              // .Concat(typeof(UserToPersonConverter).Assembly.ExportedTypes) // Search in Microsoft.Toolkit.Graph.Controls 
-               .Concat(EasingType.Default.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Animations
-               .Concat(ImageBlendMode.Multiply.GetType().Assembly.ExportedTypes) // Search in Microsoft.Toolkit.Uwp.UI
-               .Concat(Interaction.Enabled.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.Input.GazeInteraction
-               .Concat(DataGridGridLinesVisibility.None.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
-               .Concat(GridSplitter.GridResizeDirection.Auto.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Layout
-               .Concat(typeof(MarkdownTextBlock).Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
-               .Concat(BitmapFileFormat.Bmp.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Media
-               .Concat(StretchChild.Last.GetType().Assembly.ExportedTypes) // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
-               .FirstOrDefault(t => t.Name == typeName);
+              // typeof(UserToPersonConverter)) // Search in Microsoft.Toolkit.Graph.Controls
+                EasingType.Default.GetType(), // Microsoft.Toolkit.Uwp.UI.Animations
+                ImageBlendMode.Multiply.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
+                Interaction.Enabled.GetType(), // Microsoft.Toolkit.Uwp.Input.GazeInteraction
+                DataGridGridLinesVisibility.None.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
+                GridSplitter.GridResizeDirection.Auto.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Layout
+                typeof(MarkdownTextBlock), // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
+                BitmapFileFormat.Bmp.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Media
+                StretchChild.Last.GetType() // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
+            };
+
+            return targets.SelectMany(t => t.Assembly.ExportedTypes)
+                .FirstOrDefault(t => t.Name == typeName);
         }
 
         private static async Task<string> GetDocsSHA()
