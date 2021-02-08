@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A basic ribbon control that houses <see cref="TabbedCommandBarItem"/>s
     /// </summary>
     [ContentProperty(Name = nameof(MenuItems))]
-    [TemplatePart(Name = "PART_RibbonNavigationView", Type = typeof(NavigationView))]
     [TemplatePart(Name = "PART_RibbonContent", Type = typeof(ContentControl))]
     [TemplatePart(Name = "PART_RibbonContentBorder", Type = typeof(Border))]
     [TemplatePart(Name = "PART_TabChangedStoryboard", Type = typeof(Storyboard))]
