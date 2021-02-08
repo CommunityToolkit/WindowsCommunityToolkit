@@ -30,16 +30,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
             nameof(Header),
-            typeof(string),
+            typeof(object),
             typeof(TabbedCommandBarItem),
             new PropertyMetadata(string.Empty));
 
         /// <summary>
-        /// Gets or sets the title of this ribbon tab.
+        /// Gets or sets the text or <see cref="UIElement"/> to display in the header of this ribbon tab.
         /// </summary>
-        public string Header
+        public object Header
         {
-            get => (string)GetValue(HeaderProperty);
+            get => (object)GetValue(HeaderProperty);
             set => SetValue(HeaderProperty, value);
         }
 
