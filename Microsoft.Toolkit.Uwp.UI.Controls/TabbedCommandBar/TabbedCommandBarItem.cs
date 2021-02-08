@@ -44,24 +44,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the <see cref="Footer"/> property.
-        /// </summary>
-        public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(
-            nameof(Footer),
-            typeof(UIElement),
-            typeof(TabbedCommandBarItem),
-            new PropertyMetadata(new Border()));
-
-        /// <summary>
-        /// Gets or sets the <see cref="UIElement"/> to be displayed in the footer of the tab.
-        /// </summary>
-        public UIElement Footer
-        {
-            get => (UIElement)GetValue(FooterProperty);
-            set => SetValue(FooterProperty, value);
-        }
-
-        /// <summary>
         /// Identifies the <see cref="IsContextual"/> property.
         /// </summary>
         public static readonly DependencyProperty IsContextualProperty = DependencyProperty.Register(

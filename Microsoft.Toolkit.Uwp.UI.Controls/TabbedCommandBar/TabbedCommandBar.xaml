@@ -77,9 +77,6 @@
                                                     <ItemsStackPanel Orientation="Horizontal" />
                                                 </ItemsPanelTemplate>
                                             </NavigationViewList.ItemsPanel>
-                                            <NavigationViewList.ItemContainerTransitions>
-                                                <TransitionCollection />
-                                            </NavigationViewList.ItemContainerTransitions>
                                         </NavigationViewList>
                                         <Button x:Name="TopNavOverflowButton"
                                                 Grid.Column="4"
