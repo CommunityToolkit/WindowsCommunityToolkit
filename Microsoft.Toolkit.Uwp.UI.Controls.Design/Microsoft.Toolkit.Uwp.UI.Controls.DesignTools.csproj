@@ -119,6 +119,10 @@
     <Compile Include="Controls\RotatorTile.Typedata.cs" />
     <Compile Include="Controls\ScrollHeader.Metadata.cs" />
     <Compile Include="Controls\ScrollHeader.Typedata.cs" />
+    <Compile Include="Controls\TabbedCommandBar.Metadata.cs" />
+    <Compile Include="Controls\TabbedCommandBar.Typedata.cs" />
+    <Compile Include="Controls\TabbedCommandBarItem.Metadata.cs" />
+    <Compile Include="Controls\TabbedCommandBarItem.Typedata.cs" />
     <Compile Include="Controls\TextToolbar.Metadata.cs" />
     <Compile Include="Controls\TextToolbar.Typedata.cs" />
     <Compile Include="Controls\TileControl.Metadata.cs" />
