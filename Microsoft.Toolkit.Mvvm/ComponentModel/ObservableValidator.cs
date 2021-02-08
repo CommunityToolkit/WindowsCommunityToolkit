@@ -31,6 +31,11 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         private static readonly PropertyChangedEventArgs HasErrorsChangedEventArgs = new(nameof(HasErrors));
 
         /// <summary>
+        /// The <see cref="ValidationContext"/> instance currenty in use.
+        /// </summary>
+        private readonly ValidationContext validationContext;
+
+        /// <summary>
         /// The <see cref="Dictionary{TKey,TValue}"/> instance used to store previous validation results.
         /// </summary>
         private readonly Dictionary<string, List<ValidationResult>> errors = new();
@@ -44,6 +49,36 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
         /// <inheritdoc/>
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableValidator"/> class.
+        /// This constructor will create a new <see cref="ValidationContext"/> that will
+        /// be used to validate all properties, which will reference the current instance
+        /// and no additional services or validation properties and settings.
+        /// </summary>
+        protected ObservableValidator()
+        {
+            this.validationContext = new ValidationContext(this);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableValidator"/> class.
+        /// This constructor will store the input <see cref="ValidationContext"/> instance,
+        /// and it will use it to validate all properties for the current viewmodel.
+        /// </summary>
+        /// <param name="validationContext">
+        /// The <see cref="ValidationContext"/> instance to use to validate properties.
+        /// <para>
+        /// This instance will be passed to all <see cref="Validator.TryValidateObject(object, ValidationContext, ICollection{ValidationResult})"/>
+        /// calls executed by the current viewmodel, and its <see cref="ValidationContext.MemberName"/> property will be updated every time
+        /// before the call is made to set the name of the property being validated. The property name will not be reset after that, so the
+        /// value of <see cref="ValidationContext.MemberName"/> will always indicate the name of the last property that was validated, if any.
+        /// </para>
+        /// </param>
+        protected ObservableValidator(ValidationContext validationContext)
+        {
+            this.validationContext = validationContext;
+        }
 
         /// <inheritdoc/>
         public bool HasErrors => this.totalErrors > 0;
@@ -458,10 +493,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             }
 
             // Validate the property, by adding new errors to the existing list
-            bool isValid = Validator.TryValidateProperty(
-                value,
-                new ValidationContext(this, null, null) { MemberName = propertyName },
-                propertyErrors);
+            this.validationContext.MemberName = propertyName;
+
+            bool isValid = Validator.TryValidateProperty(value, this.validationContext, propertyErrors);
 
             // Update the shared counter for the number of errors, and raise the
             // property changed event if necessary. We decrement the number of total
@@ -529,10 +563,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             List<ValidationResult> localErrors = new();
 
             // Validate the property, by adding new errors to the local list
-            bool isValid = Validator.TryValidateProperty(
-                value,
-                new ValidationContext(this, null, null) { MemberName = propertyName },
-                localErrors);
+            this.validationContext.MemberName = propertyName;
+
+            bool isValid = Validator.TryValidateProperty(value, this.validationContext, localErrors);
 
             // We only modify the state if the property is valid and it wasn't so before. In this case, we
             // clear the cached list of errors (which is visible to consumers) and raise the necessary events.
