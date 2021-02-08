@@ -6,28 +6,6 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TabbedCommandBar/TabbedCommandBarItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="ContextualTabBackground" Color="{StaticResource SystemAltMediumColor}"/>
-
-    <DataTemplate x:Key="NormalTabTemplate">
-        <NavigationViewItem Content="{Binding Header}" Visibility="{Binding Visibility}"/>
-    </DataTemplate>
-    <DataTemplate x:Key="ContextualTabTemplate">
-        <NavigationViewItem Content="{Binding Header}" Background="{StaticResource ContextualTabBackground}" Visibility="{Binding Visibility}">
-            <NavigationViewItem.Resources>
-                <SolidColorBrush x:Key="TopNavigationViewItemForeground" Color="{ThemeResource SystemAccentColor}" />
-                <SolidColorBrush x:Key="TopNavigationViewItemForegroundSelected" Color="{ThemeResource SystemAccentColor}" />
-                <SolidColorBrush x:Key="TopNavigationViewItemForegroundPointerOver" Color="{ThemeResource SystemAccentColorLight2}" />
-                <SolidColorBrush x:Key="TopNavigationViewItemForegroundPressed" Color="{ThemeResource SystemAccentColorLight2}" />
-                
-                <!-- TODO: Set BackgroundSelected to match ContextualTabBackground -->
-                <!--<StaticResource x:Key="TopNavigationViewItemBackgroundSelected" ResourceKey="ContextualTabBackgroundColor" />-->
-            </NavigationViewItem.Resources>
-        </NavigationViewItem>
-    </DataTemplate>
-    <controls:TabbedCommandBarItemTemplateSelector x:Key="DefaultTabbedCommandBarItemTemplateSelector"
-                                                   Contextual="{StaticResource ContextualTabTemplate}"
-                                                   Normal="{StaticResource NormalTabTemplate}" />
-
     <Style BasedOn="{StaticResource DefaultTabbedCommandBarStyle}" TargetType="controls:TabbedCommandBar"/>
 
     <Style x:Key="DefaultTabbedCommandBarStyle" TargetType="controls:TabbedCommandBar">

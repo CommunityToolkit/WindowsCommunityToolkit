@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <SolidColorBrush x:Key="ContextualTabBackground" Color="{StaticResource SystemAltMediumColor}"/>
+
     <Style BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem"/>
 
     <Style x:Key="DefaultTabbedCommandBarItemStyle" BasedOn="{StaticResource CommandBarRevealStyle}" TargetType="controls:TabbedCommandBarItem">
@@ -21,6 +23,26 @@
     <Style x:Key="AcrylicTabbedCommandBarItemStyle" BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem">
         <Setter Property="Background" Value="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"/>
     </Style>
+
+    <DataTemplate x:Key="NormalTabTemplate">
+        <NavigationViewItem Content="{Binding Header}" Visibility="{Binding Visibility}"/>
+    </DataTemplate>
+    <DataTemplate x:Key="ContextualTabTemplate">
+        <NavigationViewItem Content="{Binding Header}" Background="{StaticResource ContextualTabBackground}" Visibility="{Binding Visibility}">
+            <NavigationViewItem.Resources>
+                <SolidColorBrush x:Key="TopNavigationViewItemForeground" Color="{ThemeResource SystemAccentColor}" />
+                <SolidColorBrush x:Key="TopNavigationViewItemForegroundSelected" Color="{ThemeResource SystemAccentColor}" />
+                <SolidColorBrush x:Key="TopNavigationViewItemForegroundPointerOver" Color="{ThemeResource SystemAccentColorLight2}" />
+                <SolidColorBrush x:Key="TopNavigationViewItemForegroundPressed" Color="{ThemeResource SystemAccentColorLight2}" />
+
+                <!-- TODO: Set BackgroundSelected to match ContextualTabBackground -->
+                <!--<StaticResource x:Key="TopNavigationViewItemBackgroundSelected" ResourceKey="ContextualTabBackgroundColor" />-->
+            </NavigationViewItem.Resources>
+        </NavigationViewItem>
+    </DataTemplate>
+    <controls:TabbedCommandBarItemTemplateSelector x:Key="DefaultTabbedCommandBarItemTemplateSelector"
+                                                   Contextual="{StaticResource ContextualTabTemplate}"
+                                                   Normal="{StaticResource NormalTabTemplate}" />
 
     <Style x:Key="AppBarSplitButtonStyle" TargetType="SplitButton">
         <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}" />
