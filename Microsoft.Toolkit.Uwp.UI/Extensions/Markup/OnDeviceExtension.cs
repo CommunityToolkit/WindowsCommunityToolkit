@@ -3,10 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.System.Profile;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.
@@ -18,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
     ///                xmlns:helpers="using:Microsoft.Toolkit.Uwp.UI.Extensions.Markup" />
     /// </code>
     /// </example>
-    public class OnDevice : MarkupExtension
+    public class OnDeviceExtension : MarkupExtension
     {
         /// <summary>
         /// Gets the current device family.
