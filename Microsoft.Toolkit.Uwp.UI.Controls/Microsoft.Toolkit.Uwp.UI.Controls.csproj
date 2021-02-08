@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Input\Microsoft.Toolkit.Uwp.UI.Controls.Input.csproj" />
   </ItemGroup>
   
   <!--
@@ -31,12 +32,14 @@
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.pri'" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.Markdown.pri'" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.Layout.pri'" />
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.Input.pri'" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Primitives\'))" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Core\'))" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Media\'))" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\'))" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Markdown\'))" />
       <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Layout\'))" />
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Input\'))" />
     </ItemGroup>
     <!--<Message Text="Files After: @(PackagingOutputs)" Importance="high" />-->
   </Target>
