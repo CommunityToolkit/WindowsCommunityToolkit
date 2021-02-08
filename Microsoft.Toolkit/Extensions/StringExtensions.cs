@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Toolkit.Extensions
+namespace Microsoft.Toolkit
 {
     /// <summary>
     /// Helpers for working with strings and string representations.
