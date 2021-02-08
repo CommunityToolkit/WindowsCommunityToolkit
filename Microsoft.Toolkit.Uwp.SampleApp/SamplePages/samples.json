@@ -456,7 +456,7 @@
       },
       {
         "Name": "TabbedCommandBar",
-        "Subcategory": "Layout",
+        "Subcategory": "Menus and Toolbars",
         "About": "A control for displaying multiple CommandBars in the same space, like Microsoft Office's ribbon.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabbedCommandBar",
         "XamlCodeFile": "/SamplePages/TabbedCommandBar/TabbedCommandBar.bind",
