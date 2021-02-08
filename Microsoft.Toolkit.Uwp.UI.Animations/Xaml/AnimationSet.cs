@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public event EventHandler? Started;
 
         /// <summary>
-        /// Raised whenever the current animation ends.
+        /// Raised whenever the current animation completes.
         /// </summary>
         public event EventHandler? Completed;
 
