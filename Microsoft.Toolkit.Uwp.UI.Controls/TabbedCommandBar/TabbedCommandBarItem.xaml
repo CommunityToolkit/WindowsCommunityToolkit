@@ -22,7 +22,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
     </Style>
 
-    <Style x:Key="AcrylicTabbedCommandBarItemStyle" BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem">
+    <Style x:Key="TabbedCommandBarItemAcrylicStyle" BasedOn="{StaticResource DefaultTabbedCommandBarItemStyle}" TargetType="controls:TabbedCommandBarItem">
         <Setter Property="Background" Value="{ThemeResource NormalTabAcrylicBackground}"/>
     </Style>
 
