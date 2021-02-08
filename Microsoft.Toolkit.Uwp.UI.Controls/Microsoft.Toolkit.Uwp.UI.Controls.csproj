@@ -45,11 +45,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TabbedCommandBar\TabbedCommandBar.xaml" />
-    <None Remove="TabbedCommandBar\TabbedCommandBarItem.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
