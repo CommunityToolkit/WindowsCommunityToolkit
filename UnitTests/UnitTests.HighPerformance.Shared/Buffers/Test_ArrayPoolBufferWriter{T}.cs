@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.HighPerformance.Buffers;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTests.HighPerformance.Shared.Buffers;
 

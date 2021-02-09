@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

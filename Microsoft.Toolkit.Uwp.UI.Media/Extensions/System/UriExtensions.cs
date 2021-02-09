@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Uri"/> type

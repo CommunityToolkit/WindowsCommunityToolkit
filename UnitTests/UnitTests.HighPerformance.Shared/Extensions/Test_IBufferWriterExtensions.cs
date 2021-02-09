@@ -9,7 +9,6 @@ using System.Buffers;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions

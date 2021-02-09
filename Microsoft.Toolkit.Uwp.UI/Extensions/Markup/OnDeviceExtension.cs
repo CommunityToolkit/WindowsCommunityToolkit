@@ -13,8 +13,8 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <example>
     /// The next TextBlock will show the text 'Hello' on desktop computers, 'World' on Xbox and 'Hi' on all other devices
     /// <code>
-    ///     <TextBlock Text="{helpers:OnDevice Default=Hi, Desktop=Hello, Xbox=World}"
-    ///                xmlns:helpers="using:Microsoft.Toolkit.Uwp.UI.Extensions.Markup" />
+    ///     <TextBlock Text="{ui:OnDevice Default=Hi, Desktop=Hello, Xbox=World}"
+    ///                xmlns:ui="using:Microsoft.Toolkit.Uwp.UI" />
     /// </code>
     /// </example>
     public class OnDeviceExtension : MarkupExtension
