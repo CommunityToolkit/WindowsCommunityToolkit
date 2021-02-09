@@ -9,15 +9,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
-    /// <summary>
-    /// TextBoxRegex allows text validation using a regular expression.
-    /// </summary>
-    /// <remarks>
-    /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Forced then IsValid will be set according to whether the regex is valid, when TextBox lose focus and in case the TextBox is invalid clear its value. </see>
-    /// If <see cref="ValidationMode"> is set to Dynamic then IsValid will be set according to whether the regex is valid. If the newest character is invalid, only invalid character of the TextBox will be deleted.</see>
-    /// </remarks>
-    public partial class TextBoxRegex
+    /// <inheritdoc cref="TextBoxExtensions"/>
+    public static partial class TextBoxExtensions
     {
         private static void TextBoxRegexPropertyOnChange(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {

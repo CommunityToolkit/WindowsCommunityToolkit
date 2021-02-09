@@ -8,34 +8,29 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// TextBoxRegex allows text validation using a regular expression.
+    /// Provides attached dependency properties for the <see cref="TextBox"/> type.
     /// </summary>
-    /// <remarks>
-    /// If <see cref="ValidationMode"> is set to Normal then IsValid will be set according to whether the regex is valid.</see>
-    /// If <see cref="ValidationMode"> is set to Forced then IsValid will be set according to whether the regex is valid, when TextBox lose focus and in case the textbox is invalid clear its value. </see>
-    /// If <see cref="ValidationMode"> is set to Dynamic then IsValid will be set according to whether the regex is valid. If the newest charachter is invalid, only invalid character of the Textbox will be deleted.</see>
-    /// </remarks>
-    public partial class TextBoxRegex
+    public static partial class TextBoxExtensions
     {
         /// <summary>
         /// Identifies the Regex attached dependency property.
         /// </summary>
-        public static readonly DependencyProperty RegexProperty = DependencyProperty.RegisterAttached("Regex", typeof(string), typeof(TextBoxRegex), new PropertyMetadata(null, TextBoxRegexPropertyOnChange));
+        public static readonly DependencyProperty RegexProperty = DependencyProperty.RegisterAttached("Regex", typeof(string), typeof(TextBoxExtensions), new PropertyMetadata(null, TextBoxRegexPropertyOnChange));
 
         /// <summary>
         /// Identifies the IsValid attached dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsValidProperty = DependencyProperty.RegisterAttached("IsValid", typeof(bool), typeof(TextBoxRegex), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsValidProperty = DependencyProperty.RegisterAttached("IsValid", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the ValidationMode attached dependency property.
         /// </summary>
-        public static readonly DependencyProperty ValidationModeProperty = DependencyProperty.RegisterAttached("ValidationMode", typeof(ValidationMode), typeof(TextBoxRegex), new PropertyMetadata(ValidationMode.Normal, TextBoxRegexPropertyOnChange));
+        public static readonly DependencyProperty ValidationModeProperty = DependencyProperty.RegisterAttached("ValidationMode", typeof(ValidationMode), typeof(TextBoxExtensions), new PropertyMetadata(ValidationMode.Normal, TextBoxRegexPropertyOnChange));
 
         /// <summary>
         /// Identifies the ValidationType attached dependency property.
         /// </summary>
-        public static readonly DependencyProperty ValidationTypeProperty = DependencyProperty.RegisterAttached("ValidationType", typeof(ValidationType), typeof(TextBoxRegex), new PropertyMetadata(ValidationType.Custom, TextBoxRegexPropertyOnChange));
+        public static readonly DependencyProperty ValidationTypeProperty = DependencyProperty.RegisterAttached("ValidationType", typeof(ValidationType), typeof(TextBoxExtensions), new PropertyMetadata(ValidationType.Custom, TextBoxRegexPropertyOnChange));
 
         /// <summary>
         /// Gets the value of the TextBoxRegex.Regex XAML attached property from the specified TextBox.
