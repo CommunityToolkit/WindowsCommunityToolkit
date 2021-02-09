@@ -3,18 +3,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:uwpui="using:Microsoft.Toolkit.Uwp.UI"
       mc:Ignorable="d">
 
-	<!-- Shallow Copy -->
+    <!-- Shallow Copy -->
     <Grid>
-        <TextBox extensions:SurfaceDialTextbox.StepValue="1.0"
-                 extensions:SurfaceDialTextbox.ForceMenuItem="True"
-                 extensions:SurfaceDialTextbox.EnableHapticFeedback="True"
-                 extensions:SurfaceDialTextbox.EnableMinMaxValue="True"
-                 extensions:SurfaceDialTextbox.MinValue="0"
-                 extensions:SurfaceDialTextbox.MaxValue="100"
-                 extensions:SurfaceDialTextbox.Icon="Ruler"
-                 extensions:SurfaceDialTextbox.EnableTapToNextControl="True" />
+        <TextBox uwpui:SurfaceDialTextbox.StepValue="1.0"
+                 uwpui:SurfaceDialTextbox.ForceMenuItem="True"
+                 uwpui:SurfaceDialTextbox.EnableHapticFeedback="True"
+                 uwpui:SurfaceDialTextbox.EnableMinMaxValue="True"
+                 uwpui:SurfaceDialTextbox.MinValue="0"
+                 uwpui:SurfaceDialTextbox.MaxValue="100"
+                 uwpui:SurfaceDialTextbox.Icon="Ruler"
+                 uwpui:SurfaceDialTextbox.EnableTapToNextControl="True" />
     </Grid>
 </Page>

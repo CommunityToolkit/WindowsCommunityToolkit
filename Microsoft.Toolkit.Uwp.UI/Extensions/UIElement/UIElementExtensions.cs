@@ -5,7 +5,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.UIElement"/>

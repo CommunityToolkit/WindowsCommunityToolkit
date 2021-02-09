@@ -4,7 +4,7 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:uwpui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sampleapp="using:Microsoft.Toolkit.Uwp.SampleApp"
@@ -74,7 +74,7 @@
     </Page.Resources>
 
     <Grid x:Name="Root"
-          extensions:VisualExtensions.NormalizedCenterPoint="0.5"
+          uwpui:VisualExtensions.NormalizedCenterPoint="0.5"
           Visibility="Collapsed">
         <controls:DropShadowPanel x:Name="DropShadow"
                                   HorizontalAlignment="Center"
@@ -92,7 +92,7 @@
 
                 <Border x:Name="RightBorder"
                         Grid.Column="1"
-                        extensions:VisualExtensions.NormalizedCenterPoint="0, 0.5"
+                        uwpui:VisualExtensions.NormalizedCenterPoint="0, 0.5"
                         Background="{ThemeResource Background-AboutPage-SidePane}">
                     <animations:Implicit.ShowAnimations>
                         <animations:ScaleAnimation From="0, 1, 0"

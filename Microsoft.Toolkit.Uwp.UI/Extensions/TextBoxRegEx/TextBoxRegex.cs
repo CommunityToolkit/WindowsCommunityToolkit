@@ -4,11 +4,10 @@
 
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Microsoft.Toolkit.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// TextBoxRegex allows text validation using a regular expression.

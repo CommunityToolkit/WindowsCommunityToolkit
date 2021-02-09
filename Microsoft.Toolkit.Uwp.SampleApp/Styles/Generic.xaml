@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:uwpui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls">
 
     <ResourceDictionary.MergedDictionaries>
@@ -424,13 +424,13 @@
                         Background="Transparent">
             <Grid Width="120"
                       Height="80"
-                      extensions:VisualExtensions.CenterPoint="40,60,0">
+                      uwpui:VisualExtensions.CenterPoint="40,60,0">
                 <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                               VerticalContentAlignment="Stretch"
                                               BlurRadius="30"
                                               ShadowOpacity="0.6"
-                                                     OffsetY="3"
-                                              extensions:VisualExtensions.Opacity="0"
+                                              OffsetY="3"
+                                              uwpui:VisualExtensions.Opacity="0"
                                               Visibility="Collapsed">
                     <Border></Border>
                 </toolkitControls:DropShadowPanel>

@@ -4,11 +4,11 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

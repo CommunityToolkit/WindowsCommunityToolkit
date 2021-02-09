@@ -6,7 +6,7 @@ using System;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     // TODO: Check if we can make these static extension methods of the MatrixHelper in C#8 or move to an operator extension.
 
