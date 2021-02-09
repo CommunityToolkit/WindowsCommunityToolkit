@@ -12,11 +12,8 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
-    /// <summary>
-    /// TextBox mask property allows a user to more easily enter fixed width text in TextBox control
-    /// where you would like them to enter the data in a certain format
-    /// </summary>
-    public partial class TextBoxMask
+    /// <inheritdoc cref="TextBoxExtensions"/>
+    public static partial class TextBoxExtensions
     {
         private const string DefaultPlaceHolder = "_";
         private const char EscapeChar = '\\';
@@ -37,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             textbox.TextChanging -= Textbox_TextChanging;
             textbox.Paste -= Textbox_Paste;
             textbox.Loaded -= Textbox_Loaded;
-            textbox.GotFocus -= Textbox_GotFocus;
+            textbox.GotFocus -= Textbox_GotFocus_Mask;
             textbox.Loaded += Textbox_Loaded;
         }
 
@@ -145,13 +142,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             textbox.TextChanging += Textbox_TextChanging;
             textbox.SelectionChanged += Textbox_SelectionChanged;
             textbox.Paste += Textbox_Paste;
-            textbox.GotFocus += Textbox_GotFocus;
+            textbox.GotFocus += Textbox_GotFocus_Mask;
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.SetValue(DefaultDisplayTextProperty, displayText);
             textbox.SelectionStart = 0;
         }
 
-        private static void Textbox_GotFocus(object sender, RoutedEventArgs e)
+        private static void Textbox_GotFocus_Mask(object sender, RoutedEventArgs e)
         {
             var textbox = (TextBox)sender;
             var mask = textbox?.GetValue(MaskProperty) as string;

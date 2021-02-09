@@ -9,65 +9,63 @@ using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
-    /// <summary>
-    /// Helper class that provides attached properties to enable any TextBox with the Surface Dial. Rotate to change the value by StepValue between MinValue and MaxValue, and tap to go to the Next focus element from a TextBox
-    /// </summary>
-    public class SurfaceDialTextbox
+    /// <inheritdoc cref="TextBoxExtensions"/>
+    public static partial class TextBoxExtensions
     {
        /// <summary>
         /// If you provide the Controller yourself, set this to true so you won't add new menu items.
         /// </summary>
         public static readonly DependencyProperty ForceMenuItemProperty =
-            DependencyProperty.RegisterAttached("ForceMenuItem", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("ForceMenuItem", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(false));
 
         /// <summary>
         /// Set the default icon of the menu item that gets added. A user will most likely not see this. Defaults to the Ruler icon.
         /// </summary>
         public static readonly DependencyProperty IconProperty =
-            DependencyProperty.RegisterAttached("Icon", typeof(RadialControllerMenuKnownIcon), typeof(SurfaceDialTextbox), new PropertyMetadata(RadialControllerMenuKnownIcon.Ruler));
+            DependencyProperty.RegisterAttached("Icon", typeof(RadialControllerMenuKnownIcon), typeof(TextBoxExtensions), new PropertyMetadata(RadialControllerMenuKnownIcon.Ruler));
 
         /// <summary>
         /// The amount the TextBox will be modified for each rotation step on the Surface Dial. This can be any double value.
         /// </summary>
         public static readonly DependencyProperty StepValueProperty =
-            DependencyProperty.RegisterAttached("StepValue", typeof(double), typeof(SurfaceDialTextbox), new PropertyMetadata(0d, new PropertyChangedCallback(StepValueChanged)));
+            DependencyProperty.RegisterAttached("StepValue", typeof(double), typeof(TextBoxExtensions), new PropertyMetadata(0d, new PropertyChangedCallback(StepValueChanged)));
 
         /// <summary>
         /// A flag to enable or disable haptic feedback when rotating the dial for the give TextBox. This is enabled by default.
         /// </summary>
         public static readonly DependencyProperty EnableHapticFeedbackProperty =
-            DependencyProperty.RegisterAttached("EnableHapticFeedback", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(true));
+            DependencyProperty.RegisterAttached("EnableHapticFeedback", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(true));
 
         /// <summary>
         /// Sets the minimum value the TextBox can have when modifying it using a Surface Dial. Default is -100.0
         /// </summary>
         public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.RegisterAttached("MinValue", typeof(double), typeof(SurfaceDialTextbox), new PropertyMetadata(-100d));
+            DependencyProperty.RegisterAttached("MinValue", typeof(double), typeof(TextBoxExtensions), new PropertyMetadata(-100d));
 
         /// <summary>
         /// Sets the maximum value the TextBox can have when modifying it using a Surface Dial. Default is 100.0
         /// </summary>
         public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.RegisterAttached("MaxValue", typeof(double), typeof(SurfaceDialTextbox), new PropertyMetadata(100d));
+            DependencyProperty.RegisterAttached("MaxValue", typeof(double), typeof(TextBoxExtensions), new PropertyMetadata(100d));
 
         /// <summary>
         /// TapToNext is a feature you can set to automatically try to focus the next focusable element from the Surface Dial enabled TextBox. This is on dy default.
         /// </summary>
         public static readonly DependencyProperty EnableTapToNextControlProperty =
-            DependencyProperty.RegisterAttached("EnableTapToNextControl", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(true));
+            DependencyProperty.RegisterAttached("EnableTapToNextControl", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(true));
 
         /// <summary>
         /// EnableMinMax limits the value in the textbox to your specified Min and Max values, see the other properties.
         /// </summary>
         public static readonly DependencyProperty EnableMinMaxValueProperty =
-            DependencyProperty.RegisterAttached("EnableMinMaxValue", typeof(bool), typeof(SurfaceDialTextbox), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("EnableMinMaxValue", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(false));
 
         /// <summary>
         /// Getter of the EnableMinMax property
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static bool GetEnableMinMaxValue(DependencyObject obj)
+        public static bool GetEnableMinMaxValue(TextBox obj)
         {
             return (bool)obj.GetValue(EnableMinMaxValueProperty);
         }
@@ -77,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetEnableMinMaxValue(DependencyObject obj, bool value)
+        public static void SetEnableMinMaxValue(TextBox obj, bool value)
         {
             obj.SetValue(EnableMinMaxValueProperty, value);
         }
@@ -87,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static bool GetEnableTapToNextControl(DependencyObject obj)
+        public static bool GetEnableTapToNextControl(TextBox obj)
         {
             return (bool)obj.GetValue(EnableTapToNextControlProperty);
         }
@@ -97,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetEnableTapToNextControl(DependencyObject obj, bool value)
+        public static void SetEnableTapToNextControl(TextBox obj, bool value)
         {
             obj.SetValue(EnableTapToNextControlProperty, value);
         }
@@ -107,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static double GetMaxValue(DependencyObject obj)
+        public static double GetMaxValue(TextBox obj)
         {
             return (double)obj.GetValue(MaxValueProperty);
         }
@@ -117,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetMaxValue(DependencyObject obj, double value)
+        public static void SetMaxValue(TextBox obj, double value)
         {
             obj.SetValue(MaxValueProperty, value);
         }
@@ -127,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static double GetMinValue(DependencyObject obj)
+        public static double GetMinValue(TextBox obj)
         {
             return (double)obj.GetValue(MinValueProperty);
         }
@@ -137,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetMinValue(DependencyObject obj, double value)
+        public static void SetMinValue(TextBox obj, double value)
         {
             obj.SetValue(MinValueProperty, value);
         }
@@ -147,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static double GetStepValue(DependencyObject obj)
+        public static double GetStepValue(TextBox obj)
         {
             return (double)obj.GetValue(StepValueProperty);
         }
@@ -157,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetStepValue(DependencyObject obj, double value)
+        public static void SetStepValue(TextBox obj, double value)
         {
             obj.SetValue(StepValueProperty, value);
         }
@@ -167,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static RadialControllerMenuKnownIcon GetIcon(DependencyObject obj)
+        public static RadialControllerMenuKnownIcon GetIcon(TextBox obj)
         {
             return (RadialControllerMenuKnownIcon)obj.GetValue(IconProperty);
         }
@@ -177,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetIcon(DependencyObject obj, RadialControllerMenuKnownIcon value)
+        public static void SetIcon(TextBox obj, RadialControllerMenuKnownIcon value)
         {
             obj.SetValue(IconProperty, value);
         }
@@ -187,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static bool GetEnableHapticFeedback(DependencyObject obj)
+        public static bool GetEnableHapticFeedback(TextBox obj)
         {
             return (bool)obj.GetValue(EnableHapticFeedbackProperty);
         }
@@ -197,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetEnableHapticFeedback(DependencyObject obj, bool value)
+        public static void SetEnableHapticFeedback(TextBox obj, bool value)
         {
             obj.SetValue(EnableHapticFeedbackProperty, value);
         }
@@ -207,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <returns>Return value of property</returns>
-        public static bool GetForceMenuItem(DependencyObject obj)
+        public static bool GetForceMenuItem(TextBox obj)
         {
             return (bool)obj?.GetValue(ForceMenuItemProperty);
         }
@@ -217,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetForceMenuItem(DependencyObject obj, bool value)
+        public static void SetForceMenuItem(TextBox obj, bool value)
         {
             obj.SetValue(ForceMenuItemProperty, value);
         }
@@ -332,10 +330,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            textBox.GotFocus -= TextBox_GotFocus;
-            textBox.LostFocus -= TextBox_LostFocus;
-            textBox.GotFocus += TextBox_GotFocus;
-            textBox.LostFocus += TextBox_LostFocus;
+            textBox.GotFocus -= TextBox_GotFocus_SurfaceDial;
+            textBox.LostFocus -= TextBox_LostFocus_SurfaceDial;
+            textBox.GotFocus += TextBox_GotFocus_SurfaceDial;
+            textBox.LostFocus += TextBox_LostFocus_SurfaceDial;
         }
 
         /// <summary>
@@ -343,7 +341,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="sender">The TextBox in being affected.</param>
         /// <param name="e">The event arguments.</param>
-        private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        private static void TextBox_LostFocus_SurfaceDial(object sender, RoutedEventArgs e)
         {
             if (_textBox == null)
             {
@@ -369,7 +367,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="sender">The TextBox in being affected.</param>
         /// <param name="e">The event arguments.</param>
-        private static void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private static void TextBox_GotFocus_SurfaceDial(object sender, RoutedEventArgs e)
         {
             _textBox = sender as TextBox;
 
