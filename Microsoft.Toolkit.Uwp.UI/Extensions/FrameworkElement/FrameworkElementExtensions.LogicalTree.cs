@@ -12,12 +12,10 @@ using Windows.UI.Xaml.Markup;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
-    /// <summary>
-    /// Defines a collection of extensions methods for UI.
-    /// </summary>
-    public static class LogicalTree
+    /// <inheritdoc cref="FrameworkElementExtensions"/>
+    public static partial class FrameworkElementExtensions
     {
         /// <summary>
         /// Find the first child of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.

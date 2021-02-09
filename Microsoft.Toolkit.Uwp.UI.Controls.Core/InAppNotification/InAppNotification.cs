@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VisualStateManager.GoToState(this, StateContentVisible, true);
             }
 
-            AutomationProperties.SetLabeledBy(this, VisualTree.FindDescendant<ContentPresenter>(this));
+            AutomationProperties.SetLabeledBy(this, this.FindDescendant<ContentPresenter>());
         }
 
         /// <summary>

@@ -10,12 +10,12 @@ using Windows.UI.Xaml.Media;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Defines a collection of extensions methods for UI.
+    /// Provides attached dependency properties for the <see cref="DependencyObject"/> type.
     /// </summary>
-    public static class VisualTree
+    public static class DependencyObjectExtensions
     {
         /// <summary>
         /// Find the first descendant of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.

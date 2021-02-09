@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 return;
             }
 
-            var rootViewer = VisualTree.FindAscendant<ScrollViewer>(RootElement);
+            var rootViewer = RootElement.FindAscendant<ScrollViewer>();
             if (rootViewer != null)
             {
                 pointerWheelChanged?.Invoke(rootViewer, new object[] { e });
