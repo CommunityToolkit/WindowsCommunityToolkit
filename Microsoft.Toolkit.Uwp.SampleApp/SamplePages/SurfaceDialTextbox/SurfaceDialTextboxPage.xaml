@@ -8,13 +8,13 @@
 
     <!-- Shallow Copy -->
     <Grid>
-        <TextBox uwpui:SurfaceDialTextbox.StepValue="1.0"
-                 uwpui:SurfaceDialTextbox.ForceMenuItem="True"
-                 uwpui:SurfaceDialTextbox.EnableHapticFeedback="True"
-                 uwpui:SurfaceDialTextbox.EnableMinMaxValue="True"
-                 uwpui:SurfaceDialTextbox.MinValue="0"
-                 uwpui:SurfaceDialTextbox.MaxValue="100"
-                 uwpui:SurfaceDialTextbox.Icon="Ruler"
-                 uwpui:SurfaceDialTextbox.EnableTapToNextControl="True" />
+        <TextBox uwpui:TextBoxExtensions.StepValue="1.0"
+                 uwpui:TextBoxExtensions.ForceMenuItem="True"
+                 uwpui:TextBoxExtensions.EnableHapticFeedback="True"
+                 uwpui:TextBoxExtensions.EnableMinMaxValue="True"
+                 uwpui:TextBoxExtensions.MinValue="0"
+                 uwpui:TextBoxExtensions.MaxValue="100"
+                 uwpui:TextBoxExtensions.Icon="Ruler"
+                 uwpui:TextBoxExtensions.EnableTapToNextControl="True" />
     </Grid>
 </Page>

@@ -4,15 +4,15 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:uwpui="using:Microsoft.Toolkit.Uwp.UI"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
       xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-      extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
-      extensions:TitleBarExtensions.ForegroundColor="{StaticResource Titlebar-Foreground}"
+      uwpui:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
+      uwpui:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
+      uwpui:TitleBarExtensions.ButtonForegroundColor="{StaticResource Titlebar-Foreground}"
+      uwpui:TitleBarExtensions.ForegroundColor="{StaticResource Titlebar-Foreground}"
       SizeChanged="Page_SizeChanged"
       mc:Ignorable="d">
     <Page.Resources>
@@ -145,7 +145,7 @@
             <Grid x:Name="MoreInfoContent"
                   Width="260"
                   Height="320"
-                  extensions:VisualExtensions.NormalizedCenterPoint="0.5">
+                  uwpui:VisualExtensions.NormalizedCenterPoint="0.5">
                 <Grid VerticalAlignment="Top">
                     <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                               VerticalContentAlignment="Stretch"

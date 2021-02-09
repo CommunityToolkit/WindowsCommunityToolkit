@@ -14,11 +14,11 @@
 
     <Grid Visibility="Collapsed">
 
-        <TextBox uwpui:TextBoxRegex.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$"/>
-        <TextBlock Text="{Binding (extensions:TextBoxRegex.IsValid), ElementName=PhoneNumberValidator, Converter={StaticResource StringFormatConverter}}" />
+        <TextBox uwpui:TextBoxExtensions.Regex="^\s*\+?\s*([0-9][\s-]*){9,}$"/>
+        <TextBlock Text="{Binding (uwpui:TextBoxExtensions.IsValid), ElementName=PhoneNumberValidator, Converter={StaticResource StringFormatConverter}}" />
 
-        <TextBox uwpui:TextBoxRegex.ValidationMode="Normal"
-                 uwpui:TextBoxRegex.ValidationType="PhoneNumber" />
+        <TextBox uwpui:TextBoxExtensions.ValidationMode="Normal"
+                 uwpui:TextBoxExtensions.ValidationType="PhoneNumber" />
                     
     </Grid>
 </Page>

@@ -8,16 +8,16 @@
     
     <!-- Shallow Copy -->
     <Grid Visibility="Collapsed">
-        <TextBox uwpui:TextBoxMask.Mask="9a9a--a9a*"/>
+        <TextBox uwpui:TextBoxExtensions.Mask="9a9a--a9a*"/>
 
-        <TextBox uwpui:TextBoxMask.Mask="+1999-9999"
-                 uwpui:TextBoxMask.PlaceHolder=" " />
+        <TextBox uwpui:TextBoxExtensions.Mask="+1999-9999"
+                 uwpui:TextBoxExtensions.PlaceHolder=" " />
 
-        <TextBox uwpui:TextBoxMask.Mask="+\964 799 999 9999"
-                 uwpui:TextBoxMask.PlaceHolder=" " />
+        <TextBox uwpui:TextBoxExtensions.Mask="+\964 799 999 9999"
+                 uwpui:TextBoxExtensions.PlaceHolder=" " />
 
-        <TextBox uwpui:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
-                 uwpui:TextBoxMask.Mask="a5c-5c*9" />
+        <TextBox uwpui:TextBoxExtensions.CustomMask="5:[1-5],c:[a-c]"
+                 uwpui:TextBoxExtensions.Mask="a5c-5c*9" />
 
     </Grid>
 </Page>
