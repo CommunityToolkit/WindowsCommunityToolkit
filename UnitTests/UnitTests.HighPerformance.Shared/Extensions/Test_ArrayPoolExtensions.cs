@@ -5,6 +5,7 @@
 using System;
 using System.Buffers;
 using System.Linq;
+using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions
