@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _previousSelectedItem.RegisterPropertyChangedCallback(TabbedCommandBarItem.VisibilityProperty, SelectedItemVisibilityChanged);
 
             // Set the ribbon background and start the transition animation
-            _ribbonContentBorder.Background = item.Background;
+            //_ribbonContentBorder.Background = item.Background;
             _tabChangedStoryboard?.Begin();
         }
 

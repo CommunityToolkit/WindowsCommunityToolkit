@@ -134,7 +134,7 @@
         </controls:TabbedCommandBar>
 
         <Grid Grid.Row="1">
-            <ToggleSwitch x:Name="ContextualToggle" IsOn="True"
+            <ToggleSwitch x:Name="ContextualToggle" IsOn="{Binding Visibility, ElementName=ShapeFormat, Mode=TwoWay}"
                           OffContent="Contextual Tab Off" OnContent="Contextual Tab On"/>
         </Grid>
     </Grid>

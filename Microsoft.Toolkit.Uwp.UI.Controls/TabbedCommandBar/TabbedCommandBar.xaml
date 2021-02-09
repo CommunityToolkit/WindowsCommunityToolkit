@@ -246,7 +246,7 @@
                         </Grid>
 
 
-                        <Border x:Name="PART_RibbonContentBorder" Grid.Row="1"
+                        <Border x:Name="PART_RibbonContentBorder" Grid.Row="1" Background="{Binding ElementName=PART_RibbonContent, Path=Content.Background}"
                                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <ContentControl x:Name="PART_RibbonContent" Content="{TemplateBinding SelectedItem}"
                                             HorizontalContentAlignment="Stretch">
