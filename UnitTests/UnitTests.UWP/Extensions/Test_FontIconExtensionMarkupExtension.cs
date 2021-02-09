@@ -22,8 +22,8 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <AppBarButton x:Name=""Check"" Icon=""{uwpui:FontIcon Glyph=&#xE105;}""/>
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+        <AppBarButton x:Name=""Check"" Icon=""{ui:FontIcon Glyph=&#xE105;}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChild("Check") as AppBarButton;
@@ -45,8 +45,8 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <AppBarButton x:Name=""Check"" Icon=""{uwpui:FontIcon Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+        <AppBarButton x:Name=""Check"" Icon=""{ui:FontIcon Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChild("Check") as AppBarButton;
@@ -68,8 +68,8 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <AppBarButton x:Name=""Check"" Icon=""{uwpui:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
+        <AppBarButton x:Name=""Check"" Icon=""{ui:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChild("Check") as AppBarButton;

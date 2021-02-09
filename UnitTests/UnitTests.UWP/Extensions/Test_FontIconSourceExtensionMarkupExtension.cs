@@ -23,9 +23,9 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{uwpui:FontIconSource Glyph=&#xE105;}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE105;}""/>
 </Page>") as FrameworkElement;
 
             var button = treeRoot.FindChild("Check") as MockSwipeItem;
@@ -47,9 +47,9 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{uwpui:FontIconSource Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
 
             var button = treeRoot.FindChild("Check") as MockSwipeItem;
@@ -71,9 +71,9 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:controls=""using:UnitTests.Extensions"">
-        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{uwpui:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
+        <controls:MockSwipeItem x:Name=""Check"" IconSource=""{ui:FontIconSource Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
             var button = treeRoot.FindChild("Check") as MockSwipeItem;

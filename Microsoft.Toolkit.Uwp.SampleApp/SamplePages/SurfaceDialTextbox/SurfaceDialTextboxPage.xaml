@@ -3,18 +3,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:uwpui="using:Microsoft.Toolkit.Uwp.UI"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       mc:Ignorable="d">
 
     <!-- Shallow Copy -->
     <Grid>
-        <TextBox uwpui:TextBoxExtensions.StepValue="1.0"
-                 uwpui:TextBoxExtensions.ForceMenuItem="True"
-                 uwpui:TextBoxExtensions.EnableHapticFeedback="True"
-                 uwpui:TextBoxExtensions.EnableMinMaxValue="True"
-                 uwpui:TextBoxExtensions.MinValue="0"
-                 uwpui:TextBoxExtensions.MaxValue="100"
-                 uwpui:TextBoxExtensions.Icon="Ruler"
-                 uwpui:TextBoxExtensions.EnableTapToNextControl="True" />
+        <TextBox ui:TextBoxExtensions.StepValue="1.0"
+                 ui:TextBoxExtensions.ForceMenuItem="True"
+                 ui:TextBoxExtensions.EnableHapticFeedback="True"
+                 ui:TextBoxExtensions.EnableMinMaxValue="True"
+                 ui:TextBoxExtensions.MinValue="0"
+                 ui:TextBoxExtensions.MaxValue="100"
+                 ui:TextBoxExtensions.Icon="Ruler"
+                 ui:TextBoxExtensions.EnableTapToNextControl="True" />
     </Grid>
 </Page>

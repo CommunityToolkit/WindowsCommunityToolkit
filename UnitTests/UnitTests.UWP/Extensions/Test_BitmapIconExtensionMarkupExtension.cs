@@ -23,11 +23,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI"">
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
         <Button x:Name=""RootButton"">
             <Button.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Icon=""{uwpui:BitmapIcon Source=/Assets/StoreLogo.png}"" />
+                    <MenuFlyoutItem Icon=""{ui:BitmapIcon Source=/Assets/StoreLogo.png}"" />
                 </MenuFlyout>
             </Button.Flyout>
         </Button>
@@ -56,11 +56,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI"">
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
         <Button x:Name=""RootButton"">
             <Button.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Icon=""{uwpui:BitmapIcon Source=/Assets/StoreLogo.png, ShowAsMonochrome=True}"" />
+                    <MenuFlyoutItem Icon=""{ui:BitmapIcon Source=/Assets/StoreLogo.png, ShowAsMonochrome=True}"" />
                 </MenuFlyout>
             </Button.Flyout>
         </Button>

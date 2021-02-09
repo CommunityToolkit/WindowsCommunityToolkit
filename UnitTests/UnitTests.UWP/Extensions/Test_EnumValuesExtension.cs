@@ -22,9 +22,9 @@ namespace UnitTests.Extensions
             var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:uwpui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
     xmlns:local=""using:UnitTests.Extensions"">
-        <ListView x:Name=""Check"" ItemsSource=""{uwpui:EnumValues Type=local:Animal}""/>
+        <ListView x:Name=""Check"" ItemsSource=""{ui:EnumValues Type=local:Animal}""/>
 </Page>") as FrameworkElement;
 
             var list = treeRoot.FindChild("Check") as ListView;
