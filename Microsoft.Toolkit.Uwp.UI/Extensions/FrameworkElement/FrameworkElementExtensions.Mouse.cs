@@ -10,10 +10,8 @@ using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
-    /// <summary>
-    /// Helper class for easily changing the mouseover cursor type.
-    /// </summary>
-    public class Mouse
+    /// <inheritdoc cref="FrameworkElementExtensions"/>
+    public static partial class FrameworkElementExtensions
     {
         private static readonly object _cursorLock = new object();
         private static readonly CoreCursor _defaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
@@ -25,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// over the target <see cref="FrameworkElement"/>.
         /// </summary>
         public static readonly DependencyProperty CursorProperty =
-            DependencyProperty.RegisterAttached("Cursor", typeof(CoreCursorType), typeof(Mouse), new PropertyMetadata(CoreCursorType.Arrow, CursorChanged));
+            DependencyProperty.RegisterAttached("Cursor", typeof(CoreCursorType), typeof(FrameworkElementExtensions), new PropertyMetadata(CoreCursorType.Arrow, CursorChanged));
 
         /// <summary>
         /// Set the target <see cref="CoreCursorType"/>.

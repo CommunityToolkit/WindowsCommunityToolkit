@@ -27,28 +27,28 @@
                                 <Path x:Name="PART_MaskAreaPath"
                                       Fill="{TemplateBinding Mask}" />
                                 <controls:ImageCropperThumb x:Name="PART_TopThumb"
-                                                            uwpui:Mouse.Cursor="SizeNorthSouth"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeNorthSouth"
                                                             Style="{TemplateBinding SecondaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_BottomThumb"
-                                                            uwpui:Mouse.Cursor="SizeNorthSouth"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeNorthSouth"
                                                             Style="{TemplateBinding SecondaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_LeftThumb"
-                                                            uwpui:Mouse.Cursor="SizeWestEast"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeWestEast"
                                                             Style="{TemplateBinding SecondaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_RightThumb"
-                                                            uwpui:Mouse.Cursor="SizeWestEast"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeWestEast"
                                                             Style="{TemplateBinding SecondaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_UpperLeftThumb"
-                                                            uwpui:Mouse.Cursor="SizeNorthwestSoutheast"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeNorthwestSoutheast"
                                                             Style="{TemplateBinding PrimaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_UpperRightThumb"
-                                                            uwpui:Mouse.Cursor="SizeNortheastSouthwest"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeNortheastSouthwest"
                                                             Style="{TemplateBinding PrimaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_LowerLeftThumb"
-                                                            uwpui:Mouse.Cursor="SizeNortheastSouthwest"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeNortheastSouthwest"
                                                             Style="{TemplateBinding PrimaryThumbStyle}" />
                                 <controls:ImageCropperThumb x:Name="PART_LowerRightThumb"
-                                                            uwpui:Mouse.Cursor="SizeNorthwestSoutheast"
+                                                            uwpui:FrameworkElementExtensions.Cursor="SizeNorthwestSoutheast"
                                                             Style="{TemplateBinding PrimaryThumbStyle}" />
                             </Canvas>
                         </Grid>
