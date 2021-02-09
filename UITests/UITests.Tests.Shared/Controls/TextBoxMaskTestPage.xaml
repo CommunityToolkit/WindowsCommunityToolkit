@@ -29,8 +29,8 @@
                  Width="120"
                  Padding="0,4,0,0"
                  VerticalAlignment="Center"
-                 ui:TextBoxMask.CustomMask="5:[0-5]"
-                 ui:TextBoxMask.Mask="99:59:59"
+                 ui:TextBoxExtensions.CustomMask="5:[0-5]"
+                 ui:TextBoxExtensions.Mask="99:59:59"
                  Text="{x:Bind Value, Mode=OneWay}"
                  TextAlignment="Center" />
         <TextBlock x:Name="InitialValueTextBlock"
