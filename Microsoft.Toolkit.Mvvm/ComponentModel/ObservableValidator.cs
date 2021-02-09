@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -21,9 +22,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     public abstract class ObservableValidator : ObservableObject, INotifyDataErrorInfo
     {
         /// <summary>
-        /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track properties to validate for a given viewmodel type.
+        /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track compiled delegates to validate entities.
         /// </summary>
-        private static readonly ConditionalWeakTable<Type, PropertyInfo[]> ValidatableProperties = new();
+        private static readonly ConditionalWeakTable<Type, Action<object>> EntityValidatorMap = new();
 
         /// <summary>
         /// The cached <see cref="PropertyChangedEventArgs"/> for <see cref="HasErrors"/>.
@@ -458,26 +459,49 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected void ValidateAllProperties()
         {
-            // Helper method to discover all the properties to validate in the current viewmodel type
-            static PropertyInfo[] GetValidatableProperties(Type type)
+            static Action<object> GetValidationAction(Type type)
             {
-                return (
+                // MyViewModel inst0 = (MyViewModel)arg0;
+                ParameterExpression arg0 = Expression.Parameter(typeof(object));
+                UnaryExpression inst0 = Expression.Convert(arg0, type);
+
+                // Get a reference to ValidateProperty(object, string)
+                MethodInfo validateMethod = typeof(ObservableValidator).GetMethod(nameof(ValidateProperty), BindingFlags.Instance | BindingFlags.NonPublic)!;
+
+                // We want a single compiled LINQ expression that validates all properties in the
+                // actual type of the executing viewmodel at once. We do this by creating a block
+                // expression with the unrolled invocations of all properties to validate.
+                // Essentially, the body will contain the following code:
+                // ===============================================================================
+                // {
+                //     inst0.ValidateProperty(inst0.Property0, nameof(MyViewModel.Property0));
+                //     inst0.ValidateProperty(inst0.Property1, nameof(MyViewModel.Property1));
+                //     ...
+                // }
+                // ===============================================================================
+                // We also add an explicit object conversion to represent boxing, if a given property
+                // is a value type. It will just be a no-op if the value is a reference type already.
+                // Note that this generated code is technically accessing a protected method from
+                // ObservableValidator externally, but that is fine because IL doesn't really have
+                // a concept of member visibility, that's purely a C# build-time feature.
+                BlockExpression body = Expression.Block(
                     from property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     where property.GetIndexParameters().Length == 0 &&
                           property.GetCustomAttributes<ValidationAttribute>(true).Any()
-                    select property).ToArray();
+                    let getter = property.GetMethod
+                    where getter is not null
+                    select Expression.Call(inst0, validateMethod, new Expression[]
+                    {
+                        Expression.Convert(Expression.Call(inst0, getter), typeof(object)),
+                        Expression.Constant(property.Name)
+                    }));
+
+                return Expression.Lambda<Action<object>>(body, arg0).Compile();
             }
 
             // Get or compute the cached list of properties to validate. Here we're using a static lambda to ensure the
             // delegate is cached by the C# compiler, see the related issue at https://github.com/dotnet/roslyn/issues/5835.
-            PropertyInfo[] propertyInfos = ValidatableProperties.GetValue(GetType(), static t => GetValidatableProperties(t));
-
-            foreach (PropertyInfo propertyInfo in propertyInfos)
-            {
-                object? propertyValue = propertyInfo.GetValue(this);
-
-                ValidateProperty(propertyValue, propertyInfo.Name);
-            }
+            EntityValidatorMap.GetValue(GetType(), static t => GetValidationAction(t))(this);
         }
 
         /// <summary>
