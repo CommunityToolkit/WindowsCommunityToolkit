@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -50,14 +49,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (Target is not TEffect target)
             {
-                return ThrowHelper.ThrowArgumentNullException<AnimationBuilder>("The target effect is null, make sure to set the Target property");
+                static AnimationBuilder ThrowArgumentNullException() => throw new ArgumentNullException("The target effect is null, make sure to set the Target property");
+
+                return ThrowArgumentNullException();
             }
 
             if (ExplicitTarget is not string explicitTarget)
             {
-                return ThrowHelper.ThrowArgumentNullException<AnimationBuilder>(
-                    "The target effect cannot be animated at this time. If you're targeting one of the " +
-                    "built-in effects, make sure that the PipelineEffect.IsAnimatable property is set to true.");
+                static AnimationBuilder ThrowArgumentNullException()
+                {
+                    throw new ArgumentNullException(
+                        "The target effect cannot be animated at this time. If you're targeting one of the " +
+                        "built-in effects, make sure that the PipelineEffect.IsAnimatable property is set to true.");
+                }
+
+                return ThrowArgumentNullException();
             }
 
             NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
@@ -70,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             CompositionAnimation animation = keyFrameBuilder.GetAnimation(target.Brush!, out _);
 
-            return builder.ExternalAnimation(target.Brush, animation);
+            return builder.ExternalAnimation(target.Brush!, animation);
         }
     }
 }

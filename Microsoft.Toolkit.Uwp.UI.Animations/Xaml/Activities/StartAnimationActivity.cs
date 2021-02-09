@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -53,7 +53,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public override async Task InvokeAsync(UIElement element, CancellationToken token)
         {
-            Guard.IsNotNull(Animation, nameof(Animation));
+            if (Animation is null)
+            {
+                ThrowArgumentNullException();
+            }
 
             await base.InvokeAsync(element, token);
 
@@ -72,6 +75,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 await Animation.StartAsync(token);
             }
+
+            static void ThrowArgumentNullException() => throw new ArgumentNullException(nameof(Animation));
         }
     }
 }
