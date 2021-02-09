@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ProcessTransform()
         {
             // Get the transform matrix and apply it
-            _transformation = MatrixHelperEx.Round(GetTransformMatrix(Transform), DecimalsAfterRound);
+            _transformation = GetTransformMatrix(Transform).Round(DecimalsAfterRound);
 
             if (_matrixTransform != null)
             {
@@ -241,7 +241,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _layoutRoot.Measure(measureSize);
 
             // Transform DesiredSize to find its width/height
-            Rect transformedDesiredRect = MatrixHelperEx.RectTransform(new Rect(0, 0, _layoutRoot.DesiredSize.Width, _layoutRoot.DesiredSize.Height), _transformation);
+            Rect startingRect = new Rect(0, 0, _layoutRoot.DesiredSize.Width, _layoutRoot.DesiredSize.Height);
+            Rect transformedDesiredRect = startingRect.Transform(_transformation);
             Size transformedDesiredSize = new Size(transformedDesiredRect.Width, transformedDesiredRect.Height);
 
             // Return result to allocate enough space for the transformation
@@ -273,7 +274,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Transform the working size to find its width/height
-            Rect transformedRect = MatrixHelperEx.RectTransform(new Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height), _transformation);
+            Rect startingRect = new Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height);
+            Rect transformedRect = startingRect.Transform(_transformation);
 
             // Create the Arrange rect to center the transformed content
             Rect finalRect = new Rect(
