@@ -10,9 +10,9 @@ using Microsoft.Xaml.Interactivity;
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     /// <summary>
-    /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationSet"/> ends.
+    /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationSet"/> starts.
     /// </summary>
-    public sealed class AnimationEndBehavior : Trigger<AnimationSet>
+    public sealed class AnimationStartedTriggerBehavior : Trigger<AnimationSet>
     {
         /// <summary>
         /// The current <see cref="AnimationSet"/> instance in use.
@@ -48,23 +48,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 
             if (this.animationCollection is not null)
             {
-                this.animationCollection.Ended -= AnimationCollection_Ended;
+                this.animationCollection.Started -= AnimationCollection_Started;
             }
 
             this.animationCollection = animationCollection;
 
             if (animationCollection is not null)
             {
-                animationCollection.Ended += AnimationCollection_Ended;
+                animationCollection.Started += AnimationCollection_Started;
             }
         }
 
         /// <summary>
-        /// Invokes the current actions when the linked animations completes.
+        /// Invokes the current actions when the linked animations starts.
         /// </summary>
         /// <param name="sender">The source <see cref="AnimationSet"/> instance.</param>
         /// <param name="e">The arguments for the event (unused).</param>
-        private void AnimationCollection_Ended(object sender, System.EventArgs e)
+        private void AnimationCollection_Started(object sender, System.EventArgs e)
         {
             Interaction.ExecuteActions(sender, Actions, e);
         }
