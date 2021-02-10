@@ -24,19 +24,18 @@ namespace UnitTests
         /// </summary>
         /// <param name="content">Content to set in test app.</param>
         /// <returns>When UI is loaded.</returns>
-        protected Task<bool> SetTestContentAsync(FrameworkElement content, TaskCreationOptions? options = null)
+        protected Task SetTestContentAsync(FrameworkElement content)
         {
-            var taskCompletionSource = options.HasValue ? new TaskCompletionSource<bool>(options.Value)
-                : new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-
-            App.DispatcherQueue.EnqueueAsync(() =>
+            return App.DispatcherQueue.EnqueueAsync(() =>
             {
+                var taskCompletionSource = new TaskCompletionSource<bool>();
+
                 async void Callback(object sender, RoutedEventArgs args)
                 {
                     content.Loaded -= Callback;
 
                     // Wait for first Render pass
-                    await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { }, TaskCreationOptions.RunContinuationsAsynchronously);
+                    await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
 
                     taskCompletionSource.SetResult(true);
                 }
@@ -53,9 +52,9 @@ namespace UnitTests
                 {
                     taskCompletionSource.SetException(e);
                 }
-            });
 
-            return taskCompletionSource.Task;
+                return taskCompletionSource.Task;
+            });
         }
 
         [TestCleanup]
@@ -63,25 +62,16 @@ namespace UnitTests
         {
             var taskCompletionSource = new TaskCompletionSource<bool>();
 
-            // Need to await TaskCompletionSource before Task
-            // See https://devblogs.microsoft.com/premier-developer/the-danger-of-taskcompletionsourcet-class/
-            await taskCompletionSource.Task;
-
             await App.DispatcherQueue.EnqueueAsync(() =>
             {
-                void Callback(object sender, RoutedEventArgs args)
-                {
-                    App.ContentRoot.Unloaded -= Callback;
-
-                    taskCompletionSource.SetResult(true);
-                }
-
                 // Going to wait for our original content to unload
-                App.ContentRoot.Unloaded += Callback;
+                App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
 
                 // Trigger that now
                 App.ContentRoot = null;
             });
+
+            await taskCompletionSource.Task;
         }
     }
 }
