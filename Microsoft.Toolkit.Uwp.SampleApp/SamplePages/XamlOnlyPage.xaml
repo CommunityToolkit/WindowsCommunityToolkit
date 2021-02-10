@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -17,6 +18,8 @@
     <!--  Put a copy of any controls/resources required for XAML Parsing within XAML Only Samples  -->
     <!--  This page is never loaded by the app, but used to trick the compiler...  -->
     <Page.Resources>
+        <converters:VisibilityToBoolConverter x:Key="VisibilityBoolConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolVisibilityConverter" />
         <triggers:CompareStateTrigger x:Key="CompareStateTrigger" />
         <triggers:IsEqualStateTrigger x:Key="IsEqualStateTrigger" />
         <triggers:IsNotEqualStateTrigger x:Key="IsNotEqualStateTrigger" />
@@ -34,17 +37,17 @@
                 <ani:OpacityAnimation />
                 <ani:StartAnimationActivity />
                 <ani:InvokeActionsActivity />
-                <ani:ClipAnimation/>
-                <ani:BlurEffectAnimation/>
-                <ani:SaturationEffectAnimation/>
-                <ani:AnimationScope/>
-                <ani:ExposureEffectAnimation/>
+                <ani:ClipAnimation />
+                <ani:BlurEffectAnimation />
+                <ani:SaturationEffectAnimation />
+                <ani:AnimationScope />
+                <ani:ExposureEffectAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>
             <media:PipelineVisualFactory>
                 <media:OpacityEffect />
-                <media:ExposureEffect/>
+                <media:ExposureEffect />
             </media:PipelineVisualFactory>
         </media:UIElementExtensions.VisualFactory>
 

@@ -3,7 +3,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       mc:Ignorable="d">
+    <Page.Resources>
+      <converters:VisibilityToBoolConverter x:Key="VisBoolConverter"/>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -86,8 +90,10 @@
                         <AppBarButton Icon="Add" Label="New item" />
                     </controls:TabbedCommandBarItem.SecondaryCommands>
                 </controls:TabbedCommandBarItem>
-                <controls:TabbedCommandBarItem Header="Picture Format" IsContextual="True"
-                                               Visibility="{Binding ElementName=ContextualToggle, Path=IsOn}">
+                <controls:TabbedCommandBarItem x:Name="PictureFormat"
+                                               Header="Picture Format"
+                                               IsContextual="True"
+                                               Visibility="Collapsed">
                     <AppBarButton Label="Remove Background">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE706;" />
@@ -134,7 +140,7 @@
         </controls:TabbedCommandBar>
 
         <Grid Grid.Row="1">
-            <ToggleSwitch x:Name="ContextualToggle" IsOn="{Binding Visibility, ElementName=ShapeFormat, Mode=TwoWay}"
+            <ToggleSwitch x:Name="ContextualToggle" IsOn="{Binding Visibility, ElementName=PictureFormat, Converter={StaticResource VisBoolConverter}, Mode=TwoWay}"
                           OffContent="Contextual Tab Off" OnContent="Contextual Tab On"/>
         </Grid>
     </Grid>
