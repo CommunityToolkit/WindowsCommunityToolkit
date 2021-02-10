@@ -46,7 +46,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 if (CompositionBrush == null)
                 {
                     // Abort if effects aren't supported
-                    if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
+                    var compositionCapabilities = new CompositionCapabilities();
+                    if (!compositionCapabilities.AreEffectsSupported())
                     {
                         return;
                     }
@@ -102,7 +103,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 if (CompositionBrush != null)
                 {
                     // Abort if effects aren't supported
-                    if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
+                    var compositionCapabilities = new CompositionCapabilities();
+                    if (!compositionCapabilities.AreEffectsSupported())
                     {
                         return;
                     }

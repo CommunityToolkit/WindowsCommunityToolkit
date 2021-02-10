@@ -61,9 +61,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             typeof(ImageBlendBrush),
             new PropertyMetadata(Stretch.None, OnStretchChanged));
 
-        /// <summary>
-        /// Gets or sets how to blend the image with the backdrop.
-        /// </summary>
+        ///// <summary>
+        ///// Gets or sets how to blend the image with the backdrop.
+        ///// </summary>
         //public ImageBlendMode Mode
         //{
         //    get => (ImageBlendMode)GetValue(ModeProperty);
@@ -137,7 +137,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 _surfaceBrush.Stretch = CompositionStretchFromStretch(Stretch);
 
                 // Abort if effects aren't supported.
-                if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
+                var compositionCapabilities = new CompositionCapabilities();
+                if (!compositionCapabilities.AreEffectsSupported())
                 {
                     // Just use image straight-up, if we don't support effects.
                     CompositionBrush = _surfaceBrush;

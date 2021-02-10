@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
                 return brush;
             }
             */
-            return null;
+            return await Task.FromResult<CompositionBrush>(null);
         }
 
         /// <summary>

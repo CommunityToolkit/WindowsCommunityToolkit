@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
@@ -84,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>An automation peer for this <see cref="Expander"/>.</returns>
         protected override AutomationPeer OnCreateAutomationPeer()
         {
-            return new ExpanderAutomationPeer(this);
+            return new Automation.Peers.ExpanderAutomationPeer(this);
         }
 
         private void ExpanderToggleButtonPart_KeyDown(object sender, KeyRoutedEventArgs e)

@@ -5,8 +5,6 @@
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
     <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
-    <NoWarn>NU1701</NoWarn>
-    <!-- Temporary fix for WinUI3 -->
   </PropertyGroup>
 
   <Choose>

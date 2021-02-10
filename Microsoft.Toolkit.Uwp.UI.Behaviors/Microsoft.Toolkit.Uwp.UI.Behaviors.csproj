@@ -16,11 +16,10 @@
     </Description>
     <PackageTags>UWP Toolkit Windows UI Behaviors XAML</PackageTags>
 
-    <!--<UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>-->
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3-rc5-CI-20210202-1105" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.3-rc5" />
   </ItemGroup>
 
   <ItemGroup>

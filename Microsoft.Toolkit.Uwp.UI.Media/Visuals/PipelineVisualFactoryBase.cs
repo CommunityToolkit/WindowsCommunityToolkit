@@ -23,7 +23,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             try
             {
                 var pipelineBuilder = OnPipelineRequested();
+#pragma warning disable SA1108 // Block statements should not contain embedded comments
                 if (pipelineBuilder != null) // TODO: WinUI3 Remove
+#pragma warning restore SA1108 // Block statements should not contain embedded comments
                 {
                     visual.Brush = await pipelineBuilder.BuildAsync();
                 }

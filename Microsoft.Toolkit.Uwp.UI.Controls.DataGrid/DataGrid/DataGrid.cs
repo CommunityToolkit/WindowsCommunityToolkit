@@ -32,9 +32,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using DataErrorsChangedEventArgs = System.ComponentModel.DataErrorsChangedEventArgs;
-using INotifyDataErrorInfo = System.ComponentModel.INotifyDataErrorInfo;
-
 using DiagnosticsDebug = System.Diagnostics.Debug;
+using INotifyDataErrorInfo = System.ComponentModel.INotifyDataErrorInfo;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

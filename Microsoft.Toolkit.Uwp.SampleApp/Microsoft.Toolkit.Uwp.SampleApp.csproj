@@ -32,7 +32,7 @@
       <Version>0.10.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
-      <Version>2.0.3-rc5-CI-20210202-1105</Version>
+      <Version>2.0.3-rc5</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary">
       <Version>2.0.0</Version>
@@ -45,7 +45,7 @@
     <Content Include="landingPageLinks.json" />
     <Content Include="Assets\mtns.csv" />
     <Content Include="**\*.png" />
-    <Content Remove="bin\**\*.png"/>
+    <Content Remove="bin\**\*.png" />
     <None Include=".editorconfig" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
@@ -136,12 +136,6 @@
   <ItemGroup>
     <!--<SDKReference Include="Microsoft.Services.Store.Engagement, Version=10.0">
       <Name>Microsoft Engagement Framework</Name>
-    </SDKReference>-->
-    <!--<SDKReference Include="Microsoft.VCLibs, Version=14.0">
-      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
-    </SDKReference>
-    <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0">
-      <Name>Visual C++ 2015 UWP Desktop Runtime for native apps</Name>
     </SDKReference>-->
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

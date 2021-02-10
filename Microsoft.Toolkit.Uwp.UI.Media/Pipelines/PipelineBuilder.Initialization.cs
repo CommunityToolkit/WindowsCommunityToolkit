@@ -14,7 +14,7 @@ using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
-using Windows.Graphics.Effects;
+//using Windows.Graphics.Effects;
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
@@ -217,6 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             return new PipelineBuilder(Factory);
         }
 
+        /*
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from the input <see cref="IGraphicsEffectSource"/> instance
         /// </summary>
@@ -251,6 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             return new PipelineBuilder(Factory);
         }
+        */
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image

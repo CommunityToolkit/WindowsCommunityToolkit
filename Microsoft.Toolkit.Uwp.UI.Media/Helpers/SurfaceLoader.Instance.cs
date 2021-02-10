@@ -98,21 +98,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         /// </summary>
         private void InitializeDevices()
         {
-            //if (!(this.canvasDevice is null))
-            //{
-            //    this.canvasDevice.DeviceLost -= CanvasDevice_DeviceLost;
-            //}
+            /*
+            if (!(this.canvasDevice is null))
+            {
+                this.canvasDevice.DeviceLost -= CanvasDevice_DeviceLost;
+            }
+            */
 
-            //if (!(this.compositionDevice is null))
-            //{
-            //    this.compositionDevice.RenderingDeviceReplaced -= CompositionDevice_RenderingDeviceReplaced;
-            //}
+            if (!(this.compositionDevice is null))
+            {
+                this.compositionDevice.RenderingDeviceReplaced -= CompositionDevice_RenderingDeviceReplaced;
+            }
 
-            //this.canvasDevice = new CanvasDevice();
-            //this.compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(this.compositor, this.canvasDevice);
+            /*
+            this.canvasDevice = new CanvasDevice();
+            this.compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(this.compositor, this.canvasDevice);
 
-            //this.canvasDevice.DeviceLost += CanvasDevice_DeviceLost;
-            //this.compositionDevice.RenderingDeviceReplaced += CompositionDevice_RenderingDeviceReplaced;
+            this.canvasDevice.DeviceLost += CanvasDevice_DeviceLost;
+            */
+            this.compositionDevice.RenderingDeviceReplaced += CompositionDevice_RenderingDeviceReplaced;
         }
 
         /// <summary>
@@ -169,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
             //}
 
             //return surface;
-            return null;
+            return await Task.FromResult<CompositionDrawingSurface>(null);
         }
 
         /// <summary>

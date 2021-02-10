@@ -9,7 +9,6 @@ using System.Numerics;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
-using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
