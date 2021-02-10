@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -355,6 +356,42 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(events.Count, 0);
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_CustomValidationWithInjectedService()
+        {
+            var model = new ValidationWithServiceModel(new FancyService());
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.Name = "This is a valid name";
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(events.Count, 0);
+
+            model.Name = "This is invalid238!!";
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events[0].PropertyName, nameof(ValidationWithServiceModel.Name));
+            Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 1);
+
+            model.Name = "This is valid but it is too long so the validation will fail anyway";
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(events.Count, 2);
+            Assert.AreEqual(events[1].PropertyName, nameof(ValidationWithServiceModel.Name));
+            Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 1);
+
+            model.Name = "This is both too long and it also contains invalid characters, a real disaster!";
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(events.Count, 3);
+            Assert.AreEqual(events[2].PropertyName, nameof(ValidationWithServiceModel.Name));
+            Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 2);
+        }
+
         public class Person : ObservableValidator
         {
             private string name;
@@ -491,6 +528,55 @@ namespace UnitTests.Mvvm
                 }
 
                 return new ValidationResult("Missing the magic number");
+            }
+        }
+
+        public interface IFancyService
+        {
+            bool Validate(string name);
+        }
+
+        public class FancyService : IFancyService
+        {
+            public bool Validate(string name)
+            {
+                return Regex.IsMatch(name, @"^[A-Za-z ]+$");
+            }
+        }
+
+        /// <summary>
+        /// Test model for custom validation with an injected service.
+        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3750 for the original request for this feature.
+        /// </summary>
+        public class ValidationWithServiceModel : ObservableValidator
+        {
+            private readonly IFancyService service;
+
+            public ValidationWithServiceModel(IFancyService service)
+            {
+                this.service = service;
+            }
+
+            private string name;
+
+            [MaxLength(25, ErrorMessage = "The name is too long")]
+            [CustomValidation(typeof(ValidationWithServiceModel), nameof(ValidateName))]
+            public string Name
+            {
+                get => this.name;
+                set => SetProperty(ref this.name, value, true);
+            }
+
+            public static ValidationResult ValidateName(string name, ValidationContext context)
+            {
+                bool isValid = ((ValidationWithServiceModel)context.ObjectInstance).service.Validate(name);
+
+                if (isValid)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("The name contains invalid characters");
             }
         }
     }
