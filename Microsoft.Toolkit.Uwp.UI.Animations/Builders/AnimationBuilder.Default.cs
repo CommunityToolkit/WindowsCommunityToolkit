@@ -6,7 +6,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -605,7 +604,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (!Matrix4x4.Decompose(to, out Vector3 toScale, out Quaternion toRotation, out Vector3 toTranslation))
             {
-                ThrowHelper.ThrowArgumentException("The destination matrix could not be decomposed");
+                ThrowThrowArgumentExceptionForToDecompose();
             }
 
             Vector3? fromScale = null;
@@ -616,7 +615,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 if (!Matrix4x4.Decompose(from.GetValueOrDefault(), out Vector3 scale3, out Quaternion rotation4, out Vector3 translation3))
                 {
-                    ThrowHelper.ThrowArgumentException("The initial matrix could not be decomposed");
+                    ThrowThrowArgumentExceptionForFromDecompose();
                 }
 
                 fromScale = scale3;
@@ -629,6 +628,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Translation(toTranslation, fromTranslation, delay, duration, easingType, easingMode);
 
             return this;
+
+            static void ThrowThrowArgumentExceptionForToDecompose() => throw new ArgumentException("The destination matrix could not be decomposed");
+            static void ThrowThrowArgumentExceptionForFromDecompose() => throw new ArgumentException("The initial matrix could not be decomposed");
         }
 
         /// <summary>

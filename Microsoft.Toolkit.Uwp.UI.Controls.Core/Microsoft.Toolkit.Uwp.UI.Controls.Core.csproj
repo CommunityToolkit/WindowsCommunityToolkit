@@ -14,6 +14,7 @@
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
         - RadialProgressBar: Displays progress as a circle getting filled.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
+        - TabbedCommandBar: A ribbon-like control that displays a tabbed collection of CommandBars
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
     </Description>

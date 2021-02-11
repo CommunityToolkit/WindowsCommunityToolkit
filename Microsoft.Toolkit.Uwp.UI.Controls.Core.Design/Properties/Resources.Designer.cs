@@ -95,5 +95,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties {
                 return ResourceManager.GetString("CategoryDropShadow", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Layout.
+        /// </summary>
+        internal static string CategoryLayout {
+            get {
+                return ResourceManager.GetString("CategoryLayout", resourceCulture);
+            }
+        }
     }
 }
