@@ -82,7 +82,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (lazyLoadingControlHost != null)
                 {
-                    lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                    // Allow this to act as a toggle.
+                    if (lazyLoadingControlHost.Child == null)
+                    {
+                        lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                    }
+                    else
+                    {
+                        lazyLoadingControlHost.Child = null;
+                    }
                 }
             });
 
