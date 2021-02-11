@@ -28,9 +28,9 @@ jobs:
     displayName: Setup Environment Variables
 
   - task: NuGetToolInstaller@1
-    displayName: Use NuGet 5.8.0
+    displayName: Use NuGet 5.8.1
     inputs:
-      versionSpec: 5.8.0
+      versionSpec: 5.8.1
 
   - task: NuGetAuthenticate@0
     displayName: 'NuGet Authenticate'
@@ -65,13 +65,13 @@ jobs:
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
     inputs:
-      version: 5.0.100
+      version: 5.0.103
       performMultiLevelLookup: true
   
 # Temporary until ADO have VS16.8
-  - bash: dotnet tool update -g dotnet-vs
-  - bash: vs install preview -sku:enterprise --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools +Microsoft.VisualStudio.Workload.UniversalBuildTools +Microsoft.VisualStudio.ComponentGroup.UWP.BuildTools +Microsoft.VisualStudio.Workload.MSBuildTools +Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools +Microsoft.VisualStudio.Component.Windows10SDK +Microsoft.VisualStudio.Component.Windows10SDK.18062 +Microsoft.VisualStudio.Workload.Universal
-  - bash: echo "##vso[task.prependpath]$(vs where preview --prop=InstallationPath)\MSBuild\Current\Bin"
+#  - bash: dotnet tool update -g dotnet-vs
+#  - bash: vs install preview -sku:enterprise --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools +Microsoft.VisualStudio.Workload.UniversalBuildTools +Microsoft.VisualStudio.ComponentGroup.UWP.BuildTools +Microsoft.VisualStudio.Workload.MSBuildTools +Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools +Microsoft.VisualStudio.Component.Windows10SDK +Microsoft.VisualStudio.Component.Windows10SDK.18062 +Microsoft.VisualStudio.Workload.Universal
+#  - bash: echo "##vso[task.prependpath]$(vs where preview --prop=InstallationPath)\MSBuild\Current\Bin"
 # Temporary until ADO have VS16.8
 
   - powershell: .\build\build.ps1 -target=Build
