@@ -4,8 +4,9 @@
   <PropertyGroup>
     <TargetPlatformVersion>10.0.$(TargetPlatformRevision).0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>$(TargetPlatformMinVersion)</SupportedOSPlatformVersion>
     <DebugType Condition="'$(DebugType)' == ''">Portable</DebugType>
-  </PropertyGroup>
+</PropertyGroup>
 
   <Choose>
     <When Condition="'$(TargetFramework)' == 'net5.0-windows10.0.18362.0'">

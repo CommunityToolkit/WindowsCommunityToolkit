@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Runtime.Versioning;
 using Windows.ApplicationModel.Resources;
 using Windows.UI;
 
@@ -29,20 +30,34 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// Retrieves the provided resource for the current view context.
         /// </summary>
         /// <param name="resourceKey">Resource key to retrieve.</param>
+        /// <returns>string value for given resource or empty string if not found.</returns>
+        public static string GetViewLocalized(this string resourceKey)
+        {
+            return ResourceLoader.GetForCurrentView().GetString(resourceKey);
+        }
+
+        /// <summary>
+        /// Retrieves the provided resource for the current view context.
+        /// </summary>
+        /// <param name="resourceKey">Resource key to retrieve.</param>
         /// <param name="uiContext"><see cref="UIContext"/> to be used to get the <paramref name="resourceKey"/> from.
         /// You can retrieve this from a UIElement.UIContext, XamlRoot.UIContext (XamlIslands), or Window.UIContext.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
-        public static string GetViewLocalized(this string resourceKey, UIContext uiContext = null)
+        [SupportedOSPlatform("Windows10.0.18362.0")]
+        public static string GetViewLocalized(this string resourceKey, UIContext uiContext)
         {
-            if (uiContext != null)
-            {
-                var resourceLoader = ResourceLoader.GetForUIContext(uiContext);
-                return resourceLoader.GetString(resourceKey);
-            }
-            else
-            {
-                return ResourceLoader.GetForCurrentView().GetString(resourceKey);
-            }
+            var resourceLoader = ResourceLoader.GetForUIContext(uiContext);
+            return resourceLoader.GetString(resourceKey);
+        }
+
+        /// <summary>
+        /// Retrieves the provided resource for the given key for use independent of the UI thread.
+        /// </summary>
+        /// <param name="resourceKey">Resource key to retrieve.</param>
+        /// <returns>string value for given resource or empty string if not found.</returns>
+        public static string GetLocalized(this string resourceKey)
+        {
+            return IndependentLoader?.GetString(resourceKey);
         }
 
         /// <summary>
@@ -52,17 +67,11 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <param name="uiContext"><see cref="UIContext"/> to be used to get the <paramref name="resourceKey"/> from.
         /// You can retrieve this from a UIElement.UIContext, XamlRoot.UIContext (XamlIslands), or Window.UIContext.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
-        public static string GetLocalized(this string resourceKey, UIContext uiContext = null)
+        [SupportedOSPlatform("Windows10.0.18362.0")]
+        public static string GetLocalized(this string resourceKey, UIContext uiContext)
         {
-            if (uiContext != null)
-            {
-                var resourceLoader = ResourceLoader.GetForUIContext(uiContext);
-                return resourceLoader.GetString(resourceKey);
-            }
-            else
-            {
-                return IndependentLoader?.GetString(resourceKey);
-            }
+            var resourceLoader = ResourceLoader.GetForUIContext(uiContext);
+            return resourceLoader.GetString(resourceKey);
         }
 
         /// <summary>
