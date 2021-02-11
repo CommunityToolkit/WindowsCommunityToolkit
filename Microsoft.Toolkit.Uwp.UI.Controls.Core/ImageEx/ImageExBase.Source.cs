@@ -24,9 +24,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageExBase), new PropertyMetadata(null, SourceChanged));
 
-        private Uri _uri;
-        private bool _isHttpSource;
-        private CancellationTokenSource _tokenSource = null;
+        /// <summary>
+        /// Gets value tracking the currently requested source Uri. This can be helpful to use when implementing <see cref="ProvideCachedResourceAsync(Uri)"/> where loading an image from a cache takes longer and the current container has been recycled and is no longer valid since a new image has been set.
+        /// </summary>
+        protected Uri CurrentSourceUri { get; private set; }
+
         private object _lazyLoadingSource;
 
         /// <summary>
@@ -66,7 +68,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
         }
 
-        private void AttachSource(ImageSource source)
+        /// <summary>
+        /// Method to call to assign an <see cref="ImageSource"/> value to the underlying <see cref="Image"/> powering <see cref="ImageExBase"/>.
+        /// </summary>
+        /// <param name="source"><see cref="ImageSource"/> to assign to the image.</param>
+        protected void AttachSource(ImageSource source)
         {
             var image = Image as Image;
             var brush = Image as ImageBrush;
@@ -88,9 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            this._tokenSource?.Cancel();
-
-            this._tokenSource = new CancellationTokenSource();
+            OnNewSourceRequested(source);
 
             AttachSource(null);
 
@@ -112,37 +116,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _uri = source as Uri;
-            if (_uri == null)
+            CurrentSourceUri = source as Uri;
+            if (CurrentSourceUri == null)
             {
                 var url = source as string ?? source.ToString();
-                if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _uri))
+                if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri uri))
                 {
                     VisualStateManager.GoToState(this, FailedState, true);
                     return;
                 }
+
+                CurrentSourceUri = uri;
             }
 
-            _isHttpSource = IsHttpUri(_uri);
-            if (!_isHttpSource && !_uri.IsAbsoluteUri)
+            if (!IsHttpUri(CurrentSourceUri) && !CurrentSourceUri.IsAbsoluteUri)
             {
-                _uri = new Uri("ms-appx:///" + _uri.OriginalString.TrimStart('/'));
+                CurrentSourceUri = new Uri("ms-appx:///" + CurrentSourceUri.OriginalString.TrimStart('/'));
             }
 
-            await LoadImageAsync(_uri);
+            await LoadImageAsync(CurrentSourceUri);
         }
 
         private async Task LoadImageAsync(Uri imageUri)
         {
-            if (_uri != null)
+            if (imageUri != null)
             {
                 if (IsCacheEnabled)
                 {
-                    AttachSource(new BitmapImage(imageUri));
+                    await ProvideCachedResourceAsync(imageUri);
                 }
-                else if (string.Equals(_uri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(imageUri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
                 {
-                    var source = _uri.OriginalString;
+                    var source = imageUri.OriginalString;
                     const string base64Head = "base64,";
                     var index = source.IndexOf(base64Head);
                     if (index >= 0)
@@ -155,12 +160,90 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    AttachSource(new BitmapImage(_uri)
+                    AttachSource(new BitmapImage(imageUri)
                     {
                         CreateOptions = BitmapCreateOptions.IgnoreImageCache
                     });
                 }
             }
+        }
+
+        /// <summary>
+        /// This method is provided in case a developer would like their own custom caching strategy for <see cref="ImageExBase"/>.
+        /// By default it uses the built-in UWP cache provided by <see cref="BitmapImage"/> and
+        /// the <see cref="Image"/> control itself. Call <see cref="AttachSource(ImageSource)"/> to set
+        /// the retrieved cache value to the image.
+        /// </summary>
+        /// <example>
+        /// <code>
+        /// try
+        /// {
+        ///     var propValues = new List&lt;KeyValuePair&lt;string, object>>();
+        ///
+        ///     if (DecodePixelHeight > 0)
+        ///     {
+        ///         propValues.Add(new KeyValuePair&lt;string, object>(nameof(DecodePixelHeight), D ecodePixelHeight));
+        ///     }
+        ///     if (DecodePixelWidth > 0)
+        ///     {
+        ///         propValues.Add(new KeyValuePair&lt;string, object>(nameof(DecodePixelWidth), D ecodePixelWidth));
+        ///     }
+        ///     if (propValues.Count > 0)
+        ///     {
+        ///         propValues.Add(new KeyValuePair&lt;string, object>(nameof(DecodePixelType), DecodePixelType));
+        ///     }
+        ///
+        ///     // A token could be provided here as well to cancel the request to the cache,
+        ///     // if a new image is requested. That token can be canceled in the OnNewSourceRequested method.
+        ///     var img = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, initializerKeyValues: propValues);
+        ///
+        ///     lock (LockObj)
+        ///     {
+        ///         // If you have many imageEx in a virtualized ListView for instance
+        ///         // controls will be recycled and the uri will change while waiting for the previous one to load
+        ///         if (_currentSourceUri == imageUri)
+        ///         {
+        ///             AttachSource(img);
+        ///             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+        ///             VisualStateManager.GoToState(this, LoadedState, true);
+        ///         }
+        ///     }
+        /// }
+        /// catch (OperationCanceledException)
+        /// {
+        ///     // nothing to do as cancellation has been requested.
+        /// }
+        /// catch (Exception e)
+        /// {
+        ///     lock (LockObj)
+        ///     {
+        ///         if (_currentSourceUri == imageUri)
+        ///         {
+        ///             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
+        ///             VisualStateManager.GoToState(this, FailedState, true);
+        ///         }
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
+        /// <param name="imageUri"><see cref="Uri"/> of the image to load from the cache.</param>
+        /// <returns><see cref="Task"/></returns>
+        protected virtual Task ProvideCachedResourceAsync(Uri imageUri)
+        {
+            AttachSource(new BitmapImage(imageUri));
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// This method is called when a new source is requested by the control. This can be useful when
+        /// implementing a custom caching strategy to cancel any open request on the cache if a new
+        /// request comes in due to container recycling before the previous one has completed.
+        /// Be default, this method does nothing.
+        /// </summary>
+        /// <param name="source">Incoming requested source.</param>
+        protected virtual void OnNewSourceRequested(object source)
+        {
         }
     }
 }

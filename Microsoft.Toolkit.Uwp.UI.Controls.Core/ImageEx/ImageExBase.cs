@@ -61,16 +61,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected object Image { get; private set; }
 
         /// <summary>
-        /// Gets object used for lock
-        /// </summary>
-        protected object LockObj { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ImageExBase"/> class.
         /// </summary>
         public ImageExBase()
         {
-            LockObj = new object();
         }
 
         /// <summary>
@@ -179,13 +173,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void OnImageOpened(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Underlying <see cref="Image.ImageOpened"/> event handler.
+        /// </summary>
+        /// <param name="sender">Image</param>
+        /// <param name="e">Event Arguments</param>
+        protected virtual void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
             VisualStateManager.GoToState(this, LoadedState, true);
         }
 
-        private void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
+        /// <summary>
+        /// Underlying <see cref="Image.ImageFailed"/> event handler.
+        /// </summary>
+        /// <param name="sender">Image</param>
+        /// <param name="e">Event Arguments</param>
+        protected virtual void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
