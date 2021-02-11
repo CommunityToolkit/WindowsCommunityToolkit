@@ -9,6 +9,7 @@
     <PackageLicenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
+    <Company>.NET Foundation</Company>
     <DefaultLanguage>en-US</DefaultLanguage>
     <IsDesignProject>$(MSBuildProjectName.Contains('.DesignTools'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
@@ -18,7 +19,8 @@
     <UseWinUI Condition="'$(IsUwpProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</UseWinUI>
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17134</TargetPlatformMinRevision>
-    <MicrosoftWinUIVersion>3.0.0-preview4.210210.2</MicrosoftWinUIVersion>
+    <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
+    <MicrosoftWinUIVersion>3.0.0-preview4.210210.4</MicrosoftWinUIVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
     <NoWarn>SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
@@ -34,7 +36,7 @@
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' and '$(IsSampleProject)' != 'true'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 

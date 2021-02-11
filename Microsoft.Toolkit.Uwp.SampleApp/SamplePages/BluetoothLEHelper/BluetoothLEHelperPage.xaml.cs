@@ -3,7 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.System;
 using Microsoft.Toolkit.Uwp.Connectivity;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
@@ -22,11 +24,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void BluetoothLEHelper_EnumerationCompleted(object sender, EventArgs e)
         {
-            DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
+            await DispatcherQueue.EnqueueAsync(
+                () =>
             {
                 bluetoothLEHelper.StopEnumeration();
                 BtEnumeration.Content = "Start Enumerating";
-            });
+            }, DispatcherQueuePriority.Normal);
         }
 
         private void Enumeration_Click(object sender, RoutedEventArgs e)

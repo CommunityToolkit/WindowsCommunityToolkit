@@ -10,7 +10,7 @@ using Microsoft.System;
 
 //using Microsoft.Graphics.Canvas.Geometry;
 //using Microsoft.Graphics.Canvas.UI.Xaml;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;

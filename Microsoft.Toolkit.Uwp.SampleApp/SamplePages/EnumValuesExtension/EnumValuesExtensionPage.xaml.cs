@@ -45,7 +45,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Enums
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
 {
+#pragma warning disable SA1402 // File may only contain a single type
     public sealed class AnimalToColorConverter : IValueConverter
+#pragma warning restore SA1402 // File may only contain a single type
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -67,4 +69,4 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
     }
 }
 
-#pragma warning restore SA1403
+#pragma warning restore SA1403 // File may only contain a single namespace

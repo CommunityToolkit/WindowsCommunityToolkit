@@ -55,7 +55,8 @@
         <interactivity:Interaction.Behaviors>
             <interactions:EventTriggerBehavior EventName="Loaded">
                 <interactions:ChangePropertyAction />
-                <mediaactions:PlaySoundAction />
+                <!-- TODO: WinUI3 removed -->
+                <!--<mediaactions:PlaySoundAction />-->
             </interactions:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
     </Grid>

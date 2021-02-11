@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
-            await RunAppInitialization(null);
+            RunAppInitialization(null);
 
             if (args.Kind == ActivationKind.Protocol)
             {
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
+        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
         {
             base.OnLaunched(e);
 
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (activatedArgs.PreviousExecutionState != ApplicationExecutionState.Running
                 && activatedArgs.PreviousExecutionState != ApplicationExecutionState.Suspended)
             {
-                await RunAppInitialization(e?.Arguments);
+                RunAppInitialization(e?.Arguments);
             }
 
             SystemInformation.Instance.TrackAppUse(activatedArgs);
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             deferral.Complete();
         }
 
-        private async global::System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
+        private void RunAppInitialization(string launchParameters)
         {
             ThemeInjector.InjectThemeResources(Application.Current.Resources);
 
