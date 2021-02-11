@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(object), typeof(ImageExBase), new PropertyMetadata(null, SourceChanged));
 
         /// <summary>
-        /// Gets value tracking the currently requested source Uri. This can be helpful to use when implementing <see cref="ProvideCachedResourceAsync(Uri)"/> where loading an image from a cache takes longer and the current container has been recycled and is no longer valid since a new image has been set.
+        /// Gets value tracking the currently requested source Uri. This can be helpful to use when implementing <see cref="AttachCachedResourceAsync(Uri)"/> where loading an image from a cache takes longer and the current container has been recycled and is no longer valid since a new image has been set.
         /// </summary>
         protected Uri CurrentSourceUri { get; private set; }
 
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (IsCacheEnabled)
                 {
-                    await ProvideCachedResourceAsync(imageUri);
+                    await AttachCachedResourceAsync(imageUri);
                 }
                 else if (string.Equals(imageUri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
                 {
@@ -171,8 +171,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// This method is provided in case a developer would like their own custom caching strategy for <see cref="ImageExBase"/>.
         /// By default it uses the built-in UWP cache provided by <see cref="BitmapImage"/> and
-        /// the <see cref="Image"/> control itself. Call <see cref="AttachSource(ImageSource)"/> to set
-        /// the retrieved cache value to the image.
+        /// the <see cref="Image"/> control itself. This method should call <see cref="AttachSource(ImageSource)"/>
+        /// to set the retrieved cache value to the image. <see cref="CurrentSourceUri"/> may be checked
+        /// after retrieving a cached image to ensure that the current resource requested matches the one
+        /// requested by the <see cref="AttachCachedResourceAsync(Uri)"/> parameter.
+        /// <see cref="OnNewSourceRequested(object)"/> may be used in order to signal any cancellation events
+        /// using a <see cref="CancellationToken"/> to the call to the cache, for instance like the Toolkit's
+        /// own <see cref="CacheBase{T}.GetFromCacheAsync(Uri, bool, CancellationToken, List{KeyValuePair{string, object}})"/> in <see cref="ImageCache"/>.
         /// </summary>
         /// <example>
         /// <code>
@@ -201,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         ///     {
         ///         // If you have many imageEx in a virtualized ListView for instance
         ///         // controls will be recycled and the uri will change while waiting for the previous one to load
-        ///         if (_currentSourceUri == imageUri)
+        ///         if (CurrentSourceUri == imageUri)
         ///         {
         ///             AttachSource(img);
         ///             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
@@ -217,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// {
         ///     lock (LockObj)
         ///     {
-        ///         if (_currentSourceUri == imageUri)
+        ///         if (CurrentSourceUri == imageUri)
         ///         {
         ///             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
         ///             VisualStateManager.GoToState(this, FailedState, true);
@@ -228,8 +233,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </example>
         /// <param name="imageUri"><see cref="Uri"/> of the image to load from the cache.</param>
         /// <returns><see cref="Task"/></returns>
-        protected virtual Task ProvideCachedResourceAsync(Uri imageUri)
+        protected virtual Task AttachCachedResourceAsync(Uri imageUri)
         {
+            // By default we just use the built-in UWP image cache provided within the Image control.
             AttachSource(new BitmapImage(imageUri));
 
             return Task.CompletedTask;
