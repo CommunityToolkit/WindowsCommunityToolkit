@@ -564,7 +564,22 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        public void AddAudioTest_WithMsAppx_ReturnSelfWithCustomAudioAdded()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("ms-appx:///Assets/Audio.mp3");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddAudio(testAudioUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreEqual(testAudioUriSrc.OriginalString, builder.Content.Audio.Src.OriginalString);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void AddAudioTest_WithInvalidMsUri_ThrowException()
         {
             // Arrange
@@ -576,7 +591,19 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddAudioTest_WithInvalidAppDataUri_ThrowException()
+        {
+            // Arrange (ms-appdata isn't currently supported)
+            Uri testAudioUriSrc = new Uri("ms-appdata:///local/Sound.mp3");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            builder.AddAudio(testAudioUriSrc);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void AddAudioTest_WithInvalidHttpUri_ThrowException()
         {
             // Arrange
