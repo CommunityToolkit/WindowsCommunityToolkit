@@ -4,7 +4,6 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
@@ -52,7 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         [Pure]
         public static RepeatOption Count(int count)
         {
-            Guard.IsGreaterThanOrEqualTo(count, 0, nameof(count));
+            if (count < 0)
+            {
+                ThrowArgumentOutOfRangeForCount();
+            }
 
             return new(count);
         }
@@ -76,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return Forever;
             }
 
-            return ThrowHelper.ThrowArgumentException<RepeatOption>("Invalid input text");
+            return ThrowArgumentExceptionForText();
         }
 
         /// <summary>
@@ -108,6 +110,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return (AnimationIterationBehavior.Count, this.value);
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentOutOfRangeException"/> when the constructor is invoked with an incorrect parameter.
+        /// </summary>
+        private static void ThrowArgumentOutOfRangeForCount()
+        {
+            throw new ArgumentOutOfRangeException("The parameter \"count\" must be greater than or equal to 0.");
+        }
+
+        /// <summary>
+        /// Throws a new <see cref="ArgumentOutOfRangeException"/> when the constructor is invoked with an incorrect parameter.
+        /// </summary>
+        private static RepeatOption ThrowArgumentExceptionForText()
+        {
+            throw new ArgumentException("The input text is not valid to parse a new RepeatOption instance. It must be either a natural number or \"Forever\".");
         }
     }
 }

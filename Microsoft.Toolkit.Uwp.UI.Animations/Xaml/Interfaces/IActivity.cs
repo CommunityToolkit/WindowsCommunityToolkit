@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// An interface representing a XAML model for a custom activity or action within an <see cref="AnimationSet"/>.
     /// </summary>
-    public interface IActivity : AnimationSet.INode
+    public interface IActivity
     {
         /// <summary>
         /// Invokes the current activity.
