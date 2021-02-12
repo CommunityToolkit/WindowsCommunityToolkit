@@ -407,6 +407,36 @@ namespace UnitTests.Notifications
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidDismissAfterArguments_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("View")
+                .AddArgument("action", "view")
+                .SetDismissActivation();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidSnoozeAfterArguments_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("View")
+                .AddArgument("action", "view")
+                .SetSnoozeActivation();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidSnoozeWithIdAfterArguments_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("View")
+                .AddArgument("action", "view")
+                .SetSnoozeActivation("snoozeId");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void ToastButtonBuilders_InvalidArgumentsAfterProtocol_ReturnSelf()
         {
             new ToastButton()
@@ -422,6 +452,36 @@ namespace UnitTests.Notifications
             var button = new ToastButton("View", "viewArgs");
 
             button.AddArgument("action", "view");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidArgumentsAfterSnooze_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("Later")
+                .SetSnoozeActivation()
+                .AddArgument("action", "later");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidArgumentsAfterSnoozeWithId_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("Later")
+                .SetSnoozeActivation("myId")
+                .AddArgument("action", "later");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ToastButtonBuilders_InvalidArgumentsAfterDismissActivation_ReturnSelf()
+        {
+            new ToastButton()
+                .SetContent("Later")
+                .SetDismissActivation()
+                .AddArgument("action", "later");
         }
 
         [TestMethod]

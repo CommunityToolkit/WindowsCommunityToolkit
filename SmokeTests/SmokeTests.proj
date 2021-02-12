@@ -7,6 +7,7 @@
     <ToolkitPackages>
       UWPBaseline;
       Microsoft.Toolkit;
+      Microsoft.Toolkit.Diagnostics;
       Microsoft.Toolkit.HighPerformance;
       Microsoft.Toolkit.Mvvm;
       Microsoft.Toolkit.Parsers;
