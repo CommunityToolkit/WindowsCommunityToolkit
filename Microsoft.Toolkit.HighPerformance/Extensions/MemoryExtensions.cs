@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this Memory<T> memory, int height, int width)
         {
-            return new Memory2D<T>(memory, height, width);
+            return new(memory, height, width);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this Memory<T> memory, int offset, int height, int width, int pitch)
         {
-            return new Memory2D<T>(memory, offset, height, width, pitch);
+            return new(memory, offset, height, width, pitch);
         }
 #endif
 
