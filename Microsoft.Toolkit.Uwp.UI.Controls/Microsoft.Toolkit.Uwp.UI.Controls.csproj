@@ -32,6 +32,7 @@
         - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
         - StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
+        - TabbedCommandBar: A ribbon-like control that displays a tabbed collection of CommandBars
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
