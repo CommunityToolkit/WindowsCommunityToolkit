@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
     /// Can be used to change several objects' properties at a time.
     /// </summary>
     [ContentProperty(Name = nameof(Value))]
-    public class BindableValueHolder : DependencyObject
+    public partial class BindableValueHolder : DependencyObject
     {
         /// <summary>
         /// Identifies the <see cref="Value"/> property.

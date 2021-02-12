@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
 
             // If running as Desktop Bridge
-            if (DesktopBridgeHelpers.IsRunningAsUwp())
+            if (DesktopBridgeHelpers.HasIdentity())
             {
                 // Clear the AUMID since Desktop Bridge doesn't use it, and then we're done.
                 // Desktop Bridge apps are registered with platform through their manifest.
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             // Big thanks to FrecherxDachs for figuring out the following code which works in .NET Core 3: https://github.com/FrecherxDachs/UwpNotificationNetCoreTest
             var uuid = typeof(T).GUID;
             uint cookie;
-            CoRegisterClassObject(
+            NativeMethods.CoRegisterClassObject(
                 uuid,
                 new NotificationActivatorClassFactory<T>(),
                 CLSCTX_LOCAL_SERVER,
@@ -151,14 +151,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        [DllImport("ole32.dll")]
-        private static extern int CoRegisterClassObject(
-            [MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
-            [MarshalAs(UnmanagedType.IUnknown)] object pUnk,
-            uint dwClsContext,
-            uint flags,
-            out uint lpdwRegister);
-
         /// <summary>
         /// Creates a toast notifier. You must have called <see cref="RegisterActivator{T}"/> first (and also <see cref="RegisterAumidAndComServer(string)"/> if you're a classic Win32 app), or this will throw an exception.
         /// </summary>
@@ -198,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             if (!_registeredAumidAndComServer)
             {
                 // Check if Desktop Bridge
-                if (DesktopBridgeHelpers.IsRunningAsUwp())
+                if (DesktopBridgeHelpers.HasIdentity())
                 {
                     // Implicitly registered, all good!
                     _registeredAumidAndComServer = true;
@@ -223,55 +215,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         public static bool CanUseHttpImages
         {
-            get { return DesktopBridgeHelpers.IsRunningAsUwp(); }
-        }
-
-        /// <summary>
-        /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/tree/master/DesktopBridge.Helpers/Helpers.cs
-        /// </summary>
-        private class DesktopBridgeHelpers
-        {
-            private const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
-
-            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-            private static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
-
-            private static bool? _isRunningAsUwp;
-
-            public static bool IsRunningAsUwp()
-            {
-                if (_isRunningAsUwp == null)
-                {
-                    if (IsWindows7OrLower)
-                    {
-                        _isRunningAsUwp = false;
-                    }
-                    else
-                    {
-                        int length = 0;
-                        var sb = new StringBuilder(0);
-                        GetCurrentPackageFullName(ref length, sb);
-
-                        sb = new StringBuilder(length);
-                        int error = GetCurrentPackageFullName(ref length, sb);
-
-                        _isRunningAsUwp = error != APPMODEL_ERROR_NO_PACKAGE;
-                    }
-                }
-
-                return _isRunningAsUwp.Value;
-            }
-
-            private static bool IsWindows7OrLower
-            {
-                get
-                {
-                    int versionMajor = Environment.OSVersion.Version.Major;
-                    int versionMinor = Environment.OSVersion.Version.Minor;
-                    double version = versionMajor + ((double)versionMinor / 10);
-                    return version <= 6.1;
-                }
-            }
+            get { return DesktopBridgeHelpers.HasIdentity(); }
         }
     }
 }

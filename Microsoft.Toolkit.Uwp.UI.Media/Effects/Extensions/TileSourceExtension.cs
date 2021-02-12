@@ -4,7 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// An effect that loads an image and replicates it to cover all the available surface area

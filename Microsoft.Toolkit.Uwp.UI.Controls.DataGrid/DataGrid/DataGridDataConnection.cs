@@ -18,6 +18,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 {
     internal class DataGridDataConnection
@@ -332,7 +334,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         public static bool CanEdit(Type type)
         {
-            Debug.Assert(type != null, "Expected non-null type.");
+            DiagnosticsDebug.Assert(type != null, "Expected non-null type.");
 
             type = type.GetNonNullableType();
 
@@ -488,7 +490,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
         // Assumes index >= 0, returns null if index >= Count
         public object GetDataItem(int index)
         {
-            Debug.Assert(index >= 0, "Expected positive index.");
+            DiagnosticsDebug.Assert(index >= 0, "Expected positive index.");
 
             IList list = this.List;
             if (list != null)
@@ -606,7 +608,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         public void LoadMoreItems(uint count)
         {
-            Debug.Assert(_loadingOperation == null, "Expected _loadingOperation == null.");
+            DiagnosticsDebug.Assert(_loadingOperation == null, "Expected _loadingOperation == null.");
 
             _loadingOperation = _incrementalItemsSource.LoadMoreItemsAsync(count);
 
@@ -633,8 +635,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 #endif
         internal static ICollectionView CreateView(IEnumerable source)
         {
-            Debug.Assert(source != null, "source unexpectedly null");
-            Debug.Assert(!(source is ICollectionView), "source is an ICollectionView");
+            DiagnosticsDebug.Assert(source != null, "source unexpectedly null");
+            DiagnosticsDebug.Assert(!(source is ICollectionView), "source is an ICollectionView");
 
             ICollectionView collectionView = null;
 
@@ -894,8 +896,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    Debug.Assert(e.NewItems != null, "Unexpected NotifyCollectionChangedAction.Add notification");
-                    Debug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Count == 1, "Expected NewItems.Count equals 1.");
+                    DiagnosticsDebug.Assert(e.NewItems != null, "Unexpected NotifyCollectionChangedAction.Add notification");
+                    DiagnosticsDebug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Count == 1, "Expected NewItems.Count equals 1.");
                     NotifyingDataSource_Add(e.NewStartingIndex);
                     break;
 
@@ -903,7 +905,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     IList removedItems = e.OldItems;
                     if (removedItems == null || e.OldStartingIndex < 0)
                     {
-                        Debug.Assert(false, "Unexpected NotifyCollectionChangedAction.Remove notification");
+                        DiagnosticsDebug.Assert(false, "Unexpected NotifyCollectionChangedAction.Remove notification");
                         return;
                     }
 
@@ -913,7 +915,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                         // Remove is a single item operation.
                         foreach (object item in removedItems)
                         {
-                            Debug.Assert(item != null, "Expected non-null item.");
+                            DiagnosticsDebug.Assert(item != null, "Expected non-null item.");
                             _owner.RemoveRowAt(e.OldStartingIndex, item);
                         }
                     }
@@ -1019,7 +1021,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             if (this.DataSource != null && dataType != null && !DataTypeIsPrimitive(dataType))
             {
                 _dataProperties = dataType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                Debug.Assert(_dataProperties != null, "Expected non-null _dataProperties.");
+                DiagnosticsDebug.Assert(_dataProperties != null, "Expected non-null _dataProperties.");
             }
             else
             {

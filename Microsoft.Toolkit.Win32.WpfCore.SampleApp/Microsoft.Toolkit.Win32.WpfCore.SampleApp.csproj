@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj" />
   </ItemGroup>
 

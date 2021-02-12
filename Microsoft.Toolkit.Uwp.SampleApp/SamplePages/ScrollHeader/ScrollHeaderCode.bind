@@ -2,34 +2,37 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
   <Grid>
     <ListView Name="listView">
+      <interactivity:Interaction.Behaviors>
+        <behaviors:QuickReturnHeaderBehavior />
+      </interactivity:Interaction.Behaviors>
       <ListView.Header>
-        <controls:ScrollHeader Mode="@[Mode:Enum:ScrollHeaderMode.QuickReturn]">
-          <Grid x:Name="MyHeaderGrid"
-            MinHeight="250"
-            Background="{ThemeResource Brush-Blue-01}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-              <TextBlock Margin="12"
-                     FontSize="48"
-                     FontWeight="Bold"
-                     Foreground="White"
-                     Text="Scroll Header"
-                     TextAlignment="Center"
-                     TextWrapping="WrapWholeWords" />
-              <TextBlock Margin="12,0,12,12"
-                     VerticalAlignment="Center"
-                     Foreground="White"
-                     Text="The scroll header supports quick return, sticky and fade behavior. If fade is enabled the header fades out while scrolling down. If quick return is enabled the header hides when the ListView is scrolled down and reappears immediately as soon as the ListView is scrolled up again. If sticky is enabled the header is displayed regardless of scrolling."
-                     TextAlignment="Center"
-                     TextWrapping="WrapWholeWords" />
-            </StackPanel>
-          </Grid>
-        </controls:ScrollHeader>
+        <Grid x:Name="MyHeaderGrid"
+          MinHeight="250"
+          Background="{ThemeResource Brush-Blue-01}">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Margin="12"
+                    FontSize="48"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="Scroll Header"
+                    TextAlignment="Center"
+                    TextWrapping="WrapWholeWords" />
+            <TextBlock Margin="12,0,12,12"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Text="The scroll header supports quick return, sticky and fade behavior. If fade is enabled the header fades out while scrolling down. If quick return is enabled the header hides when the ListView is scrolled down and reappears immediately as soon as the ListView is scrolled up again. If sticky is enabled the header is displayed regardless of scrolling."
+                    TextAlignment="Center"
+                    TextWrapping="WrapWholeWords" />
+          </StackPanel>
+        </Grid>
       </ListView.Header>
       <ListView.ItemTemplate>
         <DataTemplate>

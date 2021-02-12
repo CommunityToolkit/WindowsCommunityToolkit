@@ -1,26 +1,33 @@
-﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ObjectStoragePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ObjectStoragePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
     <ScrollViewer>
         <StackPanel Margin="20">
-            <ToggleSwitch x:Name="StorageModeToggle" HorizontalAlignment="Center" 
-                          OnContent="Roaming storage (save across all your devices)"
-                          OffContent="Local storage (save on this device only)" />
+            <TextBox x:Name="KeyTextBox"
+                     Margin="0,10,0,0"
+                     PlaceholderText="Key" />
 
-            <TextBox x:Name="KeyTextBox" PlaceholderText="Key" Margin="0 10 0 0" />
+            <TextBox x:Name="ContentTextBox"
+                     Margin="0,10,0,0"
+                     PlaceholderText="Content to save" />
 
-            <TextBox x:Name="ContentTextBox" PlaceholderText="Content to save" Margin="0 10 0 0" />
-
-            <StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="ReadButton" Content="Read from key" HorizontalAlignment="Center" Margin="5 0"
-                        Click="ReadButton_Click" />
-                <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Center" Margin="5 0"
-                        Click="SaveButton_Click" />
+            <StackPanel Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button x:Name="ReadButton"
+                        Margin="5,0"
+                        HorizontalAlignment="Center"
+                        Click="ReadButton_Click"
+                        Content="Read from key" />
+                <Button x:Name="SaveButton"
+                        Margin="5,0"
+                        HorizontalAlignment="Center"
+                        Click="SaveButton_Click"
+                        Content="Save" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

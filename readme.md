@@ -33,7 +33,7 @@ The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs
 ## Roadmap :earth_americas:
 Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
-By adding this ([NuGet repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your NuGet sources in Visual Studio, you can also get pre-release packages of upcoming versions.
+Check out our [Preview Packages Wiki Page](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki/Preview-Packages) to learn more about updating your NuGet sources in Visual Studio, then you can also get pre-release packages of upcoming versions to try.
 
 ## Code of Conduct :page_facing_up:
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)

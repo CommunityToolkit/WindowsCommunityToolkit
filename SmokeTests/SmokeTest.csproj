@@ -6,6 +6,9 @@
     <!-- When writting the SmokeTests, change this to whichever Toolkit project you want to build a test to, then reload the project -->
     <CurrentProject>Microsoft.Toolkit.Uwp.UI.Controls</CurrentProject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(NuGetPackageVersion)' == ''">
+    <NuGetPackageVersion>To Fill In With Local Version Number</NuGetPackageVersion>
+  </PropertyGroup>
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -112,18 +115,19 @@
       <Version>2.4.3</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup Condition="'$(CurrentProject)' != ''">
-    <PackageReference Include="$(CurrentProject)" Version="7.*-*" />
+  <ItemGroup Condition="'$(CurrentProject)' != '' and '$(CurrentProject)' != 'UWPBaseline' and '$(NuGetPackageVersion)' != 'To Fill In With Local Version Number'">
+    <PackageReference Include="$(CurrentProject)" Version="$(NuGetPackageVersion)" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Target Name="BeforeBuild">
-    <ItemGroup>
+    <ItemGroup Condition="$(CurrentProject) != 'UWPBaseline'">
       <ToolkitNugets Include="../bin/nupkg/$(CurrentProject).*.nupkg"/>
       <ToolkitNuget Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(ToolkitNugets)"/>
     </ItemGroup>
-    <Error Condition="'@(ToolkitNuget)' == ''" Text="NuGet $(CurrentProject).[SEMVER].nupkg doesn't exist!"/>
+    <Error Condition="'@(ToolkitNuget)' == '' and $(CurrentProject) != 'UWPBaseline'" Text="NuGet $(CurrentProject).[SEMVER].nupkg doesn't exist!"/>
+    <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set NuGetPackageVersion at the top of SmokeTest.csproj with the version to smoke test locally."/>
   </Target>
 </Project>

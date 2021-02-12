@@ -11,7 +11,6 @@ using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-using Microsoft.Toolkit.HighPerformance.Memory;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions

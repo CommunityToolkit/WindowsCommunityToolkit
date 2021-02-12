@@ -5,22 +5,38 @@
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
+#nullable enable
+
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A tint effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
-    public sealed class TintEffect : IPipelineEffect
+    public sealed class TintEffect : PipelineEffect
     {
         /// <summary>
         /// Gets or sets the int color to use
         /// </summary>
         public Color Color { get; set; }
 
+        /// <summary>
+        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
+        /// </summary>
+        internal string? Id { get; private set; }
+
         /// <inheritdoc/>
-        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
+        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
+            if (IsAnimatable)
+            {
+                builder = builder.Tint(Color, out string id);
+
+                Id = id;
+
+                return builder;
+            }
+
             return builder.Tint(Color);
         }
     }
