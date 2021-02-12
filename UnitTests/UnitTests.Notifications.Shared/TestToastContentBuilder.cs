@@ -549,6 +549,45 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void AddAudioTest_WithMsWinSoundEvent_ReturnSelfWithCustomAudioAdded()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("ms-winsoundevent:Notification.Reminder");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddAudio(testAudioUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreEqual(testAudioUriSrc.OriginalString, builder.Content.Audio.Src.OriginalString);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddAudioTest_WithInvalidMsUri_ThrowException()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("ms-doesntexist:Notification.Reminder");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            builder.AddAudio(testAudioUriSrc);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddAudioTest_WithInvalidHttpUri_ThrowException()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("https://myaudio.com/song.mp3");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            builder.AddAudio(testAudioUriSrc);
+        }
+
+        [TestMethod]
         public void AddAudioTest_WithAudioObject_ReturnSelfWithCustomAudioAdded()
         {
             // Arrange

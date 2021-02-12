@@ -355,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             bool? silent = default)
 #endif
         {
-            if (!src.IsFile)
+            if (!src.IsFile && src.Scheme != "ms-winsoundevent")
             {
                 throw new ArgumentException(nameof(src), "Audio Source has to be a file.");
             }
