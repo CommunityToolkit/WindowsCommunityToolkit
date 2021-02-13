@@ -24,12 +24,12 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// The <see cref="Action"/> to invoke when <see cref="Execute(T)"/> is used.
         /// </summary>
-        private readonly Action<T> execute;
+        private readonly Action<T?> execute;
 
         /// <summary>
         /// The optional action to invoke when <see cref="CanExecute(T)"/> is used.
         /// </summary>
-        private readonly Func<T, bool>? canExecute;
+        private readonly Predicate<T?>? canExecute;
 
         /// <inheritdoc/>
         public event EventHandler? CanExecuteChanged;
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// nullable <see cref="object"/> parameter, it is recommended that if <typeparamref name="T"/> is a reference type,
         /// you should always declare it as nullable, and to always perform checks within <paramref name="execute"/>.
         /// </remarks>
-        public RelayCommand(Action<T> execute)
+        public RelayCommand(Action<T?> execute)
         {
             this.execute = execute;
         }
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+        public RelayCommand(Action<T?> execute, Predicate<T?> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(T parameter)
+        public bool CanExecute(T? parameter)
         {
             return this.canExecute?.Invoke(parameter) != false;
         }
@@ -76,19 +76,18 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public bool CanExecute(object? parameter)
         {
-            if (typeof(T).IsValueType &&
-                parameter is null &&
-                this.canExecute is null)
+            if (default(T) is not null &&
+                parameter is null)
             {
-                return true;
+                return false;
             }
 
-            return CanExecute((T)parameter!);
+            return CanExecute((T?)parameter);
         }
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Execute(T parameter)
+        public void Execute(T? parameter)
         {
             if (CanExecute(parameter))
             {
@@ -99,7 +98,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            Execute((T)parameter!);
+            Execute((T?)parameter);
         }
     }
 }
