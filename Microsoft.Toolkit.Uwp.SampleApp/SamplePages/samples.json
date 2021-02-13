@@ -29,7 +29,7 @@
         "Type": "CarouselPage",
         "Subcategory": "Layout",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/Carousel",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Carousel",
         "XamlCodeFile": "CarouselCode.bind",
         "Icon": "/SamplePages/Carousel/Carousel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Carousel.md"
@@ -39,7 +39,7 @@
         "Type": "ColorPickerPage",
         "Subcategory": "Input",
         "About": "An improved color picker control providing more options to select colors.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/ColorPicker",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/ColorPicker",
         "XamlCodeFile": "ColorPickerXaml.bind",
         "Icon": "/SamplePages/ColorPicker/ColorPicker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ColorPicker.md"
@@ -49,7 +49,7 @@
         "Type": "ColorPickerButtonPage",
         "Subcategory": "Input",
         "About": "A color picker within a flyout opened by pressing a dropdown button containing the selected color.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/ColorPicker",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/ColorPicker",
         "XamlCodeFile": "/SamplePages/ColorPicker/ColorPickerButtonXaml.bind",
         "Icon": "/SamplePages/ColorPicker/ColorPicker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ColorPickerButton.md"
@@ -79,7 +79,7 @@
         "Type": "RangeSelectorPage",
         "Subcategory": "Input",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/RangeSelector",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/RangeSelector",
         "XamlCodeFile": "RangeSelectorCode.bind",
         "Icon": "/SamplePages/RangeSelector/RangeSelector.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RangeSelector.md"
@@ -99,7 +99,7 @@
         "Type": "ListDetailsViewPage",
         "Subcategory": "Layout",
         "About": "The ListDetailsView control allows the user to implement the List/Details design pattern.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/ListDetailsView",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/ListDetailsView",
         "XamlCodeFile": "ListDetailsView.bind",
         "CodeFile": "ListDetailsViewCode.bind",
         "Icon": "/SamplePages/ListDetailsView/ListDetailsView.png",
@@ -121,7 +121,7 @@
         "Type": "RadialGaugePage",
         "Subcategory": "Status and Info",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/RadialGauge",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/RadialGauge",
         "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/RadialGauge.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RadialGauge.md"
@@ -151,7 +151,7 @@
         "Type": "BladePage",
         "Subcategory": "Layout",
         "About": "BladeView provides a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/BladeView",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/BladeView",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeView/BladeView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/BladeView.md"
@@ -170,7 +170,7 @@
         "Type": "GridSplitterPage",
         "Subcategory": "Layout",
         "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/GridSplitter",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/GridSplitter",
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md"
@@ -201,7 +201,7 @@
         "Type": "ExpanderPage",
         "Subcategory": "Layout",
         "About": "Expander control allows user to show/hide content based on a boolean state.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/Expander",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Expander",
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Expander.md"
@@ -231,7 +231,7 @@
         "Type": "WrapLayoutPage",
         "Subcategory": "Layout - ItemsRepeater",
         "About": "The WrapLayout virtualizes child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/WrapLayout",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/WrapLayout",
         "XamlCodeFile": "WrapLayout.bind",
         "Icon": "/SamplePages/WrapLayout/WrapLayout.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/layout/WrapLayout.md"
@@ -241,7 +241,7 @@
         "Type": "OrbitViewPage",
         "Subcategory": "Layout",
         "About": "The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/OrbitView",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/OrbitView",
         "XamlCodeFile": "OrbitViewXaml.bind",
         "Icon": "/SamplePages/OrbitView/OrbitView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/OrbitView.md"
@@ -284,7 +284,7 @@
         "Type": "HeaderedContentControlPage",
         "Subcategory": "Layout",
         "About": "Allows content to be displayed with a specified header.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/HeaderedContentControl",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/HeaderedContentControl",
         "XamlCodeFile": "HeaderedContentControlXaml.bind",
         "Icon": "/SamplePages/HeaderedContentControl/HeaderedContentControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedContentControl.md"
@@ -294,7 +294,7 @@
         "Type": "HeaderedItemsControlPage",
         "Subcategory": "Layout",
         "About": "Allows items to be displayed with a specified header.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/HeaderedItemsControl",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/HeaderedItemsControl",
         "XamlCodeFile": "HeaderedItemsControlXaml.bind",
         "Icon": "/SamplePages/HeaderedItemsControl/HeaderedItemsControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedItemsControl.md"
@@ -314,7 +314,7 @@
         "Type": "StaggeredLayoutPage",
         "Subcategory": "Layout - ItemsRepeater",
         "About": "The StaggeredLayout virtualizes items in a column approach where an item will be added to whichever column has used the least amount of space.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/StaggeredLayout",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/StaggeredLayout",
         "XamlCodeFile": "StaggeredLayout.bind",
         "Icon": "/SamplePages/StaggeredLayout/StaggeredLayout.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/layout/StaggeredLayout.md"
@@ -324,7 +324,7 @@
         "Type": "LayoutTransformControlPage",
         "Subcategory": "Layout",
         "About": "Control that implements support for transformations as if applied by LayoutTransform.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/LayoutTransformControl",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/LayoutTransformControl",
         "XamlCodeFile": "LayoutTransformControlXaml.bind",
         "Icon": "/SamplePages/LayoutTransformControl/LayoutTransformControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/LayoutTransformControl.md"
@@ -359,7 +359,7 @@
         "Type": "RemoteDevicePickerControlPage",
         "Subcategory": "Input",
         "About": "Remote Device Picker Control for Project Rome.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/RemoteDevicePicker",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/RemoteDevicePicker",
         "CodeFile": "RemoteDevicePickerCode.bind",
         "Icon": "/SamplePages/RemoteDevicePicker/RemoteDevicePicker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RemoteDevicePicker.md"
@@ -449,7 +449,7 @@
         "Type": "TokenizingTextBoxPage",
         "Subcategory": "Input",
         "About": "A text input control that makes suggestions and keeps track of data token items",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/TokenizingTextBox",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/TokenizingTextBox",
         "CodeFile": "TokenizingTextBoxCode.bind",
         "XamlCodeFile": "TokenizingTextBoxXaml.bind",
         "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
@@ -459,7 +459,7 @@
         "Name": "TabbedCommandBar",
         "Subcategory": "Menus and Toolbars",
         "About": "A control for displaying multiple CommandBars in the same space, like Microsoft Office's ribbon.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabbedCommandBar",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/TabbedCommandBar",
         "XamlCodeFile": "/SamplePages/TabbedCommandBar/TabbedCommandBar.bind",
         "Icon": "/SamplePages/TabbedCommandBar/TabbedCommandBar.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabbedCommandBar.md"
