@@ -18,22 +18,6 @@
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
-  <!-- TODO: Figure out where these go... -->
-  <ItemGroup>
-    <Compile Remove="Behaviors\**" />
-    <Compile Remove="Effects\**" />
-    <Compile Remove="fg\**" />
-    <EmbeddedResource Remove="Behaviors\**" />
-    <EmbeddedResource Remove="Effects\**" />
-    <EmbeddedResource Remove="fg\**" />
-    <None Remove="Behaviors\**" />
-    <None Remove="Effects\**" />
-    <None Remove="fg\**" />
-    <Page Remove="Behaviors\**" />
-    <Page Remove="Effects\**" />
-    <Page Remove="fg\**" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />

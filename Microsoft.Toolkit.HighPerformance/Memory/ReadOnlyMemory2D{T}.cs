@@ -625,14 +625,14 @@ namespace Microsoft.Toolkit.HighPerformance
                         ref T r0 = ref memoryManager.GetSpan().DangerousGetReference();
                         ref T r1 = ref Unsafe.Add(ref r0, this.offset);
 
-                        return new ReadOnlySpan2D<T>(r1, this.height, this.width, this.pitch);
+                        return new ReadOnlySpan2D<T>(in r1, this.height, this.width, this.pitch);
                     }
                     else
                     {
                         // This handles both arrays and strings
                         ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
 
-                        return new ReadOnlySpan2D<T>(r0, this.height, this.width, this.pitch);
+                        return new ReadOnlySpan2D<T>(in r0, this.height, this.width, this.pitch);
                     }
 #else
                     return new ReadOnlySpan2D<T>(this.instance, this.offset, this.height, this.width, this.pitch);
@@ -913,7 +913,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="ReadOnlyMemory2D{T}"/>
         /// </summary>
-        public static implicit operator ReadOnlyMemory2D<T>(T[,]? array) => new ReadOnlyMemory2D<T>(array);
+        public static implicit operator ReadOnlyMemory2D<T>(T[,]? array) => new(array);
 
         /// <summary>
         /// Defines an implicit conversion of a <see cref="Memory2D{T}"/> to a <see cref="ReadOnlyMemory2D{T}"/>

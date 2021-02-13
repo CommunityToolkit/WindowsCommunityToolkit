@@ -1168,6 +1168,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// Implicily converts a given 2D array into a <see cref="Span2D{T}"/> instance.
         /// </summary>
         /// <param name="array">The input 2D array to convert.</param>
-        public static implicit operator Span2D<T>(T[,]? array) => new Span2D<T>(array);
+        public static implicit operator Span2D<T>(T[,]? array) => new(array);
     }
 }

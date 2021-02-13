@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected virtual void Broadcast<T>(T oldValue, T newValue, string? propertyName)
         {
-            var message = new PropertyChangedMessage<T>(this, propertyName, oldValue, newValue);
+            PropertyChangedMessage<T> message = new(this, propertyName, oldValue, newValue);
 
             Messenger.Send(message);
         }
