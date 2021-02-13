@@ -3,11 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-
+using UnitTests.Extensions;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace UnitTests
@@ -17,6 +20,31 @@ namespace UnitTests
     /// </summary>
     public partial class App : Application
     {
+        // Holder for test content to abstract Window.Current.Content
+        public static FrameworkElement ContentRoot
+        {
+            get
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                return rootFrame.Content as FrameworkElement;
+            }
+
+            set
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                rootFrame.Content = value;
+            }
+        }
+
+        // Abstract CoreApplication.MainView.DispatcherQueue
+        public static DispatcherQueue DispatcherQueue
+        {
+            get
+            {
+                return CoreApplication.MainView.DispatcherQueue;
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -50,7 +78,10 @@ namespace UnitTests
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = new Frame()
+                {
+                    CacheSize = 0 // Prevent any test pages from being cached
+                };
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
