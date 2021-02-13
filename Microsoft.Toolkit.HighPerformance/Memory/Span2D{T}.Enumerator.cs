@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Enumerator GetEnumerator() => new Enumerator(this);
+        public Enumerator GetEnumerator() => new(this);
 
         /// <summary>
         /// Provides an enumerator for the elements of a <see cref="Span2D{T}"/> instance.

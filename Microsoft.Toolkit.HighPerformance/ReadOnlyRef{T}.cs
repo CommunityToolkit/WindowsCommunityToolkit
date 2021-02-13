@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="pointer">The pointer to the target value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe ReadOnlyRef(void* pointer)
-            : this(Unsafe.AsRef<T>(pointer))
+            : this(in Unsafe.AsRef<T>(pointer))
         {
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
-            return new ReadOnlyRef<T>(reference.Value);
+            return new(in reference.Value);
         }
 #else
         /// <summary>
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
-            return new ReadOnlyRef<T>(reference.Owner, reference.Offset);
+            return new(reference.Owner, reference.Offset);
         }
 #endif
 

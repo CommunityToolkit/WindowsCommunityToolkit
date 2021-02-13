@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+    <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Title>Windows Community Toolkit MVVM Toolkit</Title>
@@ -10,8 +10,11 @@
       This package includes a .NET Standard MVVM library with helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
       - ObservableRecipient: a base class for observable objects with support for the IMessenger service.
+      - ObservableValidator: a base class for objects implementing the INotifyDataErrorInfo interface.
       - RelayCommand: a simple delegate command implementing the ICommand interface.
-      - Messenger: a messaging system to exchange messages through different loosely-coupled objects.
+      - AsyncRelayCommand: a delegate command supporting asynchronous operations and cancellation.
+      - WeakReferenceMessenger: a messaging system to exchange messages through different loosely-coupled objects.
+      - StrongReferenceMessenger: a high-performance messaging system that trades weak references for speed.
       - Ioc: a helper class to configure dependency injection service containers.
     </Description>
     <PackageTags>UWP Toolkit Windows MVVM MVVMToolkit observable Ioc dependency injection services extensions helpers</PackageTags>
@@ -19,17 +22,15 @@
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> and IAsyncEnumerable<T> types -->
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
   <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
