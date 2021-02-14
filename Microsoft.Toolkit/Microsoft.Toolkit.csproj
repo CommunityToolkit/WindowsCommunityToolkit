@@ -14,14 +14,14 @@
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Incremental;Loading;Collection;IncrementalLoadingCollection;String;Array;extensions;helpers</PackageTags>
   </PropertyGroup>
 
-  <!-- .NET Standard 1.4 doesn't have the [Pure] attribute -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
-    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
-  </ItemGroup>
-
   <!-- .NET Standard 2.1 and .NET 5 already have [NotNullIfNotNull] and [NotNullWhen] -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'net5.0'">
     <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
+
+  <!-- .NET Standard 1.4 doesn't have the [Pure] attribute -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
+  </ItemGroup>
 
 </Project>

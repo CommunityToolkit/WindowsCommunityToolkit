@@ -45,8 +45,8 @@
     <When Condition="'$(Configuration)' == 'Debug' and '$(IsDesignProject)' != 'true'">
       <!-- Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios -->
       <PropertyGroup>
-        <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
         <EnableXBindDiagnostics>false</EnableXBindDiagnostics>
+        <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
       </PropertyGroup>
     </When>
   </Choose>
