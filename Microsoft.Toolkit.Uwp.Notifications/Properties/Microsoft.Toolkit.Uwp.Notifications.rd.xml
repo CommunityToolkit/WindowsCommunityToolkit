@@ -5,8 +5,10 @@
 -->
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
   <Library Name="Microsoft.Toolkit.Uwp.Notifications">
-    <!-- TODO: We can potentially minimize the metadata needed, but further
-         investigation is needed to fill this in and adequately test this -->
+    <!--
+        TODO: We can potentially minimize the metadata needed,
+        but further investigation is needed to fill this in and adequately test this.
+    -->
     <Assembly Name="Microsoft.Toolkit.Uwp.Notifications" Dynamic="Required All" />
   </Library>
 </Directives>

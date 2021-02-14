@@ -70,13 +70,12 @@
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v16.0\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
 
-    <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0 -->
-    <!-- this makes it UAP10_0_10240_0 to match the rest -->
+    <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0. This makes it UAP10_0_10240_0 to match the rest -->
     <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
   </PropertyGroup>
 
-  <!--Set the nuspec properties. Dependent on version which isn't updated till after GetBuildVersion. Condition ensures we only set once since this runs multiple times for each target.-->
+  <!-- Set the nuspec properties. Dependent on version which isn't updated till after 'GetBuildVersion'. Condition ensures we only set once since this runs multiple times for each target. -->
   <Target Name="SetNuspecProperties" AfterTargets="GetBuildVersion">
     <PropertyGroup Condition="'$(NuspecProperties)' == ''">
       <NuspecProperties>buildOutput=bin\$(Configuration);version=$(Version)</NuspecProperties>

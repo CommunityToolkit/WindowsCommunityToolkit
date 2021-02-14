@@ -16,8 +16,8 @@
 
   <Choose>
     <When Condition="'$(TargetFramework)' == 'netstandard1.4'">
+      <!-- .NET Standard 1.4 doesn't have the Span<T> type, ValueTuple or the [Pure] attribute -->
       <ItemGroup>
-        <!-- .NET Standard 1.4 doesn't have the Span<T> type, ValueTuple or the [Pure] attribute -->
         <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
         <PackageReference Include="System.ValueTuple" Version="4.5.0" />
         <PackageReference Include="System.Memory" Version="4.5.4" />
@@ -25,8 +25,8 @@
     </When>
 
     <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
+      <!-- .NET Standard 2.0 doesn't have the Span<T> type -->
       <ItemGroup>
-        <!-- .NET Standard 2.0 doesn't have the Span<T> type -->
         <PackageReference Include="System.Memory" Version="4.5.4" />
       </ItemGroup>
     </When>
@@ -35,8 +35,8 @@
       <PropertyGroup>
         <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
       </PropertyGroup>
+      <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
       <ItemGroup>
-        <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
     </When>
