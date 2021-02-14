@@ -13,7 +13,7 @@
       </PropertyGroup>
     </When>
   </Choose>
-   
+
   <!--Exclude Notifications project from this since it sets different min versions than what we want for notifications-->
   <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.Uwp.Build.targets" Condition="'$(UseUWP)' == 'true' and $(MSBuildProjectName) != 'Microsoft.Toolkit.Uwp.Notifications'"/>
 
