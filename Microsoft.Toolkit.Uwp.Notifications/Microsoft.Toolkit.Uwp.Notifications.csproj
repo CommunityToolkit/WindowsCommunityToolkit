@@ -22,8 +22,8 @@
     <DebugType>Full</DebugType>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <!-- Workaround for issue NuGet/Home#8388; change behavior during NuGet restore time vs. final build to avoid NuGet conflict in VS 2019 -->
-    <NugetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NugetTargetMoniker>
-    <NugetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NugetTargetMoniker>
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' == 'true'">native</NuGetTargetMoniker>
+    <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
     <PackageTargetFallback>uap10.0</PackageTargetFallback>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>10240</DefaultTargetPlatformMinVersion>
