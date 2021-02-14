@@ -1,21 +1,24 @@
 <Project>
 
   <PropertyGroup>
-    <BaseIntermediateOutputPath>$([MSBuild]::EnsureTrailingSlash($([MSBuild]::ValueOrDefault('$(BaseIntermediateOutputPath)', 'obj'))))</BaseIntermediateOutputPath>
+    <UseWPF>True</UseWPF>
+    <NoWarn>0618</NoWarn>
+    <Platforms>x86</Platforms>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="$(MSBuildProjectName.EndsWith('.Design'))">
-      <PropertyGroup>
-        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)Design\</MSBuildProjectExtensionsPath>
-      </PropertyGroup>
-    </When>
-    <When Condition="$(MSBuildProjectName.EndsWith('.DesignTools'))">
-      <PropertyGroup>
-        <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)DesignTools\</MSBuildProjectExtensionsPath>
-      </PropertyGroup>
-    </When>
-    <Otherwise/>
-  </Choose>
+  <PropertyGroup>
+    <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
+    <ParentProjectName>$(MSBuildProjectName.Remove($(MSBuildProjectName.LastIndexOf('.'))))</ParentProjectName>
+    <ParentTargetFramework>uap$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision)</ParentTargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AppDesigner Include="Properties\"/>
+    <EmbeddedResource Include="Icons\$(ParentProjectName).*.icon.png"/>
+    <EmbeddedResource Include="$(ParentProjectOutputPath)$(ParentProjectName).xml">
+      <Link>$(ParentProjectName).xml</Link>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>
