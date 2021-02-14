@@ -82,7 +82,7 @@
 
   <Target Name="CheckNuGets">
     <PropertyGroup>
-      <ToolkitNuGets>../bin/nupkg/*.nupkg</ToolkitNuGets>
+      <ToolkitNuGets>$(MSBuildThisFileDirectory)..\bin\nupkg\*.nupkg</ToolkitNuGets>
     </PropertyGroup>
     <ItemGroup>
       <ToolkitNuGets Include="$(ToolkitNuGets)" />

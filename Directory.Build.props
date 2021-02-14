@@ -108,7 +108,7 @@
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="$(MSBuildThisFileDirectory)license.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)License.md" Pack="true" PackagePath="\" />
     <None Include="$(MSBuildThisFileDirectory)build\nuget.png" Pack="true" PackagePath="images\" />
   </ItemGroup>
 
