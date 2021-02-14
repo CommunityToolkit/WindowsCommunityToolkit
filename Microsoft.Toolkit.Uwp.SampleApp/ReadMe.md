@@ -1,3 +1,4 @@
+
 For the latest info, [visit the wiki article here](https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki/Sample-Development).
 
 # How to add new samples
@@ -8,6 +9,7 @@ This document describes how to add a new sample page for a new control you want 
 
 
 ## 1. Add Sample page and .bind template
+
 First you need to create a Xaml page in the folder /SamplePages/YourControl.  This will be the logical page used to by the app to navigate to the sample and contains code.
 
 If providing 'live' XAML, a .bind file is loaded and dynamically fed to the XamlReader.Load method to convert into actual controls.  This changes a few things about how samples need to be written (detailed below), but allows developers to actually change the sample and see the results live.
@@ -16,6 +18,7 @@ This not only gives us a killer sample app, but it also means that all our sampl
 
 
 ## 2. Binding text
+
 The .bind files are templates which use @[Property Name:Type:DefaultValue:Options] syntax to allow for customized options to be presented to the user in the sample app.  The user can play with the values in the property page and see results change instantly.  This is accomplished by using {Binding} syntax when on the property page, but switches to the raw value when the developer goes to the XAML page.
 
 This makes it easy for a developer to test out values for a control and then copy the XAML needed for that exact result into their app.
@@ -30,10 +33,10 @@ Here is an example:
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <TextBlock Grid.Column="1"
-		Text="@[Text:String:Hey!]" Foreground="Black"
-		FontSize="@[FontSize:Slider:12:10-30]"
-		VerticalAlignment="@[Vertical Alignment:Enum:VerticalAlignment.Center]">
-	</TextBlock>
+        Text="@[Text:String:Hey!]" Foreground="Black"
+        FontSize="@[FontSize:Slider:12:10-30]"
+        VerticalAlignment="@[Vertical Alignment:Enum:VerticalAlignment.Center]">
+    </TextBlock>
 </Grid>
 ```
 
@@ -86,12 +89,14 @@ Value="@[Value:Slider:0:0-180]@"
 ```
 
 ## 3. Have a *'Shallow Copy'* of your example in the sample page
+
 Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)
 
 Therefore, for any new control/extension, you should still have a simplified snippet of it contained in the sample page compiled/loaded by the app.  You should remove names, events, and properties (unless extensions) from these so the namespace isn't accidentally polluted.  If you re-use the same control, you don't have to include it twice.
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
+
 This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
 ```csharp
@@ -106,6 +111,7 @@ You'll have to register all events and grab **control.Resources** for templates 
 
 
 ## 5. For Interactive Buttons: Use **SampleController.Current.RegisterNewCommand**
+
 Buttons can be added through this command and are accessible in the main panel so they can be clicked when changing properties or editing XAML.  It's important instead of using buttons in your sample (as events can't be directly used, see above) to register these commands.
 
 ```csharp
@@ -129,10 +135,12 @@ if (resources?.ContainsKey("ThingStyle") == true)
 ```
 
 ## 6. *Optional:* If you need *extra stuff* around the sample
+
 Now, the sample page content in the app is ignored, but you can override that behavior by adding a `<Grid x:Name="XamlRoot"/>` element to the page.  If this element is found, it will serve as the host to the dynamic .bind content instead.  In this manner you can have a status/warning message outside of the control of the developer in the XAML sample tab.
 
 
 # Update Samples.json
+
 After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
 Select the category where you want your page to be listed and add the following information:
 
@@ -179,7 +187,6 @@ The value is a string which is the fully-qualified typename to check for the pre
 
 If the specified type is not found on the system running the sample app the sample will not appear in the sample list.
 
-
 ### Adding documentation
 
 Every API must be accompanied by Markdown documentation in the [documentation repository](..\contributing.md#docs).
@@ -193,6 +200,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 > NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on GitHub, the sample app will use the packaged version
 
 > NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For example, this folder structure works best:
+
 > ```
 > repositories
 > ├── WindowsCommunityToolkit

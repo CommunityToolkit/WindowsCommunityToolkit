@@ -4,7 +4,6 @@ about: I have an issue with a Toolkit WPF or WinForms control
 title: "[Win32]"
 labels:
 assignees: ''
-
 ---
 
 <!--
