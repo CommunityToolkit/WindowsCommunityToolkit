@@ -30,7 +30,6 @@
       Orbit;View              ;OrbitView             ;
     </PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 

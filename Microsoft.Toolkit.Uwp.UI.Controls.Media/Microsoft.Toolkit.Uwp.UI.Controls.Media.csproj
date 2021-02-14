@@ -17,8 +17,6 @@
       Image;Cropper  ;ImageCropper  ;Crop;
       Infinite;Canvas;InfiniteCanvas;
     </PackageTags>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 

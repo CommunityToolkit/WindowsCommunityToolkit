@@ -32,8 +32,6 @@
         Text;Tool;Bar      ;TextToolBar      ;ToolBar     ;Markdown;
         Tile;Control       ;TileControl      ;
     </PackageTags>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 

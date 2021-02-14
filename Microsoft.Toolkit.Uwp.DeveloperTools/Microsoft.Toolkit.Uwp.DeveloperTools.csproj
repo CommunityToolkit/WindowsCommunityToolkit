@@ -10,8 +10,6 @@
       -Themes : Provides the source path of the resource dictionaries for the FocusTracker.
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Developer;Tools;Accessibility;Alignment;Grid;AlignmentGrid</PackageTags>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
   <ItemGroup>
