@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Name="CurrentPage"
     x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.InAppNotificationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

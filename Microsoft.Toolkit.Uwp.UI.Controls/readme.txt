@@ -1,4 +1,4 @@
-﻿Thanks for installing the Windows Community Toolkit Controls NuGet package!
+Thanks for installing the Windows Community Toolkit Controls NuGet package!
 
 This is a meta-package made up of various Windows Community Toolkit packages.
 It is for your ease and convenience to use all of the controls available!

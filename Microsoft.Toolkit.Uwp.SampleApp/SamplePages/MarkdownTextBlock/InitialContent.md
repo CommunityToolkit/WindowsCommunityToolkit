@@ -1,4 +1,4 @@
-﻿This control was originally written by [Quinn Damerell](https://github.com/QuinnDamerell) and [Paul Bartrum](https://github.com/paulbartrum) for [Baconit](https://github.com/QuinnDamerell/Baconit), a popular open source reddit UWP. The control *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering. The control is efficient enough to be used in virtualizing lists.
+This control was originally written by [Quinn Damerell](https://github.com/QuinnDamerell) and [Paul Bartrum](https://github.com/paulbartrum) for [Baconit](https://github.com/QuinnDamerell/Baconit), a popular open source reddit UWP. The control *almost* supports the full markdown syntax, with a focus on super-efficient parsing and rendering. The control is efficient enough to be used in virtualizing lists.
 
 *Note:* For a full list of markdown syntax, see the [official syntax guide](http://daringfireball.net/projects/markdown/syntax).
 
