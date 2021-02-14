@@ -1,4 +1,4 @@
-﻿
+
 // You can handle State changes in the StateChanged handler declared in the XAML markup for the element
 
 private int dwellCount = 0;
