@@ -24,10 +24,10 @@
   </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;core;standard;unsafe;span;memory;string;array;stream;buffer;extensions;helpers;parallel;performance</PackageTags>
   </PropertyGroup>
+
   <Choose>
     <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
       <ItemGroup>
-
         <!-- .NET Standard 1.4 lacks the [Pure] attribute, the Rectangle primitive,
              the Span<T> and Memory<T> types, the Vector<T> primitive and related APIs,
              ValueTask and ValueTask<T>, the Parallel class and the Unsafe class.
@@ -44,9 +44,9 @@
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
     </When>
+
     <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
       <ItemGroup>
-
         <!-- .NET Standard 2.0 doesn't have the Span<T>, HashCode and ValueTask types -->
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
         <PackageReference Include="System.Memory" Version="4.5.4" />
@@ -54,14 +54,13 @@
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
     </When>
+
     <When Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
       <ItemGroup>
-
         <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
       <PropertyGroup>
-
         <!-- NETSTANDARD2_1_OR_GREATER: includes both .NET Standard 2.1 and .NET Core 3.1.
              This is needed because .NET Core 3.1 will be a separate package than .NET Standard 2.1. -->
 
@@ -75,17 +74,18 @@
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
       </PropertyGroup>
     </When>
+
     <When Condition=" '$(TargetFramework)' == 'net5.0' ">
       <PropertyGroup>
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
       </PropertyGroup>
     </When>
+
     <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
       <PropertyGroup>
-
         <!-- NETCORE_RUNTIME: to avoid issues with APIs that assume a specific memory layout, we define a
              .NET Core runtime constant to indicate either .NET Core 2.1 or .NET Core 3.1. These are
              runtimes with the same overall memory layout for objects (in particular: strings, SZ arrays,
@@ -96,6 +96,7 @@
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT;NETCORE_RUNTIME</DefineConstants>
       </PropertyGroup>
     </When>
+
     <When Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />

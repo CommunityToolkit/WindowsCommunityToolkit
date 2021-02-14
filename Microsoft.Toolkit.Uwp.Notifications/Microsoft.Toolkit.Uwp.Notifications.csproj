@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <Choose>
-
     <!--Desktop Win32 apps-->
     <When Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.1'">
       <ItemGroup>
@@ -16,7 +15,6 @@
         <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
       </ItemGroup>
     </When>
-
   </Choose>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.1' or '$(TargetFramework)'=='net5.0-windows10.0.17763.0'">
