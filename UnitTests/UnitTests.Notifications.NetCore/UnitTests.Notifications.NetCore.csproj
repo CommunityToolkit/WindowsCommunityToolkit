@@ -6,7 +6,7 @@
     <IsPackable>false</IsPackable>
 
     <NoWarn>;CS8002</NoWarn>
-    
+
   </PropertyGroup>
 
   <ItemGroup>

@@ -65,7 +65,7 @@ namespace UnitTests.Helpers
             ObservableCollection<SampleClass> col = new ObservableCollection<SampleClass>();
             AdvancedCollectionView acv = new AdvancedCollectionView(col, true);
 
-            // Add all items to collection while DeferRefresh() is active: 
+            // Add all items to collection while DeferRefresh() is active:
             using (acv.DeferRefresh())
             {
                 foreach (var item in refList)
@@ -101,7 +101,7 @@ namespace UnitTests.Helpers
                 col.Add(item);
             }
 
-            // Remove all items from collection while DeferRefresh() is active: 
+            // Remove all items from collection while DeferRefresh() is active:
             using (acv.DeferRefresh())
             {
                 while (col.Count > 0)

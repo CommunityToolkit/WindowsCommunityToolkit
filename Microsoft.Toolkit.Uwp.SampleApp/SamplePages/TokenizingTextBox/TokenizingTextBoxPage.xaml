@@ -9,7 +9,7 @@
     <Page.Resources>
         <local:NameToColorConverter x:Key="NameToColorConverter"/>
     </Page.Resources>
-    
+
     <Grid Visibility="Collapsed">
         <SymbolIcon Symbol="Accept"/>
         <controls:TokenizingTextBox />

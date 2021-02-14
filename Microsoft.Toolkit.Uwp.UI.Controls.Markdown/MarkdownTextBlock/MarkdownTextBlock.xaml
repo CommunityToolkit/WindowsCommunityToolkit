@@ -30,7 +30,7 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-   
+
     <Style TargetType="controls:MarkdownTextBlock">
         <Setter Property="Background" Value="{ThemeResource MarkdownRichTextBlockBackground}" />
         <Setter Property="IsTabStop" Value="False" />

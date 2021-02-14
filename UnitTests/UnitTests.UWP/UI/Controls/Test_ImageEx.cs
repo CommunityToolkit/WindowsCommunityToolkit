@@ -64,7 +64,7 @@ namespace UnitTests.UWP.UI.Controls
             {
                 var imageLoader = new ImageEx();
 
-                await SetTestContentAsync(imageLoader); 
+                await SetTestContentAsync(imageLoader);
 
                 Assert.AreEqual("Unloaded", GetCurrentState(imageLoader));
 

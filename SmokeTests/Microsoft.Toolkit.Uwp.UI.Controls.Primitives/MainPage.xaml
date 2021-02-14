@@ -9,9 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid Padding="48">
       <controls:DockPanel
-        Background="LightGray" 
-        LastChildFill="False" 
-        Margin="2" 
+        Background="LightGray"
+        LastChildFill="False"
+        Margin="2"
         Padding="0,0,0,0"
         >
         <StackPanel Height="100" controls:DockPanel.Dock="Top" Background="Black"></StackPanel>
@@ -21,4 +21,3 @@
       </controls:DockPanel>
     </Grid>
 </Page>
-

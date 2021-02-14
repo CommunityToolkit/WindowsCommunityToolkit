@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
                     // Process the 'Additional' Group which contains just the attributes
                     figures.AddRange(from Capture capture in figureMatch.Groups["Additional"].Captures
-                        select PathElementFactory.CreateAdditionalPathFigure(type, capture, figureRootIndex + capture.Index, figure.IsRelative));
+                                     select PathElementFactory.CreateAdditionalPathFigure(type, capture, figureRootIndex + capture.Index, figure.IsRelative));
                 }
             }
 

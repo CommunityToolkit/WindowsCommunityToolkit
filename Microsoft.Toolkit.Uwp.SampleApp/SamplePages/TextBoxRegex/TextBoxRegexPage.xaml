@@ -19,6 +19,6 @@
 
         <TextBox ui:TextBoxExtensions.ValidationMode="Normal"
                  ui:TextBoxExtensions.ValidationType="PhoneNumber" />
-                    
+
     </Grid>
 </Page>

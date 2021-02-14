@@ -9,7 +9,7 @@
     <Page.Resources>
         <behaviors:ViewportBehavior x:Key="ViewportBehavior" />
     </Page.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

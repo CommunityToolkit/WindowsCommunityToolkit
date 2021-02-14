@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <controls:TabbedCommandBar>
             <controls:TabbedCommandBar.PaneFooter>
                 <CommandBar Background="Transparent" DefaultLabelPosition="Right">

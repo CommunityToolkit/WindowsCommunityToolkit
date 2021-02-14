@@ -10,5 +10,5 @@
     <Grid Visibility="Collapsed">
         <controls:HeaderedItemsControl />
     </Grid>
-    
+
 </Page>

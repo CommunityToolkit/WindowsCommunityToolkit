@@ -36,7 +36,7 @@
     <x:Double x:Key="SystemControlMSEdgeNotificationDismissButtonTranslate">18</x:Double>
     <VerticalAlignment x:Key="SystemControlMSEdgeNotificationDismissButtonVerticalAlignment">Top</VerticalAlignment>
     <Thickness x:Key="SystemControlMSEdgeNotificationButtonBorderThickness">2</Thickness>
-    
+
     <Style x:Key="DismissTextBlockButtonStyle"
            TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />

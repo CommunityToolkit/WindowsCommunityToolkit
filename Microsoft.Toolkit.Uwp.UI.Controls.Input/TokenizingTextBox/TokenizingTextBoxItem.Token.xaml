@@ -122,4 +122,3 @@
     <!--  Default style for TokenizingTextBoxItem  -->
     <Style TargetType="controls:TokenizingTextBoxItem" BasedOn="{StaticResource TokenizingTextBoxItemTokenStyle}"/>
 </ResourceDictionary>
-

@@ -52,7 +52,7 @@
                                        Grid.Column="1"/>
 
                             <TextBlock Text="Parent with Name:"
-                                       FontSize="14" 
+                                       FontSize="14"
                                        Grid.Row="3"
                                        Grid.Column="0"/>
                             <TextBlock x:Name="ControlFirstParentWithName"

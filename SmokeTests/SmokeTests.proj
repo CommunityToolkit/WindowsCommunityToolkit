@@ -41,7 +41,7 @@
     <Message Text="Got GitBank Version... $(NuGetPackageVersion)" Importance="High" />
   </Target>
 
-  <Target Name="Build" 
+  <Target Name="Build"
           DependsOnTargets="ChooseProjectsToBuild;GetNuGetVersion"
           Inputs="@(ProjectsToBuild)"
           Outputs="%(Filename)">
