@@ -1,11 +1,15 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
-      This library provides UI components, such as XAML extensions, helpers, converters and more. It is part of the Windows Community Toolkit.
+      This library provides UI components, such as XAML extensions, helpers, converters and more. It is a part of the Windows Community Toolkit.
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
 
@@ -39,9 +43,7 @@
       - DependencyPropertyWatcher: Used to Track Changes of a Dependency Property
       - ThemeListener: Class which listens for changes to Application Theme or High Contrast Modes and Signals an Event when they occur.
       </Description>
-    <PackageTags>Windows;Community;Toolkit;WCT;UWP;UI;Converters;XAML;extensions;helpers</PackageTags>
-    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageTags>UI;XAML;ApplicationView;FrameworkElement;SurfaceDial;Matrix;Mouse;TextBoxMask;TitleBar;VisualTree;Converters;Extensions;Helpers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
