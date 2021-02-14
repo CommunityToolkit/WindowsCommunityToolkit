@@ -29,9 +29,9 @@ Here is an example:
         <ColumnDefinition Width="48"></ColumnDefinition>
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <TextBlock Grid.Column="1" 
-		Text="@[Text:String:Hey!]" Foreground="Black" 
-		FontSize="@[FontSize:Slider:12:10-30]" 
+    <TextBlock Grid.Column="1"
+		Text="@[Text:String:Hey!]" Foreground="Black"
+		FontSize="@[FontSize:Slider:12:10-30]"
 		VerticalAlignment="@[Vertical Alignment:Enum:VerticalAlignment.Center]">
 	</TextBlock>
 </Grid>
@@ -57,8 +57,8 @@ The name and options will be translated **automatically** to the following synta
         <ColumnDefinition Width="48"></ColumnDefinition>
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <TextBlock Grid.Column="1" Text="{Binding Text.Value, Mode=OneWay}" Foreground="Black" 
-                FontSize="{Binding FontSize.Value, Mode=OneWay}" 
+    <TextBlock Grid.Column="1" Text="{Binding Text.Value, Mode=OneWay}" Foreground="Black"
+                FontSize="{Binding FontSize.Value, Mode=OneWay}"
                 VerticalAlignment="{Binding VerticalAlignment.Value, Mode=OneWay}"></TextBlock>
 </Grid>
 ```
@@ -71,8 +71,8 @@ When the developer switches to the XAML tab, they'll automatically see the selec
         <ColumnDefinition Width="48"></ColumnDefinition>
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <TextBlock Grid.Column="1" Text="User Entered Text" Foreground="Black" 
-                FontSize="12" 
+    <TextBlock Grid.Column="1" Text="User Entered Text" Foreground="Black"
+                FontSize="12"
                 VerticalAlignment="Left"></TextBlock>
 </Grid>
 ```
@@ -86,7 +86,7 @@ Value="@[Value:Slider:0:0-180]@"
 ```
 
 ## 3. Have a *'Shallow Copy'* of your example in the sample page
-Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)  
+Even though the sample page content is ignored and the dynamic template injected, for the XamlReader to access some classes, a reference to the item is sometimes needed in the hosting app for it to be accessible.  (I assume it's an optimization thing.)
 
 Therefore, for any new control/extension, you should still have a simplified snippet of it contained in the sample page compiled/loaded by the app.  You should remove names, events, and properties (unless extensions) from these so the namespace isn't accidentally polluted.  If you re-use the same control, you don't have to include it twice.
 
@@ -188,7 +188,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 `https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/{branch}/docs/{folder/file.md}`
 
-> NOTE: When building and running the app in release mode, the branch will automatically be changed to **main** before loading. 
+> NOTE: When building and running the app in release mode, the branch will automatically be changed to **main** before loading.
 
 > NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on GitHub, the sample app will use the packaged version
 
@@ -197,7 +197,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 > repositories
 > ├── WindowsCommunityToolkit
 > ├── WindowsCommunityToolkitDocs
-> ``` 
+> ```
 
 ### CodeUrl
 

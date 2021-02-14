@@ -12,7 +12,7 @@
             <SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemColorHighlightColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-    
+
     <Style TargetType="local:GridSplitter">
         <Setter Property="IsTabStop" Value="True"></Setter>
         <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>

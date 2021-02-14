@@ -19,9 +19,9 @@
                 </TransformGroup>
             </controls:LayoutTransformControl.Transform>
 
-            <Border HorizontalAlignment="Center" 
+            <Border HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Background="#FF333333" 
+                    Background="#FF333333"
                     BorderBrush="Red"
                     BorderThickness="5">
                 <Grid>

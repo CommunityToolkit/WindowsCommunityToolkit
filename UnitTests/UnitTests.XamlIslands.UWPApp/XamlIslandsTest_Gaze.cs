@@ -23,7 +23,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             await App.Dispatcher.EnqueueAsync(() =>
             {
-                var xamlItemsPanelTemplate = @"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
+                var xamlItemsPanelTemplate = @"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
                                                  xmlns:g='using:Microsoft.Toolkit.Uwp.Input.GazeInteraction'>
                         <Button HorizontalAlignment='Center' BorderBrush='#7FFFFFFF'

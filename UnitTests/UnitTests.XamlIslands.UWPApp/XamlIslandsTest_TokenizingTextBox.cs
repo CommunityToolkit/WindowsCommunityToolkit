@@ -69,7 +69,7 @@ namespace UnitTests.XamlIslands.UWPApp
 
                 _acv.SortDescriptions.Add(new SortDescription(nameof(SampleDataType.Text), SortDirection.Ascending));
 
-                var xamlTokenizingTextBox = @"<controls:TokenizingTextBox xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
+                var xamlTokenizingTextBox = @"<controls:TokenizingTextBox xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
                                                  xmlns:controls='using:Microsoft.Toolkit.Uwp.UI.Controls'
                           PlaceholderText='Add Actions'

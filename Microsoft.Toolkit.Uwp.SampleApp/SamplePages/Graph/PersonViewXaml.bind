@@ -10,7 +10,7 @@
   <Interactivity:Interaction.Behaviors>
     <providers:MockProviderBehavior/>
   </Interactivity:Interaction.Behaviors>
-  
+
   <Grid>
     <wgt:PersonView PersonQuery="Me"/>
   </Grid>

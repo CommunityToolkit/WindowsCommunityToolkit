@@ -12,7 +12,7 @@
     <Page.Resources>
         <converters:RemoteSystemKindToSymbolConverter x:Key="KindToImageConverter" />
     </Page.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

@@ -149,7 +149,7 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
-                                        <Border x:Name="Button1Host" 
+                                        <Border x:Name="Button1Host"
                                             Margin="{ThemeResource ContentDialogButton1HostMargin}"
                                             MinWidth="{ThemeResource ContentDialogButtonMinWidth}"
                                             MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}"

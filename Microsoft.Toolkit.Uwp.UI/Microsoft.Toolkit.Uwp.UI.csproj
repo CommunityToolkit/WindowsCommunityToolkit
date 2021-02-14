@@ -8,11 +8,11 @@
       This library provides UI components, such as XAML extensions, helpers, converters and more. It is part of the Windows Community Toolkit.
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
-      
+
       CacheBase: Provides methods and tools to cache files in a folder.
-      
+
       Converters: Commonly used converters that allow the data to be modified as it passes through the binding engine.
-      
+
       Extensions:
       - ApplicationViewExtensions: Provides attached properties for interacting with the ApplicationView on a window (app view).
       - FrameworkElementExtensions: Provides attached dependency properties for the FrameworkElement.
@@ -43,9 +43,9 @@
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-  </ItemGroup>  
+  </ItemGroup>
 
 </Project>

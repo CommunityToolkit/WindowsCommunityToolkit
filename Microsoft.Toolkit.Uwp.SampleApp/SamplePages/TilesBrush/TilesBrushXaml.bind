@@ -13,7 +13,7 @@
       <RowDefinition/>
       <RowDefinition/>
     </Grid.RowDefinitions>
-    
+
     <Image Source="ms-appx:///Assets/BrushAssets/TileTexture.png"
            Grid.RowSpan="3"/>
 

@@ -1160,7 +1160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
                 {
                     for (int colorIndex = 0; colorIndex < palette.ColorCount; colorIndex++)
-                {
+                    {
                         this.CustomPaletteColors.Add(palette.GetColor(colorIndex, shadeIndex));
                     }
                 }

@@ -18,7 +18,7 @@
     </When>
 
   </Choose>
-  
+
   <PropertyGroup Condition="'$(TargetFramework)'=='net461' or '$(TargetFramework)'=='netcoreapp3.1' or '$(TargetFramework)'=='net5.0-windows10.0.17763.0'">
     <!--Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available-->
     <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
@@ -30,7 +30,7 @@
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
-  
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'native' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(ExtrasUwpMetaPackageVersion)" PrivateAssets="all" IsImplicitlyDefined="true" />
   </ItemGroup>
@@ -54,7 +54,7 @@
     <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
     <DebugType>Full</DebugType>
@@ -77,7 +77,7 @@
     <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
   </PropertyGroup>
-  
+
   <!--Set the nuspec properties. Dependent on version which isn't updated till after GetBuildVersion. Condition ensures we only set once since this runs multiple times for each target.-->
   <Target Name="SetNuspecProperties" AfterTargets="GetBuildVersion">
     <PropertyGroup Condition="'$(NuspecProperties)' == ''">

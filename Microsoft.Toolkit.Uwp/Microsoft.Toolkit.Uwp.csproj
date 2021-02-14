@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    
+
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
   </ItemGroup>

@@ -65,8 +65,8 @@
                                         </Grid.ColumnDefinitions>
                                         <Button x:Name="ListDetailsBackButton"
                                                 Background="Transparent"
-                                                Height="44" 
-                                                Width="48" 
+                                                Height="44"
+                                                Width="48"
                                                 Visibility="Collapsed">
                                             <SymbolIcon Symbol="Back"/>
                                         </Button>
