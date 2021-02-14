@@ -8,7 +8,7 @@ assignees: ''
 
 <!-- 🚨 PLEASE DO NOT SKIP ANY INSTRUCTIONS AND INFORMATION MENTIONED BELOW AS THEY ARE ALL REQUIRED AND ESSENTIAL TO INVESTIGATE THE ISSUE. ISSUES WITH MISSING INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION
 ...
-IF NOT CERTAIN ABOUT THE ISSUE AND REQUIRE MORE CLARITY THEN PLEASE POST ON "QUESTIONS & HELP" CATEGORY OF THE DISCUSSIONS PLATFORM [https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help] WHERE YOU CAN DISCUSS AND ENAGAGE WITH THE COMMUNITY TO GAIN FURTHER CLAIRITY REGARDING THE ISSUE  🚨 -->
+IF NOT CERTAIN ABOUT THE ISSUE AND REQUIRE MORE CLARITY THEN PLEASE POST ON "QUESTIONS & HELP" CATEGORY OF THE DISCUSSIONS PLATFORM [https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help] WHERE YOU CAN DISCUSS AND ENGAGE WITH THE COMMUNITY TO GAIN FURTHER CLARITY REGARDING THE ISSUE  🚨 -->
 
 ## Describe the bug
 
@@ -42,9 +42,9 @@ Steps to reproduce the behavior:
 
 ## Environment
 
-<!-- Check one or more of the following options with "x" -->
+<!-- Check one or more of the following options with "x" and replace the {build_number} and {minor_version} with the actual values -->
 
-NuGet Package(s):
+NuGet Package(s): <!-- Which NuGet Packages have you used -->
 
 Package Version(s):
 
@@ -55,7 +55,7 @@ Windows 10 Build Number:
 - [ ] October 2018 Update (17763)
 - [ ] May 2019 Update (18362)
 - [ ] May 2020 Update (19041)
-- [ ] Insider Build (build number: )
+- [ ] Insider Build ({build_number})
 
 App min and target version:
 
@@ -64,7 +64,7 @@ App min and target version:
 - [ ] October 2018 Update (17763)
 - [ ] May 2019 Update (18362)
 - [ ] May 2020 Update (19041)
-- [ ] Insider Build (xxxxx)
+- [ ] Insider Build ({build_number})
 
 Device form factor:
 
@@ -73,11 +73,11 @@ Device form factor:
 - [ ] Surface Hub
 - [ ] IoT
 
-Visual Studio
+Visual Studio version:
 
-- [ ] 2017 (version: )
-- [ ] 2019 (version: )
-- [ ] 2019 Preview (version: )
+- [ ] 2017 (15.{minor_version})
+- [ ] 2019 (16.{minor_version})
+- [ ] 2022 (17.{minor_version})
 
 ## Additional context
 
