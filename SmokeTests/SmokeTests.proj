@@ -49,7 +49,7 @@
 
     <MSBuild Projects="SmokeTest.csproj"
               Targets="restore;build"
-              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)"/>
+              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)" />
   </Target>
 
   <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNugets">

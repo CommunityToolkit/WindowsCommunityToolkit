@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <!-- .NET Standard 2.1 and .NET 5 already have [NotNullIfNotNull] and [NotNullWhen] -->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'net5.0' ">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'net5.0'">
     <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
 

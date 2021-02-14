@@ -26,7 +26,7 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">
+    <When Condition="'$(TargetFramework)' == 'netstandard1.4'">
       <ItemGroup>
         <!-- .NET Standard 1.4 lacks the [Pure] attribute, the Rectangle primitive,
              the Span<T> and Memory<T> types, the Vector<T> primitive and related APIs,
@@ -45,7 +45,7 @@
       </ItemGroup>
     </When>
 
-    <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <When Condition="'$(TargetFramework)' == 'netstandard2.0'">
       <ItemGroup>
         <!-- .NET Standard 2.0 doesn't have the Span<T>, HashCode and ValueTask types -->
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
@@ -55,7 +55,7 @@
       </ItemGroup>
     </When>
 
-    <When Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <When Condition="'$(TargetFramework)' == 'netstandard2.1'">
       <ItemGroup>
         <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
@@ -75,13 +75,13 @@
       </PropertyGroup>
     </When>
 
-    <When Condition=" '$(TargetFramework)' == 'net5.0' ">
+    <When Condition="'$(TargetFramework)' == 'net5.0'">
       <PropertyGroup>
         <DefineConstants>NETSTANDARD2_1_OR_GREATER;SPAN_RUNTIME_SUPPORT</DefineConstants>
       </PropertyGroup>
     </When>
 
-    <When Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+    <When Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
@@ -97,7 +97,7 @@
       </PropertyGroup>
     </When>
 
-    <When Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+    <When Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
       <ItemGroup>
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
       </ItemGroup>
