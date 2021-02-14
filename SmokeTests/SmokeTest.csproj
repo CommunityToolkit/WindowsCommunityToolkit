@@ -129,4 +129,6 @@
     <Error Condition="'@(ToolkitNuGet)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet '$(CurrentProject).[SEMVER].nupkg' doesn't exist!" />
     <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set 'NuGetPackageVersion' at the top of 'SmokeTest.csproj' with the version to smoke test locally." />
   </Target>
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>
