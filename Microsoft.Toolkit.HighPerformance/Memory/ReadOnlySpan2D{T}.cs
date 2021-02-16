@@ -17,7 +17,7 @@ using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.Runti
 
 #pragma warning disable CS0809, CA1065
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// A readonly version of <see cref="Span2D{T}"/>.
@@ -478,7 +478,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-            return new ReadOnlySpan2D<T>(value, height, width, pitch);
+            return new ReadOnlySpan2D<T>(in value, height, width, pitch);
         }
 #endif
 
@@ -837,7 +837,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
 
-            return new ReadOnlySpan2D<T>(r0, height, width, pitch);
+            return new ReadOnlySpan2D<T>(in r0, height, width, pitch);
 #else
             IntPtr offset = this.offset + (shift * (nint)(uint)Unsafe.SizeOf<T>());
 
@@ -974,7 +974,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.ReadOnlySpan2D<{typeof(T)}>[{Height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<{typeof(T)}>[{Height}, {this.width}]";
         }
 
         /// <summary>
@@ -1012,7 +1012,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// Implicily converts a given 2D array into a <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </summary>
         /// <param name="array">The input 2D array to convert.</param>
-        public static implicit operator ReadOnlySpan2D<T>(T[,]? array) => new ReadOnlySpan2D<T>(array);
+        public static implicit operator ReadOnlySpan2D<T>(T[,]? array) => new(array);
 
         /// <summary>
         /// Implicily converts a given <see cref="Span2D{T}"/> into a <see cref="ReadOnlySpan2D{T}"/> instance.
@@ -1021,7 +1021,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         public static implicit operator ReadOnlySpan2D<T>(Span2D<T> span)
         {
 #if SPAN_RUNTIME_SUPPORT
-            return new ReadOnlySpan2D<T>(span.DangerousGetReference(), span.Height, span.Width, span.Stride - span.Width);
+            return new ReadOnlySpan2D<T>(in span.DangerousGetReference(), span.Height, span.Width, span.Stride - span.Width);
 #else
             return new ReadOnlySpan2D<T>(span.Instance!, span.Offset, span.Height, span.Width, span.Stride - span.Width);
 #endif

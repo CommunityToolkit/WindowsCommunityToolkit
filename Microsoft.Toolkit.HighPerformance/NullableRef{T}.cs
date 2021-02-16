@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableRef<T>(Ref<T> reference)
         {
-            return new NullableRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>

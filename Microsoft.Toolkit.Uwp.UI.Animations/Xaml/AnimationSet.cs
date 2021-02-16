@@ -9,7 +9,6 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -33,16 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public event EventHandler? Started;
 
         /// <summary>
-        /// Raised whenever the current animation ends.
+        /// Raised whenever the current animation completes.
         /// </summary>
-        public event EventHandler? Ended;
-
-        /// <summary>
-        /// An interface representing a node in an <see cref="AnimationSet"/> instance.
-        /// </summary>
-        public interface INode
-        {
-        }
+        public event EventHandler? Completed;
 
         /// <summary>
         /// Gets or sets a value indicating whether top level animation nodes in this collection are invoked
@@ -74,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // Here we're using an async void method on purpose, in order to be able to await
             // the completion of the animation and rethrow exceptions. We can't just use the
             // synchronous AnimationBuilder.Start method here, as we also need to await for the
-            // animation to complete in either case in order to raise the Ended event when that
+            // animation to complete in either case in order to raise the Completed event when that
             // happens. So we add an async state machine here to work around this.
             await StartAsync();
         }
@@ -125,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (IsSequential)
             {
-                foreach (INode node in this)
+                foreach (object node in this)
                 {
                     if (node is ITimeline timeline)
                     {
@@ -152,6 +144,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             break;
                         }
                     }
+                    else
+                    {
+                        ThrowArgumentException();
+                    }
 
                     // This should in theory only be necessary in the timeline branch, but doing this check
                     // after running activities too help guard against 3rd party activities that might not
@@ -166,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 var builder = AnimationBuilder.Create();
 
-                foreach (INode node in this)
+                foreach (object node in this)
                 {
                     switch (node)
                     {
@@ -176,13 +172,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         case IActivity activity:
                             _ = activity.InvokeAsync(element, token);
                             break;
+                        default:
+                            ThrowArgumentException();
+                            break;
                     }
                 }
 
                 await builder.StartAsync(element, token);
             }
 
-            Ended?.Invoke(this, EventArgs.Empty);
+            Completed?.Invoke(this, EventArgs.Empty);
+
+            static void ThrowArgumentException() => throw new ArgumentException($"An animation set can only contain nodes implementing either ITimeline or IActivity");
         }
 
         /// <summary>
@@ -218,10 +219,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (ParentReference?.TryGetTarget(out parent) != true)
             {
-                ThrowHelper.ThrowInvalidOperationException("The current animation collection isn't bound to a parent UIElement instance.");
+                ThrowInvalidOperationException();
             }
 
             return parent!;
+
+            static void ThrowInvalidOperationException() => throw new InvalidOperationException("The current AnimationSet object isn't bound to a parent UIElement instance.");
         }
     }
 }

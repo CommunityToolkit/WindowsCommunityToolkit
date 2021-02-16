@@ -4,7 +4,6 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -31,7 +30,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return (T)Convert.ChangeType(value, type);
             }
 
-            return ThrowHelper.ThrowNotSupportedException<T>("This serializer can only handle primitive types and strings. Please implement your own IObjectSerializer for more complex scenarios.");
+            return ThrowNotSupportedException();
+
+            static T ThrowNotSupportedException() => throw new NotSupportedException("This serializer can only handle primitive types and strings. Please implement your own IObjectSerializer for more complex scenarios.");
         }
 
         /// <summary>
