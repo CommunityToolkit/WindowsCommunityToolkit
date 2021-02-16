@@ -194,7 +194,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (DesignMode.DesignModeEnabled == false)
             {
-                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                if (Window.Current != null)
+                {
+                    SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                }
+
                 if (_frame != null)
                 {
                     _frame.Navigating -= OnFrameNavigating;
@@ -221,7 +225,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (DesignMode.DesignModeEnabled == false)
             {
-                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                if (Window.Current != null)
+                {
+                    SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                }
+
                 if (_frame != null)
                 {
                     _frame.Navigating -= OnFrameNavigating;
@@ -344,30 +352,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
-                    // Continue to support the system back button if it is being used
-                    var navigationManager = SystemNavigationManager.GetForCurrentView();
-                    if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
+                    if (Window.Current != null)
                     {
-                        // Setting this indicates that the system back button is being used
-                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
-                    }
-                    else if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
-                    {
-                        // We can only use the new NavigationView if we also have a Frame
-                        // If there is no frame we have to use the inline button
-                        _inlineBackButton.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        SetNavigationViewBackButtonState(backButtonVisible, true);
+                        // Continue to support the system back button if it is being used
+                        var navigationManager = SystemNavigationManager.GetForCurrentView();
+                        if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
+                        {
+                            // Setting this indicates that the system back button is being used
+                            _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                        }
+                        else if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
+                        {
+                            // We can only use the new NavigationView if we also have a Frame
+                            // If there is no frame we have to use the inline button
+                            _inlineBackButton.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            SetNavigationViewBackButtonState(backButtonVisible, true);
+                        }
                     }
                 }
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
                 {
-                    var navigationManager = SystemNavigationManager.GetForCurrentView();
-                    _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                    if (Window.Current != null)
+                    {
+                        var navigationManager = SystemNavigationManager.GetForCurrentView();
+                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
 
-                    navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                        navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                    }
                 }
             }
             else if (previousState == MasterDetailsViewState.Details)
@@ -394,8 +408,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_previousSystemBackButtonVisibility.HasValue)
                 {
                     // Make sure we show the back button if the stack can navigate back
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
-                    _previousSystemBackButtonVisibility = null;
+                    if (Window.Current != null)
+                    {
+                        SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
+                        _previousSystemBackButtonVisibility = null;
+                    }
                 }
             }
         }

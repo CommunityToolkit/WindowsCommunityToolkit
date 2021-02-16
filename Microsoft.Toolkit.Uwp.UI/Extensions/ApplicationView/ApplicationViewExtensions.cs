@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -94,11 +95,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static SystemNavigationManager GetSystemNavigationManager()
         {
+            if (Window.Current == null)
+            {
+                return null;
+            }
+
             return SystemNavigationManager.GetForCurrentView();
         }
 
         private static CoreApplicationView GetCoreApplicationView()
         {
+            if (Window.Current == null)
+            {
+                return null;
+            }
+
             return CoreApplication.GetCurrentView();
         }
 
