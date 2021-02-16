@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this T[,]? array)
         {
-            return new Span2D<T>(array);
+            return new(array);
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this T[,]? array, int row, int column, int height, int width)
         {
-            return new Span2D<T>(array, row, column, height, width);
+            return new(array, row, column, height, width);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this T[,]? array)
         {
-            return new Memory2D<T>(array);
+            return new(array);
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this T[,]? array, int row, int column, int height, int width)
         {
-            return new Memory2D<T>(array, row, column, height, width);
+            return new(array, row, column, height, width);
         }
 
 #if SPAN_RUNTIME_SUPPORT

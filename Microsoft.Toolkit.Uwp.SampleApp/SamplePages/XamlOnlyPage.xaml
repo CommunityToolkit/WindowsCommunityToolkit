@@ -55,6 +55,7 @@
         <interactivity:Interaction.Behaviors>
             <interactions:EventTriggerBehavior EventName="Loaded">
                 <interactions:ChangePropertyAction />
+                <interactions:InvokeCommandAction />
                 <mediaactions:PlaySoundAction />
             </interactions:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>
