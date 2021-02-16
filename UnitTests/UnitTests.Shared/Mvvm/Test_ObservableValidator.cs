@@ -2,10 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -88,33 +90,33 @@ namespace UnitTests.Mvvm
         {
             var model = new Person();
 
-            Assert.AreEqual(model.GetErrors(null).Cast<object>().Count(), 0);
-            Assert.AreEqual(model.GetErrors(string.Empty).Cast<object>().Count(), 0);
-            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Cast<object>().Count(), 0);
-            Assert.AreEqual(model.GetErrors(nameof(Person.Name)).Cast<object>().Count(), 0);
+            Assert.AreEqual(model.GetErrors(null).Count(), 0);
+            Assert.AreEqual(model.GetErrors(string.Empty).Count(), 0);
+            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Count(), 0);
+            Assert.AreEqual(model.GetErrors(nameof(Person.Name)).Count(), 0);
 
             model.Name = "Foo";
 
-            var errors = model.GetErrors(nameof(Person.Name)).Cast<ValidationResult>().ToArray();
+            var errors = model.GetErrors(nameof(Person.Name)).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
 
-            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Cast<object>().Count(), 0);
+            Assert.AreEqual(model.GetErrors("ThereIsntAPropertyWithThisName").Count(), 0);
 
-            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(null).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
 
-            errors = model.GetErrors(string.Empty).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(string.Empty).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.AreEqual(errors[0].MemberNames.First(), nameof(Person.Name));
 
             model.Age = -1;
 
-            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(null).ToArray();
 
             Assert.AreEqual(errors.Length, 2);
             Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Name))));
@@ -122,7 +124,7 @@ namespace UnitTests.Mvvm
 
             model.Age = 26;
 
-            errors = model.GetErrors(null).Cast<ValidationResult>().ToArray();
+            errors = model.GetErrors(null).ToArray();
 
             Assert.AreEqual(errors.Length, 1);
             Assert.IsTrue(errors.Any(e => e.MemberNames.First().Equals(nameof(Person.Name))));
@@ -145,11 +147,11 @@ namespace UnitTests.Mvvm
 
             if (isValid)
             {
-                Assert.IsTrue(!model.GetErrors(nameof(Person.Name)).Cast<object>().Any());
+                Assert.IsTrue(!model.GetErrors(nameof(Person.Name)).Any());
             }
             else
             {
-                Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Cast<object>().Any());
+                Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Any());
             }
         }
 
@@ -196,7 +198,7 @@ namespace UnitTests.Mvvm
             // Errors should now be present
             Assert.IsTrue(model.HasErrors);
             Assert.IsTrue(events.Count == 1);
-            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Cast<ValidationResult>().Any());
+            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Any());
             Assert.IsTrue(model.HasErrors);
 
             // Trying to set a correct property should clear the errors
@@ -205,6 +207,189 @@ namespace UnitTests.Mvvm
             Assert.IsTrue(events.Count == 2);
             Assert.IsFalse(model.HasErrors);
             Assert.AreEqual(model.Name, "This is fine");
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidateProperty()
+        {
+            var model = new ComparableModel();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            // Set a correct value for both properties, first A then B
+            model.A = 42;
+            model.B = 30;
+
+            Assert.AreEqual(events.Count, 0);
+            Assert.IsFalse(model.HasErrors);
+
+            // Make B greater than A, hence invalidating A
+            model.B = 50;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.IsTrue(model.HasErrors);
+
+            events.Clear();
+
+            // Make A greater than B, hence making it valid again
+            model.A = 51;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.AreEqual(model.GetErrors(nameof(ComparableModel.A)).Count(), 0);
+            Assert.IsFalse(model.HasErrors);
+
+            events.Clear();
+
+            // Make A smaller than B, hence invalidating it
+            model.A = 49;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.AreEqual(model.GetErrors(nameof(ComparableModel.A)).Count(), 1);
+            Assert.IsTrue(model.HasErrors);
+
+            events.Clear();
+
+            // Lower B, hence making A valid again
+            model.B = 20;
+
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events.Last().PropertyName, nameof(ComparableModel.A));
+            Assert.AreEqual(model.GetErrors(nameof(ComparableModel.A)).Count(), 0);
+            Assert.IsFalse(model.HasErrors);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ClearErrors()
+        {
+            var model = new Person();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.Age = -2;
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(model.GetErrors(nameof(Person.Age)).Any());
+
+            model.ClearErrors(nameof(Person.Age));
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+
+            model.Age = 200;
+            model.Name = "Bo";
+            events.Clear();
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(model.GetErrors(nameof(Person.Age)).Any());
+            Assert.IsTrue(model.GetErrors(nameof(Person.Name)).Any());
+
+            model.ClearErrors(null);
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsFalse(model.GetErrors(nameof(Person.Age)).Any());
+            Assert.IsFalse(model.GetErrors(nameof(Person.Name)).Any());
+            Assert.IsTrue(events.Count == 2);
+            Assert.IsTrue(events[0].PropertyName == nameof(Person.Age));
+            Assert.IsTrue(events[1].PropertyName == nameof(Person.Name));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidateAllProperties()
+        {
+            var model = new PersonWithDeferredValidation();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.ValidateAllProperties();
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+
+            // Note: we can't use an index here because the order used to return properties
+            // from reflection APIs is an implementation detail and might change at any time.
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Name)));
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+
+            events.Clear();
+
+            model.Name = "James";
+            model.Age = 42;
+
+            model.ValidateAllProperties();
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Name)));
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+
+            events.Clear();
+
+            model.Age = -10;
+
+            model.ValidateAllProperties();
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 1);
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_CustomValidation()
+        {
+            var items = new Dictionary<object, object> { [nameof(CustomValidationModel.A)] = 42 };
+            var model = new CustomValidationModel(items);
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.A = 10;
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(events.Count, 0);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_CustomValidationWithInjectedService()
+        {
+            var model = new ValidationWithServiceModel(new FancyService());
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            model.Name = "This is a valid name";
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.AreEqual(events.Count, 0);
+
+            model.Name = "This is invalid238!!";
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(events.Count, 1);
+            Assert.AreEqual(events[0].PropertyName, nameof(ValidationWithServiceModel.Name));
+            Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 1);
+
+            model.Name = "This is valid but it is too long so the validation will fail anyway";
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(events.Count, 2);
+            Assert.AreEqual(events[1].PropertyName, nameof(ValidationWithServiceModel.Name));
+            Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 1);
+
+            model.Name = "This is both too long and it also contains invalid characters, a real disaster!";
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.AreEqual(events.Count, 3);
+            Assert.AreEqual(events[2].PropertyName, nameof(ValidationWithServiceModel.Name));
+            Assert.AreEqual(model.GetErrors(nameof(ValidationWithServiceModel.Name)).ToArray().Length, 2);
         }
 
         public class Person : ObservableValidator
@@ -232,6 +417,166 @@ namespace UnitTests.Mvvm
             {
                 get => this.age;
                 set => SetProperty(ref this.age, value, true);
+            }
+
+            public new void ClearErrors(string propertyName)
+            {
+                base.ClearErrors(propertyName);
+            }
+        }
+
+        public class PersonWithDeferredValidation : ObservableValidator
+        {
+            [MinLength(4)]
+            [MaxLength(20)]
+            [Required]
+            public string Name { get; set; }
+
+            [Range(18, 100)]
+            public int Age { get; set; }
+
+            // Extra property with no validation
+            public float Foo { get; set; } = float.NaN;
+
+            public new void ValidateAllProperties()
+            {
+                base.ValidateAllProperties();
+            }
+        }
+
+        /// <summary>
+        /// Test model for linked properties, to test <see cref="ObservableValidator.ValidateProperty(object?, string?)"/> instance.
+        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3665 for the original request for this feature.
+        /// </summary>
+        public class ComparableModel : ObservableValidator
+        {
+            private int a;
+
+            [Range(10, 100)]
+            [GreaterThan(nameof(B))]
+            public int A
+            {
+                get => this.a;
+                set => SetProperty(ref this.a, value, true);
+            }
+
+            private int b;
+
+            [Range(20, 80)]
+            public int B
+            {
+                get => this.b;
+                set
+                {
+                    SetProperty(ref this.b, value, true);
+                    ValidateProperty(A, nameof(A));
+                }
+            }
+        }
+
+        public sealed class GreaterThanAttribute : ValidationAttribute
+        {
+            public GreaterThanAttribute(string propertyName)
+            {
+                PropertyName = propertyName;
+            }
+
+            public string PropertyName { get; }
+
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                object
+                    instance = validationContext.ObjectInstance,
+                    otherValue = instance.GetType().GetProperty(PropertyName).GetValue(instance);
+
+                if (((IComparable)value).CompareTo(otherValue) > 0)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("The current value is smaller than the other one");
+            }
+        }
+
+        /// <summary>
+        /// Test model for custom validation properties.
+        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3729 for the original request for this feature.
+        /// </summary>
+        public class CustomValidationModel : ObservableValidator
+        {
+            public CustomValidationModel(IDictionary<object, object> items)
+                : base(items)
+            {
+            }
+
+            private int a;
+
+            [CustomValidation(typeof(CustomValidationModel), nameof(ValidateA))]
+            public int A
+            {
+                get => this.a;
+                set => SetProperty(ref this.a, value, true);
+            }
+
+            public static ValidationResult ValidateA(int x, ValidationContext context)
+            {
+                Assert.AreEqual(context.MemberName, nameof(A));
+
+                if ((int)context.Items[nameof(A)] == 42)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("Missing the magic number");
+            }
+        }
+
+        public interface IFancyService
+        {
+            bool Validate(string name);
+        }
+
+        public class FancyService : IFancyService
+        {
+            public bool Validate(string name)
+            {
+                return Regex.IsMatch(name, @"^[A-Za-z ]+$");
+            }
+        }
+
+        /// <summary>
+        /// Test model for custom validation with an injected service.
+        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3750 for the original request for this feature.
+        /// </summary>
+        public class ValidationWithServiceModel : ObservableValidator
+        {
+            private readonly IFancyService service;
+
+            public ValidationWithServiceModel(IFancyService service)
+            {
+                this.service = service;
+            }
+
+            private string name;
+
+            [MaxLength(25, ErrorMessage = "The name is too long")]
+            [CustomValidation(typeof(ValidationWithServiceModel), nameof(ValidateName))]
+            public string Name
+            {
+                get => this.name;
+                set => SetProperty(ref this.name, value, true);
+            }
+
+            public static ValidationResult ValidateName(string name, ValidationContext context)
+            {
+                bool isValid = ((ValidationWithServiceModel)context.ObjectInstance).service.Validate(name);
+
+                if (isValid)
+                {
+                    return ValidationResult.Success;
+                }
+
+                return new ValidationResult("The name contains invalid characters");
             }
         }
     }

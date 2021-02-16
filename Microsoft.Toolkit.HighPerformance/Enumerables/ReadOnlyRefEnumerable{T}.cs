@@ -10,6 +10,8 @@ using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+using Microsoft.Toolkit.HighPerformance.Memory.Internals;
+
 #if !SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
@@ -75,6 +77,32 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         {
             this.span = MemoryMarshal.CreateReadOnlySpan(ref Unsafe.AsRef(reference), length);
             this.step = step;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="ReadOnlyRefEnumerable{T}"/> struct with the specified parameters.
+        /// </summary>
+        /// <param name="value">The reference to the first <typeparamref name="T"/> item to map.</param>
+        /// <param name="length">The number of items in the sequence.</param>
+        /// <param name="step">The distance between items in the sequence to enumerate.</param>
+        /// <returns>A <see cref="ReadOnlyRefEnumerable{T}"/> instance with the specified parameters.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when one of the parameters are negative.</exception>
+        [Pure]
+        public static ReadOnlyRefEnumerable<T> DangerousCreate(in T value, int length, int step)
+        {
+            if (length < 0)
+            {
+                ThrowArgumentOutOfRangeExceptionForLength();
+            }
+
+            if (step < 0)
+            {
+                ThrowArgumentOutOfRangeExceptionForStep();
+            }
+
+            OverflowHelper.EnsureIsInNativeIntRange(length, 1, step);
+
+            return new ReadOnlyRefEnumerable<T>(in value, length, step);
         }
 #else
         /// <summary>
@@ -358,6 +386,22 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                     return ref ri;
                 }
             }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "length" parameter is invalid.
+        /// </summary>
+        private static void ThrowArgumentOutOfRangeExceptionForLength()
+        {
+            throw new ArgumentOutOfRangeException("length");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the "step" parameter is invalid.
+        /// </summary>
+        private static void ThrowArgumentOutOfRangeExceptionForStep()
+        {
+            throw new ArgumentOutOfRangeException("step");
         }
 
         /// <summary>
