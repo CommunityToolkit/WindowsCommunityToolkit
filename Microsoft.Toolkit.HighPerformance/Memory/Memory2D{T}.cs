@@ -19,7 +19,7 @@ using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 #pragma warning disable CA2231
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// <see cref="Memory2D{T}"/> represents a 2D region of arbitrary memory. It is to <see cref="Span2D{T}"/>
@@ -894,12 +894,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
         }
 
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="Memory2D{T}"/>
         /// </summary>
-        public static implicit operator Memory2D<T>(T[,]? array) => new Memory2D<T>(array);
+        public static implicit operator Memory2D<T>(T[,]? array) => new(array);
     }
 }

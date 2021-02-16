@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
@@ -17,14 +16,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <summary>
         /// Provides a method to execute code after the rendering pass is completed.
         /// <seealso href="https://github.com/microsoft/microsoft-ui-xaml/blob/c045cde57c5c754683d674634a0baccda34d58c4/dev/dll/SharedHelpers.cpp#L399"/>
+        /// <seealso href="https://devblogs.microsoft.com/premier-developer/the-danger-of-taskcompletionsourcet-class/"/>
         /// </summary>
         /// <param name="action">Action to be executed after render pass</param>
+        /// <param name="options"><see cref="TaskCreationOptions"/> for how to handle async calls with <see cref="TaskCompletionSource{TResult}"/>.</param>
         /// <returns>Awaitable Task</returns>
-        public static Task<bool> ExecuteAfterCompositionRenderingAsync(Action action)
+        public static Task<bool> ExecuteAfterCompositionRenderingAsync(Action action, TaskCreationOptions? options = null)
         {
-            Guard.IsNotNull(action, nameof(action));
+            if (action is null)
+            {
+                ThrowArgumentNullException();
+            }
 
-            var taskCompletionSource = new TaskCompletionSource<bool>();
+            var taskCompletionSource = options.HasValue ? new TaskCompletionSource<bool>(options.Value)
+                : new TaskCompletionSource<bool>();
 
             try
             {
@@ -45,6 +50,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
             }
 
             return taskCompletionSource.Task;
+
+            static void ThrowArgumentNullException() => throw new ArgumentNullException("The parameter \"action\" must not be null.");
         }
     }
 }

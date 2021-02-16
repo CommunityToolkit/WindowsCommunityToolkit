@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-using Microsoft.Toolkit.HighPerformance.Memory;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
@@ -235,7 +234,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this T[,,] array, int depth)
         {
-            return new Span2D<T>(array, depth);
+            return new(array, depth);
         }
 
         /// <summary>
@@ -253,7 +252,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this T[,,] array, int depth)
         {
-            return new Memory2D<T>(array, depth);
+            return new(array, depth);
         }
 
         /// <summary>

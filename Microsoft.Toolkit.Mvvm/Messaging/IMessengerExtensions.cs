@@ -47,8 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// <summary>
             /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration actions for each recipient.
             /// </summary>
-            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods
-                = new ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]>();
+            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods = new();
         }
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // For more info on this, see the related issue at https://github.com/dotnet/roslyn/issues/5835.
             Action<IMessenger, object, TToken>[] registrationActions = DiscoveredRecipients<TToken>.RegistrationMethods.GetValue(
                 recipient.GetType(),
-                t => LoadRegistrationMethodsForType(t));
+                static t => LoadRegistrationMethodsForType(t));
 
             foreach (Action<IMessenger, object, TToken> registrationAction in registrationActions)
             {
@@ -158,7 +157,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static void Register<TMessage>(this IMessenger messenger, IRecipient<TMessage> recipient)
             where TMessage : class
         {
-            messenger.Register<IRecipient<TMessage>, TMessage, Unit>(recipient, default, (r, m) => r.Receive(m));
+            messenger.Register<IRecipient<TMessage>, TMessage, Unit>(recipient, default, static (r, m) => r.Receive(m));
         }
 
         /// <summary>
@@ -175,7 +174,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            messenger.Register<IRecipient<TMessage>, TMessage, TToken>(recipient, token, (r, m) => r.Receive(m));
+            messenger.Register<IRecipient<TMessage>, TMessage, TToken>(recipient, token, static (r, m) => r.Receive(m));
         }
 
         /// <summary>
