@@ -41,11 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsCacheEnabledProperty = DependencyProperty.Register(nameof(IsCacheEnabled), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
 
         /// <summary>
-        /// Identifies the <see cref="CachingStrategy"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty CachingStrategyProperty = DependencyProperty.Register(nameof(CachingStrategy), typeof(ImageExCachingStrategy), typeof(ImageExBase), new PropertyMetadata(ImageExCachingStrategy.Custom));
-
-        /// <summary>
         /// Identifies the <see cref="EnableLazyLoading"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false, EnableLazyLoadingChanged));
@@ -124,15 +119,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsCacheEnabledProperty); }
             set { SetValue(IsCacheEnabledProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating how the <see cref="ImageEx"/> will be cached.
-        /// </summary>
-        public ImageExCachingStrategy CachingStrategy
-        {
-            get { return (ImageExCachingStrategy)GetValue(CachingStrategyProperty); }
-            set { SetValue(CachingStrategyProperty, value); }
         }
 
         /// <summary>

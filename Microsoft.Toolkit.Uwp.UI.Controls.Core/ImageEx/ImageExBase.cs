@@ -21,7 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = UnloadedState, GroupName = CommonGroup)]
     [TemplateVisualState(Name = FailedState, GroupName = CommonGroup)]
     [TemplatePart(Name = PartImage, Type = typeof(object))]
-    [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
     public abstract partial class ImageExBase : Control
     {
         private bool _isInViewport;
@@ -30,11 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Image name in template
         /// </summary>
         protected const string PartImage = "Image";
-
-        /// <summary>
-        /// ProgressRing name in template
-        /// </summary>
-        protected const string PartProgress = "Progress";
 
         /// <summary>
         /// VisualStates name in template
@@ -67,21 +61,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected object Image { get; private set; }
 
         /// <summary>
-        /// Gets backing object for the ProgressRing
-        /// </summary>
-        protected ProgressRing Progress { get; private set; }
-
-        /// <summary>
-        /// Gets object used for lock
-        /// </summary>
-        protected object LockObj { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ImageExBase"/> class.
         /// </summary>
         public ImageExBase()
         {
-            LockObj = new object();
         }
 
         /// <summary>
@@ -90,14 +73,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">Routed Event Handler</param>
         protected void AttachImageOpened(RoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageOpened += handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageOpened += handler;
             }
@@ -109,14 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">RoutedEventHandler</param>
         protected void RemoveImageOpened(RoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageOpened -= handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageOpened -= handler;
             }
@@ -128,14 +105,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">Exception Routed Event Handler</param>
         protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageFailed += handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageFailed += handler;
             }
@@ -147,14 +121,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">Exception Routed Event Handler</param>
         protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageFailed -= handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageFailed -= handler;
             }
@@ -169,7 +140,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RemoveImageFailed(OnImageFailed);
 
             Image = GetTemplateChild(PartImage) as object;
-            Progress = GetTemplateChild(PartProgress) as ProgressRing;
 
             IsInitialized = true;
 
@@ -191,26 +161,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        /// <inheritdoc/>
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            var newSquareSize = Math.Min(finalSize.Width, finalSize.Height) / 8.0;
-
-            if (Progress?.Width == newSquareSize)
-            {
-                Progress.Height = newSquareSize;
-            }
-
-            return base.ArrangeOverride(finalSize);
-        }
-
-        private void OnImageOpened(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Underlying <see cref="Image.ImageOpened"/> event handler.
+        /// </summary>
+        /// <param name="sender">Image</param>
+        /// <param name="e">Event Arguments</param>
+        protected virtual void OnImageOpened(object sender, RoutedEventArgs e)
         {
             ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
             VisualStateManager.GoToState(this, LoadedState, true);
         }
 
-        private void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
+        /// <summary>
+        /// Underlying <see cref="Image.ImageFailed"/> event handler.
+        /// </summary>
+        /// <param name="sender">Image</param>
+        /// <param name="e">Event Arguments</param>
+        protected virtual void OnImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
