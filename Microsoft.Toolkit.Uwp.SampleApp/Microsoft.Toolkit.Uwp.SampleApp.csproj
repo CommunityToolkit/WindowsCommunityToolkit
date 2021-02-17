@@ -330,7 +330,6 @@
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.png" />
-    <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
     <Content Include="SamplePages\LiveTile\LiveTile.png" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
@@ -338,10 +337,8 @@
     <Content Include="SamplePages\ListDetailsView\ListDetailsView.png" />
     <Content Include="SamplePages\ListDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
-    <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
-    <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
@@ -363,13 +360,9 @@
     <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextbox.png" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
     <Content Include="SamplePages\Toast\Toast.png" />
-    <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
-    <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
-    <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
-    <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="landingPageLinks.json" />
@@ -399,7 +392,6 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
-    <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
@@ -421,7 +413,6 @@
     </Content>
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
     <Content Include="SamplePages\ListDetailsView\ListDetailsViewCode.bind" />
-    <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
@@ -493,7 +484,6 @@
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
-    <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
@@ -837,9 +827,6 @@
     <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
       <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
-      <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
     </Compile>
@@ -860,9 +847,6 @@
     </Compile>
     <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
     <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
-    <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
-      <DependentUpon>LinkedInPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
@@ -902,13 +886,9 @@
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
-      <DependentUpon>TwitterPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
     <Compile Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml.cs">
       <DependentUpon>ViewportBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -923,9 +903,6 @@
     </Compile>
     <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Weibo Service\WeiboPage.xaml.cs">
-      <DependentUpon>WeiboPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
       <DependentUpon>WrapPanelPage.xaml</DependentUpon>
@@ -1278,10 +1255,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\TileControl\TileControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1309,10 +1282,6 @@
     <Page Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\LinkedIn Service\LinkedInPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Loading\LoadingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1366,10 +1335,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1393,10 +1358,6 @@
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Weibo Service\WeiboPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\WrapLayout\WrapLayoutPage.xaml">
       <SubType>Designer</SubType>
@@ -1443,10 +1404,6 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
       <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
-      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
-      <Name>Microsoft.Toolkit.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
