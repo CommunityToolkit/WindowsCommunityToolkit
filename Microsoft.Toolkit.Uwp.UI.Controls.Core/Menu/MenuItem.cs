@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 MenuFlyout.Closed -= MenuFlyout_Closed;
             }
 
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 MenuFlyout.XamlRoot = XamlRoot;
             }
@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void CalculateBounds()
         {
             UIElement content;
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 content = XamlRoot.Content;
             }
@@ -367,7 +367,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UIElement content;
                 double outerContentWidth;
                 double outerContentHeight;
-                if (ControlHelpers.IsXamlRootAvailable && MenuFlyout.XamlRoot != null)
+                if (MenuFlyout.XamlRoot != null)
                 {
                     popups = VisualTreeHelper.GetOpenPopupsForXamlRoot(MenuFlyout.XamlRoot);
                     content = MenuFlyout.XamlRoot.Content;

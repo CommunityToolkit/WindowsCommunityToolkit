@@ -229,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             var scroller = (ScrollViewer)sender;
 
             object focusedElement;
-            if (ApiInformationHelper.IsXamlRootAvailable && scroller.XamlRoot != null)
+            if (scroller.XamlRoot != null)
             {
                 focusedElement = FocusManager.GetFocusedElement(scroller.XamlRoot);
             }

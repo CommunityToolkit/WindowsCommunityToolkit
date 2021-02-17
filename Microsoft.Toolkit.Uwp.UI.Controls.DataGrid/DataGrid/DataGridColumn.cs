@@ -1063,7 +1063,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (this.OwningGrid != null && this.OwningGrid.UseLayoutRounding)
             {
                 double scale;
-                if (TypeHelper.IsXamlRootAvailable && OwningGrid.XamlRoot != null)
+                if (OwningGrid.XamlRoot != null)
                 {
                     scale = OwningGrid.XamlRoot.RasterizationScale;
                 }

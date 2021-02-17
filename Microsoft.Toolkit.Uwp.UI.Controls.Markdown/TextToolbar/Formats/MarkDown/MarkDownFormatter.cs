@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
             headerFlyout = new Flyout { Content = list };
 
-            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && button.XamlRoot != null)
+            if (button.XamlRoot != null)
             {
                 headerFlyout.XamlRoot = button.XamlRoot;
             }

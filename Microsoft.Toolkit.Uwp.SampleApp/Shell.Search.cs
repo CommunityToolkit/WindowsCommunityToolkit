@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             object focusedElement;
 
-            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 focusedElement = FocusManager.GetFocusedElement(XamlRoot);
             }

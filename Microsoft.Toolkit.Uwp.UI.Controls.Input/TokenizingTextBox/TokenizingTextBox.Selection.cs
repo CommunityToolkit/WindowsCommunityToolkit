@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private TokenizingTextBoxItem GetCurrentContainerItem()
         {
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 return FocusManager.GetFocusedElement(XamlRoot) as TokenizingTextBoxItem;
             }

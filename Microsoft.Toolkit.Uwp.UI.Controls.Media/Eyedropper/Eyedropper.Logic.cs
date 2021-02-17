@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var top = WorkArea.Top;
                 double right;
                 double bottom;
-                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                if (XamlRoot != null)
                 {
                     right = XamlRoot.Size.Width - WorkArea.Right;
                     bottom = XamlRoot.Size.Height - WorkArea.Bottom;
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double width;
             double height;
             UIElement content;
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 scale = XamlRoot.RasterizationScale;
                 width = XamlRoot.Size.Width;

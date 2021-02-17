@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void SetScale(float zoomFactor)
         {
             /*
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 _screenScale = XamlRoot.RasterizationScale;
             }

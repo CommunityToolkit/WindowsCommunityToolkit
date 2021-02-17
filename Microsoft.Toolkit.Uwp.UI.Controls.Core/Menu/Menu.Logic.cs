@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static bool NavigateUsingKeyboard(VirtualKey virtualKey, Menu menu, Orientation orientation)
         {
             object element;
-            if (ControlHelpers.IsXamlRootAvailable && menu.XamlRoot != null)
+            if (menu.XamlRoot != null)
             {
                 element = FocusManager.GetFocusedElement(menu.XamlRoot);
             }
@@ -204,21 +204,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal FlyoutPlacementMode GetMenuFlyoutPlacementMode()
         {
-            UIElement content;
-            double height;
-            double width;
-            if (ControlHelpers.IsXamlRootAvailable)
+            if (XamlRoot == null)
             {
-                if (XamlRoot == null)
-                {
-                    return FlyoutPlacementMode.Top;
-                }
-
-                content = XamlRoot.Content;
-                height = XamlRoot.Size.Height;
-                width = XamlRoot.Size.Width;
+                return FlyoutPlacementMode.Top;
             }
-            else
+
+            UIElement content = XamlRoot.Content;
+            double height = XamlRoot.Size.Height;
+            double width = XamlRoot.Size.Width;
+
+            if (Window.Current != null && content == null)
             {
                 content = Window.Current.Content;
                 height = Window.Current.Bounds.Height;
@@ -322,7 +317,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void CalculateBounds()
         {
-            var ttv = TransformToVisual(ControlHelpers.IsXamlRootAvailable && XamlRoot != null ? XamlRoot.Content : Window.Current.Content);
+            var ttv = TransformToVisual(XamlRoot != null ? XamlRoot.Content : Window.Current.Content);
             Point screenCoords = ttv.TransformPoint(new Point(0, 0));
             _bounds.X = screenCoords.X;
             _bounds.Y = screenCoords.Y;

@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
 
         private static object GetFocusedElement(UIElement uiElement)
         {
-            if (TypeHelper.IsXamlRootAvailable && uiElement.XamlRoot != null)
+            if (uiElement.XamlRoot != null)
             {
                 return FocusManager.GetFocusedElement(uiElement.XamlRoot);
             }

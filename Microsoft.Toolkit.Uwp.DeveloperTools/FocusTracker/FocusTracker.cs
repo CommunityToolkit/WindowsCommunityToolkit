@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
         {
             FrameworkElement focusedControl;
 
-            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 focusedControl = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
             }

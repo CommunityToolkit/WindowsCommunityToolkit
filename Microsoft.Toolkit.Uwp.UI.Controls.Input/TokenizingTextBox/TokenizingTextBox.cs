@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 menuFlyout.XamlRoot = XamlRoot;
             }
@@ -301,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private object GetFocusedElement()
         {
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 return FocusManager.GetFocusedElement(XamlRoot);
             }
@@ -355,7 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
             menuFlyout.Items.Add(removeMenuItem);
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 menuFlyout.XamlRoot = XamlRoot;
             }

@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             ContentControl oldElem;
 
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 oldElem = FocusManager.GetFocusedElement(XamlRoot) as ContentControl;
             }

@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded += EyedropperToolButton_Unloaded;
             ActualThemeChanged -= EyedropperToolButton_ActualThemeChanged;
             ActualThemeChanged += EyedropperToolButton_ActualThemeChanged;
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 XamlRoot.Changed -= XamlRoot_Changed;
                 XamlRoot.Changed += XamlRoot_Changed;
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Click -= EyedropperToolButton_Click;
             Unloaded -= EyedropperToolButton_Unloaded;
             ActualThemeChanged -= EyedropperToolButton_ActualThemeChanged;
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 XamlRoot.Changed -= XamlRoot_Changed;
             }
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (TargetElement != null)
             {
                 UIElement content;
-                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                if (XamlRoot != null)
                 {
                     content = XamlRoot.Content;
                 }
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var transform = TargetElement.TransformToVisual(content);
                 var position = transform.TransformPoint(default);
                 _eyedropper.WorkArea = position.ToRect(TargetElement.ActualWidth, TargetElement.ActualHeight);
-                if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+                if (XamlRoot != null)
                 {
                     _eyedropper.XamlRoot = XamlRoot;
                 }

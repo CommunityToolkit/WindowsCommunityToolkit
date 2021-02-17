@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 SecondaryButtonText = "WCT_TextToolbar_CancelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources")
             };
 
-            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            if (button.XamlRoot != null)
             {
                 contentDialog.XamlRoot = button.XamlRoot;
             }
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 PrimaryButtonText = primaryButtonText
             };
 
-            if (ControlHelpers.IsXamlRootAvailable && button.XamlRoot != null)
+            if (button.XamlRoot != null)
             {
                 contentDialog.XamlRoot = button.XamlRoot;
             }

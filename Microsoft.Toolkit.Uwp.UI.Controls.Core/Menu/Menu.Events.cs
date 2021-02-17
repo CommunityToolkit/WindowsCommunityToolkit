@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Menu_LostFocus(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem;
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 menuItem = FocusManager.GetFocusedElement(XamlRoot) as MenuItem;
             }
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 _lastFocusElement = FocusManager.GetFocusedElement(XamlRoot) as Control;
             }

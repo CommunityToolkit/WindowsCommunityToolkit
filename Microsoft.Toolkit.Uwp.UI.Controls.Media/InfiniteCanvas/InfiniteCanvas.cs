@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 double height;
                 if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
                 {
-                    if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                    if (_infiniteCanvasScrollViewer.XamlRoot != null)
                     {
                         height = _infiniteCanvasScrollViewer.XamlRoot.Size.Height;
                     }
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 double width;
                 if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
                 {
-                    if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                    if (_infiniteCanvasScrollViewer.XamlRoot != null)
                     {
                         width = _infiniteCanvasScrollViewer.XamlRoot.Size.Width;
                     }
@@ -275,7 +275,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
             {
-                if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                if (_infiniteCanvasScrollViewer.XamlRoot != null)
                 {
                     _infiniteCanvasScrollViewer.Width = _infiniteCanvasScrollViewer.XamlRoot.Size.Width;
                 }
@@ -287,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
             {
-                if (ControlHelpers.IsXamlRootAvailable && _infiniteCanvasScrollViewer.XamlRoot != null)
+                if (_infiniteCanvasScrollViewer.XamlRoot != null)
                 {
                     _infiniteCanvasScrollViewer.Height = _infiniteCanvasScrollViewer.XamlRoot.Size.Height;
                 }

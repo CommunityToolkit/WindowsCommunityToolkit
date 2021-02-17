@@ -560,7 +560,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private object GetFocusedElement()
         {
-            if (ControlHelpers.IsXamlRootAvailable && XamlRoot != null)
+            if (XamlRoot != null)
             {
                 return FocusManager.GetFocusedElement(XamlRoot);
             }

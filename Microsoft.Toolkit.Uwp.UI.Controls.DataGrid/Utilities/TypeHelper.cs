@@ -18,9 +18,6 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         internal const char PropertyNameSeparator = '.';
         internal const char RightIndexerToken = ']';
 
-        private static bool isAPIsAvailableInitialized = false;
-        private static bool isXamlRootAvailable = false;
-
         // Methods
         private static Type FindGenericType(Type definition, Type type)
         {
@@ -454,25 +451,6 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             }
 
             return instance == null ? null : instance.GetType();
-        }
-
-        internal static bool IsXamlRootAvailable
-        {
-            get
-            {
-                if (!isAPIsAvailableInitialized)
-                {
-                    InitializeAPIsAvailable();
-                }
-
-                return isXamlRootAvailable;
-            }
-        }
-
-        internal static void InitializeAPIsAvailable()
-        {
-            isXamlRootAvailable = Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot");
-            isAPIsAvailableInitialized = true;
         }
     }
 }
