@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.Deferred
+namespace Microsoft.Toolkit.Deferred
 {
     /// <summary>
     /// Deferral handle provided by a <see cref="DeferredEventArgs"/>.
