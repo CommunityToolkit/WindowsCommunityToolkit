@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<char> Enumerate(this string text)
         {
-            return new ReadOnlySpanEnumerable<char>(text.AsSpan());
+            return new(text.AsSpan());
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanTokenizer<char> Tokenize(this string text, char separator)
         {
-            return new ReadOnlySpanTokenizer<char>(text.AsSpan(), separator);
+            return new(text.AsSpan(), separator);
         }
 
         /// <summary>

@@ -900,6 +900,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="Memory2D{T}"/>
         /// </summary>
-        public static implicit operator Memory2D<T>(T[,]? array) => new Memory2D<T>(array);
+        public static implicit operator Memory2D<T>(T[,]? array) => new(array);
     }
 }

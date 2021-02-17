@@ -55,6 +55,7 @@
         <interactivity:Interaction.Behaviors>
             <interactions:EventTriggerBehavior EventName="Loaded">
                 <interactions:ChangePropertyAction />
+                <interactions:InvokeCommandAction />
                 <!-- TODO: WinUI3 removed -->
                 <!--<mediaactions:PlaySoundAction />-->
             </interactions:EventTriggerBehavior>

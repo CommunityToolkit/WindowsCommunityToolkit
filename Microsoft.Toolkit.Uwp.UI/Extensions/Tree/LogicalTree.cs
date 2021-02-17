@@ -200,7 +200,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Finds the logical parent element with the given name or returns null.
+        /// Finds the logical parent element with the given name or returns null. Note: Parent may only be set when the control is added to the VisualTree.
+        /// <seealso href="https://docs.microsoft.com/uwp/api/windows.ui.xaml.frameworkelement.parent#remarks"/>
         /// </summary>
         /// <param name="element">Child element.</param>
         /// <param name="name">Name of the control to find.</param>
@@ -226,7 +227,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Find first logical parent control of a specified type.
+        /// Find first logical parent control of a specified type. Note: Parent may only be set when the control is added to the VisualTree.
+        /// <seealso href="https://docs.microsoft.com/uwp/api/windows.ui.xaml.frameworkelement.parent#remarks"/>
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>

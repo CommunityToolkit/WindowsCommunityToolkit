@@ -3,12 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-
+using UnitTests.Extensions;
 using Windows.ApplicationModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
+using Windows.System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
@@ -19,8 +22,30 @@ namespace UnitTests
     /// </summary>
     public partial class App : Application
     {
-        private readonly ITestMethod _testMethod;
-        private readonly TaskCompletionSource<TestResult> _taskCompletionSource;
+        // Holder for test content to abstract Window.Current.Content
+        public static FrameworkElement ContentRoot
+        {
+            get
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                return rootFrame.Content as FrameworkElement;
+            }
+
+            set
+            {
+                var rootFrame = Window.Current.Content as Frame;
+                rootFrame.Content = value;
+            }
+        }
+
+        // Abstract CoreApplication.MainView.DispatcherQueue
+        public static DispatcherQueue DispatcherQueue
+        {
+            get
+            {
+                return CoreApplication.MainView.DispatcherQueue;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
@@ -57,7 +82,10 @@ namespace UnitTests
             if (rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                rootFrame = new Frame()
+                {
+                    CacheSize = 0 // Prevent any test pages from being cached
+                };
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
