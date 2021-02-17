@@ -19,15 +19,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
     public static class CompositionExtensions
     {
         /// <summary>
-        /// Creates a custom shaped Effect Brush using BackdropBrush and an IMaskSurface
+        /// Creates a custom shaped Effect Brush using BackdropBrush and an IGeometryMaskSurface
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IMaskSurface</param>
+        /// <param name="mask">IGeometryMaskSurface</param>
         /// <param name="blendColor">Color to blend in the BackdropBrush</param>
         /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
         /// <returns>CompositionEffectBrush</returns>
-        public static CompositionEffectBrush CreateMaskedBackdropBrush(this Compositor compositor, IMaskSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
+        public static CompositionEffectBrush CreateMaskedBackdropBrush(this Compositor compositor, IGeometryMaskSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
         {
             return CompositionExtensions.CreateBackdropBrush(compositor, mask, blendColor, blurAmount, backdropBrush);
         }
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Creates a custom shaped Effect Brush using BackdropBrush and an IGaussianMaskSurface
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IMaskSurface</param>
+        /// <param name="mask">IGeometryMaskSurface</param>
         /// <param name="blendColor">Color to blend in the BackdropBrush</param>
         /// <param name="blurRadius">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
@@ -47,10 +47,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         }
 
         /// <summary>
-        /// Creates a custom shaped Effect Brush using BackdropBrush and an IMaskSurface or an IGaussianMaskSurface
+        /// Creates a custom shaped Effect Brush using BackdropBrush and an IGeometryMaskSurface or an IGaussianMaskSurface
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IMaskSurface or IGaussianMaskSurface</param>
+        /// <param name="mask">IGeometryMaskSurface or IGaussianMaskSurface</param>
         /// <param name="blendColor">Color to blend in the BackdropBrush</param>
         /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
             brush.SetSourceParameter("backdrop", backdropBrush ?? compositor.CreateBackdropBrush());
 
             // Set the Mask
-            // Create SurfaceBrush from IMaskSurface
+            // Create SurfaceBrush from IGeometryMaskSurface
             var maskBrush = compositor.CreateSurfaceBrush(mask.Surface);
             brush.SetSourceParameter("mask", maskBrush);
 
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Creates a custom shaped Frosted Glass Effect Brush using BackdropBrush and a Mask
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IMaskSurface</param>
+        /// <param name="mask">IGeometryMaskSurface</param>
         /// <param name="blendColor">Color to blend in the BackdropBrush</param>
         /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <returns>CompositionEffectBrush</returns>
         public static CompositionEffectBrush CreateFrostedGlassBrush(
             this Compositor compositor,
-            IMaskSurface mask,
+            IGeometryMaskSurface mask,
             Color blendColor,
             float blurAmount,
             CompositionBackdropBrush backdropBrush = null,

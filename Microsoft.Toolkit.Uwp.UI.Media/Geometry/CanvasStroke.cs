@@ -43,6 +43,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Initializes a new instance of the <see cref="CanvasStroke"/> class.
         /// </summary>
+        public CanvasStroke()
+        {
+            Brush = null;
+            Width = 0;
+            Style = new CanvasStrokeStyle();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CanvasStroke"/> class.
+        /// </summary>
         /// <param name="brush">The brush with which the <see cref="CanvasStroke"/> will be rendered</param>
         /// <param name="strokeWidth">Width of the <see cref="CanvasStroke"/></param>
         public CanvasStroke(ICanvasBrush brush, float strokeWidth = 1f)

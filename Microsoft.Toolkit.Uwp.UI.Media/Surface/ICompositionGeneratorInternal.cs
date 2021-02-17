@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
 {
     /// <summary>
-    /// Internal interface for the CompositionMaskGenerator
+    /// Internal interface for the ComposiitonGenerator
     /// </summary>
     internal interface ICompositionGeneratorInternal : ICompositionGenerator
     {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         CompositionDrawingSurface CreateDrawingSurface(object surfaceLock, Size size);
 
         /// <summary>
-        /// Resizes the MaskSurface to the given size.
+        /// Resizes the GeometryMaskSurface to the given size.
         /// </summary>
         /// <param name="surfaceLock">The object to lock to prevent multiple threads
         /// from accessing the surface at the same time.</param>
@@ -39,13 +39,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         void ResizeDrawingSurface(object surfaceLock, CompositionDrawingSurface surface, Size size);
 
         /// <summary>
-        /// Redraws the MaskSurface with the given size and geometry.
+        /// Redraws the GeometryMaskSurface with the given size and geometry.
         /// </summary>
         /// <param name="surfaceLock">The object to lock to prevent multiple threads
         /// from accessing the surface at the same time.</param>
         /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">Size of the MaskSurface</param>
-        /// <param name="geometry">Geometry of the MaskSurface</param>
+        /// <param name="size">Size of the GeometryMaskSurface</param>
+        /// <param name="geometry">Geometry of the GeometryMaskSurface</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
         /// the Geometry is rendered.</param>
         void RedrawMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset);
@@ -56,8 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="surfaceLock">The object to lock to prevent multiple threads
         /// from accessing the surface at the same time.</param>
         /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">Size of the MaskSurface</param>
-        /// <param name="geometry">Geometry of the MaskSurface</param>
+        /// <param name="size">Size of the GeometryMaskSurface</param>
+        /// <param name="geometry">Geometry of the GeometryMaskSurface</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where the Geometry is rendered.</param>
         /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the GaussianMaskSurface</param>
         void RedrawGaussianMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius);

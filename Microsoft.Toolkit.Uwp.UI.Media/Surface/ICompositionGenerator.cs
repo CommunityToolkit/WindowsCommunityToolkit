@@ -17,7 +17,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
 {
     /// <summary>
-    /// Interface for the CompositionMaskGenerator
+    /// Interface for the ComposiitonGenerator
     /// </summary>
     public interface ICompositionGenerator : IDisposable
     {
@@ -37,39 +37,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         CanvasDevice Device { get; }
 
         /// <summary>
-        /// <para>Creates an Empty MaskSurface having the no size and geometry.</para>
-        /// <para>NOTE: Use this API if you want to create an Empty IMaskSurface first
-        /// and change its geometry and/or size of the MaskSurface later.</para>
+        /// <para>Creates an Empty GeometryMaskSurface having the no size and geometry.</para>
+        /// <para>NOTE: Use this API if you want to create an Empty IGeometryMaskSurface first
+        /// and change its geometry and/or size of the GeometryMaskSurface later.</para>
         /// </summary>
-        /// <returns>IMaskSurface</returns>
-        IMaskSurface CreateMaskSurface();
+        /// <returns>IGeometryMaskSurface</returns>
+        IGeometryMaskSurface CreateGeometryMaskSurface();
 
         /// <summary>
-        /// Creates a MaskSurface having the given size and geometry. The geometry is filled
+        /// Creates a GeometryMaskSurface having the given size and geometry. The geometry is filled
         /// with white color. The surface not covered by the geometry is transparent.
         /// </summary>
         /// <param name="size">Size of the mask</param>
         /// <param name="geometry">Geometry of the mask</param>
-        /// <returns>IMaskSurface</returns>
-        IMaskSurface CreateMaskSurface(Size size, CanvasGeometry geometry);
+        /// <returns>IGeometryMaskSurface</returns>
+        IGeometryMaskSurface CreateGeometryMaskSurface(Size size, CanvasGeometry geometry);
 
         /// <summary>
-        /// Creates a MaskSurface having the given size and geometry. The geometry is filled
+        /// Creates a GeometryMaskSurface having the given size and geometry. The geometry is filled
         /// with white color. The surface not covered by the geometry is transparent.
         /// </summary>
         /// <param name="size">Size of the mask</param>
         /// <param name="geometry">Geometry of the mask</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
         /// the Geometry is rendered.</param>
-        /// <returns>IMaskSurface</returns>
-        IMaskSurface CreateMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset);
+        /// <returns>IGeometryMaskSurface</returns>
+        IGeometryMaskSurface CreateGeometryMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset);
 
         /// <summary>
         /// <para>Creates an Empty IGaussianMaskSurface having the no size and geometry.</para>
         /// <para>NOTE: Use this API if you want to create an Empty IGaussianMaskSurface first
         /// and change its geometry, size and/or blurRadius of the IGaussianMaskSurface later.</para>
         /// </summary>
-        /// <returns>IMaskSurface</returns>
+        /// <returns>IGeometryMaskSurface</returns>
         IGaussianMaskSurface CreateGaussianMaskSurface();
 
         /// <summary>

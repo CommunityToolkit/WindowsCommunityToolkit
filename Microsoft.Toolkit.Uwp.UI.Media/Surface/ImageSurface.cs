@@ -5,7 +5,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI.Composition;
@@ -79,13 +78,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Initializes a new instance of the <see cref="ImageSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">ICompositionMaskGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object</param>
         /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
         /// <param name="size">Size of the IImageSurface</param>
         /// <param name="options">The image's resize and alignment options in the allocated space.</param>
         public ImageSurface(ICompositionGeneratorInternal generator, Uri uri, Size size, ImageSurfaceOptions options)
         {
-            Guard.IsNotNull(generator, nameof(generator));
+            _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
 
             _generator = generator;
             _surfaceLock = new object();
@@ -109,13 +108,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Initializes a new instance of the <see cref="ImageSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">ICompositionMaskGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object</param>
         /// <param name="surfaceBitmap">CanvasBitmap which will be rendered on the IImageSurface.</param>
         /// <param name="size">Size of the IImageSurface</param>
         /// <param name="options">The image's resize and alignment options in the allocated space.</param>
         internal ImageSurface(ICompositionGeneratorInternal generator, CanvasBitmap surfaceBitmap, Size size, ImageSurfaceOptions options)
         {
-            Guard.IsNotNull(generator, nameof(generator));
+            _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
 
             _generator = generator;
             _surfaceLock = new object();

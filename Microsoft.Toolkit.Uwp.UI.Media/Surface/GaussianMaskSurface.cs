@@ -5,7 +5,6 @@
 using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.Composition;
 
@@ -57,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Initializes a new instance of the <see cref="GaussianMaskSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">ICompositionMaskGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object</param>
         /// <param name="size">Size of the GaussianMaskSurface</param>
         /// <param name="geometry">Geometry of the GaussianMaskSurface</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
@@ -65,9 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the GaussianMaskSurface</param>
         public GaussianMaskSurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
-            Guard.IsNotNull(generator, nameof(generator));
+            _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
 
-            _generator = generator;
             _surfaceLock = new object();
             Geometry = geometry;
             Offset = offset;

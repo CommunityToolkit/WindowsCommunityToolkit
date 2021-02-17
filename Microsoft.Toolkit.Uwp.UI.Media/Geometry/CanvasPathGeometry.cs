@@ -2,22 +2,86 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
+using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Helper Class for creating Win2d objects.
+    /// Represents a complex vector-based shape that may be composed of arcs, curves, ellipses, lines, rectangles, rounded rectangles, squircles.
+    /// Also provides several helper methods to create Win2d objects.
     /// </summary>
-    public static class CanvasPathGeometry
+    public class CanvasPathGeometry : CanvasCoreGeometry
     {
+        /// <summary>
+        /// Data Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty DataProperty = DependencyProperty.Register(
+            "Data",
+            typeof(string),
+            typeof(CanvasPathGeometry),
+            new PropertyMetadata(string.Empty, OnDataChanged));
+
+        /// <summary>
+        /// Gets or sets the path data for the associated Win2d CanvasGeometry defined in the Win2d Path Mini Language.
+        /// </summary>
+        public string Data
+        {
+            get => (string)GetValue(DataProperty);
+            set => SetValue(DataProperty, value);
+        }
+
+        /// <summary>
+        /// Handles changes to the Data property.
+        /// </summary>
+        /// <param name="d">CanvasPathGeometry</param>
+        /// <param name="e">DependencyProperty changed event arguments</param>
+        private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var pathGeometry = (CanvasPathGeometry)d;
+            pathGeometry.OnDataChanged();
+        }
+
+        /// <summary>
+        /// Instance handler for the changes to the Data dependency property.
+        /// </summary>
+        protected virtual void OnDataChanged()
+        {
+            UpdateGeometry();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CanvasPathGeometry"/> class.
+        /// </summary>
+        public CanvasPathGeometry()
+        {
+            this.Geometry = null;
+        }
+
+        /// <inheritdoc/>
+        protected override void UpdateGeometry()
+        {
+            // Dispose previous CanvasGeometry (if any)
+            Geometry?.Dispose();
+            Geometry = null;
+
+            try
+            {
+                Geometry = CreateGeometry(CompositionGenerator.Instance.Device, Data);
+            }
+            catch (Exception)
+            {
+                Geometry = null;
+            }
+        }
+
         /// <summary>
         /// Parses the Path data string and converts it to CanvasGeometry.
         /// </summary>
@@ -25,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <returns><see cref="CanvasGeometry"/></returns>
         public static CanvasGeometry CreateGeometry(string pathData)
         {
-            return CreateGeometry(null, pathData);
+            return CreateGeometry(CompositionGenerator.Instance.Device, pathData);
         }
 
         /// <summary>

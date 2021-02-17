@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI;
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Initializes a new instance of the <see cref="GeometrySurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">ICompositionMaskGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object</param>
         /// <param name="size">Size of the GeometrySurface</param>
         /// <param name="geometry">Geometry of the GeometrySurface</param>
         /// <param name="stroke">Stroke for the geometry</param>
@@ -73,9 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// not covered by the geometry</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
-            Guard.IsNotNull(generator, nameof(generator));
+            _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
 
-            _generator = generator;
             _surfaceLock = new object();
             _geometry = geometry;
             _stroke = stroke;
@@ -96,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Initializes a new instance of the <see cref="GeometrySurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">ICompositionMaskGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object</param>
         /// <param name="size">Size of the GeometrySurface</param>
         /// <param name="geometry">Geometry of the GeometrySurface</param>
         /// <param name="stroke">Stroke for the geometry</param>
@@ -105,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// not covered by the geometry</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fill, ICanvasBrush backgroundBrush)
         {
-            Guard.IsNotNull(generator, nameof(generator));
+            _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
 
             _generator = generator;
             _surfaceLock = new object();

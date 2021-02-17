@@ -11,7 +11,6 @@ using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Composition;
-using Microsoft.Toolkit.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
@@ -22,28 +21,34 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
 {
     /// <summary>
-    /// Class to create mask which can be used to create custom shaped
-    /// Composition Visuals.
+    /// Core class which is used to create various RenderSurfaces like GeometrySurface, GeometryMaskSurface, GaussianMaskSurface, ImageSurface, ImageMaskSurface
     /// </summary>
-    internal sealed class CompositionGenerator : ICompositionGeneratorInternal
+    public sealed class CompositionGenerator : ICompositionGeneratorInternal
     {
         /// <summary>
         /// Device Replaced event
         /// </summary>
         public event EventHandler<object> DeviceReplaced;
 
+        private static Lazy<ICompositionGenerator> _instance =
+            new Lazy<ICompositionGenerator>(() => new CompositionGenerator(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+
         private readonly object _disposingLock;
-        private readonly bool _useSharedCanvasDevice;
-        private readonly bool _forceSoftwareRenderer;
+        private bool _useSharedCanvasDevice;
         private CompositionGraphicsDevice _compositionDevice;
 
         /// <summary>
-        /// Gets the Compositor
+        /// Gets the CompositionGenerator instance.
+        /// </summary>
+        public static ICompositionGenerator Instance => _instance.Value;
+
+        /// <summary>
+        /// Gets the Compositor.
         /// </summary>
         public Compositor Compositor { get; private set; }
 
         /// <summary>
-        /// Gets the CanvasDevice
+        /// Gets the CanvasDevice.
         /// </summary>
         public CanvasDevice Device { get; private set; }
 
@@ -51,20 +56,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Initializes a new instance of the <see cref="CompositionGenerator"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <param name="useSharedCanvasDevice">Indicates whether to use a shared CanvasDevice or to create a new one.</param>
-        /// <param name="forceSoftwareRenderer">Indicates whether to use Software Renderer when creating a new CanvasDevice.</param>
-        public CompositionGenerator(Compositor compositor, bool useSharedCanvasDevice = true, bool forceSoftwareRenderer = false)
+        private CompositionGenerator()
         {
-            // Compositor
-            Guard.IsNotNull(compositor, nameof(compositor));
-            Compositor = compositor;
+            Compositor = Window.Current.Compositor;
+            if (Compositor == null)
+            {
+                // Since the compositor is null, we cannot proceed with the initialization of the CompositionGenerator. Therefore, throw an exception so that the value of
+                // the GeneratorInstance.IsValueCreated property remains false, and subsequent calls to the GeneratorInstance.Value property, either by the thread where the exception was
+                // thrown or by other threads, cause the initialization method to run again.
+                throw new ArgumentException("Cannot instantiate CompositionGenerator. Window.Current.Compositor is null.");
+            }
 
             // Disposing Lock
             _disposingLock = new object();
 
-            _useSharedCanvasDevice = useSharedCanvasDevice;
-            _forceSoftwareRenderer = forceSoftwareRenderer;
+            InitializeDevices();
         }
 
         /// <summary>
@@ -300,30 +306,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="raiseEvent">Indicates whether the DeviceReplacedEvent should be raised.</param>
         private void InitializeDevices(bool raiseEvent = false)
         {
-            lock (this._disposingLock)
+            lock (_disposingLock)
             {
-                if (!(this.Device is null))
+                if (!(Device is null))
                 {
-                    this.Device.DeviceLost -= this.OnDeviceLost;
+                    Device.DeviceLost -= OnDeviceLost;
                 }
 
-                if (!(this._compositionDevice is null))
+                if (!(_compositionDevice is null))
                 {
-                    this._compositionDevice.RenderingDeviceReplaced -= this.OnRenderingDeviceReplaced;
+                    _compositionDevice.RenderingDeviceReplaced -= OnRenderingDeviceReplaced;
                 }
 
                 // Canvas Device
-                Device = _useSharedCanvasDevice
-                    ? CanvasDevice.GetSharedDevice(_forceSoftwareRenderer)
-                    : new CanvasDevice(_forceSoftwareRenderer);
+                _useSharedCanvasDevice = true;
+                Device = CanvasDevice.GetSharedDevice();
+                if (Device is null)
+                {
+                    Device = new CanvasDevice();
+                    _useSharedCanvasDevice = false;
+                }
 
                 // Composition Graphics Device
                 _compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(Compositor, Device);
 
-                _compositionDevice.RenderingDeviceReplaced += this.OnRenderingDeviceReplaced;
+                _compositionDevice.RenderingDeviceReplaced += OnRenderingDeviceReplaced;
 
-                this.Device.DeviceLost += this.OnDeviceLost;
-                this._compositionDevice.RenderingDeviceReplaced += this.OnRenderingDeviceReplaced;
+                Device.DeviceLost += OnDeviceLost;
+                _compositionDevice.RenderingDeviceReplaced += OnRenderingDeviceReplaced;
 
                 if (raiseEvent)
                 {
@@ -359,31 +369,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         }
 
         /// <summary>
-        /// <para>Creates an Empty IMaskSurface having the no size and geometry.</para>
-        /// <para>NOTE: Use this API if you want to create an Empty IMaskSurface first
-        /// and change its geometry and/or size of the IMaskSurface later.</para>
+        /// <para>Creates an Empty IGeometryMaskSurface having the no size and geometry.</para>
+        /// <para>NOTE: Use this API if you want to create an Empty IGeometryMaskSurface first
+        /// and change its geometry and/or size of the IGeometryMaskSurface later.</para>
         /// </summary>
-        /// <returns>IMaskSurface</returns>
-        public IMaskSurface CreateMaskSurface()
+        /// <returns>IGeometryMaskSurface</returns>
+        public IGeometryMaskSurface CreateGeometryMaskSurface()
         {
-            return CreateMaskSurface(default, null, Vector2.Zero);
+            return CreateGeometryMaskSurface(default, null, Vector2.Zero);
         }
 
         /// <summary>
-        /// Creates an IMaskSurface having the given size and geometry with MaskMode as True.
+        /// Creates an IGeometryMaskSurface having the given size and geometry with MaskMode as True.
         /// The geometry is filled with white color. The surface not covered by the geometry is
         /// transparent.
         /// </summary>
         /// <param name="size">Size of the mask</param>
         /// <param name="geometry">Geometry of the mask</param>
-        /// <returns>IMaskSurface</returns>
-        public IMaskSurface CreateMaskSurface(Size size, CanvasGeometry geometry)
+        /// <returns>IGeometryMaskSurface</returns>
+        public IGeometryMaskSurface CreateGeometryMaskSurface(Size size, CanvasGeometry geometry)
         {
-            return CreateMaskSurface(size, geometry, Vector2.Zero);
+            return CreateGeometryMaskSurface(size, geometry, Vector2.Zero);
         }
 
         /// <summary>
-        /// Creates an IMaskSurface having the given size and geometry with MaskMode as True.
+        /// Creates an IGeometryMaskSurface having the given size and geometry with MaskMode as True.
         /// The geometry is filled with white color. The surface not covered by the geometry is
         /// transparent.
         /// </summary>
@@ -391,11 +401,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="geometry">Geometry of the mask</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
         /// the Geometry is rendered.</param>
-        /// <returns>IMaskSurface</returns>
-        public IMaskSurface CreateMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset)
+        /// <returns>IGeometryMaskSurface</returns>
+        public IGeometryMaskSurface CreateGeometryMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset)
         {
             // Initialize the mask
-            IMaskSurface mask = new MaskSurface(this, size, geometry, offset);
+            IGeometryMaskSurface mask = new GeometryMaskSurface(this, size, geometry, offset);
 
             // Render the mask
             mask.Redraw();
@@ -427,12 +437,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         public IGaussianMaskSurface CreateGaussianMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             // Initialize the mask
-            IGaussianMaskSurface mask = new GaussianMaskSurface(this, size, geometry, offset, blurRadius);
+            IGaussianMaskSurface gaussianMaskSurface = new GaussianMaskSurface(this, size, geometry, offset, blurRadius);
 
             // Render the mask
-            mask.Redraw();
+            gaussianMaskSurface.Redraw();
 
-            return mask;
+            return gaussianMaskSurface;
         }
 
         /// <summary>
@@ -1005,7 +1015,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
             // at the same time, we need to do any device/surface work under a lock.
             lock (surfaceLock)
             {
-                return this._compositionDevice.CreateDrawingSurface(surfaceSize, DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
+                return _compositionDevice.CreateDrawingSurface(surfaceSize, DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
             }
         }
 
@@ -1037,19 +1047,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         }
 
         /// <summary>
-        /// Redraws the IMaskSurface with the given size and geometry
+        /// Redraws the IGeometryMaskSurface with the given size and geometry
         /// </summary>
         /// <param name="surfaceLock">The object to lock to prevent multiple threads
         /// from accessing the surface at the same time.</param>
         /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">Size of the IMaskSurface</param>
-        /// <param name="geometry">Geometry of the IMaskSurface</param>
+        /// <param name="size">Size of the IGeometryMaskSurface</param>
+        /// <param name="geometry">Geometry of the IGeometryMaskSurface</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
         /// the Geometry is rendered.</param>
         public void RedrawMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset)
         {
             // If the surface is not created, create it
-            surface ??= this.CreateDrawingSurface(surfaceLock, size);
+            surface ??= CreateDrawingSurface(surfaceLock, size);
 
             // No need to render if the width and/or height of the surface is zero
             if (surface.Size.Width.IsZero() || surface.Size.Height.IsZero())
@@ -1098,7 +1108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         public void RedrawGaussianMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             // If the surface is not created, create it
-            surface ??= this.CreateDrawingSurface(surfaceLock, size);
+            surface ??= CreateDrawingSurface(surfaceLock, size);
 
             // No need to render if the width and/or height of the surface is zero
             if (surface.Size.Width.IsZero() || surface.Size.Height.IsZero())
@@ -1166,7 +1176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         public void RedrawGeometrySurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // If the surface is not created, create it
-            surface ??= this.CreateDrawingSurface(surfaceLock, size);
+            surface ??= CreateDrawingSurface(surfaceLock, size);
 
             // No need to render if the width and/or height of the surface is zero
             if (surface.Size.Width.IsZero() || surface.Size.Height.IsZero())
@@ -1327,7 +1337,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         }
 
         /// <summary>
-        /// Disposes the resources used by the CompositionMaskGenerator
+        /// Disposes the resources used by the CompositionGenerator.
+        /// <para>NOTE: This should be called only when the application ends because CompositionGenerator is a singleton and its instance might be used across the application.</para>
         /// </summary>
         public void Dispose()
         {
@@ -1338,7 +1349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
                 if (Device != null)
                 {
                     // Only dispose the canvas device if we own the device.
-                    if (this._useSharedCanvasDevice)
+                    if (!_useSharedCanvasDevice)
                     {
                         Device.Dispose();
                     }
@@ -1346,20 +1357,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
                     Device = null;
                 }
 
-                if (this._compositionDevice == null)
+                if (_compositionDevice != null)
                 {
-                    return;
+                    _compositionDevice.RenderingDeviceReplaced -= OnRenderingDeviceReplaced;
+
+                    // Only dispose the composition graphics device if we own the device.
+                    if (!_useSharedCanvasDevice)
+                    {
+                        _compositionDevice.Dispose();
+                    }
+
+                    _compositionDevice = null;
                 }
 
-                this._compositionDevice.RenderingDeviceReplaced -= this.OnRenderingDeviceReplaced;
-
-                // Only dispose the composition graphics device if we own the device.
-                if (!this._useSharedCanvasDevice)
-                {
-                    this._compositionDevice.Dispose();
-                }
-
-                this._compositionDevice = null;
+                System.Threading.Interlocked.Exchange(ref _instance, null);
             }
         }
 

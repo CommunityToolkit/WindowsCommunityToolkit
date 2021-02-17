@@ -15,28 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
     public static class CompositorExtensions
     {
         /// <summary>
-        /// Creates a CompositionGenerator object
-        /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <returns>ICompositionGenerator</returns>
-        public static ICompositionGenerator CreateCompositionGenerator(this Compositor compositor)
-        {
-            return new CompositionGenerator(compositor);
-        }
-
-        /// <summary>
-        /// Creates a CompositionGenerator object
-        /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <param name="useSharedCanvasDevice">Whether to use a shared CanvasDevice or to create a new one.</param>
-        /// <param name="useSoftwareRenderer">Whether to use Software Renderer when creating a new CanvasDevice.</param>
-        /// <returns>ICompositionGenerator</returns>
-        public static ICompositionGenerator CreateCompositionGenerator(this Compositor compositor, bool useSharedCanvasDevice, bool useSoftwareRenderer)
-        {
-            return new CompositionGenerator(compositor, useSharedCanvasDevice, useSoftwareRenderer);
-        }
-
-        /// <summary>
         /// This extension method creates a scoped batch and handles the completed event
         /// the subscribing and unsubscribing process internally.
         ///
@@ -404,7 +382,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// Creates the CompositionSurfaceBrush from the specified render surface.
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="renderSurface">An object deriving from IMaskSurface, IGaussianMaskSurface, IGeometrySurface or IImageSurface</param>
+        /// <param name="renderSurface">An object deriving from IGeometryMaskSurface, IGaussianMaskSurface, IGeometrySurface or IImageSurface</param>
         /// <returns>CompositionSurfaceBrush</returns>
         public static CompositionSurfaceBrush CreateSurfaceBrush(this Compositor compositor, IRenderSurface renderSurface)
         {

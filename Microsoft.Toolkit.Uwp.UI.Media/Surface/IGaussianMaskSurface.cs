@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
     /// Interface for rendering custom shaped geometries onto ICompositionSurface so that they can be used as masks on Composition Visuals.
     /// These geometries have a Gaussian Blur applied to them.
     /// </summary>
-    public interface IGaussianMaskSurface : IMaskSurface
+    public interface IGaussianMaskSurface : IGeometryMaskSurface
     {
         /// <summary>
         /// Gets radius of Gaussian Blur to be applied on the GaussianMaskSurface.

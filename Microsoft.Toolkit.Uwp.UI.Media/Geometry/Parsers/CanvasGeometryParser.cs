@@ -128,6 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             return CanvasGeometry.CreatePath(pathBuilder);
 
             static void ThrowForZeroCount() => throw new ArgumentException("PATH_ERR000:Invalid Path data! No matching path data found!");
+
             static void ThrowForNotOneCount() => throw new ArgumentException("PATH_ERR001:Multiple FillRule elements present in Path Data!\n" +
                                                                              "There should be only one FillRule within the Path Data. " +
                                                                              "You can either remove additional FillRule elements or split the Path Data " +
