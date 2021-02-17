@@ -399,7 +399,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                         else if (e.OriginalKey != Windows.System.VirtualKey.Down)
                         {
-                            FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Down, new FindNextElementOptions
+                            {
+                                SearchRoot = XamlRoot.Content
+                            });
                         }
 
                         e.Handled = true;
@@ -417,7 +420,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                         else if (e.OriginalKey != Windows.System.VirtualKey.Up)
                         {
-                            FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Up, new FindNextElementOptions
+                            {
+                                SearchRoot = XamlRoot.Content
+                            });
                         }
 
                         e.Handled = true;
@@ -435,7 +441,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                         else if (e.OriginalKey != Windows.System.VirtualKey.Left)
                         {
-                            FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Left, new FindNextElementOptions
+                            {
+                                SearchRoot = XamlRoot.Content
+                            });
                         }
 
                         e.Handled = true;
@@ -453,7 +462,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                         else if (e.OriginalKey != Windows.System.VirtualKey.Right)
                         {
-                            FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Right, new FindNextElementOptions
+                            {
+                                SearchRoot = XamlRoot.Content
+                            });
                         }
 
                         e.Handled = true;

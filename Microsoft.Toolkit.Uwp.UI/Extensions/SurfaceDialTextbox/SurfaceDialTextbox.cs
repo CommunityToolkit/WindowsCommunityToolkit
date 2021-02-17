@@ -408,7 +408,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="args">The arguments of the changed event.</param>
         private static void Controller_ButtonClicked(RadialController sender, RadialControllerButtonClickedEventArgs args)
         {
-            FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
+            FocusManager.TryMoveFocus(FocusNavigationDirection.Next, new FindNextElementOptions
+            {
+                SearchRoot = _textBox.XamlRoot.Content
+            });
         }
     }
 }

@@ -50,7 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         if (TabNavigateBackOnArrow)
                         {
-                            FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                            FocusManager.TryMoveFocus(FocusNavigationDirection.Previous, new FindNextElementOptions
+                            {
+                                SearchRoot = XamlRoot.Content
+                            });
                         }
 
                         retVal = true;

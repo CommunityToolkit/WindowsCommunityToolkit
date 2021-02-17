@@ -44,14 +44,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 element = FocusManager.GetFocusedElement();
             }
 
-            if (element is MenuFlyoutPresenter &&
+            if (element is MenuFlyoutPresenter menuFlyoutPresenter &&
                 ((virtualKey == VirtualKey.Down) ||
                  (virtualKey == VirtualKey.Up) ||
                  (virtualKey == VirtualKey.Left) ||
                  (virtualKey == VirtualKey.Right)))
             {
                 // Hack to delay and let next element get focus
-                FocusManager.FindNextFocusableElement(FocusNavigationDirection.Right);
+                FocusManager.FindNextElement(FocusNavigationDirection.Right, new FindNextElementOptions
+                {
+                    SearchRoot = menuFlyoutPresenter.XamlRoot.Content
+                });
                 return true;
             }
 
