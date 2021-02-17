@@ -73,14 +73,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">Routed Event Handler</param>
         protected void AttachImageOpened(RoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageOpened += handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageOpened += handler;
             }
@@ -92,14 +89,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">RoutedEventHandler</param>
         protected void RemoveImageOpened(RoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageOpened -= handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageOpened -= handler;
             }
@@ -111,14 +105,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">Exception Routed Event Handler</param>
         protected void AttachImageFailed(ExceptionRoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageFailed += handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageFailed += handler;
             }
@@ -130,14 +121,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="handler">Exception Routed Event Handler</param>
         protected void RemoveImageFailed(ExceptionRoutedEventHandler handler)
         {
-            var image = Image as Image;
-            var brush = Image as ImageBrush;
-
-            if (image != null)
+            if (Image is Image image)
             {
                 image.ImageFailed -= handler;
             }
-            else if (brush != null)
+            else if (Image is ImageBrush brush)
             {
                 brush.ImageFailed -= handler;
             }

@@ -94,12 +94,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
-            {
-                container?.Children?.Clear();
-                GC.Collect(); // Force GC to free file locks
-                await ImageCache.Instance.ClearAsync();
-            });
+            SampleController.Current.RegisterNewCommand("Remove images", (sender, args) => container?.Children?.Clear());
 
             await LoadDataAsync();
         }
