@@ -44,7 +44,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public void StringExtensions_GetLocalizedWithResourcePath()
         {
-            var str = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            var str = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources");
             Assert.AreEqual("Ok", str);
         }
 
