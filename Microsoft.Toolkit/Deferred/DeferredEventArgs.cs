@@ -3,13 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Deferred
 {
     /// <summary>
     /// <see cref="EventArgs"/> which can retrieve a <see cref="EventDeferral"/> in order to process data asynchronously before an <see cref="EventHandler"/> completes and returns to the calling control.
     /// </summary>
-    public class DeferredEventArgs : EventArgs
+    public class DeferredEventArgs : EventArgs, IDisposable
     {
         /// <summary>
         /// Gets a new <see cref="DeferredEventArgs"/> to use in cases where no <see cref="EventArgs"/> wish to be provided.
@@ -18,7 +20,13 @@ namespace Microsoft.Toolkit.Deferred
 
         private readonly object _eventDeferralLock = new object();
 
-        private EventDeferral _eventDeferral;
+        private EventDeferral? _eventDeferral;
+        private bool _disposed;
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="DeferredEventArgs"/> class.
+        /// </summary>
+        ~DeferredEventArgs() => Dispose(false);
 
         /// <summary>
         /// Returns an <see cref="EventDeferral"/> which can be completed when deferred event is ready to continue.
@@ -32,7 +40,17 @@ namespace Microsoft.Toolkit.Deferred
             }
         }
 
-        internal EventDeferral GetCurrentDeferralAndReset()
+        /// <summary>
+        /// DO NOT USE - This is a support method used by <see cref="EventHandlerExtensions"/>. It is public only for
+        /// additional usage within extensions for the UWP based TypedEventHandler extensions.
+        /// </summary>
+        /// <returns>Internal EventDeferral reference</returns>
+#if !NETSTANDARD1_4
+        [Browsable(false)]
+#endif
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This is an internal only method to be used by EventHandler extension classes, public callers should call GetDeferral() instead.")]
+        public EventDeferral? GetCurrentDeferralAndReset()
         {
             lock (_eventDeferralLock)
             {
@@ -42,6 +60,32 @@ namespace Microsoft.Toolkit.Deferred
 
                 return eventDeferral;
             }
+        }
+
+        /// <summary>
+        /// Recommended helper method pattern for <see cref="IDisposable"/>.
+        /// </summary>
+        /// <param name="disposing">Source of dispose request.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _eventDeferral?.Dispose();
+
+            _disposed = true;
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            // Dispose of unmanaged resources.
+            Dispose(true);
+
+            // Suppress finalization.
+            GC.SuppressFinalize(this);
         }
     }
 }

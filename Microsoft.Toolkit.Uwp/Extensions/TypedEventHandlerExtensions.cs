@@ -57,9 +57,11 @@ namespace Microsoft.Toolkit.Uwp.Deferred
 
                     invocationDelegate(sender, eventArgs);
 
+                    #pragma warning disable CS0618 // Type or member is obsolete
                     var deferral = eventArgs.GetCurrentDeferralAndReset();
 
                     return deferral?.WaitForCompletion(cancellationToken) ?? Task.CompletedTask;
+                    #pragma warning restore CS0618 // Type or member is obsolete
                 })
                 .ToArray();
 
