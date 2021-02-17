@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ReadOnlyRef(object owner, in T value)
         {
             this.owner = owner;
-            this.offset = owner.DangerousGetObjectDataByteOffset(ref Unsafe.AsRef(value));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(owner, ref Unsafe.AsRef(value));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            get => ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.owner, this.offset);
         }
 
         /// <summary>

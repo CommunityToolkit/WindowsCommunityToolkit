@@ -9,6 +9,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+#if !NETCORE_RUNTIME && !NET5_0
+using Microsoft.Toolkit.HighPerformance.Helpers;
+#endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
@@ -40,7 +43,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
 
-            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
 #endif
         }
 
@@ -69,7 +72,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return ref ri;
 #else
             IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
-            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;

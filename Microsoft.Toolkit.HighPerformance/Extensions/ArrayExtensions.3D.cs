@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
@@ -38,7 +39,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
 
-            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
 #endif
         }
 
@@ -78,7 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 ((nint)(uint)i * (nint)(uint)height * (nint)(uint)width) +
                 ((nint)(uint)j * (nint)(uint)width) + (nint)(uint)k;
             IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
-            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
             ref T ri = ref Unsafe.Add(ref r0, index);
 
             return ref ri;
@@ -212,7 +213,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
-            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
             int length = checked(array.GetLength(1) * array.GetLength(2));
 
             return new RawObjectMemoryManager<T>(array, offset, length).Memory;

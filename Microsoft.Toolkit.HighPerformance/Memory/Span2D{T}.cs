@@ -9,6 +9,9 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+#if !SPAN_RUNTIME_SUPPORT
+using Microsoft.Toolkit.HighPerformance.Helpers;
+#endif
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 #if !SPAN_RUNTIME_SUPPORT
@@ -249,7 +252,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(offset), height);
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
             this.height = height;
 #endif
             this.width = width;
@@ -281,7 +284,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReference(), array.GetLength(0));
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(0, 0));
             this.height = array.GetLength(0);
 #endif
             this.width = this.Stride = array.GetLength(1);
@@ -349,7 +352,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(row, column), height);
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
             this.height = height;
 #endif
             this.width = width;
@@ -381,7 +384,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, 0, 0), array.GetLength(1));
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
 #endif
             this.width = this.Stride = array.GetLength(2);
@@ -440,7 +443,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, row, column), height);
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
 #endif
             this.width = width;
