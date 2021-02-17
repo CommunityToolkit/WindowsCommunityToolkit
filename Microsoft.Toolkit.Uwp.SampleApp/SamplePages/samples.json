@@ -677,51 +677,6 @@
         "DeprecatedWarning": "The Graph Providers are in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/providers/InteractiveProviderBehavior.md",
         "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls"
-      },
-      {
-        "Name": "Twitter Service",
-        "Type": "TwitterPage",
-        "About": "The Twitter Service allows you to retrieve or publish data to Twitter.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Twitter",
-        "CodeFile": "TwitterCode.bind",
-        "Icon": "/SamplePages/Twitter Service/TwitterLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Twitter.md"
-      },
-      {
-        "Name": "Weibo Service",
-        "Type": "WeiboPage",
-        "About": "The Weibo Service allows you to retrieve or publish data to Weibo.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Weibo",
-        "CodeFile": "WeiboCode.bind",
-        "Icon": "/SamplePages/Weibo Service/WeiboLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Weibo.md"
-      },
-      {
-        "Name": "OneDrive Service",
-        "About": "The OneDrive service allows you to get your files from OneDrive using an Microsoft Account or OneDrive For Business using an Office 365 account",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/OneDrive/",
-        "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "Please use the Microsoft Graph SDK or our new providers at https://aka.ms/wgt",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/OneDrive.md"
-      },
-      {
-        "Name": "LinkedIn Service",
-        "Type": "LinkedInPage",
-        "About": "The LinkedIn service allows you to connect to retrieve or publish data to LinkedIn.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/LinkedIn/",
-        "CodeFile": "LinkedInCode.bind",
-        "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Linkedin.md"
-      },
-      {
-        "Name": "Microsoft Translator Service",
-        "Type": "MicrosoftTranslatorPage",
-        "About": "The Microsoft Translator Service allows you to translate text into many languages.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/MicrosoftTranslator",
-        "CodeFile": "MicrosoftTranslatorCode.bind",
-        "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/MicrosoftTranslator.md"
       }
     ]
   },

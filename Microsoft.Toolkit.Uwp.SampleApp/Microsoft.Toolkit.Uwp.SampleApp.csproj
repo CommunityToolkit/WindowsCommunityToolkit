@@ -60,10 +60,6 @@
       <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
-      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
-      <Name>Microsoft.Toolkit.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
