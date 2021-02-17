@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
@@ -115,7 +116,7 @@ namespace Microsoft.Toolkit.HighPerformance
             }
 
             this.instance = text;
-            this.offset = text.DangerousGetObjectDataByteOffset(ref text.DangerousGetReferenceAt(offset));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(text, ref text.DangerousGetReferenceAt(offset));
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -182,7 +183,7 @@ namespace Microsoft.Toolkit.HighPerformance
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -259,7 +260,7 @@ namespace Microsoft.Toolkit.HighPerformance
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
             this.height = height;
             this.width = width;
             this.pitch = columns - width;
@@ -279,7 +280,7 @@ namespace Microsoft.Toolkit.HighPerformance
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
             this.width = array.GetLength(2);
             this.pitch = 0;
@@ -327,7 +328,7 @@ namespace Microsoft.Toolkit.HighPerformance
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
             this.width = width;
             this.pitch = columns - width;
@@ -484,14 +485,14 @@ namespace Microsoft.Toolkit.HighPerformance
                 ref char r0 = ref text.DangerousGetReferenceAt(textStart + offset);
 
                 this.instance = text;
-                this.offset = text.DangerousGetObjectDataByteOffset(ref r0);
+                this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(text, ref r0);
             }
             else if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
             {
                 T[] array = segment.Array!;
 
                 this.instance = array;
-                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(segment.Offset + offset));
+                this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(segment.Offset + offset));
             }
             else if (MemoryMarshal.TryGetMemoryManager<T, MemoryManager<T>>(memory, out var memoryManager, out int memoryManagerStart, out _))
             {
@@ -563,7 +564,7 @@ namespace Microsoft.Toolkit.HighPerformance
 
             OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-            IntPtr offset = instance.DangerousGetObjectDataByteOffset(ref value);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(instance, ref value);
 
             return new ReadOnlyMemory2D<T>(instance, offset, height, width, pitch);
         }
@@ -630,7 +631,7 @@ namespace Microsoft.Toolkit.HighPerformance
                     else
                     {
                         // This handles both arrays and strings
-                        ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                        ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset);
 
                         return new ReadOnlySpan2D<T>(in r0, this.height, this.width, this.pitch);
                     }
@@ -764,7 +765,7 @@ namespace Microsoft.Toolkit.HighPerformance
 
                 GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
 
-                void* pointer = Unsafe.AsPointer(ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                void* pointer = Unsafe.AsPointer(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset));
 
                 return new MemoryHandle(pointer, handle);
             }
@@ -797,7 +798,7 @@ namespace Microsoft.Toolkit.HighPerformance
                     // within the string), and the input reference, which we can get from the byte offset in use. The result
                     // is the character index which we can use to create the final Memory<char> instance.
                     string text = Unsafe.As<string>(this.instance)!;
-                    int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
+                    int index = text.AsSpan().IndexOf(in ObjectMarshal.DangerousGetObjectDataReferenceAt<char>(text, this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
                     memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
@@ -811,7 +812,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 {
                     // If it's a T[] array, also handle the initial offset
                     T[] array = Unsafe.As<T[]>(this.instance)!;
-                    int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.offset));
 
                     memory = array.AsMemory(index, this.height * this.width);
                 }

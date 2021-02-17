@@ -4,35 +4,35 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions
 {
     [TestClass]
-    public class Test_ObjectExtensions
+    public class Test_ObjectMarshal
     {
-        [TestCategory("ObjectExtensions")]
+        [TestCategory("ObjectMarshal")]
         [TestMethod]
         public void Test_DangerousGetObjectDataByteOffset()
         {
             var a = new TestClass { Number = 42, Character = 'a', Text = "Hello" };
 
-            IntPtr ptr = a.DangerousGetObjectDataByteOffset(ref a.Number);
+            IntPtr ptr = ObjectMarshal.DangerousGetObjectDataByteOffset(a, ref a.Number);
 
-            ref int number = ref a.DangerousGetObjectDataReferenceAt<int>(ptr);
+            ref int number = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<int>(a, ptr);
 
             Assert.IsTrue(Unsafe.AreSame(ref a.Number, ref number));
 
-            ptr = a.DangerousGetObjectDataByteOffset(ref a.Character);
+            ptr = ObjectMarshal.DangerousGetObjectDataByteOffset(a, ref a.Character);
 
-            ref char character = ref a.DangerousGetObjectDataReferenceAt<char>(ptr);
+            ref char character = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<char>(a, ptr);
 
             Assert.IsTrue(Unsafe.AreSame(ref a.Character, ref character));
 
-            ptr = a.DangerousGetObjectDataByteOffset(ref a.Text);
+            ptr = ObjectMarshal.DangerousGetObjectDataByteOffset(a, ref a.Text);
 
-            ref string text = ref a.DangerousGetObjectDataReferenceAt<string>(ptr);
+            ref string text = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<string>(a, ptr);
 
             Assert.IsTrue(Unsafe.AreSame(ref a.Text, ref text));
         }
@@ -46,7 +46,7 @@ namespace UnitTests.HighPerformance.Extensions
 #pragma warning restore SA1401
         }
 
-        [TestCategory("ObjectExtensions")]
+        [TestCategory("ObjectMarshal")]
         [TestMethod]
         public void Test_BoxOfT_PrimitiveTypes()
         {
@@ -60,7 +60,7 @@ namespace UnitTests.HighPerformance.Extensions
             Test(184013.234324);
         }
 
-        [TestCategory("ObjectExtensions")]
+        [TestCategory("ObjectMarshal")]
         [TestMethod]
         public void Test_BoxOfT_OtherTypes()
         {
@@ -84,7 +84,7 @@ namespace UnitTests.HighPerformance.Extensions
             }
         }
 
-        [TestCategory("ObjectExtensions")]
+        [TestCategory("ObjectMarshal")]
         [TestMethod]
         public void TestBoxOfT_CustomStruct()
         {
@@ -115,7 +115,7 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.IsFalse(success);
             Assert.AreEqual(test, default);
 
-            result = obj.DangerousUnbox<T>();
+            result = ObjectMarshal.DangerousUnbox<T>(obj);
 
             Assert.AreEqual(value, result);
         }

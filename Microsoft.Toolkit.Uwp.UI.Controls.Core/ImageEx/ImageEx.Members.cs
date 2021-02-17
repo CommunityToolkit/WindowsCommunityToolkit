@@ -33,7 +33,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         public override CompositionBrush GetAlphaMask()
         {
-            return IsInitialized ? (Image as Image).GetAlphaMask() : null;
+            if (IsInitialized && Image is Image image)
+            {
+                return image.GetAlphaMask();
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -42,7 +47,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The image as a <see cref="CastingSource"/>.</returns>
         public CastingSource GetAsCastingSource()
         {
-            return IsInitialized ? (Image as Image).GetAsCastingSource() : null;
+            if (IsInitialized && Image is Image image)
+            {
+                return image.GetAsCastingSource();
+            }
+
+            return null;
         }
     }
 }

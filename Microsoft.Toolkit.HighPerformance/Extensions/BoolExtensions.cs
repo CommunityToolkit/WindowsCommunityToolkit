@@ -34,20 +34,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Converts the given <see cref="bool"/> value into an <see cref="int"/>.
-        /// </summary>
-        /// <param name="flag">The input value to convert.</param>
-        /// <returns>1 if <paramref name="flag"/> is <see langword="true"/>, 0 otherwise.</returns>
-        /// <remarks>This method does not contain branching instructions.</remarks>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obsolete("Use ToByte instead.")]
-        public static unsafe int ToInt(this bool flag)
-        {
-            return *(byte*)&flag;
-        }
-
-        /// <summary>
         /// Converts the given <see cref="bool"/> value to an <see cref="int"/> mask with
         /// all bits representing the value of the input flag (either 0xFFFFFFFF or 0x00000000).
         /// </summary>
