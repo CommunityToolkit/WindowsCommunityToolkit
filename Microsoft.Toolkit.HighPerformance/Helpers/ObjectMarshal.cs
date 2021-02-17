@@ -7,12 +7,12 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
     /// <summary>
     /// Helpers for working with <see cref="object"/> instances.
     /// </summary>
-    public static class ObjectExtensions
+    public static class ObjectMarshal
     {
         /// <summary>
         /// Calculates the byte offset to a specific field within a given <see cref="object"/>.
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static IntPtr DangerousGetObjectDataByteOffset<T>(this object obj, ref T data)
+        public static IntPtr DangerousGetObjectDataByteOffset<T>(object obj, ref T data)
         {
             var rawObj = Unsafe.As<RawObjectData>(obj)!;
             ref byte r0 = ref rawObj.Data;
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetObjectDataReferenceAt<T>(this object obj, IntPtr offset)
+        public static ref T DangerousGetObjectDataReferenceAt<T>(object obj, IntPtr offset)
         {
             var rawObj = Unsafe.As<RawObjectData>(obj)!;
             ref byte r0 = ref rawObj.Data;
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// This extension behaves just like the following method:
         /// <code>
-        /// public static bool TryUnbox&lt;T>(this object obj, out T value)
+        /// public static bool TryUnbox&lt;T>(object obj, out T value)
         /// {
         ///     if (obj is T)
         ///     {
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <exception cref="InvalidCastException">Thrown when <paramref name="obj"/> is not of type <typeparamref name="T"/>.</exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousUnbox<T>(this object obj)
+        public static ref T DangerousUnbox<T>(object obj)
             where T : struct
         {
             return ref Unsafe.Unbox<T>(obj);
