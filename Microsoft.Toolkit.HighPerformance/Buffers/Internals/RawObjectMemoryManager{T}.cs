@@ -9,6 +9,7 @@ using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
 {
@@ -49,7 +50,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
         /// <inheritdoc/>
         public override Span<T> GetSpan()
         {
-            ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset);
 
             return MemoryMarshal.CreateSpan(ref r0, this.length);
         }
@@ -68,7 +69,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
             // traditional means (eg. via the implicit T[] array conversion), if T is a
             // reference type or a type containing some references.
             GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
-            ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset);
             ref T r1 = ref Unsafe.Add(ref r0, (nint)(uint)elementIndex);
             void* p = Unsafe.AsPointer(ref r1);
 

@@ -82,16 +82,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (lazyLoadingControlHost != null)
                 {
-                    lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                    // Allow this to act as a toggle.
+                    if (lazyLoadingControlHost.Child == null)
+                    {
+                        lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                    }
+                    else
+                    {
+                        lazyLoadingControlHost.Child = null;
+                    }
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
-            {
-                container?.Children?.Clear();
-                GC.Collect(); // Force GC to free file locks
-                await ImageCache.Instance.ClearAsync();
-            });
+            SampleController.Current.RegisterNewCommand("Remove images", (sender, args) => container?.Children?.Clear());
 
             await LoadDataAsync();
         }

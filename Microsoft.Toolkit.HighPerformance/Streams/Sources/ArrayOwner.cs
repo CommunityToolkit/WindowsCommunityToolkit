@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         public static ArrayOwner Empty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new ArrayOwner(Array.Empty<byte>(), 0, 0);
+            get => new(Array.Empty<byte>(), 0, 0);
         }
 
         /// <inheritdoc/>

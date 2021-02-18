@@ -35,6 +35,9 @@
       - SurfaceLoader: A class that can load and draw images and other objects to Win2D surfaces and brushes.
 
       PipelineBuilder: A class that allows to build custom effects pipelines and create CompositionBrush instances from them.
+
+      Geometry:
+      - CanvasPathGeometry: A class that parses Win2d Path Mini Language and converts it to CanvasGeometry, CanvasBrush, CanvasStroke, CanvasStrokeStyle or Color.
     </Description>
     <PackageTags>UWP Toolkit Windows UI XAML brushes blur</PackageTags>
   </PropertyGroup>
