@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// </summary>
     public partial class MarkdownRenderer : MarkdownRendererBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownRenderer"/> class.
         /// </summary>
@@ -221,5 +222,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 e.Handled = true;
             }
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
