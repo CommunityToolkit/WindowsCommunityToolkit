@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Automation;
@@ -24,45 +25,14 @@ namespace UnitTests.UWP.UI.Controls
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls""
-    xmlns:data=""using:UnitTests.UWP.UI.Controls"">
-    <Grid>
-        <controls:Carousel InvertPositive=""True"">
-            <controls:Carousel.EasingFunction>
-                <CubicEase EasingMode=""EaseOut"" />
-            </controls:Carousel.EasingFunction>
+                const int selectedIndex = 1;
+                var items = new ObservableCollection<PhotoDataItem> { new PhotoDataItem { Title = "Hello" }, new PhotoDataItem { Title = "World" } };
+                var carousel = new Carousel { ItemsSource = items };
 
-            <controls:CarouselItem>
-                Hello
-            </controls:CarouselItem>
-            <controls:CarouselItem>
-                World
-            </controls:CarouselItem>
-         </controls:Carousel>
-    </Grid>
-</Page>") as Page;
-
-                // This is based on the XAML above.
-                var expectedNumItems = 2;
-                var expectedSelectedItem = "World";
-
-                Assert.IsNotNull(treeRoot, "XAML for test failed to load");
-
-                await SetTestContentAsync(treeRoot);
-
-                var outerGrid = treeRoot.Content as Grid;
-
-                Assert.IsNotNull(outerGrid, "Couldn't find Page content.");
-
-                var carousel = outerGrid.Children.FirstOrDefault() as Carousel;
-
-                Assert.IsNotNull(carousel, "Couldn't find Target Carousel.");
+                await SetTestContentAsync(carousel);
 
                 // Sets the selected item to "World" from the XAML above.
-                carousel.SelectedIndex = 1;
+                carousel.SelectedIndex = selectedIndex;
 
                 const string automationName = "MyAutomationPhotoItems";
                 const string name = "MyPhotoItems";
@@ -81,19 +51,33 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsTrue(carouselAutomationPeer.GetName().Contains(name), "Verify that the UIA name contains the given Name of the Carousel.");
 
                 var carouselItemAutomationPeers = carouselAutomationPeer.GetChildren().Cast<CarouselItemAutomationPeer>().ToList();
-                Assert.AreEqual(expectedNumItems, carouselItemAutomationPeers.Count);
+                Assert.AreEqual(items.Count,  carouselItemAutomationPeers.Count);
 
                 for (var i = 0; i < carouselItemAutomationPeers.Count; i++)
                 {
                     var peer = carouselItemAutomationPeers[i];
                     Assert.AreEqual(i + 1, peer.GetPositionInSet());
-                    Assert.AreEqual(expectedNumItems, peer.GetSizeOfSet());
+                    Assert.AreEqual(items.Count, peer.GetSizeOfSet());
                 }
 
                 var selected = carouselItemAutomationPeers.FirstOrDefault(peer => peer.IsSelected);
                 Assert.IsNotNull(selected);
-                Assert.IsTrue(selected.GetName().Contains(expectedSelectedItem));
+                Assert.IsTrue(selected.GetName().Contains(items[selectedIndex].ToString()));
             });
+        }
+
+        public class PhotoDataItem
+        {
+            public string Title { get; set; }
+
+            public string Category { get; set; }
+
+            public string Thumbnail { get; set; }
+
+            public override string ToString()
+            {
+                return Title;
+            }
         }
     }
 }
