@@ -18,7 +18,7 @@
     ...
   </files>
 </package>
-    <projectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</projectUrl>
+    <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <package>
   <metadata>
     ...
