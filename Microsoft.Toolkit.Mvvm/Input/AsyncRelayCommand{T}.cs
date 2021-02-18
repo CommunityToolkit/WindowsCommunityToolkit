@@ -19,17 +19,17 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <summary>
         /// The <see cref="Func{TResult}"/> to invoke when <see cref="Execute(T)"/> is used.
         /// </summary>
-        private readonly Func<T, Task>? execute;
+        private readonly Func<T?, Task>? execute;
 
         /// <summary>
         /// The cancelable <see cref="Func{T1,T2,TResult}"/> to invoke when <see cref="Execute(object?)"/> is used.
         /// </summary>
-        private readonly Func<T, CancellationToken, Task>? cancelableExecute;
+        private readonly Func<T?, CancellationToken, Task>? cancelableExecute;
 
         /// <summary>
         /// The optional action to invoke when <see cref="CanExecute(T)"/> is used.
         /// </summary>
-        private readonly Func<T, bool>? canExecute;
+        private readonly Predicate<T?>? canExecute;
 
         /// <summary>
         /// The <see cref="CancellationTokenSource"/> instance to use to cancel <see cref="cancelableExecute"/>.
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// </summary>
         /// <param name="execute">The execution logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public AsyncRelayCommand(Func<T, Task> execute)
+        public AsyncRelayCommand(Func<T?, Task> execute)
         {
             this.execute = execute;
         }
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// </summary>
         /// <param name="cancelableExecute">The cancelable execution logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public AsyncRelayCommand(Func<T, CancellationToken, Task> cancelableExecute)
+        public AsyncRelayCommand(Func<T?, CancellationToken, Task> cancelableExecute)
         {
             this.cancelableExecute = cancelableExecute;
         }
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="execute">The execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public AsyncRelayCommand(Func<T, Task> execute, Func<T, bool> canExecute)
+        public AsyncRelayCommand(Func<T?, Task> execute, Predicate<T?> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="cancelableExecute">The cancelable execution logic.</param>
         /// <param name="canExecute">The execution status logic.</param>
         /// <remarks>See notes in <see cref="RelayCommand{T}(Action{T})"/>.</remarks>
-        public AsyncRelayCommand(Func<T, CancellationToken, Task> cancelableExecute, Func<T, bool> canExecute)
+        public AsyncRelayCommand(Func<T?, CancellationToken, Task> cancelableExecute, Predicate<T?> canExecute)
         {
             this.cancelableExecute = cancelableExecute;
             this.canExecute = canExecute;
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         }
 
         /// <inheritdoc/>
-        public bool CanBeCanceled => !(this.cancelableExecute is null) && IsRunning;
+        public bool CanBeCanceled => this.cancelableExecute is not null && IsRunning;
 
         /// <inheritdoc/>
         public bool IsCancellationRequested => this.cancellationTokenSource?.IsCancellationRequested == true;
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CanExecute(T parameter)
+        public bool CanExecute(T? parameter)
         {
             return this.canExecute?.Invoke(parameter) != false;
         }
@@ -131,19 +131,18 @@ namespace Microsoft.Toolkit.Mvvm.Input
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool CanExecute(object? parameter)
         {
-            if (typeof(T).IsValueType &&
-                parameter is null &&
-                this.canExecute is null)
+            if (default(T) is not null &&
+                parameter is null)
             {
-                return true;
+                return false;
             }
 
-            return CanExecute((T)parameter!);
+            return CanExecute((T?)parameter);
         }
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Execute(T parameter)
+        public void Execute(T? parameter)
         {
             ExecuteAsync(parameter);
         }
@@ -151,16 +150,16 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            ExecuteAsync((T)parameter!);
+            ExecuteAsync((T?)parameter);
         }
 
         /// <inheritdoc/>
-        public Task ExecuteAsync(T parameter)
+        public Task ExecuteAsync(T? parameter)
         {
             if (CanExecute(parameter))
             {
                 // Non cancelable command delegate
-                if (!(this.execute is null))
+                if (this.execute is not null)
                 {
                     return ExecutionTask = this.execute(parameter);
                 }
@@ -168,7 +167,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
                 // Cancel the previous operation, if one is pending
                 this.cancellationTokenSource?.Cancel();
 
-                var cancellationTokenSource = this.cancellationTokenSource = new CancellationTokenSource();
+                CancellationTokenSource cancellationTokenSource = this.cancellationTokenSource = new();
 
                 OnPropertyChanged(AsyncRelayCommand.IsCancellationRequestedChangedEventArgs);
 
@@ -182,7 +181,7 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <inheritdoc/>
         public Task ExecuteAsync(object? parameter)
         {
-            return ExecuteAsync((T)parameter!);
+            return ExecuteAsync((T?)parameter);
         }
 
         /// <inheritdoc/>

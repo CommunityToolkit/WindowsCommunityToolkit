@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public static MemoryOwner<T> Empty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new MemoryOwner<T>(0, ArrayPool<T>.Shared, AllocationMode.Default);
+            get => new(0, ArrayPool<T>.Shared, AllocationMode.Default);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size) => new MemoryOwner<T>(size, ArrayPool<T>.Shared, AllocationMode.Default);
+        public static MemoryOwner<T> Allocate(int size) => new(size, ArrayPool<T>.Shared, AllocationMode.Default);
 
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size, ArrayPool<T> pool) => new MemoryOwner<T>(size, pool, AllocationMode.Default);
+        public static MemoryOwner<T> Allocate(int size, ArrayPool<T> pool) => new(size, pool, AllocationMode.Default);
 
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size, AllocationMode mode) => new MemoryOwner<T>(size, ArrayPool<T>.Shared, mode);
+        public static MemoryOwner<T> Allocate(int size, AllocationMode mode) => new(size, ArrayPool<T>.Shared, mode);
 
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size, ArrayPool<T> pool, AllocationMode mode) => new MemoryOwner<T>(size, pool, mode);
+        public static MemoryOwner<T> Allocate(int size, ArrayPool<T> pool, AllocationMode mode) => new(size, pool, mode);
 
         /// <summary>
         /// Gets the number of items in the current instance

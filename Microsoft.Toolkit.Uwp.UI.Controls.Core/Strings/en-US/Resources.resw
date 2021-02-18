@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WCT_TextToolbar_BoldLabel" xml:space="preserve">
+    <value>Bold</value>
+    <comment>Label for TextToolbar Control bold button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_CancelLabel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Label for TextToolbar Control Cancel message.</comment>
+  </data>
+  <data name="WCT_TextToolbar_CodeLabel" xml:space="preserve">
+    <value>Code</value>
+    <comment>Label for TextToolbar Control Code button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_CreateLinkLabel" xml:space="preserve">
+    <value>Create Link</value>
+    <comment>Label for TextToolbar Control Create Link button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_EmptyTextLabel" xml:space="preserve">
+    <value>Empty Text</value>
+    <comment>Label for TextToolbar Control Empty Text.</comment>
+  </data>
+  <data name="WCT_TextToolbar_HeaderLabel" xml:space="preserve">
+    <value>Header</value>
+    <comment>Label for TextToolbar Control Header button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_ItalicsLabel" xml:space="preserve">
+    <value>Italics</value>
+    <comment>Label for TextToolbar Control italics button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_LabelLabel" xml:space="preserve">
+    <value>Label</value>
+    <comment>Label for TextToolbar Control Label button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_LinkInvalidLabel" xml:space="preserve">
+    <value>Link Invalid</value>
+    <comment>Label for TextToolbar Control Link Invalid message.</comment>
+  </data>
+  <data name="WCT_TextToolbar_LinkLabel" xml:space="preserve">
+    <value>Link</value>
+    <comment>Label for TextToolbar Control Link button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_ListLabel" xml:space="preserve">
+    <value>List</value>
+    <comment>Label for TextToolbar Control List button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_OkLabel" xml:space="preserve">
+    <value>Ok</value>
+    <comment>Label for TextToolbar Control Ok message.</comment>
+  </data>
+  <data name="WCT_TextToolbar_OrderedListLabel" xml:space="preserve">
+    <value>Ordered List</value>
+    <comment>Label for TextToolbar Control Ordered List button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_QuoteLabel" xml:space="preserve">
+    <value>Quote</value>
+    <comment>Label for TextToolbar Control Quote button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_RelativeLabel" xml:space="preserve">
+    <value>Relative</value>
+    <comment>Label for TextToolbar Control Relative.</comment>
+  </data>
+  <data name="WCT_TextToolbar_StrikethroughLabel" xml:space="preserve">
+    <value>Strikethrough</value>
+    <comment>Label for TextToolbar Control Strikethrough button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_UnderlineLabel" xml:space="preserve">
+    <value>Underline</value>
+    <comment>Label for TextToolbar Control Underline button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_UrlLabel" xml:space="preserve">
+    <value>Url</value>
+    <comment>Label for TextToolbar Control Url button.</comment>
+  </data>
+  <data name="WCT_TextToolbar_WarningLabel" xml:space="preserve">
+    <value>Warning</value>
+    <comment>Label for TextToolbar Control Warning message.</comment>
+  </data>
+  <data name="WCT_InAppNotification_DismissButton_AutomationName" xml:space="preserve">
+    <value>Dismiss</value>
+    <comment>The automation name for the dismiss button of the InAppNotification control.</comment>
+  </data>
+  <data name="WCT_InAppNotification_LandmarkProperty.Value" xml:space="preserve">
+    <value>Notification</value>
+    <comment>The landmark name for the InAppNotification control. It is said by the narrator when using landmark navigation.</comment>
+  </data>
+</root>

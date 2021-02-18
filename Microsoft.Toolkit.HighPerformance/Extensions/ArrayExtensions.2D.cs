@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             IntPtr offset = RuntimeHelpers.GetArray2DDataByteOffset<T>();
 
-            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
 #endif
         }
 
@@ -72,7 +73,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             int width = array.GetLength(1);
             nint index = ((nint)(uint)i * (nint)(uint)width) + (nint)(uint)j;
             IntPtr offset = RuntimeHelpers.GetArray2DDataByteOffset<T>();
-            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
             ref T ri = ref Unsafe.Add(ref r0, index);
 
             return ref ri;
@@ -137,7 +138,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return new RefEnumerable<T>(ref r0, width, 1);
 #else
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
-            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
 
             return new RefEnumerable<T>(array, offset, width, 1);
 #endif
@@ -191,7 +192,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return new RefEnumerable<T>(ref r0, height, width);
 #else
             ref T r0 = ref array.DangerousGetReferenceAt(0, column);
-            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
 
             return new RefEnumerable<T>(array, offset, height, width);
 #endif
@@ -207,7 +208,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this T[,]? array)
         {
-            return new Span2D<T>(array);
+            return new(array);
         }
 
         /// <summary>
@@ -231,7 +232,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this T[,]? array, int row, int column, int height, int width)
         {
-            return new Span2D<T>(array, row, column, height, width);
+            return new(array, row, column, height, width);
         }
 
         /// <summary>
@@ -244,7 +245,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this T[,]? array)
         {
-            return new Memory2D<T>(array);
+            return new(array);
         }
 
         /// <summary>
@@ -268,7 +269,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this T[,]? array, int row, int column, int height, int width)
         {
-            return new Memory2D<T>(array, row, column, height, width);
+            return new(array, row, column, height, width);
         }
 
 #if SPAN_RUNTIME_SUPPORT
@@ -324,7 +325,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(row, 0);
-            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
 
             return new RawObjectMemoryManager<T>(array, offset, array.GetLength(1)).Memory;
         }

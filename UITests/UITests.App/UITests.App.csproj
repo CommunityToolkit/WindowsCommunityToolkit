@@ -168,7 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.10</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="MUXAppTestHelpers">
       <Version>0.0.4</Version>
@@ -189,10 +189,6 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
       <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
-      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
-      <Name>Microsoft.Toolkit.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
@@ -226,9 +222,9 @@
       <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>

@@ -107,13 +107,18 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.10</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1901.28001</Version>
     </PackageReference>
+    <!-- TODO Reintroduce graph controls
+    <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
+      <Version>6.1.0-build.6</Version>
+    </PackageReference>
+    -->
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.2</Version>
+      <Version>2.5.0</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
@@ -267,6 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
@@ -278,8 +284,10 @@
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
+    <!-- TODO Reintroduce graph controls
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
+    -->
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
@@ -297,7 +305,9 @@
     <Content Include="SamplePages\DataGrid\DataGrid.png" />
     <Content Include="SamplePages\DispatcherQueueHelper\DispatchQueueHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
+    <!-- TODO Reintroduce graph controls
     <Content Include="SamplePages\LoginButton\LoginButton.png" />
+    -->
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
@@ -320,18 +330,15 @@
     <Content Include="SamplePages\Incremental Loading Collection\icon.png" />
     <Content Include="SamplePages\LayoutTransformControl\LayoutTransformControl.png" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.png" />
-    <Content Include="SamplePages\LinkedIn Service\LinkedInLogo.png" />
     <Content Include="Assets\Helpers.png" />
     <Content Include="SamplePages\LiveTile\LiveTile.png" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.png" />
     <Content Include="SamplePages\Loading\Loading.png" />
-    <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
-    <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsView.png" />
+    <Content Include="SamplePages\ListDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
-    <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
-    <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
@@ -353,13 +360,9 @@
     <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextbox.png" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
     <Content Include="SamplePages\Toast\Toast.png" />
-    <Content Include="SamplePages\Twitter Service\TwitterLogo.png" />
-    <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
-    <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
-    <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="landingPageLinks.json" />
@@ -389,13 +392,12 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
-    <Content Include="SamplePages\LinkedIn Service\LinkedInCode.bind" />
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
-    <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsView.bind" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
@@ -410,8 +412,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\WrapPanel\WrapPanel.bind" />
-    <Content Include="SamplePages\MasterDetailsView\MasterDetailsViewCode.bind" />
-    <Content Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorCode.bind" />
+    <Content Include="SamplePages\ListDetailsView\ListDetailsViewCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlock.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\InitialContent.md" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.bind" />
@@ -469,9 +470,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\CameraPreview\CameraPreviewXaml.bind" />
+    <!-- TODO Reintroduce graph controls
     <Content Include="SamplePages\LoginButton\LoginButtonXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\PersonView\PersonViewXaml.bind" />
+    -->
     <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -481,7 +484,6 @@
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
-    <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
@@ -653,12 +655,14 @@
     <Compile Include="Pages\SampleController.xaml.cs">
       <DependentUpon>SampleController.xaml</DependentUpon>
     </Compile>
+    <!-- TODO Reintroduce graph controls
     <Compile Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml.cs">
       <DependentUpon>PeoplePickerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\PersonView\PersonViewPage.xaml.cs">
       <DependentUpon>PersonViewPage.xaml</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
     </Compile>
@@ -699,9 +703,11 @@
     <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
+    <!-- TODO Reintroduce graph controls
     <Compile Include="SamplePages\LoginButton\LoginButtonPage.xaml.cs">
       <DependentUpon>LoginButtonPage.xaml</DependentUpon>
     </Compile>
+    -->
     <Compile Include="SamplePages\DataGrid\DataGridPage.xaml.cs">
       <DependentUpon>DataGridPage.xaml</DependentUpon>
     </Compile>
@@ -821,9 +827,6 @@
     <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
       <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
-      <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
       <DependentUpon>TileControlPage.xaml</DependentUpon>
     </Compile>
@@ -844,14 +847,11 @@
     </Compile>
     <Compile Include="SamplePages\Incremental Loading Collection\PeopleSource.cs" />
     <Compile Include="SamplePages\Incremental Loading Collection\Person.cs" />
-    <Compile Include="SamplePages\LinkedIn Service\LinkedInPage.xaml.cs">
-      <DependentUpon>LinkedInPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Loading\LoadingPage.xaml.cs">
       <DependentUpon>LoadingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml.cs">
-      <DependentUpon>MasterDetailsViewPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\ListDetailsView\ListDetailsViewPage.cs">
+      <DependentUpon>ListDetailsViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
@@ -886,13 +886,9 @@
     <Compile Include="SamplePages\Toast\ToastPage.xaml.cs">
       <DependentUpon>ToastPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Twitter Service\TwitterPage.xaml.cs">
-      <DependentUpon>TwitterPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExPage.xaml.cs">
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
     <Compile Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml.cs">
       <DependentUpon>ViewportBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -907,9 +903,6 @@
     </Compile>
     <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Weibo Service\WeiboPage.xaml.cs">
-      <DependentUpon>WeiboPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
       <DependentUpon>WrapPanelPage.xaml</DependentUpon>
@@ -980,6 +973,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1035,6 +1031,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <!-- TODO Reintroduce graph controls
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1043,6 +1040,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    -->
     <Page Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1127,10 +1125,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <!-- TODO Reintroduce graph controls
     <Page Include="SamplePages\LoginButton\LoginButtonPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    -->
     <Page Include="SamplePages\FocusTracker\FocusTrackerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1255,10 +1255,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\TileControl\TileControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1287,15 +1283,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\LinkedIn Service\LinkedInPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\Loading\LoadingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml">
+    <Page Include="SamplePages\ListDetailsView\ListDetailsViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1343,10 +1335,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\Twitter Service\TwitterPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1370,10 +1358,6 @@
     <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Weibo Service\WeiboPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\WrapLayout\WrapLayoutPage.xaml">
       <SubType>Designer</SubType>
@@ -1421,10 +1405,6 @@
       <Project>{42CA4935-54BE-42EA-AC19-992378C08DE6}</Project>
       <Name>Microsoft.Toolkit.Parsers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj">
-      <Project>{34398053-fc70-4243-84f9-f355defff66d}</Project>
-      <Name>Microsoft.Toolkit.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
@@ -1453,6 +1433,10 @@
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Input\Microsoft.Toolkit.Uwp.UI.Controls.Input.csproj">
+      <Project>{af1be4e9-e2e1-4729-b076-b3725d8e21ee}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
       <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
@@ -1461,9 +1445,17 @@
       <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj">
+      <Project>{43bd2a36-9e12-4788-80ae-2377e41e6d05}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Media</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj">
+      <Project>{84ab7dc5-95c9-4cf8-a370-d077e9e9ef1a}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
