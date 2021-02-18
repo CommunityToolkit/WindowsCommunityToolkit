@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Parsers.Core;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
@@ -9,6 +10,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a horizontal line.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class HorizontalRuleBlock : MarkdownBlock
     {
         /// <summary>

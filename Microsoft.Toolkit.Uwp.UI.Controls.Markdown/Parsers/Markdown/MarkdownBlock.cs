@@ -2,11 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// A Block Element is an element that is a container for other structures.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public abstract class MarkdownBlock : MarkdownElement
     {
         /// <summary>

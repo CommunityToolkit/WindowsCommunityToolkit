@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
@@ -10,6 +11,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents the target of a reference ([ref][]).
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class LinkReferenceBlock : MarkdownBlock
     {
         /// <summary>

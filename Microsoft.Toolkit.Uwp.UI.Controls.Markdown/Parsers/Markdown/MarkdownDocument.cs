@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
     /// Represents a Markdown Document. <para/>
     /// Initialize an instance and call <see cref="Parse(string)"/> to parse the Raw Markdown Text.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class MarkdownDocument : MarkdownBlock
     {
         /// <summary>

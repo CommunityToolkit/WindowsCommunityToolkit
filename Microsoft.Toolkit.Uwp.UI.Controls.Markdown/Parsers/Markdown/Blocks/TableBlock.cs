@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a block which contains tabular data.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class TableBlock : MarkdownBlock
     {
         /// <summary>

@@ -14,6 +14,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
     /// </summary>
     public abstract partial class MarkdownRendererBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownRendererBase"/> class.
         /// </summary>
@@ -247,5 +248,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// Gets the markdown document that will be rendered.
         /// </summary>
         protected MarkdownDocument Document { get; }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

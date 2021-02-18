@@ -2,11 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
     /// <summary>
     /// The alignment of content in a table column.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public enum ColumnAlignment
     {
         /// <summary>

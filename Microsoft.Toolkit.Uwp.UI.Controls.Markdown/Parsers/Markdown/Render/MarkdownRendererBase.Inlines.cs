@@ -11,6 +11,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
     /// </summary>
     public partial class MarkdownRendererBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Renders emoji element.
         /// </summary>
@@ -87,5 +88,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
         protected abstract void RenderCodeRun(CodeInline element, IRenderContext context);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

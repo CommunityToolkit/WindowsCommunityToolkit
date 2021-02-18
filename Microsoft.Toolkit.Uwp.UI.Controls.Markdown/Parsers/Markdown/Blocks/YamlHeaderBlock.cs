@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// tag: something
     /// ---
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class YamlHeaderBlock : MarkdownBlock
     {
         /// <summary>

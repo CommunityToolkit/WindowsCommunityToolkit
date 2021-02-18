@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
@@ -11,6 +12,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a span containing emoji symbol.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public partial class EmojiInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>

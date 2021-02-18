@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
@@ -9,6 +10,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// <summary>
     /// Reports an error during debugging.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     internal class DebuggingReporter
     {
         /// <summary>

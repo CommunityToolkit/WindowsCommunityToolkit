@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a type of hyperlink where the text can be different from the target URL.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class MarkdownLinkInline : MarkdownInline, IInlineContainer, ILinkElement
     {
         /// <summary>

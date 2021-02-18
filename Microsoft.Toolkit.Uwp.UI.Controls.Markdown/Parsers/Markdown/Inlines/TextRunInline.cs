@@ -11,6 +11,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a span containing plain text.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class TextRunInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>

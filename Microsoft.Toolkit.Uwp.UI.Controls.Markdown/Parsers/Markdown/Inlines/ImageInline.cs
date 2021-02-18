@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents an embedded image.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class ImageInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>

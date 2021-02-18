@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// <summary>
     /// Helpers for Markdown.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     internal class Common
     {
         private static readonly List<InlineTripCharHelper> _triggerList = new List<InlineTripCharHelper>();

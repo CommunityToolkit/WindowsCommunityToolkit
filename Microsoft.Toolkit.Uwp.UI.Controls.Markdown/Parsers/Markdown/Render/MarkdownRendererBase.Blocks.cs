@@ -11,6 +11,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
     /// </summary>
     public partial class MarkdownRendererBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Renders a paragraph element.
         /// </summary>
@@ -50,5 +51,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// Renders a table element.
         /// </summary>
         protected abstract void RenderTable(TableBlock element, IRenderContext context);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

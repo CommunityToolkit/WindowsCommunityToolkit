@@ -14,6 +14,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// <seealso href="https://spec.commonmark.org/0.29/#atx-headings">Single-Line Header CommonMark Spec</seealso>
     /// <seealso href="https://spec.commonmark.org/0.29/#setext-headings">Two-Line Header CommonMark Spec</seealso>
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class HeaderBlock : MarkdownBlock
     {
         /// <summary>

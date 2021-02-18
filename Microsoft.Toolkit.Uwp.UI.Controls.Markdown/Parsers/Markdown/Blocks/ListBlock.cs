@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// <summary>
     /// Represents a list, with each list item proceeded by either a number or a bullet.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class ListBlock : MarkdownBlock
     {
         /// <summary>

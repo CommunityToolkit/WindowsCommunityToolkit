@@ -2,11 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Implemented by all inline link elements.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     internal interface ILinkElement
     {
         /// <summary>

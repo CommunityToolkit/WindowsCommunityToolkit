@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
@@ -11,6 +12,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// Represents a block of text that is displayed in a fixed-width font.  Inline elements and
     /// escape sequences are ignored inside the code block.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class CodeBlock : MarkdownBlock
     {
         /// <summary>

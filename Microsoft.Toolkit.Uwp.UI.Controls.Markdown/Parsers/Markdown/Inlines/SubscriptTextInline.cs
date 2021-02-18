@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a span containing subscript text.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public class SubscriptTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>

@@ -10,6 +10,7 @@ namespace Microsoft.Toolkit.Parsers.Core
     /// The StringValue attribute is used as a helper to decorate enum values with string representations.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
+    [Obsolete(Constants.ParserObsoleteMsg)]
     public sealed class StringValueAttribute : Attribute
     {
         /// <summary>

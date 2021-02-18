@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 {
     /// <summary>
@@ -11,6 +13,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// possible match. We will go through the range once and look for everyone's trip chars,
     /// and if they can make a match from the trip char then we will commit to them.
     /// </summary>
+    [Obsolete(Constants.ParserObsoleteMsg)]
     internal class InlineTripCharHelper
     {
         // Note! Everything in first char and suffix should be lower case!
