@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Carousel = Microsoft.Toolkit.Uwp.UI.Controls.Carousel;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace UnitTests.UWP.UI.Controls
 {
@@ -25,18 +23,19 @@ namespace UnitTests.UWP.UI.Controls
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
-                const int selectedIndex = 1;
+                const int expectedSelectedIndex = 1;
+                const string expectedCarouselAutomationName = "MyAutomationPhotoItems";
+                const string expectedCarouselName = "MyPhotoItems";
+
                 var items = new ObservableCollection<PhotoDataItem> { new PhotoDataItem { Title = "Hello" }, new PhotoDataItem { Title = "World" } };
+
                 var carousel = new Carousel { ItemsSource = items };
 
                 await SetTestContentAsync(carousel);
 
-                // Sets the selected item to "World" from the XAML above.
-                carousel.SelectedIndex = selectedIndex;
-
-                const string automationName = "MyAutomationPhotoItems";
-                const string name = "MyPhotoItems";
-
+                // Sets the selected item to "World" from the items above.
+                carousel.SelectedIndex = expectedSelectedIndex;
+                
                 var carouselAutomationPeer =
                     FrameworkElementAutomationPeer.CreatePeerForElement(carousel) as CarouselAutomationPeer;
 
@@ -44,15 +43,18 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsFalse(carouselAutomationPeer.CanSelectMultiple, "Verify that CarouselAutomationPeer.CanSelectMultiple is false.");
                 Assert.IsTrue(carouselAutomationPeer.IsSelectionRequired, "Verify that CarouselAutomationPeer.IsSelectionRequired is true.");
 
-                carousel.SetValue(AutomationProperties.NameProperty, automationName);
-                Assert.IsTrue(carouselAutomationPeer.GetName().Contains(automationName), "Verify that the UIA name contains the given AutomationProperties.Name of the Carousel.");
+                // Asserts the automation peer name based on the Automation Property Name value. 
+                carousel.SetValue(AutomationProperties.NameProperty, expectedCarouselAutomationName);
+                Assert.IsTrue(carouselAutomationPeer.GetName().Contains(expectedCarouselAutomationName), "Verify that the UIA name contains the given AutomationProperties.Name of the Carousel.");
 
-                carousel.Name = name;
-                Assert.IsTrue(carouselAutomationPeer.GetName().Contains(name), "Verify that the UIA name contains the given Name of the Carousel.");
+                // Asserts the automation peer name based on the element Name property.
+                carousel.Name = expectedCarouselName;
+                Assert.IsTrue(carouselAutomationPeer.GetName().Contains(expectedCarouselName), "Verify that the UIA name contains the given Name of the Carousel.");
 
                 var carouselItemAutomationPeers = carouselAutomationPeer.GetChildren().Cast<CarouselItemAutomationPeer>().ToList();
                 Assert.AreEqual(items.Count,  carouselItemAutomationPeers.Count);
 
+                // Asserts the default calculated position in set and size of set values
                 for (var i = 0; i < carouselItemAutomationPeers.Count; i++)
                 {
                     var peer = carouselItemAutomationPeers[i];
@@ -60,9 +62,10 @@ namespace UnitTests.UWP.UI.Controls
                     Assert.AreEqual(items.Count, peer.GetSizeOfSet());
                 }
 
-                var selected = carouselItemAutomationPeers.FirstOrDefault(peer => peer.IsSelected);
-                Assert.IsNotNull(selected);
-                Assert.IsTrue(selected.GetName().Contains(items[selectedIndex].ToString()));
+                // Asserts the CarouselItemAutomationPeer properties
+                var selectedItemPeer = carouselItemAutomationPeers.FirstOrDefault(peer => peer.IsSelected);
+                Assert.IsNotNull(selectedItemPeer);
+                Assert.IsTrue(selectedItemPeer.GetName().Contains(items[expectedSelectedIndex].ToString()));
             });
         }
 
