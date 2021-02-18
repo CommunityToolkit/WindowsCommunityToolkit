@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 
 namespace UnitTests.Markdown.Parse
 {
+#pragma warning disable CS0618 // Type or member is obsolete
     [TestClass]
     public class ParagraphTests : ParseTestBase
     {
@@ -384,5 +385,6 @@ namespace UnitTests.Markdown.Parse
                     "μ ν ξ ο π ρ ς σ τ υ φ χ ψ ω ϑ ϒ ϖ       ‌ ‍ ‎ ‏ – — ‘ ’ ‚ “ ” „ † ‡ • … ‰ ′ ″ ‹ › ‾ ⁄ € ℑ ℘ ℜ ™ ℵ ← ↑ → ↓ ↔ ↵ ⇐ " +
                     "⇑ ⇒ ⇓ ⇔ ∀ ∂ ∃ ∅ ∇ ∈ ∉ ∋ ∏ ∑ − ∗ √ ∝ ∞ ∠ ∧ ∨ ∩ ∪ ∫ ∴ ∼ ≅ ≈ ≠ ≡ ≤ ≥ ⊂ ⊃ ⊄ ⊆ ⊇ ⊕ ⊗ ⊥ ⋅ ⌈ ⌉ ⌊ ⌋ 〈 〉 ◊ ♠ ♣ ♥ ♦" }));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
