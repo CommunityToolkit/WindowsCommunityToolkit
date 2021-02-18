@@ -567,7 +567,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static UIElement? TryGetContentControl(this FrameworkElement element)
         {
             Type type = element.GetType();
-            TypeInfo typeInfo = type.GetTypeInfo();
+            TypeInfo? typeInfo = type.GetTypeInfo();
 
             while (typeInfo is not null)
             {
@@ -584,7 +584,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
 
-                typeInfo = typeInfo.BaseType.GetTypeInfo();
+                typeInfo = typeInfo.BaseType?.GetTypeInfo();
             }
 
             return null;
