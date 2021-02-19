@@ -48,7 +48,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
-                    <Grid x:Name="RootGrid" CornerRadius="2" Background="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"
+                    <Grid x:Name="RootGrid" CornerRadius="2"
                           Margin="{TemplateBinding Margin}"
                           Height="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}"
                           Width="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}">
