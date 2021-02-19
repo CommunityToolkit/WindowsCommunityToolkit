@@ -143,11 +143,11 @@
                                   VerticalContentAlignment="Center"
                                   FontWeight="SemiBold"
                                   ContentTransitions="{TemplateBinding ContentTransitions}"
-                                  TextWrapping="Wrap" />
+                                  TextWrapping="WrapWholeWords" />
 
                 <Button x:Name="PART_DismissButton"
                         Grid.Column="1"
-                        Margin="0" Width="auto"
+                        Margin="0"
                         AutomationProperties.Name="Dismiss"
                         Content="&#xE894;"
                         FontFamily="Segoe MDL2 Assets"
