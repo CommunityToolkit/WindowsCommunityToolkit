@@ -226,7 +226,7 @@ namespace UnitTests.Extensions
 
                 var array = textBlocks.ToArray();
 
-                Assert.AreEqual(3, array.Length, "Expected to find 3 TextBlock elements.");
+                Assert.AreEqual(4, array.Length, "Expected to find 4 TextBlock elements.");
 
                 // I don't think we want to guarantee order here, so just care that we can find each one.
                 Assert.IsTrue(array.Any((tb) => tb.Name == "One"), "Couldn't find TextBlock 'One'");
