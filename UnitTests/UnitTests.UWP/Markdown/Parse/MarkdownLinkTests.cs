@@ -13,6 +13,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class MarkdownLinkTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void MarkdownLink_WithLabel()
@@ -367,6 +368,7 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "] " },
                     new MarkdownLinkInline { Url = "https://www.reddit.com" }.AddChildren(
                         new TextRunInline { Text = "text" })));
-        }   
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

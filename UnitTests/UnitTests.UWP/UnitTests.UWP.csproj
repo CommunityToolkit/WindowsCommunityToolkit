@@ -142,6 +142,7 @@
     <Compile Include="Converters\Test_StringFormatConverter.cs" />
     <Compile Include="Converters\Test_TypeToObjectConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
+    <Compile Include="Extensions\Test_VisualTreeExtensions.cs" />
     <Compile Include="Extensions\Test_PointExtensions.cs" />
     <Compile Include="Extensions\Test_RectExtensions.cs" />
     <Compile Include="Extensions\Test_SizeExtensions.cs" />
@@ -249,10 +250,6 @@
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
       <Name>Microsoft.Toolkit.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
-      <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
-      <Name>Microsoft.Toolkit.Parsers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
@@ -268,6 +265,10 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Input\Microsoft.Toolkit.Uwp.UI.Controls.Input.csproj">
       <Project>{af1be4e9-e2e1-4729-b076-b3725d8e21ee}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+      <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Media\Microsoft.Toolkit.Uwp.UI.Controls.Media.csproj">
       <Project>{43bd2a36-9e12-4788-80ae-2377e41e6d05}</Project>
