@@ -10,11 +10,12 @@
 <package>
   <metadata>
     <icon>images\nuget.png</icon>
+    <iconUrl>images\nuget.png</iconUrl>
     <license type="file">License.md</license>
   </metadata>
   <files>
-    <file src="WindowsCommunityToolkit\build\nuget.png" target="images\" />
-    <file src="WindowsCommunityToolkit\License.md" target="" />
+    <file src="..\build\nuget.png" target="images\nuget.png" />
+    <file src="..\license.md" target="" />
   </files>
 </package>
     <description>The official way to send toast notifications on Windows 10 via code rather than XML, with the help of IntelliSense. Supports all C# app types, including WPF, UWP, WinForms, and Console, even without packaging your app as MSIX. Also supports C++ UWP apps.
