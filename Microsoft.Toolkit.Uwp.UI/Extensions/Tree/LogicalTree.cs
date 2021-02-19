@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element.TryGetContentControl() is FrameworkElement contentControl)
+            else if (element.GetContentControl() is FrameworkElement contentControl)
             {
                 if (contentControl is T result && predicate(result))
                 {
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element.TryGetContentControl() is FrameworkElement contentControl)
+            else if (element.GetContentControl() is FrameworkElement contentControl)
             {
                 if (contentControl is T result && predicate(result, state))
                 {
@@ -328,7 +328,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element.TryGetContentControl() is FrameworkElement contentControl)
+            else if (element.GetContentControl() is FrameworkElement contentControl)
             {
                 yield return contentControl;
 
@@ -560,11 +560,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Tries to retrieve the content property of this element as defined by <see cref="ContentPropertyAttribute"/>.
+        /// Gets the content property of this element as defined by <see cref="ContentPropertyAttribute"/>, if available.
         /// </summary>
         /// <param name="element">The parent element.</param>
         /// <returns>The retrieved content control, or <see langword="null"/> if not available.</returns>
-        public static UIElement? TryGetContentControl(this FrameworkElement element)
+        public static UIElement? GetContentControl(this FrameworkElement element)
         {
             Type type = element.GetType();
             TypeInfo? typeInfo = type.GetTypeInfo();
@@ -595,15 +595,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// If the key is not found in the current element's resources, the logical tree is then
         /// searched element-by-element to look for the resource in each element's resources.
         /// If none of the elements contain the resource, the Application's resources are then searched.
-        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/></para>
-        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/></para>
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/>.</para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
         /// </summary>
         /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
         /// <param name="resourceKey">The resource key to search for.</param>
-        /// <returns>The requested resource, or <see langword="null"/>.</returns>
-        public static object? TryFindResource(this FrameworkElement element, object resourceKey)
+        /// <returns>The requested resource.</returns>
+        /// <exception cref="Exception">Thrown when no resource is found with the specified key.</exception>
+        public static object FindResource(this FrameworkElement element, object resourceKey)
         {
-            object? value = null;
+            if (TryFindResource(element, resourceKey, out object? value))
+            {
+                return value!;
+            }
+
+            static object Throw() => throw new Exception("No resource was found with the specified key");
+
+            return Throw();
+        }
+
+        /// <summary>
+        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
+        /// If the key is not found in the current element's resources, the logical tree is then
+        /// searched element-by-element to look for the resource in each element's resources.
+        /// If none of the elements contain the resource, the Application's resources are then searched.
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/>.</para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
+        /// </summary>
+        /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
+        /// <param name="resourceKey">The resource key to search for.</param>
+        /// <param name="value">The resulting value, if present.</param>
+        /// <returns>Whether or not a value with the specified key has been found.</returns>
+        public static bool TryFindResource(this FrameworkElement element, object resourceKey, out object? value)
+        {
+            value = null;
+
             FrameworkElement? current = element;
 
             // Look in our dictionary and then walk-up parents. We use a do-while loop here
@@ -613,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 if (current.Resources?.TryGetValue(resourceKey, out value) == true)
                 {
-                    return value!;
+                    return true;
                 }
 
                 current = current.Parent as FrameworkElement;
@@ -621,9 +647,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             while (current is not null);
 
             // Finally try application resources
-            Application.Current?.Resources?.TryGetValue(resourceKey, out value);
-
-            return value;
+            return Application.Current?.Resources?.TryGetValue(resourceKey, out value) == true;
         }
     }
 }
