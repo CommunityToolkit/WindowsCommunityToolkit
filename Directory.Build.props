@@ -11,8 +11,8 @@
     <license type="file">License.md</license>
   </metadata>
   <files>
-    <file src="WindowsCommunityToolkit\build\nuget.png" target="images\" />
-    <file src="WindowsCommunityToolkit\License.md" target="" />
+    <file src="build\nuget.png" target="images\" />
+    <file src="license.md" target="" />
   </files>
 </package>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
