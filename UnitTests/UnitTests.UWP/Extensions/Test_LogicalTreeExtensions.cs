@@ -294,7 +294,7 @@ xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point --
                 await SetTestContentAsync(treeRoot);
 
                 // Main Test
-                var thing = treeRoot.FindChildren<UniformGrid>();
+                var thing = treeRoot.FindChildren().OfType<UniformGrid>();
 
                 Assert.IsNotNull(thing, "Expected to still have enumerable.");
 
