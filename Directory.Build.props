@@ -5,16 +5,15 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
-<package>
-  <metadata>
-    <icon>images\nuget.png</icon>
-    <license type="file">License.md</license>
-  </metadata>
-  <files>
-    <file src="build\nuget.png" target="images\" />
-    <file src="license.md" target="" />
-  </files>
-</package>
+    <PropertyGroup>
+      <PackageLicenseFile>license.md</PackageLicenseFile>
+      <PackageIcon>nuget.png</PackageIcon>
+      <PackageIconUrl>nuget.png</PackageIconUrl>
+    </PropertyGroup>
+    <ItemGroup>
+     <None Include="license.md" Pack="true" PackagePath=""/>
+     <None Include="build\nuget.png" Pack="true" PackagePath="\"/>
+    </ItemGroup>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
