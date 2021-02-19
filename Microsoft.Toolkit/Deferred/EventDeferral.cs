@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 
+#pragma warning disable CA1063
+
 namespace Microsoft.Toolkit.Deferred
 {
     /// <summary>
@@ -16,16 +18,10 @@ namespace Microsoft.Toolkit.Deferred
     {
         //// TODO: If/when .NET 5 is base, we can upgrade to non-generic version
         private readonly TaskCompletionSource<object?> _taskCompletionSource = new TaskCompletionSource<object?>();
-        private bool _disposed = false;
 
         internal EventDeferral()
         {
         }
-
-        /// <summary>
-        /// Finalizes an instance of the <see cref="EventDeferral"/> class.
-        /// </summary>
-        ~EventDeferral() => Dispose(false);
 
         /// <summary>
         /// Call when finished with the Deferral.
@@ -50,30 +46,10 @@ namespace Microsoft.Toolkit.Deferred
             }
         }
 
-        /// <summary>
-        /// Recommended helper method pattern for <see cref="IDisposable"/>.
-        /// </summary>
-        /// <param name="disposing">Source of dispose request.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            Complete();
-
-            _disposed = true;
-        }
-
         /// <inheritdoc/>
         public void Dispose()
         {
-            // Dispose of unmanaged resources.
-            Dispose(true);
-
-            // Suppress finalization.
-            GC.SuppressFinalize(this);
+            Complete();
         }
     }
 }
