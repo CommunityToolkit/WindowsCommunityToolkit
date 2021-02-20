@@ -657,9 +657,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 return value!;
             }
 
-            static object Throw() => throw new Exception("No resource was found with the specified key");
+            static object Throw(object resourceKey) => throw new KeyNotFoundException($"No resource was found with the key \"{resourceKey}\"");
 
-            return Throw();
+            return Throw(resourceKey);
         }
 
         /// <summary>
