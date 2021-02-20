@@ -110,14 +110,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element.GetContentControl() is FrameworkElement contentControl)
+            else if (element is UserControl userControl)
             {
-                if (contentControl is T result && predicate(result))
+                if (userControl.Content is T result && predicate(result))
                 {
                     return result;
                 }
 
-                return FindChild(contentControl, predicate);
+                if (userControl.Content is FrameworkElement content)
+                {
+                    return FindChild(content, predicate);
+                }
+            }
+            else if (element is ContentControl contentControl)
+            {
+                if (contentControl.Content is T result && predicate(result))
+                {
+                    return result;
+                }
+
+                if (contentControl.Content is FrameworkElement content)
+                {
+                    return FindChild(content, predicate);
+                }
+            }
+            else if (element is Border border)
+            {
+                if (border.Child is T result && predicate(result))
+                {
+                    return result;
+                }
+
+                if (border.Child is FrameworkElement child)
+                {
+                    return FindChild(child, predicate);
+                }
+            }
+            else if (element.GetContentControl() is FrameworkElement containedControl)
+            {
+                if (containedControl is T result && predicate(result))
+                {
+                    return result;
+                }
+
+                return FindChild(containedControl, predicate);
             }
 
             return null;
@@ -179,14 +215,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element.GetContentControl() is FrameworkElement contentControl)
+            else if (element is UserControl userControl)
             {
-                if (contentControl is T result && predicate(result, state))
+                if (userControl.Content is T result && predicate(result, state))
                 {
                     return result;
                 }
 
-                return FindChild(contentControl, state, predicate);
+                if (userControl.Content is FrameworkElement content)
+                {
+                    return FindChild(content, state, predicate);
+                }
+            }
+            else if (element is ContentControl contentControl)
+            {
+                if (contentControl.Content is T result && predicate(result, state))
+                {
+                    return result;
+                }
+
+                if (contentControl.Content is FrameworkElement content)
+                {
+                    return FindChild(content, state, predicate);
+                }
+            }
+            else if (element is Border border)
+            {
+                if (border.Child is T result && predicate(result, state))
+                {
+                    return result;
+                }
+
+                if (border.Child is FrameworkElement child)
+                {
+                    return FindChild(child, state, predicate);
+                }
+            }
+            else if (element.GetContentControl() is FrameworkElement containedControl)
+            {
+                if (containedControl is T result && predicate(result, state))
+                {
+                    return result;
+                }
+
+                return FindChild(containedControl, state, predicate);
             }
 
             return null;
@@ -328,11 +400,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element.GetContentControl() is FrameworkElement contentControl)
+            else if (element is UserControl userControl)
             {
-                yield return contentControl;
+                if (userControl.Content is FrameworkElement content)
+                {
+                    yield return content;
 
-                foreach (FrameworkElement childOfChild in FindChildren(contentControl))
+                    foreach (FrameworkElement childOfContent in FindChildren(content))
+                    {
+                        yield return childOfContent;
+                    }
+                }
+            }
+            else if (element is ContentControl contentControl)
+            {
+                if (contentControl.Content is FrameworkElement content)
+                {
+                    yield return content;
+
+                    foreach (FrameworkElement childOfContent in FindChildren(content))
+                    {
+                        yield return childOfContent;
+                    }
+                }
+            }
+            else if (element is Border border)
+            {
+                if (border.Child is FrameworkElement child)
+                {
+                    yield return child;
+
+                    foreach (FrameworkElement childOfChild in FindChildren(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+            else if (element.GetContentControl() is FrameworkElement containedControl)
+            {
+                yield return containedControl;
+
+                foreach (FrameworkElement childOfChild in FindChildren(containedControl))
                 {
                     yield return childOfChild;
                 }
