@@ -7,7 +7,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Buffers;
 using Microsoft.Toolkit.HighPerformance.Streams;
-using Microsoft.Toolkit.HighPerformance.Streams.Sources;
 
 namespace Microsoft.Toolkit.HighPerformance
 {
