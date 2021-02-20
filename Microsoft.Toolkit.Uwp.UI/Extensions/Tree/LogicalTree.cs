@@ -643,7 +643,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// If the key is not found in the current element's resources, the logical tree is then
         /// searched element-by-element to look for the resource in each element's resources.
         /// If none of the elements contain the resource, the Application's resources are then searched.
-        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/>.</para>
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.findresource"/>.</para>
         /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
         /// </summary>
         /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
