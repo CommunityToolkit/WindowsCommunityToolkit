@@ -11,6 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
     /// </summary>
     /// <typeparam name="T">The type of items to match.</typeparam>
     internal readonly struct PredicateByAny<T> : IPredicate<T>
+        where T : class
     {
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

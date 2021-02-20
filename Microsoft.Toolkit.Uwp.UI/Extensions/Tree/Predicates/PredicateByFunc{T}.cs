@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
     /// </summary>
     /// <typeparam name="T">The type of items to match.</typeparam>
     internal readonly struct PredicateByFunc<T> : IPredicate<T>
+        where T : class
     {
         /// <summary>
         /// The predicatee to use to match items.

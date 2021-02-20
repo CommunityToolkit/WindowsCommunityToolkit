@@ -10,8 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
     /// <summary>
     /// An <see cref="IPredicate{T}"/> type matching items of a given type.
     /// </summary>
-    /// <typeparam name="T">The type of items to match.</typeparam>
-    internal readonly struct PredicateByType<T> : IPredicate<T>
+    internal readonly struct PredicateByType : IPredicate<object>
     {
         /// <summary>
         /// The type of element to match.
@@ -19,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
         private readonly Type type;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PredicateByType{T}"/> struct.
+        /// Initializes a new instance of the <see cref="PredicateByType"/> struct.
         /// </summary>
         /// <param name="type">The type of element to match.</param>
         public PredicateByType(Type type)
@@ -29,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Match(T element)
+        public bool Match(object element)
         {
             return element.GetType() == this.type;
         }

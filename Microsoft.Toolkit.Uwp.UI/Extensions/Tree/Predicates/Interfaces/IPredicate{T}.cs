@@ -8,7 +8,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
     /// An interface representing a predicate for items of a given type.
     /// </summary>
     /// <typeparam name="T">The type of items to match.</typeparam>
-    internal interface IPredicate<T>
+    internal interface IPredicate<in T>
+        where T : class
     {
         /// <summary>
         /// Performs a match with the current predicate over a target <typeparamref name="T"/> instance.

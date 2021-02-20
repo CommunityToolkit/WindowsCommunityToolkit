@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
     /// <typeparam name="T">The type of items to match.</typeparam>
     /// <typeparam name="TState">The type of state to use when matching items.</typeparam>
     internal readonly struct PredicateByFunc<T, TState> : IPredicate<T>
+        where T : class
     {
         /// <summary>
         /// The state to give as input to <see name="predicate"/>.

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.UI.Extensions.Tree;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -25,10 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
         public static FrameworkElement? FindDescendant(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            return FindDescendant<FrameworkElement, (string Name, StringComparison ComparisonType)>(
-                element,
-                (name, comparisonType),
-                static (e, s) => s.Name.Equals(e.Name, s.ComparisonType));
+            PredicateByName predicateByName = new(name, comparisonType);
+
+            return FindDescendant<FrameworkElement, PredicateByName>(element, ref predicateByName);
         }
 
         /// <summary>
@@ -40,26 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindDescendant<T>(this DependencyObject element)
             where T : notnull, DependencyObject
         {
-            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            PredicateByAny<T> predicateByAny = default;
 
-            for (var i = 0; i < childrenCount; i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(element, i);
-
-                if (child is T result)
-                {
-                    return result;
-                }
-
-                T? descendant = FindDescendant<T>(child);
-
-                if (descendant is not null)
-                {
-                    return descendant;
-                }
-            }
-
-            return null;
+            return FindDescendant<T, PredicateByAny<T>>(element, ref predicateByAny);
         }
 
         /// <summary>
@@ -70,7 +53,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
         public static DependencyObject? FindDescendant(this DependencyObject element, Type type)
         {
-            return FindDescendant<DependencyObject, Type>(element, type, static (e, t) => e.GetType() == t);
+            PredicateByType predicateByType = new(type);
+
+            return FindDescendant<DependencyObject, PredicateByType>(element, ref predicateByType);
         }
 
         /// <summary>
@@ -83,26 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindDescendant<T>(this DependencyObject element, Func<T, bool> predicate)
             where T : notnull, DependencyObject
         {
-            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            PredicateByFunc<T> predicateByFunc = new(predicate);
 
-            for (var i = 0; i < childrenCount; i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(element, i);
-
-                if (child is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                T? descendant = FindDescendant(child, predicate);
-
-                if (descendant is not null)
-                {
-                    return descendant;
-                }
-            }
-
-            return null;
+            return FindDescendant<T, PredicateByFunc<T>>(element, ref predicateByFunc);
         }
 
         /// <summary>
@@ -117,18 +85,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindDescendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, DependencyObject
         {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindDescendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first descendant element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        private static T? FindDescendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate)
+            where T : notnull, DependencyObject
+            where TPredicate : struct, IPredicate<T>
+        {
             int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
             for (var i = 0; i < childrenCount; i++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(element, i);
 
-                if (child is T result && predicate(result, state))
+                if (child is T result && predicate.Match(result))
                 {
                     return result;
                 }
 
-                T? descendant = FindDescendant(child, state, predicate);
+                T? descendant = FindDescendant<T, TPredicate>(child, ref predicate);
 
                 if (descendant is not null)
                 {
@@ -265,10 +250,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
         public static FrameworkElement? FindAscendant(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            return FindAscendant<FrameworkElement, (string Name, StringComparison ComparisonType)>(
-                element,
-                (name, comparisonType),
-                static (e, s) => s.Name.Equals(e.Name, s.ComparisonType));
+            PredicateByName predicateByName = new(name, comparisonType);
+
+            return FindAscendant<FrameworkElement, PredicateByName>(element, ref predicateByName);
         }
 
         /// <summary>
@@ -280,22 +264,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindAscendant<T>(this DependencyObject element)
             where T : notnull, DependencyObject
         {
-            while (true)
-            {
-                DependencyObject? parent = VisualTreeHelper.GetParent(element);
+            PredicateByAny<T> predicateByAny = default;
 
-                if (parent is null)
-                {
-                    return null;
-                }
-
-                if (parent is T result)
-                {
-                    return result;
-                }
-
-                element = parent;
-            }
+            return FindAscendant<T, PredicateByAny<T>>(element, ref predicateByAny);
         }
 
         /// <summary>
@@ -306,7 +277,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
         public static DependencyObject? FindAscendant(this DependencyObject element, Type type)
         {
-            return FindAscendant<DependencyObject, Type>(element, type, static (e, t) => e.GetType() == t);
+            PredicateByType predicateByType = new(type);
+
+            return FindAscendant<DependencyObject, PredicateByType>(element, ref predicateByType);
         }
 
         /// <summary>
@@ -319,22 +292,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindAscendant<T>(this DependencyObject element, Func<T, bool> predicate)
             where T : notnull, DependencyObject
         {
-            while (true)
-            {
-                DependencyObject? parent = VisualTreeHelper.GetParent(element);
+            PredicateByFunc<T> predicateByFunc = new(predicate);
 
-                if (parent is null)
-                {
-                    return null;
-                }
-
-                if (parent is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                element = parent;
-            }
+            return FindAscendant<T, PredicateByFunc<T>>(element, ref predicateByFunc);
         }
 
         /// <summary>
@@ -349,6 +309,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindAscendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, DependencyObject
         {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindAscendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first ascendant element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        private static T? FindAscendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate)
+            where T : notnull, DependencyObject
+            where TPredicate : struct, IPredicate<T>
+        {
             while (true)
             {
                 DependencyObject? parent = VisualTreeHelper.GetParent(element);
@@ -358,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     return null;
                 }
 
-                if (parent is T result && predicate(result, state))
+                if (parent is T result && predicate.Match(result))
                 {
                     return result;
                 }

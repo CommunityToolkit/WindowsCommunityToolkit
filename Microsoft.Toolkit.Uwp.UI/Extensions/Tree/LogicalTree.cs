@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Toolkit.Uwp.UI.Extensions.Tree;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -27,10 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The child that was found, or <see langword="null"/>.</returns>
         public static FrameworkElement? FindChild(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            return FindChild<FrameworkElement, (string Name, StringComparison ComparisonType)>(
-                element,
-                (name, comparisonType),
-                static (e, s) => s.Name.Equals(e.Name, s.ComparisonType));
+            PredicateByName predicateByName = new(name, comparisonType);
+
+            return FindChild<FrameworkElement, PredicateByName>(element, ref predicateByName);
         }
 
         /// <summary>
@@ -42,7 +42,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindChild<T>(this FrameworkElement element)
             where T : notnull, FrameworkElement
         {
-            return FindChild<T>(element, static _ => true);
+            PredicateByAny<T> predicateByAny = default;
+
+            return FindChild<T, PredicateByAny<T>>(element, ref predicateByAny);
         }
 
         /// <summary>
@@ -53,7 +55,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The child that was found, or <see langword="null"/>.</returns>
         public static FrameworkElement? FindChild(this FrameworkElement element, Type type)
         {
-            return FindChild<FrameworkElement, Type>(element, type, static (e, t) => e.GetType() == t);
+            PredicateByType predicateByType = new(type);
+
+            return FindChild<FrameworkElement, PredicateByType>(element, ref predicateByType);
         }
 
         /// <summary>
@@ -66,97 +70,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindChild<T>(this FrameworkElement element, Func<T, bool> predicate)
             where T : notnull, FrameworkElement
         {
-            if (element is Panel panel)
-            {
-                foreach (UIElement child in panel.Children)
-                {
-                    if (child is not FrameworkElement current)
-                    {
-                        continue;
-                    }
+            PredicateByFunc<T> predicateByFunc = new(predicate);
 
-                    if (child is T result && predicate(result))
-                    {
-                        return result;
-                    }
-
-                    T? descendant = FindChild(current, predicate);
-
-                    if (descendant is not null)
-                    {
-                        return descendant;
-                    }
-                }
-            }
-            else if (element is ItemsControl itemsControl)
-            {
-                foreach (object item in itemsControl.Items)
-                {
-                    if (item is not FrameworkElement current)
-                    {
-                        continue;
-                    }
-
-                    if (item is T result && predicate(result))
-                    {
-                        return result;
-                    }
-
-                    T? descendant = FindChild(current, predicate);
-
-                    if (descendant is not null)
-                    {
-                        return descendant;
-                    }
-                }
-            }
-            else if (element is UserControl userControl)
-            {
-                if (userControl.Content is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                if (userControl.Content is FrameworkElement content)
-                {
-                    return FindChild(content, predicate);
-                }
-            }
-            else if (element is ContentControl contentControl)
-            {
-                if (contentControl.Content is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                if (contentControl.Content is FrameworkElement content)
-                {
-                    return FindChild(content, predicate);
-                }
-            }
-            else if (element is Border border)
-            {
-                if (border.Child is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                if (border.Child is FrameworkElement child)
-                {
-                    return FindChild(child, predicate);
-                }
-            }
-            else if (element.GetContentControl() is FrameworkElement containedControl)
-            {
-                if (containedControl is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                return FindChild(containedControl, predicate);
-            }
-
-            return null;
+            return FindChild<T, PredicateByFunc<T>>(element, ref predicateByFunc);
         }
 
         /// <summary>
@@ -171,6 +87,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindChild<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement
         {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindChild<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first child element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        private static T? FindChild<T, TPredicate>(this FrameworkElement element, ref TPredicate predicate)
+            where T : notnull, FrameworkElement
+            where TPredicate : struct, IPredicate<T>
+        {
             if (element is Panel panel)
             {
                 foreach (UIElement child in panel.Children)
@@ -180,12 +113,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         continue;
                     }
 
-                    if (child is T result && predicate(result, state))
+                    if (child is T result && predicate.Match(result))
                     {
                         return result;
                     }
 
-                    T? descendant = FindChild(current, state, predicate);
+                    T? descendant = FindChild<T, TPredicate>(current, ref predicate);
 
                     if (descendant is not null)
                     {
@@ -202,12 +135,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                         continue;
                     }
 
-                    if (item is T result && predicate(result, state))
+                    if (item is T result && predicate.Match(result))
                     {
                         return result;
                     }
 
-                    T? descendant = FindChild(current, state, predicate);
+                    T? descendant = FindChild<T, TPredicate>(current, ref predicate);
 
                     if (descendant is not null)
                     {
@@ -217,48 +150,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
             else if (element is UserControl userControl)
             {
-                if (userControl.Content is T result && predicate(result, state))
+                if (userControl.Content is T result && predicate.Match(result))
                 {
                     return result;
                 }
 
                 if (userControl.Content is FrameworkElement content)
                 {
-                    return FindChild(content, state, predicate);
+                    return FindChild<T, TPredicate>(content, ref predicate);
                 }
             }
             else if (element is ContentControl contentControl)
             {
-                if (contentControl.Content is T result && predicate(result, state))
+                if (contentControl.Content is T result && predicate.Match(result))
                 {
                     return result;
                 }
 
                 if (contentControl.Content is FrameworkElement content)
                 {
-                    return FindChild(content, state, predicate);
+                    return FindChild<T, TPredicate>(content, ref predicate);
                 }
             }
             else if (element is Border border)
             {
-                if (border.Child is T result && predicate(result, state))
+                if (border.Child is T result && predicate.Match(result))
                 {
                     return result;
                 }
 
                 if (border.Child is FrameworkElement child)
                 {
-                    return FindChild(child, state, predicate);
+                    return FindChild<T, TPredicate>(child, ref predicate);
                 }
             }
             else if (element.GetContentControl() is FrameworkElement containedControl)
             {
-                if (containedControl is T result && predicate(result, state))
+                if (containedControl is T result && predicate.Match(result))
                 {
                     return result;
                 }
 
-                return FindChild(containedControl, state, predicate);
+                return FindChild<T, TPredicate>(containedControl, ref predicate);
             }
 
             return null;
@@ -456,10 +389,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The parent that was found, or <see langword="null"/>.</returns>
         public static FrameworkElement? FindParent(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            return FindParent<FrameworkElement, (string Name, StringComparison ComparisonType)>(
-                element,
-                (name, comparisonType),
-                static (e, s) => s.Name.Equals(e.Name, s.ComparisonType));
+            PredicateByName predicateByName = new(name, comparisonType);
+
+            return FindParent<FrameworkElement, PredicateByName>(element, ref predicateByName);
         }
 
         /// <summary>
@@ -471,20 +403,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindParent<T>(this FrameworkElement element)
             where T : notnull, FrameworkElement
         {
-            while (true)
-            {
-                if (element.Parent is not FrameworkElement parent)
-                {
-                    return null;
-                }
+            PredicateByAny<T> predicateByAny = default;
 
-                if (parent is T result)
-                {
-                    return result;
-                }
-
-                element = parent;
-            }
+            return FindParent<T, PredicateByAny<T>>(element, ref predicateByAny);
         }
 
         /// <summary>
@@ -495,7 +416,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The parent that was found, or <see langword="null"/>.</returns>
         public static FrameworkElement? FindParent(this FrameworkElement element, Type type)
         {
-            return FindParent<FrameworkElement, Type>(element, type, static (e, t) => e.GetType() == t);
+            PredicateByType predicateByType = new(type);
+
+            return FindParent<FrameworkElement, PredicateByType>(element, ref predicateByType);
         }
 
         /// <summary>
@@ -508,20 +431,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindParent<T>(this FrameworkElement element, Func<T, bool> predicate)
             where T : notnull, FrameworkElement
         {
-            while (true)
-            {
-                if (element.Parent is not FrameworkElement parent)
-                {
-                    return null;
-                }
+            PredicateByFunc<T> predicateByFunc = new(predicate);
 
-                if (parent is T result && predicate(result))
-                {
-                    return result;
-                }
-
-                element = parent;
-            }
+            return FindParent<T, PredicateByFunc<T>>(element, ref predicateByFunc);
         }
 
         /// <summary>
@@ -536,6 +448,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static T? FindParent<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement
         {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindParent<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first parent element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        private static T? FindParent<T, TPredicate>(this FrameworkElement element, ref TPredicate predicate)
+            where T : notnull, FrameworkElement
+            where TPredicate : struct, IPredicate<T>
+        {
             while (true)
             {
                 if (element.Parent is not FrameworkElement parent)
@@ -543,7 +472,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     return null;
                 }
 
-                if (parent is T result && predicate(result, state))
+                if (parent is T result && predicate.Match(result))
                 {
                     return result;
                 }
