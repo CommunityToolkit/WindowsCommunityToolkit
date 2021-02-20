@@ -104,6 +104,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             where T : notnull, FrameworkElement
             where TPredicate : struct, IPredicate<T>
         {
+            // Jump label to manually optimize the tail recursive paths for elements with a single
+            // child by just overwriting the current element and jumping back to the start of the
+            // method. This avoids a recursive call and one stack frame every time.
+            Start:
+
             if (element is Panel panel)
             {
                 foreach (UIElement child in panel.Children)
@@ -157,7 +162,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (userControl.Content is FrameworkElement content)
                 {
-                    return FindChild<T, TPredicate>(content, ref predicate);
+                    element = content;
+
+                    goto Start;
                 }
             }
             else if (element is ContentControl contentControl)
@@ -169,7 +176,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (contentControl.Content is FrameworkElement content)
                 {
-                    return FindChild<T, TPredicate>(content, ref predicate);
+                    element = content;
+
+                    goto Start;
                 }
             }
             else if (element is Border border)
@@ -181,7 +190,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 if (border.Child is FrameworkElement child)
                 {
-                    return FindChild<T, TPredicate>(child, ref predicate);
+                    element = child;
+
+                    goto Start;
                 }
             }
             else if (element.GetContentControl() is FrameworkElement containedControl)
@@ -191,7 +202,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     return result;
                 }
 
-                return FindChild<T, TPredicate>(containedControl, ref predicate);
+                element = containedControl;
+
+                goto Start;
             }
 
             return null;
@@ -299,6 +312,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>All the child <see cref="FrameworkElement"/> instance from <paramref name="element"/>.</returns>
         public static IEnumerable<FrameworkElement> FindChildren(this FrameworkElement element)
         {
+            Start:
+
             if (element is Panel panel)
             {
                 foreach (UIElement child in panel.Children)
@@ -339,10 +354,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     yield return content;
 
-                    foreach (FrameworkElement childOfContent in FindChildren(content))
-                    {
-                        yield return childOfContent;
-                    }
+                    element = content;
+
+                    goto Start;
                 }
             }
             else if (element is ContentControl contentControl)
@@ -351,10 +365,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     yield return content;
 
-                    foreach (FrameworkElement childOfContent in FindChildren(content))
-                    {
-                        yield return childOfContent;
-                    }
+                    element = content;
+
+                    goto Start;
                 }
             }
             else if (element is Border border)
@@ -363,20 +376,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     yield return child;
 
-                    foreach (FrameworkElement childOfChild in FindChildren(child))
-                    {
-                        yield return childOfChild;
-                    }
+                    element = child;
+
+                    goto Start;
                 }
             }
             else if (element.GetContentControl() is FrameworkElement containedControl)
             {
                 yield return containedControl;
 
-                foreach (FrameworkElement childOfChild in FindChildren(containedControl))
-                {
-                    yield return childOfChild;
-                }
+                element = containedControl;
+
+                goto Start;
             }
         }
 
