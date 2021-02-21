@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
+namespace Microsoft.Toolkit.Uwp.UI.Predicates
 {
     /// <summary>
     /// An <see cref="IPredicate{T}"/> type matching items of a given type.

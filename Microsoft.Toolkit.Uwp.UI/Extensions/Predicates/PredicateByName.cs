@@ -6,7 +6,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions.Tree
+namespace Microsoft.Toolkit.Uwp.UI.Predicates
 {
     /// <summary>
     /// An <see cref="IPredicate{T}"/> type matching <see cref="FrameworkElement"/> instances by name.
