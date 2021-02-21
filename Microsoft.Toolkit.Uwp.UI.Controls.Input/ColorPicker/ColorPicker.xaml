@@ -2,8 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
-                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters">
+                    xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
+                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
         <SolidColorBrush.Color>
