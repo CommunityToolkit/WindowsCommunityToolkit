@@ -3,8 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 
-namespace Microsoft.Toolkit.Uwp.Deferred
+#pragma warning disable CA1001
+
+namespace Microsoft.Toolkit.Deferred
 {
     /// <summary>
     /// <see cref="EventArgs"/> which can retrieve a <see cref="EventDeferral"/> in order to process data asynchronously before an <see cref="EventHandler"/> completes and returns to the calling control.
@@ -18,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Deferred
 
         private readonly object _eventDeferralLock = new object();
 
-        private EventDeferral _eventDeferral;
+        private EventDeferral? _eventDeferral;
 
         /// <summary>
         /// Returns an <see cref="EventDeferral"/> which can be completed when deferred event is ready to continue.
@@ -28,11 +31,21 @@ namespace Microsoft.Toolkit.Uwp.Deferred
         {
             lock (_eventDeferralLock)
             {
-                return _eventDeferral ?? (_eventDeferral = new EventDeferral());
+                return _eventDeferral ??= new EventDeferral();
             }
         }
 
-        internal EventDeferral GetCurrentDeferralAndReset()
+        /// <summary>
+        /// DO NOT USE - This is a support method used by <see cref="EventHandlerExtensions"/>. It is public only for
+        /// additional usage within extensions for the UWP based TypedEventHandler extensions.
+        /// </summary>
+        /// <returns>Internal EventDeferral reference</returns>
+#if !NETSTANDARD1_4
+        [Browsable(false)]
+#endif
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("This is an internal only method to be used by EventHandler extension classes, public callers should call GetDeferral() instead.")]
+        public EventDeferral? GetCurrentDeferralAndReset()
         {
             lock (_eventDeferralLock)
             {

@@ -6,42 +6,39 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.Deferred
+namespace Microsoft.Toolkit.Deferred
 {
     /// <summary>
-    /// Extensions to <see cref="TypedEventHandler{TSender, TResult}"/> for Deferred Events.
+    /// Extensions to <see cref="EventHandler{TEventArgs}"/> for Deferred Events.
     /// </summary>
-    public static class TypedEventHandlerExtensions
+    public static class EventHandlerExtensions
     {
         /// <summary>
-        /// Use to invoke an async <see cref="TypedEventHandler{TSender, TResult}"/> using <see cref="DeferredEventArgs"/>.
+        /// Use to invoke an async <see cref="EventHandler{TEventArgs}"/> using <see cref="DeferredEventArgs"/>.
         /// </summary>
-        /// <typeparam name="S">Type of sender.</typeparam>
-        /// <typeparam name="R"><see cref="EventArgs"/> type.</typeparam>
-        /// <param name="eventHandler"><see cref="TypedEventHandler{TSender, TResult}"/> to be invoked.</param>
+        /// <typeparam name="T"><see cref="EventArgs"/> type.</typeparam>
+        /// <param name="eventHandler"><see cref="EventHandler{TEventArgs}"/> to be invoked.</param>
         /// <param name="sender">Sender of the event.</param>
         /// <param name="eventArgs"><see cref="EventArgs"/> instance.</param>
         /// <returns><see cref="Task"/> to wait on deferred event handler.</returns>
-        public static Task InvokeAsync<S, R>(this TypedEventHandler<S, R> eventHandler, S sender, R eventArgs)
-            where R : DeferredEventArgs
+        public static Task InvokeAsync<T>(this EventHandler<T> eventHandler, object sender, T eventArgs)
+            where T : DeferredEventArgs
         {
             return InvokeAsync(eventHandler, sender, eventArgs, CancellationToken.None);
         }
 
         /// <summary>
-        /// Use to invoke an async <see cref="TypedEventHandler{TSender, TResult}"/> using <see cref="DeferredEventArgs"/> with a <see cref="CancellationToken"/>.
+        /// Use to invoke an async <see cref="EventHandler{TEventArgs}"/> using <see cref="DeferredEventArgs"/> with a <see cref="CancellationToken"/>.
         /// </summary>
-        /// <typeparam name="S">Type of sender.</typeparam>
-        /// <typeparam name="R"><see cref="EventArgs"/> type.</typeparam>
-        /// <param name="eventHandler"><see cref="TypedEventHandler{TSender, TResult}"/> to be invoked.</param>
+        /// <typeparam name="T"><see cref="EventArgs"/> type.</typeparam>
+        /// <param name="eventHandler"><see cref="EventHandler{TEventArgs}"/> to be invoked.</param>
         /// <param name="sender">Sender of the event.</param>
         /// <param name="eventArgs"><see cref="EventArgs"/> instance.</param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/> option.</param>
         /// <returns><see cref="Task"/> to wait on deferred event handler.</returns>
-        public static Task InvokeAsync<S, R>(this TypedEventHandler<S, R> eventHandler, S sender, R eventArgs, CancellationToken cancellationToken)
-            where R : DeferredEventArgs
+        public static Task InvokeAsync<T>(this EventHandler<T> eventHandler, object sender, T eventArgs, CancellationToken cancellationToken)
+            where T : DeferredEventArgs
         {
             if (eventHandler == null)
             {
@@ -49,16 +46,18 @@ namespace Microsoft.Toolkit.Uwp.Deferred
             }
 
             var tasks = eventHandler.GetInvocationList()
-                .OfType<TypedEventHandler<S, R>>()
+                .OfType<EventHandler<T>>()
                 .Select(invocationDelegate =>
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
                     invocationDelegate(sender, eventArgs);
 
+                    #pragma warning disable CS0618 // Type or member is obsolete
                     var deferral = eventArgs.GetCurrentDeferralAndReset();
 
                     return deferral?.WaitForCompletion(cancellationToken) ?? Task.CompletedTask;
+                    #pragma warning restore CS0618 // Type or member is obsolete
                 })
                 .ToArray();
 
