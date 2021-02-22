@@ -153,20 +153,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element is UserControl userControl)
-            {
-                if (userControl.Content is T result && predicate.Match(result))
-                {
-                    return result;
-                }
-
-                if (userControl.Content is FrameworkElement content)
-                {
-                    element = content;
-
-                    goto Start;
-                }
-            }
             else if (element is ContentControl contentControl)
             {
                 if (contentControl.Content is T result && predicate.Match(result))
@@ -191,6 +177,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 if (border.Child is FrameworkElement child)
                 {
                     element = child;
+
+                    goto Start;
+                }
+            }
+            else if (element is UserControl userControl)
+            {
+                // We put UserControl right before the slower reflection fallback path as
+                // this type is less likely to be used compared to the other ones above.
+                if (userControl.Content is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                if (userControl.Content is FrameworkElement content)
+                {
+                    element = content;
 
                     goto Start;
                 }
@@ -348,17 +350,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     }
                 }
             }
-            else if (element is UserControl userControl)
-            {
-                if (userControl.Content is FrameworkElement content)
-                {
-                    yield return content;
-
-                    element = content;
-
-                    goto Start;
-                }
-            }
             else if (element is ContentControl contentControl)
             {
                 if (contentControl.Content is FrameworkElement content)
@@ -377,6 +368,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     yield return child;
 
                     element = child;
+
+                    goto Start;
+                }
+            }
+            else if (element is UserControl userControl)
+            {
+                if (userControl.Content is FrameworkElement content)
+                {
+                    yield return content;
+
+                    element = content;
 
                     goto Start;
                 }
