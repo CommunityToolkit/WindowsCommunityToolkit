@@ -639,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
+        /// Provides a WPF compatible version of FindResource to provide a static resource lookup.
         /// If the key is not found in the current element's resources, the logical tree is then
         /// searched element-by-element to look for the resource in each element's resources.
         /// If none of the elements contain the resource, the Application's resources are then searched.
