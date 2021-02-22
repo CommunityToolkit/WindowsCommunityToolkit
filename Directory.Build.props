@@ -8,9 +8,8 @@
     <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
       <PackageLicenseFile>license.md</PackageLicenseFile>
       <PackageIcon>nuget.png</PackageIcon>
-      <PackageIconUrl>nuget.png</PackageIconUrl>
       <None Include="license.md" Pack="true" PackagePath=""/>
-      <None Include="build\nuget.png" Pack="true" PackagePath="\"/>
+      <None Include="images\nuget.png" Pack="true" PackagePath="\"/>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
