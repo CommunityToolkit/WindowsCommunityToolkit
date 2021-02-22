@@ -26,7 +26,7 @@ namespace UnitTests.Extensions
         <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE105;}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("Check") as AppBarButton;
+            var button = treeroot.FindChild("Check") as AppBarButton;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(AppBarButton)} control in tree.");
 
@@ -49,7 +49,7 @@ namespace UnitTests.Extensions
         <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("Check") as AppBarButton;
+            var button = treeroot.FindChild("Check") as AppBarButton;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(AppBarButton)} control in tree.");
 
@@ -72,7 +72,7 @@ namespace UnitTests.Extensions
         <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontSize=7, FontFamily='Segoe MDL2 Assets', FontWeight=Bold, FontStyle=Italic, IsTextScaleFactorEnabled=True, MirroredWhenRightToLeft=True}""/>
 </Page>") as FrameworkElement;
 
-            var button = treeroot.FindChildByName("Check") as AppBarButton;
+            var button = treeroot.FindChild("Check") as AppBarButton;
 
             Assert.IsNotNull(button, $"Could not find the {nameof(AppBarButton)} control in tree.");
 

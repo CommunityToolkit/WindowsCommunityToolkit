@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            bladeView = control.FindChildByName("BladeView") as BladeView;
-            addBlade = control.FindChildByName("AddBlade") as Button;
+            bladeView = control.FindChild("BladeView") as BladeView;
+            addBlade = control.FindChild("AddBlade") as Button;
 
             if (addBlade != null)
             {

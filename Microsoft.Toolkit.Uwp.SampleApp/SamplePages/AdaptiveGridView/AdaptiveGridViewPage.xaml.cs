@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            _adaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewControl") as AdaptiveGridView;
+            _adaptiveGridViewControl = control.FindDescendant("AdaptiveGridViewControl") as AdaptiveGridView;
             if (_adaptiveGridViewControl != null)
             {
                 var allPhotos = await new Data.PhotosDataSource().GetItemsAsync();

@@ -51,7 +51,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -116,7 +116,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -176,7 +176,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -222,7 +222,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -232,14 +232,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeRoot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChild("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(1, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeRoot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChild("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
@@ -269,7 +269,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -279,14 +279,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeRoot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChild("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(1, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeRoot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChild("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
@@ -316,7 +316,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -326,14 +326,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeRoot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChild("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(0, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeRoot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChild("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 
@@ -371,7 +371,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -411,7 +411,7 @@ namespace UnitTests.UI.Controls
 
             Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-            var grid = treeRoot.FindChildByName("UniformGrid") as UniformGrid;
+            var grid = treeRoot.FindChild("UniformGrid") as UniformGrid;
 
             Assert.IsNotNull(grid, "Could not find UniformGrid in tree.");
 
@@ -421,14 +421,14 @@ namespace UnitTests.UI.Controls
 
             grid.Measure(new Size(1000, 1000));
 
-            var border = treeRoot.FindChildByName("OurItem") as Border;
+            var border = treeRoot.FindChild("OurItem") as Border;
 
             Assert.IsNotNull(border, "Could not find our item to test.");
 
             Assert.AreEqual(1, Grid.GetRow(border));
             Assert.AreEqual(1, Grid.GetColumn(border));
 
-            var border2 = treeRoot.FindChildByName("Shifted") as Border;
+            var border2 = treeRoot.FindChild("Shifted") as Border;
 
             Assert.IsNotNull(border2, "Could not find shifted item to test.");
 

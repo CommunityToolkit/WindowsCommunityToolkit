@@ -4,8 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.UI.Extensions.Tree;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -15,30 +18,106 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public static class VisualTree
     {
         /// <summary>
-        /// Find descendant <see cref="FrameworkElement"/> control using its name.
+        /// Find the first descendant of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.
         /// </summary>
-        /// <param name="element">Parent element.</param>
-        /// <param name="name">Name of the control to find</param>
-        /// <returns>Descendant control or null if not found.</returns>
-        public static FrameworkElement FindDescendantByName(this DependencyObject element, string name)
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindDescendant(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            if (element == null || string.IsNullOrWhiteSpace(name))
-            {
-                return null;
-            }
+            PredicateByName predicateByName = new(name, comparisonType);
 
-            if (name.Equals((element as FrameworkElement)?.Name, StringComparison.OrdinalIgnoreCase))
-            {
-                return element as FrameworkElement;
-            }
+            return FindDescendant<FrameworkElement, PredicateByName>(element, ref predicateByName);
+        }
 
-            var childCount = VisualTreeHelper.GetChildrenCount(element);
-            for (int i = 0; i < childCount; i++)
+        /// <summary>
+        /// Find the first descendant element of a given type, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendant<T>(this DependencyObject element)
+            where T : notnull, DependencyObject
+        {
+            PredicateByAny<T> predicateByAny = default;
+
+            return FindDescendant<T, PredicateByAny<T>>(element, ref predicateByAny);
+        }
+
+        /// <summary>
+        /// Find the first descendant element of a given type, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindDescendant(this DependencyObject element, Type type)
+        {
+            PredicateByType predicateByType = new(type);
+
+            return FindDescendant<DependencyObject, PredicateByType>(element, ref predicateByType);
+        }
+
+        /// <summary>
+        /// Find the first descendant element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendant<T>(this DependencyObject element, Func<T, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            PredicateByFunc<T> predicateByFunc = new(predicate);
+
+            return FindDescendant<T, PredicateByFunc<T>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first descendant element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindDescendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first descendant element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        private static T? FindDescendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate)
+            where T : notnull, DependencyObject
+            where TPredicate : struct, IPredicate<T>
+        {
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+            for (var i = 0; i < childrenCount; i++)
             {
-                var result = VisualTreeHelper.GetChild(element, i).FindDescendantByName(name);
-                if (result != null)
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                if (child is T result && predicate.Match(result))
                 {
                     return result;
+                }
+
+                T? descendant = FindDescendant<T, TPredicate>(child, ref predicate);
+
+                if (descendant is not null)
+                {
+                    return descendant;
                 }
             }
 
@@ -46,184 +125,339 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Find first descendant control of a specified type.
+        /// Find the first descendant (or self) of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Descendant control or null if not found.</returns>
-        public static T FindDescendant<T>(this DependencyObject element)
-            where T : DependencyObject
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindDescendantOrSelf(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            T retValue = null;
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            if (element is FrameworkElement result && name.Equals(result.Name, comparisonType))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, name, comparisonType);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element of a given type, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T>(this DependencyObject element)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result)
+            {
+                return result;
+            }
+
+            return FindDescendant<T>(element);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element of a given type, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindDescendantOrSelf(this DependencyObject element, Type type)
+        {
+            if (element.GetType() == type)
+            {
+                return element;
+            }
+
+            return FindDescendant(element, type);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Find all descendant elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindDescendant{T}(DependencyObject)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindDescendants(this DependencyObject element)
+        {
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
             for (var i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
-                if (type != null)
-                {
-                    retValue = type;
-                    break;
-                }
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
 
-                retValue = FindDescendant<T>(child);
+                yield return child;
 
-                if (retValue != null)
+                foreach (DependencyObject childOfChild in FindDescendants(child))
                 {
-                    break;
+                    yield return childOfChild;
                 }
             }
-
-            return retValue;
         }
 
         /// <summary>
-        /// Find first descendant control of a specified type.
+        /// Find the first ascendant of type <see cref="FrameworkElement"/> with a given name.
         /// </summary>
-        /// <param name="element">Parent element.</param>
-        /// <param name="type">Type of descendant.</param>
-        /// <returns>Descendant control or null if not found.</returns>
-        public static object FindDescendant(this DependencyObject element, Type type)
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindAscendant(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            object retValue = null;
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            PredicateByName predicateByName = new(name, comparisonType);
 
-            for (var i = 0; i < childrenCount; i++)
+            return FindAscendant<FrameworkElement, PredicateByName>(element, ref predicateByName);
+        }
+
+        /// <summary>
+        /// Find the first ascendant element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendant<T>(this DependencyObject element)
+            where T : notnull, DependencyObject
+        {
+            PredicateByAny<T> predicateByAny = default;
+
+            return FindAscendant<T, PredicateByAny<T>>(element, ref predicateByAny);
+        }
+
+        /// <summary>
+        /// Find the first ascendant element of a given type.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindAscendant(this DependencyObject element, Type type)
+        {
+            PredicateByType predicateByType = new(type);
+
+            return FindAscendant<DependencyObject, PredicateByType>(element, ref predicateByType);
+        }
+
+        /// <summary>
+        /// Find the first ascendant element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendant<T>(this DependencyObject element, Func<T, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            PredicateByFunc<T> predicateByFunc = new(predicate);
+
+            return FindAscendant<T, PredicateByFunc<T>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first ascendant element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindAscendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first ascendant element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
+        private static T? FindAscendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate)
+            where T : notnull, DependencyObject
+            where TPredicate : struct, IPredicate<T>
+        {
+            while (true)
             {
-                var child = VisualTreeHelper.GetChild(element, i);
-                if (child.GetType() == type)
+                DependencyObject? parent = VisualTreeHelper.GetParent(element);
+
+                if (parent is null)
                 {
-                    retValue = child;
-                    break;
+                    return null;
                 }
 
-                retValue = FindDescendant(child, type);
-
-                if (retValue != null)
+                if (parent is T result && predicate.Match(result))
                 {
-                    break;
-                }
-            }
-
-            return retValue;
-        }
-
-        /// <summary>
-        /// Find all descendant controls of the specified type.
-        /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Descendant controls or empty if not found.</returns>
-        public static IEnumerable<T> FindDescendants<T>(this DependencyObject element)
-            where T : DependencyObject
-        {
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
-
-            for (var i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
-                if (type != null)
-                {
-                    yield return type;
+                    return result;
                 }
 
-                foreach (T childofChild in child.FindDescendants<T>())
-                {
-                    yield return childofChild;
-                }
+                element = parent;
             }
         }
 
         /// <summary>
-        /// Find visual ascendant <see cref="FrameworkElement"/> control using its name.
+        /// Find the first ascendant (or self) of type <see cref="FrameworkElement"/> with a given name.
         /// </summary>
-        /// <param name="element">Parent element.</param>
-        /// <param name="name">Name of the control to find</param>
-        /// <returns>Descendant control or null if not found.</returns>
-        public static FrameworkElement FindAscendantByName(this DependencyObject element, string name)
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindAscendantOrSelf(this DependencyObject element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            if (element == null || string.IsNullOrWhiteSpace(name))
+            if (element is FrameworkElement result && name.Equals(result.Name, comparisonType))
             {
-                return null;
+                return result;
             }
 
-            var parent = VisualTreeHelper.GetParent(element);
-
-            if (parent == null)
-            {
-                return null;
-            }
-
-            if (name.Equals((parent as FrameworkElement)?.Name, StringComparison.OrdinalIgnoreCase))
-            {
-                return parent as FrameworkElement;
-            }
-
-            return parent.FindAscendantByName(name);
+            return FindAscendant(element, name, comparisonType);
         }
 
         /// <summary>
-        /// Find first visual ascendant control of a specified type.
+        /// Find the first ascendant (or self) element of a given type.
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Child element.</param>
-        /// <returns>Ascendant control or null if not found.</returns>
-        public static T FindAscendant<T>(this DependencyObject element)
-            where T : DependencyObject
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendantOrSelf<T>(this DependencyObject element)
+            where T : notnull, DependencyObject
         {
-            var parent = VisualTreeHelper.GetParent(element);
-
-            if (parent == null)
+            if (element is T result)
             {
-                return null;
+                return result;
             }
 
-            if (parent is T)
-            {
-                return parent as T;
-            }
-
-            return parent.FindAscendant<T>();
+            return FindAscendant<T>(element);
         }
 
         /// <summary>
-        /// Find first visual ascendant control of a specified type.
+        /// Find the first ascendant (or self) element of a given type.
         /// </summary>
-        /// <param name="element">Child element.</param>
-        /// <param name="type">Type of ascendant to look for.</param>
-        /// <returns>Ascendant control or null if not found.</returns>
-        public static object FindAscendant(this DependencyObject element, Type type)
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindAscendantOrSelf(this DependencyObject element, Type type)
         {
-            var parent = VisualTreeHelper.GetParent(element);
-
-            if (parent == null)
+            if (element.GetType() == type)
             {
-                return null;
+                return element;
             }
 
-            if (parent.GetType() == type)
-            {
-                return parent;
-            }
-
-            return parent.FindAscendant(type);
+            return FindAscendant(element, type);
         }
 
         /// <summary>
-        /// Find all visual ascendants for the element.
+        /// Find the first ascendant (or self) element matching a given predicate.
         /// </summary>
-        /// <param name="element">Child element.</param>
-        /// <returns>A collection of parent elements or null if none found.</returns>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindAscendant(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first ascendant (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindAscendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindAscendant(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Find all ascendant elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindAscendant{T}(DependencyObject)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
         public static IEnumerable<DependencyObject> FindAscendants(this DependencyObject element)
         {
-            var parent = VisualTreeHelper.GetParent(element);
-
-            while (parent != null)
+            while (true)
             {
+                DependencyObject? parent = VisualTreeHelper.GetParent(element);
+
+                if (parent is null)
+                {
+                    yield break;
+                }
+
                 yield return parent;
-                parent = VisualTreeHelper.GetParent(parent);
+
+                element = parent;
             }
         }
     }

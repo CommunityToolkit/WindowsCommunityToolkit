@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            if (control.FindChildByName("Points") is ItemsControl itemsControl)
+            if (control.FindChild("Points") is ItemsControl itemsControl)
             {
                 itemsControl.ItemsSource = GazeHistory;
             }

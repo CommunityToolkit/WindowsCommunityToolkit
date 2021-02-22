@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 dataGrid.LoadingRowGroup -= DataGrid_LoadingRowGroup;
             }
 
-            dataGrid = control.FindDescendantByName("dataGrid") as DataGrid;
+            dataGrid = control.FindDescendant("dataGrid") as DataGrid;
             if (dataGrid != null)
             {
                 dataGrid.Sorting += DataGrid_Sorting;
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 groupButton.Click -= GroupButton_Click;
             }
 
-            groupButton = control.FindDescendantByName("groupButton") as AppBarButton;
+            groupButton = control.FindDescendant("groupButton") as AppBarButton;
             if (groupButton != null)
             {
                 groupButton.Click += GroupButton_Click;

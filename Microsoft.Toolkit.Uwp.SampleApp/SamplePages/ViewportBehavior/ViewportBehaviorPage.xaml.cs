@@ -35,13 +35,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            if (control.FindChildByName("EffectElement") is Image effectElement)
+            if (control.FindChild("EffectElement") is Image effectElement)
             {
                 _effectElement = effectElement;
                 ////TODO: _effectElement.Blur(value: 10, duration: 0).Start();
             }
 
-            if (control.FindChildByName("EffectElementHost") is FrameworkElement effectElementHost)
+            if (control.FindChild("EffectElementHost") is FrameworkElement effectElementHost)
             {
                 var behaviors = Interaction.GetBehaviors(effectElementHost);
                 var viewportBehavior = behaviors.OfType<ViewportBehavior>().FirstOrDefault();

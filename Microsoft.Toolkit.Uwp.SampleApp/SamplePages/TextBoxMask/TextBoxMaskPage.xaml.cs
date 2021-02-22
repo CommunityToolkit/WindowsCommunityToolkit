@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            alphaTextBox = control.FindChildByName("AlphaTextBox") as TextBox;
+            alphaTextBox = control.FindChild("AlphaTextBox") as TextBox;
         }
 
         private void Load()

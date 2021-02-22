@@ -4,11 +4,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
+using Microsoft.Toolkit.Uwp.UI.Extensions.Tree;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -18,294 +20,671 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public static class LogicalTree
     {
         /// <summary>
-        /// Find logical child control using its name.
+        /// Find the first child of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.
         /// </summary>
-        /// <param name="element">Parent element.</param>
-        /// <param name="name">Name of the control to find.</param>
-        /// <returns>Child control or null if not found.</returns>
-        public static FrameworkElement FindChildByName(this FrameworkElement element, string name)
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindChild(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            if (element == null || string.IsNullOrWhiteSpace(name))
+            PredicateByName predicateByName = new(name, comparisonType);
+
+            return FindChild<FrameworkElement, PredicateByName>(element, ref predicateByName);
+        }
+
+        /// <summary>
+        /// Find the first child element of a given type, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        public static T? FindChild<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
+        {
+            PredicateByAny<T> predicateByAny = default;
+
+            return FindChild<T, PredicateByAny<T>>(element, ref predicateByAny);
+        }
+
+        /// <summary>
+        /// Find the first child element of a given type, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindChild(this FrameworkElement element, Type type)
+        {
+            PredicateByType predicateByType = new(type);
+
+            return FindChild<FrameworkElement, PredicateByType>(element, ref predicateByType);
+        }
+
+        /// <summary>
+        /// Find the first child element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        public static T? FindChild<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            PredicateByFunc<T> predicateByFunc = new(predicate);
+
+            return FindChild<T, PredicateByFunc<T>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first child element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        public static T? FindChild<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindChild<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first child element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child that was found, or <see langword="null"/>.</returns>
+        private static T? FindChild<T, TPredicate>(this FrameworkElement element, ref TPredicate predicate)
+            where T : notnull, FrameworkElement
+            where TPredicate : struct, IPredicate<T>
+        {
+            // Jump label to manually optimize the tail recursive paths for elements with a single
+            // child by just overwriting the current element and jumping back to the start of the
+            // method. This avoids a recursive call and one stack frame every time.
+            Start:
+
+            if (element is Panel panel)
             {
-                return null;
+                foreach (UIElement child in panel.Children)
+                {
+                    if (child is not FrameworkElement current)
+                    {
+                        continue;
+                    }
+
+                    if (child is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
+                    T? descendant = FindChild<T, TPredicate>(current, ref predicate);
+
+                    if (descendant is not null)
+                    {
+                        return descendant;
+                    }
+                }
+            }
+            else if (element is ItemsControl itemsControl)
+            {
+                foreach (object item in itemsControl.Items)
+                {
+                    if (item is not FrameworkElement current)
+                    {
+                        continue;
+                    }
+
+                    if (item is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
+                    T? descendant = FindChild<T, TPredicate>(current, ref predicate);
+
+                    if (descendant is not null)
+                    {
+                        return descendant;
+                    }
+                }
+            }
+            else if (element is ContentControl contentControl)
+            {
+                if (contentControl.Content is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                if (contentControl.Content is FrameworkElement content)
+                {
+                    element = content;
+
+                    goto Start;
+                }
+            }
+            else if (element is Border border)
+            {
+                if (border.Child is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                if (border.Child is FrameworkElement child)
+                {
+                    element = child;
+
+                    goto Start;
+                }
+            }
+            else if (element is UserControl userControl)
+            {
+                // We put UserControl right before the slower reflection fallback path as
+                // this type is less likely to be used compared to the other ones above.
+                if (userControl.Content is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                if (userControl.Content is FrameworkElement content)
+                {
+                    element = content;
+
+                    goto Start;
+                }
+            }
+            else if (element.GetContentControl() is FrameworkElement containedControl)
+            {
+                if (containedControl is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                element = containedControl;
+
+                goto Start;
             }
 
-            if (name.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
+            return null;
+        }
+
+        /// <summary>
+        /// Find the first child (or self) of type <see cref="FrameworkElement"/> with a given name, using a depth-first search.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindChildOrSelf(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (name.Equals(element.Name, comparisonType))
             {
                 return element;
             }
 
-            if (element is Panel)
-            {
-                foreach (var child in (element as Panel).Children)
-                {
-                    var result = (child as FrameworkElement)?.FindChildByName(name);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-            }
-            else if (element is ItemsControl)
-            {
-                foreach (var item in (element as ItemsControl).Items)
-                {
-                    var result = (item as FrameworkElement)?.FindChildByName(name);
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-            }
-            else
-            {
-                var result = (element.GetContentControl() as FrameworkElement)?.FindChildByName(name);
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
+            return FindChild(element, name, comparisonType);
         }
 
         /// <summary>
-        /// Find first logical child control of a specified type.
+        /// Find the first child (or self) element of a given type, using a depth-first search.
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Child control or null if not found.</returns>
-        public static T FindChild<T>(this FrameworkElement element)
-            where T : FrameworkElement
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindChildOrSelf<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
         {
-            if (element == null)
+            if (element is T result)
             {
-                return null;
+                return result;
             }
 
-            if (element is Panel)
-            {
-                foreach (var child in (element as Panel).Children)
-                {
-                    if (child is T)
-                    {
-                        return child as T;
-                    }
-
-                    var result = (child as FrameworkElement)?.FindChild<T>();
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-            }
-            else if (element is ItemsControl)
-            {
-                foreach (var item in (element as ItemsControl).Items)
-                {
-                    var result = (item as FrameworkElement)?.FindChild<T>();
-                    if (result != null)
-                    {
-                        return result;
-                    }
-                }
-            }
-            else
-            {
-                var content = element.GetContentControl();
-
-                if (content is T)
-                {
-                    return content as T;
-                }
-
-                var result = (content as FrameworkElement)?.FindChild<T>();
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-
-            return null;
+            return FindChild<T>(element);
         }
 
         /// <summary>
-        /// Find all logical child controls of the specified type.
+        /// Find the first child (or self) element of a given type, using a depth-first search.
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Child controls or empty if not found.</returns>
-        public static IEnumerable<T> FindChildren<T>(this FrameworkElement element)
-            where T : FrameworkElement
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindChildOrSelf(this FrameworkElement element, Type type)
         {
-            if (element == null)
+            if (element.GetType() == type)
             {
-                yield break;
+                return element;
             }
 
-            if (element is Panel)
+            return FindChild(element, type);
+        }
+
+        /// <summary>
+        /// Find the first child (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindChildOrSelf<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result))
             {
-                foreach (var child in (element as Panel).Children)
-                {
-                    if (child is T)
-                    {
-                        yield return child as T;
-                    }
-
-                    var childFrameworkElement = child as FrameworkElement;
-
-                    if (childFrameworkElement != null)
-                    {
-                        foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
-                        {
-                            yield return childOfChild;
-                        }
-                    }
-                }
+                return result;
             }
-            else if (element is ItemsControl)
-            {
-                foreach (var item in (element as ItemsControl).Items)
-                {
-                    var childFrameworkElement = item as FrameworkElement;
 
-                    if (childFrameworkElement != null)
-                    {
-                        foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
-                        {
-                            yield return childOfChild;
-                        }
-                    }
-                }
+            return FindChild(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first child (or self) element matching a given predicate, using a depth-first search.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
+        /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindChildOrSelf<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
             }
-            else
+
+            return FindChild(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Find all logical child elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindChild{T}(FrameworkElement)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the child <see cref="FrameworkElement"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<FrameworkElement> FindChildren(this FrameworkElement element)
+        {
+            Start:
+
+            if (element is Panel panel)
             {
-                var content = element.GetContentControl();
-
-                if (content is T)
+                foreach (UIElement child in panel.Children)
                 {
-                    yield return content as T;
-                }
+                    if (child is not FrameworkElement current)
+                    {
+                        continue;
+                    }
 
-                var childFrameworkElement = content as FrameworkElement;
+                    yield return current;
 
-                if (childFrameworkElement != null)
-                {
-                    foreach (T childOfChild in childFrameworkElement.FindChildren<T>())
+                    foreach (FrameworkElement childOfChild in FindChildren(current))
                     {
                         yield return childOfChild;
                     }
                 }
             }
+            else if (element is ItemsControl itemsControl)
+            {
+                foreach (object item in itemsControl.Items)
+                {
+                    if (item is not FrameworkElement current)
+                    {
+                        continue;
+                    }
+
+                    yield return current;
+
+                    foreach (FrameworkElement childOfChild in FindChildren(current))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+            else if (element is ContentControl contentControl)
+            {
+                if (contentControl.Content is FrameworkElement content)
+                {
+                    yield return content;
+
+                    element = content;
+
+                    goto Start;
+                }
+            }
+            else if (element is Border border)
+            {
+                if (border.Child is FrameworkElement child)
+                {
+                    yield return child;
+
+                    element = child;
+
+                    goto Start;
+                }
+            }
+            else if (element is UserControl userControl)
+            {
+                if (userControl.Content is FrameworkElement content)
+                {
+                    yield return content;
+
+                    element = content;
+
+                    goto Start;
+                }
+            }
+            else if (element.GetContentControl() is FrameworkElement containedControl)
+            {
+                yield return containedControl;
+
+                element = containedControl;
+
+                goto Start;
+            }
         }
 
         /// <summary>
-        /// Finds the logical parent element with the given name or returns null. Note: Parent may only be set when the control is added to the VisualTree.
-        /// <seealso href="https://docs.microsoft.com/uwp/api/windows.ui.xaml.frameworkelement.parent#remarks"/>
+        /// Find the first parent of type <see cref="FrameworkElement"/> with a given name.
         /// </summary>
-        /// <param name="element">Child element.</param>
-        /// <param name="name">Name of the control to find.</param>
-        /// <returns>Parent control or null if not found.</returns>
-        public static FrameworkElement FindParentByName(this FrameworkElement element, string name)
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParent(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
         {
-            if (element == null || string.IsNullOrWhiteSpace(name))
-            {
-                return null;
-            }
+            PredicateByName predicateByName = new(name, comparisonType);
 
-            if (name.Equals(element.Name, StringComparison.OrdinalIgnoreCase))
+            return FindParent<FrameworkElement, PredicateByName>(element, ref predicateByName);
+        }
+
+        /// <summary>
+        /// Find the first parent element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static T? FindParent<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
+        {
+            PredicateByAny<T> predicateByAny = default;
+
+            return FindParent<T, PredicateByAny<T>>(element, ref predicateByAny);
+        }
+
+        /// <summary>
+        /// Find the first parent element of a given type.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParent(this FrameworkElement element, Type type)
+        {
+            PredicateByType predicateByType = new(type);
+
+            return FindParent<FrameworkElement, PredicateByType>(element, ref predicateByType);
+        }
+
+        /// <summary>
+        /// Find the first parent element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static T? FindParent<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            PredicateByFunc<T> predicateByFunc = new(predicate);
+
+            return FindParent<T, PredicateByFunc<T>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first parent element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        public static T? FindParent<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindParent<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+        }
+
+        /// <summary>
+        /// Find the first parent element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent that was found, or <see langword="null"/>.</returns>
+        private static T? FindParent<T, TPredicate>(this FrameworkElement element, ref TPredicate predicate)
+            where T : notnull, FrameworkElement
+            where TPredicate : struct, IPredicate<T>
+        {
+            while (true)
+            {
+                if (element.Parent is not FrameworkElement parent)
+                {
+                    return null;
+                }
+
+                if (parent is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                element = parent;
+            }
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) of type <see cref="FrameworkElement"/> with a given name.
+        /// </summary>
+        /// <param name="element">The starting element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParentOrSelf(this FrameworkElement element, string name, StringComparison comparisonType = StringComparison.Ordinal)
+        {
+            if (name.Equals(element.Name, comparisonType))
             {
                 return element;
             }
 
-            if (element.Parent == null)
-            {
-                return null;
-            }
-
-            return (element.Parent as FrameworkElement).FindParentByName(name);
+            return FindParent(element, name, comparisonType);
         }
 
         /// <summary>
-        /// Find first logical parent control of a specified type. Note: Parent may only be set when the control is added to the VisualTree.
-        /// <seealso href="https://docs.microsoft.com/uwp/api/windows.ui.xaml.frameworkelement.parent#remarks"/>
+        /// Find the first parent (or self) element of a given type.
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
-        /// <param name="element">Child element.</param>
-        /// <returns>Parent control or null if not found.</returns>
-        public static T FindParent<T>(this FrameworkElement element)
-            where T : FrameworkElement
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindParentOrSelf<T>(this FrameworkElement element)
+            where T : notnull, FrameworkElement
         {
-            if (element.Parent == null)
+            if (element is T result)
             {
-                return null;
+                return result;
             }
 
-            if (element.Parent is T)
-            {
-                return element.Parent as T;
-            }
-
-            return (element.Parent as FrameworkElement).FindParent<T>();
+            return FindParent<T>(element);
         }
 
         /// <summary>
-        /// Retrieves the Content control of this element as defined by the ContentPropertyAttribute.
+        /// Find the first parent (or self) element of a given type.
         /// </summary>
-        /// <param name="element">Parent element.</param>
-        /// <returns>Child Content control or null if not available.</returns>
-        public static UIElement GetContentControl(this FrameworkElement element)
+        /// <param name="element">The starting element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindParentOrSelf(this FrameworkElement element, Type type)
         {
-            var contentpropname = ContentPropertySearch(element.GetType());
-            if (contentpropname != null)
+            if (element.GetType() == type)
             {
-                return element.GetType()?.GetProperty(contentpropname)?.GetValue(element) as UIElement;
+                return element;
+            }
+
+            return FindParent(element, type);
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindParentOrSelf<T>(this FrameworkElement element, Func<T, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindParent(element, predicate);
+        }
+
+        /// <summary>
+        /// Find the first parent (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The starting element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
+        /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindParentOrSelf<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
+            where T : notnull, FrameworkElement
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindParent(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Find all parent elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindParent{T}(FrameworkElement)"/> overloads instead, which will
+        /// offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the parent <see cref="FrameworkElement"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<FrameworkElement> FindParents(this FrameworkElement element)
+        {
+            while (true)
+            {
+                if (element.Parent is not FrameworkElement parent)
+                {
+                    yield break;
+                }
+
+                yield return parent;
+
+                element = parent;
+            }
+        }
+
+        /// <summary>
+        /// Gets the content property of this element as defined by <see cref="ContentPropertyAttribute"/>, if available.
+        /// </summary>
+        /// <param name="element">The parent element.</param>
+        /// <returns>The retrieved content control, or <see langword="null"/> if not available.</returns>
+        public static UIElement? GetContentControl(this FrameworkElement element)
+        {
+            Type type = element.GetType();
+            TypeInfo? typeInfo = type.GetTypeInfo();
+
+            while (typeInfo is not null)
+            {
+                // We need to manually explore the custom attributes this way as the target one
+                // is not returned by any of the other available GetCustomAttribute<T> APIs.
+                foreach (CustomAttributeData attribute in typeInfo.CustomAttributes)
+                {
+                    if (attribute.AttributeType == typeof(ContentPropertyAttribute))
+                    {
+                        string propertyName = (string)attribute.NamedArguments[0].TypedValue.Value;
+                        PropertyInfo? propertyInfo = type.GetProperty(propertyName);
+
+                        return propertyInfo?.GetValue(element) as UIElement;
+                    }
+                }
+
+                typeInfo = typeInfo.BaseType?.GetTypeInfo();
             }
 
             return null;
         }
 
         /// <summary>
-        /// Retrieves the Content Property's Name for the given type.
+        /// Provides a WPF compatible version of FindResource to provide a static resource lookup.
+        /// If the key is not found in the current element's resources, the logical tree is then
+        /// searched element-by-element to look for the resource in each element's resources.
+        /// If none of the elements contain the resource, the Application's resources are then searched.
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.findresource"/>.</para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
         /// </summary>
-        /// <param name="type">UIElement based type to search for ContentProperty.</param>
-        /// <returns>String name of ContentProperty for control.</returns>
-        private static string ContentPropertySearch(Type type)
+        /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
+        /// <param name="resourceKey">The resource key to search for.</param>
+        /// <returns>The requested resource.</returns>
+        /// <exception cref="Exception">Thrown when no resource is found with the specified key.</exception>
+        public static object FindResource(this FrameworkElement element, object resourceKey)
         {
-            if (type == null)
+            if (TryFindResource(element, resourceKey, out object? value))
             {
-                return null;
+                return value!;
             }
 
-            // Using GetCustomAttribute directly isn't working for some reason, so we'll dig in ourselves: https://aka.ms/Rkzseg
-            ////var attr = type.GetTypeInfo().GetCustomAttribute(typeof(ContentPropertyAttribute), true);
-            var attr = type.GetTypeInfo().CustomAttributes.FirstOrDefault((element) => element.AttributeType == typeof(ContentPropertyAttribute));
-            if (attr != null)
-            {
-                ////return attr as ContentPropertyAttribute;
-                return attr.NamedArguments.First().TypedValue.Value as string;
-            }
+            static object Throw(object resourceKey) => throw new KeyNotFoundException($"No resource was found with the key \"{resourceKey}\"");
 
-            return ContentPropertySearch(type.GetTypeInfo().BaseType);
+            return Throw(resourceKey);
         }
 
         /// <summary>
         /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
-        /// If the key is not found in the current element's resources, the logical tree is then searched element-by-element to look for the resource in each element's resources.
+        /// If the key is not found in the current element's resources, the logical tree is then
+        /// searched element-by-element to look for the resource in each element's resources.
         /// If none of the elements contain the resource, the Application's resources are then searched.
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/api/system.windows.frameworkelement.tryfindresource"/>
-        /// <seealso href="https://docs.microsoft.com/en-us/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/>.</para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
         /// </summary>
-        /// <param name="start"><see cref="FrameworkElement"/> to start searching for Resource.</param>
-        /// <param name="resourceKey">Key to search for.</param>
-        /// <returns>Requested resource or null.</returns>
-        public static object TryFindResource(this FrameworkElement start, object resourceKey)
+        /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
+        /// <param name="resourceKey">The resource key to search for.</param>
+        /// <returns>The requested resource, or <see langword="null"/> if it wasn't found.</returns>
+        public static object? TryFindResource(this FrameworkElement element, object resourceKey)
         {
-            object value = null;
-            var current = start;
+            object? value = null;
 
-            // Look in our dictionary and then walk-up parents
-            while (current != null)
+            FrameworkElement? current = element;
+
+            // Look in our dictionary and then walk-up parents. We use a do-while loop here
+            // so that an implicit NRE will be thrown at the first iteration in case the
+            // input element is null. This is consistent with the other extensions.
+            do
             {
                 if (current.Resources?.TryGetValue(resourceKey, out value) == true)
                 {
@@ -314,11 +693,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
                 current = current.Parent as FrameworkElement;
             }
+            while (current is not null);
 
-            // Finally try application resources.
-            Application.Current?.Resources?.TryGetValue(resourceKey, out value);
+            // Finally try application resources
+            _ = Application.Current?.Resources?.TryGetValue(resourceKey, out value);
 
             return value;
+        }
+
+        /// <summary>
+        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
+        /// If the key is not found in the current element's resources, the logical tree is then
+        /// searched element-by-element to look for the resource in each element's resources.
+        /// If none of the elements contain the resource, the Application's resources are then searched.
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/>.</para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
+        /// </summary>
+        /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
+        /// <param name="resourceKey">The resource key to search for.</param>
+        /// <param name="value">The resulting value, if present.</param>
+        /// <returns>Whether or not a value with the specified key has been found.</returns>
+        public static bool TryFindResource(this FrameworkElement element, object resourceKey, out object? value)
+        {
+            return (value = TryFindResource(element, resourceKey)) is not null;
         }
     }
 }
