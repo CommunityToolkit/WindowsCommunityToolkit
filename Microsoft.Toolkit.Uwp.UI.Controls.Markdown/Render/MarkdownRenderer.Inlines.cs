@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// </summary>
     public partial class MarkdownRenderer
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Renders emoji element.
         /// </summary>
@@ -582,5 +583,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 localContext.InlineCollection.Add(inlineUIContainer);
             }
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

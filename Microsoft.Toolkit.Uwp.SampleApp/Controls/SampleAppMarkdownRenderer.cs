@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     /// </summary>
     internal class SampleAppMarkdownRenderer : MarkdownRenderer
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         public SampleAppMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document, linkRegister, imageResolver, codeBlockResolver)
         {
@@ -514,5 +515,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             public string CurrentLanguage { get; set; }
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

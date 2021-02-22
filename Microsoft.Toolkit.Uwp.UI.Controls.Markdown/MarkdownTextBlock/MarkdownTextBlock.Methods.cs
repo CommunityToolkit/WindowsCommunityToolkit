@@ -62,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 try
                 {
                     // Try to parse the markdown.
+#pragma warning disable CS0618 // Type or member is obsolete
                     MarkdownDocument markdown = new MarkdownDocument();
                     foreach (string str in SchemeList.Split(',').ToList())
                     {
@@ -70,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             MarkdownDocument.KnownSchemes.Add(str);
                         }
                     }
+#pragma warning restore CS0618 // Type or member is obsolete
 
                     markdown.Parse(Text);
 
