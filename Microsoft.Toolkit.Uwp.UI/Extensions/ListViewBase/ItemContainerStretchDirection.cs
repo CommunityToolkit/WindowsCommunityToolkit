@@ -7,7 +7,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <summary>
     /// Stretch direction
     /// </summary>
-    public enum StretchDirection
+    public enum ItemContainerStretchDirection
     {
         /// <summary>
         /// Horizontal stretch
