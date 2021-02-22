@@ -4,16 +4,13 @@
     <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-  <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
-    <PropertyGroup>
+    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
       <PackageLicenseFile>license.md</PackageLicenseFile>
       <PackageIcon>nuget.png</PackageIcon>
       <PackageIconUrl>nuget.png</PackageIconUrl>
-    </PropertyGroup>
-    <ItemGroup>
-     <None Include="license.md" Pack="true" PackagePath=""/>
-     <None Include="build\nuget.png" Pack="true" PackagePath="\"/>
-    </ItemGroup>
+      <None Include="license.md" Pack="true" PackagePath=""/>
+      <None Include="build\nuget.png" Pack="true" PackagePath="\"/>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
