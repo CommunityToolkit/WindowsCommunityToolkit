@@ -26,7 +26,7 @@ namespace UnitTests.Extensions
         <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool Value=True}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChildByName("Check") as CheckBox;
+            var toggle = treeroot.FindChild("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -44,7 +44,7 @@ namespace UnitTests.Extensions
         <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool Value=False}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChildByName("Check") as CheckBox;
+            var toggle = treeroot.FindChild("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -62,7 +62,7 @@ namespace UnitTests.Extensions
         <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool IsNull=True}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChildByName("Check") as CheckBox;
+            var toggle = treeroot.FindChild("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -80,7 +80,7 @@ namespace UnitTests.Extensions
         <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool IsNull=True, Value=True}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChildByName("Check") as CheckBox;
+            var toggle = treeroot.FindChild("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -99,7 +99,7 @@ namespace UnitTests.Extensions
         <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool IsNull=True, Value=False}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChildByName("Check") as CheckBox;
+            var toggle = treeroot.FindChild("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 

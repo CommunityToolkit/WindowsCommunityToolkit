@@ -32,9 +32,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
-            container = control.FindChildByName("Container") as StackPanel;
+            container = control.FindChild("Container") as StackPanel;
             resources = control.Resources;
-            lazyLoadingControlHost = control.FindChildByName("LazyLoadingControlHost") as Border;
+            lazyLoadingControlHost = control.FindChild("LazyLoadingControlHost") as Border;
         }
 
         private async void Load()

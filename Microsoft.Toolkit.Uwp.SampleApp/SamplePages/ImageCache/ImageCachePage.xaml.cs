@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            photoList = control.FindChildByName("PhotoList") as ListView;
+            photoList = control.FindChild("PhotoList") as ListView;
         }
 
         private async void Load()

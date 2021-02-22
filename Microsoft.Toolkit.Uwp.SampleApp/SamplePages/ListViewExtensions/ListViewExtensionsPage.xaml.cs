@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            var sampleListView = control.FindChildByName("SampleListView") as ListView;
+            var sampleListView = control.FindChild("SampleListView") as ListView;
 
             if (sampleListView != null)
             {

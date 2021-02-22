@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _element = control.FindChildByName("Element");
+            _element = control.FindChild("Element");
         }
 
         private void Load()

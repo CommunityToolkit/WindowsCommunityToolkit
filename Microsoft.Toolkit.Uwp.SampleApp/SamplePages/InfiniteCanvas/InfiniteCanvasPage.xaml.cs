@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _infiniteCanvas = control.FindChildByName("canvas") as InfiniteCanvas;
+            _infiniteCanvas = control.FindChild("canvas") as InfiniteCanvas;
         }
 
         private void Load()

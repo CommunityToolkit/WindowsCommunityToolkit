@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            var gridView = control.FindChildByName("GridView") as ItemsControl;
+            var gridView = control.FindChild("GridView") as ItemsControl;
 
             if (gridView == null)
             {
