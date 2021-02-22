@@ -105,15 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // This can be expensive, could we optimize?
                         // Also, this is changing the FontSize on the IconSource (which could be shared?)
-                        if (Owner.TryFindResource("TokenizingTextBoxIconFontSize", out object resource) &&
-                            resource is double fontSize)
-                        {
-                            fis.FontSize = fontSize;
-                        }
-                        else
-                        {
-                            fis.FontSize = 16;
-                        }
+                        fis.FontSize = Owner.TryFindResource("TokenizingTextBoxIconFontSize") as double? ?? 16;
                     }
 
                     var iconBinding = new Binding()

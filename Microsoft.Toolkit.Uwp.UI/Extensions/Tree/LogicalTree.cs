@@ -672,11 +672,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
         /// <param name="resourceKey">The resource key to search for.</param>
-        /// <param name="value">The resulting value, if present.</param>
-        /// <returns>Whether or not a value with the specified key has been found.</returns>
-        public static bool TryFindResource(this FrameworkElement element, object resourceKey, out object? value)
+        /// <returns>The requested resource, or <see langword="null"/> if it wasn't found.</returns>
+        public static object? TryFindResource(this FrameworkElement element, object resourceKey)
         {
-            value = null;
+            object? value = null;
 
             FrameworkElement? current = element;
 
@@ -687,7 +686,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             {
                 if (current.Resources?.TryGetValue(resourceKey, out value) == true)
                 {
-                    return true;
+                    return value;
                 }
 
                 current = current.Parent as FrameworkElement;
@@ -695,7 +694,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             while (current is not null);
 
             // Finally try application resources
-            return Application.Current?.Resources?.TryGetValue(resourceKey, out value) == true;
+            _ = Application.Current?.Resources?.TryGetValue(resourceKey, out value);
+
+            return value;
+        }
+
+        /// <summary>
+        /// Provides a WPF compatible version of TryFindResource to provide a static resource lookup.
+        /// If the key is not found in the current element's resources, the logical tree is then
+        /// searched element-by-element to look for the resource in each element's resources.
+        /// If none of the elements contain the resource, the Application's resources are then searched.
+        /// <para>See: <seealso href="https://docs.microsoft.com/dotnet/api/system.windows.frameworkelement.tryfindresource"/>.</para>
+        /// <para>And also: <seealso href="https://docs.microsoft.com/dotnet/desktop-wpf/fundamentals/xaml-resources-define#static-resource-lookup-behavior"/>.</para>
+        /// </summary>
+        /// <param name="element">The <see cref="FrameworkElement"/> to start searching for the target resource.</param>
+        /// <param name="resourceKey">The resource key to search for.</param>
+        /// <param name="value">The resulting value, if present.</param>
+        /// <returns>Whether or not a value with the specified key has been found.</returns>
+        public static bool TryFindResource(this FrameworkElement element, object resourceKey, out object? value)
+        {
+            return (value = TryFindResource(element, resourceKey)) is not null;
         }
     }
 }
