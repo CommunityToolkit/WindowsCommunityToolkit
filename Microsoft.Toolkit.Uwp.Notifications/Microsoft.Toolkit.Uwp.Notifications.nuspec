@@ -6,7 +6,6 @@
     <title>Windows Community Toolkit Notifications</title>
     <authors>Microsoft.Toolkit,dotnetfoundation</authors>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</licenseUrl>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</iconUrl>
