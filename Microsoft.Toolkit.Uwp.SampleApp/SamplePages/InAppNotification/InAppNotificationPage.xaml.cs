@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 var grid = new Grid()
                 {
-                    Margin = new Thickness(0, 0, -38, 0)
+                    Margin = new Thickness(0, 0, -18, 0)
                 };
 
                 grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     Text = "Do you like it?",
                     VerticalAlignment = VerticalAlignment.Center,
                     Margin = new Thickness(0, 0, 24, 0),
-                    FontSize = 16
+                    FontSize = 14
                 };
                 grid.Children.Add(textBlock);
 
@@ -100,9 +100,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var yesButton = new Button
                 {
                     Content = "Yes",
-                    Width = 120,
-                    Height = 40,
-                    FontSize = 16
+                    Width = 100,
+                    Height = 32,
+                    FontSize = 14
                 };
                 yesButton.Click += YesButton_Click;
                 stackPanel.Children.Add(yesButton);
@@ -110,9 +110,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var noButton = new Button
                 {
                     Content = "No",
-                    Width = 120,
-                    Height = 40,
-                    FontSize = 16,
+                    Width = 100,
+                    Height = 32,
+                    FontSize = 14,
                     Margin = new Thickness(4, 0, 0, 0)
                 };
                 noButton.Click += NoButton_Click;
