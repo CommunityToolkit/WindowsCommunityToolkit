@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     Content = "Yes",
                     Width = 100,
-                    Height = 30,
+                    Height = 32,
                     FontSize = 14
                 };
                 yesButton.Click += YesButton_Click;
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     Content = "No",
                     Width = 100,
-                    Height = 30,
+                    Height = 32,
                     FontSize = 14,
                     Margin = new Thickness(4, 0, 0, 0)
                 };
