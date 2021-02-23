@@ -75,11 +75,6 @@
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
-                                                                       Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlMSEdgeNotificationPointerPressedForegroundBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
                                                                        Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0"
@@ -133,10 +128,11 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
 
                 <ContentPresenter x:Name="PART_Presenter"
+                                  Grid.Column="0"
                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   HorizontalContentAlignment="Stretch"
@@ -146,16 +142,17 @@
                                   TextWrapping="WrapWholeWords" />
 
                 <Button x:Name="PART_DismissButton"
+                        CornerRadius="2"
                         Grid.Column="1"
                         Margin="0"
                         AutomationProperties.Name="Dismiss"
                         Content="&#xE894;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="12"
-                        VerticalAlignment="{StaticResource SystemControlMSEdgeNotificationDismissButtonVerticalAlignment}"
+                        VerticalAlignment="Top"
                         Style="{StaticResource DismissTextBlockButtonStyle}">
                     <Button.RenderTransform>
-                        <TranslateTransform x:Name="DismissButtonTransform" X="18" Y="-8"/>
+                        <TranslateTransform x:Name="DismissButtonTransform" X="25" Y="-5"/>
                     </Button.RenderTransform>
                 </Button>
             </Grid>
