@@ -6,26 +6,25 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid>
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center">
+  <StackPanel HorizontalAlignment="Center"
+              VerticalAlignment="Center">
 
-      <TextBox HorizontalAlignment="Left" 
-               VerticalAlignment="Top" 
-               Margin="0,0,0,10"
-               Text="0" 
-               Width="250"/>
-        <ui:TextBoxExtensions.SurfaceDialOptions>
-            <ui:SurfaceDialOptions
-                StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
-                ForceMenuItem="@[ForceMenuItem:Bool:true]"
-                EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
-                EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
-                MinValue="@[MinValue:DoubleSlider:0:0-100]"
-                MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
-                Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
-                EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
-        </ui:TextBoxExtensions.SurfaceDialOptions>
-    </StackPanel>
-  </Grid>
+    <TextBox HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Margin="0,0,0,10"
+              Text="0"
+              Width="250">
+      <ui:TextBoxExtensions.SurfaceDialOptions>
+        <ui:SurfaceDialOptions
+            StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
+            ForceMenuItem="@[ForceMenuItem:Bool:true]"
+            EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
+            EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
+            MinValue="@[MinValue:DoubleSlider:0:0-100]"
+            MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
+            Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
+            EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
+      </ui:TextBoxExtensions.SurfaceDialOptions>
+    </TextBox>
+  </StackPanel>
 </Page>

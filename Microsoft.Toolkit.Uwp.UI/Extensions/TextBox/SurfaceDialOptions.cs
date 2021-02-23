@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.UI.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -10,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <summary>
     /// A model containing options for configuring the Surface Dial support through <see cref="TextBoxExtensions"/>.
     /// </summary>
-    public sealed class SurfaceDialOptions
+    public sealed class SurfaceDialOptions : DependencyObject
     {
         /// <summary>
         /// Gets an internal cached instance to avoid allocations from <see cref="TextBoxExtensions"/>.
