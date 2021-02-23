@@ -12,17 +12,20 @@
 
       <TextBox HorizontalAlignment="Left" 
                VerticalAlignment="Top" 
-			   Margin="0,0,0,10"
+               Margin="0,0,0,10"
                Text="0" 
-               Width="250"
-               ui:SurfaceDialTextbox.StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
-               ui:SurfaceDialTextbox.ForceMenuItem="@[ForceMenuItem:Bool:true]"
-               ui:SurfaceDialTextbox.EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
-               ui:SurfaceDialTextbox.EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
-               ui:SurfaceDialTextbox.MinValue="@[MinValue:DoubleSlider:0:0-100]"
-               ui:SurfaceDialTextbox.MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
-               ui:SurfaceDialTextbox.Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
-               ui:SurfaceDialTextbox.EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
+               Width="250"/>
+        <ui:TextBoxExtensions.SurfaceDialOptions>
+            <ui:SurfaceDialOptions
+                StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
+                ForceMenuItem="@[ForceMenuItem:Bool:true]"
+                EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
+                EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
+                MinValue="@[MinValue:DoubleSlider:0:0-100]"
+                MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
+                Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
+                EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
+        </ui:TextBoxExtensions.SurfaceDialOptions>
     </StackPanel>
   </Grid>
 </Page>

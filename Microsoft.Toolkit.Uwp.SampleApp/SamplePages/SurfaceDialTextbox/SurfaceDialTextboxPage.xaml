@@ -8,13 +8,18 @@
 
     <!-- Shallow Copy -->
     <Grid>
-        <TextBox ui:TextBoxExtensions.StepValue="1.0"
-                 ui:TextBoxExtensions.ForceMenuItem="True"
-                 ui:TextBoxExtensions.EnableHapticFeedback="True"
-                 ui:TextBoxExtensions.EnableMinMaxValue="True"
-                 ui:TextBoxExtensions.MinValue="0"
-                 ui:TextBoxExtensions.MaxValue="100"
-                 ui:TextBoxExtensions.Icon="Ruler"
-                 ui:TextBoxExtensions.EnableTapToNextControl="True" />
+        <TextBox>
+            <ui:TextBoxExtensions.SurfaceDialOptions>
+                <ui:SurfaceDialOptions
+                    StepValue="1.0"
+                    ForceMenuItem="True"
+                    EnableHapticFeedback="True"
+                    EnableMinMaxValue="True"
+                    MinValue="0"
+                    MaxValue="100"
+                    Icon="Ruler"
+                    EnableTapToNextControl="True"/>
+            </ui:TextBoxExtensions.SurfaceDialOptions>
+        </TextBox>
     </Grid>
 </Page>

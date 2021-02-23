@@ -2,330 +2,131 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+
+#nullable enable
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <inheritdoc cref="TextBoxExtensions"/>
     public static partial class TextBoxExtensions
     {
-       /// <summary>
-        /// If you provide the Controller yourself, set this to true so you won't add new menu items.
+        /// <summary>
+        /// The <see cref="SurfaceDialOptions"/> instance containing properties to configure the Surface Dial support for a <see cref="TextBox"/>.
         /// </summary>
-        public static readonly DependencyProperty ForceMenuItemProperty =
-            DependencyProperty.RegisterAttached("ForceMenuItem", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(false));
+        public static readonly DependencyProperty SurfaceDialOptionsProperty = DependencyProperty.RegisterAttached(
+            nameof(SurfaceDialOptions),
+            typeof(SurfaceDialOptions),
+            typeof(TextBoxExtensions),
+            new PropertyMetadata(null));
 
         /// <summary>
-        /// Set the default icon of the menu item that gets added. A user will most likely not see this. Defaults to the Ruler icon.
+        /// Gets the value for <see cref="SurfaceDialOptionsProperty"/>.
         /// </summary>
-        public static readonly DependencyProperty IconProperty =
-            DependencyProperty.RegisterAttached("Icon", typeof(RadialControllerMenuKnownIcon), typeof(TextBoxExtensions), new PropertyMetadata(RadialControllerMenuKnownIcon.Ruler));
-
-        /// <summary>
-        /// The amount the TextBox will be modified for each rotation step on the Surface Dial. This can be any double value.
-        /// </summary>
-        public static readonly DependencyProperty StepValueProperty =
-            DependencyProperty.RegisterAttached("StepValue", typeof(double), typeof(TextBoxExtensions), new PropertyMetadata(0d, new PropertyChangedCallback(StepValueChanged)));
-
-        /// <summary>
-        /// A flag to enable or disable haptic feedback when rotating the dial for the give TextBox. This is enabled by default.
-        /// </summary>
-        public static readonly DependencyProperty EnableHapticFeedbackProperty =
-            DependencyProperty.RegisterAttached("EnableHapticFeedback", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(true));
-
-        /// <summary>
-        /// Sets the minimum value the TextBox can have when modifying it using a Surface Dial. Default is -100.0
-        /// </summary>
-        public static readonly DependencyProperty MinValueProperty =
-            DependencyProperty.RegisterAttached("MinValue", typeof(double), typeof(TextBoxExtensions), new PropertyMetadata(-100d));
-
-        /// <summary>
-        /// Sets the maximum value the TextBox can have when modifying it using a Surface Dial. Default is 100.0
-        /// </summary>
-        public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.RegisterAttached("MaxValue", typeof(double), typeof(TextBoxExtensions), new PropertyMetadata(100d));
-
-        /// <summary>
-        /// TapToNext is a feature you can set to automatically try to focus the next focusable element from the Surface Dial enabled TextBox. This is on dy default.
-        /// </summary>
-        public static readonly DependencyProperty EnableTapToNextControlProperty =
-            DependencyProperty.RegisterAttached("EnableTapToNextControl", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(true));
-
-        /// <summary>
-        /// EnableMinMax limits the value in the textbox to your specified Min and Max values, see the other properties.
-        /// </summary>
-        public static readonly DependencyProperty EnableMinMaxValueProperty =
-            DependencyProperty.RegisterAttached("EnableMinMaxValue", typeof(bool), typeof(TextBoxExtensions), new PropertyMetadata(false));
-
-        /// <summary>
-        /// Getter of the EnableMinMax property
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static bool GetEnableMinMaxValue(TextBox obj)
+        /// <param name="textBox">The target <see cref="TextBox"/> control.</param>
+        /// <returns>The value of <see cref="SurfaceDialOptionsProperty"/> for <paramref name="textBox"/>.</returns>
+        public static SurfaceDialOptions? GetSurfaceDialOptions(TextBox textBox)
         {
-            return (bool)obj.GetValue(EnableMinMaxValueProperty);
+            return (SurfaceDialOptions?)textBox.GetValue(SurfaceDialOptionsProperty);
         }
 
         /// <summary>
-        /// Setter of the EnableMinMax property
+        /// Sets the value for <see cref="SurfaceDialOptionsProperty"/>.
         /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
+        /// <param name="textBox">The target <see cref="TextBox"/> control.</param>
         /// <param name="value">The value to set the property to.</param>
-        public static void SetEnableMinMaxValue(TextBox obj, bool value)
+        public static void SetSurfaceDialOptions(TextBox textBox, SurfaceDialOptions? value)
         {
-            obj.SetValue(EnableMinMaxValueProperty, value);
+            textBox.SetValue(SurfaceDialOptionsProperty, value);
         }
 
         /// <summary>
-        /// Getter of the TapToNext flag.
+        /// Gets a value indicating whether this attached proeprty is supported.
         /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static bool GetEnableTapToNextControl(TextBox obj)
+        public static bool IsSurfaceDialOptionsSupported
         {
-            return (bool)obj.GetValue(EnableTapToNextControlProperty);
+            get => RadialController.IsSupported();
         }
 
         /// <summary>
-        /// Setter of the TapToNext flag.
+        /// The Surface Dial controller instance itself.
         /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetEnableTapToNextControl(TextBox obj, bool value)
-        {
-            obj.SetValue(EnableTapToNextControlProperty, value);
-        }
+        private static RadialController? _controller;
 
         /// <summary>
-        /// Getter of the MaxValue
+        /// A default menu item that will be used for this to function.
+        /// It will automatically be cleaned up when you move away from the <see cref="TextBox"/>, and created on Focus.
         /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static double GetMaxValue(TextBox obj)
-        {
-            return (double)obj.GetValue(MaxValueProperty);
-        }
+        private static RadialControllerMenuItem? _stepTextMenuItem;
 
         /// <summary>
-        /// Setter of the MaxValue
+        /// The textbox itself needed to reference the current <see cref="TextBox"/> that is being modified.
         /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetMaxValue(TextBox obj, double value)
-        {
-            obj.SetValue(MaxValueProperty, value);
-        }
+        private static TextBox? _textBox;
 
         /// <summary>
-        /// Getter of the MinValue
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static double GetMinValue(TextBox obj)
-        {
-            return (double)obj.GetValue(MinValueProperty);
-        }
-
-        /// <summary>
-        /// Setter of the MinValue
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetMinValue(TextBox obj, double value)
-        {
-            obj.SetValue(MinValueProperty, value);
-        }
-
-        /// <summary>
-        /// Setter of the StepValue.
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static double GetStepValue(TextBox obj)
-        {
-            return (double)obj.GetValue(StepValueProperty);
-        }
-
-        /// <summary>
-        /// Getter of the StepValue
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetStepValue(TextBox obj, double value)
-        {
-            obj.SetValue(StepValueProperty, value);
-        }
-
-        /// <summary>
-        /// Getter of the Icon
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static RadialControllerMenuKnownIcon GetIcon(TextBox obj)
-        {
-            return (RadialControllerMenuKnownIcon)obj.GetValue(IconProperty);
-        }
-
-        /// <summary>
-        /// Setter of the Icon
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetIcon(TextBox obj, RadialControllerMenuKnownIcon value)
-        {
-            obj.SetValue(IconProperty, value);
-        }
-
-        /// <summary>
-        /// Setter of the Haptic Feedback property
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static bool GetEnableHapticFeedback(TextBox obj)
-        {
-            return (bool)obj.GetValue(EnableHapticFeedbackProperty);
-        }
-
-        /// <summary>
-        /// Getter of the Haptic Feedback property
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetEnableHapticFeedback(TextBox obj, bool value)
-        {
-            obj.SetValue(EnableHapticFeedbackProperty, value);
-        }
-
-        /// <summary>
-        /// Getter of the Force Menu Item flag
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <returns>Return value of property</returns>
-        public static bool GetForceMenuItem(TextBox obj)
-        {
-            return (bool)obj?.GetValue(ForceMenuItemProperty);
-        }
-
-        /// <summary>
-        /// Setter of the Force Menu Item flag
-        /// </summary>
-        /// <param name="obj">The Dependency Object we are dealing with, like a TextBox.</param>
-        /// <param name="value">The value to set the property to.</param>
-        public static void SetForceMenuItem(TextBox obj, bool value)
-        {
-            obj.SetValue(ForceMenuItemProperty, value);
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this attached proeprty is supported
-        /// </summary>
-        public static bool IsSupported
-        {
-            get
-            {
-                if (!RadialController.IsSupported())
-                {
-                    return false;
-                }
-
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// The Surface Dial controller instance itself
-        /// </summary>
-        private static RadialController _controller;
-
-        /// <summary>
-        /// A default menu item that will be used for this to function. It will automatically be cleaned up when you move away from the TextBox, and created on Focus.
-        /// </summary>
-        private static RadialControllerMenuItem _stepTextMenuItem;
-
-        /// <summary>
-        /// The textbox itself needed to reference the current TextBox that is being modified
-        /// </summary>
-        private static TextBox _textBox;
-
-        /// <summary>
-        /// Gets or sets the controller for the Surface Dial. The RadialController can be set from your app logic in case you use Surface Dial in other custom cases than on a TextBox.
+        /// Gets or sets the controller for the Surface Dial.
+        /// The <see cref="RadialController"/> can be set from your app logic in case you use Surface Dial in other custom cases than on a <see cref="TextBox"/>.
         /// This helper class will do everything for you, but if you want to control the Menu Items and/or wish to use the same Surface Dial instance
         /// This is the property for the static controller so you can access it if needed.
         /// </summary>
-        public static RadialController Controller
+        public static RadialController? Controller
         {
-            get
-            {
-                return _controller;
-            }
-
-            set
-            {
-                _controller = value;
-            }
+            get => _controller;
+            set => _controller = value;
         }
 
         /// <summary>
-        /// This function gets called every time there is a rotational change on the connected Surface Dial while a Surface Dial enabled TextBox is in focus.
-        /// This function ensures that the TextBox stays within the set range between MinValue and MaxValue while rotating the Surface Dial.
-        /// It defaults the content of the TextBox to 0.0 if a non-numerical value is detected.
+        /// This function gets called every time there is a rotational change on the connected Surface Dial while a Surface Dial enabled <see cref="TextBox"/> is in focus.
+        /// This function ensures that the <see cref="TextBox"/> stays within the set range between MinValue and MaxValue while rotating the Surface Dial.
+        /// It defaults the content of the <see cref="TextBox"/> to 0.0 if a non-numerical value is detected.
         /// </summary>
-        /// <param name="sender">The RadialController being used.</param>
+        /// <param name="sender">The <see cref="RadialController"/> being used.</param>
         /// <param name="args">The arguments of the changed event.</param>
         private static void Controller_RotationChanged(RadialController sender, RadialControllerRotationChangedEventArgs args)
         {
-            if (_textBox == null)
+            if (_textBox is null)
             {
                 return;
             }
 
-            string t = _textBox.Text;
-            double nr;
+            string text = _textBox.Text;
+            SurfaceDialOptions? options = GetSurfaceDialOptions(_textBox) ?? SurfaceDialOptions.Default;
 
-            if (double.TryParse(t, out nr))
+            if (double.TryParse(text, out double number))
             {
-                nr += args.RotationDeltaInDegrees * GetStepValue(_textBox);
-                if (GetEnableMinMaxValue(_textBox))
-                {
-                    if (nr < GetMinValue(_textBox))
-                    {
-                        nr = GetMinValue(_textBox);
-                    }
+                number += args.RotationDeltaInDegrees * options.StepValue;
 
-                    if (nr > GetMaxValue(_textBox))
-                    {
-                        nr = GetMaxValue(_textBox);
-                    }
+                if (options.EnableMinMaxValue)
+                {
+                    number = Math.Clamp(number, options.MinValue, options.MaxValue);
                 }
             }
             else
             {
-                // default to zero if content is not a number
-                nr = 0.0d;
+                number = 0.0d;
             }
 
-            _textBox.Text = nr.ToString("0.00");
+            _textBox.Text = number.ToString("0.00");
         }
 
         /// <summary>
-        /// Sets up the events needed for the current TextBox so it can trigger on GotFocus and LostFocus
+        /// Sets up the events needed for the current <see cref="TextBox"/> so it can trigger on <see cref="UIElement.GotFocus"/> and <see cref="UIElement.LostFocus"/>.
         /// </summary>
-        /// <param name="d">The Dependency Object we are dealing with, like a TextBox.</param>
+        /// <param name="d">The <see cref="DependencyObject"/> we are dealing with, like a <see cref="TextBox"/>.</param>
         /// <param name="e">The arguments of the changed event.</param>
         private static void StepValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!IsSupported)
+            if (!IsSurfaceDialOptionsSupported)
             {
                 return;
             }
 
-            var textBox = d as TextBox;
-
-            if (textBox == null)
+            if (d is not TextBox textBox)
             {
                 return;
             }
@@ -337,24 +138,28 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// When the focus of the TextBox is lost, ensure we clean up the events and Surface Dial menu item.
+        /// When the focus of the <see cref="TextBox"/> is lost, ensure we clean up the events and Surface Dial menu item.
         /// </summary>
-        /// <param name="sender">The TextBox in being affected.</param>
+        /// <param name="sender">The <see cref="TextBox"/> in being affected.</param>
         /// <param name="e">The event arguments.</param>
         private static void TextBox_LostFocus_SurfaceDial(object sender, RoutedEventArgs e)
         {
-            if (_textBox == null)
+            if (_textBox is null ||
+                _controller is null)
             {
                 return;
             }
 
-            if (GetForceMenuItem(_textBox))
+            SurfaceDialOptions? options = GetSurfaceDialOptions(_textBox) ?? SurfaceDialOptions.Default;
+
+            if (options.ForceMenuItem)
             {
                 _controller.Menu.Items.Remove(_stepTextMenuItem);
             }
 
             _controller.RotationChanged -= Controller_RotationChanged;
-            if (GetEnableTapToNextControl(_textBox))
+
+            if (options.EnableTapToNextControl)
             {
                 _controller.ButtonClicked -= Controller_ButtonClicked;
             }
@@ -371,29 +176,32 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             _textBox = sender as TextBox;
 
-            if (_textBox == null)
+            if (_textBox is null)
             {
                 return;
             }
 
-            if (!IsSupported)
+            if (!IsSurfaceDialOptionsSupported)
             {
                 return;
             }
 
-            _controller = _controller ?? RadialController.CreateForCurrentView();
+            _controller ??= RadialController.CreateForCurrentView();
 
-            if (GetForceMenuItem(_textBox))
+            SurfaceDialOptions? options = GetSurfaceDialOptions(_textBox) ?? SurfaceDialOptions.Default;
+
+            if (options.ForceMenuItem)
             {
-                _stepTextMenuItem = RadialControllerMenuItem.CreateFromKnownIcon("Step Text Box", GetIcon(_textBox));
+                _stepTextMenuItem = RadialControllerMenuItem.CreateFromKnownIcon("Step Text Box", options.Icon);
                 _controller.Menu.Items.Add(_stepTextMenuItem);
                 _controller.Menu.SelectMenuItem(_stepTextMenuItem);
             }
 
-            _controller.UseAutomaticHapticFeedback = GetEnableHapticFeedback(_textBox);
+            _controller.UseAutomaticHapticFeedback = options.EnableHapticFeedback;
             _controller.RotationResolutionInDegrees = 1;
             _controller.RotationChanged += Controller_RotationChanged;
-            if (GetEnableTapToNextControl(_textBox))
+
+            if (options.EnableTapToNextControl)
             {
                 _controller.ButtonClicked += Controller_ButtonClicked;
             }
