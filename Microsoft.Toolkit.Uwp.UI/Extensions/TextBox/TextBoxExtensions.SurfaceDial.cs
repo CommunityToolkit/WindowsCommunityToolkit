@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             nameof(SurfaceDialOptions),
             typeof(SurfaceDialOptions),
             typeof(TextBoxExtensions),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnSurfaceDialOptionsPropertyChanged));
 
         /// <summary>
         /// Gets the value for <see cref="SurfaceDialOptionsProperty"/>.
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="d">The <see cref="DependencyObject"/> we are dealing with, like a <see cref="TextBox"/>.</param>
         /// <param name="e">The arguments of the changed event.</param>
-        private static void StepValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSurfaceDialOptionsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!IsSurfaceDialOptionsSupported)
             {
