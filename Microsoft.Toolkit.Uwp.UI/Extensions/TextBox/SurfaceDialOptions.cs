@@ -5,6 +5,7 @@
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -19,12 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         internal static SurfaceDialOptions Default { get; } = new();
 
         /// <summary>
-        /// Gets or sets a value indicating whether new menu items shouldn't be added automatically.
-        /// This should be set to <see langword="true"/> if you provide the <see cref="RadialController"/> yourself.
-        /// </summary>
-        public bool ForceMenuItem { get; set; }
-
-        /// <summary>
         /// Gets or sets the default icon of the menu item that gets added.
         /// This will be visible if a user opens their Surface Dial menu by long-pressing the device.
         /// Defaults to <see cref="RadialControllerMenuKnownIcon.Ruler"/>.
@@ -32,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public RadialControllerMenuKnownIcon Icon { get; set; } = RadialControllerMenuKnownIcon.Ruler;
 
         /// <summary>
-        /// Gets or sets the amount the <see cref="TextBox"/> will be modified for each rotation step on the Surface Dial.
+        /// Gets or sets the amount the <see cref="TextBox"/> value will be modified for each <see cref="RotationResolutionInDegrees"/> step on the Surface Dial.
         /// This can be any double value.
         /// </summary>
         public double StepValue { get; set; }
@@ -42,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// This is enabled by default.
         /// </summary>
         public bool EnableHapticFeedback { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the <see cref="RadialController.RotationResolutionInDegrees"/> property for the extension which is the amount the dial needs to rotate to trigger a change. Default is 10.
+        /// </summary>
+        public double RotationResolutionInDegrees { get; set; } = 10;
 
         /// <summary>
         /// Gets or sets the minimum value the <see cref="TextBox"/> can have when modifying it using a Surface Dial.

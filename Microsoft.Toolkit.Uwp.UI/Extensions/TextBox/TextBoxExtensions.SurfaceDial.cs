@@ -74,9 +74,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// This helper class will do everything for you, but if you want to control the Menu Items and/or wish to use the same Surface Dial instance
         /// This is the property for the static controller so you can access it if needed.
         /// </summary>
-        public static RadialController? Controller
+        public static RadialController Controller
         {
-            get => _controller;
+            get
+            {
+                return _controller ??= RadialController.CreateForCurrentView();
+            }
             set => _controller = value;
         }
 
@@ -99,7 +102,9 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (double.TryParse(text, out double number))
             {
-                number += args.RotationDeltaInDegrees * options.StepValue;
+                // We only care about the sign of RotationDeltaInDegrees to determine if we're going up/down
+                // The value is controlled by the StepValue independent of when we should call the rotation changed event.
+                number += Math.Sign(args.RotationDeltaInDegrees) * options.StepValue;
 
                 if (options.EnableMinMaxValue)
                 {
@@ -131,10 +136,17 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
+            // Initialize our RadialController once.
+            _controller ??= RadialController.CreateForCurrentView();
+
             textBox.GotFocus -= TextBox_GotFocus_SurfaceDial;
             textBox.LostFocus -= TextBox_LostFocus_SurfaceDial;
-            textBox.GotFocus += TextBox_GotFocus_SurfaceDial;
-            textBox.LostFocus += TextBox_LostFocus_SurfaceDial;
+
+            if (e.NewValue is not null)
+            {
+                textBox.GotFocus += TextBox_GotFocus_SurfaceDial;
+                textBox.LostFocus += TextBox_LostFocus_SurfaceDial;
+            }
         }
 
         /// <summary>
@@ -152,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             SurfaceDialOptions? options = GetSurfaceDialOptions(_textBox) ?? SurfaceDialOptions.Default;
 
-            if (options.ForceMenuItem)
+            if (_stepTextMenuItem is not null)
             {
                 _controller.Menu.Items.Remove(_stepTextMenuItem);
             }
@@ -176,7 +188,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             _textBox = sender as TextBox;
 
-            if (_textBox is null)
+            if (_textBox is null ||
+                _controller is null)
             {
                 return;
             }
@@ -186,19 +199,21 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            _controller ??= RadialController.CreateForCurrentView();
+            if (_controller is not null)
+            {
+                _controller.RotationChanged -= Controller_RotationChanged;
+                _controller.ButtonClicked -= Controller_ButtonClicked;
+            }
 
             SurfaceDialOptions? options = GetSurfaceDialOptions(_textBox) ?? SurfaceDialOptions.Default;
 
-            if (options.ForceMenuItem)
-            {
-                _stepTextMenuItem = RadialControllerMenuItem.CreateFromKnownIcon("Step Text Box", options.Icon);
-                _controller.Menu.Items.Add(_stepTextMenuItem);
-                _controller.Menu.SelectMenuItem(_stepTextMenuItem);
-            }
+            _stepTextMenuItem ??= RadialControllerMenuItem.CreateFromKnownIcon("Step Text Box", options.Icon);
+
+            _controller.Menu.Items.Add(_stepTextMenuItem);
+            _controller.Menu.SelectMenuItem(_stepTextMenuItem);
 
             _controller.UseAutomaticHapticFeedback = options.EnableHapticFeedback;
-            _controller.RotationResolutionInDegrees = 1;
+            _controller.RotationResolutionInDegrees = options.RotationResolutionInDegrees;
             _controller.RotationChanged += Controller_RotationChanged;
 
             if (options.EnableTapToNextControl)

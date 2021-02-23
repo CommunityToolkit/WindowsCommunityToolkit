@@ -12,12 +12,12 @@
     <TextBox HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Margin="0,0,0,10"
-              Text="0"
+              Text="50"
               Width="250">
       <ui:TextBoxExtensions.SurfaceDialOptions>
         <ui:SurfaceDialOptions
             StepValue="1"
-            ForceMenuItem="True"
+            RotationResolutionInDegrees="12"
             EnableHapticFeedback="True"
             EnableMinMaxValue="True"
             MinValue="0"
