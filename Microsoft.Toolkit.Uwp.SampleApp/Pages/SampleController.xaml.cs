@@ -337,6 +337,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     method.Invoke(SamplePage, new object[] { e });
                 }
+
+                SamplePage = null;
             }
 
             XamlCodeEditor = null;

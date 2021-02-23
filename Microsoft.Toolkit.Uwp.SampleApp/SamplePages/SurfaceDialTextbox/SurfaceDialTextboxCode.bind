@@ -16,14 +16,14 @@
               Width="250">
       <ui:TextBoxExtensions.SurfaceDialOptions>
         <ui:SurfaceDialOptions
-            StepValue="@[StepValue:DoubleSlider:1:0.1-10]"
-            ForceMenuItem="@[ForceMenuItem:Bool:true]"
-            EnableHapticFeedback="@[EnableHapticFeedback:Bool:true]"
-            EnableMinMaxValue="@[EnableMinMaxValue:Bool:true]"
-            MinValue="@[MinValue:DoubleSlider:0:0-100]"
-            MaxValue="@[MaxValue:DoubleSlider:100:0-100]"
-            Icon="@[Icon:Enum:RadialControllerMenuKnownIcon.Ruler]"
-            EnableTapToNextControl="@[EnableTapToNextControl:Bool:true]"/>
+            StepValue="1"
+            ForceMenuItem="True"
+            EnableHapticFeedback="True"
+            EnableMinMaxValue="True"
+            MinValue="0"
+            MaxValue="100"
+            Icon="Ruler"
+            EnableTapToNextControl="True"/>
       </ui:TextBoxExtensions.SurfaceDialOptions>
     </TextBox>
   </StackPanel>

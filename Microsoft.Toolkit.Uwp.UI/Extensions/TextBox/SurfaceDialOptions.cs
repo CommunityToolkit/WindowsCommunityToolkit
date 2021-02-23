@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         /// <summary>
         /// Gets or sets the default icon of the menu item that gets added.
-        /// A user will most likely not see this.
+        /// This will be visible if a user opens their Surface Dial menu by long-pressing the device.
         /// Defaults to <see cref="RadialControllerMenuKnownIcon.Ruler"/>.
         /// </summary>
         public RadialControllerMenuKnownIcon Icon { get; set; } = RadialControllerMenuKnownIcon.Ruler;
