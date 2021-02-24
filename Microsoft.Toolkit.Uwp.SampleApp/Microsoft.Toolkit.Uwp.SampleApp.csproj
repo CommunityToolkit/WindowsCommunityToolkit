@@ -495,6 +495,8 @@
     <Compile Include="SamplePages\ColorPicker\ColorPickerPage.xaml.cs">
       <DependentUpon>ColorPickerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\EnumValuesExtension\Animal.cs" />
+    <Compile Include="SamplePages\EnumValuesExtension\AnimalToColorConverter.xaml.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
