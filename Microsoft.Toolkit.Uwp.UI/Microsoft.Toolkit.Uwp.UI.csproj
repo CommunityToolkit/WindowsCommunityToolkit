@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
       This library provides UI components, such as XAML extensions, helpers, converters and more. It is part of the Windows Community Toolkit.

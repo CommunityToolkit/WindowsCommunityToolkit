@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 // using Microsoft.Graphics.Canvas;
 // using Microsoft.Graphics.Canvas.UI.Composition;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;

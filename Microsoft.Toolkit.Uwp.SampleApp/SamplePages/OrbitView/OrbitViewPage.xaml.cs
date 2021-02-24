@@ -4,8 +4,8 @@
 
 using System;
 using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -27,14 +27,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var people = control.FindChildByName("People") as OrbitView;
+            var people = control.FindChild("People") as OrbitView;
             if (people != null)
             {
                 people.ItemClick -= People_ItemClick;
                 people.ItemClick += People_ItemClick;
             }
 
-            var devices = control.FindChildByName("Devices") as OrbitView;
+            var devices = control.FindChild("Devices") as OrbitView;
             if (devices != null)
             {
                 devices.ItemsSource = DeviceList;

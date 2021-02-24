@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;

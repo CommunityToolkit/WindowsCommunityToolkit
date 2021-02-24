@@ -142,6 +142,16 @@ jobs:
 #      artifact: Packages
 #      path: .\bin\nupkg
 #
+#  - task: DotNetCoreCLI@2  
+#    inputs:
+#      command: custom
+#      custom: tool
+#      arguments: install --tool-path . nbgv
+#    displayName: Install NBGV tool
+#
+#  - script: nbgv cloud
+#    displayName: Set Version
+#
 #  - powershell: .\build\build.ps1 -target=SmokeTest
 #    displayName: SmokeTest
 #
@@ -150,6 +160,13 @@ jobs:
 #      sourceFolder: .\SmokeTests\AppPackages
 #      contents: '**\*.msixbundle'
 #      targetFolder: $(build.artifactstagingdirectory)\SmokeTestBundles
+#
+#  - task: PublishBuildArtifacts@1
+#    displayName: Publish Smoke Test Artifacts
+#    inputs:
+#      pathToPublish: $(build.artifactstagingdirectory)\SmokeTestBundles
+#      artifactType: container
+#      artifactName: SmokeTestBundles
 
 #  - task: PublishBuildArtifacts@1
 #    displayName: Publish Smoke Test Artifacts

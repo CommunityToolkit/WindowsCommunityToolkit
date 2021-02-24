@@ -4,7 +4,6 @@
 
 #nullable enable
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;

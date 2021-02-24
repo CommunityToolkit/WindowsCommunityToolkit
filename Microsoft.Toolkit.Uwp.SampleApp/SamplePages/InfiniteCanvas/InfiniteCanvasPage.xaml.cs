@@ -4,8 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _infiniteCanvas = control.FindChildByName("canvas") as InfiniteCanvas;
+            _infiniteCanvas = control.FindChild("canvas") as InfiniteCanvas;
         }
 
         private void Load()

@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// Initializes a new instance of the <see cref="BladeViewAutomationPeer"/> class.
         /// </summary>
         /// <param name="owner">
-        /// The <see cref="BladeView" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.BladeViewAutomationPeer" />.
+        /// The <see cref="BladeView" /> that is associated with this <see cref="T:Microsoft.UI.Xaml.Automation.Peers.BladeViewAutomationPeer" />.
         /// </param>
         public BladeViewAutomationPeer(BladeView owner)
             : base(owner)

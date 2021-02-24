@@ -3,11 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

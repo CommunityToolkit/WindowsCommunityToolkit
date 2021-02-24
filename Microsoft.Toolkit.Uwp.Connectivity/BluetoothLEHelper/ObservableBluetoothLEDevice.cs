@@ -12,7 +12,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;

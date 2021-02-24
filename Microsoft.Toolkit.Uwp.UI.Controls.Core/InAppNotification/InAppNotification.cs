@@ -5,8 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
@@ -79,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VisualStateManager.GoToState(this, StateContentVisible, true);
             }
 
-            AutomationProperties.SetLabeledBy(this, VisualTree.FindDescendant<ContentPresenter>(this));
+            AutomationProperties.SetLabeledBy(this, this.FindDescendant<ContentPresenter>());
         }
 
         /// <summary>

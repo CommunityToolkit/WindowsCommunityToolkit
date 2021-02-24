@@ -6,7 +6,6 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;

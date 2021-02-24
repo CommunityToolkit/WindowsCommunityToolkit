@@ -6,7 +6,6 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 // using Microsoft.Graphics.Canvas;
 // using Microsoft.Graphics.Canvas.Effects;

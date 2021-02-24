@@ -7,8 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -533,7 +531,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //
             // To combat this issue:
             //   We toggle the visibility of the Placeholder ContentControl in order to force it's layout to update properly
-            var placeholder = ContainerFromItem(_lastTextEdit).FindDescendantByName("PlaceholderTextContentPresenter");
+            var placeholder = ContainerFromItem(_lastTextEdit)?.FindDescendant("PlaceholderTextContentPresenter");
 
             if (placeholder?.Visibility == Visibility.Visible)
             {

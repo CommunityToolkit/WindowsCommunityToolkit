@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 // using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.UI.Composition;
 using Windows.Graphics.Effects;
 using Windows.UI;

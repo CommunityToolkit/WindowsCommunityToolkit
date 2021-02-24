@@ -4,8 +4,8 @@
 
 using System;
 using System.IO;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
@@ -29,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            unformattedText = control.FindChildByName("UnformattedText") as TextBox;
+            unformattedText = control.FindChild("UnformattedText") as TextBox;
 
-            markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
+            markdownText = control.FindChild("MarkdownText") as MarkdownTextBlock;
 
             if (markdownText != null)
             {

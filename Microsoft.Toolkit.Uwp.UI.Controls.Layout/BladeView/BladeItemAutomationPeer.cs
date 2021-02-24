@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
@@ -19,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// Initializes a new instance of the <see cref="BladeItemAutomationPeer"/> class.
         /// </summary>
         /// <param name="owner">
-        /// The <see cref="BladeItem" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.BladeItemAutomationPeer" />.
+        /// The <see cref="BladeItem" /> that is associated with this <see cref="T:Microsoft.UI.Xaml.Automation.Peers.BladeItemAutomationPeer" />.
         /// </param>
         public BladeItemAutomationPeer(BladeItem owner)
             : base(owner)

@@ -6,7 +6,7 @@ using System;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Custom <see cref="MarkupExtension"/> which can provide <see cref="BitmapIconSource"/> values.

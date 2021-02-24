@@ -5,7 +5,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

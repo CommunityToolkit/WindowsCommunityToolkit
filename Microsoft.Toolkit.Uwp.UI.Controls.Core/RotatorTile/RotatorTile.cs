@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

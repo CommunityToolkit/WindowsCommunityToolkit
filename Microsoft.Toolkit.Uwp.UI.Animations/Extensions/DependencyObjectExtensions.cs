@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             bool autoReverse = false,
             bool enableDependecyAnimations = false)
         {
-            DoubleAnimation animation = new()
+            DoubleAnimation animation = new ()
             {
                 To = to,
                 From = from,
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             bool autoReverse = false,
             bool enableDependecyAnimations = false)
         {
-            PointAnimation animation = new()
+            PointAnimation animation = new ()
             {
                 To = to,
                 From = from,
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             FillBehavior fillBehavior = FillBehavior.HoldEnd,
             bool autoReverse = false)
         {
-            XamlColorAnimation animation = new()
+            XamlColorAnimation animation = new ()
             {
                 To = to,
                 From = from,

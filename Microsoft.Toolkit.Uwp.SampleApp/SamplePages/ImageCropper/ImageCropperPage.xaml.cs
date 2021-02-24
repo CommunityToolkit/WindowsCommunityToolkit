@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            _imageCropper = control.FindChildByName("ImageCropper") as ImageCropper;
+            _imageCropper = control.FindChild("ImageCropper") as ImageCropper;
             if (_imageCropper != null)
             {
                 await _imageCropper.LoadImageFromFile(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/Photos/Owl.jpg"));

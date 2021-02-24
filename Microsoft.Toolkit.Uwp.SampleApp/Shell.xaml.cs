@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;

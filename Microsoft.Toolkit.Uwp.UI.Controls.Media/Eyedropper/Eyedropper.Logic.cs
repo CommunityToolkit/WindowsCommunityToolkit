@@ -5,7 +5,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 // using Microsoft.Graphics.Canvas;
 using Microsoft.UI;

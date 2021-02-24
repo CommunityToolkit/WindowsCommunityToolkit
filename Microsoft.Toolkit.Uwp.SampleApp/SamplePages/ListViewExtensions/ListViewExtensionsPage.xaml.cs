@@ -6,7 +6,7 @@ using System;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            var sampleListView = control.FindChildByName("SampleListView") as ListView;
+            var sampleListView = control.FindChild("SampleListView") as ListView;
 
             if (sampleListView != null)
             {

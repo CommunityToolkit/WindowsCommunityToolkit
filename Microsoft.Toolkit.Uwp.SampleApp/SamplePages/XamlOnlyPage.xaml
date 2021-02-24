@@ -11,6 +11,7 @@
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
       xmlns:mediaactions="using:Microsoft.Xaml.Interactions.Media"
       xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
@@ -28,6 +29,11 @@
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <TextBox x:Key="TextBoxExtensions">
+            <ui:TextBoxExtensions.SurfaceDialOptions>
+                <ui:SurfaceDialOptions />
+            </ui:TextBoxExtensions.SurfaceDialOptions>
+        </TextBox>
     </Page.Resources>
 
     <Grid>

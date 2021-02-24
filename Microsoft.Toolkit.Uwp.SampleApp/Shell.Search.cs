@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;

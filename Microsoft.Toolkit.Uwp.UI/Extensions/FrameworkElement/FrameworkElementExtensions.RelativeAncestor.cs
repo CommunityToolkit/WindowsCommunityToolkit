@@ -5,11 +5,9 @@
 using System;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
-    /// <summary>
-    /// Provides attached dependency properties for the <see cref="Microsoft.UI.Xaml.FrameworkElement"/>
-    /// </summary>
+    /// <inheritdoc cref="Microsoft.UI.Xaml.FrameworkElementExtensions"/>
     public static partial class FrameworkElementExtensions
     {
         /// <summary>
@@ -19,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Parent object</returns>
         public static object GetAncestor(DependencyObject obj)
         {
-            return (object)obj.GetValue(AncestorProperty);
+            return obj.GetValue(AncestorProperty);
         }
 
         /// <summary>

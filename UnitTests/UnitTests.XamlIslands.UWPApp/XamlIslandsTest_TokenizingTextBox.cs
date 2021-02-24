@@ -4,13 +4,12 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

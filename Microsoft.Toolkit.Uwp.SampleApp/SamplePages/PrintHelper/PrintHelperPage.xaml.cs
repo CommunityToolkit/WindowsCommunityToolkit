@@ -5,10 +5,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using Windows.Graphics.Printing;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -39,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var listView = control.FindChildByName("PrintSampleListView") as ListView;
+            var listView = control.FindChild("PrintSampleListView") as ListView;
             if (listView == null)
             {
                 customPrintTemplate = null;

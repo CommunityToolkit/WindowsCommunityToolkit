@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;

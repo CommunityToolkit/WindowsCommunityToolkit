@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Enums;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;

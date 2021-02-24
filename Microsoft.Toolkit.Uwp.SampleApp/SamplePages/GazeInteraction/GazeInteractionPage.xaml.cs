@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Core;
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             WarnUserToPlugInDevice();
 
-            var buttonControl = control.FindChildByName("TargetButton") as Button;
+            var buttonControl = control.FindChild("TargetButton") as Button;
 
             if (buttonControl != null)
             {

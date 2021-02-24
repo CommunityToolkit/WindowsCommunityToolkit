@@ -8,7 +8,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 

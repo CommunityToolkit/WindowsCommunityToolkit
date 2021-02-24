@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var viewbox = new Viewbox
             {
                 Child = hyperlinkButton,
-                StretchDirection = StretchDirection.DownOnly
+                StretchDirection = Microsoft.UI.Xaml.Controls.StretchDirection.DownOnly
             };
 
             viewbox.PointerWheelChanged += Preventative_PointerWheelChanged;

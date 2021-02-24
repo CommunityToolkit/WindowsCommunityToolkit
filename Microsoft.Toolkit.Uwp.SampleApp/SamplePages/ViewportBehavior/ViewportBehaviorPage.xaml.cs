@@ -6,8 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -35,13 +35,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            if (control.FindChildByName("EffectElement") is Image effectElement)
+            if (control.FindChild("EffectElement") is Image effectElement)
             {
                 _effectElement = effectElement;
                 ////TODO: _effectElement.Blur(value: 10, duration: 0).Start();
             }
 
-            if (control.FindChildByName("EffectElementHost") is FrameworkElement effectElementHost)
+            if (control.FindChild("EffectElementHost") is FrameworkElement effectElementHost)
             {
                 var behaviors = Interaction.GetBehaviors(effectElementHost);
                 var viewportBehavior = behaviors.OfType<ViewportBehavior>().FirstOrDefault();

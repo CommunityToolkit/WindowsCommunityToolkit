@@ -5,7 +5,7 @@
 using System;
 using Microsoft.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// A markup extension that returns a collection of values of a specific <see langword="enum"/>
