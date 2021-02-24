@@ -11,6 +11,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class ImageInlineTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void ImageInline_WithWidth()
@@ -86,5 +87,6 @@ namespace UnitTests.Markdown.Parse
                         ReferenceId = string.Empty
                     }));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

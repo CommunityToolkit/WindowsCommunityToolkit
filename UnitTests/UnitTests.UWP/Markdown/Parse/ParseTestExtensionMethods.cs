@@ -15,6 +15,7 @@ namespace UnitTests.Markdown.Parse
     /// </summary>
     public static class ParseTestExtensionMethods
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Adds one or more child elements to the given parent object.
         /// </summary>
@@ -75,5 +76,6 @@ namespace UnitTests.Markdown.Parse
             }
             list.Add(child);
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

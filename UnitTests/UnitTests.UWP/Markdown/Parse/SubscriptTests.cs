@@ -11,6 +11,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class SubscriptTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Tag()
@@ -37,5 +38,6 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "tag" })),
                     new TextRunInline { Text = " create test" }));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

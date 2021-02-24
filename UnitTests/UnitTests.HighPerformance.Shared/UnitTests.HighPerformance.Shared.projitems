@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IMemoryOwnerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlyMemoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_MemoryExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IBufferWriterExtensions.cs" />
@@ -36,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpinLockExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_HashCode{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ObjectMarshal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.Ref2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.In2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ThrowExceptions.cs" />
