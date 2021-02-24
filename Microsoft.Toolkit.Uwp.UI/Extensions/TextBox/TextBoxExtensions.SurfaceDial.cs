@@ -199,11 +199,8 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            if (_controller is not null)
-            {
-                _controller.RotationChanged -= Controller_RotationChanged;
-                _controller.ButtonClicked -= Controller_ButtonClicked;
-            }
+            _controller.RotationChanged -= Controller_RotationChanged;
+            _controller.ButtonClicked -= Controller_ButtonClicked;
 
             SurfaceDialOptions? options = GetSurfaceDialOptions(_textBox) ?? SurfaceDialOptions.Default;
 
