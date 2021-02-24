@@ -127,28 +127,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         }
 
         /// <summary>
-        /// Called by GetAutomationId that gets the **AutomationId** of the element that is associated with the automation peer.
-        /// </summary>
-        /// <returns>
-        /// The string that contains the automation ID.
-        /// </returns>
-        protected override string GetAutomationIdCore()
-        {
-            var automationId = base.GetAutomationIdCore();
-            if (!string.IsNullOrEmpty(automationId))
-            {
-                return automationId;
-            }
-
-            if (this.OwnerCarouselItem != null)
-            {
-                return this.GetNameCore();
-            }
-
-            return string.Empty;
-        }
-
-        /// <summary>
         /// Gets the control pattern that is associated with the specified Windows.UI.Xaml.Automation.Peers.PatternInterface.
         /// </summary>
         /// <param name="patternInterface">A value from the Windows.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
