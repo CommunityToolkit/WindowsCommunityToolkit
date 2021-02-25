@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -78,8 +79,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(TargetType), typeof(Type), typeof(SwitchPresenter), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets a value indicating whether the content is removed from the visual tree when switching between cases.
+        /// Gets or sets a value indicating whether the content is removed from the visual tree when
+        /// switching between cases. This calls <see cref="VisualTreeHelper.DisconnectChildrenRecursive(UIElement)"/>
+        /// when switching between cases, so is only meant if the displayed case is never intended to be
+        /// shown again. No explicit re-initialization of controls is provided by the <see cref="SwitchPresenter"/>.
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsVisualTreeDisconnectedOnChange { get; set; }
 
         private static void OnSwitchCasesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -176,14 +181,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Disconnect old content from visual tree.
                 if (CurrentCase != null && CurrentCase.Content != null && IsVisualTreeDisconnectedOnChange)
                 {
-                    // TODO: If we disconnect here, we need to recreate later??? Need to Test...
+                    // When we disconnect here, we can't easily redo anything done here, so this is
+                    // an advanced option left open to specific scenarios for a developer.
+                    // It shouldn't come up in normaly usages, unless a developer intends each
+                    // case to only be displayed once.
                     VisualTreeHelper.DisconnectChildrenRecursive(CurrentCase.Content);
                 }
 
-                // Hookup new content.
-                Content = newcase.Content;
+                // We don't have any cases or a default to go to, so go back to blank
+                if (newcase == null)
+                {
+                    Content = null;
 
-                CurrentCase = newcase;
+                    CurrentCase = null;
+                }
+                else
+                {
+                    // Hookup new content.
+                    Content = newcase.Content;
+
+                    CurrentCase = newcase;
+                }
             }
         }
 
