@@ -37,31 +37,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DefaultStepFrequency = 1;
         private static readonly TimeSpan TimeToHideToolTipOnKeyUp = TimeSpan.FromSeconds(1);
 
-        /// <summary>
-        /// Identifies the Minimum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMinimum, MinimumChangedCallback));
-
-        /// <summary>
-        /// Identifies the Maximum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MaximumProperty = DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMaximum, MaximumChangedCallback));
-
-        /// <summary>
-        /// Identifies the RangeMin dependency property.
-        /// </summary>
-        public static readonly DependencyProperty RangeMinProperty = DependencyProperty.Register(nameof(RangeMin), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMinimum, RangeMinChangedCallback));
-
-        /// <summary>
-        /// Identifies the RangeMax dependency property.
-        /// </summary>
-        public static readonly DependencyProperty RangeMaxProperty = DependencyProperty.Register(nameof(RangeMax), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultMaximum, RangeMaxChangedCallback));
-
-        /// <summary>
-        /// Identifies the StepFrequency dependency property.
-        /// </summary>
-        public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
-
         private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
         private Border _outOfRangeContentContainer;
@@ -409,25 +384,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <summary>
-        /// Gets or sets the minimum value of the range.
-        /// </summary>
-        /// <value>
-        /// The minimum.
-        /// </value>
-        public double Minimum
-        {
-            get
-            {
-                return (double)GetValue(MinimumProperty);
-            }
-
-            set
-            {
-                SetValue(MinimumProperty, value);
-            }
-        }
-
         private static void MinimumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
@@ -458,25 +414,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the maximum value of the range.
-        /// </summary>
-        /// <value>
-        /// The maximum.
-        /// </value>
-        public double Maximum
-        {
-            get
-            {
-                return (double)GetValue(MaximumProperty);
-            }
-
-            set
-            {
-                SetValue(MaximumProperty, value);
             }
         }
 
@@ -513,25 +450,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <summary>
-        /// Gets or sets the current lower limit value of the range.
-        /// </summary>
-        /// <value>
-        /// The current lower limit.
-        /// </value>
-        public double RangeMin
-        {
-            get
-            {
-                return (double)GetValue(RangeMinProperty);
-            }
-
-            set
-            {
-                SetValue(RangeMinProperty, value);
-            }
-        }
-
         private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
@@ -564,25 +482,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             rangeSelector.SyncThumbs();
-        }
-
-        /// <summary>
-        /// Gets or sets the current upper limit value of the range.
-        /// </summary>
-        /// <value>
-        /// The current upper limit.
-        /// </value>
-        public double RangeMax
-        {
-            get
-            {
-                return (double)GetValue(RangeMaxProperty);
-            }
-
-            set
-            {
-                SetValue(RangeMaxProperty, value);
-            }
         }
 
         private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -623,25 +522,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (toolTip != null)
             {
                 toolTip.Text = string.Format("{0:0.##}", newValue);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the value part of a value range that steps should be created for.
-        /// </summary>
-        /// <value>
-        /// The value part of a value range that steps should be created for.
-        /// </value>
-        public double StepFrequency
-        {
-            get
-            {
-                return (double)GetValue(StepFrequencyProperty);
-            }
-
-            set
-            {
-                SetValue(StepFrequencyProperty, value);
             }
         }
 
