@@ -160,16 +160,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Dismiss the notification
         /// </summary>
-        public void Dismiss()
+        public void Dismiss(bool dismissAll = false)
         {
-            Dismiss(InAppNotificationDismissKind.Programmatic);
+            Dismiss(InAppNotificationDismissKind.Programmatic, dismissAll);
         }
 
         /// <summary>
         /// Dismiss the notification
         /// </summary>
         /// <param name="dismissKind">Kind of action that triggered dismiss event</param>
-        private void Dismiss(InAppNotificationDismissKind dismissKind)
+        /// <param name="dismissAll">Indicates if one or all notifications should be dismissed.</param>
+        private void Dismiss(InAppNotificationDismissKind dismissKind, bool dismissAll = false)
         {
             if (_stackedNotificationOptions.Count == 0)
             {
@@ -179,8 +180,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _dismissTimer.Stop();
 
+            // Dismiss all if requested
+            if (dismissAll)
+            {
+                _stackedNotificationOptions.Clear();
+            }
+            else
+            {
+                _stackedNotificationOptions.RemoveAt(0);
+            }
+
             // Continue to display notification if on remaining stacked notification
-            _stackedNotificationOptions.RemoveAt(0);
             if (_stackedNotificationOptions.Any())
             {
                 var notificationOptions = _stackedNotificationOptions[0];
