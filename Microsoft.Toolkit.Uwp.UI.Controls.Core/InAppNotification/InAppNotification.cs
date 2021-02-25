@@ -248,8 +248,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _contentProvider.Content = element;
                     break;
                 case DataTemplate dataTemplate:
-                    _contentProvider.ContentTemplate = dataTemplate;
                     _contentProvider.Content = null;
+                    _contentProvider.ContentTemplate = dataTemplate;
                     break;
                 case object content:
                     _contentProvider.ContentTemplate = ContentTemplate;
@@ -264,51 +264,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Handle the display of the notification based on the current StackMode
         /// </summary>
         /// <param name="notificationOptions">Information about the notification to display</param>
-        private void Show(NotificationOptions notificationOptions)
+        private async void Show(NotificationOptions notificationOptions)
         {
-            var eventArgs = new InAppNotificationOpeningEventArgs();
-            Opening?.Invoke(this, eventArgs);
-
-            if (eventArgs.Cancel)
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                return;
-            }
+                var eventArgs = new InAppNotificationOpeningEventArgs();
+                Opening?.Invoke(this, eventArgs);
 
-            var shouldDisplayImmediately = true;
-            switch (StackMode)
-            {
-                case StackMode.Replace:
-                    _stackedNotificationOptions.Clear();
-                    _stackedNotificationOptions.Add(notificationOptions);
-                    break;
-                case StackMode.StackInFront:
-                    _stackedNotificationOptions.Insert(0, notificationOptions);
-                    break;
-                case StackMode.QueueBehind:
-                    _stackedNotificationOptions.Add(notificationOptions);
-                    shouldDisplayImmediately = _stackedNotificationOptions.Count == 1;
-                    break;
-                default:
-                    break;
-            }
-
-            if (shouldDisplayImmediately)
-            {
-                Visibility = Visibility.Visible;
-                VisualStateManager.GoToState(this, StateContentVisible, true);
-
-                UpdateContent(notificationOptions);
-
-                if (notificationOptions.Duration > 0)
+                if (eventArgs.Cancel)
                 {
-                    _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
-                    _dismissTimer.Start();
+                    return;
                 }
-                else
+
+                var shouldDisplayImmediately = true;
+                switch (StackMode)
                 {
-                    _dismissTimer.Stop();
+                    case StackMode.Replace:
+                        _stackedNotificationOptions.Clear();
+                        _stackedNotificationOptions.Add(notificationOptions);
+                        break;
+                    case StackMode.StackInFront:
+                        _stackedNotificationOptions.Insert(0, notificationOptions);
+                        break;
+                    case StackMode.QueueBehind:
+                        _stackedNotificationOptions.Add(notificationOptions);
+                        shouldDisplayImmediately = _stackedNotificationOptions.Count == 1;
+                        break;
+                    default:
+                        break;
                 }
-            }
+
+                if (shouldDisplayImmediately)
+                {
+                    Visibility = Visibility.Visible;
+                    VisualStateManager.GoToState(this, StateContentVisible, true);
+
+                    UpdateContent(notificationOptions);
+
+                    if (notificationOptions.Duration > 0)
+                    {
+                        _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
+                        _dismissTimer.Start();
+                    }
+                    else
+                    {
+                        _dismissTimer.Stop();
+                    }
+                }
+            });
         }
     }
 }
