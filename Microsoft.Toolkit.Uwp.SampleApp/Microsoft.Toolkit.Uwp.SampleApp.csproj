@@ -272,6 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -976,6 +977,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

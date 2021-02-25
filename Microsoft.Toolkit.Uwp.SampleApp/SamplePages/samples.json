@@ -463,6 +463,15 @@
         "XamlCodeFile": "/SamplePages/TabbedCommandBar/TabbedCommandBar.bind",
         "Icon": "/SamplePages/TabbedCommandBar/TabbedCommandBar.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabbedCommandBar.md"
+      },
+      {
+        "Name": "SwitchPresenter",
+        "Subcategory": "Layout",
+        "About": "The SwitchPresenter is a ContentPresenter which can allow a developer to mimic a switch statement within XAML.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/SwitchPresenter",
+        "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
+        "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
       }
     ]
   },
