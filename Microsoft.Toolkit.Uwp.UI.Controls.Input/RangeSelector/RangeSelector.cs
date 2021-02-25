@@ -55,21 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private TextBlock _toolTipText;
 
         /// <summary>
-        /// Event raised when lower or upper range values are changed.
-        /// </summary>
-        public event EventHandler<RangeChangedEventArgs> ValueChanged;
-
-        /// <summary>
-        /// Event raised when lower or upper range thumbs start being dragged.
-        /// </summary>
-        public event DragStartedEventHandler ThumbDragStarted;
-
-        /// <summary>
-        /// Event raised when lower or upper range thumbs end being dragged.
-        /// </summary>
-        public event DragCompletedEventHandler ThumbDragCompleted;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="RangeSelector"/> class.
         /// Create a default range selector control.
         /// </summary>
@@ -247,13 +232,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _pointerManipulatingMin = false;
                 _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
             }
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
                 _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
 
             if (_toolTip != null)
@@ -273,13 +258,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _pointerManipulatingMin = false;
                 _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
             }
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
                 _containerCanvas.IsHitTestVisible = true;
-                ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
 
             SyncThumbs();
@@ -679,20 +664,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MinThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            ThumbDragStarted?.Invoke(this, e);
+            OnThumbDragStarted(e);
             Thumb_DragStarted(_minThumb);
         }
 
         private void MaxThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            ThumbDragStarted?.Invoke(this, e);
+            OnThumbDragStarted(e);
             Thumb_DragStarted(_maxThumb);
         }
 
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            ThumbDragCompleted?.Invoke(this, e);
-            ValueChanged?.Invoke(this, sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
+            OnThumbDragCompleted(e);
+            OnValueChanged(sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
             SyncThumbs();
 
             if (_toolTip != null)
