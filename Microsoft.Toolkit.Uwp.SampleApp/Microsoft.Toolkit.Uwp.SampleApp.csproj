@@ -488,6 +488,9 @@
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorPage.xaml.cs">
+      <DependentUpon>AutoSelectBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\CanvasPathGeometry\GeometryStreamReader.cs" />
     <Compile Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml.cs">
       <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
@@ -614,6 +617,7 @@
     <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
+    <Content Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -950,6 +954,10 @@
     <Page Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml">
       <Generator>MSBuild:Compile</Generator>

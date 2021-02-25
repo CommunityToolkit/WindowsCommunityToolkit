@@ -858,6 +858,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehavior.md"
       },
       {
+        "Name": "AutoSelectBehavior",
+        "Type": "AutoSelectBehaviorPage",
+        "Subcategory": "Systems",
+        "About": "Behavior to automatically select the entire content of a TextBox control when it loads",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "XamlCodeFile": "AutoSelectBehaviorXaml.bind",
+        "Icon": "/Assets/Helpers.png"
+      },
+      {
         "Name": "Win2d Path Mini Language Parser",
         "Type": "CanvasPathGeometryPage",
         "Subcategory": "Parser",
