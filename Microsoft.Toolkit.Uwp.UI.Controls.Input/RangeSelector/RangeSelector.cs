@@ -66,29 +66,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (_minThumb != null)
+            if (_minThumb is Thumb oldMinThumb)
             {
-                _minThumb.DragCompleted -= Thumb_DragCompleted;
-                _minThumb.DragDelta -= MinThumb_DragDelta;
-                _minThumb.DragStarted -= MinThumb_DragStarted;
-                _minThumb.KeyDown -= MinThumb_KeyDown;
+                oldMinThumb.DragCompleted -= Thumb_DragCompleted;
+                oldMinThumb.DragDelta -= MinThumb_DragDelta;
+                oldMinThumb.DragStarted -= MinThumb_DragStarted;
+                oldMinThumb.KeyDown -= MinThumb_KeyDown;
             }
 
-            if (_maxThumb != null)
+            if (_maxThumb is Thumb oldMaxThumb)
             {
-                _maxThumb.DragCompleted -= Thumb_DragCompleted;
-                _maxThumb.DragDelta -= MaxThumb_DragDelta;
-                _maxThumb.DragStarted -= MaxThumb_DragStarted;
-                _maxThumb.KeyDown -= MaxThumb_KeyDown;
+                oldMaxThumb.DragCompleted -= Thumb_DragCompleted;
+                oldMaxThumb.DragDelta -= MaxThumb_DragDelta;
+                oldMaxThumb.DragStarted -= MaxThumb_DragStarted;
+                oldMaxThumb.KeyDown -= MaxThumb_KeyDown;
             }
 
-            if (_containerCanvas != null)
+            if (_containerCanvas is Canvas oldContainerCanvas)
             {
-                _containerCanvas.SizeChanged -= ContainerCanvas_SizeChanged;
-                _containerCanvas.PointerPressed -= ContainerCanvas_PointerPressed;
-                _containerCanvas.PointerMoved -= ContainerCanvas_PointerMoved;
-                _containerCanvas.PointerReleased -= ContainerCanvas_PointerReleased;
-                _containerCanvas.PointerExited -= ContainerCanvas_PointerExited;
+                oldContainerCanvas.SizeChanged -= ContainerCanvas_SizeChanged;
+                oldContainerCanvas.PointerPressed -= ContainerCanvas_PointerPressed;
+                oldContainerCanvas.PointerMoved -= ContainerCanvas_PointerMoved;
+                oldContainerCanvas.PointerReleased -= ContainerCanvas_PointerReleased;
+                oldContainerCanvas.PointerExited -= ContainerCanvas_PointerExited;
             }
 
             IsEnabledChanged -= RangeSelector_IsEnabledChanged;
