@@ -39,12 +39,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 
-        private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
         private Thumb _maxThumb;
         private Canvas _containerCanvas;
-        private Grid _controlGrid;
         private double _oldValue;
         private bool _minSet;
         private bool _maxSet;
@@ -98,12 +96,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Need to make sure the values can be set in XAML and don't overwrite each other
             VerifyValues();
 
-            _outOfRangeContentContainer = GetTemplateChild("OutOfRangeContentContainer") as Border;
             _activeRectangle = GetTemplateChild("ActiveRectangle") as Rectangle;
             _minThumb = GetTemplateChild("MinThumb") as Thumb;
             _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
-            _controlGrid = GetTemplateChild("ControlGrid") as Grid;
             _toolTip = GetTemplateChild("ToolTip") as Grid;
             _toolTipText = GetTemplateChild("ToolTipText") as TextBlock;
 
