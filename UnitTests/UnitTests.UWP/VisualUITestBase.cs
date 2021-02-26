@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -64,6 +64,13 @@ namespace UnitTests
 
             await App.DispatcherQueue.EnqueueAsync(() =>
             {
+                // If we didn't set our content we don't have to do anything but complete here.
+                if (App.ContentRoot is null)
+                {
+                    taskCompletionSource.SetResult(true);
+                    return;
+                }
+
                 // Going to wait for our original content to unload
                 App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
 

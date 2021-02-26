@@ -13,6 +13,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class TableTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void Table_Simple()
@@ -278,5 +279,6 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "Column A | Column B | Column C || A1 | B1 | C1" }));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

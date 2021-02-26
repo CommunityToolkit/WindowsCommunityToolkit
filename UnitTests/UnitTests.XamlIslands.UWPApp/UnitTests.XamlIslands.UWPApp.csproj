@@ -167,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.10</Version>
+      <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Win32.UI.XamlApplication">
       <Version>6.1.2</Version>
@@ -179,10 +179,6 @@
     -->
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj">
-      <Project>{42ca4935-54be-42ea-ac19-992378c08de6}</Project>
-      <Name>Microsoft.Toolkit.Parsers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj">
       <Project>{5bf75694-798a-43a0-8150-415de195359c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>

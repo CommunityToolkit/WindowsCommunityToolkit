@@ -11,8 +11,8 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.System.Profile;
@@ -337,6 +337,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     method.Invoke(SamplePage, new object[] { e });
                 }
+
+                SamplePage = null;
             }
 
             XamlCodeEditor = null;
@@ -517,7 +519,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasType)
                 {
-                    root = SamplePage?.FindDescendantByName("XamlRoot");
+                    root = SamplePage?.FindDescendant("XamlRoot");
 
                     if (root is Panel)
                     {

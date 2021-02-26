@@ -10,8 +10,6 @@
       Microsoft.Toolkit.Diagnostics;
       Microsoft.Toolkit.HighPerformance;
       Microsoft.Toolkit.Mvvm;
-      Microsoft.Toolkit.Parsers;
-      Microsoft.Toolkit.Services;
       Microsoft.Toolkit.Uwp;
       Microsoft.Toolkit.Uwp.Connectivity;
       Microsoft.Toolkit.Uwp.DeveloperTools;
