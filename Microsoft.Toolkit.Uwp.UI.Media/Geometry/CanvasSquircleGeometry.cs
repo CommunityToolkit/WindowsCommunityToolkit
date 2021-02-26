@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Represents a rounded rectangle geometry object with the specified extents.
+    /// Represents a Squircle geometry object with the specified extents.
     /// </summary>
     public class CanvasSquircleGeometry : CanvasRectangleGeometry
     {
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Handles changes to the RadiusX property.
         /// </summary>
-        /// <param name="d">CanvasSquircleGeometry</param>
+        /// <param name="d"><see cref="CanvasSquircleGeometry"/></param>
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnRadiusXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

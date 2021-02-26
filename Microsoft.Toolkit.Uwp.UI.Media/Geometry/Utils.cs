@@ -813,5 +813,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 
             return new Rect(left, top, targetWidth, targetHeight);
         }
+
+        /// <summary>
+        /// Converts <see cref="MatrixTransform"/> to <see cref="Matrix3x2"/>
+        /// </summary>
+        /// <param name="transform"><see cref="MatrixTransform"/></param>
+        /// <returns><see cref="Matrix3x2"/></returns>
+        public static Matrix3x2 ToMatrix3x2(this MatrixTransform transform)
+        {
+            return new Matrix3x2(
+                (float)transform.Matrix.M11,
+                (float)transform.Matrix.M12,
+                (float)transform.Matrix.M21,
+                (float)transform.Matrix.M22,
+                (float)transform.Matrix.OffsetX,
+                (float)transform.Matrix.OffsetY);
+        }
+
+        /// <summary>
+        /// Converts <see cref="Matrix3x2"/> to <see cref="MatrixTransform"/>
+        /// </summary>
+        /// <param name="matrix"><see cref="Matrix3x2"/></param>
+        /// <returns><see cref="MatrixTransform"/></returns>
+        public static MatrixTransform ToMatrixTransform(this Matrix3x2 matrix)
+        {
+            return new MatrixTransform()
+            {
+                Matrix = new Matrix(
+                    matrix.M11,
+                    matrix.M12,
+                    matrix.M21,
+                    matrix.M22,
+                    matrix.M31,
+                    matrix.M32)
+            };
+        }
     }
 }

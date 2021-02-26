@@ -1056,7 +1056,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="geometry">Geometry of the IGeometryMaskSurface</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
         /// the Geometry is rendered.</param>
-        public void RedrawMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset)
+        public void RedrawGeometryMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset)
         {
             // If the surface is not created, create it
             surface ??= CreateDrawingSurface(surfaceLock, size);

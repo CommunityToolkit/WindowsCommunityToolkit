@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -125,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 if (Generator != null)
                 {
                     Generator.DeviceReplaced -= OnDeviceReplaced;
-                    Generator.Dispose();
+                    Generator = null;
                 }
 
                 // Dispose of composition resources when no longer in use.

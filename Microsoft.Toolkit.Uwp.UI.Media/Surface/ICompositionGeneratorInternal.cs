@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <param name="geometry">Geometry of the GeometryMaskSurface</param>
         /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
         /// the Geometry is rendered.</param>
-        void RedrawMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset);
+        void RedrawGeometryMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset);
 
         /// <summary>
         /// Redraws the GaussianMaskSurface with the given size and geometry.

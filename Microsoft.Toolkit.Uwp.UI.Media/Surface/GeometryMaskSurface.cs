@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// </summary>
         private void RedrawSurface()
         {
-            _generator.RedrawMaskSurface(_surfaceLock, _surface, Size, Geometry, Offset);
+            _generator.RedrawGeometryMaskSurface(_surfaceLock, _surface, Size, Geometry, Offset);
         }
     }
 }

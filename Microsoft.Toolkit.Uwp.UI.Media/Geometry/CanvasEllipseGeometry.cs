@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
-    /// Represents a rounded rectangle geometry object with the specified extents.
+    /// Represents an Ellipse geometry object with the specified extents.
     /// </summary>
     public class CanvasEllipseGeometry : CanvasCoreGeometry
     {
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Handles changes to the Center property.
         /// </summary>
-        /// <param name="d">CanvasEllipseGeometry</param>
+        /// <param name="d"><see cref="CanvasEllipseGeometry"/></param>
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnCenterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Handles changes to the RadiusX property.
         /// </summary>
-        /// <param name="d">CanvasEllipseGeometry</param>
+        /// <param name="d"><see cref="CanvasEllipseGeometry"/></param>
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnRadiusXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Handles changes to the RadiusY property.
         /// </summary>
-        /// <param name="d">CanvasEllipseGeometry</param>
+        /// <param name="d"><see cref="CanvasEllipseGeometry"/></param>
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnRadiusYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

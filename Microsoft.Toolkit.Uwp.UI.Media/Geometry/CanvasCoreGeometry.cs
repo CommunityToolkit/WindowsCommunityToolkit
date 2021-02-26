@@ -5,6 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
@@ -56,6 +57,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// Method to be called when any of the parameters affecting the Geometry is updated.
         /// </summary>
         protected abstract void UpdateGeometry();
+
+        /// <summary>
+        /// Call this method to redraw its Geometry (usually when <see cref="CompositionGenerator.DeviceReplaced"/> event is raised).
+        /// </summary>
+        public void Refresh()
+        {
+            UpdateGeometry();
+        }
 
         /// <summary>
         /// Disposes the resources used by the CanvasCoreGeometry and its derivatives
