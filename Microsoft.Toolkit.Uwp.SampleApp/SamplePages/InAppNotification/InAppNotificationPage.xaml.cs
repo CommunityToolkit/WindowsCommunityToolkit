@@ -132,7 +132,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _exampleVSCodeInAppNotification.Dismiss(true);
                 _exampleInAppNotification.Dismiss(true);
-                _exampleCustomInAppNotification.Show(_inAppNotificationWithButtonsTemplate, NotificationDuration);
+
+                var templateContent = _inAppNotificationWithButtonsTemplate.LoadContent();
+                _exampleCustomInAppNotification.Show(templateContent, NotificationDuration);
             });
 
             SampleController.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
