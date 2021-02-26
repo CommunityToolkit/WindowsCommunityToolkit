@@ -279,12 +279,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_pointerManipulatingMin && normalizedPosition < RangeMax)
             {
                 RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), position);
-                UpdateToolTipText(this, _toolTipText, RangeMin);
+                _toolTipText.Text = FormatForToolTip(RangeMin);
             }
             else if (_pointerManipulatingMax && normalizedPosition > RangeMin)
             {
                 RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), position);
-                UpdateToolTipText(this, _toolTipText, RangeMax);
+                _toolTipText.Text = FormatForToolTip(RangeMax);
             }
         }
 
@@ -498,13 +498,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             rangeSelector.SyncThumbs();
         }
 
-        private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
-        {
-            if (toolTip != null)
-            {
-                toolTip.Text = string.Format("{0:0.##}", newValue);
-            }
-        }
+        private static string FormatForToolTip(double newValue)
+            => string.Format("{0:0.##}", newValue);
 
         private void RangeMinToStepFrequency()
         {
@@ -556,7 +551,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     fromMinKeyDown ? relativeLeft : relativeRight);
                 if (_toolTipText != null)
                 {
-                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeMin : RangeMax);
+                    _toolTipText.Text = FormatForToolTip(fromMinKeyDown ? RangeMin : RangeMax);
                 }
             }
 
@@ -599,7 +594,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_toolTipText != null)
             {
-                UpdateToolTipText(this, _toolTipText, RangeMin);
+                _toolTipText.Text = FormatForToolTip(RangeMin);
             }
         }
 
@@ -611,7 +606,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_toolTipText != null)
             {
-                UpdateToolTipText(this, _toolTipText, RangeMax);
+                _toolTipText.Text = FormatForToolTip(RangeMax);
             }
         }
 
@@ -652,7 +647,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var ttWidth = _toolTip.ActualWidth / 2;
                 Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
 
-                UpdateToolTipText(this, _toolTipText, useMin ? RangeMin : RangeMax);
+                _toolTipText.Text = FormatForToolTip(useMin ? RangeMin : RangeMax);
             }
 
             VisualStateManager.GoToState(this, useMin ? "MinPressed" : "MaxPressed", true);
