@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.Linq;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI
@@ -15,157 +15,191 @@ namespace Microsoft.Toolkit.Uwp.UI
     public static class StringExtensions
     {
         /// <summary>
-        /// Converts a <see cref="string"/> to <see cref="Vector2"/>
+        /// Converts a <see cref="string"/> value to a <see cref="Vector2"/> value.
+        /// This method always assumes the invariant culture for parsing values (',' separates numbers, '.' is the decimal separator).
+        /// The input text can either represents a single number (mapped to <see cref="Vector2(float)"/>, or multiple components.
+        /// Additionally, the format "&lt;float, float&gt;" is also allowed (though less efficient to parse).
         /// </summary>
-        /// <param name="str">A string in the format of "float, float"</param>
-        /// <returns><see cref="Vector2"/></returns>
-        public static Vector2 ToVector2(this string str)
+        /// <param name="text">A <see cref="string"/> with the values to parse.</param>
+        /// <returns>The parsed <see cref="Vector2"/> value.</returns>
+        /// <exception cref="FormatException">Thrown when <paramref name="text"/> doesn't represent a valid <see cref="Vector2"/> value.</exception>
+        [Pure]
+        public static Vector2 ToVector2(this string text)
         {
-            try
+            if (text.Length > 0)
             {
-                var strLength = str.Count();
-                if (strLength < 1)
+                // The format <x> or <x, y> is supported
+                if (text.Length >= 2 &&
+                    text[0] == '>' &&
+                    text[text.Length - 1] == '>')
                 {
-                    throw new Exception();
-                }
-                else if (str[0] == '<' && str[strLength - 1] == '>')
-                {
-                    str = str.Substring(1, strLength - 2);
+                    text = text.Substring(1, text.Length - 2);
                 }
 
-                string[] values = str.Split(',');
-
-                var count = values.Count();
-                Vector2 vector;
-
-                if (count == 1)
+                // Skip allocations when only a component is used
+                if (text.IndexOf(',') == -1)
                 {
-                    vector = new Vector2(float.Parse(values[0], CultureInfo.InvariantCulture));
-                }
-                else if (count == 2)
-                {
-                    vector = new Vector2(float.Parse(values[0], CultureInfo.InvariantCulture), float.Parse(values[1], CultureInfo.InvariantCulture));
+                    if (float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out float x))
+                    {
+                        return new(x);
+                    }
                 }
                 else
                 {
-                    throw new Exception();
-                }
+                    string[] values = text.Split(',');
 
-                return vector;
+                    if (values.Length == 2)
+                    {
+                        if (float.TryParse(values[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x) &&
+                            float.TryParse(values[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y))
+                        {
+                            return new(x, y);
+                        }
+                    }
+                }
             }
-            catch (Exception)
-            {
-                throw new FormatException($"Cannot convert {str} to Vector2. Use format \"float, float\"");
-            }
+
+            return Throw(text);
+
+            static Vector2 Throw(string text) => throw new FormatException($"Cannot convert \"{text}\" to {nameof(Vector2)}. Use the format \"float, float\"");
         }
 
         /// <summary>
-        /// Converts a <see cref="string"/> to <see cref="Vector3"/>
+        /// Converts a <see cref="string"/> value to a <see cref="Vector3"/> value.
+        /// This method always assumes the invariant culture for parsing values (',' separates numbers, '.' is the decimal separator).
+        /// The input text can either represents a single number (mapped to <see cref="Vector3(float)"/>, or multiple components.
+        /// Additionally, the format "&lt;float, float, float&gt;" is also allowed (though less efficient to parse).
         /// </summary>
-        /// <param name="str">A string in the format of "float, float, float"</param>
-        /// <returns><see cref="Vector3"/></returns>
-        public static Vector3 ToVector3(this string str)
+        /// <param name="text">A <see cref="string"/> with the values to parse.</param>
+        /// <returns>The parsed <see cref="Vector3"/> value.</returns>
+        /// <exception cref="FormatException">Thrown when <paramref name="text"/> doesn't represent a valid <see cref="Vector3"/> value.</exception>
+        [Pure]
+        public static Vector3 ToVector3(this string text)
         {
-            try
+            if (text.Length > 0)
             {
-                var strLength = str.Count();
-                if (strLength < 1)
+                if (text.Length >= 2 &&
+                    text[0] == '>' &&
+                    text[text.Length - 1] == '>')
                 {
-                    throw new Exception();
-                }
-                else if (str[0] == '<' && str[strLength - 1] == '>')
-                {
-                    str = str.Substring(1, strLength - 2);
+                    text = text.Substring(1, text.Length - 2);
                 }
 
-                string[] values = str.Split(',');
-
-                var count = values.Count();
-                Vector3 vector;
-
-                if (count == 1)
+                if (text.IndexOf(',') == -1)
                 {
-                    vector = new Vector3(float.Parse(values[0], CultureInfo.InvariantCulture));
-                }
-                else if (count == 3)
-                {
-                    vector = new Vector3(
-                        float.Parse(values[0], CultureInfo.InvariantCulture),
-                        float.Parse(values[1], CultureInfo.InvariantCulture),
-                        float.Parse(values[2], CultureInfo.InvariantCulture));
+                    if (float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out float x))
+                    {
+                        return new(x);
+                    }
                 }
                 else
                 {
-                    throw new Exception();
-                }
+                    string[] values = text.Split(',');
 
-                return vector;
+                    if (values.Length == 3)
+                    {
+                        if (float.TryParse(values[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x) &&
+                            float.TryParse(values[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y) &&
+                            float.TryParse(values[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float z))
+                        {
+                            return new(x, y, z);
+                        }
+                    }
+                }
             }
-            catch (Exception)
-            {
-                throw new FormatException($"Cannot convert {str} to Vector3. Use format \"float, float, float\"");
-            }
+
+            return Throw(text);
+
+            static Vector3 Throw(string text) => throw new FormatException($"Cannot convert \"{text}\" to {nameof(Vector3)}. Use the format \"float, float, float\"");
         }
 
         /// <summary>
-        /// Converts a <see cref="string"/> to <see cref="Vector4"/>
+        /// Converts a <see cref="string"/> value to a <see cref="Vector4"/> value.
+        /// This method always assumes the invariant culture for parsing values (',' separates numbers, '.' is the decimal separator).
+        /// The input text can either represents a single number (mapped to <see cref="Vector4(float)"/>, or multiple components.
+        /// Additionally, the format "&lt;float, float, float, float&gt;" is also allowed (though less efficient to parse).
         /// </summary>
-        /// <param name="str">A string in the format of "float, float, float, float"</param>
-        /// <returns><see cref="Vector4"/></returns>
-        public static Vector4 ToVector4(this string str)
+        /// <param name="text">A <see cref="string"/> with the values to parse.</param>
+        /// <returns>The parsed <see cref="Vector4"/> value.</returns>
+        /// <exception cref="FormatException">Thrown when <paramref name="text"/> doesn't represent a valid <see cref="Vector4"/> value.</exception>
+        [Pure]
+        public static Vector4 ToVector4(this string text)
         {
-            try
+            if (text.Length > 0)
             {
-                var strLength = str.Count();
-                if (strLength < 1)
+                if (text.Length >= 2 &&
+                    text[0] == '>' &&
+                    text[text.Length - 1] == '>')
                 {
-                    throw new Exception();
-                }
-                else if (str[0] == '<' && str[strLength - 1] == '>')
-                {
-                    str = str.Substring(1, strLength - 2);
+                    text = text.Substring(1, text.Length - 2);
                 }
 
-                string[] values = str.Split(',');
-
-                var count = values.Count();
-                Vector4 vector;
-
-                if (count == 1)
+                if (text.IndexOf(',') == -1)
                 {
-                    vector = new Vector4(float.Parse(values[0], CultureInfo.InvariantCulture));
-                }
-                else if (count == 4)
-                {
-                    vector = new Vector4(
-                        float.Parse(values[0], CultureInfo.InvariantCulture),
-                        float.Parse(values[1], CultureInfo.InvariantCulture),
-                        float.Parse(values[2], CultureInfo.InvariantCulture),
-                        float.Parse(values[3], CultureInfo.InvariantCulture));
+                    if (float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out float x))
+                    {
+                        return new(x);
+                    }
                 }
                 else
                 {
-                    throw new Exception();
-                }
+                    string[] values = text.Split(',');
 
-                return vector;
+                    if (values.Length == 4)
+                    {
+                        if (float.TryParse(values[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x) &&
+                            float.TryParse(values[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y) &&
+                            float.TryParse(values[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float z) &&
+                            float.TryParse(values[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float w))
+                        {
+                            return new(x, y, z, w);
+                        }
+                    }
+                }
             }
-            catch (Exception)
-            {
-                throw new FormatException($"Cannot convert {str} to Vector4. Use format \"float, float, float, float\"");
-            }
+
+            return Throw(text);
+
+            static Vector4 Throw(string text) => throw new FormatException($"Cannot convert \"{text}\" to {nameof(Vector4)}. Use the format \"float, float, float, float\"");
         }
 
         /// <summary>
-        /// Converts a <see cref="string"/> to <see cref="Quaternion"/>
+        /// Converts a <see cref="string"/> value to a <see cref="Quaternion"/> value.
+        /// This method always assumes the invariant culture for parsing values (',' separates numbers, '.' is the decimal separator).
+        /// Additionally, the format "&lt;float, float, float, float&gt;" is also allowed (though less efficient to parse).
         /// </summary>
-        /// <param name="str">A string in the format of "float, float, float, float"</param>
-        /// <returns><see cref="Quaternion"/></returns>
-        public static unsafe Quaternion ToQuaternion(this string str)
+        /// <param name="text">A <see cref="string"/> with the values to parse.</param>
+        /// <returns>The parsed <see cref="Quaternion"/> value.</returns>
+        /// <exception cref="FormatException">Thrown when <paramref name="text"/> doesn't represent a valid <see cref="Quaternion"/> value.</exception>
+        [Pure]
+        public static Quaternion ToQuaternion(this string text)
         {
-            Vector4 vector = str.ToVector4();
+            if (text.Length > 0)
+            {
+                if (text.Length >= 2 &&
+                    text[0] == '>' &&
+                    text[text.Length - 1] == '>')
+                {
+                    text = text.Substring(1, text.Length - 2);
+                }
 
-            return *(Quaternion*)&vector;
+                string[] values = text.Split(',');
+
+                if (values.Length == 4)
+                {
+                    if (float.TryParse(values[0], NumberStyles.Float, CultureInfo.InvariantCulture, out float x) &&
+                        float.TryParse(values[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float y) &&
+                        float.TryParse(values[2], NumberStyles.Float, CultureInfo.InvariantCulture, out float z) &&
+                        float.TryParse(values[3], NumberStyles.Float, CultureInfo.InvariantCulture, out float w))
+                    {
+                        return new(x, y, z, w);
+                    }
+                }
+            }
+
+            return Throw(text);
+
+            static Quaternion Throw(string text) => throw new FormatException($"Cannot convert \"{text}\" to {nameof(Quaternion)}. Use the format \"float, float, float, float\"");
         }
     }
 }
