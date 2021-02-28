@@ -236,6 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="repeatOption">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if <paramref name="layer"/> is <see cref="FrameworkLayer.Xaml"/>).</param>
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder NormalizedKeyFrames<T>(
@@ -244,6 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             RepeatOption? repeatOption = null,
+            AnimationDelayBehavior? delayBehavior = null,
             FrameworkLayer layer = FrameworkLayer.Composition)
             where T : unmanaged
         {
@@ -254,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     delay,
                     duration ?? DefaultDuration,
                     repeatOption ?? RepeatOption.Once,
-                    DefaultDelayBehavior);
+                    delayBehavior ?? DefaultDelayBehavior);
 
                 build(builder);
 
@@ -287,6 +289,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="repeatOption">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if <paramref name="layer"/> is <see cref="FrameworkLayer.Xaml"/>).</param>
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder NormalizedKeyFrames<T, TState>(
@@ -296,6 +299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             RepeatOption? repeatOption = null,
+            AnimationDelayBehavior? delayBehavior = null,
             FrameworkLayer layer = FrameworkLayer.Composition)
             where T : unmanaged
         {
@@ -306,7 +310,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     delay,
                     duration ?? DefaultDuration,
                     repeatOption ?? RepeatOption.Once,
-                    DefaultDelayBehavior);
+                    delayBehavior ?? DefaultDelayBehavior);
 
                 build(builder, state);
 
@@ -336,6 +340,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="build">The callback to use to construct the custom animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="repeat">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if <paramref name="layer"/> is <see cref="FrameworkLayer.Xaml"/>).</param>
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder TimedKeyFrames<T>(
@@ -343,12 +348,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Action<ITimedKeyFrameAnimationBuilder<T>> build,
             TimeSpan? delay = null,
             RepeatOption? repeat = null,
+            AnimationDelayBehavior? delayBehavior = null,
             FrameworkLayer layer = FrameworkLayer.Composition)
             where T : unmanaged
         {
             if (layer == FrameworkLayer.Composition)
             {
-                TimedKeyFrameAnimationBuilder<T>.Composition builder = new(property, delay, repeat ?? RepeatOption.Once, DefaultDelayBehavior);
+                TimedKeyFrameAnimationBuilder<T>.Composition builder = new(
+                    property,
+                    delay,
+                    repeat ?? RepeatOption.Once,
+                    delayBehavior ?? DefaultDelayBehavior);
 
                 build(builder);
 
@@ -376,6 +386,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="build">The callback to use to construct the custom animation.</param>
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="repeatOption">The repeat option for the animation (defaults to one iteration).</param>
+        /// <param name="delayBehavior">The delay behavior to use (ignored if <paramref name="layer"/> is <see cref="FrameworkLayer.Xaml"/>).</param>
         /// <param name="layer">The target framework layer to animate.</param>
         /// <returns>The current <see cref="AnimationBuilder"/> instance.</returns>
         public AnimationBuilder TimedKeyFrames<T, TState>(
@@ -384,12 +395,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Action<ITimedKeyFrameAnimationBuilder<T>, TState> build,
             TimeSpan? delay = null,
             RepeatOption? repeatOption = null,
+            AnimationDelayBehavior? delayBehavior = null,
             FrameworkLayer layer = FrameworkLayer.Composition)
             where T : unmanaged
         {
             if (layer == FrameworkLayer.Composition)
             {
-                TimedKeyFrameAnimationBuilder<T>.Composition builder = new(property, delay, repeatOption ?? RepeatOption.Once, DefaultDelayBehavior);
+                TimedKeyFrameAnimationBuilder<T>.Composition builder = new(
+                    property,
+                    delay,
+                    repeatOption ?? RepeatOption.Once,
+                    delayBehavior ?? DefaultDelayBehavior);
 
                 build(builder, state);
 
