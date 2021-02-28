@@ -29,7 +29,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ExplicitTarget,
                 Delay ?? DefaultDelay,
                 Duration ?? DefaultDuration,
-                Repeat);
+                Repeat,
+                DelayBehavior);
 
             var (to, from) = GetParsedValues();
 
