@@ -87,7 +87,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Property,
                     delay,
                     duration ?? DefaultDuration,
-                    repeatOption ?? RepeatOption.Once);
+                    repeatOption ?? RepeatOption.Once,
+                    DefaultDelayBehavior);
 
                 build(builder);
 
@@ -108,7 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Property,
                     delay,
                     duration ?? DefaultDuration,
-                    repeatOption ?? RepeatOption.Once);
+                    repeatOption ?? RepeatOption.Once,
+                    DefaultDelayBehavior);
 
                 build(builder, state);
 
@@ -123,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 TimeSpan? delay,
                 RepeatOption? repeatOption)
             {
-                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, repeatOption ?? RepeatOption.Once);
+                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, repeatOption ?? RepeatOption.Once, DefaultDelayBehavior);
 
                 build(builder);
 
@@ -139,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 TimeSpan? delay,
                 RepeatOption? repeatOption)
             {
-                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, repeatOption ?? RepeatOption.Once);
+                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, repeatOption ?? RepeatOption.Once, DefaultDelayBehavior);
 
                 build(builder, state);
 
