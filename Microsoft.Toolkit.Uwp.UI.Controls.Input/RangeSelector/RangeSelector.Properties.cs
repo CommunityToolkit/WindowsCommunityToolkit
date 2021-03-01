@@ -122,7 +122,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set => SetValue(StepFrequencyProperty, value);
         }
 
-        private static void MinimumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void MinimumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForBoundsChange(Bound.Minimum, d, e);
+
+        private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForBoundsChange(Bound.Maximum, d, e);
+
+        private static void AdjustForBoundsChange(Bound changedBound, DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
 
@@ -134,19 +138,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newValue = (double)e.NewValue;
             var oldValue = (double)e.OldValue;
 
-            if (rangeSelector.Maximum < newValue)
+            switch (changedBound)
             {
-                rangeSelector.Maximum = newValue + Epsilon;
-            }
+                case Bound.Minimum:
+                    if (rangeSelector.Maximum < newValue)
+                    {
+                        rangeSelector.Maximum = newValue + Epsilon;
+                    }
 
-            if (rangeSelector.RangeMin < newValue)
-            {
-                rangeSelector.RangeMin = newValue;
-            }
+                    if (rangeSelector.RangeMin < newValue)
+                    {
+                        rangeSelector.RangeMin = newValue;
+                    }
 
-            if (rangeSelector.RangeMax < newValue)
-            {
-                rangeSelector.RangeMax = newValue;
+                    if (rangeSelector.RangeMax < newValue)
+                    {
+                        rangeSelector.RangeMax = newValue;
+                    }
+
+                    break;
+                case Bound.Maximum:
+                    if (rangeSelector.Minimum > newValue)
+                    {
+                        rangeSelector.Minimum = newValue - Epsilon;
+                    }
+
+                    if (rangeSelector.RangeMax > newValue)
+                    {
+                        rangeSelector.RangeMax = newValue;
+                    }
+
+                    if (rangeSelector.RangeMin > newValue)
+                    {
+                        rangeSelector.RangeMin = newValue;
+                    }
+
+                    break;
             }
 
             if (newValue != oldValue)
@@ -155,37 +182,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private enum Bound
         {
-            var rangeSelector = d as RangeSelector;
-
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
-
-            if (rangeSelector.Minimum > newValue)
-            {
-                rangeSelector.Minimum = newValue - Epsilon;
-            }
-
-            if (rangeSelector.RangeMax > newValue)
-            {
-                rangeSelector.RangeMax = newValue;
-            }
-
-            if (rangeSelector.RangeMin > newValue)
-            {
-                rangeSelector.RangeMin = newValue;
-            }
-
-            if (newValue != oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            Minimum,
+            Maximum
         }
 
         private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
