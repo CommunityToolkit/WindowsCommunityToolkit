@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -20,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// </summary>
     public partial class MarkdownRenderer : MarkdownRendererBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownRenderer"/> class.
         /// </summary>
@@ -214,12 +214,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 return;
             }
 
-            var rootViewer = VisualTree.FindAscendant<ScrollViewer>(RootElement);
+            var rootViewer = RootElement.FindAscendant<ScrollViewer>();
             if (rootViewer != null)
             {
                 pointerWheelChanged?.Invoke(rootViewer, new object[] { e });
                 e.Handled = true;
             }
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.Foundation;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Toolkit.Uwp;
 
 namespace UnitTests.Extensions
 {
