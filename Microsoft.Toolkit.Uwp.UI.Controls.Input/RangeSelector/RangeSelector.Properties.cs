@@ -196,13 +196,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
+            var minimum = rangeSelector.Minimum;
+            var maximum = rangeSelector.Maximum;
+            var rangeMin = rangeSelector.RangeMin;
+            var rangeMax = rangeSelector.RangeMax;
+            var stepFrequency = rangeSelector.StepFrequency;
 
             switch (changedBound)
             {
                 case Bound.Minimum:
                     rangeSelector._minSet = true;
 
-                    rangeSelector.RangeMinToStepFrequency();
+                    rangeSelector.RangeMin = minimum + DistanceFromBound(minimum, stepFrequency, rangeMin);
 
                     if (newValue < rangeSelector.Minimum)
                     {
@@ -225,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Bound.Maximum:
                     rangeSelector._maxSet = true;
 
-                    rangeSelector.RangeMaxToStepFrequency();
+                    rangeSelector.RangeMax = maximum - DistanceFromBound(maximum, stepFrequency, rangeMax);
 
                     if (newValue < rangeSelector.Minimum)
                     {
@@ -254,6 +259,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Minimum,
             Maximum
+        }
+
+        private static double DistanceFromBound(double bound, double stepLength, double value)
+        {
+            var difference = Math.Abs(bound - value);
+            var steps = (int)Math.Round(difference / stepLength);
+            return steps * stepLength;
         }
     }
 }

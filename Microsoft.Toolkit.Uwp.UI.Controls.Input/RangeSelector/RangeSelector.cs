@@ -196,34 +196,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static string FormatForToolTip(double newValue)
             => string.Format("{0:0.##}", newValue);
 
-        private void RangeMinToStepFrequency()
-        {
-            double newValue = Minimum + (((int)Math.Round((RangeMin - Minimum) / StepFrequency)) * StepFrequency);
-            RangeMin = MoveToStepFrequency(newValue);
-        }
-
-        private void RangeMaxToStepFrequency()
-        {
-            double newValue = Maximum - (((int)Math.Round((Maximum - RangeMax) / StepFrequency)) * StepFrequency);
-            RangeMax = MoveToStepFrequency(newValue);
-        }
-
-        private double MoveToStepFrequency(double rangeValue)
-        {
-            if (rangeValue < Minimum)
-            {
-                return Minimum;
-            }
-            else if (rangeValue > Maximum)
-            {
-                return Maximum;
-            }
-            else
-            {
-                return rangeValue;
-            }
-        }
-
         private void SyncThumbs(bool fromMinKeyDown = false, bool fromMaxKeyDown = false)
         {
             if (_containerCanvas == null)
