@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -182,77 +183,77 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForRangeBoundsChange(Bound.Minimum, d, e);
+
+        private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForRangeBoundsChange(Bound.Maximum, d, e);
+
+        private static void AdjustForRangeBoundsChange(Bound changedBound, DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var rangeSelector = d as RangeSelector;
+            if (rangeSelector == null)
+            {
+                return;
+            }
+
+            var newValue = (double)e.NewValue;
+
+            switch (changedBound)
+            {
+                case Bound.Minimum:
+                    rangeSelector._minSet = true;
+
+                    rangeSelector.RangeMinToStepFrequency();
+
+                    if (newValue < rangeSelector.Minimum)
+                    {
+                        rangeSelector.RangeMin = rangeSelector.Minimum;
+                    }
+                    else if (newValue > rangeSelector.Maximum)
+                    {
+                        rangeSelector.RangeMin = rangeSelector.Maximum;
+                    }
+
+                    rangeSelector.SyncActiveRectangle();
+
+                    // If the new value is greater than the old max, move the max also
+                    if (newValue > rangeSelector.RangeMax)
+                    {
+                        rangeSelector.RangeMax = newValue;
+                    }
+
+                    break;
+                case Bound.Maximum:
+                    rangeSelector._maxSet = true;
+
+                    rangeSelector.RangeMaxToStepFrequency();
+
+                    if (newValue < rangeSelector.Minimum)
+                    {
+                        rangeSelector.RangeMax = rangeSelector.Minimum;
+                    }
+                    else if (newValue > rangeSelector.Maximum)
+                    {
+                        rangeSelector.RangeMax = rangeSelector.Maximum;
+                    }
+
+                    rangeSelector.SyncActiveRectangle();
+
+                    // If the new max is less than the old minimum then move the minimum
+                    if (newValue < rangeSelector.RangeMin)
+                    {
+                        rangeSelector.RangeMin = newValue;
+                    }
+
+                    break;
+            }
+
+            rangeSelector.SyncThumbs();
+        }
+
         private enum Bound
         {
             Minimum,
             Maximum
-        }
-
-        private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._minSet = true;
-
-            var newValue = (double)e.NewValue;
-            rangeSelector.RangeMinToStepFrequency();
-
-            if (newValue < rangeSelector.Minimum)
-            {
-                rangeSelector.RangeMin = rangeSelector.Minimum;
-            }
-            else if (newValue > rangeSelector.Maximum)
-            {
-                rangeSelector.RangeMin = rangeSelector.Maximum;
-            }
-
-            rangeSelector.SyncActiveRectangle();
-
-            // If the new value is greater than the old max, move the max also
-            if (newValue > rangeSelector.RangeMax)
-            {
-                rangeSelector.RangeMax = newValue;
-            }
-
-            rangeSelector.SyncThumbs();
-        }
-
-        private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var rangeSelector = d as RangeSelector;
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._maxSet = true;
-
-            var newValue = (double)e.NewValue;
-            rangeSelector.RangeMaxToStepFrequency();
-
-            if (newValue < rangeSelector.Minimum)
-            {
-                rangeSelector.RangeMax = rangeSelector.Minimum;
-            }
-            else if (newValue > rangeSelector.Maximum)
-            {
-                rangeSelector.RangeMax = rangeSelector.Maximum;
-            }
-
-            rangeSelector.SyncActiveRectangle();
-
-            // If the new max is less than the old minimum then move the minimum
-            if (newValue < rangeSelector.RangeMin)
-            {
-                rangeSelector.RangeMin = newValue;
-            }
-
-            rangeSelector.SyncThumbs();
         }
     }
 }
