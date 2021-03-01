@@ -3,11 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.Foundation;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -21,29 +17,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event EventHandler<RangeChangedEventArgs> ValueChanged;
 
-        /// <summary>
-        /// Event raised when lower or upper range thumbs start being dragged.
-        /// </summary>
-        public event DragStartedEventHandler ThumbDragStarted;
-
-        /// <summary>
-        /// Event raised when lower or upper range thumbs end being dragged.
-        /// </summary>
-        public event DragCompletedEventHandler ThumbDragCompleted;
-
         private void OnValueChanged(RangeChangedEventArgs e)
         {
             ValueChanged?.Invoke(this, e);
-        }
-
-        private void OnThumbDragStarted(DragStartedEventArgs e)
-        {
-            ThumbDragStarted?.Invoke(this, e);
-        }
-
-        private void OnThumbDragCompleted(DragCompletedEventArgs e)
-        {
-            ThumbDragCompleted?.Invoke(this, e);
         }
     }
 }
