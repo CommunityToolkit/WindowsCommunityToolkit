@@ -127,6 +127,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForBoundsChange(Bound.Maximum, d, e);
 
+        private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForRangeBoundsChange(Bound.Minimum, d, e);
+
+        private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForRangeBoundsChange(Bound.Maximum, d, e);
+
         private static void AdjustForBoundsChange(Bound changedBound, DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var rangeSelector = d as RangeSelector;
@@ -182,10 +186,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 rangeSelector.SyncThumbs();
             }
         }
-
-        private static void RangeMinChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForRangeBoundsChange(Bound.Minimum, d, e);
-
-        private static void RangeMaxChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) => AdjustForRangeBoundsChange(Bound.Maximum, d, e);
 
         private static void AdjustForRangeBoundsChange(Bound changedBound, DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
