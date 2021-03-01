@@ -5,9 +5,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:enums="using:Microsoft.Toolkit.Uwp.SampleApp.Enums"
     mc:Ignorable="d">
 
   <StackPanel Padding="16">
+    <!-- Basic Sample -->
     <ComboBox x:Name="Lookup" Header="Look up reservation" SelectedIndex="0"
               Margin="0,0,0,8">
       <x:String>Select an option</x:String>
@@ -15,14 +17,16 @@
       <x:String>E-ticket number</x:String>
       <x:String>Mileage Plan number</x:String>
     </ComboBox>
+    <!-- SwitchPresenter binds to a value -->
     <controls:SwitchPresenter Value="{Binding SelectedItem, ElementName=Lookup}">
+      <!-- And then only dynamically displays the Case with matching Value -->
       <controls:Case Value="Confirmation Code">
         <StackPanel>
           <TextBox Name="ConfirmationCodeValidator"
                    ui:TextBoxExtensions.Regex="^[a-zA-Z]{6}$"
                    Header="Confirmation code"
                    PlaceholderText="6 letters" />
-          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid),ElementName=ConfirmationCodeValidator}">Thanks for entering a valid code!</TextBlock>
+          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid), ElementName=ConfirmationCodeValidator}">Thanks for entering a valid code!</TextBlock>
         </StackPanel>
       </controls:Case>
       <controls:Case Value="E-ticket number">
@@ -31,7 +35,7 @@
                    ui:TextBoxExtensions.Regex="(^\d{10}$)|(^\d{13}$)"
                    Header="E-ticket number"
                    PlaceholderText="10 or 13 numbers" />
-          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid),ElementName=TicketValidator}">Thanks for entering a valid code!</TextBlock>
+          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid), ElementName=TicketValidator}">Thanks for entering a valid code!</TextBlock>
         </StackPanel>
       </controls:Case>
       <controls:Case Value="Mileage Plan number">
@@ -41,6 +45,24 @@
       </controls:Case>
       <controls:Case IsDefault="True">
         <TextBlock>Please select a way to lookup your reservation above...</TextBlock>
+      </controls:Case>
+    </controls:SwitchPresenter>
+    
+    <!-- Advanced scenario using Type information -->
+    <ComboBox x:Name="AnimalPicker"
+              Header="Pick an Animal"
+              ItemsSource="{ui:EnumValues Type=enums:Animal}"
+              SelectedIndex="0"/>
+    <controls:SwitchPresenter Value="{Binding SelectedItem, ElementName=AnimalPicker}"
+                              TargetType="enums:Animal">
+      <controls:Case Value="Cat">
+        <TextBlock>🐈</TextBlock>
+      </controls:Case>
+      <controls:Case Value="Dog">
+        <TextBlock>🐕</TextBlock>
+      </controls:Case>
+      <controls:Case Value="Bunny">
+        <TextBlock>🐇</TextBlock>
       </controls:Case>
     </controls:SwitchPresenter>
   </StackPanel>
