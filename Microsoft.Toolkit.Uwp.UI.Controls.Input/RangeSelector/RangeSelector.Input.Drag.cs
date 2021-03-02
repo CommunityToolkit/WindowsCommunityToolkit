@@ -15,6 +15,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RangeSelector : Control
     {
+        private double DragWidth
+            => _containerCanvas.ActualWidth - _maxThumb.ActualWidth;
+
         /// <summary>
         /// Event raised when lower or upper range thumbs start being dragged.
         /// </summary>
@@ -51,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _absolutePosition += e.HorizontalChange;
 
-            RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), _absolutePosition);
+            RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth, _absolutePosition);
 
             if (_toolTipText != null)
             {
@@ -71,10 +74,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Thumb_DragStarted(_maxThumb);
         }
 
-        private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void MinThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             OnThumbDragCompleted(e);
-            OnValueChanged(sender.Equals(_minThumb) ? new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue) : new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
+            OnValueChanged(new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue));
             SyncThumbs();
 
             if (_toolTip != null)
@@ -85,9 +88,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, "Normal", true);
         }
 
-        private double DragWidth()
+        private void MaxThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            return _containerCanvas.ActualWidth - _maxThumb.Width;
+            OnThumbDragCompleted(e);
+            OnValueChanged(new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
+            SyncThumbs();
+
+            if (_toolTip != null)
+            {
+                _toolTip.Visibility = Visibility.Collapsed;
+            }
+
+            VisualStateManager.GoToState(this, "Normal", true);
         }
 
         private double DragThumb(Thumb thumb, double min, double max, double nextPos)
@@ -106,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
             }
 
-            return Minimum + ((nextPos / DragWidth()) * (Maximum - Minimum));
+            return Minimum + ((nextPos / DragWidth) * (Maximum - Minimum));
         }
 
         private void Thumb_DragStarted(Thumb thumb)

@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_minThumb is Thumb oldMinThumb)
             {
-                oldMinThumb.DragCompleted -= Thumb_DragCompleted;
+                oldMinThumb.DragCompleted -= MinThumb_DragCompleted;
                 oldMinThumb.DragDelta -= MinThumb_DragDelta;
                 oldMinThumb.DragStarted -= MinThumb_DragStarted;
                 oldMinThumb.KeyDown -= MinThumb_KeyDown;
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_maxThumb is Thumb oldMaxThumb)
             {
-                oldMaxThumb.DragCompleted -= Thumb_DragCompleted;
+                oldMaxThumb.DragCompleted -= MaxThumb_DragCompleted;
                 oldMaxThumb.DragDelta -= MaxThumb_DragDelta;
                 oldMaxThumb.DragStarted -= MaxThumb_DragStarted;
                 oldMaxThumb.KeyDown -= MaxThumb_KeyDown;
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_minThumb != null)
             {
-                _minThumb.DragCompleted += Thumb_DragCompleted;
+                _minThumb.DragCompleted += MinThumb_DragCompleted;
                 _minThumb.DragDelta += MinThumb_DragDelta;
                 _minThumb.DragStarted += MinThumb_DragStarted;
                 _minThumb.KeyDown += MinThumb_KeyDown;
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_maxThumb != null)
             {
-                _maxThumb.DragCompleted += Thumb_DragCompleted;
+                _maxThumb.DragCompleted += MaxThumb_DragCompleted;
                 _maxThumb.DragDelta += MaxThumb_DragDelta;
                 _maxThumb.DragStarted += MaxThumb_DragStarted;
                 _maxThumb.KeyDown += MaxThumb_KeyDown;
@@ -203,8 +203,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var relativeLeft = ((RangeMin - Minimum) / (Maximum - Minimum)) * DragWidth();
-            var relativeRight = ((RangeMax - Minimum) / (Maximum - Minimum)) * DragWidth();
+            var relativeLeft = ((RangeMin - Minimum) / (Maximum - Minimum)) * DragWidth;
+            var relativeRight = ((RangeMax - Minimum) / (Maximum - Minimum)) * DragWidth;
 
             Canvas.SetLeft(_minThumb, relativeLeft);
             Canvas.SetLeft(_maxThumb, relativeRight);
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 DragThumb(
                     fromMinKeyDown ? _minThumb : _maxThumb,
                     fromMinKeyDown ? 0 : Canvas.GetLeft(_minThumb),
-                    fromMinKeyDown ? Canvas.GetLeft(_maxThumb) : DragWidth(),
+                    fromMinKeyDown ? Canvas.GetLeft(_maxThumb) : DragWidth,
                     fromMinKeyDown ? relativeLeft : relativeRight);
                 if (_toolTipText != null)
                 {

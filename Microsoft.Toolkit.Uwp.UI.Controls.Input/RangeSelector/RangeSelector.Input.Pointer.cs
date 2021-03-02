@@ -14,6 +14,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RangeSelector : Control
     {
+        private double GetPosition(PointerRoutedEventArgs e)
+            => e.GetCurrentPoint(_containerCanvas).Position.X;
+
+        private double GetNormlizedPosition(double position)
+            => ((position / DragWidth) * (Maximum - Minimum)) + Minimum;
+
         private void ContainerCanvas_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "PointerOver", false);
@@ -21,20 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ContainerCanvas_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
-
             if (_pointerManipulatingMin)
             {
                 _pointerManipulatingMin = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMin, GetNormlizedPosition(GetPosition(e)), RangeSelectorProperty.MinimumValue));
             }
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMax, GetNormlizedPosition(GetPosition(e)), RangeSelectorProperty.MaximumValue));
             }
 
             if (_toolTip != null)
@@ -47,20 +50,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ContainerCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
-
             if (_pointerManipulatingMin)
             {
                 _pointerManipulatingMin = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMin, GetNormlizedPosition(GetPosition(e)), RangeSelectorProperty.MinimumValue));
             }
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeMax, GetNormlizedPosition(GetPosition(e)), RangeSelectorProperty.MaximumValue));
             }
 
             SyncThumbs();
@@ -73,8 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
+            var position = GetPosition(e);
+            var normalizedPosition = GetNormlizedPosition(position);
 
             if (_pointerManipulatingMin && normalizedPosition < RangeMax)
             {
@@ -83,15 +83,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (_pointerManipulatingMax && normalizedPosition > RangeMin)
             {
-                RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), position);
+                RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth, position);
                 _toolTipText.Text = FormatForToolTip(RangeMax);
             }
         }
 
         private void ContainerCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            var position = e.GetCurrentPoint(_containerCanvas).Position.X;
-            var normalizedPosition = position * Math.Abs(Maximum - Minimum) / DragWidth();
+            var position = GetPosition(e);
+            var normalizedPosition = position * Math.Abs(Maximum - Minimum) / DragWidth;
+
             double upperValueDiff = Math.Abs(RangeMax - normalizedPosition);
             double lowerValueDiff = Math.Abs(RangeMin - normalizedPosition);
 
