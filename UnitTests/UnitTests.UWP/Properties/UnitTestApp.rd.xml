@@ -37,5 +37,7 @@
     <Type Name="Microsoft.Toolkit.Uwp.UI.SymbolIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
     <Type Name="Microsoft.Toolkit.Uwp.UI.EnumValuesExtension" Dynamic="Required All" Serialize="Required All"/>
 
+    <Type Name="System.Collections.Generic.IList{Windows.UI.Xaml.Automation.Peers.AutomationPeer}" MarshalObject="Required All"/>
+
   </Application>
 </Directives>
