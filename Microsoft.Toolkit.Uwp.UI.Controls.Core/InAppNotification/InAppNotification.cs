@@ -248,8 +248,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _contentProvider.Content = element;
                     break;
                 case DataTemplate dataTemplate:
-                    _contentProvider.Content = null;
-                    _contentProvider.ContentTemplate = dataTemplate;
+                    // Without this check, the dataTemplate will fail to render.
+                    // Why? Setting the ContentTemplate causes the control to re-evaluate it's Content value.
+                    // When we set the ContentTemplate to the same instance of itself, we aren't actually changing the value.
+                    // This means that the Content value won't be re-evaluated and stay null, causing the render to fail.
+                    if (_contentProvider.ContentTemplate != dataTemplate)
+                    {
+                        _contentProvider.ContentTemplate = dataTemplate;
+                        _contentProvider.Content = null;
+                    }
+
                     break;
                 case object content:
                     _contentProvider.ContentTemplate = ContentTemplate;

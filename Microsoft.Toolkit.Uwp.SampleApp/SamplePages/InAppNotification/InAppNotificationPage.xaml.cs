@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private InAppNotification _exampleInAppNotification;
         private InAppNotification _exampleCustomInAppNotification;
         private InAppNotification _exampleVSCodeInAppNotification;
-        private DataTemplate _inAppNotificationWithButtonsTemplate;
         private ResourceDictionary _resources;
 
         public bool IsRootGridActualWidthLargerThan700 { get; set; }
@@ -43,13 +42,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (notificationDurationTextBox != null)
             {
                 notificationDurationTextBox.TextChanged += NotificationDurationTextBox_TextChanged;
-            }
-
-            object inAppNotificationWithButtonsTemplateResource = null;
-            bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplateResource);
-            if (isTemplatePresent == true && inAppNotificationWithButtonsTemplateResource is DataTemplate inAppNotificationWithButtonsTemplate)
-            {
-                _inAppNotificationWithButtonsTemplate = inAppNotificationWithButtonsTemplate;
             }
         }
 
@@ -133,8 +125,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _exampleVSCodeInAppNotification.Dismiss(true);
                 _exampleInAppNotification.Dismiss(true);
 
-                var templateContent = _inAppNotificationWithButtonsTemplate.LoadContent();
-                _exampleCustomInAppNotification.Show(templateContent, NotificationDuration);
+                object inAppNotificationWithButtonsTemplateResource = null;
+                bool? isTemplatePresent = _resources?.TryGetValue("InAppNotificationWithButtonsTemplate", out inAppNotificationWithButtonsTemplateResource);
+                if (isTemplatePresent == true && inAppNotificationWithButtonsTemplateResource is DataTemplate inAppNotificationWithButtonsTemplate)
+                {
+                    _exampleCustomInAppNotification.Show(inAppNotificationWithButtonsTemplate, NotificationDuration);
+                }
             });
 
             SampleController.Current.RegisterNewCommand("Show notification with Visual Studio Code template (info notification)", (sender, args) =>
