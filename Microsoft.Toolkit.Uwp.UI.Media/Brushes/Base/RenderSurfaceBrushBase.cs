@@ -1,5 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
+﻿using Microsoft.Toolkit.Uwp.UI.Media.Surface;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -14,6 +14,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// The initialization <see cref="AsyncMutex"/> instance.
         /// </summary>
         private readonly AsyncMutex connectedMutex = new AsyncMutex();
+
+        /// <summary>
+        /// Gets the associated CompositionBrush
+        /// </summary>
+        internal CompositionBrush Brush
+        {
+            get
+            {
+                return CompositionBrush;
+            }
+        }
 
         /// <summary>
         /// SurfaceWidth Dependency Property
@@ -123,6 +134,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     Generator = null;
                 }
 
+                // Dispose Brush resources
+                OnSurfaceBrushDisposed();
+
                 // Dispose of composition resources when no longer in use.
                 if (CompositionBrush != null)
                 {
@@ -150,6 +164,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         protected virtual void OnSurfaceBrushUpdated()
         {
+        }
+
+        /// <summary>
+        /// Invoked whenever any brush property is updated.
+        /// </summary>
+        protected virtual void OnSurfaceBrushDisposed()
+        {
+        }
+
+        /// <summary>
+        /// Redraws the brush content
+        /// </summary>
+        public void Refresh()
+        {
+            OnSurfaceBrushUpdated();
         }
     }
 }
