@@ -230,25 +230,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ItemContainer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-            if (panel != null)
+            if ((sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
                 AnimationBuilder.Create().Opacity(0, duration: TimeSpan.FromMilliseconds(1200)).Start(panel);
-                AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start((UIElement)panel.Parent);
+
+                if (panel.Parent is UIElement parent)
+                {
+                    AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start(parent);
+                }
             }
         }
 
         private void ItemContainer_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse &&
+                (sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
-                var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-                if (panel != null)
-                {
-                    panel.Visibility = Visibility.Visible;
+                panel.Visibility = Visibility.Visible;
 
-                    AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
-                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start((UIElement)panel.Parent);
+                AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
+
+                if (panel.Parent is UIElement parent)
+                {
+                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start(parent);
                 }
             }
         }
