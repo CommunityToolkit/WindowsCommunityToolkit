@@ -278,7 +278,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Handle the display of the notification based on the current StackMode
         /// </summary>
         /// <param name="notificationOptions">Information about the notification to display</param>
-        private async void Show(NotificationOptions notificationOptions)
+        private void Show(NotificationOptions notificationOptions)
         {
             var eventArgs = new InAppNotificationOpeningEventArgs();
             Opening?.Invoke(this, eventArgs);
