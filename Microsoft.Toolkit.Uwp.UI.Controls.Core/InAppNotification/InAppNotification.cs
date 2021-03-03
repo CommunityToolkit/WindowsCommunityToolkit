@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -20,12 +21,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = ContentPresenterPart, Type = typeof(ContentPresenter))]
     public partial class InAppNotification : ContentControl
     {
-        private InAppNotificationDismissKind _lastDismissKind;
-        private DispatcherTimer _dismissTimer = new DispatcherTimer();
-        private Button _dismissButton;
-        private VisualStateGroup _visualStateGroup;
         private ContentPresenter _contentProvider;
-        private List<NotificationOptions> _stackedNotificationOptions = new List<NotificationOptions>();
+        private DispatcherQueueTimer _dismissTimer;
+        private Button _dismissButton;
+        private DispatcherQueue _dispatcherQueue;
+        private InAppNotificationDismissKind _lastDismissKind;
+        private List<NotificationOptions> _stackedNotificationOptions;
+        private VisualStateGroup _visualStateGroup;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InAppNotification"/> class.
@@ -34,7 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(InAppNotification);
 
+            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            _dismissTimer = _dispatcherQueue.CreateTimer();
             _dismissTimer.Tick += DismissTimer_Tick;
+
+            _stackedNotificationOptions = new List<NotificationOptions>();
         }
 
         /// <inheritdoc />
@@ -274,52 +280,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="notificationOptions">Information about the notification to display</param>
         private async void Show(NotificationOptions notificationOptions)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            var eventArgs = new InAppNotificationOpeningEventArgs();
+            Opening?.Invoke(this, eventArgs);
+
+            if (eventArgs.Cancel)
             {
-                var eventArgs = new InAppNotificationOpeningEventArgs();
-                Opening?.Invoke(this, eventArgs);
+                return;
+            }
 
-                if (eventArgs.Cancel)
+            var shouldDisplayImmediately = true;
+            switch (StackMode)
+            {
+                case StackMode.Replace:
+                    _stackedNotificationOptions.Clear();
+                    _stackedNotificationOptions.Add(notificationOptions);
+                    break;
+                case StackMode.StackInFront:
+                    _stackedNotificationOptions.Insert(0, notificationOptions);
+                    break;
+                case StackMode.QueueBehind:
+                    _stackedNotificationOptions.Add(notificationOptions);
+                    shouldDisplayImmediately = _stackedNotificationOptions.Count == 1;
+                    break;
+                default:
+                    break;
+            }
+
+            if (shouldDisplayImmediately)
+            {
+                Visibility = Visibility.Visible;
+                VisualStateManager.GoToState(this, StateContentVisible, true);
+
+                UpdateContent(notificationOptions);
+
+                if (notificationOptions.Duration > 0)
                 {
-                    return;
+                    _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
+                    _dismissTimer.Start();
                 }
-
-                var shouldDisplayImmediately = true;
-                switch (StackMode)
+                else
                 {
-                    case StackMode.Replace:
-                        _stackedNotificationOptions.Clear();
-                        _stackedNotificationOptions.Add(notificationOptions);
-                        break;
-                    case StackMode.StackInFront:
-                        _stackedNotificationOptions.Insert(0, notificationOptions);
-                        break;
-                    case StackMode.QueueBehind:
-                        _stackedNotificationOptions.Add(notificationOptions);
-                        shouldDisplayImmediately = _stackedNotificationOptions.Count == 1;
-                        break;
-                    default:
-                        break;
+                    _dismissTimer.Stop();
                 }
-
-                if (shouldDisplayImmediately)
-                {
-                    Visibility = Visibility.Visible;
-                    VisualStateManager.GoToState(this, StateContentVisible, true);
-
-                    UpdateContent(notificationOptions);
-
-                    if (notificationOptions.Duration > 0)
-                    {
-                        _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
-                        _dismissTimer.Start();
-                    }
-                    else
-                    {
-                        _dismissTimer.Stop();
-                    }
-                }
-            });
+            }
         }
     }
 }
