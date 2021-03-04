@@ -68,6 +68,9 @@
       <controls:Case Value="Bunny">
         <TextBlock FontSize="32">🐇</TextBlock>
       </controls:Case>
+      <controls:Case Value="Llama">
+        <TextBlock FontSize="32">🦙</TextBlock>
+      </controls:Case>
       <controls:Case Value="Parrot">
         <TextBlock FontSize="32">🦜</TextBlock>
       </controls:Case>
