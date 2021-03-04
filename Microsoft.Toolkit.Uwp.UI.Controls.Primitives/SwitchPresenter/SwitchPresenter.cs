@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Indicates the <see cref="SwitchCases"/> property.
         /// </summary>
         public static readonly DependencyProperty SwitchCasesProperty =
-            DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null, new PropertyChangedCallback(OnSwitchCasesPropertyChanged)));
+            DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value indicating the value to compare all cases against. When this value is bound to and changes, the presenter will automatically evaluate cases and select the new appropriate content from the switch.
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Indicates the <see cref="Value"/> property.
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(SwitchPresenter), new PropertyMetadata(null, new PropertyChangedCallback(OnValuePropertyChanged)));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(SwitchPresenter), new PropertyMetadata(null, OnValuePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating which type to first cast and compare provided values against.
@@ -78,40 +78,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty TargetTypeProperty =
             DependencyProperty.Register(nameof(TargetType), typeof(Type), typeof(SwitchPresenter), new PropertyMetadata(null));
 
-        private static void OnSwitchCasesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.OldValue != null)
-            {
-                ((SwitchPresenter)e.OldValue).SwitchCases.CaseCollectionChanged -= OnCaseValuePropertyChanged;
-            }
-
-            var xswitch = (SwitchPresenter)d;
-
-            foreach (var xcase in xswitch.SwitchCases)
-            {
-                // Set our parent
-                xcase.Parent = xswitch;
-            }
-
-            // Will trigger on collection change and case value changed
-            xswitch.SwitchCases.Parent = xswitch;
-            xswitch.SwitchCases.CaseCollectionChanged += OnCaseValuePropertyChanged;
-        }
-
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // When our Switch's expression changes, re-evaluate.
             var xswitch = (SwitchPresenter)d;
 
             xswitch.EvaluateCases();
-        }
-
-        private static void OnCaseValuePropertyChanged(object sender, EventArgs e)
-        {
-            // When something about our collection of cases changes, re-evaluate.
-            var collection = (CaseCollection)sender;
-
-            collection.Parent.EvaluateCases();
         }
 
         /// <summary>
@@ -144,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Case xdefault = null;
             Case newcase = null;
 
-            foreach (var xcase in SwitchCases)
+            foreach (Case xcase in SwitchCases)
             {
                 if (xcase.IsDefault)
                 {
