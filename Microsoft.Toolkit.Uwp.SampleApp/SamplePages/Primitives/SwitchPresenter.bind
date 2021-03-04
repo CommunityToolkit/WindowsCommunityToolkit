@@ -19,7 +19,7 @@
     </ComboBox>
     <!-- SwitchPresenter binds to a value -->
     <controls:SwitchPresenter Value="{Binding SelectedItem, ElementName=Lookup}">
-      <!-- And then only dynamically displays the Case with matching Value -->
+      <!-- And then only dynamically displays the Case with the matching Value -->
       <controls:Case Value="Confirmation Code">
         <StackPanel>
           <TextBox Name="ConfirmationCodeValidator"
@@ -43,26 +43,36 @@
                  Header="Mileage Plan #"
                  PlaceholderText="Mileage Plan #" />
       </controls:Case>
+      <!-- You can also provide a default case if no match is found -->
       <controls:Case IsDefault="True">
         <TextBlock>Please select a way to lookup your reservation above...</TextBlock>
       </controls:Case>
     </controls:SwitchPresenter>
-    
-    <!-- Advanced scenario using Type information -->
+
+    <Border Height="2" Background="Gray" Margin="0,16"/>
+
+    <!-- Scenario using an Enum -->
     <ComboBox x:Name="AnimalPicker"
               Header="Pick an Animal"
               ItemsSource="{ui:EnumValues Type=enums:Animal}"
               SelectedIndex="0"/>
     <controls:SwitchPresenter Value="{Binding SelectedItem, ElementName=AnimalPicker}"
-                              TargetType="enums:Animal">
+                              TargetType="enums:Animal"
+                              Padding="16">
       <controls:Case Value="Cat">
-        <TextBlock>🐈</TextBlock>
+        <TextBlock FontSize="32">🐈</TextBlock>
       </controls:Case>
       <controls:Case Value="Dog">
-        <TextBlock>🐕</TextBlock>
+        <TextBlock FontSize="32">🐕</TextBlock>
       </controls:Case>
       <controls:Case Value="Bunny">
-        <TextBlock>🐇</TextBlock>
+        <TextBlock FontSize="32">🐇</TextBlock>
+      </controls:Case>
+      <controls:Case Value="Parrot">
+        <TextBlock FontSize="32">🦜</TextBlock>
+      </controls:Case>
+      <controls:Case Value="Squirrel">
+        <TextBlock FontSize="32">🐿</TextBlock>
       </controls:Case>
     </controls:SwitchPresenter>
   </StackPanel>
