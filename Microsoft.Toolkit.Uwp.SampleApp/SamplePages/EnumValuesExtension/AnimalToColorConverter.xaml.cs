@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
                 Animal.Cat => Colors.Coral,
                 Animal.Dog => Colors.Gray,
                 Animal.Bunny => Colors.Green,
+                Animal.Llama => Colors.Beige,
                 Animal.Parrot => Colors.YellowGreen,
                 Animal.Squirrel => Colors.SaddleBrown,
                 _ => throw new ArgumentException("Invalid value", nameof(value))

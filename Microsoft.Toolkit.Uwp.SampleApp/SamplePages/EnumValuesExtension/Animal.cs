@@ -9,6 +9,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Enums
         Cat,
         Dog,
         Bunny,
+        Llama,
         Parrot,
         Squirrel
     }
