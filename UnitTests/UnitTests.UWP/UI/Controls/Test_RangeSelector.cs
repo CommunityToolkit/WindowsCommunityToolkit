@@ -21,6 +21,9 @@ namespace UnitTests.UWP.UI.Controls
         [DataRow(-100, -90, 90, 100)]
         [DataRow(-100, -90, -10, 0)]
         [DataRow(0, 0.2, 0.4, 1)]
+        [DataRow(0, 50, 50, 100)]
+        [DataRow(0, 0, 0, 100)]
+        [DataRow(0, 100, 100, 100)]
         [DataRow(0, 0, 0, 0)]
         [DataRow(1, 1, 1, 1)]
         [DataRow(-1, -1, -1, -1)]
@@ -72,6 +75,19 @@ namespace UnitTests.UWP.UI.Controls
                 await SetTestContentAsync(rangeSelector);
 
                 Assert.AreEqual(new TestRecord(min, rangeMin, max, max), new TestRecord(rangeSelector));
+            });
+        }
+
+        [DataRow(0, 10, 90, 100)]
+        public async Task Test_(double min, double rangeMin, double rangeMax, double max)
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var rangeSelector = MakeRangeSelector(min, rangeMin, rangeMax, max);
+
+                await SetTestContentAsync(rangeSelector);
+
+                Assert.AreEqual(new TestRecord(min, rangeMin, rangeMax, max), new TestRecord(rangeSelector));
             });
         }
 
