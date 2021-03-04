@@ -617,6 +617,8 @@
     <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
+    <Content Include="SamplePages\Animations\Activities\InvokeActionsActivityCode.bind" />
+    <Content Include="SamplePages\Animations\Activities\StartAnimationActivityCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
