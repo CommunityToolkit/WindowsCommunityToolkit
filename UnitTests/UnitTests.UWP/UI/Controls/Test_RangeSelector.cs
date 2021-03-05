@@ -24,9 +24,6 @@ namespace UnitTests.UWP.UI.Controls
         [DataRow(0, 50, 50, 100)]
         [DataRow(0, 0, 0, 100)]
         [DataRow(0, 100, 100, 100)]
-        [DataRow(0, 0, 0, 0)]
-        [DataRow(1, 1, 1, 1)]
-        [DataRow(-1, -1, -1, -1)]
         public async Task Test_ValuesStayTheSame(double min, double rangeMin, double rangeMax, double max)
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
