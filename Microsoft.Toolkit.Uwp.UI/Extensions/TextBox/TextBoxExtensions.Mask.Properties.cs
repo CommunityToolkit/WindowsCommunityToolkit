@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Represents the mask place holder which represents the variable character that the user can edit in the textbox
         /// </summary>
-        public static readonly DependencyProperty PlaceHolderProperty = DependencyProperty.RegisterAttached("PlaceHolder", typeof(string), typeof(TextBoxExtensions), new PropertyMetadata(DefaultPlaceHolder, InitTextBoxMask));
+        public static readonly DependencyProperty MaskPlaceholderCharacterProperty = DependencyProperty.RegisterAttached("MaskPlaceholderCharacter", typeof(string), typeof(TextBoxExtensions), new PropertyMetadata(DefaultPlaceHolder, InitTextBoxMask));
 
         /// <summary>
         /// Represents the custom mask that the user can create to add his own variable characters based on regex expression
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>placeholder value</returns>
         public static string GetPlaceHolder(TextBox obj)
         {
-            return (string)obj.GetValue(PlaceHolderProperty);
+            return (string)obj.GetValue(MaskPlaceholderCharacterProperty);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="value">placeholder Value</param>
         public static void SetPlaceHolder(TextBox obj, string value)
         {
-            obj.SetValue(PlaceHolderProperty, value);
+            obj.SetValue(MaskPlaceholderCharacterProperty, value);
         }
 
         /// <summary>
