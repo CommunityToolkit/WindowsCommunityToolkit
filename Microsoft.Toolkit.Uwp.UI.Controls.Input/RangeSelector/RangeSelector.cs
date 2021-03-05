@@ -35,7 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DefaultStepFrequency = 1;
         private static readonly TimeSpan TimeToHideToolTipOnKeyUp = TimeSpan.FromSeconds(1);
 
-
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
         private Thumb _maxThumb;
@@ -48,6 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _absolutePosition;
         private Grid _toolTip;
         private TextBlock _toolTipText;
+
+        private static string FormatForToolTip(double newValue)
+    => string.Format("{0:0.##}", newValue);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RangeSelector"/> class.
@@ -192,9 +194,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RangeMin = RangeMax;
             }
         }
-
-        private static string FormatForToolTip(double newValue)
-            => string.Format("{0:0.##}", newValue);
 
         private void SyncThumbs(bool fromMinKeyDown = false, bool fromMaxKeyDown = false)
         {
