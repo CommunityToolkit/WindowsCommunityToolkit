@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">TextBox control</param>
         /// <returns>placeholder value</returns>
-        public static string GetPlaceHolder(TextBox obj)
+        public static string GetMaskPlaceholderCharacter(TextBox obj)
         {
             return (string)obj.GetValue(MaskPlaceholderCharacterProperty);
         }
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">TextBox Control</param>
         /// <param name="value">placeholder Value</param>
-        public static void SetPlaceHolder(TextBox obj, string value)
+        public static void SetMaskPlaceholderCharacter(TextBox obj, string value)
         {
             obj.SetValue(MaskPlaceholderCharacterProperty, value);
         }
