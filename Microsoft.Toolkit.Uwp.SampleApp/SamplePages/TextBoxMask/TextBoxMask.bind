@@ -41,7 +41,7 @@
 
                 <TextBox Grid.Row="1"
                          ui:TextBoxExtensions.Mask="+1999-9999"
-                         ui:TextBoxExtensions.MaskPlaceholderCharacter=" "
+                         ui:TextBoxExtensions.MaskPlaceholder=" "
                          Header="Text box with Mask +1999-9999 and placeHolder as space (placeholder represents the characters the user can change on runtime)"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" />
