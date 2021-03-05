@@ -179,6 +179,23 @@ namespace Microsoft.Toolkit.Uwp.UI
                     goto Start;
                 }
             }
+            else if (element is ContentPresenter contentPresenter)
+            {
+                // Sometimes ContentPresenters are used in control templates instead of ContentControls
+                // Therefore we should still check if it's Content is a FrameworkElement and match.
+                // This also makes this work for SwitchPresenter.
+                if (contentPresenter.Content is T result && predicate.Match(result))
+                {
+                    return result;
+                }
+
+                if (contentPresenter.Content is FrameworkElement content)
+                {
+                    element = content;
+
+                    goto Start;
+                }
+            }
             else if (element is UserControl userControl)
             {
                 // We put UserControl right before the slower reflection fallback path as
@@ -366,6 +383,17 @@ namespace Microsoft.Toolkit.Uwp.UI
                     yield return child;
 
                     element = child;
+
+                    goto Start;
+                }
+            }
+            else if (element is ContentPresenter contentPresenter)
+            {
+                if (contentPresenter.Content is FrameworkElement content)
+                {
+                    yield return content;
+
+                    element = content;
 
                     goto Start;
                 }
