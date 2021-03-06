@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class RangeSelector : Control
     {
         /// <summary>
-        /// Identifies the Minimum dependency property.
+        /// Identifies the <see cref="Minimum"/> property.
         /// </summary>
         public static readonly DependencyProperty MinimumProperty =
             DependencyProperty.Register(
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(DefaultMinimum, MinimumChangedCallback));
 
         /// <summary>
-        /// Identifies the Maximum dependency property.
+        /// Identifies the <see cref="Maximum"/> property.
         /// </summary>
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register(
@@ -34,27 +34,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(DefaultMaximum, MaximumChangedCallback));
 
         /// <summary>
-        /// Identifies the RangeMin dependency property.
+        /// Identifies the <see cref="RangeStart"/> property.
         /// </summary>
-        public static readonly DependencyProperty RangeMinProperty =
+        public static readonly DependencyProperty RangeStartProperty =
             DependencyProperty.Register(
-                nameof(RangeMin),
+                nameof(RangeStart),
                 typeof(double),
                 typeof(RangeSelector),
                 new PropertyMetadata(DefaultMinimum, RangeMinChangedCallback));
 
         /// <summary>
-        /// Identifies the RangeMax dependency property.
+        /// Identifies the <see cref="RangeEnd"/> property.
         /// </summary>
-        public static readonly DependencyProperty RangeMaxProperty =
+        public static readonly DependencyProperty RangeEndProperty =
             DependencyProperty.Register(
-                nameof(RangeMax),
+                nameof(RangeEnd),
                 typeof(double),
                 typeof(RangeSelector),
                 new PropertyMetadata(DefaultMaximum, RangeMaxChangedCallback));
 
         /// <summary>
-        /// Identifies the StepFrequency dependency property.
+        /// Identifies the <see cref="StepFrequency"/> property.
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty =
             DependencyProperty.Register(
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(DefaultStepFrequency));
 
         /// <summary>
-        /// Gets or sets the minimum value of the range.
+        /// Gets or sets the absolute minimum value of the range.
         /// </summary>
         /// <value>
         /// The minimum.
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the maximum value of the range.
+        /// Gets or sets the absolute maximum value of the range.
         /// </summary>
         /// <value>
         /// The maximum.
@@ -88,27 +88,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the current lower limit value of the range.
+        /// Gets or sets the current selected lower limit value of the range, modifiable by the user.
         /// </summary>
         /// <value>
         /// The current lower limit.
         /// </value>
-        public double RangeMin
+        public double RangeStart
         {
-            get => (double)GetValue(RangeMinProperty);
-            set => SetValue(RangeMinProperty, value);
+            get => (double)GetValue(RangeStartProperty);
+            set => SetValue(RangeStartProperty, value);
         }
 
         /// <summary>
-        /// Gets or sets the current upper limit value of the range.
+        /// Gets or sets the current selected upper limit value of the range, modifiable by the user.
         /// </summary>
         /// <value>
         /// The current upper limit.
         /// </value>
-        public double RangeMax
+        public double RangeEnd
         {
-            get => (double)GetValue(RangeMaxProperty);
-            set => SetValue(RangeMaxProperty, value);
+            get => (double)GetValue(RangeEndProperty);
+            set => SetValue(RangeEndProperty, value);
         }
 
         /// <summary>
@@ -151,14 +151,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         rangeSelector.Maximum = newValue + Epsilon;
                     }
 
-                    if (rangeSelector.RangeMin < newValue)
+                    if (rangeSelector.RangeStart < newValue)
                     {
-                        rangeSelector.RangeMin = newValue;
+                        rangeSelector.RangeStart = newValue;
                     }
 
-                    if (rangeSelector.RangeMax < newValue)
+                    if (rangeSelector.RangeEnd < newValue)
                     {
-                        rangeSelector.RangeMax = newValue;
+                        rangeSelector.RangeEnd = newValue;
                     }
 
                     break;
@@ -168,14 +168,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         rangeSelector.Minimum = newValue - Epsilon;
                     }
 
-                    if (rangeSelector.RangeMax > newValue)
+                    if (rangeSelector.RangeEnd > newValue)
                     {
-                        rangeSelector.RangeMax = newValue;
+                        rangeSelector.RangeEnd = newValue;
                     }
 
-                    if (rangeSelector.RangeMin > newValue)
+                    if (rangeSelector.RangeStart > newValue)
                     {
-                        rangeSelector.RangeMin = newValue;
+                        rangeSelector.RangeStart = newValue;
                     }
 
                     break;
@@ -198,8 +198,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var newValue = (double)e.NewValue;
             var minimum = rangeSelector.Minimum;
             var maximum = rangeSelector.Maximum;
-            var rangeMin = rangeSelector.RangeMin;
-            var rangeMax = rangeSelector.RangeMax;
+            var rangeMin = rangeSelector.RangeStart;
+            var rangeMax = rangeSelector.RangeEnd;
             var stepFrequency = rangeSelector.StepFrequency;
 
             switch (changedBound)
@@ -207,46 +207,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Bound.Minimum:
                     rangeSelector._minSet = true;
 
-                    rangeSelector.RangeMin = minimum + DistanceFromBound(minimum, stepFrequency, rangeMin);
+                    rangeSelector.RangeStart = minimum + DistanceFromBound(minimum, stepFrequency, rangeMin);
 
                     if (newValue < rangeSelector.Minimum)
                     {
-                        rangeSelector.RangeMin = rangeSelector.Minimum;
+                        rangeSelector.RangeStart = rangeSelector.Minimum;
                     }
                     else if (newValue > rangeSelector.Maximum)
                     {
-                        rangeSelector.RangeMin = rangeSelector.Maximum;
+                        rangeSelector.RangeStart = rangeSelector.Maximum;
                     }
 
                     rangeSelector.SyncActiveRectangle();
 
                     // If the new value is greater than the old max, move the max also
-                    if (newValue > rangeSelector.RangeMax)
+                    if (newValue > rangeSelector.RangeEnd)
                     {
-                        rangeSelector.RangeMax = newValue;
+                        rangeSelector.RangeEnd = newValue;
                     }
 
                     break;
                 case Bound.Maximum:
                     rangeSelector._maxSet = true;
 
-                    rangeSelector.RangeMax = maximum - DistanceFromBound(maximum, stepFrequency, rangeMax);
+                    rangeSelector.RangeEnd = maximum - DistanceFromBound(maximum, stepFrequency, rangeMax);
 
                     if (newValue < rangeSelector.Minimum)
                     {
-                        rangeSelector.RangeMax = rangeSelector.Minimum;
+                        rangeSelector.RangeEnd = rangeSelector.Minimum;
                     }
                     else if (newValue > rangeSelector.Maximum)
                     {
-                        rangeSelector.RangeMax = rangeSelector.Maximum;
+                        rangeSelector.RangeEnd = rangeSelector.Maximum;
                     }
 
                     rangeSelector.SyncActiveRectangle();
 
                     // If the new max is less than the old minimum then move the minimum
-                    if (newValue < rangeSelector.RangeMin)
+                    if (newValue < rangeSelector.RangeStart)
                     {
-                        rangeSelector.RangeMin = newValue;
+                        rangeSelector.RangeStart = newValue;
                     }
 
                     break;

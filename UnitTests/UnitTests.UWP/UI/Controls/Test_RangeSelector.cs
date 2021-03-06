@@ -150,17 +150,17 @@ namespace UnitTests.UWP.UI.Controls
             selector.Maximum = 100;
             selector.StepFrequency = 5;
 
-            selector.RangeMin = 2;
-            Assert.AreEqual(selector.RangeMin, 0);
+            selector.RangeStart = 2;
+            Assert.AreEqual(selector.RangeStart, 0);
 
-            selector.RangeMin = 4;
-            Assert.AreEqual(selector.RangeMin, 5);
+            selector.RangeStart = 4;
+            Assert.AreEqual(selector.RangeStart, 5);
 
-            selector.RangeMin = 94;
-            Assert.AreEqual(selector.RangeMin, 95);
+            selector.RangeStart = 94;
+            Assert.AreEqual(selector.RangeStart, 95);
 
-            selector.RangeMin = 99;
-            Assert.AreEqual(selector.RangeMin, 100);
+            selector.RangeStart = 99;
+            Assert.AreEqual(selector.RangeStart, 100);
         }
 
         [UITestMethod]
@@ -172,20 +172,20 @@ namespace UnitTests.UWP.UI.Controls
             selector.Maximum = 100;
             selector.StepFrequency = 5;
 
-            selector.RangeMax = 99;
-            Assert.AreEqual(selector.RangeMax, 100);
+            selector.RangeEnd = 99;
+            Assert.AreEqual(selector.RangeEnd, 100);
 
-            selector.RangeMax = 94;
-            Assert.AreEqual(selector.RangeMax, 95);
+            selector.RangeEnd = 94;
+            Assert.AreEqual(selector.RangeEnd, 95);
 
-            selector.RangeMax = 6;
-            Assert.AreEqual(selector.RangeMax, 5);
+            selector.RangeEnd = 6;
+            Assert.AreEqual(selector.RangeEnd, 5);
 
-            selector.RangeMax = 4;
-            Assert.AreEqual(selector.RangeMax, 5);
+            selector.RangeEnd = 4;
+            Assert.AreEqual(selector.RangeEnd, 5);
 
-            selector.RangeMax = 1;
-            Assert.AreEqual(selector.RangeMax, 0);
+            selector.RangeEnd = 1;
+            Assert.AreEqual(selector.RangeEnd, 0);
         }
 
         [UITestMethod]
@@ -197,35 +197,35 @@ namespace UnitTests.UWP.UI.Controls
             selector.Maximum = 100;
             selector.StepFrequency = 30;
 
-            selector.RangeMin = 2;
-            Assert.AreEqual(selector.RangeMin, 0);
+            selector.RangeStart = 2;
+            Assert.AreEqual(selector.RangeStart, 0);
 
-            selector.RangeMin = 14;
-            Assert.AreEqual(selector.RangeMin, 0);
+            selector.RangeStart = 14;
+            Assert.AreEqual(selector.RangeStart, 0);
 
-            selector.RangeMin = 16;
-            Assert.AreEqual(selector.RangeMin, 30);
+            selector.RangeStart = 16;
+            Assert.AreEqual(selector.RangeStart, 30);
 
-            selector.RangeMin = 29;
-            Assert.AreEqual(selector.RangeMin, 30);
+            selector.RangeStart = 29;
+            Assert.AreEqual(selector.RangeStart, 30);
 
-            selector.RangeMin = 36;
-            Assert.AreEqual(selector.RangeMin, 30);
+            selector.RangeStart = 36;
+            Assert.AreEqual(selector.RangeStart, 30);
 
-            selector.RangeMin = 65;
-            Assert.AreEqual(selector.RangeMin, 60);
+            selector.RangeStart = 65;
+            Assert.AreEqual(selector.RangeStart, 60);
 
-            selector.RangeMin = 86;
-            Assert.AreEqual(selector.RangeMin, 90);
+            selector.RangeStart = 86;
+            Assert.AreEqual(selector.RangeStart, 90);
 
-            selector.RangeMin = 95;
-            Assert.AreEqual(selector.RangeMin, 90);
+            selector.RangeStart = 95;
+            Assert.AreEqual(selector.RangeStart, 90);
 
-            selector.RangeMin = 99;
-            Assert.AreEqual(selector.RangeMin, 90);
+            selector.RangeStart = 99;
+            Assert.AreEqual(selector.RangeStart, 90);
 
-            selector.RangeMin = 100;
-            Assert.AreEqual(selector.RangeMin, 90);
+            selector.RangeStart = 100;
+            Assert.AreEqual(selector.RangeStart, 90);
         }
 
         [UITestMethod]
@@ -237,35 +237,35 @@ namespace UnitTests.UWP.UI.Controls
             selector.Maximum = 100;
             selector.StepFrequency = 30;
 
-            selector.RangeMax = 99;
-            Assert.AreEqual(selector.RangeMax, 100);
+            selector.RangeEnd = 99;
+            Assert.AreEqual(selector.RangeEnd, 100);
 
-            selector.RangeMax = 94;
-            Assert.AreEqual(selector.RangeMax, 100);
+            selector.RangeEnd = 94;
+            Assert.AreEqual(selector.RangeEnd, 100);
 
-            selector.RangeMax = 78;
-            Assert.AreEqual(selector.RangeMax, 70);
+            selector.RangeEnd = 78;
+            Assert.AreEqual(selector.RangeEnd, 70);
 
-            selector.RangeMax = 65;
-            Assert.AreEqual(selector.RangeMax, 70);
+            selector.RangeEnd = 65;
+            Assert.AreEqual(selector.RangeEnd, 70);
 
-            selector.RangeMax = 50;
-            Assert.AreEqual(selector.RangeMax, 40);
+            selector.RangeEnd = 50;
+            Assert.AreEqual(selector.RangeEnd, 40);
 
-            selector.RangeMax = 38;
-            Assert.AreEqual(selector.RangeMax, 40);
+            selector.RangeEnd = 38;
+            Assert.AreEqual(selector.RangeEnd, 40);
 
-            selector.RangeMax = 20;
-            Assert.AreEqual(selector.RangeMax, 10);
+            selector.RangeEnd = 20;
+            Assert.AreEqual(selector.RangeEnd, 10);
 
-            selector.RangeMax = 8;
-            Assert.AreEqual(selector.RangeMax, 10);
+            selector.RangeEnd = 8;
+            Assert.AreEqual(selector.RangeEnd, 10);
 
-            selector.RangeMax = 1;
-            Assert.AreEqual(selector.RangeMax, 10);
+            selector.RangeEnd = 1;
+            Assert.AreEqual(selector.RangeEnd, 10);
 
-            selector.RangeMax = 0;
-            Assert.AreEqual(selector.RangeMax, 10);
+            selector.RangeEnd = 0;
+            Assert.AreEqual(selector.RangeEnd, 10);
         }
 
         private static double Distance(double fst, double snd)
@@ -276,8 +276,8 @@ namespace UnitTests.UWP.UI.Controls
              new RangeSelector
              {
                  Minimum = min,
-                 RangeMin = rangeMin,
-                 RangeMax = rangeMax,
+                 RangeStart = rangeMin,
+                 RangeEnd = rangeMax,
                  Maximum = max,
                  StepFrequency = sf
              }
@@ -285,8 +285,8 @@ namespace UnitTests.UWP.UI.Controls
              new RangeSelector
              {
                  Minimum = min,
-                 RangeMin = rangeMin,
-                 RangeMax = rangeMax,
+                 RangeStart = rangeMin,
+                 RangeEnd = rangeMax,
                  Maximum = max
              };
 
@@ -302,7 +302,7 @@ namespace UnitTests.UWP.UI.Controls
             }
 
             public TestRecord(RangeSelector rangeSelector) 
-                : this(rangeSelector.Minimum, rangeSelector.RangeMin, rangeSelector.RangeMax, rangeSelector.Maximum, rangeSelector.StepFrequency)
+                : this(rangeSelector.Minimum, rangeSelector.RangeStart, rangeSelector.RangeEnd, rangeSelector.Maximum, rangeSelector.StepFrequency)
             {
 
             }

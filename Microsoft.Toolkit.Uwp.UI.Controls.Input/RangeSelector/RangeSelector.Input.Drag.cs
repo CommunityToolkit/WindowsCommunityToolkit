@@ -22,11 +22,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _absolutePosition += e.HorizontalChange;
 
-            RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), _absolutePosition);
+            RangeStart = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), _absolutePosition);
 
             if (_toolTipText != null)
             {
-                _toolTipText.Text = FormatForToolTip(RangeMin);
+                _toolTipText.Text = FormatForToolTip(RangeStart);
             }
         }
 
@@ -34,11 +34,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _absolutePosition += e.HorizontalChange;
 
-            RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth, _absolutePosition);
+            RangeEnd = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth, _absolutePosition);
 
             if (_toolTipText != null)
             {
-                _toolTipText.Text = FormatForToolTip(RangeMax);
+                _toolTipText.Text = FormatForToolTip(RangeEnd);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MinThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             OnThumbDragCompleted(e);
-            OnValueChanged(new RangeChangedEventArgs(_oldValue, RangeMin, RangeSelectorProperty.MinimumValue));
+            OnValueChanged(new RangeChangedEventArgs(_oldValue, RangeStart, RangeSelectorProperty.MinimumValue));
             SyncThumbs();
 
             if (_toolTip != null)
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MaxThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             OnThumbDragCompleted(e);
-            OnValueChanged(new RangeChangedEventArgs(_oldValue, RangeMax, RangeSelectorProperty.MaximumValue));
+            OnValueChanged(new RangeChangedEventArgs(_oldValue, RangeEnd, RangeSelectorProperty.MaximumValue));
             SyncThumbs();
 
             if (_toolTip != null)
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _absolutePosition = Canvas.GetLeft(thumb);
             Canvas.SetZIndex(thumb, 10);
             Canvas.SetZIndex(otherThumb, 0);
-            _oldValue = RangeMin;
+            _oldValue = RangeStart;
 
             if (_toolTipText != null && _toolTip != null)
             {
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var ttWidth = _toolTip.ActualWidth / 2;
                 Canvas.SetLeft(_toolTip, thumbCenter - ttWidth);
 
-                _toolTipText.Text = FormatForToolTip(useMin ? RangeMin : RangeMax);
+                _toolTipText.Text = FormatForToolTip(useMin ? RangeStart : RangeEnd);
             }
 
             VisualStateManager.GoToState(this, useMin ? "MinPressed" : "MaxPressed", true);
