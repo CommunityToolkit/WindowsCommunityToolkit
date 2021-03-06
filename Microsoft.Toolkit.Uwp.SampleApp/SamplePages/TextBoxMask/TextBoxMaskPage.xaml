@@ -11,10 +11,10 @@
         <TextBox ui:TextBoxExtensions.Mask="9a9a--a9a*"/>
 
         <TextBox ui:TextBoxExtensions.Mask="+1999-9999"
-                 ui:TextBoxExtensions.PlaceHolder=" " />
+                 ui:TextBoxExtensions.MaskPlaceholder=" " />
 
         <TextBox ui:TextBoxExtensions.Mask="+\964 799 999 9999"
-                 ui:TextBoxExtensions.PlaceHolder=" " />
+                 ui:TextBoxExtensions.MaskPlaceholder=" " />
 
         <TextBox ui:TextBoxExtensions.CustomMask="5:[1-5],c:[a-c]"
                  ui:TextBoxExtensions.Mask="a5c-5c*9" />
