@@ -164,37 +164,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!_maxSet)
             {
-                RangeMax = Maximum;
+                RangeEnd = Maximum;
             }
 
             if (!_minSet)
             {
-                RangeMin = Minimum;
+                RangeStart = Minimum;
             }
 
-            if (RangeMin < Minimum)
+            if (RangeStart < Minimum)
             {
-                RangeMin = Minimum;
+                RangeStart = Minimum;
             }
 
-            if (RangeMax < Minimum)
+            if (RangeEnd < Minimum)
             {
-                RangeMax = Minimum;
+                RangeEnd = Minimum;
             }
 
-            if (RangeMin > Maximum)
+            if (RangeStart > Maximum)
             {
-                RangeMin = Maximum;
+                RangeStart = Maximum;
             }
 
-            if (RangeMax > Maximum)
+            if (RangeEnd > Maximum)
             {
-                RangeMax = Maximum;
+                RangeEnd = Maximum;
             }
 
-            if (RangeMax < RangeMin)
+            if (RangeEnd < RangeStart)
             {
-                RangeMin = RangeMax;
+                RangeStart = RangeEnd;
             }
         }
 
@@ -208,12 +208,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RangeMinToStepFrequency()
         {
-            RangeMin = MoveToStepFrequency(RangeMin);
+            RangeStart = MoveToStepFrequency(RangeStart);
         }
 
         private void RangeMaxToStepFrequency()
         {
-            RangeMax = MoveToStepFrequency(RangeMax);
+            RangeEnd = MoveToStepFrequency(RangeEnd);
         }
 
         private double MoveToStepFrequency(double rangeValue)
@@ -241,8 +241,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var relativeLeft = ((RangeMin - Minimum) / (Maximum - Minimum)) * DragWidth();
-            var relativeRight = ((RangeMax - Minimum) / (Maximum - Minimum)) * DragWidth();
+            var relativeLeft = ((RangeStart - Minimum) / (Maximum - Minimum)) * DragWidth();
+            var relativeRight = ((RangeEnd - Minimum) / (Maximum - Minimum)) * DragWidth();
 
             Canvas.SetLeft(_minThumb, relativeLeft);
             Canvas.SetLeft(_maxThumb, relativeRight);
@@ -256,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     fromMinKeyDown ? relativeLeft : relativeRight);
                 if (_toolTipText != null)
                 {
-                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeMin : RangeMax);
+                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeStart : RangeEnd);
                 }
             }
 

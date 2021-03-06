@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMin -= StepFrequency;
+                    RangeStart -= StepFrequency;
                     SyncThumbs(fromMinKeyDown: true);
                     if (_toolTip != null)
                     {
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMin += StepFrequency;
+                    RangeStart += StepFrequency;
                     SyncThumbs(fromMinKeyDown: true);
                     if (_toolTip != null)
                     {
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Key)
             {
                 case VirtualKey.Left:
-                    RangeMax -= StepFrequency;
+                    RangeEnd -= StepFrequency;
                     SyncThumbs(fromMaxKeyDown: true);
                     if (_toolTip != null)
                     {
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
-                    RangeMax += StepFrequency;
+                    RangeEnd += StepFrequency;
                     SyncThumbs(fromMaxKeyDown: true);
                     if (_toolTip != null)
                     {

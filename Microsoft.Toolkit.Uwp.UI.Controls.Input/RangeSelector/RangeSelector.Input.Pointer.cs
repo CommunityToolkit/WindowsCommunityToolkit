@@ -33,13 +33,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _pointerManipulatingMin = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeStart, normalizedPosition, RangeSelectorProperty.MinimumValue));
             }
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeEnd, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
 
             if (_toolTip != null)
@@ -59,13 +59,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _pointerManipulatingMin = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMin, normalizedPosition, RangeSelectorProperty.MinimumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeStart, normalizedPosition, RangeSelectorProperty.MinimumValue));
             }
             else if (_pointerManipulatingMax)
             {
                 _pointerManipulatingMax = false;
                 _containerCanvas.IsHitTestVisible = true;
-                OnValueChanged(new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
+                OnValueChanged(new RangeChangedEventArgs(RangeEnd, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
 
             SyncThumbs();
@@ -81,15 +81,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var position = e.GetCurrentPoint(_containerCanvas).Position.X;
             var normalizedPosition = ((position / DragWidth()) * (Maximum - Minimum)) + Minimum;
 
-            if (_pointerManipulatingMin && normalizedPosition < RangeMax)
+            if (_pointerManipulatingMin && normalizedPosition < RangeEnd)
             {
-                RangeMin = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), position);
-                UpdateToolTipText(this, _toolTipText, RangeMin);
+                RangeStart = DragThumb(_minThumb, 0, Canvas.GetLeft(_maxThumb), position);
+                UpdateToolTipText(this, _toolTipText, RangeStart);
             }
-            else if (_pointerManipulatingMax && normalizedPosition > RangeMin)
+            else if (_pointerManipulatingMax && normalizedPosition > RangeStart)
             {
-                RangeMax = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), position);
-                UpdateToolTipText(this, _toolTipText, RangeMax);
+                RangeEnd = DragThumb(_maxThumb, Canvas.GetLeft(_minThumb), DragWidth(), position);
+                UpdateToolTipText(this, _toolTipText, RangeEnd);
             }
         }
 
@@ -97,18 +97,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var position = e.GetCurrentPoint(_containerCanvas).Position.X;
             var normalizedPosition = position * Math.Abs(Maximum - Minimum) / DragWidth();
-            double upperValueDiff = Math.Abs(RangeMax - normalizedPosition);
-            double lowerValueDiff = Math.Abs(RangeMin - normalizedPosition);
+            double upperValueDiff = Math.Abs(RangeEnd - normalizedPosition);
+            double lowerValueDiff = Math.Abs(RangeStart - normalizedPosition);
 
             if (upperValueDiff < lowerValueDiff)
             {
-                RangeMax = normalizedPosition;
+                RangeEnd = normalizedPosition;
                 _pointerManipulatingMax = true;
                 Thumb_DragStarted(_maxThumb);
             }
             else
             {
-                RangeMin = normalizedPosition;
+                RangeStart = normalizedPosition;
                 _pointerManipulatingMin = true;
                 Thumb_DragStarted(_minThumb);
             }
