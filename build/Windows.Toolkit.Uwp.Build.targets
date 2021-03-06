@@ -1,0 +1,19 @@
+<Project>
+
+  <!-- 'TargetPlatform*Version' for uap10.0 where TPMV isn't implied -->
+  <PropertyGroup>
+    <TargetPlatformVersion>$(TargetPlatformBaseVersion).$(TargetPlatformRevision).0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
+    <DebugType Condition="'$(DebugType)' == ''">Portable</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=$(TargetPlatformVersion)" Condition="'$(UseWindowsDesktopSdk)' == 'true'">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=$(TargetPlatformVersion)" Condition="'$(UseWindowsMobileSdk)' == 'true'">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+
+</Project>

@@ -10,6 +10,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
+using DiagnosticsDebug = System.Diagnostics.Debug;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
     /// <summary>
@@ -79,8 +81,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             foreach (DataGridColumn column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
             {
                 DataGridCell cell = this.OwningRow.Cells[column.Index];
-                Debug.Assert(cell.OwningColumn == column, "Expected column owner.");
-                Debug.Assert(column.IsVisible, "Expected visible column.");
+                DiagnosticsDebug.Assert(cell.OwningColumn == column, "Expected column owner.");
+                DiagnosticsDebug.Assert(column.IsVisible, "Expected visible column.");
 
                 if (column.IsFrozen)
                 {
@@ -318,9 +320,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
         private bool ShouldDisplayCell(DataGridColumn column, double frozenLeftEdge, double scrollingLeftEdge)
         {
-            Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
-            Debug.Assert(this.OwningGrid.HorizontalAdjustment >= 0, "Expected owning positive DataGrid.HorizontalAdjustment.");
-            Debug.Assert(this.OwningGrid.HorizontalAdjustment <= this.OwningGrid.HorizontalOffset, "Expected owning DataGrid.HorizontalAdjustment smaller than or equal to DataGrid.HorizontalOffset.");
+            DiagnosticsDebug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
+            DiagnosticsDebug.Assert(this.OwningGrid.HorizontalAdjustment >= 0, "Expected owning positive DataGrid.HorizontalAdjustment.");
+            DiagnosticsDebug.Assert(this.OwningGrid.HorizontalAdjustment <= this.OwningGrid.HorizontalOffset, "Expected owning DataGrid.HorizontalAdjustment smaller than or equal to DataGrid.HorizontalOffset.");
 
             if (column.Visibility != Visibility.Visible)
             {

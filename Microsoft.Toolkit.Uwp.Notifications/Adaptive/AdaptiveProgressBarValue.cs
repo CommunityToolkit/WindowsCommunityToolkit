@@ -12,6 +12,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     public sealed class AdaptiveProgressBarValue
     {
         /// <summary>
+        /// Gets or sets the property name to bind to.
+        /// </summary>
+        public string BindingName { get; set; }
+
+        /// <summary>
         /// Gets or sets the value (0-1) representing the percent complete.
         /// </summary>
         public double Value { get; set; }
@@ -33,6 +38,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             if (IsIndeterminate)
             {
                 return "indeterminate";
+            }
+
+            if (BindingName != null)
+            {
+                return "{" + BindingName + "}";
             }
 
             return Value.ToString();
@@ -67,6 +77,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return new AdaptiveProgressBarValue()
             {
                 Value = d
+            };
+        }
+
+        /// <summary>
+        /// Returns a progress bar value using the specified binding name.
+        /// </summary>
+        /// <param name="bindingName">The property to bind to.</param>
+        /// <returns>A progress bar value.</returns>
+        public static AdaptiveProgressBarValue FromBinding(string bindingName)
+        {
+            return new AdaptiveProgressBarValue()
+            {
+                BindingName = bindingName
             };
         }
     }

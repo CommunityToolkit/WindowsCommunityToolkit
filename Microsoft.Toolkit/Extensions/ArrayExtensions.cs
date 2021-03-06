@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Microsoft.Toolkit.Extensions
+namespace Microsoft.Toolkit
 {
     /// <summary>
     /// Helpers for working with arrays.
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="rectarray">The source array.</param>
         /// <param name="column">Column record to retrieve, 0-based index.</param>
         /// <returns>Yielded enumerable of column elements for given column, and default values for smaller inner arrays.</returns>
-        public static IEnumerable<T> GetColumn<T>(this T[][] rectarray, int column)
+        public static IEnumerable<T?> GetColumn<T>(this T?[][] rectarray, int column)
         {
             if (column < 0 || column >= rectarray.Max(array => array.Length))
             {
@@ -49,10 +49,10 @@ namespace Microsoft.Toolkit.Extensions
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="array">The source array.</param>
         /// <returns>The <see cref="string"/> representation of the array.</returns>
-        public static string ToArrayString<T>(this T[] array)
+        public static string ToArrayString<T>(this T?[] array)
         {
             // The returned string will be in the following format:
-            // [1, 2,  3]
+            // [1, 2, 3]
             StringBuilder builder = new StringBuilder();
 
             builder.Append('[');
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Extensions
                     builder.Append(",\t");
                 }
 
-                builder.Append(array[i].ToString());
+                builder.Append(array[i]?.ToString());
             }
 
             builder.Append(']');
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="mdarray">The source array.</param>
         /// <returns>String representation of the array.</returns>
-        public static string ToArrayString<T>(this T[][] mdarray)
+        public static string ToArrayString<T>(this T?[][] mdarray)
         {
             // The returned string uses the same format as the overload for 2D arrays
             StringBuilder builder = new StringBuilder();
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Extensions
 
                 builder.Append('[');
 
-                T[] row = mdarray[i];
+                T?[] row = mdarray[i];
 
                 for (int j = 0; j < row.Length; j++)
                 {
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Extensions
                         builder.Append(",\t");
                     }
 
-                    builder.Append(row[j].ToString());
+                    builder.Append(row[j]?.ToString());
                 }
 
                 builder.Append(']');
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="array">The source array.</param>
         /// <returns>The <see cref="string"/> representation of the array.</returns>
-        public static string ToArrayString<T>(this T[,] array)
+        public static string ToArrayString<T>(this T?[,] array)
         {
             // The returned string will be in the following format:
             // [[1, 2,  3],
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Extensions
                         builder.Append(",\t");
                     }
 
-                    builder.Append(array[i, j].ToString());
+                    builder.Append(array[i, j]?.ToString());
                 }
 
                 builder.Append(']');

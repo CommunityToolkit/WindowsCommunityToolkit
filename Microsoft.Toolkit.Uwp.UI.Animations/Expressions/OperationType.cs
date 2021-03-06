@@ -15,9 +15,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         Function,
 
         /// <summary>
-        /// The operator
+        /// The operator (takes two operands)
         /// </summary>
         Operator,
+
+        /// <summary>
+        /// The operator that only takes one operand
+        /// </summary>
+        UnaryOperator,
 
         /// <summary>
         /// The constant

@@ -11,6 +11,7 @@ namespace UITests.Tests
     // TAEF has a different terms for the same concepts as compared with MSTest.
     // In order to allow both to use the same test files, we'll define these helper classes
     // to translate TAEF into MSTest.
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:File name should match first type name", Justification = "Shim helpers")]
     public static class Log
     {
         public static void Comment(string format, params object[] args)
@@ -20,12 +21,12 @@ namespace UITests.Tests
 
         public static void Warning(string format, params object[] args)
         {
-            LogMessage(format, args);
+            LogMessage("[Warning] " + format, args);
         }
 
         public static void Error(string format, params object[] args)
         {
-            LogMessage(format, args);
+            LogMessage("[Error] " + format, args);
         }
 
         private static void LogMessage(string format, object[] args)
@@ -41,6 +42,7 @@ namespace UITests.Tests
         }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Shim helpers.")]
     public static class LogController
     {
         public static void InitializeLogging()
@@ -49,6 +51,7 @@ namespace UITests.Tests
         }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Shim helpers.")]
     public static class Verify
     {
         // TODO: implement

@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)TestAssertHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestMail.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestToastArguments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestToastContentBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestWeather.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Adaptive_Xml.cs" />

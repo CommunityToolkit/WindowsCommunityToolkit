@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current" DefaultTargets="Build">
+
+  <PropertyGroup>
+    <BuildPlatforms>x86</BuildPlatforms>
+    <BuildConfigurations>Release</BuildConfigurations>
+    <ToolkitPackages>
+      UWPBaseline;
+      UWPBaselineWinUI;
+      Microsoft.Toolkit;
+      Microsoft.Toolkit.Diagnostics;
+      Microsoft.Toolkit.HighPerformance;
+      Microsoft.Toolkit.Mvvm;
+      Microsoft.Toolkit.Uwp;
+      Microsoft.Toolkit.Uwp.Connectivity;
+      Microsoft.Toolkit.Uwp.DeveloperTools;
+      Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+      Microsoft.Toolkit.Uwp.Notifications;
+      Microsoft.Toolkit.Uwp.UI;
+      Microsoft.Toolkit.Uwp.UI.Animations;
+      Microsoft.Toolkit.Uwp.UI.Behaviors;
+      Microsoft.Toolkit.Uwp.UI.Controls;
+      Microsoft.Toolkit.Uwp.UI.Controls.Core;
+      Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;
+      Microsoft.Toolkit.Uwp.UI.Controls.Layout;
+      Microsoft.Toolkit.Uwp.UI.Controls.Input;
+      Microsoft.Toolkit.Uwp.UI.Controls.Markdown;
+      Microsoft.Toolkit.Uwp.UI.Controls.Media;
+      Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
+      Microsoft.Toolkit.Uwp.UI.Media;
+    </ToolkitPackages>
+  </PropertyGroup>
+
+  <Target Name="GetNuGetVersion">
+    <Exec Command="powershell -Command &quot;&amp; { .\&quot;$(ProjectDir)..\build\tools\Nerdbank.GitVersioning\tools\Get-Version.ps1\&quot; | Select -ExpandProperty NuGetPackageVersion }&quot;"
+          ConsoleToMSBuild="true"
+          EchoOff="true"
+          Condition="'$(NuGetPackageVersion)' == ''">
+      <Output TaskParameter="ConsoleOutput" PropertyName="NuGetPackageVersion" />
+    </Exec>
+    <Message Text="Got GitBank Version... $(NuGetPackageVersion)" Importance="High" />
+  </Target>
+
+  <Target Name="Build" 
+          DependsOnTargets="ChooseProjectsToBuild;GetNuGetVersion"
+          Inputs="@(ProjectsToBuild)"
+          Outputs="%(Filename)">
+
+    <Message Importance="High" Text="Building project %(ProjectsToBuild.Identity): (%(ProjectsToBuild.Configuration)|%(ProjectsToBuild.Platform))" />
+
+    <MSBuild Projects="SmokeTest.csproj"
+              Targets="restore;build"
+              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)"/>
+  </Target>
+
+  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNugets">
+    <ItemGroup>
+      <BuildPlatform Include="$(BuildPlatforms)" />
+      <BuildConfiguration Include="$(BuildConfigurations)" />
+      <ToolkitPackage Include="$(ToolkitPackages)" />
+
+      <ToolkitProject Include="@(ToolkitPackage)">
+        <Platforms>x86;x64;ARM;ARM64</Platforms>
+        <BinDir>bin</BinDir>
+        <AssemblyName>%(ToolkitPackage.Identity)</AssemblyName>
+      </ToolkitProject>
+
+      <CandidateProjects Include="@(ToolkitProject);@(AnyCPUProject)">
+        <Platform>%(BuildPlatform.Identity)</Platform>
+      </CandidateProjects>
+
+      <FilteredProjects Include="@(CandidateProjects)" Condition="$([System.String]::new('%(CandidateProjects.Platforms)').Contains('%(CandidateProjects.Platform)'))" />
+
+      <ProjectsPerConfig Include="@(FilteredProjects)">
+        <Configuration>%(BuildConfiguration.Identity)</Configuration>
+      </ProjectsPerConfig>
+
+      <ProjectsToBuild Include="@(ProjectsPerConfig)">
+        <AdditionalProperties>Platform=%(ProjectsPerConfig.Platform);Configuration=%(ProjectsPerConfig.Configuration)</AdditionalProperties>
+      </ProjectsToBuild>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="CheckNugets">
+    <PropertyGroup>
+      <ToolkitNugets>../bin/nupkg/*.nupkg</ToolkitNugets>
+    </PropertyGroup>
+    <ItemGroup>
+      <ToolkitNugets Include="$(ToolkitNugets)" />
+    </ItemGroup>
+    <Error Condition="'@(ToolkitNugets)' == ''" Text="Directory '$(ToolkitNugets)' is empty"/>
+  </Target>
+
+</Project>

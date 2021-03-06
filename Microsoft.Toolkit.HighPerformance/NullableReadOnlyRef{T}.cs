@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Gets a value indicating whether or not the current <see cref="NullableReadOnlyRef{T}"/> instance wraps a valid reference that can be accessed.
         /// </summary>
-        public bool HasValue
+        public unsafe bool HasValue
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 // See comment in NullableRef<T> about this
                 byte length = unchecked((byte)this.span.Length);
 
-                return Unsafe.As<byte, bool>(ref length);
+                return *(bool*)&length;
             }
         }
 
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(Ref<T> reference)
         {
-            return new NullableReadOnlyRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(ReadOnlyRef<T> reference)
         {
-            return new NullableReadOnlyRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(NullableRef<T> reference)
         {
-            return new NullableReadOnlyRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>

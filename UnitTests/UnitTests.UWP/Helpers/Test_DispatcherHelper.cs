@@ -13,7 +13,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace UnitTests.Helpers
 {
-#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0612, CS0618 // Type or member is obsolete
     [TestClass]
     public class Test_DispatcherHelper
     {

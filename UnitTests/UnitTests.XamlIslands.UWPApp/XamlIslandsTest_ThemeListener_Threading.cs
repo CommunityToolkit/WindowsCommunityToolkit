@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
@@ -19,7 +19,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public Task Init()
         {
-            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            return App.Dispatcher.EnqueueAsync(() =>
             {
                 _taskCompletionSource = new TaskCompletionSource<object>();
 

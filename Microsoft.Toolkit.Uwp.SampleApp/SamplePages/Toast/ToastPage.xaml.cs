@@ -28,8 +28,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public static ToastContent GenerateToastContent()
         {
-            var builder = new ToastContentBuilder().SetToastScenario(ToastScenario.Reminder)
-                .AddToastActivationInfo("action=viewEvent&eventId=1983", ToastActivationType.Foreground)
+            var builder = new ToastContentBuilder()
+                .SetToastScenario(ToastScenario.Reminder)
+                .AddArgument("action", "viewEvent")
+                .AddArgument("eventId", 1983)
                 .AddText("Adaptive Tiles Meeting")
                 .AddText("Conf Room 2001 / Building 135")
                 .AddText("10:00 AM - 10:30 AM")
@@ -38,8 +40,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                                                  ("60", "1 hour"),
                                                  ("240", "4 hours"),
                                                  ("1440", "1 day"))
-                .AddButton(new ToastButtonSnooze() { SelectionBoxId = "snoozeTime" })
-                .AddButton(new ToastButtonDismiss());
+                .AddButton(new ToastButton()
+                    .SetSnoozeActivation("snoozeTime"))
+                .AddButton(new ToastButton()
+                    .SetDismissActivation());
 
             return builder.Content;
         }
@@ -54,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void PopToast()
         {
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
+            ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
         }
 
         private void Initialize()

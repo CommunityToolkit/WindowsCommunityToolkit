@@ -7,11 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -147,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     ShowSamplePicker(category.Samples, true);
 
                     // Then Focus on Picker
-                    DispatcherHelper.ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
+                    dispatcherQueue.EnqueueAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
             }
             else if (args.IsSettingsInvoked)
@@ -220,44 +219,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 var staggerDelay = TimeSpan.FromMilliseconds(relativeIndex * 30);
 
-                var animationCollection = new AnimationCollection()
-                {
-                    new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
-                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
-                };
-
                 VisualExtensions.SetNormalizedCenterPoint(itemContainer, "0.5");
 
-                animationCollection.StartAnimation(itemContainer);
+                AnimationBuilder.Create()
+                    .Opacity(from: 0, to: 1, delay: staggerDelay)
+                    .Scale(from: 0.9, to: 1, delay: staggerDelay)
+                    .Start(itemContainer);
             }
         }
 
         private void ItemContainer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-            if (panel != null)
+            if ((sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
-                var animation = new OpacityAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(1200) };
-                animation.StartAnimation(panel);
+                AnimationBuilder.Create().Opacity(0, duration: TimeSpan.FromMilliseconds(1200)).Start(panel);
 
-                var parentAnimation = new ScaleAnimation() { To = "1", Duration = TimeSpan.FromMilliseconds(1200) };
-                parentAnimation.StartAnimation(panel.Parent as UIElement);
+                if (panel.Parent is UIElement parent)
+                {
+                    AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start(parent);
+                }
             }
         }
 
         private void ItemContainer_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse &&
+                (sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
-                var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-                if (panel != null)
-                {
-                    panel.Visibility = Visibility.Visible;
-                    var animation = new OpacityAnimation() { To = 1, Duration = TimeSpan.FromMilliseconds(600) };
-                    animation.StartAnimation(panel);
+                panel.Visibility = Visibility.Visible;
 
-                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = TimeSpan.FromMilliseconds(600) };
-                    parentAnimation.StartAnimation(panel.Parent as UIElement);
+                AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
+
+                if (panel.Parent is UIElement parent)
+                {
+                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start(parent);
                 }
             }
         }

@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
@@ -16,27 +16,27 @@
               Background="Red"
               Canvas.Top="100"
               Canvas.Left="100"
-              extensions:VisualExtensions.CenterPoint="50,50,0">
+              ui:VisualExtensions.CenterPoint="50,50,0">
 
         <animations:Implicit.ShowAnimations>
-          <animations:TranslationAnimation Duration="0:0:1" From="0, -200, 0" To="0" ></animations:TranslationAnimation>
-          <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"></animations:OpacityAnimation>
+          <animations:TranslationAnimation Duration="0:0:1" From="0, -200, 0" To="0"/>
+          <animations:OpacityAnimation Duration="0:0:1" From="0" To="1.0"/>
         </animations:Implicit.ShowAnimations>
 
         <animations:Implicit.HideAnimations>
-          <animations:ScalarAnimation Target="Opacity" Duration="0:0:1" To="0.0"></animations:ScalarAnimation>
+          <animations:OpacityAnimation Duration="0:0:1" To="0.0"/>
           <animations:ScalarAnimation Target="Translation.Y" Duration="0:0:1" To="-200">
-            <animations:ScalarKeyFrame Key="0.1" Value="30"></animations:ScalarKeyFrame>
-            <animations:ScalarKeyFrame Key="0.5" Value="0.0"></animations:ScalarKeyFrame>
+            <animations:ScalarKeyFrame Key="0.1" Value="30"/>
+            <animations:ScalarKeyFrame Key="0.5" Value="0.0"/>
           </animations:ScalarAnimation>
         </animations:Implicit.HideAnimations>
 
         <animations:Implicit.Animations>
-          <animations:Vector3Animation Target="Offset"  Duration="0:0:1"></animations:Vector3Animation>
-          <animations:ScalarAnimation Target="RotationAngleInDegrees" ImplicitTarget="Offset"  Duration="0:0:1.2" From="0" To="0">
-            <animations:ScalarKeyFrame Key="0.9" Value="80"></animations:ScalarKeyFrame>
-          </animations:ScalarAnimation>
-          <animations:Vector3Animation Target="Scale" Duration="0:0:1"></animations:Vector3Animation>
+          <animations:OffsetAnimation Duration="0:0:1"/>
+          <animations:RotationInDegreesAnimation ImplicitTarget="Offset" Duration="0:0:1.2" From="0" To="0">
+            <animations:ScalarKeyFrame Key="0.9" Value="80"/>
+          </animations:RotationInDegreesAnimation>
+          <animations:ScaleAnimation Duration="0:0:1"/>
         </animations:Implicit.Animations>
 
       </Border>

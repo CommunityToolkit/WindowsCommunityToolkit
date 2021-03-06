@@ -4,7 +4,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml.Controls;
@@ -21,7 +21,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public async Task Init()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlItemsPanelTemplate = @"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
@@ -65,7 +65,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestCleanup]
         public async Task Cleanup()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 GazeInput.SetInteraction(_grid, Interaction.Disabled);
             });
@@ -76,7 +76,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [Ignore]
         public async Task Gaze_DoesNotCrashOnIslands()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 await Task.Delay(10000);
 

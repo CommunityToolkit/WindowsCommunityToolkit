@@ -1,10 +1,11 @@
-﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ScrollViewerExtensionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ScrollViewerExtensionsPage"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
@@ -14,47 +15,49 @@
 
     <Grid>
         <ListView Name="listView"
-              extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
+                  ui:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:StickyHeaderBehavior />
+            </interactivity:Interaction.Behaviors>
             <ListView.Header>
-                <controls:ScrollHeader Mode="Sticky">
-                    <Grid x:Name="MyHeaderGrid"
-                Background="{ThemeResource Brush-Sample-TransparentHeader}">
-                        <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                            <TextBlock Margin="12"
-                         FontSize="48"
-                         FontWeight="Bold"
-                         Foreground="{ThemeResource Brush-Main}"
-                         Text="Scroll Header"
-                         TextAlignment="Center"
-                         TextWrapping="WrapWholeWords" />
-                            <TextBlock Margin="12,0,12,12"
-                         VerticalAlignment="Center"
-                         Foreground="{ThemeResource Brush-Main}"
-                         Text="The attached property allows you to assign a Thickness to both vertical and horizontal ScrollBar inside any container. In this example, VerticalScrollBarMargin is bound to StickyHeader's MinHeight. Moving MinHeight's Slider will move the vertical ScrollBar accordingly."
-                         TextAlignment="Center"
-                         TextWrapping="WrapWholeWords" />
-                        </StackPanel>
-                    </Grid>
-                </controls:ScrollHeader>
+                <Grid x:Name="MyHeaderGrid"
+                      Background="{ThemeResource Brush-Sample-TransparentHeader}">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <TextBlock Margin="12"
+                                   FontSize="48"
+                                   FontWeight="Bold"
+                                   Foreground="{ThemeResource Brush-Main}"
+                                   Text="Scroll Header"
+                                   TextAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                        <TextBlock Margin="12,0,12,12"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource Brush-Main}"
+                                   Text="The attached property allows you to assign a Thickness to both vertical and horizontal ScrollBar inside any container. In this example, VerticalScrollBarMargin is bound to StickyHeader's MinHeight. Moving MinHeight's Slider will move the vertical ScrollBar accordingly."
+                                   TextAlignment="Center"
+                                   TextWrapping="WrapWholeWords" />
+                    </StackPanel>
+                </Grid>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid MinHeight="100" Background="Blue">
+                    <Grid MinHeight="100"
+                          Background="Blue">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image x:Name="ToolkitLogo"
-                   Grid.Column="0"
-                   Width="100"
-                   Height="100"
-                   Margin="0,0,24,0"
-                   Source="ms-appx:///Assets/ToolkitLogo.png" />
+                               Grid.Column="0"
+                               Width="100"
+                               Height="100"
+                               Margin="0,0,24,0"
+                               Source="ms-appx:///Assets/ToolkitLogo.png" />
                         <TextBlock Grid.Column="1"
-                       VerticalAlignment="Center"
-                       Text="{Binding Title}"
-                       TextTrimming="CharacterEllipsis" />
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Title}"
+                                   TextTrimming="CharacterEllipsis" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -66,45 +69,44 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <StackPanel x:Name="shapesPanel"
-                    HorizontalAlignment="Center"
                     Margin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
                     Padding="88"
+                    HorizontalAlignment="Center"
                     Spacing="32">
-            <Polygon Height="100"
-                     Width="100"
-                     Points="0,0 0,72 44,36"
-                     Stroke="DarkGreen"
+            <Polygon Width="100"
+                     Height="100"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
                      Fill="Green"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Center"/>
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Spacing="4"
+                     Points="0,0 0,72 44,36"
+                     Stroke="DarkGreen" />
+            <StackPanel Width="100"
                         Height="84"
-                        Width="100">
-                <Polygon Points="0,0 0,56 32,28"
-                         Stroke="Blue"
-                         Fill="DodgerBlue"/>
-                <Polygon Points="0,0 0,56 32,28"
-                         Stroke="Blue"
-                         Fill="DodgerBlue"/>
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                <Polygon Fill="DodgerBlue"
+                         Points="0,0 0,56 32,28"
+                         Stroke="Blue" />
+                <Polygon Fill="DodgerBlue"
+                         Points="0,0 0,56 32,28"
+                         Stroke="Blue" />
             </StackPanel>
-            <TextBlock
-                Height="100"
-                FontSize="24"
-                TextAlignment="Center">
-                <Run Text="Look at me, I'm floating between"/>
-                <LineBreak/>
-                <Run Text="two different ListView items!"/>
+            <TextBlock Height="100"
+                       FontSize="24"
+                       TextAlignment="Center">
+                <Run Text="Look at me, I'm floating between" />
+                <LineBreak />
+                <Run Text="two different ListView items!" />
             </TextBlock>
-            <Polygon Height="100"
-                     Width="100"
-                     Points="0,0 0,60 60,60 60,0"
-                     Stroke="DarkRed"
-                     Fill="Crimson"
+            <Polygon Width="100"
+                     Height="100"
+                     HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     HorizontalAlignment="Center"/>
+                     Fill="Crimson"
+                     Points="0,0 0,60 60,60 60,0"
+                     Stroke="DarkRed" />
         </StackPanel>
     </Grid>
 </Page>

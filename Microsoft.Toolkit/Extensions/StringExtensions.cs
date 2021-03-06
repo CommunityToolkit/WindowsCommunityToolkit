@@ -3,11 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Toolkit.Extensions
+namespace Microsoft.Toolkit
 {
     /// <summary>
     /// Helpers for working with strings and string representations.
@@ -38,17 +39,17 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Regular expression for removing comments from HTML.
         /// </summary>
-        private static readonly Regex RemoveHtmlCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
+        private static readonly Regex RemoveHtmlCommentsRegex = new("<!--.*?-->", RegexOptions.Singleline);
 
         /// <summary>
         /// Regular expression for removing scripts from HTML.
         /// </summary>
-        private static readonly Regex RemoveHtmlScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex RemoveHtmlScriptsRegex = new(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Regular expression for removing styles from HTML.
         /// </summary>
-        private static readonly Regex RemoveHtmlStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex RemoveHtmlStylesRegex = new(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Determines whether a string is a valid email address.
@@ -62,15 +63,20 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="str">The string to test.</param>
         /// <returns><c>true</c> for a valid decimal number; otherwise, <c>false</c>.</returns>
-        public static bool IsDecimal(this string str)
-            => decimal.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out _);
+        public static bool IsDecimal([NotNullWhen(true)] this string? str)
+        {
+            return decimal.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out _);
+        }
 
         /// <summary>
         /// Determines whether a string is a valid integer.
         /// </summary>
         /// <param name="str">The string to test.</param>
         /// <returns><c>true</c> for a valid integer; otherwise, <c>false</c>.</returns>
-        public static bool IsNumeric(this string str) => int.TryParse(str, out _);
+        public static bool IsNumeric([NotNullWhen(true)] this string? str)
+        {
+            return int.TryParse(str, out _);
+        }
 
         /// <summary>
         /// Determines whether a string is a valid phone number.
@@ -91,9 +97,10 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="htmlText">HTML string.</param>
         /// <returns>Decoded HTML string.</returns>
-        public static string DecodeHtml(this string htmlText)
+        [return: NotNullIfNotNull("htmlText")]
+        public static string? DecodeHtml(this string? htmlText)
         {
-            if (htmlText == null)
+            if (htmlText is null)
             {
                 return null;
             }
@@ -131,7 +138,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="value">The string to be truncated.</param>
         /// <param name="length">The maximum length.</param>
         /// <returns>Truncated string.</returns>
-        public static string Truncate(this string value, int length) => Truncate(value, length, false);
+        public static string Truncate(this string? value, int length) => Truncate(value, length, false);
 
         /// <summary>
         /// Provide better linking for resourced strings.
@@ -139,7 +146,17 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="format">The format of the string being linked.</param>
         /// <param name="args">The object which will receive the linked String.</param>
         /// <returns>Truncated string.</returns>
-        public static string AsFormat(this string format, params object[] args) => string.Format(format, args);
+        [Obsolete("This method will be removed in a future version of the Toolkit. Use the native C# string interpolation syntax instead, see: https://docs.microsoft.com/dotnet/csharp/language-reference/tokens/interpolated")]
+        public static string AsFormat(this string format, params object[] args)
+        {
+            // Note: this extension was originally added to help developers using {x:Bind} in XAML, but
+            // due to a known limitation in the UWP/WinUI XAML compiler, using either this method or the
+            // standard string.Format method from the BCL directly doesn't always work. Since this method
+            // doesn't actually provide any benefit over the built-in one, it has been marked as obsolete.
+            // For more details, see the WinUI issue on the XAML compiler limitation here:
+            // https://github.com/microsoft/microsoft-ui-xaml/issues/2654.
+            return string.Format(format, args);
+        }
 
         /// <summary>
         /// Truncates a string to the specified length.
@@ -148,11 +165,12 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="length">The maximum length.</param>
         /// <param name="ellipsis"><c>true</c> to add ellipsis to the truncated text; otherwise, <c>false</c>.</param>
         /// <returns>Truncated string.</returns>
-        public static string Truncate(this string value, int length, bool ellipsis)
+        public static string Truncate(this string? value, int length, bool ellipsis)
         {
             if (!string.IsNullOrEmpty(value))
             {
-                value = value.Trim();
+                value = value!.Trim();
+
                 if (value.Length > length)
                 {
                     if (ellipsis)

@@ -4,9 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
-using Microsoft.Toolkit.HighPerformance.Extensions;
-using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions
@@ -436,7 +435,7 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => array.GetColumn(0).ToArray());
         }
 
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
         [TestCategory("ArrayExtensions")]
         [TestMethod]
         public void Test_ArrayExtensions_2D_AsSpan_Empty()

@@ -2,12 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+
 #if USING_TAEF
+using WEX.Logging.Interop;
+using WEX.TestExecution;
 using WEX.TestExecution.Markup;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 namespace UITests.Tests
 {

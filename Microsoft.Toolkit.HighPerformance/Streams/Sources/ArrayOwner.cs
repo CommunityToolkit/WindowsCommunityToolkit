@@ -6,7 +6,6 @@ using System;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance.Streams
@@ -50,7 +49,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         public static ArrayOwner Empty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new ArrayOwner(Array.Empty<byte>(), 0, 0);
+            get => new(Array.Empty<byte>(), 0, 0);
         }
 
         /// <inheritdoc/>

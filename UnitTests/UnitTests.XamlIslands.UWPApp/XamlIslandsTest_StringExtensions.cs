@@ -2,13 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Globalization;
 using Windows.UI.Xaml;
@@ -22,7 +20,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task StringExtensions_GetViewLocalized()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
                 var str = StringExtensions.GetViewLocalized("abc", xamlRoot.UIContext);
@@ -33,7 +31,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task StringExtensions_GetLocalized()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
                 var str = "abc".GetLocalized(xamlRoot.UIContext);
@@ -44,7 +42,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public void StringExtensions_GetLocalizedWithResourcePath()
         {
-            var str = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            var str = "WCT_TextToolbar_OkLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources");
             Assert.AreEqual("Ok", str);
         }
 
@@ -55,7 +53,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Retrieve()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var treeRoot = XamlReader.Load(
 @"<Page
@@ -70,7 +68,7 @@ namespace UnitTests.XamlIslands.UWPApp
 
                 Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
 
-                var toolbar = treeRoot.FindChildByName("TextToolbarControl") as TextToolbar;
+                var toolbar = treeRoot.FindChild("TextToolbarControl") as TextToolbar;
 
                 Assert.IsNotNull(toolbar, "Could not find TextToolbar in tree.");
 
@@ -91,7 +89,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Override()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 var commonButtons = new CommonButtons(new TextToolbar());
                 var italicsButton = commonButtons.Italics;
@@ -109,7 +107,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task Test_TextToolbar_Localization_Override_Fr()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 // Just double-check we've got the right environment setup in our tests.
                 //// Note: This seems to fail on XAML Islands, but the rest of the test works fine...?

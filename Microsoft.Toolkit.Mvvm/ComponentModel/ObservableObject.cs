@@ -27,25 +27,39 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         public event PropertyChangingEventHandler? PropertyChanging;
 
         /// <summary>
-        /// Performs the required configuration when a property has changed, and then
-        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
-        /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <remarks>The base implementation only raises the <see cref="PropertyChanged"/> event.</remarks>
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        /// <param name="e">The input <see cref="PropertyChangedEventArgs"/> instance.</param>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, e);
         }
 
         /// <summary>
-        /// Performs the required configuration when a property is changing, and then
-        /// raises the <see cref="PropertyChanged"/> event to notify listeners of the update.
+        /// Raises the <see cref="PropertyChanging"/> event.
+        /// </summary>
+        /// <param name="e">The input <see cref="PropertyChangingEventArgs"/> instance.</param>
+        protected virtual void OnPropertyChanging(PropertyChangingEventArgs e)
+        {
+            PropertyChanging?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
-        /// <remarks>The base implementation only raises the <see cref="PropertyChanging"/> event.</remarks>
-        protected virtual void OnPropertyChanging([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanging"/> event.
+        /// </summary>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
+        protected void OnPropertyChanging([CallerMemberName] string? propertyName = null)
+        {
+            OnPropertyChanging(new PropertyChangingEventArgs(propertyName));
         }
 
         /// <summary>
@@ -326,7 +340,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // instance. This will result in no further allocations after the first time this method is called for a given
             // generic type. We only pay the cost of the virtual call to the delegate, but this is not performance critical
             // code and that overhead would still be much lower than the rest of the method anyway, so that's fine.
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier(), newValue, _ => { }, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
         }
 
         /// <summary>
@@ -348,7 +362,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier(), newValue, callback, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
         }
 
         /// <summary>
@@ -387,7 +401,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
         {
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier<T>(), newValue, _ => { }, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
         }
 
         /// <summary>
@@ -410,7 +424,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier<T>(), newValue, callback, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
         }
 
         /// <summary>

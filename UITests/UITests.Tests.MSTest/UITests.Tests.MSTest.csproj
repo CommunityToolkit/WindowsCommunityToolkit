@@ -13,9 +13,15 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
+
+    <IsTestHarness>true</IsTestHarness>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Condition="'$(TargetFramework)' == 'netcoreapp3.1'"
+                  Include="Microsoft.Windows.SDK.Contracts"
+                  Version="10.0.19041.0" />
+
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="MUXTestInfra.MSTest" Version="0.0.4" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
@@ -27,5 +33,5 @@
     <PackageReference Include="Microsoft.Windows.Apps.Test" Version="1.0.181205002" />
   </ItemGroup>
 
-  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" />
+  <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
 </Project>

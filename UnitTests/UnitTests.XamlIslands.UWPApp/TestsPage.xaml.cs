@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.System;
 using Windows.UI;
@@ -147,7 +147,7 @@ namespace UnitTests.XamlIslands.UWPApp
                     }
                     finally
                     {
-                        await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+                        await App.Dispatcher.EnqueueAsync(() =>
                         {
                             SetMainTestContent(null);
                         });
@@ -161,7 +161,7 @@ namespace UnitTests.XamlIslands.UWPApp
         private Task WriteLineAsync(string message, Color? color = null, bool deleteLastLine = false)
         {
             Debug.WriteLine(message);
-            return App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            return App.Dispatcher.EnqueueAsync(() =>
             {
                 if (deleteLastLine)
                 {

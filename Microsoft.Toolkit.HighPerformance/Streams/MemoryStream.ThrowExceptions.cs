@@ -13,19 +13,28 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     internal static partial class MemoryStream
     {
         /// <summary>
+        /// Gets a standard <see cref="NotSupportedException"/> instance for a stream.
+        /// </summary>
+        /// <returns>A <see cref="NotSupportedException"/> with the standard text.</returns>
+        public static Exception GetNotSupportedException()
+        {
+            return new NotSupportedException("The requested operation is not supported for this stream.");
+        }
+
+        /// <summary>
+        /// Throws a <see cref="NotSupportedException"/> when trying to perform a not supported operation.
+        /// </summary>
+        public static void ThrowNotSupportedException()
+        {
+            throw GetNotSupportedException();
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when trying to write too many bytes to the target stream.
         /// </summary>
         public static void ThrowArgumentExceptionForEndOfStreamOnWrite()
         {
             throw new ArgumentException("The current stream can't contain the requested input data.");
-        }
-
-        /// <summary>
-        /// Throws a <see cref="NotSupportedException"/> when trying to set the length of the stream.
-        /// </summary>
-        public static void ThrowNotSupportedExceptionForSetLength()
-        {
-            throw new NotSupportedException("Setting the length is not supported for this stream.");
         }
 
         /// <summary>
@@ -75,14 +84,6 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         private static void ThrowArgumentExceptionForLength()
         {
             throw new ArgumentException("The sum of offset and count can't be larger than the buffer length.", "buffer");
-        }
-
-        /// <summary>
-        /// Throws a <see cref="NotSupportedException"/> when trying to write on a readonly stream.
-        /// </summary>
-        private static void ThrowNotSupportedExceptionForCanWrite()
-        {
-            throw new NotSupportedException("The current stream doesn't support writing.");
         }
 
         /// <summary>

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Globalization;
 using System.Reflection;
 using Windows.UI;
 using Color = Windows.UI.Color;
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (string.IsNullOrEmpty(colorString))
             {
-                throw new ArgumentException(nameof(colorString));
+                ThrowArgumentException();
             }
 
             if (colorString[0] == '#')
@@ -80,8 +81,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                             return Color.FromArgb(255, r, g, b);
                         }
 
-                    default:
-                        throw new FormatException(string.Format("The {0} string passed in the colorString argument is not a recognized Color format.", colorString));
+                    default: return ThrowFormatException();
                 }
             }
 
@@ -91,24 +91,24 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 if (values.Length == 4)
                 {
-                    var scA = double.Parse(values[0].Substring(3));
-                    var scR = double.Parse(values[1]);
-                    var scG = double.Parse(values[2]);
-                    var scB = double.Parse(values[3]);
+                    var scA = double.Parse(values[0].Substring(3), CultureInfo.InvariantCulture);
+                    var scR = double.Parse(values[1], CultureInfo.InvariantCulture);
+                    var scG = double.Parse(values[2], CultureInfo.InvariantCulture);
+                    var scB = double.Parse(values[3], CultureInfo.InvariantCulture);
 
                     return Color.FromArgb((byte)(scA * 255), (byte)(scR * 255), (byte)(scG * 255), (byte)(scB * 255));
                 }
 
                 if (values.Length == 3)
                 {
-                    var scR = double.Parse(values[0].Substring(3));
-                    var scG = double.Parse(values[1]);
-                    var scB = double.Parse(values[2]);
+                    var scR = double.Parse(values[0].Substring(3), CultureInfo.InvariantCulture);
+                    var scG = double.Parse(values[1], CultureInfo.InvariantCulture);
+                    var scB = double.Parse(values[2], CultureInfo.InvariantCulture);
 
                     return Color.FromArgb(255, (byte)(scR * 255), (byte)(scG * 255), (byte)(scB * 255));
                 }
 
-                throw new FormatException(string.Format("The {0} string passed in the colorString argument is not a recognized Color format (sc#[scA,]scR,scG,scB).", colorString));
+                return ThrowFormatException();
             }
 
             var prop = typeof(Colors).GetTypeInfo().GetDeclaredProperty(colorString);
@@ -118,7 +118,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return (Color)prop.GetValue(null);
             }
 
-            throw new FormatException(string.Format("The {0} string passed in the colorString argument is not a recognized Color.", colorString));
+            return ThrowFormatException();
+
+            static void ThrowArgumentException() => throw new ArgumentException("The parameter \"colorString\" must not be null or empty.");
+            static Color ThrowFormatException() => throw new FormatException("The parameter \"colorString\" is not a recognized Color format.");
         }
 
         /// <summary>

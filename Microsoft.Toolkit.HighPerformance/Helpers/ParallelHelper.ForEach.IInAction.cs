@@ -143,12 +143,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                     end = Math.Min(high, this.memory.Length);
 
                 ref TItem r0 = ref MemoryMarshal.GetReference(this.memory.Span);
+                ref TItem rStart = ref Unsafe.Add(ref r0, low);
+                ref TItem rEnd = ref Unsafe.Add(ref r0, end);
 
-                for (int j = low; j < end; j++)
+                while (Unsafe.IsAddressLessThan(ref rStart, ref rEnd))
                 {
-                    ref TItem rj = ref Unsafe.Add(ref r0, (nint)(uint)j);
+                    Unsafe.AsRef(this.action).Invoke(in rStart);
 
-                    Unsafe.AsRef(this.action).Invoke(rj);
+                    rStart = ref Unsafe.Add(ref rStart, 1);
                 }
             }
         }

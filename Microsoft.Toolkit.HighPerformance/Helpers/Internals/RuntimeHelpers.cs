@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -13,15 +13,44 @@ using System.Diagnostics.Contracts;
 using System.Reflection;
 #endif
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 {
     /// <summary>
-    /// A helper class that act as polyfill for .NET Standard 2.0 and below.
+    /// A helper class that with utility methods for dealing with references, and other low-level details.
+    /// It also contains some APIs that act as polyfills for .NET Standard 2.0 and below.
     /// </summary>
     internal static class RuntimeHelpers
     {
+        /// <summary>
+        /// Converts a length of items from one size to another (rounding towards zero).
+        /// </summary>
+        /// <typeparam name="TFrom">The source type of items.</typeparam>
+        /// <typeparam name="TTo">The target type of items.</typeparam>
+        /// <param name="length">The input length to convert.</param>
+        /// <returns>The converted length for the specified argument and types.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe int ConvertLength<TFrom, TTo>(int length)
+            where TFrom : unmanaged
+            where TTo : unmanaged
+        {
+            if (sizeof(TFrom) == sizeof(TTo))
+            {
+                return length;
+            }
+            else if (sizeof(TFrom) == 1)
+            {
+                return (int)((uint)length / (uint)sizeof(TTo));
+            }
+            else
+            {
+                ulong targetLength = (ulong)(uint)length * (uint)sizeof(TFrom) / (uint)sizeof(TTo);
+
+                return checked((int)targetLength);
+            }
+        }
+
         /// <summary>
         /// Gets the length of a given array as a native integer.
         /// </summary>
@@ -122,7 +151,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 return (IntPtr)Unsafe.AsPointer(ref data);
             }
 
-            return obj.DangerousGetObjectDataByteOffset(ref data);
+            return ObjectMarshal.DangerousGetObjectDataByteOffset(obj, ref data);
         }
 
         /// <summary>
@@ -144,7 +173,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 return ref Unsafe.AsRef<T>((void*)offset);
             }
 
-            return ref obj.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(obj, offset);
         }
 
         /// <summary>
@@ -244,7 +273,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 var array = new T[1];
 
-                return array.DangerousGetObjectDataByteOffset(ref array[0]);
+                return ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array[0]);
             }
 
             /// <summary>
@@ -256,7 +285,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 var array = new T[1, 1];
 
-                return array.DangerousGetObjectDataByteOffset(ref array[0, 0]);
+                return ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array[0, 0]);
             }
 
             /// <summary>
@@ -268,7 +297,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 var array = new T[1, 1, 1];
 
-                return array.DangerousGetObjectDataByteOffset(ref array[0, 0, 0]);
+                return ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array[0, 0, 0]);
             }
         }
     }

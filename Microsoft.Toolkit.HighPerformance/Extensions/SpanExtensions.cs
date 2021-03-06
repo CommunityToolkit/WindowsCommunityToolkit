@@ -8,11 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Memory;
-#endif
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Span{T}"/> type.
@@ -88,7 +85,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this Span<T> span, int height, int width)
         {
-            return new Span2D<T>(span, height, width);
+            return new(span, height, width);
         }
 
         /// <summary>
@@ -111,20 +108,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this Span<T> span, int offset, int height, int width, int pitch)
         {
-            return new Span2D<T>(span, offset, height, width, pitch);
+            return new(span, offset, height, width, pitch);
         }
 #endif
 
         /// <summary>
         /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Span{T}"/> of bytes.
-        /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="T">The type if items in the source <see cref="Span{T}"/>.</typeparam>
         /// <param name="span">The source slice, of type <typeparamref name="T"/>.</param>
         /// <returns>A <see cref="Span{T}"/> of bytes.</returns>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="T"/> contains pointers.
-        /// </exception>
         /// <exception cref="OverflowException">
         /// Thrown if the <see cref="Span{T}.Length"/> property of the new <see cref="Span{T}"/> would exceed <see cref="int.MaxValue"/>.
         /// </exception>
@@ -138,7 +131,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
-        /// These types may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="TFrom">The type of items in the source <see cref="Span{T}"/>.</typeparam>
         /// <typeparam name="TTo">The type of items in the destination <see cref="Span{T}"/>.</typeparam>
@@ -147,14 +139,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// Supported only for platforms that support misaligned memory access or when the memory block is aligned by other means.
         /// </remarks>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="TFrom"/> or <typeparamref name="TTo"/> contains pointers.
-        /// </exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<TTo> Cast<TFrom, TTo>(this Span<TFrom> span)
-            where TFrom : struct
-            where TTo : struct
+            where TFrom : unmanaged
+            where TTo : unmanaged
         {
             return MemoryMarshal.Cast<TFrom, TTo>(span);
         }
@@ -225,7 +214,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SpanEnumerable<T> Enumerate<T>(this Span<T> span)
         {
-            return new SpanEnumerable<T>(span);
+            return new(span);
         }
 
         /// <summary>
@@ -251,7 +240,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static SpanTokenizer<T> Tokenize<T>(this Span<T> span, T separator)
             where T : IEquatable<T>
         {
-            return new SpanTokenizer<T>(span, separator);
+            return new(span, separator);
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Views;
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
@@ -233,7 +233,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public Memory<T> GetMemory(int sizeHint = 0)
         {
-            CheckAndResizeBuffer(sizeHint);
+            CheckBufferAndEnsureCapacity(sizeHint);
 
             return this.array.AsMemory(this.index);
         }
@@ -241,7 +241,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <inheritdoc/>
         public Span<T> GetSpan(int sizeHint = 0)
         {
-            CheckAndResizeBuffer(sizeHint);
+            CheckBufferAndEnsureCapacity(sizeHint);
 
             return this.array.AsSpan(this.index);
         }
@@ -251,9 +251,11 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         /// <param name="sizeHint">The minimum number of items to ensure space for in <see cref="array"/>.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CheckAndResizeBuffer(int sizeHint)
+        private void CheckBufferAndEnsureCapacity(int sizeHint)
         {
-            if (this.array is null)
+            T[]? array = this.array;
+
+            if (array is null)
             {
                 ThrowObjectDisposedException();
             }
@@ -268,12 +270,32 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 sizeHint = 1;
             }
 
-            if (sizeHint > FreeCapacity)
+            if (sizeHint > array!.Length - this.index)
             {
-                int minimumSize = this.index + sizeHint;
-
-                this.pool.Resize(ref this.array, minimumSize);
+                ResizeBuffer(sizeHint);
             }
+        }
+
+        /// <summary>
+        /// Resizes <see cref="array"/> to ensure it can fit the specified number of new items.
+        /// </summary>
+        /// <param name="sizeHint">The minimum number of items to ensure space for in <see cref="array"/>.</param>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void ResizeBuffer(int sizeHint)
+        {
+            int minimumSize = this.index + sizeHint;
+
+            // The ArrayPool<T> class has a maximum threshold of 1024 * 1024 for the maximum length of
+            // pooled arrays, and once this is exceeded it will just allocate a new array every time
+            // of exactly the requested size. In that case, we manually round up the requested size to
+            // the nearest power of two, to ensure that repeated consecutive writes when the array in
+            // use is bigger than that threshold don't end up causing a resize every single time.
+            if (minimumSize > 1024 * 1024)
+            {
+                minimumSize = BitOperations.RoundUpPowerOfTwo(minimumSize);
+            }
+
+            this.pool.Resize(ref this.array, minimumSize);
         }
 
         /// <inheritdoc/>

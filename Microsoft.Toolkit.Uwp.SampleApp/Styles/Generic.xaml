@@ -1,10 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
     xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls">
 
     <ResourceDictionary.MergedDictionaries>
@@ -135,13 +134,9 @@
         <Setter Property="Transitions" Value="{x:Null}"></Setter>
         <Setter Property="animations:Implicit.ShowAnimations">
             <Setter.Value>
-                <animations:AnimationCollection>
-                    <animations:OpacityAnimation Duration="0:0:0.2"
-                                                     Delay="0:0:0.2"
-                                                     SetInitialValueBeforeDelay="True"
-                                                     From="0"
-                                                     To="1"></animations:OpacityAnimation>
-                </animations:AnimationCollection>
+                <animations:ImplicitAnimationSet>
+                    <animations:OpacityAnimation Duration="0:0:0.2" Delay="0:0:0.2" From="0" To="1"/>
+                </animations:ImplicitAnimationSet>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -429,13 +424,13 @@
                         Background="Transparent">
             <Grid Width="120"
                       Height="80"
-                      extensions:VisualExtensions.CenterPoint="40,60,0">
+                      ui:VisualExtensions.CenterPoint="40,60,0">
                 <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                               VerticalContentAlignment="Stretch"
                                               BlurRadius="30"
                                               ShadowOpacity="0.6"
-                                                     OffsetY="3"
-                                              extensions:VisualExtensions.Opacity="0"
+                                              OffsetY="3"
+                                              ui:VisualExtensions.Opacity="0"
                                               Visibility="Collapsed">
                     <Border></Border>
                 </toolkitControls:DropShadowPanel>

@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.System;
@@ -14,7 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace Microsoft.Toolkit.Uwp.UI.Extensions
+namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
     /// Provides attached dependency properties and methods for the <see cref="ScrollViewer"/> control.
@@ -162,10 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 offsetX = offsetX > _maxSpeed ? _maxSpeed : offsetX;
                 offsetY = offsetY > _maxSpeed ? _maxSpeed : offsetY;
 
-                RunInUIThread(dispatcherQueue, () =>
-                {
-                    _scrollViewer?.ChangeView(_scrollViewer.HorizontalOffset + offsetX, _scrollViewer.VerticalOffset + offsetY, null, true);
-                });
+                dispatcherQueue.EnqueueAsync(() => _scrollViewer?.ChangeView(_scrollViewer.HorizontalOffset + offsetX, _scrollViewer.VerticalOffset + offsetY, null, true));
             }
         }
 
@@ -326,10 +322,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             if (_oldCursorID != cursorID)
             {
-                RunInUIThread(dispatcherQueue, () =>
-                {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID);
-                });
+                dispatcherQueue.EnqueueAsync(() => Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID));
 
                 _oldCursorID = cursorID;
             }
@@ -365,11 +358,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return isCursorAvailable;
-        }
-
-        private static async void RunInUIThread(DispatcherQueue dispatcherQueue, Action action)
-        {
-            await dispatcherQueue.ExecuteOnUIThreadAsync(action, DispatcherQueuePriority.Normal);
         }
     }
 }

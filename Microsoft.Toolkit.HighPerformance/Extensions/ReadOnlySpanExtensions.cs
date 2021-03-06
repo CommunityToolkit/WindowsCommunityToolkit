@@ -8,11 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Memory;
-#endif
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ReadOnlySpan{T}"/> type.
@@ -138,7 +135,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
+        public static unsafe ref readonly T DangerousGetLookupReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
             // Check whether the input is in range by first casting both
             // operands to uint and then comparing them, as this allows
@@ -156,7 +153,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // bounds unless the input span was just empty, which for a
             // lookup table can just be assumed to always be false.
             bool isInRange = (uint)i < (uint)span.Length;
-            byte rangeFlag = Unsafe.As<bool, byte>(ref isInRange);
+            byte rangeFlag = *(byte*)&isInRange;
             uint
                 negativeFlag = unchecked(rangeFlag - 1u),
                 mask = ~negativeFlag,
@@ -186,7 +183,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int height, int width)
         {
-            return new ReadOnlySpan2D<T>(span, height, width);
+            return new(span, height, width);
         }
 
         /// <summary>
@@ -209,7 +206,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int offset, int height, int width, int pitch)
         {
-            return new ReadOnlySpan2D<T>(span, offset, height, width, pitch);
+            return new(span, offset, height, width, pitch);
         }
 #endif
 
@@ -259,14 +256,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="ReadOnlySpan{T}"/> of bytes.
-        /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="T">The type if items in the source <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <param name="span">The source slice, of type <typeparamref name="T"/>.</param>
         /// <returns>A <see cref="ReadOnlySpan{T}"/> of bytes.</returns>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="T"/> contains pointers.
-        /// </exception>
         /// <exception cref="OverflowException">
         /// Thrown if the <see cref="ReadOnlySpan{T}.Length"/> property of the new <see cref="ReadOnlySpan{T}"/> would exceed <see cref="int.MaxValue"/>.
         /// </exception>
@@ -280,7 +273,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
         /// <summary>
         /// Casts a <see cref="ReadOnlySpan{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
-        /// These types may not contain pointers or references. This is checked at runtime in order to preserve type safety.
         /// </summary>
         /// <typeparam name="TFrom">The type of items in the source <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <typeparam name="TTo">The type of items in the destination <see cref="ReadOnlySpan{T}"/>.</typeparam>
@@ -289,14 +281,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// Supported only for platforms that support misaligned memory access or when the memory block is aligned by other means.
         /// </remarks>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="TFrom"/> or <typeparamref name="TTo"/> contains pointers.
-        /// </exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan<TTo> Cast<TFrom, TTo>(this ReadOnlySpan<TFrom> span)
-            where TFrom : struct
-            where TTo : struct
+            where TFrom : unmanaged
+            where TTo : unmanaged
         {
             return MemoryMarshal.Cast<TFrom, TTo>(span);
         }
@@ -324,7 +313,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<T> Enumerate<T>(this ReadOnlySpan<T> span)
         {
-            return new ReadOnlySpanEnumerable<T>(span);
+            return new(span);
         }
 
         /// <summary>
@@ -350,7 +339,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ReadOnlySpanTokenizer<T> Tokenize<T>(this ReadOnlySpan<T> span, T separator)
             where T : IEquatable<T>
         {
-            return new ReadOnlySpanTokenizer<T>(span, separator);
+            return new(span, separator);
         }
 
         /// <summary>

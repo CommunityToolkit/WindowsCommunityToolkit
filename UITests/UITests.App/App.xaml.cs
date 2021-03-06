@@ -3,6 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using UITests.App.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -11,12 +15,22 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UITests.App
 {
+    /// <summary>
+    /// Application class for hosting UI pages to test.
+    /// </summary>
     public sealed partial class App
     {
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += this.App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            // TODO: Also Log to a file?
+            Log.Error("Unhandled Exception: " + e.Message);
         }
 
         /// <summary>
@@ -53,7 +67,7 @@ namespace UITests.App
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(MainTestHost), e.Arguments);
                 }
 
                 // Ensure the current window is active
@@ -68,6 +82,7 @@ namespace UITests.App
         /// <param name="e">Details about the navigation failure</param>
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
+            Log.Error("Failed to load root page: " + e.SourcePageType.FullName);
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 

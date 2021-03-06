@@ -28,26 +28,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         private static class MethodInfos
         {
             /// <summary>
-            /// Initializes static members of the <see cref="MethodInfos"/> class.
-            /// </summary>
-            static MethodInfos()
-            {
-                RegisterIRecipient = (
-                    from methodInfo in typeof(IMessengerExtensions).GetMethods()
-                    where methodInfo.Name == nameof(Register) &&
-                          methodInfo.IsGenericMethod &&
-                          methodInfo.GetGenericArguments().Length == 2
-                    let parameters = methodInfo.GetParameters()
-                    where parameters.Length == 3 &&
-                          parameters[1].ParameterType.IsGenericType &&
-                          parameters[1].ParameterType.GetGenericTypeDefinition() == typeof(IRecipient<>)
-                    select methodInfo).First();
-            }
-
-            /// <summary>
             /// The <see cref="MethodInfo"/> instance associated with <see cref="Register{TMessage,TToken}(IMessenger,IRecipient{TMessage},TToken)"/>.
             /// </summary>
-            public static readonly MethodInfo RegisterIRecipient;
+            public static readonly MethodInfo RegisterIRecipient = new Action<IMessenger, IRecipient<object>, Unit>(Register).Method.GetGenericMethodDefinition();
         }
 
         /// <summary>
@@ -64,8 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             /// <summary>
             /// The <see cref="ConditionalWeakTable{TKey,TValue}"/> instance used to track the preloaded registration actions for each recipient.
             /// </summary>
-            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods
-                = new ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]>();
+            public static readonly ConditionalWeakTable<Type, Action<IMessenger, object, TToken>[]> RegistrationMethods = new();
         }
 
         /// <summary>
@@ -150,13 +132,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
 
             // Get or compute the registration methods for the current recipient type.
-            // As in Microsoft.Toolkit.Extensions.TypeExtensions.ToTypeString, we use a lambda
+            // As in Microsoft.Toolkit.Diagnostics.TypeExtensions.ToTypeString, we use a lambda
             // expression instead of a method group expression to leverage the statically initialized
             // delegate and avoid repeated allocations for each invocation of this method.
             // For more info on this, see the related issue at https://github.com/dotnet/roslyn/issues/5835.
             Action<IMessenger, object, TToken>[] registrationActions = DiscoveredRecipients<TToken>.RegistrationMethods.GetValue(
                 recipient.GetType(),
-                t => LoadRegistrationMethodsForType(t));
+                static t => LoadRegistrationMethodsForType(t));
 
             foreach (Action<IMessenger, object, TToken> registrationAction in registrationActions)
             {
@@ -175,7 +157,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         public static void Register<TMessage>(this IMessenger messenger, IRecipient<TMessage> recipient)
             where TMessage : class
         {
-            messenger.Register<IRecipient<TMessage>, TMessage, Unit>(recipient, default, (r, m) => r.Receive(m));
+            messenger.Register<IRecipient<TMessage>, TMessage, Unit>(recipient, default, static (r, m) => r.Receive(m));
         }
 
         /// <summary>
@@ -192,7 +174,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            messenger.Register<IRecipient<TMessage>, TMessage, TToken>(recipient, token, (r, m) => r.Receive(m));
+            messenger.Register<IRecipient<TMessage>, TMessage, TToken>(recipient, token, static (r, m) => r.Receive(m));
         }
 
         /// <summary>

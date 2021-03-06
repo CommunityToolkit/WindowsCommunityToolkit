@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,7 +63,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestInitialize]
         public async Task Init()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(() =>
+            await App.Dispatcher.EnqueueAsync(() =>
             {
                 _acv = new AdvancedCollectionView(_samples, false);
 
@@ -110,7 +110,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task TokenizingTextBox_GetFocusedElement_RemoveAllSelectedTokens()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 await Task.Delay(500);
 
@@ -135,7 +135,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task TokenizingTextBox_PopupShowsInCorrectXamlRoot()
         {
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 await Task.Delay(500);
 

@@ -5,14 +5,17 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if NETCORE_RUNTIME
+#if NETCORE_RUNTIME || NET5_0
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
+#if !NETCORE_RUNTIME && !NET5_0
+using Microsoft.Toolkit.HighPerformance.Helpers;
+#endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.
@@ -30,15 +33,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReference<T>(this T[] array)
         {
-#if NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArrayData>(array);
+#if NET5_0
+            return ref MemoryMarshal.GetArrayDataReference(array);
+#elif NETCORE_RUNTIME
+            var arrayData = Unsafe.As<RawArrayData>(array)!;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
 
             return ref r0;
 #else
             IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
 
-            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
 #endif
         }
 
@@ -54,15 +59,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
         {
-#if NETCORE_RUNTIME
-            var arrayData = Unsafe.As<RawArrayData>(array);
+#if NET5_0
+            ref T r0 = ref MemoryMarshal.GetArrayDataReference(array);
+            ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
+
+            return ref ri;
+#elif NETCORE_RUNTIME
+            var arrayData = Unsafe.As<RawArrayData>(array)!;
             ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
 #else
             IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
-            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
@@ -139,7 +149,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SpanEnumerable<T> Enumerate<T>(this T[] array)
         {
-            return new SpanEnumerable<T>(array);
+            return new(array);
         }
 
         /// <summary>
@@ -165,7 +175,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static SpanTokenizer<T> Tokenize<T>(this T[] array, T separator)
             where T : IEquatable<T>
         {
-            return new SpanTokenizer<T>(array, separator);
+            return new(array, separator);
         }
 
         /// <summary>
@@ -203,7 +213,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Throws an <see cref="OverflowException"/> when the "column" parameter is invalid.
         /// </summary>
-        public static void ThrowOverflowException()
+        private static void ThrowOverflowException()
         {
             throw new OverflowException();
         }

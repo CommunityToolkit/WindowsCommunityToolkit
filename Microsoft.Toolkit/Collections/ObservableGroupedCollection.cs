@@ -4,10 +4,9 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
-#nullable enable
 
 namespace Microsoft.Toolkit.Collections
 {
@@ -17,6 +16,7 @@ namespace Microsoft.Toolkit.Collections
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
     public sealed class ObservableGroupedCollection<TKey, TValue> : ObservableCollection<ObservableGroup<TKey, TValue>>
+        where TKey : notnull
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableGroupedCollection{TKey, TValue}"/> class.
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Collections
         /// </summary>
         /// <param name="collection">The initial data to add in the grouped collection.</param>
         public ObservableGroupedCollection(IEnumerable<IGrouping<TKey, TValue>> collection)
-            : base(collection.Select(c => new ObservableGroup<TKey, TValue>(c)))
+            : base(collection.Select(static c => new ObservableGroup<TKey, TValue>(c)))
         {
         }
 
@@ -40,11 +40,11 @@ namespace Microsoft.Toolkit.Collections
         /// <param name="list">The resulting <see cref="List{T}"/>, if one was in use.</param>
         /// <returns>Whether or not a <see cref="List{T}"/> instance has been found.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool TryGetList(out List<ObservableGroup<TKey, TValue>>? list)
+        internal bool TryGetList([NotNullWhen(true)] out List<ObservableGroup<TKey, TValue>>? list)
         {
             list = Items as List<ObservableGroup<TKey, TValue>>;
 
-            return !(list is null);
+            return list is not null;
         }
     }
 }

@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             _printCanvas = null;
-            DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            DispatcherQueue.EnqueueAsync(() =>
             {
                 _printDocument.Paginate -= CreatePrintPreviewPages;
                 _printDocument.GetPreviewPage -= GetPrintPreviewPage;
@@ -229,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (!_directPrint)
             {
-                await DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+                await DispatcherQueue.EnqueueAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -262,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    await DispatcherQueue.ExecuteOnUIThreadAsync(
+                    await DispatcherQueue.EnqueueAsync(
                         async () =>
                         {
                             foreach (var element in _stateBags.Keys)
@@ -515,7 +515,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
-            return DispatcherQueue.ExecuteOnUIThreadAsync(
+            return DispatcherQueue.EnqueueAsync(
                 () =>
                 {
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
@@ -531,7 +531,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private Task ClearPageCache()
         {
-            return DispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            return DispatcherQueue.EnqueueAsync(() =>
             {
                 if (!_directPrint)
                 {

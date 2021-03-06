@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="element">Element to restore state to</param>
         public void Restore(FrameworkElement element)
         {
-            _dispatcherQueue.ExecuteOnUIThreadAsync(() =>
+            _dispatcherQueue.EnqueueAsync(() =>
             {
                 element.HorizontalAlignment = HorizontalAlignment;
                 element.VerticalAlignment = VerticalAlignment;

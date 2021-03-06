@@ -16,6 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_StringPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\TrackingArrayPool{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerables\Test_ReadOnlyRefEnumerable{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerables\Test_RefEnumerable{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.3D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.1D.cs" />
@@ -23,10 +25,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IMemoryOwnerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlyMemoryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_MemoryExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_IBufferWriterExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_NullableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StreamExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.Count.cs" />
@@ -34,6 +36,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpinLockExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_HashCode{T}.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ObjectMarshal.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.Ref2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ForEach.In2D.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Test_ParallelHelper.ThrowExceptions.cs" />
@@ -47,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Memory\Test_Memory2D{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Memory\Test_Span2D{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IMemoryOwnerStream.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_IBufferWriterStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.ThrowExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Streams\Test_MemoryStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Test_Box{T}.cs" />

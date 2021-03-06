@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Windows.Graphics.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -190,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var visual = Window.Current.Compositor.CreateSpriteVisual();
 
-            visual.Brush = await this.BuildAsync();
+            visual.Brush = await BuildAsync();
 
             ElementCompositionPreview.SetElementChildVisual(target, visual);
 

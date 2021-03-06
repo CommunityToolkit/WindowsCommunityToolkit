@@ -12,12 +12,14 @@ using System.Runtime.InteropServices;
 #if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+#pragma warning disable CA2231
+
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// A readonly version of <see cref="Memory2D{T}"/>.
@@ -113,7 +115,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = text;
-            this.offset = text.DangerousGetObjectDataByteOffset(ref text.DangerousGetReferenceAt(offset));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(text, ref text.DangerousGetReferenceAt(offset));
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -180,7 +182,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -257,7 +259,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
             this.height = height;
             this.width = width;
             this.pitch = columns - width;
@@ -277,7 +279,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
             this.width = array.GetLength(2);
             this.pitch = 0;
@@ -325,7 +327,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
             this.width = width;
             this.pitch = columns - width;
@@ -482,14 +484,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ref char r0 = ref text.DangerousGetReferenceAt(textStart + offset);
 
                 this.instance = text;
-                this.offset = text.DangerousGetObjectDataByteOffset(ref r0);
+                this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(text, ref r0);
             }
             else if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
             {
                 T[] array = segment.Array!;
 
                 this.instance = array;
-                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(segment.Offset + offset));
+                this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(segment.Offset + offset));
             }
             else if (MemoryMarshal.TryGetMemoryManager<T, MemoryManager<T>>(memory, out var memoryManager, out int memoryManagerStart, out _))
             {
@@ -561,7 +563,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-            IntPtr offset = instance.DangerousGetObjectDataByteOffset(ref value);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(instance, ref value);
 
             return new ReadOnlyMemory2D<T>(instance, offset, height, width, pitch);
         }
@@ -615,7 +617,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (!(this.instance is null))
+                if (this.instance is not null)
                 {
 #if SPAN_RUNTIME_SUPPORT
                     if (this.instance is MemoryManager<T> memoryManager)
@@ -623,14 +625,14 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                         ref T r0 = ref memoryManager.GetSpan().DangerousGetReference();
                         ref T r1 = ref Unsafe.Add(ref r0, this.offset);
 
-                        return new ReadOnlySpan2D<T>(r1, this.height, this.width, this.pitch);
+                        return new ReadOnlySpan2D<T>(in r1, this.height, this.width, this.pitch);
                     }
                     else
                     {
                         // This handles both arrays and strings
-                        ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                        ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset);
 
-                        return new ReadOnlySpan2D<T>(r0, this.height, this.width, this.pitch);
+                        return new ReadOnlySpan2D<T>(in r0, this.height, this.width, this.pitch);
                     }
 #else
                     return new ReadOnlySpan2D<T>(this.instance, this.offset, this.height, this.width, this.pitch);
@@ -753,7 +755,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <returns>A <see cref="MemoryHandle"/> instance wrapping the pinned handle.</returns>
         public unsafe MemoryHandle Pin()
         {
-            if (!(this.instance is null))
+            if (this.instance is not null)
             {
                 if (this.instance is MemoryManager<T> memoryManager)
                 {
@@ -762,7 +764,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
 
-                void* pointer = Unsafe.AsPointer(ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                void* pointer = Unsafe.AsPointer(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset));
 
                 return new MemoryHandle(pointer, handle);
             }
@@ -794,25 +796,22 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     // difference between the start of the Span<char> (which directly wraps just the actual character data
                     // within the string), and the input reference, which we can get from the byte offset in use. The result
                     // is the character index which we can use to create the final Memory<char> instance.
-                    string text = Unsafe.As<string>(this.instance);
-                    int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
+                    string text = Unsafe.As<string>(this.instance)!;
+                    int index = text.AsSpan().IndexOf(in ObjectMarshal.DangerousGetObjectDataReferenceAt<char>(text, this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
                     memory = Unsafe.As<ReadOnlyMemory<char>, ReadOnlyMemory<T>>(ref temp);
                 }
                 else if (this.instance is MemoryManager<T> memoryManager)
                 {
-                    unsafe
-                    {
-                        // If the object is a MemoryManager<T>, just slice it as needed
-                        memory = memoryManager.Memory.Slice((int)(void*)this.offset, this.height * this.width);
-                    }
+                    // If the object is a MemoryManager<T>, just slice it as needed
+                    memory = memoryManager.Memory.Slice((int)(nint)this.offset, this.height * this.width);
                 }
                 else if (this.instance.GetType() == typeof(T[]))
                 {
                     // If it's a T[] array, also handle the initial offset
-                    T[] array = Unsafe.As<T[]>(this.instance);
-                    int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                    T[] array = Unsafe.As<T[]>(this.instance)!;
+                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.offset));
 
                     memory = array.AsMemory(index, this.height * this.width);
                 }
@@ -879,7 +878,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode()
         {
-            if (!(this.instance is null))
+            if (this.instance is not null)
             {
 #if !NETSTANDARD1_4
                 return HashCode.Combine(
@@ -908,13 +907,13 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.ReadOnlyMemory2D<{typeof(T)}>[{this.height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.ReadOnlyMemory2D<{typeof(T)}>[{this.height}, {this.width}]";
         }
 
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="ReadOnlyMemory2D{T}"/>
         /// </summary>
-        public static implicit operator ReadOnlyMemory2D<T>(T[,]? array) => new ReadOnlyMemory2D<T>(array);
+        public static implicit operator ReadOnlyMemory2D<T>(T[,]? array) => new(array);
 
         /// <summary>
         /// Defines an implicit conversion of a <see cref="Memory2D{T}"/> to a <see cref="ReadOnlyMemory2D{T}"/>

@@ -5,13 +5,13 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-#if !NETCOREAPP3_1
+#if NETCOREAPP2_1 || NETSTANDARD
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="string"/> type.
@@ -28,10 +28,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReference(this string text)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             return ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
-            var stringData = Unsafe.As<RawStringData>(text);
+            var stringData = Unsafe.As<RawStringData>(text)!;
 
             return ref stringData.Data;
 #else
@@ -50,10 +50,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref char DangerousGetReferenceAt(this string text, int i)
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NET5_0
             ref char r0 = ref Unsafe.AsRef(text.GetPinnableReference());
 #elif NETCOREAPP2_1
-            ref char r0 = ref Unsafe.As<RawStringData>(text).Data;
+            ref char r0 = ref Unsafe.As<RawStringData>(text)!.Data;
 #else
             ref char r0 = ref MemoryMarshal.GetReference(text.AsSpan());
 #endif
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<char> Enumerate(this string text)
         {
-            return new ReadOnlySpanEnumerable<char>(text.AsSpan());
+            return new(text.AsSpan());
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanTokenizer<char> Tokenize(this string text, char separator)
         {
-            return new ReadOnlySpanTokenizer<char>(text.AsSpan(), separator);
+            return new(text.AsSpan(), separator);
         }
 
         /// <summary>

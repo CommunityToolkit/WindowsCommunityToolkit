@@ -11,7 +11,7 @@
         <Grid Margin="40"
               Background="White">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Grid Height="3000">
+                <Grid Height="6000">
                     <Border Width="200"
                             Height="200"
                             HorizontalAlignment="Center"
@@ -28,15 +28,15 @@
             <TextBlock HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Foreground="OrangeRed"
-                       IsHitTestVisible="False"
-                       Text="Please scroll down to see the effect." />
+                       IsHitTestVisible="False"><Run Text="Please scroll down to see the effect." /><LineBreak /><Run Text="The default threshold for triggering lazy loading is 300 px." /></TextBlock>
             <Button Width="48"
                     Height="48"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0"
-                    Click="CloseButton_Click">
+                    Click="CloseButton_Click"
+                    Foreground="Black">
                 <SymbolIcon Symbol="Cancel" />
             </Button>
         </Grid>

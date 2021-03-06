@@ -5,8 +5,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:wgt="using:Microsoft.Toolkit.Graph.Controls"
       mc:Ignorable="d">
-    <!-- Shallow Copy -->
+    <!--  Shallow Copy  -->
     <Grid>
-        <wgt:PersonView/>
+        <!--<wgt:PersonView/>-->
     </Grid>
 </Page>

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Devices.Input;
@@ -20,7 +20,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             Eyedropper eyedropper = null;
             Color? color = null;
-            _ = App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            _ = App.Dispatcher.EnqueueAsync(async () =>
             {
                 eyedropper = new Eyedropper
                 {
@@ -29,7 +29,7 @@ namespace UnitTests.XamlIslands.UWPApp
                 color = await eyedropper.Open();
             });
 
-            await App.Dispatcher.ExecuteOnUIThreadAsync(async () =>
+            await App.Dispatcher.EnqueueAsync(async () =>
             {
                 var xamlRoot = App.XamlRoot;
 
