@@ -12,7 +12,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// RangeSelector is a "double slider" control for range values.
     /// </summary>
-
     public partial class RangeSelector : Control
     {
         private readonly DispatcherQueueTimer keyDebounceTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
