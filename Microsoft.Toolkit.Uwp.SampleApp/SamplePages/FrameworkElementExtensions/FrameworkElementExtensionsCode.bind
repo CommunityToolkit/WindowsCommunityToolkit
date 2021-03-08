@@ -52,8 +52,7 @@
                        VerticalAlignment="Center"
                        Text="&#xE76F;"
                        Foreground="{ThemeResource Brush-Alt}"
-                       FontFamily="Segoe MDL2 Assets">
-            </TextBlock>
+                       FontFamily="Segoe MDL2 Assets"/>
           </Grid>
         </controls:GridSplitter.Element>
       </controls:GridSplitter>
