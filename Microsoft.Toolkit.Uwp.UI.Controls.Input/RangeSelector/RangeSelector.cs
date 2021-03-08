@@ -144,6 +144,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
+        private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
+        {
+            if (toolTip != null)
+            {
+                toolTip.Text = string.Format("{0:0.##}", newValue);
+            }
+        }
+
         private void ContainerCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SyncThumbs();
@@ -195,14 +203,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (RangeEnd < RangeStart)
             {
                 RangeStart = RangeEnd;
-            }
-        }
-
-        private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
-        {
-            if (toolTip != null)
-            {
-                toolTip.Text = string.Format("{0:0.##}", newValue);
             }
         }
 
