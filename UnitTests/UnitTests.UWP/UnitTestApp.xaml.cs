@@ -25,14 +25,16 @@ namespace UnitTests
         {
             get
             {
-                var rootFrame = Window.Current.Content as Frame;
-                return rootFrame.Content as FrameworkElement;
+                var rootFrame = Window.Current?.Content as Frame;
+                return rootFrame?.Content as FrameworkElement;
             }
 
             set
             {
-                var rootFrame = Window.Current.Content as Frame;
-                rootFrame.Content = value;
+                if (Window.Current?.Content is Frame rootFrame)
+                {
+                    rootFrame.Content = value;
+                }
             }
         }
 

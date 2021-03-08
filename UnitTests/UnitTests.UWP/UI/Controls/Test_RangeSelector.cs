@@ -140,67 +140,54 @@ namespace UnitTests.UWP.UI.Controls
             });
         }
         
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Test_RangeSelector")]
-        [DataRow(-99, -100)]
-        [DataRow(-96, -95)]
-        [DataRow(-6, -5)]
-        [DataRow(-4, -5)]
-        [DataRow(-1, 0)]
-        [DataRow(2, 0)]
-        [DataRow(4, 5)]
-        [DataRow(7, 5)]
-        [DataRow(8, 10)]
-        [DataRow(94, 95)]
-        [DataRow(99, 100)]
-        [DataRow(100, 100)]
-        public void StepFrequency_SmallValue_RangeMinJumpsToProperStep(double value, double expected)
+        [DataRow(-99d, -100d)]
+        [DataRow(-96d, -95d)]
+        [DataRow(-6d, -5d)]
+        [DataRow(-4d, -5d)]
+        [DataRow(-1d, 0d)]
+        [DataRow(2d, 0d)]
+        [DataRow(4d, 5d)]
+        [DataRow(7d, 5d)]
+        [DataRow(8d, 10d)]
+        [DataRow(94d, 95d)]
+        [DataRow(99d, 100d)]
+        [DataRow(100d, 100d)]
+        public async Task StepFrequency_SmallValue_RangeMinJumpsToProperStep(double value, double expected)
         {
-            var selector = MakeRangeSelector(-100, value, 100, 100, 5);
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                var selector = MakeRangeSelector(-100, value, 100, 100, 5);
 
-            Assert.AreEqual(expected, selector.RangeStart);
+                Assert.AreEqual(expected, selector.RangeStart);
+            });
         }
 
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Test_RangeSelector")]
-        [DataRow(-99, -100)]
-        [DataRow(-96, -95)]
-        [DataRow(-6, -5)]
-        [DataRow(-4, -5)]
-        [DataRow(-1, 0)]
-        [DataRow(1, 0)]
-        [DataRow(4, 5)]
-        [DataRow(6, 5)]
-        [DataRow(94, 95)]
-        [DataRow(99, 100)]
-        [DataRow(100, 100)]
-        public void StepFrequency_SmallValue_RangeMaxJumpsToProperStep(double value, double expected)
+        [DataRow(-99d, -100d)]
+        [DataRow(-96d, -95d)]
+        [DataRow(-6d, -5d)]
+        [DataRow(-4d, -5d)]
+        [DataRow(-1d, 0d)]
+        [DataRow(1d, 0d)]
+        [DataRow(4d, 5d)]
+        [DataRow(6d, 5d)]
+        [DataRow(94d, 95d)]
+        [DataRow(99d, 100d)]
+        [DataRow(100d, 100d)]
+        public async Task StepFrequency_SmallValue_RangeMaxJumpsToProperStep(double value, double expected)
         {
-            var selector = MakeRangeSelector(-100, -100, value, 100, 5);
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                var selector = MakeRangeSelector(-100, -100, value, 100, 5);
 
-            Assert.AreEqual(expected, selector.RangeEnd);
+                Assert.AreEqual(expected, selector.RangeEnd);
+            });
         }
 
-        [UITestMethod]
-        [TestCategory("Test_RangeSelector")]
-        [DataRow(2, 0)]
-        [DataRow(14, 0)]
-        [DataRow(16, 30)]
-        [DataRow(29, 30)]
-        [DataRow(36, 30)]
-        [DataRow(65, 60)]
-        [DataRow(86, 90)]
-        [DataRow(94, 90)]
-        [DataRow(96, 100)]
-        [DataRow(99, 100)]
-        public void StepFrequency_LargeValue_RangeMinJumpsToProperStep(double value, double expected)
-        {
-            var selector = MakeRangeSelector(0, value, 100, 100, 30);
-
-            Assert.AreEqual(expected, selector.RangeStart);
-        }
-
-        [UITestMethod]
+        [TestMethod]
         [TestCategory("Test_RangeSelector")]
         [DataRow(2d, 0d)]
         [DataRow(14d, 0d)]
@@ -212,11 +199,36 @@ namespace UnitTests.UWP.UI.Controls
         [DataRow(94d, 90d)]
         [DataRow(96d, 100d)]
         [DataRow(99d, 100d)]
-        public void StepFrequency_LargeValue_RangeMaxJumpsToProperStep(double value, double expected)
+        public async Task StepFrequency_LargeValue_RangeMinJumpsToProperStep(double value, double expected)
         {
-            var selector = MakeRangeSelector(0, 0, value, 100, 30);
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                var selector = MakeRangeSelector(0, value, 100, 100, 30);
 
-            Assert.AreEqual(expected, selector.RangeEnd);
+                Assert.AreEqual(expected, selector.RangeStart);
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Test_RangeSelector")]
+        [DataRow(2d, 0d)]
+        [DataRow(14d, 0d)]
+        [DataRow(16d, 30d)]
+        [DataRow(29d, 30d)]
+        [DataRow(36d, 30d)]
+        [DataRow(65d, 60d)]
+        [DataRow(86d, 90d)]
+        [DataRow(94d, 90d)]
+        [DataRow(96d, 100d)]
+        [DataRow(99d, 100d)]
+        public async Task StepFrequency_LargeValue_RangeMaxJumpsToProperStep(double value, double expected)
+        {
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                var selector = MakeRangeSelector(0, 0, value, 100, 30);
+
+                Assert.AreEqual(expected, selector.RangeEnd);
+            });
         }
 
         private static double Distance(double fst, double snd)

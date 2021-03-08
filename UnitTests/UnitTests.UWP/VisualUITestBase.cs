@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace UnitTests
 {
@@ -61,38 +62,43 @@ namespace UnitTests
         public async Task Cleanup()
         {
             // If we didn't set our content we don't have to do anything but complete here.
-            if (App.ContentRoot is not null)
+            var taskCompletionSource = new TaskCompletionSource<bool>();
+
+            await App.DispatcherQueue.EnqueueAsync(() =>
             {
-                var taskCompletionSource = new TaskCompletionSource<bool>();
-
-                await App.DispatcherQueue.EnqueueAsync(() =>
+                // Fail safe
+                if (App.ContentRoot is null)
                 {
-                    // Fail safe
-                    if (App.ContentRoot is null)
+                    taskCompletionSource.SetResult(true);
+                    return;
+                }
+
+                // Going to wait for our original content to unload
+                if (App.ContentRoot.IsLoaded)
+                {
+                    void OnUnloaded(object sender, object e)
                     {
+                        (sender as FrameworkElement).Unloaded -= OnUnloaded;
+
                         taskCompletionSource.SetResult(true);
-                        return;
                     }
 
-                    // Going to wait for our original content to unload
-                    if (App.ContentRoot.IsLoaded)
-                    {
-                        App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
-                    }
-                    else
-                    {
-                        // If we're not loaded then we're done.
-                        App.ContentRoot = null;
-                        taskCompletionSource.SetResult(true);
-                        return;
-                    }
+                    App.ContentRoot.Unloaded += OnUnloaded;
 
-                    // Trigger that now
+                    // Disconnect and Unload
+                    VisualTreeHelper.DisconnectChildrenRecursive(App.ContentRoot);
+
                     App.ContentRoot = null;
-                });
+                }
+                else
+                {
+                    // If we're not loaded then we're done.
+                    App.ContentRoot = null;
+                    taskCompletionSource.SetResult(true);
+                }
+            });
 
-                await taskCompletionSource.Task;
-            }
+            await taskCompletionSource.Task;
         }
     }
 }
