@@ -60,25 +60,39 @@ namespace UnitTests
         [TestCleanup]
         public async Task Cleanup()
         {
-            var taskCompletionSource = new TaskCompletionSource<bool>();
-
-            await App.DispatcherQueue.EnqueueAsync(() =>
+            // If we didn't set our content we don't have to do anything but complete here.
+            if (App.ContentRoot is not null)
             {
-                // If we didn't set our content we don't have to do anything but complete here.
-                if (App.ContentRoot is null)
+                var taskCompletionSource = new TaskCompletionSource<bool>();
+
+                await App.DispatcherQueue.EnqueueAsync(() =>
                 {
-                    taskCompletionSource.SetResult(true);
-                    return;
-                }
+                    // Fail safe
+                    if (App.ContentRoot is null)
+                    {
+                        taskCompletionSource.SetResult(true);
+                        return;
+                    }
 
-                // Going to wait for our original content to unload
-                App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
+                    // Going to wait for our original content to unload
+                    if (App.ContentRoot.IsLoaded)
+                    {
+                        App.ContentRoot.Unloaded += (_, _) => taskCompletionSource.SetResult(true);
+                    }
+                    else
+                    {
+                        // If we're not loaded then we're done.
+                        App.ContentRoot = null;
+                        taskCompletionSource.SetResult(true);
+                        return;
+                    }
 
-                // Trigger that now
-                App.ContentRoot = null;
-            });
+                    // Trigger that now
+                    App.ContentRoot = null;
+                });
 
-            await taskCompletionSource.Task;
+                await taskCompletionSource.Task;
+            }
         }
     }
 }

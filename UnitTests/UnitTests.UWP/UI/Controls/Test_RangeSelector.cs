@@ -136,148 +136,99 @@ namespace UnitTests.UWP.UI.Controls
 
                 var expectedMin = distanceToSmall < distanceToLarge ? small : large;
 
-
                 Assert.AreEqual(new TestRecord(min, expectedMin, rangeMax, max, stepFrequency), new TestRecord(rangeSelector));
             });
         }
         
         [UITestMethod]
-        [TestCategory("RangeSelector")]
-        public void StepFrequency_SmallValue_RangeMinJumpsToProperStep()
+        [TestCategory("Test_RangeSelector")]
+        [DataRow(-99, -100)]
+        [DataRow(-96, -95)]
+        [DataRow(-6, -5)]
+        [DataRow(-4, -5)]
+        [DataRow(-1, 0)]
+        [DataRow(2, 0)]
+        [DataRow(4, 5)]
+        [DataRow(7, 5)]
+        [DataRow(8, 10)]
+        [DataRow(94, 95)]
+        [DataRow(99, 100)]
+        [DataRow(100, 100)]
+        public void StepFrequency_SmallValue_RangeMinJumpsToProperStep(double value, double expected)
         {
-            var selector = new RangeSelector();
-            selector.Minimum = 0;
-            selector.Maximum = 100;
-            selector.StepFrequency = 5;
+            var selector = MakeRangeSelector(-100, value, 100, 100, 5);
 
-            selector.RangeStart = 2;
-            Assert.AreEqual(selector.RangeStart, 0);
-
-            selector.RangeStart = 4;
-            Assert.AreEqual(selector.RangeStart, 5);
-
-            selector.RangeStart = 94;
-            Assert.AreEqual(selector.RangeStart, 95);
-
-            selector.RangeStart = 99;
-            Assert.AreEqual(selector.RangeStart, 100);
+            Assert.AreEqual(expected, selector.RangeStart);
         }
 
         [UITestMethod]
-        [TestCategory("RangeSelector")]
-        public void StepFrequency_SmallValue_RangeMaxJumpsToProperStep()
+        [TestCategory("Test_RangeSelector")]
+        [DataRow(-99, -100)]
+        [DataRow(-96, -95)]
+        [DataRow(-6, -5)]
+        [DataRow(-4, -5)]
+        [DataRow(-1, 0)]
+        [DataRow(1, 0)]
+        [DataRow(4, 5)]
+        [DataRow(6, 5)]
+        [DataRow(94, 95)]
+        [DataRow(99, 100)]
+        [DataRow(100, 100)]
+        public void StepFrequency_SmallValue_RangeMaxJumpsToProperStep(double value, double expected)
         {
-            var selector = new RangeSelector();
-            selector.Minimum = 0;
-            selector.Maximum = 100;
-            selector.StepFrequency = 5;
+            var selector = MakeRangeSelector(-100, -100, value, 100, 5);
 
-            selector.RangeEnd = 99;
-            Assert.AreEqual(selector.RangeEnd, 100);
-
-            selector.RangeEnd = 94;
-            Assert.AreEqual(selector.RangeEnd, 95);
-
-            selector.RangeEnd = 6;
-            Assert.AreEqual(selector.RangeEnd, 5);
-
-            selector.RangeEnd = 4;
-            Assert.AreEqual(selector.RangeEnd, 5);
-
-            selector.RangeEnd = 1;
-            Assert.AreEqual(selector.RangeEnd, 0);
+            Assert.AreEqual(expected, selector.RangeEnd);
         }
 
         [UITestMethod]
-        [TestCategory("RangeSelector")]
-        public void StepFrequency_LargeValue_RangeMinJumpsToProperStep()
+        [TestCategory("Test_RangeSelector")]
+        [DataRow(2, 0)]
+        [DataRow(14, 0)]
+        [DataRow(16, 30)]
+        [DataRow(29, 30)]
+        [DataRow(36, 30)]
+        [DataRow(65, 60)]
+        [DataRow(86, 90)]
+        [DataRow(94, 90)]
+        [DataRow(96, 100)]
+        [DataRow(99, 100)]
+        public void StepFrequency_LargeValue_RangeMinJumpsToProperStep(double value, double expected)
         {
-            var selector = new RangeSelector();
-            selector.Minimum = 0;
-            selector.Maximum = 100;
-            selector.StepFrequency = 30;
+            var selector = MakeRangeSelector(0, value, 100, 100, 30);
 
-            selector.RangeStart = 2;
-            Assert.AreEqual(selector.RangeStart, 0);
-
-            selector.RangeStart = 14;
-            Assert.AreEqual(selector.RangeStart, 0);
-
-            selector.RangeStart = 16;
-            Assert.AreEqual(selector.RangeStart, 30);
-
-            selector.RangeStart = 29;
-            Assert.AreEqual(selector.RangeStart, 30);
-
-            selector.RangeStart = 36;
-            Assert.AreEqual(selector.RangeStart, 30);
-
-            selector.RangeStart = 65;
-            Assert.AreEqual(selector.RangeStart, 60);
-
-            selector.RangeStart = 86;
-            Assert.AreEqual(selector.RangeStart, 90);
-
-            selector.RangeStart = 95;
-            Assert.AreEqual(selector.RangeStart, 90);
-
-            selector.RangeStart = 99;
-            Assert.AreEqual(selector.RangeStart, 90);
-
-            selector.RangeStart = 100;
-            Assert.AreEqual(selector.RangeStart, 90);
+            Assert.AreEqual(expected, selector.RangeStart);
         }
 
         [UITestMethod]
-        [TestCategory("RangeSelector")]
-        public void StepFrequency_LargeValue_RangeMaxJumpsToProperStep()
+        [TestCategory("Test_RangeSelector")]
+        [DataRow(2d, 0d)]
+        [DataRow(14d, 0d)]
+        [DataRow(16d, 30d)]
+        [DataRow(29d, 30d)]
+        [DataRow(36d, 30d)]
+        [DataRow(65d, 60d)]
+        [DataRow(86d, 90d)]
+        [DataRow(94d, 90d)]
+        [DataRow(96d, 100d)]
+        [DataRow(99d, 100d)]
+        public void StepFrequency_LargeValue_RangeMaxJumpsToProperStep(double value, double expected)
         {
-            var selector = new RangeSelector();
-            selector.Minimum = 0;
-            selector.Maximum = 100;
-            selector.StepFrequency = 30;
+            var selector = MakeRangeSelector(0, 0, value, 100, 30);
 
-            selector.RangeEnd = 99;
-            Assert.AreEqual(selector.RangeEnd, 100);
-
-            selector.RangeEnd = 94;
-            Assert.AreEqual(selector.RangeEnd, 100);
-
-            selector.RangeEnd = 78;
-            Assert.AreEqual(selector.RangeEnd, 70);
-
-            selector.RangeEnd = 65;
-            Assert.AreEqual(selector.RangeEnd, 70);
-
-            selector.RangeEnd = 50;
-            Assert.AreEqual(selector.RangeEnd, 40);
-
-            selector.RangeEnd = 38;
-            Assert.AreEqual(selector.RangeEnd, 40);
-
-            selector.RangeEnd = 20;
-            Assert.AreEqual(selector.RangeEnd, 10);
-
-            selector.RangeEnd = 8;
-            Assert.AreEqual(selector.RangeEnd, 10);
-
-            selector.RangeEnd = 1;
-            Assert.AreEqual(selector.RangeEnd, 10);
-
-            selector.RangeEnd = 0;
-            Assert.AreEqual(selector.RangeEnd, 10);
+            Assert.AreEqual(expected, selector.RangeEnd);
         }
 
         private static double Distance(double fst, double snd)
             => Math.Abs(fst - snd);
 
-        private static RangeSelector MakeRangeSelector(double min, double rangeMin, double rangeMax, double max, double? stepFrequency = null)
+        private static RangeSelector MakeRangeSelector(double min, double rangeStart, double rangeEnd, double max, double? stepFrequency = null)
             => stepFrequency is double sf ?
              new RangeSelector
              {
                  Minimum = min,
-                 RangeStart = rangeMin,
-                 RangeEnd = rangeMax,
+                 RangeStart = rangeStart,
+                 RangeEnd = rangeEnd,
                  Maximum = max,
                  StepFrequency = sf
              }
@@ -285,18 +236,18 @@ namespace UnitTests.UWP.UI.Controls
              new RangeSelector
              {
                  Minimum = min,
-                 RangeStart = rangeMin,
-                 RangeEnd = rangeMax,
+                 RangeStart = rangeStart,
+                 RangeEnd = rangeEnd,
                  Maximum = max
              };
 
         private struct TestRecord
         {
-            public TestRecord(double min, double rangeMin, double rangeMax, double max, double? stepFrequency = null)
+            public TestRecord(double min, double rangeStart, double rangeEnd, double max, double? stepFrequency = null)
             {
                 Minimum = min;
-                RangeMin = rangeMin;
-                RangeMax = rangeMax;
+                RangeStart = rangeStart;
+                RangeEnd = rangeEnd;
                 Maximum = max;
                 Stepfrequency = stepFrequency;
             }
@@ -304,14 +255,13 @@ namespace UnitTests.UWP.UI.Controls
             public TestRecord(RangeSelector rangeSelector) 
                 : this(rangeSelector.Minimum, rangeSelector.RangeStart, rangeSelector.RangeEnd, rangeSelector.Maximum, rangeSelector.StepFrequency)
             {
-
             }
 
             public double Minimum { get; }
 
-            public double RangeMin { get; }
+            public double RangeStart { get; }
 
-            public double RangeMax { get; }
+            public double RangeEnd { get; }
 
             public double Maximum { get; }
 
