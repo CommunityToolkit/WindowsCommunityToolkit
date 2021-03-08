@@ -153,13 +153,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else if (element is ContentControl contentControl)
             {
-                if (contentControl.Content is T result && predicate.Match(result))
-                {
-                    return result;
-                }
-
                 if (contentControl.Content is FrameworkElement content)
                 {
+                    if (content is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
                     element = content;
 
                     goto Start;
@@ -167,13 +167,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else if (element is Border border)
             {
-                if (border.Child is T result && predicate.Match(result))
-                {
-                    return result;
-                }
-
                 if (border.Child is FrameworkElement child)
                 {
+                    if (child is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
                     element = child;
 
                     goto Start;
@@ -181,16 +181,16 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else if (element is ContentPresenter contentPresenter)
             {
-                // Sometimes ContentPresenters are used in control templates instead of ContentControls
-                // Therefore we should still check if it's Content is a FrameworkElement and match.
+                // Sometimes ContentPresenter is used in control templates instead of ContentControl,
+                // therefore we should still check if its Content is a matching FrameworkElement instance.
                 // This also makes this work for SwitchPresenter.
-                if (contentPresenter.Content is T result && predicate.Match(result))
-                {
-                    return result;
-                }
-
                 if (contentPresenter.Content is FrameworkElement content)
                 {
+                    if (content is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
                     element = content;
 
                     goto Start;
@@ -200,13 +200,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 // We put UserControl right before the slower reflection fallback path as
                 // this type is less likely to be used compared to the other ones above.
-                if (userControl.Content is T result && predicate.Match(result))
-                {
-                    return result;
-                }
-
                 if (userControl.Content is FrameworkElement content)
                 {
+                    if (content is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
                     element = content;
 
                     goto Start;
