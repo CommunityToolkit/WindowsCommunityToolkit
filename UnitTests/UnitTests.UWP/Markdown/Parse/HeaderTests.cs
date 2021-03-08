@@ -13,6 +13,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class HeaderTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1()
@@ -210,5 +211,6 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "Header 1   =" }));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

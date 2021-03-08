@@ -334,7 +334,7 @@ namespace Microsoft.Collections.Extensions
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Enumerator GetEnumerator() => new Enumerator(this);
+        public Enumerator GetEnumerator() => new(this);
 
         /// <summary>
         /// Enumerator for <see cref="DictionarySlim{TKey,TValue}"/>.

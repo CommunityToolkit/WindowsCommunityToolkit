@@ -7,12 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -232,25 +230,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ItemContainer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-            if (panel != null)
+            if ((sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
                 AnimationBuilder.Create().Opacity(0, duration: TimeSpan.FromMilliseconds(1200)).Start(panel);
-                AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start((UIElement)panel.Parent);
+
+                if (panel.Parent is UIElement parent)
+                {
+                    AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start(parent);
+                }
             }
         }
 
         private void ItemContainer_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse &&
+                (sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
-                var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
-                if (panel != null)
-                {
-                    panel.Visibility = Visibility.Visible;
+                panel.Visibility = Visibility.Visible;
 
-                    AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
-                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start((UIElement)panel.Parent);
+                AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
+
+                if (panel.Parent is UIElement parent)
+                {
+                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start(parent);
                 }
             }
         }

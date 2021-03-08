@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
@@ -11,6 +12,7 @@
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
       xmlns:mediaactions="using:Microsoft.Xaml.Interactions.Media"
       xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
@@ -28,6 +30,16 @@
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <TextBox x:Key="TextBoxExtensions">
+            <ui:TextBoxExtensions.SurfaceDialOptions>
+                <ui:SurfaceDialOptions />
+            </ui:TextBoxExtensions.SurfaceDialOptions>
+        </TextBox>
+        <controls:SwitchPresenter x:Key="SwitchPresenterControl">
+            <controls:CaseCollection>
+                <controls:Case IsDefault="True" />
+            </controls:CaseCollection>
+        </controls:SwitchPresenter>
     </Page.Resources>
 
     <Grid>
@@ -55,6 +67,7 @@
         <interactivity:Interaction.Behaviors>
             <interactions:EventTriggerBehavior EventName="Loaded">
                 <interactions:ChangePropertyAction />
+                <interactions:InvokeCommandAction />
                 <mediaactions:PlaySoundAction />
             </interactions:EventTriggerBehavior>
         </interactivity:Interaction.Behaviors>

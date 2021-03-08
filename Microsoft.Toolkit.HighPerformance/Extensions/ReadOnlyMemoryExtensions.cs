@@ -12,7 +12,7 @@ using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals.Interfaces;
 using MemoryStream = Microsoft.Toolkit.HighPerformance.Streams.MemoryStream;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ReadOnlyMemory{T}"/> type.
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlyMemory2D<T> AsMemory2D<T>(this ReadOnlyMemory<T> memory, int height, int width)
         {
-            return new ReadOnlyMemory2D<T>(memory, height, width);
+            return new(memory, height, width);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlyMemory2D<T> AsMemory2D<T>(this ReadOnlyMemory<T> memory, int offset, int height, int width, int pitch)
         {
-            return new ReadOnlyMemory2D<T>(memory, offset, height, width, pitch);
+            return new(memory, offset, height, width, pitch);
         }
 #endif
 

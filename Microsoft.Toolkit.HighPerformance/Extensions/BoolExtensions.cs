@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="bool"/> type.
@@ -31,20 +31,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             bool copy = flag;
 
             return *(byte*)&copy;
-        }
-
-        /// <summary>
-        /// Converts the given <see cref="bool"/> value into an <see cref="int"/>.
-        /// </summary>
-        /// <param name="flag">The input value to convert.</param>
-        /// <returns>1 if <paramref name="flag"/> is <see langword="true"/>, 0 otherwise.</returns>
-        /// <remarks>This method does not contain branching instructions.</remarks>
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obsolete("Use ToByte instead.")]
-        public static unsafe int ToInt(this bool flag)
-        {
-            return *(byte*)&flag;
         }
 
         /// <summary>
