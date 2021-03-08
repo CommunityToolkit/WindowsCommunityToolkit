@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Called before the <see cref="ThumbDragStarted"/> event occurs.
         /// </summary>
         /// <param name="e">Event data for the event.</param>
-        protected void OnThumbDragStarted(DragStartedEventArgs e)
+        protected virtual void OnThumbDragStarted(DragStartedEventArgs e)
         {
             ThumbDragStarted?.Invoke(this, e);
         }
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Called before the <see cref="ThumbDragCompleted"/> event occurs.
         /// </summary>
         /// <param name="e">Event data for the event.</param>
-        protected void OnThumbDragCompleted(DragCompletedEventArgs e)
+        protected virtual void OnThumbDragCompleted(DragCompletedEventArgs e)
         {
             ThumbDragCompleted?.Invoke(this, e);
         }
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Called before the <see cref="ValueChanged"/> event occurs.
         /// </summary>
         /// <param name="e"><see cref="RangeChangedEventArgs"/> event data for the event.</param>
-        protected void OnValueChanged(RangeChangedEventArgs e)
+        protected virtual void OnValueChanged(RangeChangedEventArgs e)
         {
             ValueChanged?.Invoke(this, e);
         }
