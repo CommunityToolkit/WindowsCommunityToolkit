@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return;
             }
 
-            var placeHolderValue = textbox.GetValue(PlaceHolderProperty) as string;
+            var placeHolderValue = textbox.GetValue(MaskPlaceholderProperty) as string;
             if (string.IsNullOrEmpty(placeHolderValue))
             {
                 throw new ArgumentException("PlaceHolder can't be null or empty");
@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             var textbox = (TextBox)sender;
             var mask = textbox?.GetValue(MaskProperty) as string;
-            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
+            var placeHolderValue = textbox?.GetValue(MaskPlaceholderProperty) as string;
             var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             if (string.IsNullOrWhiteSpace(mask) ||
                 representationDictionary == null ||
@@ -194,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var textbox = (TextBox)sender;
             var mask = textbox.GetValue(MaskProperty) as string;
             var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-            var placeHolderValue = textbox.GetValue(PlaceHolderProperty) as string;
+            var placeHolderValue = textbox.GetValue(MaskPlaceholderProperty) as string;
             if (string.IsNullOrWhiteSpace(mask) ||
             representationDictionary == null ||
             string.IsNullOrEmpty(placeHolderValue))
@@ -262,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var escapedChars = textbox.GetValue(EscapedCharacterIndicesProperty) as List<int>;
 
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
+            var placeHolderValue = textbox?.GetValue(MaskPlaceholderProperty) as string;
             var oldText = textbox.GetValue(OldTextProperty) as string;
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             var oldSelectionLength = (int)textbox.GetValue(OldSelectionLengthProperty);

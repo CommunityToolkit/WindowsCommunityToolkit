@@ -173,9 +173,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var loadCompletedSource = new TaskCompletionSource<bool>();
                 _brushVisual = compositor.CreateSurfaceBrush(_imageSurface);
 
-                _imageSurface.LoadCompleted += (s, e) =>
+                void LoadCompleted(LoadedImageSurface sender, LoadedImageSourceLoadCompletedEventArgs args)
                 {
-                    if (e.Status == LoadedImageSourceLoadStatus.Success)
+                    sender.LoadCompleted -= LoadCompleted;
+
+                    if (args.Status == LoadedImageSourceLoadStatus.Success)
                     {
                         loadCompletedSource.SetResult(true);
                     }
@@ -183,7 +185,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         loadCompletedSource.SetException(new ArgumentException("Image loading failed."));
                     }
-                };
+                }
+
+                _imageSurface.LoadCompleted += LoadCompleted;
 
                 await loadCompletedSource.Task;
                 _imageSize = _imageSurface.DecodedPhysicalSize;

@@ -485,6 +485,7 @@
         "About": "Activity for Animations to Start another Animation",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Xaml/Activities",
         "XamlCodeFile": "/SamplePages/Animations/Activities/StartAnimationActivity.bind",
+        "CodeFile": "/SamplePages/Animations/Activities/StartAnimationActivityCode.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
@@ -492,6 +493,7 @@
         "Subcategory": "Activities",
         "About": "Activity chaining Actions from the Behaviors package into an Animation schedule.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations",
+        "CodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivityCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivity.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
