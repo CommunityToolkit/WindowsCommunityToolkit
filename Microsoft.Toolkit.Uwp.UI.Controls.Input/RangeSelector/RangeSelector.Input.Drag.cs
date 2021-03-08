@@ -15,26 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RangeSelector : Control
     {
-        /// <summary>
-        /// Event raised when lower or upper range thumbs start being dragged.
-        /// </summary>
-        public event DragStartedEventHandler ThumbDragStarted;
-
-        /// <summary>
-        /// Event raised when lower or upper range thumbs end being dragged.
-        /// </summary>
-        public event DragCompletedEventHandler ThumbDragCompleted;
-
-        private void OnThumbDragStarted(DragStartedEventArgs e)
-        {
-            ThumbDragStarted?.Invoke(this, e);
-        }
-
-        private void OnThumbDragCompleted(DragCompletedEventArgs e)
-        {
-            ThumbDragCompleted?.Invoke(this, e);
-        }
-
         private void MinThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             _absolutePosition += e.HorizontalChange;
@@ -89,7 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return _containerCanvas.ActualWidth - _maxThumb.Width;
         }
-
 
         private double DragThumb(Thumb thumb, double min, double max, double nextPos)
         {
