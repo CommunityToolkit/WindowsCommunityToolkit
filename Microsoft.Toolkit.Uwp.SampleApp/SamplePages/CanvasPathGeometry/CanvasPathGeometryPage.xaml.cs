@@ -97,7 +97,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private Color _strokeColor;
         private Color _fillColor;
         private bool _selectionChanged = false;
-        private bool _isParsing = false;
 
         //private CanvasGeometry _errorGeometry;
         //private GeometryStreamReader _reader;
@@ -174,9 +173,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void ParseData()
         {
             _data = InputData.Text;
-            _isParsing = true;
             //RenderCanvas.Invalidate();
-            _isParsing = false;
         }
 
         /*

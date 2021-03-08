@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Indicates the <see cref="SwitchCases"/> property.
         /// </summary>
         public static readonly DependencyProperty SwitchCasesProperty =
-            DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null, new PropertyChangedCallback(OnSwitchCasesPropertyChanged)));
+            DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value indicating the value to compare all cases against. When this value is bound to and changes, the presenter will automatically evaluate cases and select the new appropriate content from the switch.
@@ -60,47 +61,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Indicates the <see cref="Value"/> property.
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(SwitchPresenter), new PropertyMetadata(null, new PropertyChangedCallback(OnValuePropertyChanged)));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(SwitchPresenter), new PropertyMetadata(null, OnValuePropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating which type to first cast and compare provided values against.
         /// </summary>
         public Type TargetType
         {
-            get { return (Type)GetValue(DataTypeProperty); }
-            set { SetValue(DataTypeProperty, value); }
+            get { return (Type)GetValue(TargetTypeProperty); }
+            set { SetValue(TargetTypeProperty, value); }
         }
 
         /// <summary>
         /// Indicates the <see cref="TargetType"/> property.
         /// </summary>
-        public static readonly DependencyProperty DataTypeProperty =
+        public static readonly DependencyProperty TargetTypeProperty =
             DependencyProperty.Register(nameof(TargetType), typeof(Type), typeof(SwitchPresenter), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the content is removed from the visual tree when switching between cases.
-        /// </summary>
-        public bool IsVisualTreeDisconnectedOnChange { get; set; }
-
-        private static void OnSwitchCasesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.OldValue != null)
-            {
-                ((SwitchPresenter)e.OldValue).SwitchCases.CaseCollectionChanged -= OnCaseValuePropertyChanged;
-            }
-
-            var xswitch = (SwitchPresenter)d;
-
-            foreach (var xcase in xswitch.SwitchCases)
-            {
-                // Set our parent
-                xcase.Parent = xswitch;
-            }
-
-            // Will trigger on collection change and case value changed
-            xswitch.SwitchCases.Parent = xswitch;
-            xswitch.SwitchCases.CaseCollectionChanged += OnCaseValuePropertyChanged;
-        }
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -108,14 +84,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var xswitch = (SwitchPresenter)d;
 
             xswitch.EvaluateCases();
-        }
-
-        private static void OnCaseValuePropertyChanged(object sender, EventArgs e)
-        {
-            // When something about our collection of cases changes, re-evaluate.
-            var collection = (CaseCollection)sender;
-
-            collection.Parent.EvaluateCases();
         }
 
         /// <summary>
@@ -148,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Case xdefault = null;
             Case newcase = null;
 
-            foreach (var xcase in SwitchCases)
+            foreach (Case xcase in SwitchCases)
             {
                 if (xcase.IsDefault)
                 {
@@ -170,19 +138,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 newcase = xdefault;
             }
 
-            // Only bother changing things around if we have a new case.
+            // Only bother changing things around if we actually have a new case.
             if (newcase != CurrentCase)
             {
-                // Disconnect old content from visual tree.
-                if (CurrentCase != null && CurrentCase.Content != null && IsVisualTreeDisconnectedOnChange)
-                {
-                    // TODO: If we disconnect here, we need to recreate later??? Need to Test...
-                    VisualTreeHelper.DisconnectChildrenRecursive(CurrentCase.Content);
-                }
-
-                // Hookup new content.
-                Content = newcase.Content;
-
+                // If we don't have any cases or default, setting these to null is what we want to be blank again.
+                Content = newcase?.Content;
                 CurrentCase = newcase;
             }
         }
@@ -236,6 +196,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (targetType.IsInstanceOfType(value))
             {
                 return value;
+            }
+            else if (targetType.IsEnum && value is string str)
+            {
+                if (Enum.TryParse(targetType, str, out object result))
+                {
+                    return result;
+                }
+
+                static object ThrowExceptionForKeyNotFound()
+                {
+                    throw new InvalidOperationException("The requested enum value was not present in the provided type.");
+                }
+
+                return ThrowExceptionForKeyNotFound();
             }
             else
             {

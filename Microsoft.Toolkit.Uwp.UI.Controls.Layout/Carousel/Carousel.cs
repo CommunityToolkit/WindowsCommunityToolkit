@@ -5,8 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
@@ -532,6 +534,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 carouselItem.IsSelected = true;
             }
+
+            carouselItem.ParentCarousel = this;
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="Carousel"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new CarouselAutomationPeer(this);
         }
 
         private void OnCarouselItemSelected(object sender, EventArgs e)
@@ -539,6 +552,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var item = (CarouselItem)sender;
 
             SelectedItem = ItemFromContainer(item);
+        }
+
+        internal void SetSelectedItem(CarouselItem owner)
+        {
+            var item = ItemFromContainer(owner);
+            SelectedItem = item;
         }
     }
 }

@@ -94,28 +94,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         }
 
         /// <summary>
-        /// Called by GetAutomationId that gets the **AutomationId** of the element that is associated with the automation peer.
-        /// </summary>
-        /// <returns>
-        /// The string that contains the automation ID.
-        /// </returns>
-        protected override string GetAutomationIdCore()
-        {
-            string automationId = base.GetAutomationIdCore();
-            if (!string.IsNullOrEmpty(automationId))
-            {
-                return automationId;
-            }
-
-            if (this.OwnerBladeItem != null)
-            {
-                return this.GetNameCore();
-            }
-
-            return string.Empty;
-        }
-
-        /// <summary>
         /// Returns the size of the set where the element that is associated with the automation peer is located.
         /// </summary>
         /// <returns>
