@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 void LoadCompleted(LoadedImageSurface sender, LoadedImageSourceLoadCompletedEventArgs args)
                 {
-                    _imageSurface.LoadCompleted -= LoadCompleted;
+                    sender.LoadCompleted -= LoadCompleted;
 
                     if (args.Status == LoadedImageSourceLoadStatus.Success)
                     {
