@@ -1288,7 +1288,8 @@
         "XamlCodeFile": "GazeTracingXaml.bind",
         "CodeFile": "GazeTracingCode.bind",
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
-        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview",
+        "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
       }
     ]
   }
