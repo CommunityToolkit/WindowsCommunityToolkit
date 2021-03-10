@@ -1261,7 +1261,8 @@
         "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/EnumValuesExtension.cs",
         "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "EnumValuesExtensionXaml.bind",
-        "CodeFile": "EnumValuesExtensionCode.bind"
+        "CodeFile": "EnumValuesExtensionCode.bind",
+        "DocumentationUrl": "Missing"
       }
     ]
   },
