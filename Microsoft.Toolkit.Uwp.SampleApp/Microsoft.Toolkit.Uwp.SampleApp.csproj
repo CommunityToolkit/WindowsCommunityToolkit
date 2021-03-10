@@ -272,6 +272,9 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Animations\Effects\EffectAnimations.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="SamplePages\Graph\LoginButton.png" />
     <Content Include="SamplePages\Graph\PeoplePicker.png" />
     <Content Include="SamplePages\Graph\PersonView.png" />
