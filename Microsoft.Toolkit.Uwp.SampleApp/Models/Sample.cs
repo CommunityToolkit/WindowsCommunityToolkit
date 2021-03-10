@@ -71,7 +71,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private string _cachedDocumentation = string.Empty;
-        private string _cachedPath = string.Empty;
 
         internal static async Task<Sample> FindAsync(string category, string name)
         {
@@ -149,7 +148,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string XamlCode { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the path set in the samples.json pointing to the doc for the sample.
+        /// </summary>
         public string DocumentationUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the absolute local doc path for cached file in app.
+        /// </summary>
+        public string LocalDocumentationFilePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the base path segment to the current document location.
+        /// </summary>
+        public string RemoteDocumentationPath { get; set; }
 
         public string Icon { get; set; }
 
@@ -191,32 +203,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-#pragma warning disable SA1009 // Doesn't like ValueTuples.
-        public async Task<(string contents, string path)> GetDocumentationAsync()
-#pragma warning restore SA1009 // Doesn't like ValueTuples.
+        public async Task<string> GetDocumentationAsync()
         {
             if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
-                return (_cachedDocumentation, _cachedPath);
+                return _cachedDocumentation;
             }
 
             var filepath = string.Empty;
             var filename = string.Empty;
-            var localPath = string.Empty;
+            LocalDocumentationFilePath = string.Empty;
 
             var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
             if (docMatch.Success)
             {
                 filepath = docMatch.Groups["file"].Value;
-                filename = Path.GetFileName(filepath);
-                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}/";
+                filename = Path.GetFileName(RemoteDocumentationPath);
+                RemoteDocumentationPath = Path.GetDirectoryName(filepath);
+                LocalDocumentationFilePath = $"ms-appx:///docs/{RemoteDocumentationPath}/";
             }
 
 #if !DEBUG // use the docs repo in release mode
-            string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
-
-            _cachedPath = modifiedDocumentationUrl.Replace(filename, string.Empty);
+            string modifiedDocumentationUrl = $"{_docsOnlineRoot}live/docs/{filepath}";
 
             // Read from Cache if available.
             try
@@ -264,7 +273,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         var result = await localDocsStream.ReadTextAsync(Encoding.UTF8);
                         _cachedDocumentation = ProcessDocs(result);
-                        _cachedPath = localPath;
                     }
                 }
                 catch (Exception)
@@ -272,7 +280,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            return (_cachedDocumentation, _cachedPath);
+            return _cachedDocumentation;
         }
 
         /// <summary>
