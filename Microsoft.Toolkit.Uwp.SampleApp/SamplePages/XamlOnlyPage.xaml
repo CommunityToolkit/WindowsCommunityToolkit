@@ -11,6 +11,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
       xmlns:mediaactions="using:Microsoft.Xaml.Interactions.Media"
+      xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
       xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
       xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -31,6 +32,9 @@
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <controls:ColorPicker x:Key="ColorPicker" />
+        <controls:ColorPickerButton x:Key="ColorPickerButton" />
+        <primitives:ColorPickerSlider x:Key="ColorPickerSlider" />
         <controls:RangeSelector x:Key="RangeSelector" />
         <TextBox x:Key="TextBoxExtensions">
             <ui:TextBoxExtensions.SurfaceDialOptions>
