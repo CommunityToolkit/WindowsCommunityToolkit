@@ -7958,6 +7958,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int editingRowSlot = this.EditingRow.Slot;
 
                     InvalidateMeasure();
+                    // TODO: Move to DispatcherQueue when FEATURE_VALIDATION_SUMMARY is enabled
                     this.Dispatcher.BeginInvoke(() =>
                     {
                         // It's possible that the DataContext or ItemsSource has changed by the time we reach this code,
@@ -8762,6 +8763,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // If the number of errors has changed, then the ValidationSummary will be a different size,
                     // and we need to delay our call to ScrollSlotIntoView
                     this.InvalidateMeasure();
+                    // TODO: Move to DispatcherQueue when FEATURE_VALIDATION_SUMMARY is enabled
                     this.Dispatcher.BeginInvoke(() =>
                     {
                         // It's possible that the DataContext or ItemsSource has changed by the time we reach this code,
