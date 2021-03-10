@@ -27,6 +27,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Microsoft.UI.Xaml;
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -117,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if DEBUG
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/Microsoft/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/windows-toolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;
@@ -134,7 +135,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 else
                 {
-                    _codeUrl = $"https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/{path}";
+                    var packageVersion = Package.Current.Id.Version.ToFormattedString(3);
+                    _codeUrl = $"https://github.com/Microsoft/WindowsCommunityToolkit/tree/rel/{packageVersion}/{path}";
                 }
 #endif
             }
@@ -668,7 +670,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                var branchEndpoint = "https://api.github.com/repos/microsoftdocs/uwpcommunitytoolkitdocs/git/refs/heads/live";
+                var branchEndpoint = "https://api.github.com/repos/microsoftdocs/windowscommunitytoolkitdocs/git/refs/heads/live";
 
                 var request = new HttpRequestMessage(HttpMethod.Get, branchEndpoint);
                 request.Headers.Add("User-Agent", "Windows Community Toolkit Sample App");
