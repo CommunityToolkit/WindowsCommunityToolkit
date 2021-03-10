@@ -1104,11 +1104,11 @@
       {
         "Name": "VisualEffectFactory",
         "About": "A composition pipeline which can render any custom Win2D/Composition effects chain directly on a Composition visual.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/PipelineBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Visuals",
         "XamlCodeFile": "VisualEffectFactory.bind",
         "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineVisualFactory.md"
       },
       {
         "Name": "AcrylicBrush",
