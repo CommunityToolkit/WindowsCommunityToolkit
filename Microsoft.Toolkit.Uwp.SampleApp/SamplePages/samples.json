@@ -1262,7 +1262,7 @@
         "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "EnumValuesExtensionXaml.bind",
         "CodeFile": "EnumValuesExtensionCode.bind",
-        "DocumentationUrl": "Missing"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/EnumValuesExtension.md"
       }
     ]
   },
