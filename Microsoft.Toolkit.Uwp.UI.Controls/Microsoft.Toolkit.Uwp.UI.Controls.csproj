@@ -2,6 +2,11 @@
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
+    <Description>
+      This library provides Controls, Panels, VirtualizingLayouts and various DependencyObjects and other classes for XAML development. It is part of the Windows Community Toolkit.
+
+      This pacakge provides no actual code and is only an aggrigate of its dependencies.
+    </Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
 
