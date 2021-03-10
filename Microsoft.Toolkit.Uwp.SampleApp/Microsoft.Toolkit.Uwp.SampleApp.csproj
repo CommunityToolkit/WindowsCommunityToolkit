@@ -900,9 +900,6 @@
     <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
       <DependentUpon>RadialGaugePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
-      <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
       <DependentUpon>WrapPanelPage.xaml</DependentUpon>
     </Compile>
@@ -1346,10 +1343,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RadialGauge\RadialGaugePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

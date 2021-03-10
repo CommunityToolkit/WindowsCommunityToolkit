@@ -76,11 +76,10 @@
       },
       {
         "Name": "RangeSelector",
-        "Type": "RangeSelectorPage",
         "Subcategory": "Input",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Input/RangeSelector",
-        "XamlCodeFile": "RangeSelectorCode.bind",
+        "XamlCodeFile": "/SamplePages/RangeSelector/RangeSelectorCode.bind",
         "Icon": "/SamplePages/RangeSelector/RangeSelector.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RangeSelector.md"
       },

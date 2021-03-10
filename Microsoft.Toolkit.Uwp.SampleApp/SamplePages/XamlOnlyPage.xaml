@@ -20,8 +20,9 @@
     <!--  Put a copy of any controls/resources required for XAML Parsing within XAML Only Samples  -->
     <!--  This page is never loaded by the app, but used to trick the compiler...  -->
     <Page.Resources>
-        <converters:VisibilityToBoolConverter x:Key="VisibilityBoolConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolVisibilityConverter" />
+        <converters:VisibilityToBoolConverter x:Key="VisibilityBoolConverter" />
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
         <triggers:CompareStateTrigger x:Key="CompareStateTrigger" />
         <triggers:IsEqualStateTrigger x:Key="IsEqualStateTrigger" />
         <triggers:IsNotEqualStateTrigger x:Key="IsNotEqualStateTrigger" />
@@ -30,6 +31,7 @@
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <controls:RangeSelector x:Key="RangeSelector" />
         <TextBox x:Key="TextBoxExtensions">
             <ui:TextBoxExtensions.SurfaceDialOptions>
                 <ui:SurfaceDialOptions />
