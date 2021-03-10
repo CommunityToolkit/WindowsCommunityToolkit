@@ -721,10 +721,10 @@
         "Type": "DispatcherQueueHelperPage",
         "Subcategory": "Developer",
         "About": "Allows easy interaction with Windows Runtime message dispatcher queue for multi-threaded scenario (I.E: Run code on UI thread).",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherQueueHelper.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Extensions/DispatcherQueueExtensions.cs",
         "CodeFile": "DispatcherQueueHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/DispatcherQueueHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/DispatcherQueueExtensions.md"
       },
       {
         "Name": "AdvancedCollectionView",
@@ -741,7 +741,7 @@
         "Type": "ObservableGroupPage",
         "Subcategory": "Data",
         "About": "Allows you to easily create observable grouped collections.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit/ObservableGroup",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit/Collections",
         "CodeFile": "ObservableGroup.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/collections/ObservableGroups.md"
@@ -762,6 +762,7 @@
         "Type": "ThemeListenerPage",
         "Subcategory": "Systems",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
       },
@@ -780,37 +781,38 @@
         "Type": "ViewportBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior for listening element enter or exit viewport",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Viewport",
         "CodeFile": "ViewportBehaviorCode.bind",
         "XamlCodeFile": "ViewportBehaviorXaml.bind",
         "Icon": "/SamplePages/ViewportBehavior/ViewportBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ViewportBehavior.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ViewportBehavior.md"
       },
       {
         "Name": "AutoFocusBehavior",
         "Type": "AutoFocusBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior to automatically set the focus on a control when it loads",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/AutoFocusBehavior.cs",
         "XamlCodeFile": "AutoFocusBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoFocusBehavior.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehaviors.md"
       },
       {
         "Name": "FocusBehavior",
         "Type": "FocusBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior to automatically set the focus on the first control which accepts it",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/FocusBehavior.cs",
         "CodeFile": "FocusBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehavior.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehaviors.md"
       },
       {
         "Name": "Win2d Path Mini Language Parser",
         "Type": "CanvasPathGeometryPage",
         "Subcategory": "Parser",
         "About": "CanvasPathGeometry class allows you to convert Win2d Path Mini Language string to CanvasGeometry, Brushes, CanvasStrokes or CanvasStrokeStyles.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Geometry",
         "Icon": "/SamplePages/CanvasPathGeometry/CanvasPathGeometry.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/CanvasPathGeometry.md"
       },
@@ -819,7 +821,7 @@
         "Type": "LiveTilePage",
         "Subcategory": "Notifications",
         "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications/Tiles",
         "CodeFile": "LiveTileCode.bind",
         "Icon": "/SamplePages/LiveTile/LiveTile.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
@@ -829,7 +831,7 @@
         "Type": "ToastPage",
         "Subcategory": "Notifications",
         "About": "This shows how to send a Toast notification.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications/Toasts",
         "CodeFile": "ToastCode.bind",
         "Icon": "/SamplePages/Toast/Toast.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
@@ -848,6 +850,7 @@
         "Name": "Guard APIs",
         "Subcategory": "Developer",
         "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Diagnostics",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
       },
@@ -855,6 +858,7 @@
         "Name": "High Performance APIs",
         "Subcategory": "Developer",
         "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.HighPerformance",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
       },
@@ -870,7 +874,7 @@
         "Name": "CompareStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/CompareStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/CompareStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -879,7 +883,7 @@
         "Name": "IsEqualStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to another value",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/IsEqualStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/IsEqualStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -889,7 +893,7 @@
         "Type": "FullScreenModeStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when in full screen mode",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/FullScreenModeStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/FullScreenModeStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -899,7 +903,7 @@
         "Type": "IsNullOrEmptyStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if an Object is null or a String/IEnumerable is empty",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/IsNullOrEmptyStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/IsNullOrEmptyStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -908,7 +912,7 @@
         "Name": "NetworkConnectionStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the network availability changes",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/NetworkConnectionStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/NetworkConnectionStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -917,7 +921,7 @@
         "Name": "IsNotEqualStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is not equal to another value",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/IsNotEqualStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/IsNotEqualStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -926,7 +930,7 @@
         "Name": "RegexStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the regex expression is true for a given string value",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/RegexStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/RegexStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -935,7 +939,7 @@
         "Name": "UserHandPreferenceStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching UI based on whether the user favours their left or right hand.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/UserHandPreferenceStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/UserHandPreferenceStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -944,7 +948,7 @@
         "Name": "UserInteractionModeStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the User interaction mode changes (tablet mode)",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Triggers",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/UserInteractionModeStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/UserInteractionModeStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -1041,11 +1045,11 @@
       {
         "Name": "VisualEffectFactory",
         "About": "A composition pipeline which can render any custom Win2D/Composition effects chain directly on a Composition visual.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Brushes/PipelineBrush.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Media/Visuals",
         "XamlCodeFile": "VisualEffectFactory.bind",
         "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineVisualFactory.md"
       },
       {
         "Name": "AcrylicBrush",
@@ -1077,7 +1081,7 @@
         "Name": "ListViewExtensions",
         "Type": "ListViewExtensionsPage",
         "About": "Extensions for all controls that inherit from ListViewBase like ListView.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewExtensions",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewBase",
         "XamlCodeFile": "ListViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ListViewExtensions.md"
@@ -1095,7 +1099,7 @@
         "Name": "TextBoxMask",
         "Type": "TextBoxMaskPage",
         "About": "TextBox Mask property allows a user to more easily enter fixed width text in TextBox control where you would like them to enter the data in a certain format",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxMask",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBox",
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/TextBoxMask.md"
@@ -1104,7 +1108,7 @@
         "Name": "Mouse",
         "Type": "MouseCursorPage",
         "About": "Mouse.Cursor attached property enables you to easily change the mouse cursor over specific Framework elements.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Mouse",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement/FrameworkElementExtensions.Mouse.cs",
         "XamlCodeFile": "MouseCursorPage.bind",
         "Icon": "/SamplePages/Mouse/MouseCursor.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/MouseCursor.md"
@@ -1113,7 +1117,7 @@
         "Name": "TextBoxRegex",
         "Type": "TextBoxRegexPage",
         "About": "TextBoxRegex helps developer to validate a TextBox with a regular expression using the Regex property.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxRegEx",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBox",
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/TextBoxRegex.md"
@@ -1121,7 +1125,7 @@
       {
         "Name": "SurfaceDialTextbox",
         "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/SurfaceDialTextbox",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBox/TextBoxExtensions.SurfaceDial.cs",
         "XamlCodeFile": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextboxCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
@@ -1131,7 +1135,7 @@
         "Name": "Visual Extensions",
         "Type": "VisualExtensionsPage",
         "About": "Attached properties to modify object visual properties through XAML",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/VisualExtensions.cs",
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
@@ -1150,7 +1154,7 @@
         "Name": "ClipToBounds",
         "Type": "ClipToBoundsPage",
         "About": "Extension to clip the UIElement inner controls inside its bounds.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/UIElement",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/UIElementExtensions.cs",
         "XamlCodeFile": "ClipToBoundsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/UIElementExtensions.md"
@@ -1159,7 +1163,7 @@
         "Name": "StringExtensions",
         "Type": "StringExtensionsPage",
         "About": "String Extensions to validate strings",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit/Extensions",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/StringExtensions.md"
       },
@@ -1177,6 +1181,7 @@
         "Name": "OnDevice",
         "Type": "OnDevicePage",
         "About": "The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/OnDeviceExtension.cs",
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
@@ -1185,18 +1190,20 @@
         "Name": "IconExtensions",
         "Type": "IconExtensionsPage",
         "About": "Markup extensions to easily create various types of icons.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/FontIconExtension",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup",
         "XamlCodeFile": "IconExtensionsXaml.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/IconExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/IconMarkupExtensions.md"
       },
       {
         "Name": "EnumValuesExtension",
         "Type": "EnumValuesExtensionPage",
         "About": "The EnumValuesExtension markup extension allows you to easily retrieve a collection of all values from an enum type.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/EnumValuesExtension.cs",
         "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "EnumValuesExtensionXaml.bind",
-        "CodeFile": "EnumValuesExtensionCode.bind"
+        "CodeFile": "EnumValuesExtensionCode.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/EnumValuesExtension.md"
       }
     ]
   },
@@ -1210,6 +1217,7 @@
         "About": "Demonstrate the properties and events of the Gaze Interaction library",
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "CodeFile": "GazeInteractionCode.bind",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
@@ -1222,7 +1230,8 @@
         "XamlCodeFile": "GazeTracingXaml.bind",
         "CodeFile": "GazeTracingCode.bind",
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
-        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview",
+        "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
       }
     ]
   }
