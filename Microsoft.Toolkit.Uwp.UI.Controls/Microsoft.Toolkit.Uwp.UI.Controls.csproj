@@ -3,9 +3,9 @@
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>
-      This library provides Controls, Panels, VirtualizingLayouts and various DependencyObjects and other classes for XAML development. It is part of the Windows Community Toolkit.
+      This library provides Controls, Panels, ItemsRepeater Layouts, and various other classes & helpers for XAML UI development with UWP. It is part of the Windows Community Toolkit.
 
-      This pacakge provides no actual code and is only an aggrigate of its dependencies.
+      This package provides no actual code and is only an aggregate of its dependencies. You can find out how to optimize your app after development at https://aka.ms/wct/optimize
     </Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
