@@ -854,7 +854,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/AutoFocusBehavior.cs",
         "XamlCodeFile": "AutoFocusBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoFocusBehavior.md"
+        "DocumentationUrl": "Cannot find!"
       },
       {
         "Name": "FocusBehavior",
@@ -864,7 +864,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/FocusBehavior.cs",
         "CodeFile": "FocusBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehavior.md"
+        "DocumentationUrl": "Cannot find!"
       },
       {
         "Name": "Win2d Path Mini Language Parser",
