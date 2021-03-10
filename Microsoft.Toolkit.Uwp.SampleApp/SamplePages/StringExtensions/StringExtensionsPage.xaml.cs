@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             IsValidDecimalResult.FontWeight = InputTextBox.Text.IsDecimal() ? FontWeights.Bold : FontWeights.Normal;
 
             IsValidStringResult.Text = InputTextBox.Text.IsCharacterString().ToString();
-            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsCharacterString() ? FontWeights.Bold : FontWeights.Normal;
+            IsValidStringResult.FontWeight = InputTextBox.Text.IsCharacterString() ? FontWeights.Bold : FontWeights.Normal;
 
             IsValidPhoneNumberResult.Text = InputTextBox.Text.IsPhoneNumber().ToString();
             IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsPhoneNumber() ? FontWeights.Bold : FontWeights.Normal;

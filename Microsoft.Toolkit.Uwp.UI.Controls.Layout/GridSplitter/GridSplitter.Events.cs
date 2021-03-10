@@ -61,6 +61,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Foreground = GripperForeground,
                     Text = _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal
                 };
+                _gripperDisplay.SetValue(
+                    Microsoft.UI.Xaml.Automation.AutomationProperties.AccessibilityViewProperty,
+                    Microsoft.UI.Xaml.Automation.Peers.AccessibilityView.Raw);
             }
         }
 

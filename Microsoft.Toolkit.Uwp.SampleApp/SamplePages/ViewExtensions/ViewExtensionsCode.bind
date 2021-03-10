@@ -13,8 +13,6 @@
       mc:Ignorable="d">
 
   <Grid>
-    <TextBlock Margin="16">
-      Modify the XAML to change the Title.
-    </TextBlock>
+    <TextBlock Margin="16" Text="Modify the XAML to change the Title."/>
   </Grid>
 </Page>

@@ -158,7 +158,7 @@
                               Grid.Column="1"
                               animations:Implicit.Animations="{StaticResource ImplicitOffset}">
                             <StackPanel>
-                                <TextBlock Style="{StaticResource AboutPageHeader}">Recent Activity</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}" Text="Recent Activity"/>
 
                                 <Grid Margin="0,16,0,0">
                                     <TextBlock FontFamily="Segoe UI"
@@ -195,7 +195,7 @@
 
                             <StackPanel x:Name="ReleaseNotesPanel"
                                         animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock Style="{StaticResource AboutPageHeader}">Release Notes</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}" Text="Release Notes"/>
                                 <ItemsControl Margin="0,16,0,0"
                                               ItemTemplate="{StaticResource ReleaseNoteTemplate}"
                                               ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" />
@@ -254,7 +254,7 @@
                                          animations:Implicit.Animations="{StaticResource ImplicitOffset}"
                                          NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839"
                                          Style="{StaticResource AboutHyperlinkButtonStyle}">
-                            <TextBlock>Privacy statement</TextBlock>
+                            <TextBlock Text="Privacy statement"/>
                         </HyperlinkButton>
                     </Grid>
                 </ScrollViewer>
