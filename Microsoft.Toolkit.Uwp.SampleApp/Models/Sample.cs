@@ -647,7 +647,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 DataGridGridLinesVisibility.None.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
                 GridSplitter.GridResizeDirection.Auto.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Layout
                 typeof(MarkdownTextBlock), // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
-                typeof(AlphaMode), // Microsoft.Toolkit.Uwp.UI.Controls.Media
+                BitmapFileFormat.Bmp.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Media
+                typeof(AlphaMode), // Microsoft.Toolkit.Uwp.UI.Media
                 StretchChild.Last.GetType() // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
             };
 
