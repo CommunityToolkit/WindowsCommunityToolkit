@@ -272,6 +272,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -495,6 +496,8 @@
     <Compile Include="SamplePages\ColorPicker\ColorPickerPage.xaml.cs">
       <DependentUpon>ColorPickerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\EnumValuesExtension\Animal.cs" />
+    <Compile Include="SamplePages\EnumValuesExtension\AnimalToColorConverter.xaml.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
@@ -614,6 +617,8 @@
     <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
+    <Content Include="SamplePages\Animations\Activities\InvokeActionsActivityCode.bind" />
+    <Content Include="SamplePages\Animations\Activities\StartAnimationActivityCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -974,6 +979,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

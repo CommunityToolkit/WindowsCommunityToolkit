@@ -463,6 +463,15 @@
         "XamlCodeFile": "/SamplePages/TabbedCommandBar/TabbedCommandBar.bind",
         "Icon": "/SamplePages/TabbedCommandBar/TabbedCommandBar.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabbedCommandBar.md"
+      },
+      {
+        "Name": "SwitchPresenter",
+        "Subcategory": "Layout",
+        "About": "The SwitchPresenter is a ContentPresenter which can allow a developer to mimic a switch statement within XAML.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/SwitchPresenter",
+        "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
+        "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
       }
     ]
   },
@@ -476,6 +485,7 @@
         "About": "Activity for Animations to Start another Animation",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Xaml/Activities",
         "XamlCodeFile": "/SamplePages/Animations/Activities/StartAnimationActivity.bind",
+        "CodeFile": "/SamplePages/Animations/Activities/StartAnimationActivityCode.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
@@ -483,6 +493,7 @@
         "Subcategory": "Activities",
         "About": "Activity chaining Actions from the Behaviors package into an Animation schedule.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations",
+        "CodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivityCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivity.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
