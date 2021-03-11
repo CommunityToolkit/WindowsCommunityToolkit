@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return blade;
         }
 
-        private void BladeOnVisibilityChanged(object sender, Visibility visibility)
+        private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
 
@@ -151,10 +151,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateLayout();
 
                 // Need to do this because of touch. See more information here: https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/760#issuecomment-276466464
-                DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Low, () =>
-                {
-                    GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
-                });
+                await DispatcherQueue.EnqueueAsync(
+                    () =>
+                    {
+                        GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+                    }, System.DispatcherQueuePriority.Low);
 
                 return;
             }

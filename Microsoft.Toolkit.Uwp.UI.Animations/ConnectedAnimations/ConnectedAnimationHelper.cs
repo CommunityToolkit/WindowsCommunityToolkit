@@ -149,17 +149,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                                     listAnimProperty.ListViewBase.ScrollIntoView(parameter);
 
                                     // give time to the UI thread to scroll the list
-                                    var t = listAnimProperty.ListViewBase.DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, async () =>
-                                    {
-                                        try
+                                    var t = listAnimProperty.ListViewBase.DispatcherQueue.EnqueueAsync(
+                                        async () =>
                                         {
-                                            var success = await listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(connectedAnimation, parameter, listAnimProperty.ElementName);
-                                        }
-                                        catch (Exception)
-                                        {
-                                            connectedAnimation.Cancel();
-                                        }
-                                    });
+                                            try
+                                            {
+                                                var success = await listAnimProperty.ListViewBase.TryStartConnectedAnimationAsync(connectedAnimation, parameter, listAnimProperty.ElementName);
+                                            }
+                                            catch (Exception)
+                                            {
+                                                connectedAnimation.Cancel();
+                                            }
+                                        }, System.DispatcherQueuePriority.Normal);
 
                                     animationHandled = true;
                                 }

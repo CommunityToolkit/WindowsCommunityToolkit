@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.System;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Size _imageSize = Size.Empty;
 
-        private DispatcherTimer _timerAnimation;
+        private DispatcherQueueTimer _timerAnimation;
 
         /// <summary>
         /// A ScrollViewer used for synchronized the move of the <see cref="TileControl"/>
@@ -609,7 +610,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_timerAnimation == null)
             {
-                _timerAnimation = new DispatcherTimer();
+                _timerAnimation = DispatcherQueue.CreateTimer();
             }
             else
             {

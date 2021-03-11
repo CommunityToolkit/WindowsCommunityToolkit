@@ -79,20 +79,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected override PipelineBuilder OnPipelineRequested() => this.Pipeline;
 
         /// <summary>
-        /// Clones the current instance by rebuilding the source <see cref="Microsoft.UI.Xaml.Media.Brush"/>. Use this method to reuse the same effects pipeline on a different <see cref="Windows.UI.Core.CoreDispatcher"/>
+        /// Clones the current instance by rebuilding the source <see cref="Microsoft.UI.Xaml.Media.Brush"/>. Use this method to reuse the same effects pipeline on a different <see cref="System.DispatcherQueue"/>
         /// </summary>
+        /// <remarks>
+        /// If your code is already on the same thread, you can just assign this brush to an arbitrary number of controls and it will still work correctly.
+        /// This method is only meant to be used to create a new instance of this brush using the same pipeline, on threads that can't access the current instance, for example in secondary app windows.
+        /// </remarks>
         /// <returns>A <see cref="XamlCompositionBrush"/> instance using the current effects pipeline</returns>
         [Pure]
         public XamlCompositionBrush Clone()
         {
-            if (this.DispatcherQueue.HasThreadAccess)
-            {
-                throw new InvalidOperationException("The current thread already has access to the brush dispatcher, so a clone operation is not necessary. " +
-                                                    "You can just assign this brush to an arbitrary number of controls and it will still work correctly. " +
-                                                    "This method is only meant to be used to create a new instance of this brush using the same pipeline, " +
-                                                    "on threads that can't access the current instance, for example in secondary app windows.");
-            }
-
             return new XamlCompositionBrush(this.Pipeline);
         }
     }
