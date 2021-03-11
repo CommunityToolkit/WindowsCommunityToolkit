@@ -3,8 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
       mc:Ignorable="d">
+    <!-- xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml" -->
 
     <Grid Padding="10">
         <Grid.RowDefinitions>
@@ -85,6 +85,7 @@
                 HorizontalAlignment="Left"
                 Click="{x:Bind OnClearCanvas}"
                 Content="Clear" />
+        <!--
         <Pivot x:Name="RootPivot"
                Grid.Row="4">
             <PivotItem Foreground="Black"
@@ -92,7 +93,6 @@
                 <ScrollViewer x:Name="RenderScroll"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto">
-                    <!--
                     <win2d:CanvasControl x:Name="RenderCanvas"
                                          Width="{Binding ElementName=RenderScroll, Path=ActualWidth}"
                                          Height="{Binding ElementName=RenderScroll, Path=ActualHeight}"
@@ -104,7 +104,6 @@
                                          VerticalContentAlignment="Stretch"
                                          ClearColor="#A7A7A7"
                                          Draw="{x:Bind OnCanvasDraw}" />
-                    -->
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Foreground="Black"
@@ -123,6 +122,7 @@
                 </ScrollViewer>
             </PivotItem>
         </Pivot>
+        -->
         <StackPanel Grid.Row="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"

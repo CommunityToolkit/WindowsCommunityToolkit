@@ -1,7 +1,7 @@
-#module nuget:?package=Cake.LongPath.Module&version=0.7.0
+#module nuget:?package=Cake.LongPath.Module&version=1.0.0
 
-#addin nuget:?package=Cake.FileHelpers&version=3.3.0
-#addin nuget:?package=Cake.Powershell&version=0.4.8
+#addin nuget:?package=Cake.FileHelpers&version=4.0.0
+#addin nuget:?package=Cake.Powershell&version=1.0.0
 #addin nuget:?package=Cake.GitVersioning&version=3.3.37
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.1.0

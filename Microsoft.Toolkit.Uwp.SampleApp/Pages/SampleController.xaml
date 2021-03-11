@@ -155,65 +155,69 @@
                   Grid.RowSpan="3"
                   Canvas.ZIndex="99">
 
-                <Pivot Style="{StaticResource PivotUnderlineStyle}" x:Name="InfoAreaPivot"
+                <TabView x:Name="InfoAreaPivot"
                        Grid.Row="1"
+                       Margin="0"
                        Padding="5,0"
-                       HeaderTemplate="{StaticResource PivotHeaderTemplate}"
+                       IsTabStop="False"
+                       IsAddTabButtonVisible="False"
                        SelectionChanged="InfoAreaPivot_OnSelectionChanged">
-                    <Pivot.LeftHeader>
+                    <TabView.TabStripHeader>
                         <AppBarButton x:Name="ExpandPane"
                                       Visibility="{x:Bind CanChangePaneState}"
                                       Icon="ClosePane"
                                       Width="50"
                                       Click="{x:Bind ExpandCollapsePane}" />
-                    </Pivot.LeftHeader>
+                    </TabView.TabStripHeader>
 
-                    <PivotItem x:Name="PropertiesPivotItem"
+                    <TabView.TabItems>
+                        <TabViewItem x:Name="PropertiesPivotItem"
+                                    Padding="0, 10,0,0"
+                                    Header="Properties">
+                            <ScrollViewer>
+                                <controlsLocal:PropertyControl x:Name="Properties" />
+                            </ScrollViewer>
+                        </TabViewItem>
+
+                        <TabViewItem x:Name="XamlPivotItem"
+                                   Header="XAML">
+                            <controlsLocal:XamlCodeEditor x:Name="XamlCodeEditor" />
+                        </TabViewItem>
+
+                        <TabViewItem x:Name="XamlReadOnlyPivotItem"
+                                   Padding="0, 10,0,0"
+                                   Header="XAML">
+                            <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
+                        </TabViewItem>
+
+                        <TabViewItem x:Name="CSharpPivotItem"
+                                   Padding="0, 10,0,0"
+                                   Header="Code">
+                            <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
+                                                        IsFocusEngagementEnabled="False" />
+                        </TabViewItem>
+
+                        <TabViewItem x:Name="DocumentationPivotItem"
                                 Padding="0, 10,0,0"
-                                Header="Properties">
-                        <ScrollViewer>
-                            <controlsLocal:PropertyControl x:Name="Properties" />
-                        </ScrollViewer>
-                    </PivotItem>
-
-                    <PivotItem x:Name="XamlPivotItem"
-                               Header="XAML">
-                        <controlsLocal:XamlCodeEditor x:Name="XamlCodeEditor" />
-                    </PivotItem>
-
-                    <PivotItem x:Name="XamlReadOnlyPivotItem"
-                               Padding="0, 10,0,0"
-                               Header="XAML">
-                        <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
-                    </PivotItem>
-
-                    <PivotItem x:Name="CSharpPivotItem"
-                               Padding="0, 10,0,0"
-                               Header="Code">
-                        <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
-                                                    IsFocusEngagementEnabled="False" />
-                    </PivotItem>
-
-                    <PivotItem x:Name="DocumentationPivotItem"
-                            Padding="0, 10,0,0"
-                            Header="Documentation">
-                        <ScrollViewer x:Name="DocumentationScrollViewer">
-                            <controls:MarkdownTextBlock x:Name="DocumentationTextBlock"
-                                                        Foreground="{ThemeResource DocumentationForeground}"
-                                                        Background="Transparent"
-                                                        CodeBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
-                                                        QuoteBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
-                                                        InlineCodeBackground="{ThemeResource SampleMarkdownInlineCodeBackgroundBrush}"
-                                                        LinkForeground="{ThemeResource Brush-Link-Normal}"
-                                                        ImageResolving="DocumentationTextBlock_ImageResolving"
-                                                        LinkClicked="DocumentationTextBlock_OnLinkClicked"
-                                                        SchemeList="uwpct"
-                                                        IsFocusEngagementEnabled="False"
-                                                        ImageMaxWidth="500"
-                                                        ImageMaxHeight="500" />
-                        </ScrollViewer>
-                    </PivotItem>
-                </Pivot>
+                                Header="Documentation">
+                            <ScrollViewer x:Name="DocumentationScrollViewer">
+                                <controls:MarkdownTextBlock x:Name="DocumentationTextBlock"
+                                                            Foreground="{ThemeResource DocumentationForeground}"
+                                                            Background="Transparent"
+                                                            CodeBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
+                                                            QuoteBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
+                                                            InlineCodeBackground="{ThemeResource SampleMarkdownInlineCodeBackgroundBrush}"
+                                                            LinkForeground="{ThemeResource Brush-Link-Normal}"
+                                                            ImageResolving="DocumentationTextBlock_ImageResolving"
+                                                            LinkClicked="DocumentationTextBlock_OnLinkClicked"
+                                                            SchemeList="uwpct"
+                                                            IsFocusEngagementEnabled="False"
+                                                            ImageMaxWidth="500"
+                                                            ImageMaxHeight="500" />
+                            </ScrollViewer>
+                        </TabViewItem>
+                    </TabView.TabItems>
+                </TabView>
 
                 <controls:GridSplitter x:Name="Splitter"
                                        Grid.Row="1"

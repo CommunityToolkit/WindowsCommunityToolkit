@@ -58,14 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
 
                 if (peer == null)
                 {
-                    if (element is PivotHeaderItem)
-                    {
-                        item = new PivotItemGazeTargetItem(element);
-                    }
-                    else
-                    {
-                        item = GazePointer.Instance.NonInvokeGazeTargetItem;
-                    }
+                    item = GazePointer.Instance.NonInvokeGazeTargetItem;
                 }
                 else if (peer.GetPattern(PatternInterface.Invoke) is IInvokeProvider)
                 {

@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     _onlyDocumentation = true;
                 }
 
-                InfoAreaPivot.Items.Clear();
+                InfoAreaPivot.TabItems.Clear();
 
                 if (CurrentSample.HasXAMLCode)
                 {
@@ -247,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                     if (propertyDesc?.Options.Count > 0)
                     {
-                        InfoAreaPivot.Items.Add(PropertiesPivotItem);
+                        InfoAreaPivot.TabItems.Add(PropertiesPivotItem);
                     }
 
                     if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
@@ -255,13 +255,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
                         XamlReadOnlyCodeRenderer.SetCode(CurrentSample.UpdatedXamlCode, "xaml");
 
-                        InfoAreaPivot.Items.Add(XamlReadOnlyPivotItem);
+                        InfoAreaPivot.TabItems.Add(XamlReadOnlyPivotItem);
                     }
                     else
                     {
                         XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
 
-                        InfoAreaPivot.Items.Add(XamlPivotItem);
+                        InfoAreaPivot.TabItems.Add(XamlPivotItem);
 
                         _xamlCodeRendererSupported = true;
                     }
@@ -274,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     var code = await CurrentSample.GetCSharpSourceAsync();
 
                     CSharpCodeRenderer.SetCode(code, "c#");
-                    InfoAreaPivot.Items.Add(CSharpPivotItem);
+                    InfoAreaPivot.TabItems.Add(CSharpPivotItem);
                 }
 
                 if (CurrentSample.HasDocumentation)
@@ -286,7 +286,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
                         DocumentationTextBlock.Text = contents;
-                        InfoAreaPivot.Items.Add(DocumentationPivotItem);
+                        InfoAreaPivot.TabItems.Add(DocumentationPivotItem);
                     }
                 }
 
@@ -302,7 +302,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 DataContext = CurrentSample;
 
-                if (InfoAreaPivot.Items.Count == 0)
+                if (InfoAreaPivot.TabItems.Count == 0)
                 {
                     SidePaneState = PaneState.None;
                 }
