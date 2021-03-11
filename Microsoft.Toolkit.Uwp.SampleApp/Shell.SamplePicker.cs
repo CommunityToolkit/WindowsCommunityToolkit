@@ -124,15 +124,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            //// Temp Workaround for WinUI Bug https://github.com/microsoft/microsoft-ui-xaml/issues/2520
-            var invokedItem = args.InvokedItem;
-            if (invokedItem is FrameworkElement fe && fe.DataContext is SampleCategory cat2)
-            {
-                invokedItem = cat2;
-            }
-            //// End Workaround - args.InvokedItem
-
-            if (invokedItem is SampleCategory category)
+            if (args.InvokedItem is SampleCategory category)
             {
                 if (SamplePickerGrid.Visibility != Visibility.Collapsed && _selectedCategory == category)
                 {
@@ -149,13 +141,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     dispatcherQueue.EnqueueAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
             }
-            else if (args.IsSettingsInvoked)
+        }
+
+        private void SettingsTopNavPaneItem_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            // Can't get FooterMenuItems to work properly right now with ItemInvoked above, bug?
+            // For now just hard-code an event.
+            HideSamplePicker();
+            if (NavigationFrame.CurrentSourcePageType != typeof(About))
             {
-                HideSamplePicker();
-                if (NavigationFrame.CurrentSourcePageType != typeof(About))
-                {
-                    NavigateToSample(null);
-                }
+                NavigateToSample(null);
             }
         }
 

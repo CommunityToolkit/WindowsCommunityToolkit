@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Indicates the <see cref="SwitchCases"/> property.
         /// </summary>
         public static readonly DependencyProperty SwitchCasesProperty =
-            DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null, OnSwitchCasesPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the value to compare all cases against. When this value is bound to and changes, the presenter will automatically evaluate cases and select the new appropriate content from the switch.
@@ -81,9 +81,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // When our Switch's expression changes, re-evaluate.
-            var xswitch = (SwitchPresenter)d;
+            if (d is SwitchPresenter xswitch)
+            {
+                xswitch.EvaluateCases();
+            }
+        }
 
-            xswitch.EvaluateCases();
+        private static void OnSwitchCasesPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            // If our collection somehow changes, we should re-evaluate.
+            if (d is SwitchPresenter xswitch)
+            {
+                xswitch.EvaluateCases();
+            }
         }
 
         /// <summary>
@@ -92,6 +102,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public SwitchPresenter()
         {
             this.SwitchCases = new CaseCollection();
+
+            Loaded += this.SwitchPresenter_Loaded;
+        }
+
+        private void SwitchPresenter_Loaded(object sender, RoutedEventArgs e)
+        {
+            // In case we're in a template, we may have loaded cases later.
+            EvaluateCases();
         }
 
         /// <inheritdoc/>
@@ -104,8 +122,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EvaluateCases()
         {
-            if (CurrentCase != null &&
-                CurrentCase.Value != null &&
+            if (SwitchCases == null ||
+                SwitchCases.Count == 0)
+            {
+                // If we have no cases, then we can't match anything.
+                if (CurrentCase != null)
+                {
+                    // Only bother clearing our actual content if we had something before.
+                    Content = null;
+                    CurrentCase = null;
+                }
+
+                return;
+            }
+            else if (CurrentCase?.Value != null &&
                 CurrentCase.Value.Equals(Value))
             {
                 // If the current case we're on already matches our current value,
@@ -134,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newcase == null && xdefault != null)
             {
-                // Inject default if we found one.
+                // Inject default if we found one without matching anything
                 newcase = xdefault;
             }
 
