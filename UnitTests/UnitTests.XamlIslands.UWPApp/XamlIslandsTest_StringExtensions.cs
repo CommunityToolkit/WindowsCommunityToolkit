@@ -23,7 +23,7 @@ namespace UnitTests.XamlIslands.UWPApp
             await App.Dispatcher.EnqueueAsync(() =>
             {
                 var xamlRoot = App.XamlRoot;
-                var str = StringExtensions.GetViewLocalized("abc", xamlRoot.UIContext);
+                var str = "abc".GetViewLocalized(xamlRoot.UIContext);
                 Assert.AreEqual("ABCDEF", str);
             });
         }

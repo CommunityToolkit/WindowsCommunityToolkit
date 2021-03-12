@@ -272,6 +272,13 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Animations\Effects\EffectAnimations.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SamplePages\Graph\LoginButton.png" />
+    <Content Include="SamplePages\Graph\PeoplePicker.png" />
+    <Content Include="SamplePages\Graph\PersonView.png" />
+    <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -492,12 +499,8 @@
       <DependentUpon>AutoSelectBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\CanvasPathGeometry\GeometryStreamReader.cs" />
-    <Compile Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml.cs">
-      <DependentUpon>ColorPickerButtonPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\ColorPicker\ColorPickerPage.xaml.cs">
-      <DependentUpon>ColorPickerPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="SamplePages\EnumValuesExtension\Animal.cs" />
+    <Compile Include="SamplePages\EnumValuesExtension\AnimalToColorConverter.xaml.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml.cs">
       <DependentUpon>EnumValuesExtensionPage.xaml</DependentUpon>
     </Compile>
@@ -617,7 +620,12 @@
     <Content Include="SamplePages\Animations\Behaviors\RotateBehaviorXaml.bind" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.bind" />
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
+    <Content Include="SamplePages\Animations\Activities\InvokeActionsActivityCode.bind" />
+    <Content Include="SamplePages\Animations\Activities\StartAnimationActivityCode.bind" />
     <Content Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorXaml.bind" />
+    <Content Include="SamplePages\Graph\LoginButtonXaml.bind" />
+    <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
+    <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -899,9 +907,6 @@
     <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
       <DependentUpon>RadialGaugePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
-      <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
       <DependentUpon>WrapPanelPage.xaml</DependentUpon>
     </Compile>
@@ -959,14 +964,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ColorPicker\ColorPickerButtonPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\ColorPicker\ColorPickerPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -982,6 +979,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1346,10 +1346,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RadialGauge\RadialGaugePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\RangeSelector\RangeSelectorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

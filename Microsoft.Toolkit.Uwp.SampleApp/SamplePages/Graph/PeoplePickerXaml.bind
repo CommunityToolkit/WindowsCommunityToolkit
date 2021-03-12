@@ -20,7 +20,7 @@
       <StackPanel Margin="0,64,0,0">
         <wgt:PeoplePicker x:Name="PeopleChooser"
           Visibility="{Binding ElementName=LoginButton, Path=UserDetails, Converter={StaticResource NullToVisibilityConverter}}"/>
-        <TextBlock Margin="0,8,0,0" FontWeight="Bold">Picked People:</TextBlock>
+        <TextBlock Margin="0,8,0,0" FontWeight="Bold" Text="Picked People:"/>
         <ItemsControl ItemsSource="{Binding PickedPeople, ElementName=PeopleChooser}"
                       Margin="8,0,0,0">
           <ItemsControl.ItemTemplate>

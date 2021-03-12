@@ -8,11 +8,11 @@
 
   <Page.Resources>
     <DataTemplate x:Name="NormalTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Green"></TextBlock>
+      <TextBlock Text="{Binding Title}" Foreground="Green"/>
     </DataTemplate>
 
     <DataTemplate x:Name="AlternateTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Red"></TextBlock>
+      <TextBlock Text="{Binding Title}" Foreground="Red"/>
     </DataTemplate>
   </Page.Resources>
 

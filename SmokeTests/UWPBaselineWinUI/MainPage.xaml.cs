@@ -2,19 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Xaml;
-
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace SmokeTest
 {
-    public sealed partial class PersonViewPage : IXamlRenderListener
+    public sealed partial class MainPage
     {
-        public PersonViewPage()
+        public MainPage()
         {
             InitializeComponent();
-        }
-
-        public void OnXamlRendered(FrameworkElement control)
-        {
         }
     }
 }
