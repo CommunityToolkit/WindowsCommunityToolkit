@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (text.Length > 0)
             {
                 if (text.Length >= 2 &&
-                    text[0] == '>' &&
+                    text[0] == '<' &&
                     text[text.Length - 1] == '>')
                 {
                     text = text.Substring(1, text.Length - 2);
