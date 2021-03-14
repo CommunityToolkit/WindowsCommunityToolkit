@@ -1,6 +1,8 @@
 <FileList>
   <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Markdown.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Community Toolkit"
+        BlendCategory="Windows Community Toolkit">
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MarkdownTextBlock" />
     </ToolboxItems>
   </File>
