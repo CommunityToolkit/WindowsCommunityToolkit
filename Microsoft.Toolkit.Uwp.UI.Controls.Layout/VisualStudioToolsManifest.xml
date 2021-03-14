@@ -4,6 +4,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.BladeView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Carousel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CarouselItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CarouselPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Expander" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter" />

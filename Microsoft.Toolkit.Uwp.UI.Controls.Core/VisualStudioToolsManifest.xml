@@ -13,6 +13,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabbedCommandBar" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabbedCommandBarItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
     </ToolboxItems>
