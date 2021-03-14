@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Windows.Apps.Test.Automation;
 using Microsoft.Windows.Apps.Test.Foundation;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
-using Microsoft.Windows.Apps.Test.Automation;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
