@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using Windows.Foundation.Collections;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -18,6 +19,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed class ImplicitAnimationSet : DependencyObjectCollection
     {
+        /// <summary>
+        /// Raised whenever any configuration change occurrs within the current <see cref="ImplicitAnimationSet"/> instance.
+        /// </summary>
+        internal event EventHandler? AnimationsChanged;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImplicitAnimationSet"/> class.
+        /// </summary>
+        public ImplicitAnimationSet()
+        {
+            VectorChanged += this.ImplicitAnimationSetVectorChanged;
+        }
+
+        /// <summary>
+        /// Registers <see cref="RaiseAnimationsChanged(object, EventArgs)"/> for every added animation.
+        /// </summary>
+        /// <param name="sender">The current vector of animations.</param>
+        /// <param name="event">The <see cref="IVectorChangedEventArgs"/> instance for the current event.</param>
+        private void ImplicitAnimationSetVectorChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs @event)
+        {
+            if (@event.CollectionChange == CollectionChange.ItemInserted ||
+                @event.CollectionChange == CollectionChange.ItemChanged)
+            {
+                IInternalImplicitAnimation item = (IInternalImplicitAnimation)sender[(int)@event.Index];
+
+                item.AnimationPropertyChanged -= RaiseAnimationsChanged;
+                item.AnimationPropertyChanged += RaiseAnimationsChanged;
+            }
+
+            AnimationsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Raisess the <see cref="AnimationsChanged"/> event.
+        /// </summary>
+        /// <param name="sender">The instance raising the event.</param>
+        /// <param name="e">The empty <see cref="EventArgs"/> for the event.</param>
+        private void RaiseAnimationsChanged(object sender, EventArgs e)
+        {
+            AnimationsChanged?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Gets or sets the weak reference to the parent that owns the current implicit animation collection.
         /// </summary>
