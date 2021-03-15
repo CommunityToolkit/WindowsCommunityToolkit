@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Converts a angle bracketed <see cref="string"/> value to its unbracketed form (e.g. "&lt;float, float&gt;" to "float, float").
+        /// Converts an angle bracketed <see cref="string"/> value to its unbracketed form (e.g. "&lt;float, float&gt;" to "float, float").
         /// If the value is already unbracketed, this method will return the value unchanged.
         /// </summary>
         /// <param name="text">A bracketed <see cref="string"/> value.</param>
