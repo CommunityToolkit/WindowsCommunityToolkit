@@ -269,7 +269,7 @@ Task("Test")
     };
 
     VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
-}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*.NetCore.csproj"), (file) => 
+}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*NetCore.csproj"), (file) => 
 {
     Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings
