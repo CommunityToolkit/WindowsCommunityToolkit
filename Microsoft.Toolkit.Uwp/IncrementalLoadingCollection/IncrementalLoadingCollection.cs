@@ -226,7 +226,18 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         protected virtual async Task<IEnumerable<IType>> LoadDataAsync(CancellationToken cancellationToken)
         {
-            var result = await Source.GetPagedItemsAsync(CurrentPageIndex++, ItemsPerPage, cancellationToken);
+            var result = await Source.GetPagedItemsAsync(CurrentPageIndex, ItemsPerPage, cancellationToken)
+                .ContinueWith(
+                    t =>
+                    {
+                        if (t.Status == TaskStatus.RanToCompletion)
+                        {
+                            CurrentPageIndex += 1;
+                        }
+
+                        return t.Result;
+                    }, cancellationToken);
+
             return result;
         }
 
