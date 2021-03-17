@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// For more info, see https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/1008.
     /// </remarks>
     public abstract class BehaviorBase<T> : Behavior<T>
-        where T : UIElement
+        where T : DependencyObject
     {
         private bool _isAttaching;
         private bool _isAttached;
