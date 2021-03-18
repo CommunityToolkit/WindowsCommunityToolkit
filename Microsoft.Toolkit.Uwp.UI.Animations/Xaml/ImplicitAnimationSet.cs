@@ -90,11 +90,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Creates a <see cref="CompositionAnimationGroup"/> for the current collection.
         /// This can be used to be assigned to show/hide implicit composition animations.
         /// </summary>
+        /// <param name="parent">The target <see cref="UIElement"/> to which the animations are being applied to.</param>
         /// <returns>The <see cref="CompositionAnimationGroup"/> instance to use.</returns>
         [Pure]
-        internal CompositionAnimationGroup GetCompositionAnimationGroup()
+        internal CompositionAnimationGroup GetCompositionAnimationGroup(UIElement parent)
         {
-            UIElement parent = GetParent();
             Compositor compositor = ElementCompositionPreview.GetElementVisual(parent).Compositor;
             CompositionAnimationGroup animations = compositor.CreateAnimationGroup();
 
@@ -110,11 +110,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Creates an <see cref="ImplicitAnimationCollection"/> for the current collection.
         /// This can be used to be assigned to implicit composition animations.
         /// </summary>
+        /// <param name="parent">The target <see cref="UIElement"/> to which the animations are being applied to.</param>
         /// <returns>The <see cref="ImplicitAnimationCollection"/> instance to use.</returns>
         [Pure]
-        internal ImplicitAnimationCollection GetImplicitAnimationCollection()
+        internal ImplicitAnimationCollection GetImplicitAnimationCollection(UIElement parent)
         {
-            UIElement parent = GetParent();
             Compositor compositor = ElementCompositionPreview.GetElementVisual(parent).Compositor;
             ImplicitAnimationCollection animations = compositor.CreateImplicitAnimationCollection();
 
@@ -133,26 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             return animations;
-        }
-
-        /// <summary>
-        /// Gets the current parent <see cref="UIElement"/> instance.
-        /// </summary>
-        /// <returns>The <see cref="UIElement"/> reference from <see cref="ParentReference"/>.</returns>
-        /// <exception cref="InvalidOperationException">Thrown if there is no parent available.</exception>
-        [Pure]
-        private UIElement GetParent()
-        {
-            UIElement? parent = null;
-
-            if (ParentReference?.TryGetTarget(out parent) != true)
-            {
-                ThrowInvalidOperationException();
-            }
-
-            return parent!;
-
-            static void ThrowInvalidOperationException() => throw new InvalidOperationException("The current ImplicitAnimationSet object isn't bound to a parent UIElement instance.");
         }
     }
 }

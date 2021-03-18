@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (collection.ParentReference!.TryGetTarget(out UIElement element))
                 {
-                    ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
+                    ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
                 }
             }
 
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 collection.AnimationsChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
+                ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
             }
         }
 
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (collection.ParentReference!.TryGetTarget(out UIElement element))
                 {
-                    ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
+                    ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
                 }
             }
 
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 collection.AnimationsChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
+                ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
             }
         }
 
@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (collection.ParentReference!.TryGetTarget(out UIElement element))
                 {
-                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
+                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
                 }
             }
 
@@ -221,7 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 collection.AnimationsChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
+                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
             }
         }
     }
