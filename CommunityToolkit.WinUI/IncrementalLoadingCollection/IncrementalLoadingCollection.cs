@@ -28,7 +28,7 @@ namespace CommunityToolkit.WinUI
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : Collections.IIncrementalSource<IType>
+         where TSource : IIncrementalSource<IType>
     {
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.

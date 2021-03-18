@@ -61,7 +61,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
             this.UpdateBackground(hsvColor);
 
             // Calculate and set the foreground ensuring contrast with the background
-            Color rgbColor = Uwp.Helpers.ColorHelper.FromHsv(hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
+            Color rgbColor = ColorHelper.FromHsv(hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
             Color selectedRgbColor;
             double sliderPercent = this.Value / (this.Maximum - this.Minimum);
 
@@ -124,7 +124,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
                         }
                 }
 
-                selectedRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                selectedRgbColor = ColorHelper.FromHsv(
                     hsvColor.H,
                     hsvColor.S,
                     hsvColor.V,

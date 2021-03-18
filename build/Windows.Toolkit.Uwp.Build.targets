@@ -10,7 +10,7 @@
 
   <Choose>
     <When Condition="'$(TargetFramework)' == 'net5.0-windows10.0.18362.0'">
-      <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
+      <ItemGroup Condition="'$(IsWinUIProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
         <PackageReference Include="Microsoft.ProjectReunion" Version="$(MicrosoftProjectReunionVersion)" />
       </ItemGroup>
     </When>

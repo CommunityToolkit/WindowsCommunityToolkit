@@ -160,7 +160,7 @@ namespace CommunityToolkit.WinUI.UI.Animations
                                             {
                                                 connectedAnimation.Cancel();
                                             }
-                                        }, System.DispatcherQueuePriority.Normal);
+                                        }, Microsoft.System.DispatcherQueuePriority.Normal);
 
                                     animationHandled = true;
                                 }

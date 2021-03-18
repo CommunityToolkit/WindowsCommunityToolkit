@@ -54,7 +54,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarSymbols
         {
             try
             {
-                DispatcherQueue?.TryEnqueue(System.DispatcherQueuePriority.Normal, () =>
+                DispatcherQueue?.TryEnqueue(Microsoft.System.DispatcherQueuePriority.Normal, () =>
                 {
                     try
                     {

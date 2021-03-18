@@ -7,8 +7,8 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Microsoft.Collections.Extensions;
 using CommunityToolkit.Net.Mvvm.Messaging.Internals;
+using Microsoft.Collections.Extensions;
 
 namespace CommunityToolkit.Net.Mvvm.Messaging
 {

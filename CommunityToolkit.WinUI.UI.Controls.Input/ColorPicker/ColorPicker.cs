@@ -6,9 +6,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
-using Microsoft.System;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters;
+using Microsoft.System;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -914,7 +914,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                         }
                 }
 
-                newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                newRgbColor = WinUI.Helpers.ColorHelper.FromHsv(
                     hue,
                     saturation,
                     value,

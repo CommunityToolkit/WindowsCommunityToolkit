@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Threading.Tasks;
-using Microsoft.System;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.SampleApp.Pages;
 using CommunityToolkit.WinUI.UI;
+using Microsoft.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;

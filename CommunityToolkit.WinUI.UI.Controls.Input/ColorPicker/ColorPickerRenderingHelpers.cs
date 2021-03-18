@@ -85,7 +85,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 // Convert HSV to RGB once
                 if (colorRepresentation == ColorRepresentation.Rgba)
                 {
-                    baseRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                    baseRgbColor = WinUI.Helpers.ColorHelper.FromHsv(
                         baseHsvColor.H,
                         baseHsvColor.S,
                         baseHsvColor.V,
@@ -294,7 +294,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep hue
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    newRgbColor = WinUI.Helpers.ColorHelper.FromHsv(
                                         Math.Clamp(channelValue, 0.0, 360.0),
                                         baseHsvColor.S,
                                         baseHsvColor.V,
@@ -320,7 +320,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep saturation
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    newRgbColor = WinUI.Helpers.ColorHelper.FromHsv(
                                         baseHsvColor.H,
                                         Math.Clamp(channelValue, 0.0, 1.0),
                                         baseHsvColor.V,
@@ -346,7 +346,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep value
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    newRgbColor = WinUI.Helpers.ColorHelper.FromHsv(
                                         baseHsvColor.H,
                                         baseHsvColor.S,
                                         Math.Clamp(channelValue, 0.0, 1.0),
@@ -372,7 +372,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                                 if (colorRepresentation == ColorRepresentation.Hsva)
                                 {
                                     // Sweep alpha
-                                    newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
+                                    newRgbColor = WinUI.Helpers.ColorHelper.FromHsv(
                                         baseHsvColor.H,
                                         baseHsvColor.S,
                                         baseHsvColor.V,

@@ -7,8 +7,8 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Microsoft.Collections.Extensions;
 using CommunityToolkit.Net.Mvvm.Messaging.Internals;
+using Microsoft.Collections.Extensions;
 #if NETSTANDARD2_1
 using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #else

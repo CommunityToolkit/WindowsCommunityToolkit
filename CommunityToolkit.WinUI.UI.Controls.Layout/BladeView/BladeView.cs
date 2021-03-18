@@ -155,7 +155,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                     () =>
                     {
                         GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
-                    }, System.DispatcherQueuePriority.Low);
+                    }, Microsoft.System.DispatcherQueuePriority.Low);
 
                 return;
             }

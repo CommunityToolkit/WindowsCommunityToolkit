@@ -134,7 +134,7 @@ namespace CommunityToolkit.WinUI.SampleApp
                 {
                     // The NavView fires this event twice when the current selected item is clicked
                     // This makes sure the event get's processed correctly
-                    var nop = DispatcherQueue.TryEnqueue(System.DispatcherQueuePriority.Normal, () => HideSamplePicker());
+                    var nop = DispatcherQueue.TryEnqueue(Microsoft.System.DispatcherQueuePriority.Normal, () => HideSamplePicker());
                 }
                 else
                 {

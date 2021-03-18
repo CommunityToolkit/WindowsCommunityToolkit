@@ -104,7 +104,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
                     colorValue *= 1.0 + (shade * valueDelta);
                 }
 
-                return Uwp.Helpers.ColorHelper.FromHsv(
+                return ColorHelper.FromHsv(
                     Math.Clamp(colorHue,        0.0, 360.0),
                     Math.Clamp(colorSaturation, 0.0, 1.0),
                     Math.Clamp(colorValue,      0.0, 1.0),

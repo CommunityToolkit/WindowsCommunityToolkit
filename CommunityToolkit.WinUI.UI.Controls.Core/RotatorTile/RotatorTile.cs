@@ -5,8 +5,8 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using Microsoft.System;
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
