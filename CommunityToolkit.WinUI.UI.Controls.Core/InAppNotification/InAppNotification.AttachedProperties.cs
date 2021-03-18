@@ -6,7 +6,7 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// In App Notification defines a control to show local notification in the app.

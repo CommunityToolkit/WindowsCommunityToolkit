@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// In App Notification defines a control to show local notification in the app.
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _dismissButton.Visibility = ShowDismissButton ? Visibility.Visible : Visibility.Collapsed;
                 _dismissButton.Click += DismissButton_Click;
-                AutomationProperties.SetName(_dismissButton, "WCT_InAppNotification_DismissButton_AutomationName".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources"));
+                AutomationProperties.SetName(_dismissButton, "WCT_InAppNotification_DismissButton_AutomationName".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources"));
             }
 
             if (_visualStateGroup != null)

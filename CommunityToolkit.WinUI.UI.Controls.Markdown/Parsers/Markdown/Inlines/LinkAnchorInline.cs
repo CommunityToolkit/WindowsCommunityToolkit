@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using CommunityToolkit.Net.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span that contains a reference for links to point to.

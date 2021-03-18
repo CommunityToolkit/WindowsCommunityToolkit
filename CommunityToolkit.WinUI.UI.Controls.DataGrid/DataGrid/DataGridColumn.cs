@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
-using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
-using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
-using Microsoft.Toolkit.Uwp.Utilities;
+using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
+using CommunityToolkit.WinUI.UI.Controls.Primitives;
+using CommunityToolkit.WinUI.UI.Data.Utilities;
+using CommunityToolkit.WinUI.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
@@ -16,7 +16,7 @@ using Microsoft.UI.Xaml.Media;
 
 using DiagnosticsDebug = System.Diagnostics.Debug;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Represents a <see cref="DataGrid"/> column.
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a value indicating whether the user can change the column display position by dragging the column header.
         /// </summary>
         /// <returns>
-        /// true if the user can drag the column header to a new position; otherwise, false. The default is the current <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.CanUserReorderColumns"/> property value.
+        /// true if the user can drag the column header to a new position; otherwise, false. The default is the current <see cref="CommunityToolkit.WinUI.UI.Controls.DataGrid.CanUserReorderColumns"/> property value.
         /// </returns>
         public bool CanUserReorder
         {
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a value indicating whether the user can adjust the column width using the mouse.
         /// </summary>
         /// <returns>
-        /// True if the user can resize the column; false if the user cannot resize the column. The default is the current <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.CanUserResizeColumns"/> property value.
+        /// True if the user can resize the column; false if the user cannot resize the column. The default is the current <see cref="CommunityToolkit.WinUI.UI.Controls.DataGrid.CanUserResizeColumns"/> property value.
         /// </returns>
         public bool CanUserResize
         {
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets a value indicating whether the user can sort the column by clicking the column header.
         /// </summary>
         /// <returns>
-        /// True if the user can sort the column; false if the user cannot sort the column. The default is the current <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.CanUserSortColumns"/> property value.
+        /// True if the user can sort the column; false if the user cannot sort the column. The default is the current <see cref="CommunityToolkit.WinUI.UI.Controls.DataGrid.CanUserSortColumns"/> property value.
         /// </returns>
         public bool CanUserSort
         {
@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the display position of the column relative to the other columns in the <see cref="DataGrid"/>.
         /// </summary>
         /// <returns>
-        /// The zero-based position of the column as it is displayed in the associated <see cref="DataGrid"/>. The default is the index of the corresponding <see cref="P:System.Collections.ObjectModel.Collection`1.Item(System.Int32)"/> in the <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Columns"/> collection.
+        /// The zero-based position of the column as it is displayed in the associated <see cref="DataGrid"/>. The default is the index of the corresponding <see cref="P:System.Collections.ObjectModel.Collection`1.Item(System.Int32)"/> in the <see cref="CommunityToolkit.WinUI.UI.Controls.DataGrid.Columns"/> collection.
         /// </returns>
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         /// When setting this property, the specified value is less than -1 or equal to <see cref="F:System.Int32.MaxValue"/>.
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// When setting this property on a column in a <see cref="DataGrid"/>, the specified value is less than zero or greater than or equal to the number of columns in the <see cref="DataGrid"/>.
         /// </exception>
         /// <exception cref="T:System.InvalidOperationException">
-        /// When setting this property, the <see cref="DataGrid"/> is already making <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumn.DisplayIndex"/> adjustments. For example, this exception is thrown when you attempt to set <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumn.DisplayIndex"/> in a <see cref="E:System.Windows.Controls.DataGrid.ColumnDisplayIndexChanged"/> event handler.
+        /// When setting this property, the <see cref="DataGrid"/> is already making <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridColumn.DisplayIndex"/> adjustments. For example, this exception is thrown when you attempt to set <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridColumn.DisplayIndex"/> in a <see cref="E:System.Windows.Controls.DataGrid.ColumnDisplayIndexChanged"/> event handler.
         ///
         /// -or-
         ///
@@ -909,7 +909,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// When overridden in a derived class, gets an editing element that is bound to the column's <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// When overridden in a derived class, gets an editing element that is bound to the column's <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">
         /// The cell that will contain the generated element.
@@ -918,13 +918,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The data item represented by the row that contains the intended cell.
         /// </param>
         /// <returns>
-        /// A new editing element that is bound to the column's <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// A new editing element that is bound to the column's <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </returns>
         protected abstract FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem);
 
         /// <summary>
         /// When overridden in a derived class, gets a read-only element that is bound to the column's
-        /// <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">
         /// The cell that will contain the generated element.
@@ -933,7 +933,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The data item represented by the row that contains the intended cell.
         /// </param>
         /// <returns>
-        /// A new, read-only element that is bound to the column's <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// A new, read-only element that is bound to the column's <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </returns>
         protected abstract FrameworkElement GenerateElement(DataGridCell cell, object dataItem);
 

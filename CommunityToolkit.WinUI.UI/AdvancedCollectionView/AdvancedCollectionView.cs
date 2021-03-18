@@ -11,13 +11,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <summary>
     /// A collection view implementation that supports filtering, sorting and incremental loading

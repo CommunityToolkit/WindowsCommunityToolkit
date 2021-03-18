@@ -10,7 +10,7 @@ using Windows.UI.Input;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <inheritdoc cref="TextBoxExtensions"/>
     public static partial class TextBoxExtensions

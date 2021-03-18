@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Microsoft.Toolkit.Uwp.Notifications;
+using CommunityToolkit.WinUI.Notifications;
 using Windows.Services.Maps;
 using Windows.UI.Notifications;
 
-namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
+namespace CommunityToolkit.Net.Win32.WpfCore.SampleApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

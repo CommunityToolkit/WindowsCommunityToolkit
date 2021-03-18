@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using CommunityToolkit.Net.Parsers.Markdown.Inlines;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Render
+namespace CommunityToolkit.Net.Parsers.Markdown.Render
 {
     /// <summary>
     /// Inline Rendering Methods.

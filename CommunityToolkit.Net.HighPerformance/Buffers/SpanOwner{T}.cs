@@ -10,9 +10,9 @@ using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME || NET5_0
 using System.Runtime.InteropServices;
 #endif
-using Microsoft.Toolkit.HighPerformance.Buffers.Views;
+using CommunityToolkit.Net.HighPerformance.Buffers.Views;
 
-namespace Microsoft.Toolkit.HighPerformance.Buffers
+namespace CommunityToolkit.Net.HighPerformance.Buffers
 {
     /// <summary>
     /// A stack-only type with the ability to rent a buffer of a specified length and getting a <see cref="Span{T}"/> from it.
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
 
             // Same representation used in Span<T>
-            return $"Microsoft.Toolkit.HighPerformance.Buffers.SpanOwner<{typeof(T)}>[{this.length}]";
+            return $"CommunityToolkit.Net.HighPerformance.Buffers.SpanOwner<{typeof(T)}>[{this.length}]";
         }
     }
 }

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     /// <summary>
     /// Class ExpressionFunctions.

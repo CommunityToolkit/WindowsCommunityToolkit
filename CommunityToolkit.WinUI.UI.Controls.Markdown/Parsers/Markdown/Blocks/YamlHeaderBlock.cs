@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using CommunityToolkit.Net.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Yaml Header. use for blog.

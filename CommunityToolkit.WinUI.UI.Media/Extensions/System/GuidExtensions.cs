@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Guid"/> type

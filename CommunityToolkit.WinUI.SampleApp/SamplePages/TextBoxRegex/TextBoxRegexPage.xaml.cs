@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
     /// TextBoxRegex sample page

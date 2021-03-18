@@ -1,5 +1,5 @@
 // Creates a CollectionView that can sort and filter items.
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 
 // Grab a sample type
 public class Person

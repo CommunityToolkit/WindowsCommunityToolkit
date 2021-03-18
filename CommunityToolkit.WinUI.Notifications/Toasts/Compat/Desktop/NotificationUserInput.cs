@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Windows.UI.Notifications;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Text and selection values that the user entered on your notification. The Key is the ID of the input, and the Value is what the user entered.

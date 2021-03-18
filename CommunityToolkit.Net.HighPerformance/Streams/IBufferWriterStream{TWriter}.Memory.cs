@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.HighPerformance.Streams
+namespace CommunityToolkit.Net.HighPerformance.Streams
 {
     /// <inheritdoc cref="IBufferWriterStream{TWriter}"/>
     internal sealed partial class IBufferWriterStream<TWriter>

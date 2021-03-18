@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Microsoft.Toolkit.HighPerformance.Buffers;
+using CommunityToolkit.Net.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #nullable enable
@@ -42,7 +42,7 @@ namespace UnitTests.HighPerformance.Buffers
 
             Assert.AreEqual(x, maps.Length);
 
-            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance")!;
+            Type bucketType = Type.GetType("CommunityToolkit.Net.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, CommunityToolkit.Net.HighPerformance")!;
 
             int[] buckets = (int[])bucketType.GetField("buckets", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(maps.GetValue(0))!;
 
@@ -287,7 +287,7 @@ namespace UnitTests.HighPerformance.Buffers
             // Get the buckets
             Array maps = (Array)typeof(StringPool).GetField("maps", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(pool)!;
 
-            Type bucketType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, Microsoft.Toolkit.HighPerformance")!;
+            Type bucketType = Type.GetType("CommunityToolkit.Net.HighPerformance.Buffers.StringPool+FixedSizePriorityMap, CommunityToolkit.Net.HighPerformance")!;
             FieldInfo timestampInfo = bucketType.GetField("timestamp", BindingFlags.Instance | BindingFlags.NonPublic)!;
 
             // Force the timestamp to be the maximum value, or the test would take too long
@@ -305,7 +305,7 @@ namespace UnitTests.HighPerformance.Buffers
 
             _ = pool.GetOrAdd(text);
 
-            Type heapEntryType = Type.GetType("Microsoft.Toolkit.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, Microsoft.Toolkit.HighPerformance")!;
+            Type heapEntryType = Type.GetType("CommunityToolkit.Net.HighPerformance.Buffers.StringPool+FixedSizePriorityMap+HeapEntry, CommunityToolkit.Net.HighPerformance")!;
 
             foreach (var map in maps)
             {

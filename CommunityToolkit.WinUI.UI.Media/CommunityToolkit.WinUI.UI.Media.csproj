@@ -48,6 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj" />
   </ItemGroup>
 </Project>

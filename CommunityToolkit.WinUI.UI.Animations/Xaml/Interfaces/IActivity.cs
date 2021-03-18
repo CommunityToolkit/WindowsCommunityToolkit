@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// An interface representing a XAML model for a custom activity or action within an <see cref="AnimationSet"/>.

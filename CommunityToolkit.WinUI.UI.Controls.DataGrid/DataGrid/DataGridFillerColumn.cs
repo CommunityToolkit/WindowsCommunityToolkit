@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
+using CommunityToolkit.WinUI.UI.Controls.Primitives;
 using Microsoft.UI.Xaml;
 
 using DiagnosticsDebug = System.Diagnostics.Debug;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     internal class DataGridFillerColumn : DataGridColumn
     {

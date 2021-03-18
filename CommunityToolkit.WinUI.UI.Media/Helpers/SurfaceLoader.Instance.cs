@@ -15,7 +15,7 @@ using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
+namespace CommunityToolkit.WinUI.UI.Media.Helpers
 {
     /// <summary>
     /// A delegate for load time effects.

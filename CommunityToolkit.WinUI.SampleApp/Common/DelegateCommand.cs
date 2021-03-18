@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace CommunityToolkit.WinUI.SampleApp.Common
 {
     /// <summary>
     /// Represents a command that can perform a given action.

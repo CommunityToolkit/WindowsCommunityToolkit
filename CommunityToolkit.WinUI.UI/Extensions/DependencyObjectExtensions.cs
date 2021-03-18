@@ -4,13 +4,13 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Predicates;
+using CommunityToolkit.WinUI.UI.Predicates;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <summary>
     /// Provides attached dependency properties for the <see cref="DependencyObject"/> type.

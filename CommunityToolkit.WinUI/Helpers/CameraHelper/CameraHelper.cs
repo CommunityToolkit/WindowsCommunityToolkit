@@ -12,7 +12,7 @@ using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.Media.MediaProperties;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// Helper class for capturing frames from available camera sources.

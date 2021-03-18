@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.UI.Converters
+namespace CommunityToolkit.WinUI.UI.Converters
 {
     /// <summary>
     /// A converter that can be used to safely retrieve results from <see cref="Task{T}"/> instances.

@@ -4,13 +4,13 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Printing;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class PrintHelperPage : IXamlRenderListener
     {

@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 //using Microsoft.Graphics.Canvas;
 //using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
 {
     /// <summary>
     /// Abstract base class for all Brush Elements

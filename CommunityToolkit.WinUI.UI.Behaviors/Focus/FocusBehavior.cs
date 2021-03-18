@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors
+namespace CommunityToolkit.WinUI.UI.Behaviors
 {
 #pragma warning disable SA1402 // File may only contain a single type
     /// <summary>

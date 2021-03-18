@@ -4,12 +4,12 @@
 
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     /// <summary>
     /// Class PointerPositionPropertySetReferenceNode. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.PropertySetReferenceNode" />
+    /// <seealso cref="CommunityToolkit.WinUI.UI.Animations.Expressions.PropertySetReferenceNode" />
     public sealed class PointerPositionPropertySetReferenceNode : PropertySetReferenceNode
     {
         /// <summary>

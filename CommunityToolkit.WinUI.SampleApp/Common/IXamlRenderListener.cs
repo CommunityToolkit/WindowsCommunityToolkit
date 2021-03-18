@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public interface IXamlRenderListener
     {

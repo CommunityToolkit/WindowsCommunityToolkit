@@ -6,7 +6,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct SIZE

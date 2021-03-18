@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     /// <summary>
     /// This parameter is passed to the GazeElement::Invoked event and allows

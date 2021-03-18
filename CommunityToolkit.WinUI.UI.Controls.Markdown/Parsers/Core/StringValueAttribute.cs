@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Core
+namespace CommunityToolkit.Net.Parsers.Core
 {
     /// <summary>
     /// The StringValue attribute is used as a helper to decorate enum values with string representations.

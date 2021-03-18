@@ -7,15 +7,15 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox

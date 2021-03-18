@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
+namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.MarkDown
 {
     /// <summary>
     /// Default button Actions for MarkDown Formatter
@@ -43,8 +43,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             var select = Formatter.Selected;
             int originalStart = Formatter.Selected.StartPosition;
-            string urlLabel = "WCT_TextToolbar_UrlLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources");
-            string labelLabel = "WCT_TextToolbar_LabelLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources");
+            string urlLabel = "WCT_TextToolbar_UrlLabel".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources");
+            string labelLabel = "WCT_TextToolbar_LabelLabel".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources");
 
             // Replaces Selection of first Line only.
             if (select.Text.Contains("\r"))

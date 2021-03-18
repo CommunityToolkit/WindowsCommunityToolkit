@@ -5,7 +5,7 @@
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace CommunityToolkit.WinUI.SampleApp.Common
 {
     /// <summary>
     /// Extension to provide DeviceForm lookup from <see cref="AnalyticsVersionInfo.DeviceFamily"/>.

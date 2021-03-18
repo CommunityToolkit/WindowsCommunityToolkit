@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.Xaml.Interactivity;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// The <see cref="InvokeActionsActivity"/> is an <see cref="Activity"/> which allows bridging to performing any behavior based <see cref="IAction"/> within the schedule.

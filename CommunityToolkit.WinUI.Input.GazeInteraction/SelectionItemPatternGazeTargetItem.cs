@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Automation.Provider;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     internal class SelectionItemPatternGazeTargetItem : GazeTargetItem
     {

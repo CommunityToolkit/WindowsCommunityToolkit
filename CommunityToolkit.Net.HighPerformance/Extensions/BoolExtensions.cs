@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="bool"/> type.

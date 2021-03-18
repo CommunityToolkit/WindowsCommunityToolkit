@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
+namespace CommunityToolkit.WinUI.UI.Controls.Markdown.Render
 {
     /// <summary>
     /// Properties for the UWP Markdown Renderer

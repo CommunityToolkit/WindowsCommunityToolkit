@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.DesignTools.Extensibility.Features;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Model;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
+namespace CommunityToolkit.WinUI.UI.Controls.Design
 {
     internal class RadialProgressBarDefaults : DefaultInitializer
     {

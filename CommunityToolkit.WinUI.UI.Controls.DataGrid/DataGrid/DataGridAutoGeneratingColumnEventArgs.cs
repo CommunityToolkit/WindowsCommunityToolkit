@@ -5,10 +5,10 @@
 using System;
 using System.ComponentModel;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
-    /// Provides data for the <see cref="E:Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.AutoGeneratingColumn" /> event.
+    /// Provides data for the <see cref="E:CommunityToolkit.WinUI.UI.Controls.DataGrid.AutoGeneratingColumn" /> event.
     /// </summary>
     public class DataGridAutoGeneratingColumnEventArgs : CancelEventArgs
     {

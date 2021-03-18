@@ -4,10 +4,10 @@
 
 #nullable enable
 
-using Microsoft.Toolkit.Uwp.UI.Animations;
+using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.Xaml.Interactivity;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors
+namespace CommunityToolkit.WinUI.UI.Behaviors
 {
     /// <summary>
     /// A custom <see cref="Trigger"/> that fires whenever a linked <see cref="AnimationSet"/> starts.

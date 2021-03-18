@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+                    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls">
     <Style TargetType="controls:EyedropperToolButton">
         <Setter Property="Content" Value="&#xEF3C;" />
         <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />

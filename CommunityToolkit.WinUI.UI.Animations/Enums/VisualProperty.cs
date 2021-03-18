@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// Indicates a property of a <see cref="Visual"/> object.

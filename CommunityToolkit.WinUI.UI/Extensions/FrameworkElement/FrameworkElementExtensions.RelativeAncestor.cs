@@ -5,7 +5,7 @@
 using System;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <inheritdoc cref="Microsoft.UI.Xaml.FrameworkElementExtensions"/>
     public static partial class FrameworkElementExtensions

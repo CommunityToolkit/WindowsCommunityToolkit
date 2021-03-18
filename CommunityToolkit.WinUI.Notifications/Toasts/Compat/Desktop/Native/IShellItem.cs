@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     [ComImport]
     [Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe")]

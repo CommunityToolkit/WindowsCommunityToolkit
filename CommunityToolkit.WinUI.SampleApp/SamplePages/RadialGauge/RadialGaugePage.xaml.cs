@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class RadialGaugePage : Page
     {

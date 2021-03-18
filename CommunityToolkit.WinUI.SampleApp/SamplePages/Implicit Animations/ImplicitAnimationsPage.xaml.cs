@@ -4,12 +4,12 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

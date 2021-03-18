@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Data;
 using Windows.ApplicationModel;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Data
+namespace CommunityToolkit.WinUI.SampleApp.Data
 {
     [Bindable]
     public class PhotosDataSource

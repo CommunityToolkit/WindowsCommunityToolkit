@@ -7,8 +7,8 @@
     <ProjectGuid>{1AE2CB5C-58A0-4F12-8E6F-2CD4AAADB34C}</ProjectGuid>
     <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</AssemblyName>
+    <RootNamespace>CommunityToolkit.WinUI.Samples.BackgroundTasks</RootNamespace>
+    <AssemblyName>CommunityToolkit.WinUI.Samples.BackgroundTasks</AssemblyName>
     <DefaultLanguage>fr-FR</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
@@ -117,9 +117,9 @@
     <Compile Include="TestBackgroundTask.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+    <ProjectReference Include="..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj">
       <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+      <Name>CommunityToolkit.WinUI.Notifications</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

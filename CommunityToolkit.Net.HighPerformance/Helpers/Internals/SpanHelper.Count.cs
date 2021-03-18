@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
+namespace CommunityToolkit.Net.HighPerformance.Helpers.Internals
 {
     /// <summary>
     /// Helpers to process sequences of values by reference.

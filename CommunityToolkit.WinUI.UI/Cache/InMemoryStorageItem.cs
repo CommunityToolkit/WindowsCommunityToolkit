@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <summary>
     /// Generic InMemoryStorageItem holds items for InMemoryStorage.

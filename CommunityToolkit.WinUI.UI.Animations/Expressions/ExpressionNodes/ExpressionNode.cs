@@ -8,7 +8,7 @@ using System.Numerics;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     /// <summary>
     /// Class ExpressionNode.

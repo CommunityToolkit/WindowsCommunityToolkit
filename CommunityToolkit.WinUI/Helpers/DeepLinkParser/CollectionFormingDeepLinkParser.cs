@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.Activation;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// A version of <see cref="DeepLinkParser" /> which generates a comma-separated-list as the value for any option that is repeated in the query string

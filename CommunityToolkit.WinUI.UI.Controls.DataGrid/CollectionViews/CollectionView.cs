@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-using Microsoft.Toolkit.Uwp.Utilities;
+using CommunityToolkit.WinUI.Utilities;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
+namespace CommunityToolkit.WinUI.UI.Data.Utilities
 {
     internal abstract class CollectionView : ICollectionView, INotifyCollectionChanged, INotifyPropertyChanged
     {

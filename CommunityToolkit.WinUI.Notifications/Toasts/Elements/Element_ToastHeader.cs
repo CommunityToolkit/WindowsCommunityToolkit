@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     [NotificationXmlElement("header")]
     internal sealed class Element_ToastHeader : IElement_ToastActivatable

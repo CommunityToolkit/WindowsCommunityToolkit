@@ -10,7 +10,7 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// The <see cref="ImageCropper"/> control allows user to crop image freely.

@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Diagnostics
+namespace CommunityToolkit.Net.Diagnostics
 {
     /// <summary>
     /// Helper methods to verify conditions when running code.

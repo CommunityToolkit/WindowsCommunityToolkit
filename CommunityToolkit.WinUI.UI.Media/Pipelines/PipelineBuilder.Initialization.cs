@@ -8,15 +8,15 @@ using System.Numerics;
 using System.Threading.Tasks;
 // using Microsoft.Graphics.Canvas;
 // using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
+using CommunityToolkit.WinUI.UI.Media.Helpers;
+using CommunityToolkit.WinUI.UI.Media.Helpers.Cache;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 //using Windows.Graphics.Effects;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
+namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
     /// <summary>
     /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="CompositionBrush"/> instances from them

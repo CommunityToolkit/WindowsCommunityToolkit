@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// An <see cref="IActivity"/> which stops the provided <see cref="AnimationSet"/> when invoked.

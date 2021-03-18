@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers
+namespace CommunityToolkit.WinUI.UI.Animations.Builders.Helpers
 {
     /// <summary>
     /// A small generic builder type that allows to create <see cref="ArraySegment{T}"/> instances.

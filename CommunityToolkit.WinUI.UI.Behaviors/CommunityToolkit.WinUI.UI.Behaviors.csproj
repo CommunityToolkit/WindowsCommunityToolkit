@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <!-- TODO: Including Animation reference for now for initial refactor of the ScrollHeader behaviors, we may be able to remove, but may also have some Behaviors for Animations? -->
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
   </ItemGroup>
 </Project>

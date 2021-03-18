@@ -15,7 +15,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Path = Microsoft.UI.Xaml.Shapes.Path;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// The <see cref="ImageCropper"/> control allows user to crop image freely.

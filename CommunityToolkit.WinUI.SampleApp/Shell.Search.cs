@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public sealed partial class Shell
     {

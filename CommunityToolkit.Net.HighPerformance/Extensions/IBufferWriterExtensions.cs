@@ -8,10 +8,10 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Buffers;
-using Microsoft.Toolkit.HighPerformance.Streams;
+using CommunityToolkit.Net.HighPerformance.Buffers;
+using CommunityToolkit.Net.HighPerformance.Streams;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="IBufferWriter{T}"/> type.

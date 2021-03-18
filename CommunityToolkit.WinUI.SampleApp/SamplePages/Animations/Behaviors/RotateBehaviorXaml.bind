@@ -5,10 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+    xmlns:ani="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
 
   <Button Background="Gray"

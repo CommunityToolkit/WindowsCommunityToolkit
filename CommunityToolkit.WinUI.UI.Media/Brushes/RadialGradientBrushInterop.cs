@@ -9,7 +9,7 @@ using System.Numerics;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
     /// Interop Helpers between WPF and Win2D used by the <see cref="RadialGradientBrush"/>

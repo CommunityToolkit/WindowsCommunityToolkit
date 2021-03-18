@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
+namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons
 {
     /// <summary>
     /// Specifies a Default ButtonType to Manipulate

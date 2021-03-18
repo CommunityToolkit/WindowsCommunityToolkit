@@ -9,7 +9,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Enumerables
+namespace CommunityToolkit.Net.HighPerformance.Enumerables
 {
     /// <summary>
     /// A <see langword="ref"/> <see langword="struct"/> that enumerates the items in a given <see cref="Span{T}"/> instance.

@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.Connectivity
+namespace CommunityToolkit.WinUI.Connectivity
 {
     /// <summary>
     /// This enum assists in finding a string representation of a BT SIG assigned value for UUIDS

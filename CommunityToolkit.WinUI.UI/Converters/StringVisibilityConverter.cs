@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Converters
+namespace CommunityToolkit.WinUI.UI.Converters
 {
     /// <summary>
     /// This class converts a string value into a Visibility value (if the value is null or empty returns a collapsed value).

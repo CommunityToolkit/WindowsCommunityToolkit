@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
+namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
 {
     /// <summary>
     /// Creates an accent color shade from a color value.

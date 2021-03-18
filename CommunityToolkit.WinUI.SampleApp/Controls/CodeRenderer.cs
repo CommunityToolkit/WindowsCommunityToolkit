@@ -4,12 +4,12 @@
 
 using System;
 using ColorCode;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
+namespace CommunityToolkit.WinUI.SampleApp.Controls
 {
     public class CodeRenderer : Control
     {

@@ -3,15 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Media;
+using CommunityToolkit.WinUI.UI.Media;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
-using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
+using static CommunityToolkit.WinUI.UI.Animations.AnimationExtensions;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// A custom animation targeting a property on an <see cref="IPipelineEffect"/> instance.

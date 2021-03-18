@@ -5,7 +5,7 @@
 using System;
 using System.Globalization;
 
-namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
+namespace CommunityToolkit.WinUI.UI.Data.Utilities
 {
     internal static class CollectionViewsError
     {

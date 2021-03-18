@@ -5,13 +5,13 @@
 using System.Collections.Generic;
 
 // using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using CommunityToolkit.WinUI.UI.Media.Pipelines;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Markup;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
     /// A blend effect that merges the current builder with an input one

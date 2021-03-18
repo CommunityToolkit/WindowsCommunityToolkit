@@ -5,7 +5,7 @@
 using System;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     /// <summary>
     /// This parameter is passed to the StateChanged event.

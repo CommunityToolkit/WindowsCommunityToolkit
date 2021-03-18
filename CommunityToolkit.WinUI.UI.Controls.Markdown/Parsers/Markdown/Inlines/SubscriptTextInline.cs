@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using CommunityToolkit.Net.Parsers.Core;
+using CommunityToolkit.Net.Parsers.Markdown.Helpers;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing subscript text.

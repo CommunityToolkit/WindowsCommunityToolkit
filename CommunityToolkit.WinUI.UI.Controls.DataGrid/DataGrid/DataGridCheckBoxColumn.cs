@@ -4,14 +4,14 @@
 
 using System;
 using System.Collections.Specialized;
-using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
+using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Represents a <see cref="DataGrid"/> column that hosts
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// Gets a <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">
         /// The cell that will contain the generated element.
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The data item represented by the row that contains the intended cell.
         /// </param>
         /// <returns>
-        /// A new <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// A new <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a read-only <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// Gets a read-only <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">
         /// The cell that will contain the generated element.
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The data item represented by the row that contains the intended cell.
         /// </param>
         /// <returns>
-        /// A new, read-only <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// A new, read-only <see cref="T:System.Windows.Controls.CheckBox"/> control that is bound to the column's <see cref="P:CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </returns>
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {

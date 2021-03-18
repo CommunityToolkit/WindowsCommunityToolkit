@@ -1,5 +1,5 @@
 // Defines a data source whose data can be loaded incrementally.
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 
 public class Person
 {

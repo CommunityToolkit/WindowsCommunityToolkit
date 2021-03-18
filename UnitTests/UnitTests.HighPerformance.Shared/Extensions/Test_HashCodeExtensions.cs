@@ -5,8 +5,8 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance;
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance;
+using CommunityToolkit.Net.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions

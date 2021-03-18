@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// A <see cref="DropDownButton"/> which displays a color as its <c>Content</c> and it's <c>Flyout</c> is a <see cref="ColorPicker"/>.
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(ColorPickerButton);
 
             // WinUI3 workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
-            this.DefaultStyleResourceUri = new global::System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/Themes/Generic.xaml");
+            this.DefaultStyleResourceUri = new global::System.Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Input/Themes/Generic.xaml");
         }
 
         /// <inheritdoc/>

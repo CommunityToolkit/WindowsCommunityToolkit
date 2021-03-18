@@ -5,7 +5,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
+namespace CommunityToolkit.WinUI.UI.Data.Utilities
 {
     /// <summary>
     /// Stores information about a Binding, including the BindingExpression, BindingTarget and associated Element.

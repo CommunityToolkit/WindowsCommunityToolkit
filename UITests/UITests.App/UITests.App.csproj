@@ -178,65 +178,65 @@
     <None Include="UITests.App.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Net.HighPerformance\CommunityToolkit.Net.HighPerformance.csproj">
       <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>Microsoft.Toolkit.HighPerformance</Name>
+      <Name>CommunityToolkit.Net.HighPerformance</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Net.Mvvm\CommunityToolkit.Net.Mvvm.csproj">
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
-      <Name>Microsoft.Toolkit.Mvvm</Name>
+      <Name>CommunityToolkit.Net.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+      <Name>CommunityToolkit.WinUI.Connectivity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.DeveloperTools\CommunityToolkit.WinUI.DeveloperTools.csproj">
       <Project>{e7697922-9555-4cfb-aee0-c5f4d657e559}</Project>
-      <Name>Microsoft.Toolkit.Uwp.DeveloperTools</Name>
+      <Name>CommunityToolkit.WinUI.DeveloperTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.UWP.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Input.GazeInteraction\CommunityToolkit.WinUI.Input.GazeInteraction.csproj">
       <Project>{a5e98964-45b1-442d-a07a-298a3221d81e}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Input.GazeInteraction</Name>
+      <Name>CommunityToolkit.WinUI.Input.GazeInteraction</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj">
       <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+      <Name>CommunityToolkit.WinUI.Notifications</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Animations</Name>
+      <Name>CommunityToolkit.WinUI.UI.Animations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.DataGrid\CommunityToolkit.WinUI.UI.Controls.DataGrid.csproj">
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.DataGrid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Layout\CommunityToolkit.WinUI.UI.Controls.Layout.csproj">
       <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Layout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Markdown\CommunityToolkit.WinUI.UI.Controls.Markdown.csproj">
       <Project>{6fedf199-b052-49dd-8f3e-2a9224998e0f}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Markdown</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Core\CommunityToolkit.WinUI.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
+      <Name>CommunityToolkit.WinUI.UI.Media</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj">
       <Project>{3dd8aa7c-3569-4e51-992f-0c2257e8878e}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI</Name>
+      <Name>CommunityToolkit.WinUI.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
-      <Name>Microsoft.Toolkit.Uwp</Name>
+      <Name>CommunityToolkit.WinUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Net\CommunityToolkit.Net.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>Microsoft.Toolkit</Name>
+      <Name>CommunityToolkit.Net</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

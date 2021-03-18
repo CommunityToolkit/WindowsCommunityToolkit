@@ -4,7 +4,7 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
+using CommunityToolkit.WinUI.UI.Helpers;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -18,7 +18,7 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// A Modern UI Radial Gauge using XAML and Composition API.

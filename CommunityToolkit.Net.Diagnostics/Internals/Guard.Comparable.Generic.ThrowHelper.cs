@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Microsoft.Toolkit.Diagnostics
+namespace CommunityToolkit.Net.Diagnostics
 {
     /// <summary>
     /// Helper methods to verify conditions when running code.

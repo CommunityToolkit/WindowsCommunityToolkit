@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
+namespace CommunityToolkit.WinUI.UI.Controls.Markdown.Render
 {
     /// <summary>
     /// An Exception that occurs when the Render Context is Incorrect.

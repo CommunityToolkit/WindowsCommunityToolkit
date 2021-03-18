@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 #endif
 using System.Threading;
 
-namespace Microsoft.Toolkit.Diagnostics
+namespace CommunityToolkit.Net.Diagnostics
 {
     /// <summary>
     /// Helper methods to efficiently throw exceptions.

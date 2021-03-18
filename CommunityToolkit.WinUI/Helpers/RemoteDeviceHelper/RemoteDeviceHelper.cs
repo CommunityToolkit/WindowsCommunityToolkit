@@ -9,7 +9,7 @@ using System.Linq;
 using Microsoft.System;
 using Windows.System.RemoteSystems;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// Helper to List Remote Devices that are accessible

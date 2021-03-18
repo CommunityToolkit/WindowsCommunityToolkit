@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.Toolkit.Collections;
+using CommunityToolkit.Net.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Collections

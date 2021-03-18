@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 
 // using Microsoft.Services.Store.Engagement;
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public static class TrackingManager
     {

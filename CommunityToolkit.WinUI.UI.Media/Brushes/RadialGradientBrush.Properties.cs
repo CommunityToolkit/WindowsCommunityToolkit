@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
     /// Properties for the <see cref="RadialGradientBrush"/>

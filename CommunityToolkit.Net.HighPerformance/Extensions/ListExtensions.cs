@@ -10,7 +10,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="List{T}"/> type.

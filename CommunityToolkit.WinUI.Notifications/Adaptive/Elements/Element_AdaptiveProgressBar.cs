@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
+namespace CommunityToolkit.WinUI.Notifications.Adaptive.Elements
 {
     [NotificationXmlElement("progress")]
     internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild

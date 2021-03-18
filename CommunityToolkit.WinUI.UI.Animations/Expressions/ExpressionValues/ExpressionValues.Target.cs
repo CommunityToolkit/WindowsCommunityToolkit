@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     // ExpressionValues is a static class instead of a namespace to improve intellisense discoverablity and consistency with the other helper classes.
 

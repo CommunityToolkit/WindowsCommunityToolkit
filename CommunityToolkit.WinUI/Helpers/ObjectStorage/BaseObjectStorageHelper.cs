@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// Shared implementation of ObjectStorageHelper.

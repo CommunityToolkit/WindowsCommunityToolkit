@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
     /// A sample XAML page that shows how to use <see cref="Collections.IIncrementalSource{TSource}"/> and <see cref="IncrementalLoadingCollection{TSource, IType}"/> classes.

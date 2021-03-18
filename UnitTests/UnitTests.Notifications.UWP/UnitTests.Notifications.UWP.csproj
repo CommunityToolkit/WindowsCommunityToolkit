@@ -170,9 +170,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj">
       <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Notifications</Name>
+      <Name>CommunityToolkit.WinUI.Notifications</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems" Label="Shared" />

@@ -164,9 +164,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Net.HighPerformance\CommunityToolkit.Net.HighPerformance.csproj">
       <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>Microsoft.Toolkit.HighPerformance</Name>
+      <Name>CommunityToolkit.Net.HighPerformance</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />

@@ -4,13 +4,13 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Uwp.UI.Animations.Builders.Helpers;
+using CommunityToolkit.WinUI.UI.Animations.Builders.Helpers;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Media.Animation;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// A generic keyframe animation builder.

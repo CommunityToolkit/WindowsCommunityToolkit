@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a block that is displayed using a quote style.  Quotes are used to indicate

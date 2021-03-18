@@ -6,7 +6,7 @@ using Microsoft.UI.Input;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.Utilities
+namespace CommunityToolkit.WinUI.Utilities
 {
     internal static class KeyboardHelper
     {

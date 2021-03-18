@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.SampleApp.Pages;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI.SampleApp.Pages;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Animations;
+using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public sealed partial class Shell
     {

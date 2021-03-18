@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
+namespace CommunityToolkit.WinUI.UI.Controls.Design
 {
     internal static partial class ControlTypes
     {

@@ -4,7 +4,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public class LandingPageLinks
     {

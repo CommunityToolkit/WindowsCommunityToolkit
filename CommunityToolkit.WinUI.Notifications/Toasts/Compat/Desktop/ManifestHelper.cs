@@ -10,7 +10,7 @@ using System.IO;
 using System.Xml;
 using Windows.ApplicationModel;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     internal class ManifestHelper
     {

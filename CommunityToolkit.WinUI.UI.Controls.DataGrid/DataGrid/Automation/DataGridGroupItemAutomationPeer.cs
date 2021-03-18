@@ -5,8 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
+using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
@@ -16,7 +16,7 @@ using Windows.Foundation;
 
 using DiagnosticsDebug = System.Diagnostics.Debug;
 
-namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
+namespace CommunityToolkit.WinUI.UI.Automation.Peers
 {
     /// <summary>
     /// AutomationPeer for a group of items in a DataGrid

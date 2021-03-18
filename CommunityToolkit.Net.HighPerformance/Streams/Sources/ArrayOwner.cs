@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 
-namespace Microsoft.Toolkit.HighPerformance.Streams
+namespace CommunityToolkit.Net.HighPerformance.Streams
 {
     /// <summary>
     /// An <see cref="ISpanOwner"/> implementation wrapping an array.

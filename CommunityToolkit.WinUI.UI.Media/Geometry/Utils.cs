@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
+namespace CommunityToolkit.WinUI.UI.Media.Geometry
 {
     /// <summary>
     /// Class containing collection of useful methods for various types

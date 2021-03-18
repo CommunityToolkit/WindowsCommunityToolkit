@@ -10,16 +10,16 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #if SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
+using CommunityToolkit.Net.HighPerformance.Buffers.Internals;
 #endif
-using Microsoft.Toolkit.HighPerformance.Helpers;
-using Microsoft.Toolkit.HighPerformance.Memory.Internals;
-using Microsoft.Toolkit.HighPerformance.Memory.Views;
-using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using CommunityToolkit.Net.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance.Memory.Internals;
+using CommunityToolkit.Net.HighPerformance.Memory.Views;
+using static CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 #pragma warning disable CA2231
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// A readonly version of <see cref="Memory2D{T}"/>.
@@ -907,7 +907,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.ReadOnlyMemory2D<{typeof(T)}>[{this.height}, {this.width}]";
+            return $"CommunityToolkit.Net.HighPerformance.ReadOnlyMemory2D<{typeof(T)}>[{this.height}, {this.width}]";
         }
 
         /// <summary>

@@ -3,7 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+      xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
       mc:Ignorable="d">
   <Grid>
     <ListView x:Name="MyListView">

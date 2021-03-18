@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
     /// A type responsible for creating <see cref="Visual"/> instances to attach to target elements.

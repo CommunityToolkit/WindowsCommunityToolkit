@@ -6,7 +6,7 @@ using System;
 using System.Globalization;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Triggers
+namespace CommunityToolkit.WinUI.UI.Triggers
 {
     /// <summary>
     /// Enables a state if the value is equal to, greater than, or less than another value

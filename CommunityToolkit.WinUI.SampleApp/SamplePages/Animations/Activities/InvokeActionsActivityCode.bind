@@ -1,4 +1,4 @@
-using Microsoft.Toolkit.Uwp.UI.Animations;
+using CommunityToolkit.WinUI.UI.Animations;
 
 // Fade out the TextBlock
 await AnimationBuilder

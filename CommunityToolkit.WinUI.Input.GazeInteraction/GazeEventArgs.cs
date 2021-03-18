@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     /// <summary>
     /// EventArgs used to send Gaze events. See <see cref="GazePointer.GazeEvent"/>

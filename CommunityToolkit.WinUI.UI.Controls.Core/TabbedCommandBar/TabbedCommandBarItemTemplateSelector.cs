@@ -5,7 +5,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// <see cref="DataTemplateSelector"/> used by <see cref="TabbedCommandBar"/> for determining the style of normal vs. contextual <see cref="TabbedCommandBarItem"/>s.

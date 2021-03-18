@@ -5,7 +5,7 @@
 using System;
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// An animation for an animation builder using keyframes, targeting a specific property.

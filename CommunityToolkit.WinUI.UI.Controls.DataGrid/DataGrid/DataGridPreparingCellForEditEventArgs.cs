@@ -5,10 +5,10 @@
 using System;
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
-    /// Provides data for the <see cref="E:Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.PreparingCellForEdit"/> event.
+    /// Provides data for the <see cref="E:CommunityToolkit.WinUI.UI.Controls.DataGrid.PreparingCellForEdit"/> event.
     /// </summary>
     public class DataGridPreparingCellForEditEventArgs : EventArgs
     {

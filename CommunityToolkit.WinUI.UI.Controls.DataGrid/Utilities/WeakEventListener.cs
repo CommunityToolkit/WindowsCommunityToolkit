@@ -4,13 +4,13 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Utilities
+namespace CommunityToolkit.WinUI.Utilities
 {
     /// <summary>
     /// Implements a weak event listener that allows the owner to be garbage
     /// collected if its only remaining link is an event handler.
-    /// Note: Copied from Microsoft.Toolkit.Uwp.Helpers.WeakEventListener to avoid taking a
-    /// dependency on Microsoft.Toolkit.Uwp.dll and Microsoft.Toolkit.dll.
+    /// Note: Copied from CommunityToolkit.WinUI.Helpers.WeakEventListener to avoid taking a
+    /// dependency on CommunityToolkit.WinUI.dll and CommunityToolkit.Net.dll.
     /// </summary>
     /// <typeparam name="TInstance">Type of instance listening for the event.</typeparam>
     /// <typeparam name="TSource">Type of source for the event.</typeparam>

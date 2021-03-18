@@ -4,7 +4,7 @@
 
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Provides event data for the ColorChanged event.

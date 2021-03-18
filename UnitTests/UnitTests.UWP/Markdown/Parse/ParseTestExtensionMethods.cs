@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Parsers.Markdown;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using CommunityToolkit.Net.Parsers.Markdown;
+using CommunityToolkit.Net.Parsers.Markdown.Blocks;
+using CommunityToolkit.Net.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
 {

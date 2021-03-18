@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing emoji symbol.

@@ -5,7 +5,7 @@
 using System;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     /// <summary>
     /// This struct encapsulates the location and timestamp associated with the user's gaze

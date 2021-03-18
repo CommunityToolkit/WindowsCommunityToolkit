@@ -11,7 +11,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace CommunityToolkit.Net.HighPerformance.Extensions
 {
     /// <summary>
     /// Helpers for working with the <see cref="Nullable{T}"/> type.

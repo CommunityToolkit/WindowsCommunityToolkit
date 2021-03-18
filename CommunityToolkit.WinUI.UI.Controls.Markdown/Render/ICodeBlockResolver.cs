@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml.Documents;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
+namespace CommunityToolkit.WinUI.UI.Controls.Markdown.Render
 {
     /// <summary>
     /// A Parser to parse code strings into Syntax Highlighted text.

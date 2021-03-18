@@ -4,15 +4,15 @@
 
 using System.Threading.Tasks;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.SampleApp.Pages;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.SampleApp.Pages;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public sealed partial class Shell
     {

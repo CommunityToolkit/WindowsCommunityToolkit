@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Windows.ApplicationModel.Background;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// This class provides static helper methods for background tasks.

@@ -8,7 +8,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     /// <summary>
     /// A helper class to read a ValueSet and retrieve relevant settings

@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Specifies content you want to appear in a My People shoulder tap notification. For more info, see the My People notifications documentation. New in Fall Creators Update.

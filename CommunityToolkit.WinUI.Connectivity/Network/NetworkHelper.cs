@@ -5,7 +5,7 @@
 using System;
 using Windows.Networking.Connectivity;
 
-namespace Microsoft.Toolkit.Uwp.Connectivity
+namespace CommunityToolkit.WinUI.Connectivity
 {
     /// <summary>
     /// This class exposes functionality of NetworkInformation through a singleton.

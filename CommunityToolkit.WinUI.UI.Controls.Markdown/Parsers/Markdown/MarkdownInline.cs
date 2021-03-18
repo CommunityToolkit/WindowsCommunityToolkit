@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// An internal class that is the base class for all inline elements.

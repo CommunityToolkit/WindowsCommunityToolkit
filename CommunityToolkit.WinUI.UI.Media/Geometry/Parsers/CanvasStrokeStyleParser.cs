@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 //using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
 {
     /// <summary>
     /// Parser for the CanvasStrokeStyle

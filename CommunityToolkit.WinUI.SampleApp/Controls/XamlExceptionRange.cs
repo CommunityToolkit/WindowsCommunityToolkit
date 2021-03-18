@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
+namespace CommunityToolkit.WinUI.SampleApp.Controls
 {
     /// <summary>
     /// Xaml Parsing Error Message and Location.

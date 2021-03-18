@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 
-namespace Microsoft.Toolkit.Uwp.UI.Triggers
+namespace CommunityToolkit.WinUI.UI.Triggers
 {
     /// <summary>
     /// Trigger for switching when in full screen mode.

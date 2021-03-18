@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;

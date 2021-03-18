@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Globalization;
 using Microsoft.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
+namespace CommunityToolkit.WinUI.UI.Data.Utilities
 {
     /// <summary>
     /// A collection view implementation that supports an IEnumerable source.

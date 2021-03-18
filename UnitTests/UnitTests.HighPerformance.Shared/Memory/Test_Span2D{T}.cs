@@ -6,8 +6,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
+using CommunityToolkit.Net.HighPerformance;
+using CommunityToolkit.Net.HighPerformance.Enumerables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance
@@ -823,7 +823,7 @@ namespace UnitTests.HighPerformance
             // Verify that we get the nicely formatted string
             string text = span2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Span2D<System.Int32>[2, 3]";
+            const string expected = "CommunityToolkit.Net.HighPerformance.Span2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

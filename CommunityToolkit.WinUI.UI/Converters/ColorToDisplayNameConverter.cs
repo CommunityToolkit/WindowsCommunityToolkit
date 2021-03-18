@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Converters
+namespace CommunityToolkit.WinUI.UI.Converters
 {
     /// <summary>
     /// Gets the approximated display name for the color.

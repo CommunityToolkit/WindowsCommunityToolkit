@@ -4,13 +4,13 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+using CommunityToolkit.WinUI.UI.Controls.Design.Properties;
 
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 using Microsoft.VisualStudio.DesignTools.Extensibility.PropertyEditing;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
+namespace CommunityToolkit.WinUI.UI.Controls.Design
 {
     internal class MenuMetadata : AttributeTableBuilder
     {

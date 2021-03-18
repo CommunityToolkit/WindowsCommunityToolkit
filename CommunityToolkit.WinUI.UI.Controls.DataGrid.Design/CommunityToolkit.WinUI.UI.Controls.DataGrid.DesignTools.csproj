@@ -7,8 +7,8 @@
     <ProjectGuid>{6BD0BA4A-DE6D-3E87-8F83-63518C31ECD1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.DesignTools</AssemblyName>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls.Design</RootNamespace>
+    <AssemblyName>CommunityToolkit.WinUI.UI.Controls.DataGrid.DesignTools</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -20,14 +20,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\Debug\net5.0-windows10.0.18362.0\Design\</OutputPath>
+    <OutputPath>..\CommunityToolkit.WinUI.UI.Controls.DataGrid\bin\Debug\net5.0-windows10.0.18362.0\Design\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\Release\net5.0-windows10.0.18362.0\Design\</OutputPath>
+    <OutputPath>..\CommunityToolkit.WinUI.UI.Controls.DataGrid\bin\Release\net5.0-windows10.0.18362.0\Design\</OutputPath>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
@@ -79,10 +79,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\Constants.cs" Link="Common\Constants.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\MetadataRegistration.cs" Link="MetadataRegistration.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\Constants.cs" Link="Common\Constants.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\MetadataRegistration.cs" Link="MetadataRegistration.cs" />
     <Compile Include="Controls\DataGrid.Metadata.cs" />
     <Compile Include="Controls\DataGrid.Typedata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -100,8 +100,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\bin\$(Configuration)\net5.0-windows10.0.18362.0\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.xml">
-      <Link>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.xml</Link>
+    <EmbeddedResource Include="..\CommunityToolkit.WinUI.UI.Controls.DataGrid\bin\$(Configuration)\net5.0-windows10.0.18362.0\CommunityToolkit.WinUI.UI.Controls.DataGrid.xml">
+      <Link>CommunityToolkit.WinUI.UI.Controls.DataGrid.xml</Link>
       <Visible>False</Visible>
     </EmbeddedResource>
   </ItemGroup>

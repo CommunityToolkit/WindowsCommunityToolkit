@@ -11,7 +11,7 @@ using Microsoft.System;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <summary>
     /// Provides methods and tools to cache files in a folder

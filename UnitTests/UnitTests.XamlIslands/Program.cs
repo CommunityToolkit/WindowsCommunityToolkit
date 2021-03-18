@@ -5,7 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Toolkit.Forms.UI.XamlHost;
+using CommunityToolkit.Net.Forms.UI.XamlHost;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI;

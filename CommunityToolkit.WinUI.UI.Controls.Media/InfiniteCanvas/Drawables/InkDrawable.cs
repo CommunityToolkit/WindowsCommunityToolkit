@@ -14,7 +14,7 @@ using Microsoft.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI.Input.Inking;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     internal class InkDrawable : IDrawable
     {

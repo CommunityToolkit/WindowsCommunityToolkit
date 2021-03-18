@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive
+namespace CommunityToolkit.WinUI.Notifications.Adaptive
 {
     internal static class AdaptiveHelper
     {

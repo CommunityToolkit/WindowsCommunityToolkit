@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using CommunityToolkit.WinUI.UI.Media.Pipelines;
 using Microsoft.UI.Composition;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
     /// The base <see langword="interface"/> for all the builder effects to be used in a <see cref="CompositionBrush"/>.

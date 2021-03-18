@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Code from https://github.com/qmatteoq/DesktopBridgeHelpers/tree/master/DesktopBridge.Helpers/Helpers.cs

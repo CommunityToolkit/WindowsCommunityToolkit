@@ -9,11 +9,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Collections;
+using CommunityToolkit.Net.Collections;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp
+namespace CommunityToolkit.WinUI
 {
     /// <summary>
     /// This class represents an <see cref="ObservableCollection{IType}"/> whose items can be loaded incrementally.

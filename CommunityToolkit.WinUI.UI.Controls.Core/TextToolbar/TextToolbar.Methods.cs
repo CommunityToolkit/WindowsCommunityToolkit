@@ -3,13 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Toolbar for Editing Text attached to a RichEditBox

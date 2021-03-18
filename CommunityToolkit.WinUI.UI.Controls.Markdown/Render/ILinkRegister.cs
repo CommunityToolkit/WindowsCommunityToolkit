@@ -5,7 +5,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
+namespace CommunityToolkit.WinUI.UI.Controls.Markdown.Render
 {
     /// <summary>
     /// An interface used to handle links in the markdown.

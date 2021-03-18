@@ -15,7 +15,7 @@ using Windows.Graphics;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Display;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// The virtual Drawing surface renderer used to render the ink and text. This control is used as part of the <see cref="InfiniteCanvas"/>

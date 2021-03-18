@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
+namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons
 {
     /// <summary>
     /// An Interactive button in the TextToolbar, to perform a formatting task.

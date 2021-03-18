@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
+namespace CommunityToolkit.Net.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// A helper class for the trip chars. This is an optimization. If we ask each class to go

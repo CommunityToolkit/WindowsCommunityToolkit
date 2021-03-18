@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 
-namespace Microsoft.Toolkit.HighPerformance.Buffers.Views
+namespace CommunityToolkit.Net.HighPerformance.Buffers.Views
 {
     /// <summary>
     /// A debug proxy used to display items in a 1D layout.

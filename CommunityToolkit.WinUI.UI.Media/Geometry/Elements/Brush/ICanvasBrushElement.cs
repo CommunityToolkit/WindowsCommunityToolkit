@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 //using Microsoft.Graphics.Canvas;
 //using Microsoft.Graphics.Canvas.Brushes;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
 {
     /// <summary>
     /// Interface for a Brush Element

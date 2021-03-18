@@ -10,10 +10,10 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using CommunityToolkit.Net.Mvvm.Messaging;
+using CommunityToolkit.Net.Mvvm.Messaging.Messages;
 
-namespace Microsoft.Toolkit.Mvvm.ComponentModel
+namespace CommunityToolkit.Net.Mvvm.ComponentModel
 {
     /// <summary>
     /// A base class for observable objects that also acts as recipients for messages. This class is an extension of

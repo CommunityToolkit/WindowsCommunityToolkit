@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Helpers
+namespace CommunityToolkit.WinUI.UI.Helpers
 {
     /// <summary>
     /// Provides helpers for the <see cref="CompositionTarget"/> class.

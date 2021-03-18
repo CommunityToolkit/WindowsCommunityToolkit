@@ -6,7 +6,7 @@ using System;
 using Microsoft.UI.Xaml;
 using Windows.Graphics.Display;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// This class provides static helper methods for <see cref="ScreenUnit" />.

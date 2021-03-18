@@ -5,8 +5,8 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.Net.Mvvm.Messaging;
+using CommunityToolkit.WinUI;
 using UITests.App.Pages;
 using Windows.System;
 using Windows.UI.Xaml;

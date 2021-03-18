@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Render
+namespace CommunityToolkit.Net.Parsers.Markdown.Render
 {
     /// <summary>
     /// Helper for holding persistent state of Renderer.

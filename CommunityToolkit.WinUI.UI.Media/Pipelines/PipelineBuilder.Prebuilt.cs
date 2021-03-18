@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 // using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
+namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
     /// <summary>
     /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="Microsoft.UI.Composition.CompositionBrush"/> instances from them

@@ -31,7 +31,7 @@
   </ItemGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
-    <PathToXAMLWinRTImplementations>Microsoft.Toolkit.Uwp.SampleApp\</PathToXAMLWinRTImplementations>
+    <PathToXAMLWinRTImplementations>CommunityToolkit.WinUI.SampleApp\</PathToXAMLWinRTImplementations>
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
@@ -48,7 +48,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.csproj">
+    <ProjectReference Include="..\CommunityToolkit.WinUI.SampleApp\CommunityToolkit.WinUI.SampleApp.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
       <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
     </ProjectReference>
@@ -134,7 +134,7 @@
     <PkgMicrosoft_ProjectReunion_WinUI Condition="!Exists($(PkgMicrosoft_ProjectReunion_WinUI))">$(SolutionDir)packages\Microsoft.ProjectReunion.WinUI.0.5.0-prerelease\</PkgMicrosoft_ProjectReunion_WinUI>
     <Microsoft_ProjectReunion_AppXReference_props>$([MSBuild]::NormalizeDirectory('$(PkgMicrosoft_ProjectReunion)', 'build'))Microsoft.ProjectReunion.AppXReference.props</Microsoft_ProjectReunion_AppXReference_props>
     <Microsoft_WinUI_AppX_targets>$([MSBuild]::NormalizeDirectory('$(PkgMicrosoft_ProjectReunion_WinUI)', 'build'))Microsoft.WinUI.AppX.targets</Microsoft_WinUI_AppX_targets>
-    <EntryPointProjectUniqueName>..\Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\CommunityToolkit.WinUI.SampleApp\CommunityToolkit.WinUI.SampleApp.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ProjectReunion" Version="[0.5.0-prerelease]" GeneratePathProperty="true">

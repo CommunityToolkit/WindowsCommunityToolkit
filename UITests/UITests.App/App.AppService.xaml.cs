@@ -4,7 +4,7 @@
 
 using System;
 using System.Diagnostics;
-using Microsoft.Toolkit.Mvvm.Messaging;
+using CommunityToolkit.Net.Mvvm.Messaging;
 using UITests.App.Pages;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;

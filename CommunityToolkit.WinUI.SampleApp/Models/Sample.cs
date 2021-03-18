@@ -18,22 +18,22 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 // TODO Reintroduce graph controls
-// using Microsoft.Toolkit.Graph.Converters;
-// using Microsoft.Toolkit.Graph.Providers;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Media;
+// using CommunityToolkit.Net.Graph.Converters;
+// using CommunityToolkit.Net.Graph.Providers;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.Input.GazeInteraction;
+using CommunityToolkit.WinUI.SampleApp.Models;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Animations;
+using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.UI.Media;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public class Sample
     {
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <summary>
         /// Gets the Page Type.
         /// </summary>
-        public Type PageType => global::System.Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + Type);
+        public Type PageType => global::System.Type.GetType("CommunityToolkit.WinUI.SampleApp.SamplePages." + Type);
 
         /// <summary>
         /// Gets or sets the Category Name.
@@ -657,19 +657,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 VerticalAlignment.Center.GetType(), // MUX
                 Windows.UI.Input.RadialControllerMenuKnownIcon.InkColor.GetType(), // Windows
-                StackMode.Replace.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Core
+                StackMode.Replace.GetType(), // CommunityToolkit.WinUI.UI.Controls.Core
 
                 // TODO Reintroduce graph controls
-                // typeof(UserToPersonConverter)) // Search in Microsoft.Toolkit.Graph.Controls
-                EasingType.Default.GetType(), // Microsoft.Toolkit.Uwp.UI.Animations
-                typeof(ImageCache), // Search in Microsoft.Toolkit.Uwp.UI
-                Interaction.Enabled.GetType(), // Microsoft.Toolkit.Uwp.Input.GazeInteraction
-                DataGridGridLinesVisibility.None.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
-                GridSplitter.GridResizeDirection.Auto.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Layout
-                typeof(MarkdownTextBlock), // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
-                BitmapFileFormat.Bmp.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Media
-                typeof(AlphaMode), // Microsoft.Toolkit.Uwp.UI.Media
-                StretchChild.Last.GetType() // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
+                // typeof(UserToPersonConverter)) // Search in CommunityToolkit.Net.Graph.Controls
+                EasingType.Default.GetType(), // CommunityToolkit.WinUI.UI.Animations
+                typeof(ImageCache), // Search in CommunityToolkit.WinUI.UI
+                Interaction.Enabled.GetType(), // CommunityToolkit.WinUI.Input.GazeInteraction
+                DataGridGridLinesVisibility.None.GetType(), // CommunityToolkit.WinUI.UI.Controls.DataGrid
+                GridSplitter.GridResizeDirection.Auto.GetType(), // CommunityToolkit.WinUI.UI.Controls.Layout
+                typeof(MarkdownTextBlock), // CommunityToolkit.WinUI.UI.Controls.Markdown
+                BitmapFileFormat.Bmp.GetType(), // CommunityToolkit.WinUI.UI.Controls.Media
+                typeof(AlphaMode), // CommunityToolkit.WinUI.UI.Media
+                StretchChild.Last.GetType() // CommunityToolkit.WinUI.UI.Controls.Primitivs
             };
 
             return targets.SelectMany(t => t.Assembly.ExportedTypes)

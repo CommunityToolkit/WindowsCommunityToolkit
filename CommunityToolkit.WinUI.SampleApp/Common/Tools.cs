@@ -4,11 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Connectivity;
+using CommunityToolkit.WinUI.Connectivity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     internal static class Tools
     {

@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="IInlineLeaf"/> class.

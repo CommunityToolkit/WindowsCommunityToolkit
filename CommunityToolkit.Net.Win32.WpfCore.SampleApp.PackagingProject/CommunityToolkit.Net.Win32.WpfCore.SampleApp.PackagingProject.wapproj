@@ -55,7 +55,7 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
-    <EntryPointProjectUniqueName>..\Microsoft.Toolkit.Win32.WpfCore.SampleApp\Microsoft.Toolkit.Win32.WpfCore.SampleApp.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\CommunityToolkit.Net.Win32.WpfCore.SampleApp\CommunityToolkit.Net.Win32.WpfCore.SampleApp.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -72,7 +72,7 @@
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Win32.WpfCore.SampleApp\Microsoft.Toolkit.Win32.WpfCore.SampleApp.csproj">
+    <ProjectReference Include="..\CommunityToolkit.Net.Win32.WpfCore.SampleApp\CommunityToolkit.Net.Win32.WpfCore.SampleApp.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>

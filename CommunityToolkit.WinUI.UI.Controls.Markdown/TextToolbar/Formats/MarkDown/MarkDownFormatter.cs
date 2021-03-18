@@ -4,15 +4,15 @@
 
 using System;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons.Common;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
+namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.MarkDown
 {
     /// <summary>
     /// Formatter implementation for MarkDown
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 {
                     Content = new MarkdownTextBlock
                     {
-                        Text = val + "WCT_TextToolbar_HeaderLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources"),
+                        Text = val + "WCT_TextToolbar_HeaderLabel".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources"),
                         IsTextSelectionEnabled = false
                     },
                     Tag = val,
@@ -461,7 +461,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                 QuoteButton = new ToolbarButton
                 {
                     Name = QuoteElement,
-                    ToolTip = "WCT_TextToolbar_QuoteLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources"),
+                    ToolTip = "WCT_TextToolbar_QuoteLabel".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Message },
                     Activation = FormatQuote
                 };
@@ -478,13 +478,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     {
                         Name = HeadersElement,
                         Icon = new SymbolIcon { Symbol = Symbol.FontSize },
-                        ToolTip = "WCT_TextToolbar_HeaderLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources"),
+                        ToolTip = "WCT_TextToolbar_HeaderLabel".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources"),
                         Activation = StyleHeader
                     },
                     new ToolbarButton
                     {
                         Name = CodeElement,
-                        ToolTip = "WCT_TextToolbar_CodeLabel".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Core/Resources"),
+                        ToolTip = "WCT_TextToolbar_CodeLabel".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Core/Resources"),
                         Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                         Activation = FormatCode
                     },

@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
-using Microsoft.Toolkit.Uwp.UI.Utilities;
-using Microsoft.Toolkit.Uwp.Utilities;
+using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
+using CommunityToolkit.WinUI.UI.Utilities;
+using CommunityToolkit.WinUI.Utilities;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -18,7 +18,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Represents a <see cref="DataGrid"/> column that hosts textual content in its cells. In edit mode data can be changed to a value from a collection hosted in a ComboBox.
@@ -285,11 +285,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a read-only <see cref="T:Microsoft.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// Gets a read-only <see cref="T:Microsoft.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">The cell that will contain the generated element.</param>
         /// <param name="dataItem">The data item represented by the row that contains the intended cell.</param>
-        /// <returns>A new, read-only <see cref="T:Microsoft.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
+        /// <returns>A new, read-only <see cref="T:Microsoft.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(dataItem);

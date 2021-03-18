@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace CommunityToolkit.WinUI.SampleApp.Common
 {
     public class DelegateCommand<T> : ICommand
     {

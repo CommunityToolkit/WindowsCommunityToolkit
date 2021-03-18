@@ -18,7 +18,7 @@ using Windows.Graphics.Display;
 using Windows.UI;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// The <see cref="Eyedropper"/> control can pick up a color from anywhere in your application.

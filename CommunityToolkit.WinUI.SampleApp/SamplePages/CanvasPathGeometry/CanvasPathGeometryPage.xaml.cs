@@ -10,8 +10,8 @@ using Microsoft.System;
 
 //using Microsoft.Graphics.Canvas.Geometry;
 //using Microsoft.Graphics.Canvas.UI.Xaml;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Media.Geometry;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -19,7 +19,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

@@ -7,7 +7,7 @@ using System.Text;
 
 //using Microsoft.Graphics.Canvas.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /*
     /// <summary>

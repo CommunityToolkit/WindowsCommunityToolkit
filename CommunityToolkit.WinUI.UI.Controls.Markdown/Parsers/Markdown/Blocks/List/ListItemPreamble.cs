@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
 {
     [Obsolete(Constants.ParserObsoleteMsg)]
     internal class ListItemPreamble

@@ -13,7 +13,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 
-namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
+namespace CommunityToolkit.WinUI.UI.Data.Utilities
 {
     /// <summary>
     /// Static class with methods to help with validation.

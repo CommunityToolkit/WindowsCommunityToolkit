@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
+namespace CommunityToolkit.WinUI.UI.Media.Helpers.Cache
 {
     /// <summary>
     /// A <see langword="class"/> used to cache reusable <see cref="CompositionObject"/> instances with an associated key

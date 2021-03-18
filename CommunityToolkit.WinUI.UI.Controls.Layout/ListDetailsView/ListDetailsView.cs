@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Panel that allows for a List/Details pattern.

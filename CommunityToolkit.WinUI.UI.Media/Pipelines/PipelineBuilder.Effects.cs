@@ -24,7 +24,7 @@ using Windows.UI;
 // using CanvasTemperatureAndTintEffect = Microsoft.Graphics.Canvas.Effects.TemperatureAndTintEffect;
 // using CanvasTintEffect = Microsoft.Graphics.Canvas.Effects.TintEffect;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
+namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
     /*
     /// <summary>

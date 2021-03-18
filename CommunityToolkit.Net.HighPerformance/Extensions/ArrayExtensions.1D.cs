@@ -8,14 +8,14 @@ using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME || NET5_0
 using System.Runtime.InteropServices;
 #endif
-using Microsoft.Toolkit.HighPerformance.Enumerables;
+using CommunityToolkit.Net.HighPerformance.Enumerables;
 #if !NETCORE_RUNTIME && !NET5_0
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance.Helpers;
 #endif
-using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using CommunityToolkit.Net.HighPerformance.Helpers.Internals;
+using RuntimeHelpers = CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.

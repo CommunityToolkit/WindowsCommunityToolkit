@@ -5,7 +5,7 @@
 using System;
 using Microsoft.UI;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Common
+namespace CommunityToolkit.WinUI.SampleApp.Common
 {
     public static class Constants
     {

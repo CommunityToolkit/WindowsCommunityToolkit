@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Notifications;
+using CommunityToolkit.WinUI.Notifications;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 
-namespace Microsoft.Toolkit.Uwp.Samples.BackgroundTasks
+namespace CommunityToolkit.WinUI.Samples.BackgroundTasks
 {
     public sealed class TestBackgroundTask : IBackgroundTask
     {

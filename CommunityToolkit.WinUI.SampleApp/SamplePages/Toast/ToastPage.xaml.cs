@@ -2,16 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using CommunityToolkit.WinUI.Notifications;
+using CommunityToolkit.WinUI.SampleApp.Common;
+using CommunityToolkit.WinUI.SampleApp.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using NotificationsVisualizerLibrary;
 using Windows.UI.Notifications;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class ToastPage : Page
     {

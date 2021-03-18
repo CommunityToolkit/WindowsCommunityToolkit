@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Collections
+namespace CommunityToolkit.Net.Collections
 {
     /// <summary>
     /// The extensions methods to simplify the usage of <see cref="ObservableGroupedCollection{TKey, TValue}"/>.

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Notifications\Microsoft.Toolkit.Uwp.Notifications.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@ using Monaco.Helpers;
 using Windows.System.Threading;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
+namespace CommunityToolkit.WinUI.SampleApp.Controls
 {
     public sealed partial class XamlCodeEditor : UserControl
     {

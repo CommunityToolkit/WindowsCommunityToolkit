@@ -4,7 +4,7 @@
 
 using Windows.Foundation.Collections;
 
-namespace Microsoft.Toolkit.Uwp.Input.GazeInteraction
+namespace CommunityToolkit.WinUI.Input.GazeInteraction
 {
     // Every filter must provide an Update method which transforms sample data
     // and returns filtered output

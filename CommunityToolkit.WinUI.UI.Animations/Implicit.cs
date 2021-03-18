@@ -10,7 +10,7 @@ using Windows.Foundation.Collections;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// Attached properties to support implicitly triggered animations for <see cref="UIElement"/> instances.

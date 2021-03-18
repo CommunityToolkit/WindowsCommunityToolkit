@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.HighPerformance.Streams
+namespace CommunityToolkit.Net.HighPerformance.Streams
 {
     /// <summary>
     /// An interface for types acting as sources for <see cref="Span{T}"/> instances.

@@ -3,16 +3,16 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
-using Microsoft.Toolkit.Parsers.Markdown.Render;
+using CommunityToolkit.Net.Parsers.Core;
+using CommunityToolkit.Net.Parsers.Markdown;
+using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Net.Parsers.Markdown.Render;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
+namespace CommunityToolkit.WinUI.UI.Controls.Markdown.Render
 {
     /// <summary>
     /// Generates Framework Elements for the UWP Markdown Textblock.

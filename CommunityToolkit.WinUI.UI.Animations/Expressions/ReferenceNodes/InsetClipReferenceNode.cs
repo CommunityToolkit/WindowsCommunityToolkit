@@ -4,12 +4,12 @@
 
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     /// <summary>
     /// Class InsetClipReferenceNode. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ReferenceNode" />
+    /// <seealso cref="CommunityToolkit.WinUI.UI.Animations.Expressions.ReferenceNode" />
     public sealed class InsetClipReferenceNode : ReferenceNode
     {
         /// <summary>

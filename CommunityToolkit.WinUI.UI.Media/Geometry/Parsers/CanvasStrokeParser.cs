@@ -6,10 +6,10 @@ using System;
 using System.Runtime.CompilerServices;
 
 //using Microsoft.Graphics.Canvas;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
 {
     /// <summary>
     /// Parser for CanvasStroke

@@ -6,12 +6,12 @@ using System.Text.RegularExpressions;
 
 //using Microsoft.Graphics.Canvas;
 //using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Parsers;
 using Microsoft.UI;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
 {
     /// <summary>
     /// Represents a CanvasSolidColorBrush

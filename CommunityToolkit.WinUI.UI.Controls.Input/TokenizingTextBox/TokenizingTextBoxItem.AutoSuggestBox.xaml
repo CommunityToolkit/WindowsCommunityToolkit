@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+                    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls">
 
     <!--<Thickness x:Key="ButtonPadding">8,4,8,5</Thickness> Not sure if we'll also need this later-->
     <Thickness x:Key="TextControlThemePadding">10,3,6,6</Thickness><!-- Need local copy of this, as including WinUI overrides this to something that adds too much padding for our inner box -->

@@ -13,7 +13,7 @@
     Version="8.0.0.0" />
 
   <Properties>
-    <DisplayName>Microsoft.Toolkit.Uwp.SampleApp.Package</DisplayName>
+    <DisplayName>CommunityToolkit.WinUI.SampleApp.Package</DisplayName>
     <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Images\UWPCommunityToolkitSampleAppStoreLogo.png</Logo>
   </Properties>
@@ -53,7 +53,7 @@
             <uap:DisplayName>Windows Community Toolkit</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
-        <!--<Extension Category="windows.backgroundTasks" EntryPoint="Microsoft.Toolkit.Uwp.Samples.BackgroundTasks.TestBackgroundTask">
+        <!--<Extension Category="windows.backgroundTasks" EntryPoint="CommunityToolkit.WinUI.Samples.BackgroundTasks.TestBackgroundTask">
           <BackgroundTasks>
             <Task Type="timer" />
           </BackgroundTasks>

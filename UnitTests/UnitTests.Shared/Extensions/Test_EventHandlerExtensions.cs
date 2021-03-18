@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Deferred;
+using CommunityToolkit.Net.Deferred;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Extensions

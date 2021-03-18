@@ -9,17 +9,17 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #if !SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance.Helpers;
 #endif
-using Microsoft.Toolkit.HighPerformance.Memory.Internals;
-using Microsoft.Toolkit.HighPerformance.Memory.Views;
+using CommunityToolkit.Net.HighPerformance.Memory.Internals;
+using CommunityToolkit.Net.HighPerformance.Memory.Views;
 #if !SPAN_RUNTIME_SUPPORT
-using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using RuntimeHelpers = CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
 #pragma warning disable CS0809, CA1065
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// A readonly version of <see cref="Span2D{T}"/>.
@@ -962,7 +962,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [Obsolete("Equals() on Span will always throw an exception. Use == instead.")]
         public override bool Equals(object? obj)
         {
-            throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<T>.Equals(object) is not supported");
+            throw new NotSupportedException("CommunityToolkit.Net.HighPerformance.ReadOnlySpan2D<T>.Equals(object) is not supported");
         }
 
         /// <inheritdoc cref="ReadOnlySpan{T}.GetHashCode()"/>
@@ -970,13 +970,13 @@ namespace Microsoft.Toolkit.HighPerformance
         [Obsolete("GetHashCode() on Span will always throw an exception.")]
         public override int GetHashCode()
         {
-            throw new NotSupportedException("Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<T>.GetHashCode() is not supported");
+            throw new NotSupportedException("CommunityToolkit.Net.HighPerformance.ReadOnlySpan2D<T>.GetHashCode() is not supported");
         }
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.ReadOnlySpan2D<{typeof(T)}>[{Height}, {this.width}]";
+            return $"CommunityToolkit.Net.HighPerformance.ReadOnlySpan2D<{typeof(T)}>[{Height}, {this.width}]";
         }
 
         /// <summary>

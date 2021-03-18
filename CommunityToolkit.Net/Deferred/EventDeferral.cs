@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 #pragma warning disable CA1063
 
-namespace Microsoft.Toolkit.Deferred
+namespace CommunityToolkit.Net.Deferred
 {
     /// <summary>
     /// Deferral handle provided by a <see cref="DeferredEventArgs"/>.

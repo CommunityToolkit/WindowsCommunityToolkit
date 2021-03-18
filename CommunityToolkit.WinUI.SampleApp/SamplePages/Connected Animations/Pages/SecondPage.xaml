@@ -1,12 +1,12 @@
 ﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages.SecondPage"
+    x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.ConnectedAnimations.Pages.SecondPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages"
+    xmlns:local="using:CommunityToolkit.WinUI.SampleApp.SamplePages.ConnectedAnimations.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Data"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:data="using:CommunityToolkit.WinUI.SampleApp.Data"
     mc:Ignorable="d">
 
     <Grid Padding="40">

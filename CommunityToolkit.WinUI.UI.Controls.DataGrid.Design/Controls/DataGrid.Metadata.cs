@@ -3,14 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
+using CommunityToolkit.WinUI.UI.Controls.Design.Properties;
 
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Features;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Model;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
+namespace CommunityToolkit.WinUI.UI.Controls.Design
 {
     internal class DataGridDefaults : DefaultInitializer
     {

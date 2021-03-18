@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
-using Microsoft.Toolkit.Uwp.SampleApp.Styles;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.SampleApp.Common;
+using CommunityToolkit.WinUI.SampleApp.SamplePages;
+using CommunityToolkit.WinUI.SampleApp.Styles;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -14,7 +14,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     public sealed partial class App : Application
     {

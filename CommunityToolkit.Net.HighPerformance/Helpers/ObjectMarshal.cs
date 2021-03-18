@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Helpers
+namespace CommunityToolkit.Net.HighPerformance.Helpers
 {
     /// <summary>
     /// Helpers for working with <see cref="object"/> instances.

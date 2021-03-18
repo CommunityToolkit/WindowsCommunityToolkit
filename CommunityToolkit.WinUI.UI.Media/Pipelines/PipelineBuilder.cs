@@ -11,7 +11,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Windows.Graphics.Effects;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
+namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect property setter that can be applied to a <see cref="CompositionBrush"/>

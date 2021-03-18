@@ -5,7 +5,7 @@
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
     /// Page that shows how to use StringExtensions

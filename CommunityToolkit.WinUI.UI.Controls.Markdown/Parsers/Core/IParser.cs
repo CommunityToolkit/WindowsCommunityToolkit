@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Parsers
+namespace CommunityToolkit.Net.Parsers
 {
     /// <summary>
     /// Parser interface.

@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
+                    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+                    xmlns:ui="using:CommunityToolkit.WinUI.UI">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/TokenizingTextBox/TokenizingTextBoxItem.Token.xaml"/>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/TokenizingTextBox/TokenizingTextBoxItem.AutoSuggestBox.xaml"/>
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.UI.Controls.Input/TokenizingTextBox/TokenizingTextBoxItem.Token.xaml"/>
+        <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.UI.Controls.Input/TokenizingTextBox/TokenizingTextBoxItem.AutoSuggestBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Resources for TokenizingTextBox  -->

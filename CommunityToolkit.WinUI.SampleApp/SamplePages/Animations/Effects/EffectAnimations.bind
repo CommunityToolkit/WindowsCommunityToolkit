@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
-    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
+    xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Interactions="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">

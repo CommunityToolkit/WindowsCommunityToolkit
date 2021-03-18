@@ -6,9 +6,9 @@ using System.Numerics;
 using System.Text.RegularExpressions;
 
 //using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
 {
     /// <summary>
     /// Class representing the MoveTo Command in a Path Geometry

@@ -6,10 +6,10 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
-using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
+using CommunityToolkit.Net.HighPerformance.Enumerables;
+using CommunityToolkit.Net.HighPerformance.Helpers.Internals;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ReadOnlySpan{T}"/> type.

@@ -1,7 +1,7 @@
 <!-- Frame -->
 
 <Page ...
-  xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations">
+  xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations">
 
   <!-- Page 1 -->
     <Grid>

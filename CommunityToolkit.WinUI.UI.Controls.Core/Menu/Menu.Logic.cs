@@ -16,7 +16,7 @@ using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Menu Control defines a menu of choices for users to invoke.

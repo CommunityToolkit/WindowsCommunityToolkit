@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Menu Control defines a menu of choices for users to invoke.

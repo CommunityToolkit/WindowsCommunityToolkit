@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace SmokeTest
@@ -25,7 +25,7 @@ namespace SmokeTest
             dataGrid.ItemsSource = viewModel.GetData();
         }
 
-        private void DataGrid_Sorting(object sender, Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumnEventArgs e)
+        private void DataGrid_Sorting(object sender, CommunityToolkit.WinUI.UI.Controls.DataGridColumnEventArgs e)
         {
             // Clear previous sorted column if we start sorting a different column
             string previousSortedColumn = viewModel.CachedSortedColumn;

@@ -21,7 +21,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+		<ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -5,14 +5,14 @@
 using System;
 using System.Collections.Generic;
 using ColorCode.Styling;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
+using CommunityToolkit.WinUI.UI.Controls.Markdown.Render;
+using CommunityToolkit.WinUI.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.

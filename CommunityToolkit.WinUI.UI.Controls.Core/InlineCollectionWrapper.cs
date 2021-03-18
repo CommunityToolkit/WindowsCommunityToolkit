@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <inheritdoc />
     /// <summary>A wrapper class for <see cref="TextBlock.Inlines">TextBlock.Inlines</see> to

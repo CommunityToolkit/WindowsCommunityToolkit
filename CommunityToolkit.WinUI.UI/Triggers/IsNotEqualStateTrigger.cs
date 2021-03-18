@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Triggers
+namespace CommunityToolkit.WinUI.UI.Triggers
 {
     /// <summary>
     /// Enables a state if the value is not equal to another value

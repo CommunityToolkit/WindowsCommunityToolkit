@@ -3,17 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText;
+using CommunityToolkit.WinUI.SampleApp.SamplePages.TextToolbarSamples;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.MarkDown;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats.RichText;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class TextToolbarPage : IXamlRenderListener
     {

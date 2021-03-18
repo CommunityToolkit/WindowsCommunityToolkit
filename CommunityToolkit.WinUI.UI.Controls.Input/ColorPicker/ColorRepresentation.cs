@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Defines how colors are represented.

@@ -10,9 +10,9 @@ using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME || NET5_0
 using System.Runtime.InteropServices;
 #endif
-using Microsoft.Toolkit.HighPerformance.Buffers.Views;
+using CommunityToolkit.Net.HighPerformance.Buffers.Views;
 
-namespace Microsoft.Toolkit.HighPerformance.Buffers
+namespace CommunityToolkit.Net.HighPerformance.Buffers
 {
     /// <summary>
     /// An <see cref="IMemoryOwner{T}"/> implementation with an embedded length and a fast <see cref="Span{T}"/> accessor.
@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             }
 
             // Same representation used in Span<T>
-            return $"Microsoft.Toolkit.HighPerformance.Buffers.MemoryOwner<{typeof(T)}>[{this.length}]";
+            return $"CommunityToolkit.Net.HighPerformance.Buffers.MemoryOwner<{typeof(T)}>[{this.length}]";
         }
 
         /// <summary>

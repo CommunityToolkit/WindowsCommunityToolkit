@@ -5,7 +5,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors
+namespace CommunityToolkit.WinUI.UI.Behaviors
 {
     /// <summary>
     /// This behavior automatically sets the focus on the associated <see cref="Control"/> when it is loaded.

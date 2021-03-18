@@ -376,11 +376,11 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+>\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/CommunityToolkit.WinUI.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
-![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/CommunityToolkit.WinUI.SampleApp/Assets/Helpers.png)
 
 Rendering Images is now supported through prefix. use property **UriPrefix**
 

@@ -6,7 +6,7 @@ using System;
 using System.Runtime.Serialization;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// Store data in the Roaming environment (shared across all user devices).

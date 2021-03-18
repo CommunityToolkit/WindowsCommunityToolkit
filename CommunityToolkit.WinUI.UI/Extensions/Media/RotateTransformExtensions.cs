@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <summary>
     /// Extension methods for <see cref="RotateTransform"/>.

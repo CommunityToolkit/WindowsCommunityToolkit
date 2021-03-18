@@ -5,7 +5,7 @@
 using System;
 using System.Text;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
 {
     [Obsolete(Constants.ParserObsoleteMsg)]
     internal class ListItemBuilder : MarkdownBlock

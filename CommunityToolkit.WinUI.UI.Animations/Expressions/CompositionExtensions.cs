@@ -5,7 +5,7 @@
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.Interactions;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     /// <summary>
     /// Class CompositionExtensions.

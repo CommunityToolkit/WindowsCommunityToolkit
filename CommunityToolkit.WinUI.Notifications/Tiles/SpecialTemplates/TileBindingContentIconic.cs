@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Supported on Small and Medium. Enables an iconic Tile template, where you can have an icon and badge display next to each other on the Tile, in true classic Windows Phone style. The number next to the icon is achieved through a separate badge notification.

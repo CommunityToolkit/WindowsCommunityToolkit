@@ -4,14 +4,14 @@
 
 using System.Numerics;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     // Ignore warning: 'QuaternionNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661
     /// <summary>
     /// Class QuaternionNode. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionNode" />
+    /// <seealso cref="CommunityToolkit.WinUI.UI.Animations.Expressions.ExpressionNode" />
     public sealed class QuaternionNode : ExpressionNode
     {
         /// <summary>

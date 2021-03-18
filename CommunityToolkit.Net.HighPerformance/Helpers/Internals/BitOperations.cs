@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using static System.Numerics.BitOperations;
 #endif
 
-namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
+namespace CommunityToolkit.Net.HighPerformance.Helpers.Internals
 {
     /// <summary>
     /// Utility methods for intrinsic bit-twiddling operations. The methods use hardware intrinsics

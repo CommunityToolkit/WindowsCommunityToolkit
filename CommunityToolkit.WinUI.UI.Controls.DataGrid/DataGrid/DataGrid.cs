@@ -11,13 +11,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Security;
 using System.Text;
-using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
-using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
-using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
-using Microsoft.Toolkit.Uwp.UI.Controls.Utilities;
-using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
-using Microsoft.Toolkit.Uwp.UI.Utilities;
-using Microsoft.Toolkit.Uwp.Utilities;
+using CommunityToolkit.WinUI.UI.Automation.Peers;
+using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
+using CommunityToolkit.WinUI.UI.Controls.Primitives;
+using CommunityToolkit.WinUI.UI.Controls.Utilities;
+using CommunityToolkit.WinUI.UI.Data.Utilities;
+using CommunityToolkit.WinUI.UI.Utilities;
+using CommunityToolkit.WinUI.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
@@ -36,7 +36,7 @@ using DiagnosticsDebug = System.Diagnostics.Debug;
 using DispatcherQueueTimer = Microsoft.System.DispatcherQueueTimer;
 using INotifyDataErrorInfo = System.ComponentModel.INotifyDataErrorInfo;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Control to represent data in columns and rows.
@@ -291,7 +291,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<DataGridCellEditEndingEventArgs> CellEditEnding;
 
         /// <summary>
-        /// Occurs when the <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumn.DisplayIndex"/>
+        /// Occurs when the <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridColumn.DisplayIndex"/>
         /// property of a column changes.
         /// </summary>
         public event EventHandler<DataGridColumnEventArgs> ColumnDisplayIndexChanged;
@@ -379,7 +379,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
-        /// Occurs when the <see cref="Microsoft.Toolkit.Uwp.UI.Controls.DataGridColumn"/> sorting request is triggered.
+        /// Occurs when the <see cref="CommunityToolkit.WinUI.UI.Controls.DataGridColumn"/> sorting request is triggered.
         /// </summary>
         public event EventHandler<DataGridColumnEventArgs> Sorting;
 

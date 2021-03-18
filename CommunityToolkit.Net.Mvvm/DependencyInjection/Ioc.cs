@@ -7,7 +7,7 @@ using System.Threading;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Mvvm.DependencyInjection
+namespace CommunityToolkit.Net.Mvvm.DependencyInjection
 {
     /// <summary>
     /// A type that facilitates the use of the <see cref="IServiceProvider"/> type.

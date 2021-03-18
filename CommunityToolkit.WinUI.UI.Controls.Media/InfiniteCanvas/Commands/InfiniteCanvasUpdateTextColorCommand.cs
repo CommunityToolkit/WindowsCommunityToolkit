@@ -4,7 +4,7 @@
 
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     internal class InfiniteCanvasUpdateTextColorCommand : IInfiniteCanvasCommand
     {

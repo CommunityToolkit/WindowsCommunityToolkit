@@ -4,11 +4,11 @@
 
 using System.Collections;
 using System.Collections.Specialized;
-using Microsoft.Toolkit.Uwp.Helpers;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Windows.Foundation.Collections;
 
-namespace Microsoft.Toolkit.Uwp.UI.Triggers
+namespace CommunityToolkit.WinUI.UI.Triggers
 {
     /// <summary>
     /// Enables a state if an Object is <c>null</c> or a String/IEnumerable is empty

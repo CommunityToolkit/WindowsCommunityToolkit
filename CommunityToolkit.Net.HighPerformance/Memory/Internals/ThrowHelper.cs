@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.HighPerformance.Memory.Internals
+namespace CommunityToolkit.Net.HighPerformance.Memory.Internals
 {
     /// <summary>
     /// A helper class to throw exceptions for memory types.

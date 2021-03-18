@@ -5,7 +5,7 @@
 using Microsoft.UI.Xaml;
 using Windows.UI.ViewManagement;
 
-namespace Microsoft.Toolkit.Uwp.UI.Triggers
+namespace CommunityToolkit.WinUI.UI.Triggers
 {
     /// <summary>
     /// Trigger for switching UI based on whether the user favors their left or right hand.

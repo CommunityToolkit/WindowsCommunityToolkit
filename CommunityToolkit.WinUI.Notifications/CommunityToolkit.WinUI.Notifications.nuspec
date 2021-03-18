@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>Microsoft.Toolkit.Uwp.Notifications</id>
+    <id>CommunityToolkit.WinUI.Notifications</id>
     <version>$version$</version>
     <title>Windows Community Toolkit Notifications</title>
-    <authors>Microsoft.Toolkit,dotnetfoundation</authors>
+    <authors>CommunityToolkit.Net,dotnetfoundation</authors>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</projectUrl>
@@ -55,33 +55,33 @@
   <files>
     <file src="..\build\nuget.png" target="images\" />
     <file src="..\license.md" target="" />
-    <file src="Microsoft.Toolkit.Uwp.Notifications.targets" target="build\native\Microsoft.Toolkit.Uwp.Notifications.targets" />
-    <file src="$buildOutput$\net461\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\net461\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\net461\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\net461\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\net461\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\net461\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\net5.0\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\net5.0\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\net5.0\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\net5.0\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\net5.0\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\net5.0\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\net5.0-windows10.0.18362.0\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\net5.0-windows10.0.18362\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\net5.0-windows10.0.18362.0\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\net5.0-windows10.0.18362\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\net5.0-windows10.0.18362.0\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\net5.0-windows10.0.18362\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\netcoreapp3.1\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\netcoreapp3.1\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\netcoreapp3.1\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\netcoreapp3.1\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\netcoreapp3.1\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\netcoreapp3.1\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.dll" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.pri" />
-    <file src="$buildOutput$\uap10.0.19041\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.16299\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.pri" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.winmd" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\native\Microsoft.Toolkit.Uwp.Notifications.xml" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pdb" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.pri" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.pri" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.winmd" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.winmd" />
-    <file src="$buildOutput$\native\Microsoft.Toolkit.Uwp.Notifications.xml" target="lib\uap10.0.10240\Microsoft.Toolkit.Uwp.Notifications.xml" />
+    <file src="CommunityToolkit.WinUI.Notifications.targets" target="build\native\CommunityToolkit.WinUI.Notifications.targets" />
+    <file src="$buildOutput$\net461\CommunityToolkit.WinUI.Notifications.dll" target="lib\net461\CommunityToolkit.WinUI.Notifications.dll" />
+    <file src="$buildOutput$\net461\CommunityToolkit.WinUI.Notifications.pdb" target="lib\net461\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\net461\CommunityToolkit.WinUI.Notifications.xml" target="lib\net461\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\net5.0\CommunityToolkit.WinUI.Notifications.dll" target="lib\net5.0\CommunityToolkit.WinUI.Notifications.dll" />
+    <file src="$buildOutput$\net5.0\CommunityToolkit.WinUI.Notifications.pdb" target="lib\net5.0\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\net5.0\CommunityToolkit.WinUI.Notifications.xml" target="lib\net5.0\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\net5.0-windows10.0.18362.0\CommunityToolkit.WinUI.Notifications.dll" target="lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.Notifications.dll" />
+    <file src="$buildOutput$\net5.0-windows10.0.18362.0\CommunityToolkit.WinUI.Notifications.pdb" target="lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\net5.0-windows10.0.18362.0\CommunityToolkit.WinUI.Notifications.xml" target="lib\net5.0-windows10.0.18362\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\netcoreapp3.1\CommunityToolkit.WinUI.Notifications.dll" target="lib\netcoreapp3.1\CommunityToolkit.WinUI.Notifications.dll" />
+    <file src="$buildOutput$\netcoreapp3.1\CommunityToolkit.WinUI.Notifications.pdb" target="lib\netcoreapp3.1\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\netcoreapp3.1\CommunityToolkit.WinUI.Notifications.xml" target="lib\netcoreapp3.1\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\netstandard1.4\CommunityToolkit.WinUI.Notifications.dll" target="lib\netstandard1.4\CommunityToolkit.WinUI.Notifications.dll" />
+    <file src="$buildOutput$\netstandard1.4\CommunityToolkit.WinUI.Notifications.pdb" target="lib\netstandard1.4\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\netstandard1.4\CommunityToolkit.WinUI.Notifications.xml" target="lib\netstandard1.4\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\uap10.0.19041\CommunityToolkit.WinUI.Notifications.dll" target="lib\uap10.0.16299\CommunityToolkit.WinUI.Notifications.dll" />
+    <file src="$buildOutput$\uap10.0.19041\CommunityToolkit.WinUI.Notifications.pdb" target="lib\uap10.0.16299\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\uap10.0.19041\CommunityToolkit.WinUI.Notifications.pri" target="lib\uap10.0.16299\CommunityToolkit.WinUI.Notifications.pri" />
+    <file src="$buildOutput$\uap10.0.19041\CommunityToolkit.WinUI.Notifications.xml" target="lib\uap10.0.16299\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.pdb" target="lib\native\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.pri" target="lib\native\CommunityToolkit.WinUI.Notifications.pri" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.winmd" target="lib\native\CommunityToolkit.WinUI.Notifications.winmd" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.xml" target="lib\native\CommunityToolkit.WinUI.Notifications.xml" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.pdb" target="lib\uap10.0.10240\CommunityToolkit.WinUI.Notifications.pdb" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.pri" target="lib\uap10.0.10240\CommunityToolkit.WinUI.Notifications.pri" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.winmd" target="lib\uap10.0.10240\CommunityToolkit.WinUI.Notifications.winmd" />
+    <file src="$buildOutput$\native\CommunityToolkit.WinUI.Notifications.xml" target="lib\uap10.0.10240\CommunityToolkit.WinUI.Notifications.xml" />
   </files>
 </package>

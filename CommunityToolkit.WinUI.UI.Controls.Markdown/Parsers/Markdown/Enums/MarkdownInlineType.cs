@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Parsers.Markdown
+namespace CommunityToolkit.Net.Parsers.Markdown
 {
     /// <summary>
     /// Determines the type of Inline the Inline Element is.

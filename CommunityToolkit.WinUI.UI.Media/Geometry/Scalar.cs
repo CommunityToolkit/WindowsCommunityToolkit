@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
+namespace CommunityToolkit.WinUI.UI.Media.Geometry
 {
     /// <summary>
     /// Class containing some constants

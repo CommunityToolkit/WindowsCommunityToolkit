@@ -6,7 +6,7 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Animation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
     internal abstract partial class NormalizedKeyFrameAnimationBuilder<T>

@@ -13,7 +13,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Microsoft.Toolkit.Mvvm.ComponentModel
+namespace CommunityToolkit.Net.Mvvm.ComponentModel
 {
     /// <summary>
     /// A base class for objects implementing the <see cref="INotifyDataErrorInfo"/> interface. This class

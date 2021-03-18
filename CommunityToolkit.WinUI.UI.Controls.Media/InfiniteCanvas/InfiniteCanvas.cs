@@ -15,7 +15,7 @@ using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// InfiniteCanvas is a canvas that supports Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.

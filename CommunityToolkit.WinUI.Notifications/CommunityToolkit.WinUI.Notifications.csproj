@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard1.4;uap10.0.19041;net461;netcoreapp3.1;net5.0;net5.0-windows10.0.18362.0;native</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
-    <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
+    <NuspecFile>CommunityToolkit.WinUI.Notifications.nuspec</NuspecFile>
   </PropertyGroup>
 
   <Choose>
@@ -37,11 +37,11 @@
 
   <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
   <ItemGroup Condition="'$(TargetFramework)' != 'uap10.0.19041' and '$(TargetFramework)' != 'native'">
-    <EmbeddedResource Remove="Properties\Microsoft.Toolkit.Uwp.Notifications.rd.xml" />
+    <EmbeddedResource Remove="Properties\CommunityToolkit.WinUI.Notifications.rd.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
+    <None Include="CommunityToolkit.WinUI.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
 
   <!--Native (C++) doesn't need System.ValueTuple (plus it's incompatible with this package)-->

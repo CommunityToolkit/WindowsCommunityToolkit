@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI.Animations;
+using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 
-namespace Microsoft.Toolkit.Uwp.UI.Behaviors
+namespace CommunityToolkit.WinUI.UI.Behaviors
 {
     /// <summary>
     /// An <see cref="IAction"/> implementation that can stop a target <see cref="AnimationSet"/> instance.

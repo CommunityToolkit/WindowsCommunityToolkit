@@ -8,12 +8,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.SampleApp.Controls;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
+using CommunityToolkit.WinUI.SampleApp.Common;
+using CommunityToolkit.WinUI.SampleApp.Controls;
+using CommunityToolkit.WinUI.SampleApp.Models;
+using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -21,7 +21,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
 using Windows.System.Profile;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp
+namespace CommunityToolkit.WinUI.SampleApp
 {
     /// <summary>
     /// A wrapper for the Sample Page.

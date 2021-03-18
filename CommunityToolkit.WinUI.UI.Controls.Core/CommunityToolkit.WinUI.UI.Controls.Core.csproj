@@ -24,8 +24,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Primitives\CommunityToolkit.WinUI.UI.Controls.Primitives.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Microsoft.Toolkit.Collections;
+using CommunityToolkit.Net.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Collections

@@ -15,7 +15,7 @@ using Windows.UI;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <inheritdoc cref="AnimationBuilder"/>
     public sealed partial class AnimationBuilder

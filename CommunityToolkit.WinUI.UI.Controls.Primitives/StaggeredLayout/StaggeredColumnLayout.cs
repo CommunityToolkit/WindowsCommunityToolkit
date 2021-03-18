@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     [global::System.Diagnostics.DebuggerDisplay("Count = {Count}, Height = {Height}")]
     internal class StaggeredColumnLayout : List<StaggeredItem>

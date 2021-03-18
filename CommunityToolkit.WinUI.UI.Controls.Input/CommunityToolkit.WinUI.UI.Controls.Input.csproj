@@ -20,11 +20,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Primitives\CommunityToolkit.WinUI.UI.Controls.Primitives.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.Composition.cs" Link="ControlHelpers.Composition.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core\ControlHelpers.Composition.cs" Link="ControlHelpers.Composition.cs" />
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>

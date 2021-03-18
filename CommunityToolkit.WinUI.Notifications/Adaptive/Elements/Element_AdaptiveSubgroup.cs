@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
+namespace CommunityToolkit.WinUI.Notifications.Adaptive.Elements
 {
     [NotificationXmlElement("subgroup")]
     internal sealed class Element_AdaptiveSubgroup : IElementWithDescendants

@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 
-namespace Microsoft.Toolkit.Uwp.Design.Types
+namespace CommunityToolkit.WinUI.Design.Types
 {
     internal class PlatformTypes
     {

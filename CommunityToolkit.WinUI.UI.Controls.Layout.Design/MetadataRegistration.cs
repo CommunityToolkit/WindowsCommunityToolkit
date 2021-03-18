@@ -4,14 +4,14 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Uwp.Design.Common;
-using Microsoft.Toolkit.Uwp.UI.Controls.Design;
+using CommunityToolkit.WinUI.Design.Common;
+using CommunityToolkit.WinUI.UI.Controls.Design;
 
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 
 [assembly: ProvideMetadata(typeof(MetadataRegistration))]
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
+namespace CommunityToolkit.WinUI.UI.Controls.Design
 {
     public class MetadataRegistration : MetadataRegistrationBase
     {

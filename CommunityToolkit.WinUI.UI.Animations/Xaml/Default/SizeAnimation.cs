@@ -5,7 +5,7 @@
 using System.Numerics;
 using Microsoft.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace CommunityToolkit.WinUI.UI.Animations
 {
     /// <summary>
     /// A size animation working on the composition or layer.

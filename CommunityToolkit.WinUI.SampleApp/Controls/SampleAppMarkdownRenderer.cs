@@ -5,12 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Markdown;
-using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Inlines;
-using Microsoft.Toolkit.Parsers.Markdown.Render;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
+using CommunityToolkit.Net.Parsers.Markdown;
+using CommunityToolkit.Net.Parsers.Markdown.Blocks;
+using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Net.Parsers.Markdown.Render;
+using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI.UI.Controls.Markdown.Render;
 using Microsoft.UI;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
@@ -18,7 +18,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
+namespace CommunityToolkit.WinUI.SampleApp.Controls
 {
     /// <summary>
     /// A Rendering Superclass for the Markdown Renderer, allowing custom styling of Elements in Markdown.

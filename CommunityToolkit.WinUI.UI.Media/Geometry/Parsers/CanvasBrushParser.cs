@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 
 //using Microsoft.Graphics.Canvas;
 //using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Brush;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
+namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
 {
     /// <summary>
     /// Parser for ICanvasBrush.

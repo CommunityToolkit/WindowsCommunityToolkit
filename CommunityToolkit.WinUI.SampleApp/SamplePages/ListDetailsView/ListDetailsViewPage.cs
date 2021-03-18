@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using CommunityToolkit.WinUI.SampleApp.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

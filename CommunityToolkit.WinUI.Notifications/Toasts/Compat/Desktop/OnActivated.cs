@@ -4,7 +4,7 @@
 
 #if WIN32
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Event triggered when a notification is clicked.

@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
+namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons
 {
     /// <summary>
     /// Separates a collection of <see cref="IToolbarItem"/>

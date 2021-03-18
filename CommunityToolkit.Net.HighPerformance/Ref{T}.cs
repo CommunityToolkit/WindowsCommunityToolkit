@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance.Helpers;
 #endif
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <summary>
     /// A <see langword="struct"/> that can store a reference to a value of a specified type.

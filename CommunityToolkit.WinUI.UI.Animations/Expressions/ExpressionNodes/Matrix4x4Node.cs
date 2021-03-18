@@ -4,14 +4,14 @@
 
 using System.Numerics;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
+namespace CommunityToolkit.WinUI.UI.Animations.Expressions
 {
     // Ignore warning: 'Matrix4x4Node' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
 #pragma warning disable CS0660, CS0661
     /// <summary>
     /// Class Matrix4x4Node. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Expressions.ExpressionNode" />
+    /// <seealso cref="CommunityToolkit.WinUI.UI.Animations.Expressions.ExpressionNode" />
     public sealed partial class Matrix4x4Node : ExpressionNode
     {
         /// <summary>

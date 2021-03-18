@@ -7,8 +7,8 @@
     <ProjectGuid>{3307BC1D-5D71-41C6-A1B3-B113B8242D08}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.Input.DesignTools</AssemblyName>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls.Design</RootNamespace>
+    <AssemblyName>CommunityToolkit.WinUI.UI.Controls.Input.DesignTools</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -16,14 +16,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.Input\bin\Debug\uap10.0.17763\Design\</OutputPath>
+    <OutputPath>..\CommunityToolkit.WinUI.UI.Controls.Input\bin\Debug\uap10.0.17763\Design\</OutputPath>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>..\Microsoft.Toolkit.Uwp.UI.Controls.Input\bin\Release\uap10.0.17763\Design\</OutputPath>
+    <OutputPath>..\CommunityToolkit.WinUI.UI.Controls.Input\bin\Release\uap10.0.17763\Design\</OutputPath>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <Optimize>true</Optimize>
@@ -76,10 +76,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\Constants.cs" Link="Common\Constants.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core.Design\MetadataRegistration.cs" Link="MetadataRegistration.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\Constants.cs" Link="Common\Constants.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\MetadataRegistrationBase.cs" Link="Common\MetadataRegistrationBase.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\PlatformTypes.cs" Link="Common\PlatformTypes.cs" />
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\MetadataRegistration.cs" Link="MetadataRegistration.cs" />
     <Compile Include="Controls\RadialGauge.Metadata.cs" />
     <Compile Include="Controls\RadialGauge.Typedata.cs" />
     <Compile Include="Controls\RangeSelector.Metadata.cs" />
@@ -99,8 +99,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Input\bin\$(Configuration)\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.Input.xml">
-      <Link>Microsoft.Toolkit.Uwp.UI.Controls.Input.xml</Link>
+    <EmbeddedResource Include="..\CommunityToolkit.WinUI.UI.Controls.Input\bin\$(Configuration)\uap10.0.17763\CommunityToolkit.WinUI.UI.Controls.Input.xml">
+      <Link>CommunityToolkit.WinUI.UI.Controls.Input.xml</Link>
       <Visible>False</Visible>
     </EmbeddedResource>
   </ItemGroup>

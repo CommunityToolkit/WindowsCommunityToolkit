@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     [NotificationXmlElement("input")]
     internal sealed class Element_ToastInput : IElement_ToastActionsChild

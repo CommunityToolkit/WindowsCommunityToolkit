@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace CommunityToolkit.WinUI.UI
 {
     /// <summary>
     /// Provides methods and tools to cache files in a folder

@@ -4,12 +4,12 @@
 
 using System;
 using Microsoft.System;
-using Microsoft.Toolkit.Uwp.Connectivity;
+using CommunityToolkit.WinUI.Connectivity;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class BluetoothLEHelperPage : Page
     {

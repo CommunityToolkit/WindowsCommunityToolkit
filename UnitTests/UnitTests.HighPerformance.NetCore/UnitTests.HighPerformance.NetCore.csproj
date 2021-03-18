@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Net.HighPerformance\CommunityToolkit.Net.HighPerformance.csproj" />
   </ItemGroup>
 
   <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />

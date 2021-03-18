@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.Notifications.Adaptive;
+using CommunityToolkit.WinUI.Notifications.Adaptive;
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Generic Toast binding, where you provide text, images, and other visual elements for your Toast notification.

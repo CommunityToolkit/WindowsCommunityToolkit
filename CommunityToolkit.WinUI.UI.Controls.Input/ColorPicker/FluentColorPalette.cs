@@ -5,7 +5,7 @@
 using System;
 using Color = Windows.UI.Color; // Type can be changed to CoreColor, etc.
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Implements the standard Windows 10 color palette.

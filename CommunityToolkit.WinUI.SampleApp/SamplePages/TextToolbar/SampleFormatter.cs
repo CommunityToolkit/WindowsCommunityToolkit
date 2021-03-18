@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
+using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons.Common;
+using CommunityToolkit.WinUI.UI.Controls.TextToolbarFormats;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.TextToolbarSamples
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages.TextToolbarSamples
 {
     public class SampleFormatter : Formatter
     {

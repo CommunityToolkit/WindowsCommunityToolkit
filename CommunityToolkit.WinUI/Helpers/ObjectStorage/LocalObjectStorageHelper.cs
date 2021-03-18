@@ -5,7 +5,7 @@
 using System.Runtime.Serialization;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Helpers
+namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// Store data in the Local environment (only on the current device).

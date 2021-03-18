@@ -4,8 +4,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
+using CommunityToolkit.Net.HighPerformance;
+using CommunityToolkit.Net.HighPerformance.Enumerables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions

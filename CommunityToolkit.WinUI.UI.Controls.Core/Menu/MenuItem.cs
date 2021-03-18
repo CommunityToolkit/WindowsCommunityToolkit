@@ -15,7 +15,7 @@ using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// Menu Item is the items main container for Class Menu control

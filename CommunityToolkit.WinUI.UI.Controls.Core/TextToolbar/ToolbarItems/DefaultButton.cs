@@ -4,7 +4,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
+namespace CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons
 {
     /// <summary>
     /// Specifies a DefaultButton, modifies a Button Instance

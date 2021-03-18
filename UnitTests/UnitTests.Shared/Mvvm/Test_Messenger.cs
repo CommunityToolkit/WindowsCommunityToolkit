@@ -5,7 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Toolkit.Mvvm.Messaging;
+using CommunityToolkit.Net.Mvvm.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm

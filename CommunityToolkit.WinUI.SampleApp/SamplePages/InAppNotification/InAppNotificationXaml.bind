@@ -3,8 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:CommunityToolkit.WinUI.SampleApp.SamplePages"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
@@ -12,8 +12,8 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-              <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
-              <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+              <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
+              <ResourceDictionary Source="ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <local:DismissCommand x:Key="DismissCommand" />

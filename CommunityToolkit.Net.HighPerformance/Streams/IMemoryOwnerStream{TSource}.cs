@@ -6,7 +6,7 @@ using System;
 using System.Buffers;
 using System.IO;
 
-namespace Microsoft.Toolkit.HighPerformance.Streams
+namespace CommunityToolkit.Net.HighPerformance.Streams
 {
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping an <see cref="IMemoryOwner{T}"/> of <see cref="byte"/> instance.

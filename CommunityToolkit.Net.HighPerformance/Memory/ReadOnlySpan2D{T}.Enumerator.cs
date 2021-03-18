@@ -5,15 +5,15 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Enumerables;
-using Microsoft.Toolkit.HighPerformance.Memory.Internals;
+using CommunityToolkit.Net.HighPerformance.Enumerables;
+using CommunityToolkit.Net.HighPerformance.Memory.Internals;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using RuntimeHelpers = CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace CommunityToolkit.Net.HighPerformance
 {
     /// <inheritdoc cref="ReadOnlySpan2D{T}"/>
     public readonly ref partial struct ReadOnlySpan2D<T>

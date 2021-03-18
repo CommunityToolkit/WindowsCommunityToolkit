@@ -4,13 +4,13 @@
 
 using System;
 using System.Windows.Input;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.SampleApp.Common;
+using CommunityToolkit.WinUI.SampleApp.Data;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class ListViewExtensionsPage : Page, IXamlRenderListener
     {

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.System;
-using Microsoft.Toolkit.Win32.UI.XamlHost;
+using CommunityToolkit.Net.Win32.UI.XamlHost;
 using Microsoft.UI.Xaml;
 
 namespace UnitTests.XamlIslands.UWPApp

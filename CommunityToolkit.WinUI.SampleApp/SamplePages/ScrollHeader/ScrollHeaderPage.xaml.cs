@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI.SampleApp.Models;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
+namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class ScrollHeaderPage : IXamlRenderListener
     {

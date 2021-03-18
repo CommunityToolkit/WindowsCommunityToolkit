@@ -7,7 +7,7 @@ using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 #endif
 
-namespace Microsoft.Toolkit.Uwp.Notifications
+namespace CommunityToolkit.WinUI.Notifications
 {
     /// <summary>
     /// Base Tile element, which contains a single visual element.

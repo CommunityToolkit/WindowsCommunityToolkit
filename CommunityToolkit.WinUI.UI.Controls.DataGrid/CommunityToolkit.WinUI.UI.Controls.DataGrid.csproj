@@ -7,7 +7,7 @@
 
     </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
     <LangVersion>preview</LangVersion> <!-- Fix a small internal bug -->
   </PropertyGroup>
 

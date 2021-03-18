@@ -8,13 +8,13 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Text;
 #if !NETSTANDARD1_4
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance.Helpers;
 #endif
-using BitOperations = Microsoft.Toolkit.HighPerformance.Helpers.Internals.BitOperations;
+using BitOperations = CommunityToolkit.Net.HighPerformance.Helpers.Internals.BitOperations;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.HighPerformance.Buffers
+namespace CommunityToolkit.Net.HighPerformance.Buffers
 {
     /// <summary>
     /// A configurable pool for <see cref="string"/> instances. This can be used to minimize allocations

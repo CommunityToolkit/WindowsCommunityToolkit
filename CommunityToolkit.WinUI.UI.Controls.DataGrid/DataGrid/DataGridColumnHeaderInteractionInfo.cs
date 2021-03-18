@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
+namespace CommunityToolkit.WinUI.UI.Controls.Primitives
 {
     internal class DataGridColumnHeaderInteractionInfo
     {

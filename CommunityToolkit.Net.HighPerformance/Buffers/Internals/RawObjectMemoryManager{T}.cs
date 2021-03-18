@@ -8,9 +8,9 @@ using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using CommunityToolkit.Net.HighPerformance.Helpers;
 
-namespace Microsoft.Toolkit.HighPerformance.Buffers.Internals
+namespace CommunityToolkit.Net.HighPerformance.Buffers.Internals
 {
     /// <summary>
     /// A custom <see cref="MemoryManager{T}"/> that can wrap arbitrary <see cref="object"/> instances.

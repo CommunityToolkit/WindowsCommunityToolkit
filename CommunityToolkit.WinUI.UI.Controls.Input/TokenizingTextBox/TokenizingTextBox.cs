@@ -6,8 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Deferred;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
+using CommunityToolkit.WinUI.Deferred;
+using CommunityToolkit.WinUI.UI.Helpers;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +15,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+namespace CommunityToolkit.WinUI.UI.Controls
 {
     /// <summary>
     /// A text input control that auto-suggests and displays token items.
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Input/Resources")
+                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Input/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
             var menuFlyout = new MenuFlyout();
@@ -350,7 +350,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var removeMenuItem = new MenuFlyoutItem
             {
-                Text = "WCT_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Input/Resources")
+                Text = "WCT_TokenizingTextBoxItem_MenuFlyout_Remove".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Input/Resources")
             };
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
@@ -362,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Input/Resources")
+                Text = "WCT_TokenizingTextBox_MenuFlyout_SelectAll".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Input/Resources")
             };
             selectAllMenuItem.Click += (s, e) => this.SelectAllTokensAndText();
 
