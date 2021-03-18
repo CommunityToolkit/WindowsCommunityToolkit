@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static string GetDisplayNameFromCurrentProcess(Process process)
         {
             // If AssemblyTitle is set, use that
-            var assemblyTitleAttr = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyTitleAttribute>();
+            var assemblyTitleAttr = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyTitleAttribute>();
             if (assemblyTitleAttr != null)
             {
                 return assemblyTitleAttr.Title;
