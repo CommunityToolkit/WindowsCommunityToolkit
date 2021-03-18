@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// A builder type for a <see cref="CompositionSurfaceBrush"/> to apply to the visual of UI elements.
     /// </summary>
     [ContentProperty(Name = nameof(Effects))]
-    public sealed class SurfaceBrushFactory : PipelineVisualFactoryBase, IBrushEffect
+    public sealed partial class SurfaceBrushFactory : PipelineVisualFactoryBase, IBrushEffect
     {
         private CompositionSurfaceBrush _brush;
 
@@ -50,16 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     _brush = null;
                 }
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="CompositionSurfaceBrush.Stretch"/> property of the underlying <see cref="CompositionSurfaceBrush"/>.
-        /// </summary>
-        public CompositionStretch Stretch
-        {
-            //// TODO: Need to expose the other properties.
-            get => _brush.Stretch;
-            set => _brush.Stretch = value;
         }
 
         /// <summary>
