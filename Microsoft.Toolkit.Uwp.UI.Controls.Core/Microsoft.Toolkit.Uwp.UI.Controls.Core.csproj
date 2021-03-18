@@ -17,7 +17,7 @@
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
     </Description>
-    <PackageTags>Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Toolkit;Windows;Controls;XAML;Markdown;CameraPreview;Camera;DropShadow;ImageEx;InAppNotification;InfiniteCanvas;Radial;RadialProgressBar;Scroll;ScrollHeader;Tile</PackageTags>
+    <PackageTags>Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Markdown;CameraPreview;Camera;DropShadow;ImageEx;InAppNotification;InfiniteCanvas;Radial;RadialProgressBar;Scroll;ScrollHeader;Tile</PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>9.0</LangVersion>
