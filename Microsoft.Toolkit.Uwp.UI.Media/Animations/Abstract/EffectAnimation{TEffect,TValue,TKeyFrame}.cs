@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </typeparam>
     /// <typeparam name="TKeyFrame">The actual type of keyframe values in use.</typeparam>
     public abstract class EffectAnimation<TEffect, TValue, TKeyFrame> : Animation<TValue, TKeyFrame>
-        where TEffect : class, IPipelineEffect
+        where TEffect : class, IBrushEffect
         where TKeyFrame : unmanaged
     {
         /// <summary>

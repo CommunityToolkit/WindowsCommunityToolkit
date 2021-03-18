@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// A builder type for a <see cref="CompositionSurfaceBrush"/> to apply to the visual of UI elements.
     /// </summary>
     [ContentProperty(Name = nameof(Effects))]
-    public sealed class SurfaceBrushFactory : PipelineVisualFactoryBase, IPipelineEffect
+    public sealed class SurfaceBrushFactory : PipelineVisualFactoryBase, IBrushEffect
     {
         private CompositionSurfaceBrush _brush;
 
@@ -114,20 +114,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
 
             return builder;
-        }
-
-        /// <inheritdoc/>
-        public PipelineBuilder AppendToBuilder(PipelineBuilder builder)
-        {
-            // Not used as we're exploting IPipelineEffect to reuse animations, but not actually be called as part of a pipeline...
-            throw new System.NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public void NotifyCompositionBrushInUse(CompositionBrush brush)
-        {
-            // Not used as we're exploting IPipelineEffect to reuse animations, but not actually be called as part of a pipeline...
-            throw new System.NotImplementedException();
         }
     }
 }

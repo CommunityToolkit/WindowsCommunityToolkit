@@ -19,7 +19,8 @@
     </media:UIElementExtensions.VisualFactory>
     <ani:Explicit.Animations>
       <ani:AnimationSet x:Name="Scroll">
-        <ani:AnimationScope Duration="0:0:5">
+        <ani:AnimationScope Duration="0:0:5"> <!-- Adjust the time to adjust the speed of the scrolling. -->
+          <!-- Since we Mirrored the effect, we have to double the size of the surface for a smooth transition. -->
           <ani:OffsetBrushAnimation From="0" To="160,160" Target="{Binding ElementName=SurfaceBrush}"
                                     Repeat="Forever" EasingType="Linear"/>
         </ani:AnimationScope>
