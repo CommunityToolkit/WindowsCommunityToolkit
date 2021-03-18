@@ -17,7 +17,7 @@
         - ListDetailsView: Implements the List/Details design pattern.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
     </Description>
-    <PackageTags>BladeView;Blade;Carousel;Expander;GridSplitter;HeaderedContent;List;Details;ListDetails;Orbit</PackageTags>
+    <PackageTags>Windows Community Toolkit;Windows;Community;Toolkit;WCT;BladeView;Blade;Carousel;Expander;GridSplitter;HeaderedContent;List;Details;ListDetails;Orbit</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
