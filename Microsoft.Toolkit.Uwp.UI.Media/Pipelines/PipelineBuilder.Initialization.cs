@@ -15,6 +15,7 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using CanvasBorderEffect = Microsoft.Graphics.Canvas.Effects.BorderEffect;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
@@ -298,7 +299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var image = FromImage(uri, dpiMode, cacheMode);
 
-            async ValueTask<IGraphicsEffectSource> Factory() => new BorderEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasBorderEffect
             {
                 ExtendX = CanvasEdgeBehavior.Wrap,
                 ExtendY = CanvasEdgeBehavior.Wrap,
