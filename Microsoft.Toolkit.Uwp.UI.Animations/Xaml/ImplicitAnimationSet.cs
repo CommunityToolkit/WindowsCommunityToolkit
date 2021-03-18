@@ -15,8 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// A collection of implicit animations that can be assigned to a <see cref="UIElement"/> and configured to be run automatically
-    /// when the element is either shown or hidden (through <see cref="Implicit.ShowAnimationsProperty"/> and <see cref="Implicit.HideAnimationsProperty"/>,
-    /// or whenever one of the targeted properties on the underlying <see cref="Visual"/> element changes, through <see cref="Implicit.AnimationsProperty"/>.
+    /// when the element is either shown or hidden (through <see cref="Implicit.ShowAnimationsProperty"/> and <see cref="Implicit.HideAnimationsProperty"/>),
+    /// or whenever one of the targeted properties on the underlying <see cref="Visual"/> element changes (through <see cref="Implicit.AnimationsProperty"/>).
     /// <para>
     /// Animations within an <see cref="ImplicitAnimationSet"/> should be objects implementing the <see cref="IImplicitTimeline"/> interface, such as
     /// types inheriting from <see cref="ImplicitAnimation{TValue, TKeyFrame}"/> (eg. <see cref="OpacityAnimation"/>, <see cref="TranslationAnimation"/>,
@@ -25,16 +25,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </para>
     /// <para>
     /// Animations will monitor for changes in real-time to any of their public properties. For instance, if a binding is used to dynamically update the
-    /// <see cref="Animation{TValue, TKeyFrame}.To"/> to <see cref="Animation{TValue, TKeyFrame}.From"/> properties, the entire animation set will be
-    /// initialized again and assigned to the underlyign <see cref="Visual"/> object for the targeted <see cref="UIElement"/>. This does not currently apply
+    /// <see cref="Animation{TValue, TKeyFrame}.To"/> or <see cref="Animation{TValue, TKeyFrame}.From"/> properties, the entire animation set will be
+    /// initialized again and assigned to the underlying <see cref="Visual"/> object for the targeted <see cref="UIElement"/>. This does not currently apply
     /// to changes to the <see cref="Animation{TValue, TKeyFrame}.KeyFrames"/> property though (other than the entire property being reassigned). To achieve
     /// dynamic updates to animation sets in that case, either leverage expression keyframes or just use code-behind to manually reinitialize the animations.
     /// </para>
     /// </summary>
     /// <remarks>
-    /// An <see cref="ImplicitAnimationSet"/> instance can only be used on a single target <see cref="UIElement"/>, and it cannot be shared across multiple
+    /// An <see cref="ImplicitAnimationSet"/> instance can only be used on a single <see cref="UIElement"/> target, and it cannot be shared across multiple
     /// elements. Attempting to do so will result in a runtime crash. Furthermore, it is recommended not to move <see cref="IImplicitTimeline"/> instances from
-    /// one <see cref="ImplicitAnimationSet"/> to another, and doing so might add unnecessary runtime overhead over time. If you want to apply the same animations
+    /// one <see cref="ImplicitAnimationSet"/> to another, and doing so will add unnecessary runtime overhead over time. If you want to apply the same animations
     /// to multiple elements, simply create another <see cref="ImplicitAnimationSet"/> instance and another set of animations with the same properties within it.
     /// </remarks>
     public sealed class ImplicitAnimationSet : DependencyObjectCollection

@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Raises <see cref="AnimationPropertyChanged"/> event.
+        /// Raises the <see cref="AnimationPropertyChanged"/> event.
         /// </summary>
         /// <param name="sender">The instance raising the event.</param>
         /// <param name="property">The <see cref="DependencyProperty"/> that was changed.</param>
