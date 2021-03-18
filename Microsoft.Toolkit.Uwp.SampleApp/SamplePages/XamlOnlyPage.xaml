@@ -46,6 +46,7 @@
                 <controls:Case IsDefault="True" />
             </controls:CaseCollection>
         </controls:SwitchPresenter>
+        <media:SurfaceBrushFactory x:Key="SurfaceBrushFactory" />
     </Page.Resources>
 
     <Grid>
@@ -60,12 +61,14 @@
                 <ani:SaturationEffectAnimation />
                 <ani:AnimationScope />
                 <ani:ExposureEffectAnimation />
+                <ani:OffsetBrushAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>
             <media:PipelineVisualFactory>
                 <media:OpacityEffect />
                 <media:ExposureEffect />
+                <media:BorderEffect />
             </media:PipelineVisualFactory>
         </media:UIElementExtensions.VisualFactory>
 
