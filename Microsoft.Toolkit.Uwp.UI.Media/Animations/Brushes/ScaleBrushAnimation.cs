@@ -9,12 +9,12 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// An offset animation working on a <see cref="SurfaceBrushFactory"/>.
+    /// A scale animation working on a <see cref="SurfaceBrushFactory"/>.
     /// </summary>
-    public sealed class OffsetBrushAnimation : EffectAnimation<SurfaceBrushFactory, string, Vector2>
+    public sealed class ScaleBrushAnimation : EffectAnimation<SurfaceBrushFactory, string, Vector2>
     {
         /// <inheritdoc/>
-        protected override string ExplicitTarget => nameof(CompositionSurfaceBrush.Offset);
+        protected override string ExplicitTarget => nameof(CompositionSurfaceBrush.Scale);
 
         /// <inheritdoc/>
         protected override (Vector2?, Vector2?) GetParsedValues()

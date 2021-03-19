@@ -62,6 +62,8 @@
                 <ani:AnimationScope />
                 <ani:ExposureEffectAnimation />
                 <ani:OffsetBrushAnimation />
+                <ani:RotationAngleInDegreesBrushAnimation />
+                <ani:ScaleBrushAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>

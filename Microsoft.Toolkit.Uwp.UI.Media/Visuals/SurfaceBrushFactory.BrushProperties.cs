@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
+using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
@@ -22,10 +23,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the <see cref="CompositionSurfaceBrush.AnchorPoint"/> property of the underlying <see cref="CompositionSurfaceBrush"/>.
         /// </summary>
-        public Vector2 AnchorPoint
+        public Point AnchorPoint
         {
-            get => _brush.AnchorPoint;
-            set => _brush.AnchorPoint = value;
+            get => _brush.AnchorPoint.ToPoint();
+            set => _brush.AnchorPoint = value.ToVector2();
         }
 
         /// <summary>
@@ -40,10 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the <see cref="CompositionSurfaceBrush.CenterPoint"/> property of the underlying <see cref="CompositionSurfaceBrush"/>.
         /// </summary>
-        public Vector2 CenterPoint
+        public Point CenterPoint
         {
-            get => _brush.CenterPoint;
-            set => _brush.CenterPoint = value;
+            get => _brush.CenterPoint.ToPoint();
+            set => _brush.CenterPoint = value.ToVector2();
         }
 
         /// <summary>
@@ -52,16 +53,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public double HorizontalAlignmentRatio
         {
             get => _brush.HorizontalAlignmentRatio;
-            set => _brush.HorizontalAlignmentRatio = (float)value;
+            set => _brush.HorizontalAlignmentRatio = (float)Math.Clamp(value, 0.0f, 1.0f);
         }
 
         /// <summary>
         /// Gets or sets the <see cref="CompositionSurfaceBrush.Offset"/> property of the underlying <see cref="CompositionSurfaceBrush"/>.
         /// </summary>
-        public Vector2 Offset
+        public Point Offset
         {
-            get => _brush.Offset;
-            set => _brush.Offset = value;
+            get => _brush.Offset.ToPoint();
+            set => _brush.Offset = value.ToVector2();
         }
 
         /// <summary>
@@ -85,10 +86,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Gets or sets the <see cref="CompositionSurfaceBrush.Scale"/> property of the underlying <see cref="CompositionSurfaceBrush"/>.
         /// </summary>
-        public Vector2 Scale
+        public Point Scale
         {
-            get => _brush.Scale;
-            set => _brush.Scale = value;
+            get => _brush.Scale.ToPoint();
+            set => _brush.Scale = value.ToVector2();
         }
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public double VerticalAlignmentRatio
         {
             get => _brush.VerticalAlignmentRatio;
-            set => _brush.VerticalAlignmentRatio = (float)value;
+            set => _brush.VerticalAlignmentRatio = (float)Math.Clamp(value, 0.0f, 1.0f);
         }
 
     }
