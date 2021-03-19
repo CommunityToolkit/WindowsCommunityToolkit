@@ -12,12 +12,34 @@
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
+        - Menu: TODO
         - RadialProgressBar: Displays progress as a circle getting filled.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
+        - TabbedCommandBar: TODO
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
     </Description>
-    <PackageTags>Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Markdown;CameraPreview;Camera;DropShadow;ImageEx;InAppNotification;InfiniteCanvas;Radial;RadialProgressBar;Scroll;ScrollHeader;Tile</PackageTags>
+    <PackageTags>
+        Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+        Camera Preview     ;CameraPreview    ;Camera      ;
+        Drop Shadow Panel  ;DropShadowPanel  ;Shadow      ;
+        DropShadow Panel   ;
+        Drop Shadow        ;DropShadow       ;
+        Image Ex           ;ImageEx          ;Image       ;
+        In App Notification;InAppNotification;Notification;
+        InApp Notification ;
+        In App             ;InApp            ;
+        Loading            ;
+        Menu               ;
+        Radial Progress Bar;RadialProgressBar;Radial      ;
+        Radial ProgressBar ;Progress Bar     ;ProgressBar ;
+        Rotator Tile       ;RotatorTile      ;Rotator     ;Tile;
+        Tabbed Command Bar ;TabbedCommandBar ;Tabbed      ;
+        Tabbed CommandBar  ;CommandBar       ;
+        Text Tool Bar      ;TextToolBar      ;Markdown    ;
+        Text ToolBar       ;
+        Tile Control       ;TileControl      ;
+    </PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>9.0</LangVersion>
