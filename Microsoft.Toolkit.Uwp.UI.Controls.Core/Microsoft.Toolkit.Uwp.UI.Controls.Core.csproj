@@ -19,25 +19,18 @@
         - TileControl: A ContentControl that show an image repeated many times.
     </Description>
     <PackageTags>
-        Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
-        Camera Preview     ;CameraPreview    ;Camera      ;
-        Drop Shadow Panel  ;DropShadowPanel  ;Shadow      ;
-        DropShadow Panel   ;
-        Drop Shadow        ;DropShadow       ;
-        Image Ex           ;ImageEx          ;Image       ;
-        In App Notification;InAppNotification;Notification;
-        InApp Notification ;
-        In App             ;InApp            ;
+        Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+        Camera;Preview     ;CameraPreview    ;
+        Drop;Shadow;Panel  ;DropShadowPanel  ;DropShadow  ;
+        Image;Ex           ;ImageEx          ;
+        In;App;Notification;InAppNotification;InApp       ;
         Loading            ;
         Menu               ;
-        Radial Progress Bar;RadialProgressBar;Radial      ;
-        Radial ProgressBar ;Progress Bar     ;ProgressBar ;
-        Rotator Tile       ;RotatorTile      ;Rotator     ;Tile;
-        Tabbed Command Bar ;TabbedCommandBar ;Tabbed      ;
-        Tabbed CommandBar  ;CommandBar       ;
-        Text Tool Bar      ;TextToolBar      ;Markdown    ;
-        Text ToolBar       ;
-        Tile Control       ;TileControl      ;
+        Radial;Progress;Bar;RadialProgressBar;ProgressBar ;
+        Rotator;Tile       ;RotatorTile      ;
+        Tabbed;Command;Bar ;TabbedCommandBar ;CommandBar  ;
+        Text;Tool;Bar      ;TextToolBar      ;ToolBar     ;Markdown;
+        Tile;Control       ;TileControl      ;
     </PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>

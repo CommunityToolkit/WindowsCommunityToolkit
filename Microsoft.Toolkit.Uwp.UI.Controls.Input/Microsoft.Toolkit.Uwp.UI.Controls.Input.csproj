@@ -14,16 +14,12 @@
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
     </Description>
     <PackageTags>
-        Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
-        Color Picker Button ;ColorPickerButton ;Button    ;
-        ColorPicker  Button ;ColorPicker       ;
-        Radial Gauge        ;RadialGauge       ;Radial    ;Guage   ;
-        Range Selector      ;RangeSelector     ;Range     ;Selector;
-        Remote Device Picker;RemoteDevicePicker;Remote    ;
-        Remote DevicePicker ;DevicePicker      ;
-        RemoteDevice Picker ;RemoteDevice      ;
-        Tokenizing Text Box ;TokenizingTextBox ;Tokenizing;
-        Tokenizing TextBox  ;TextBox           ;
+        Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+        Color;Picker;Button ;ColorPickerButton ;ColorPicker ;
+        Radial;Gauge        ;RadialGauge       ;
+        Range;Selector      ;RangeSelector     ;
+        Remote;Device;Picker;RemoteDevicePicker;DevicePicker;RemoteDevice;
+        Tokenizing;Text;Box ;TokenizingTextBox ;TextBox     ;
     </PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>

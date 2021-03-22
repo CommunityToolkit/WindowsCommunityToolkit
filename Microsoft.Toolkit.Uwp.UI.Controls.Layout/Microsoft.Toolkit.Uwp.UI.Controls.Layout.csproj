@@ -18,23 +18,16 @@
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
     </Description>
     <PackageTags>
-      Windows Community Toolkit;Windows;Community;Toolkit;WCT;
-      Blade View              ;BladeView             ;Blade   ;
+      Windows;Community;Toolkit;WCT;
+      Blade;View              ;BladeView             ;
       Carousel                ;
       Expander                ;
-      Grid Splitter           ;Grid Splitter         ;Grid    ;
-      Headered Content Control;HeaderedContentControl;Headered;
-      Headered ContentControl ;ContentControl        ;
-      Headered Content        ;HeaderedContent       ;
-      Headered Items Control  ;HeaderedItemsControl  ;
-      Headered ItemsControl   ;ItemsControl          ;
-      Headered Items          ;HeaderedItems         ;
-      Layout Transform Control;LayoutTransformControl;Layout  ;
-      LayoutTransform Control ;
-      Layout Transform        ;LayoutTransform       ;
-      List Details View       ;ListDetailsView       ;List    ;
-      List Details            ;ListDetails           ;
-      Orbit View              ;OrbitView             ;Orbit   ;
+      Grid;Splitter           ;GridSplitter          ;
+      Headered;Content;Control;HeaderedContentControl;ContentControl ;HeaderedContent;
+      Headered;Items;Control  ;HeaderedItemsControl  ;ItemsControl   ;HeaderedItems  ;
+      Layout;Transform;Control;LayoutTransformControl;LayoutTransform;
+      List;Details;View       ;ListDetailsView       ;ListDetails    ;
+      Orbit;View              ;OrbitView             ;
     </PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>

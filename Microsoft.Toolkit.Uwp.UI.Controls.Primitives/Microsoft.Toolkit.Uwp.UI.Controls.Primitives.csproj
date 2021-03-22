@@ -17,17 +17,15 @@
 			- WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
 		</Description>
 		<PackageTags>
-			Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
-			Adaptive Grid View;AdaptiveGridView;Adaptive ;Grid     ;
-			Adaptive GridView ;GridView        ;
-			Adaptive Grid     ;AdaptiveGrid    ;
-			Dock Panel        ;DockPanel       ;Dock     ;Panel    ;
-			Staggered Layout  ;StaggeredLayout ;Staggered;Layout   ;
-			Staggered Panel   ;StaggeredPanel  ;Staggered;
-			Switch Presenter  ;SwitchPresenter ;Switch   ;Presenter;
-			Uniform Grid      ;UniformGrid     ;Uniform  ;
-			Wrap Layout       ;WrapLayout      ;Wrap     ;
-			Wrap Panel        ;WrapPanel       ;
+			Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+			Adaptive;Grid;View;AdaptiveGridView;GridView ;AdaptiveGrid    ;
+			Dock;Panel        ;DockPanel       ;
+			Staggered;Layout  ;StaggeredLayout ;
+			Staggered;Panel   ;StaggeredPanel  ;
+			Switch;Presenter  ;SwitchPresenter ;
+			Uniform;Grid      ;UniformGrid     ;
+			Wrap;Layout       ;WrapLayout      ;
+			Wrap;Panel        ;WrapPanel       ;
 		</PackageTags>
 		<!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
 		<EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>

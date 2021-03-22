@@ -12,10 +12,10 @@
         - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
     </Description>
     <PackageTags>
-      Windows Community Toolkit;Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
-      Eye Dropper    ;EyeDropper    ;
-      Image Cropper  ;ImageCropper  ;Cropper;Crop;
-      Infinite Canvas;InfiniteCanvas;Canvas ;
+      Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+      Eye;Dropper    ;EyeDropper    ;
+      Image;Cropper  ;ImageCropper  ;Crop;
+      Infinite;Canvas;InfiniteCanvas;
     </PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
