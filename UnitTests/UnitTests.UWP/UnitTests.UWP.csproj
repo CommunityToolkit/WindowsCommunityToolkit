@@ -143,6 +143,7 @@
     <Compile Include="Converters\Test_TypeToObjectConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
     <Compile Include="Extensions\Test_StringExtensions.cs" />
+    <Compile Include="Extensions\Test_UIElementExtensions_Coordinates.cs" />
     <Compile Include="Extensions\Test_VisualTreeExtensions.cs" />
     <Compile Include="Extensions\Test_PointExtensions.cs" />
     <Compile Include="Extensions\Test_RectExtensions.cs" />
