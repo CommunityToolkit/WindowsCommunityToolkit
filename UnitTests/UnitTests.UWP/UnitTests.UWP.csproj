@@ -208,6 +208,7 @@
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_Dimensions.cs" />
+    <Compile Include="UI\Controls\Test_WrapPanel_Visibility.cs" />
     <Compile Include="UI\Controls\Test_WrapPanel_BasicLayout.cs" />
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
