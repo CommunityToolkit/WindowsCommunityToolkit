@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Markup;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
-    public class Test_WrapPanel : VisualUITestBase
+    public class Test_WrapPanel_BasicLayout : VisualUITestBase
     {
         [TestCategory("WrapPanel")]
         [TestMethod]
