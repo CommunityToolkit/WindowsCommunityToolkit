@@ -12,10 +12,9 @@
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
-        - Menu: TODO
         - RadialProgressBar: Displays progress as a circle getting filled.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
-        - TabbedCommandBar: TODO
+        - TabbedCommandBar: A command bar that organizes features of an application into a series of tabs.
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
     </Description>
