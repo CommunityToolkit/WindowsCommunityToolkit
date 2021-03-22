@@ -33,13 +33,23 @@ namespace CommunityToolkit.WinUI.UI.Helpers
 
             try
             {
+                var innerTaskCompletionSource = taskCompletionSource;
                 void Callback(object sender, object args)
                 {
                     CompositionTarget.Rendering -= Callback;
 
-                    action();
+                    if (innerTaskCompletionSource != null)
+                    {
+                        action();
 
-                    taskCompletionSource.SetResult(true);
+                        // This can be simplified after https://github.com/microsoft/microsoft-ui-xaml/issues/4621 is fixed
+                        innerTaskCompletionSource?.TrySetResult(true);
+                        innerTaskCompletionSource = null;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
 
                 CompositionTarget.Rendering += Callback;
