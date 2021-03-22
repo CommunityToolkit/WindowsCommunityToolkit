@@ -31,7 +31,7 @@ namespace CommunityToolkit.WinUI.UI
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        public static readonly DependencyProperty ItemContainerStretchDirectionProperty = DependencyProperty.RegisterAttached("ItemContainerStretchDirection", typeof(ItemContainerStretchDirection), typeof(ListViewExtensions), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
+        public static readonly DependencyProperty ItemContainerStretchDirectionProperty = DependencyProperty.RegisterAttached("ItemContainerStretchDirection", typeof(ItemContainerStretchDirection), typeof(ListViewExtensions), new PropertyMetadata(null, OnItemContainerStretchDirectionPropertyChanged));
 
         /// <summary>
         /// Gets the alternate <see cref="Brush"/> associated with the specified <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
@@ -154,7 +154,7 @@ namespace CommunityToolkit.WinUI.UI
             }
         }
 
-        private static void OnStretchItemContainerDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnItemContainerStretchDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             Microsoft.UI.Xaml.Controls.ListViewBase listViewBase = sender as Microsoft.UI.Xaml.Controls.ListViewBase;
 
@@ -163,17 +163,17 @@ namespace CommunityToolkit.WinUI.UI
                 return;
             }
 
-            listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+            listViewBase.ContainerContentChanging -= ItemContainerStretchDirectionChanging;
             listViewBase.Unloaded -= OnListViewBaseUnloaded;
 
             if (ItemContainerStretchDirectionProperty != null)
             {
-                listViewBase.ContainerContentChanging += StretchItemContainerDirectionChanging;
+                listViewBase.ContainerContentChanging += ItemContainerStretchDirectionChanging;
                 listViewBase.Unloaded += OnListViewBaseUnloaded;
             }
         }
 
-        private static void StretchItemContainerDirectionChanging(Microsoft.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void ItemContainerStretchDirectionChanging(Microsoft.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
             var stretchDirection = GetItemContainerStretchDirection(sender);
@@ -194,7 +194,7 @@ namespace CommunityToolkit.WinUI.UI
             Microsoft.UI.Xaml.Controls.ListViewBase listViewBase = sender as Microsoft.UI.Xaml.Controls.ListViewBase;
             _itemsForList.Remove(listViewBase.Items);
 
-            listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
+            listViewBase.ContainerContentChanging -= ItemContainerStretchDirectionChanging;
             listViewBase.ContainerContentChanging -= ItemTemplateContainerContentChanging;
             listViewBase.ContainerContentChanging -= ColorContainerContentChanging;
             listViewBase.Items.VectorChanged -= ColorItemsVectorChanged;
