@@ -4,7 +4,7 @@
     <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
     <Title>Windows Community Toolkit</Title>
     <Description>This package includes code only helpers such as Colors conversion tool, Storage file handling, a Stream helper class, etc.</Description>
-    <PackageTags>UWP Toolkit Windows</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP</PackageTags>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
