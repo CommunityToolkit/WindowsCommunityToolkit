@@ -15,11 +15,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// A base model representing a typed animation that can be used as an implicit composition animation.
     /// </summary>
     /// <inheritdoc cref="Animation{TValue, TKeyFrame}"/>
-    public abstract class ImplicitAnimation<TValue, TKeyFrame> : Animation<TValue, TKeyFrame>, IImplicitTimeline, IInternalImplicitAnimation
+    public abstract class ImplicitAnimation<TValue, TKeyFrame> : Animation<TValue, TKeyFrame>, IImplicitTimeline
         where TKeyFrame : unmanaged
     {
-        /// <inheritdoc cref="IInternalImplicitAnimation.AnimationPropertyChanged"/>
-        private event EventHandler? AnimationPropertyChanged;
+        /// <inheritdoc/>
+        public event EventHandler? AnimationPropertyChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImplicitAnimation{TValue, TKeyFrame}"/> class.
@@ -35,13 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             RegisterPropertyChangedCallback(ToProperty, RaiseAnimationPropertyChanged);
             RegisterPropertyChangedCallback(FromProperty, RaiseAnimationPropertyChanged);
             RegisterPropertyChangedCallback(KeyFramesProperty, RaiseAnimationPropertyChanged);
-        }
-
-        /// <inheritdoc/>
-        event EventHandler? IInternalImplicitAnimation.AnimationPropertyChanged
-        {
-            add => AnimationPropertyChanged += value;
-            remove => AnimationPropertyChanged -= value;
         }
 
         /// <summary>

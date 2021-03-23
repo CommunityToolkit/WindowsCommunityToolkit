@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (@event.CollectionChange == CollectionChange.ItemInserted ||
                 @event.CollectionChange == CollectionChange.ItemChanged)
             {
-                IInternalImplicitAnimation item = (IInternalImplicitAnimation)sender[(int)@event.Index];
+                IImplicitTimeline item = (IImplicitTimeline)sender[(int)@event.Index];
 
                 item.AnimationPropertyChanged -= RaiseAnimationsChanged;
                 item.AnimationPropertyChanged += RaiseAnimationsChanged;
