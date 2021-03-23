@@ -131,7 +131,7 @@ namespace CommunityToolkit.WinUI.SampleApp.Controls
 
                         case PropertyKind.Brush:
                             var colorComboBox = new ComboBox();
-                            var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(p => p.Name).ToList();
+                            var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Where(p => p.GetMethod != null && p.GetMethod.IsPublic).Select(p => p.Name).ToList();
                             colorComboBox.ItemsSource = dataSource;
 
                             if ((propertyDict[option.Name] as ValueHolder).Value is SolidColorBrush brush &&
