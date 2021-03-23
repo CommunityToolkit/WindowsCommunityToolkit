@@ -209,12 +209,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var finalMeasure = new UvMeasure(Orientation, width: 0.0, height: 0.0);
             void Arrange(UIElement child, bool isLast = false)
             {
-                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize);
-                if (desiredMeasure.U == 0)
+                if (child.Visibility == Visibility.Collapsed)
                 {
                     return; // if an item is collapsed, avoid adding the spacing
                 }
 
+                var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize);
                 if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
