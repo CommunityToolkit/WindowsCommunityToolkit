@@ -11,7 +11,7 @@
         - Guard: Helper methods to verify conditions when running code.
         - ThrowHelper: Helper methods to efficiently throw exceptions.
     </Description>
-    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Incremental;Loading;Collection;IncrementalLoadingCollection;String;Array;extensions;helpers</PackageTags>
   </PropertyGroup>
   <Choose>
     <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">

@@ -9,12 +9,24 @@
 			Controls:
 			- AdaptiveGridView: Presents items in an evenly-spaced set of columns to fill the total available space.
 			- DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
+			- StaggeredLayout: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
 			- StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
 			- SwitchPresenter: A presenter which can act as a switch statement for layout providing alternate layouts based on a value.
 			- UniformGrid: Presents items in an evenly-spaced set of rows or columns to fill the total available display space.
+			- WrapLayout: Positions child elements in sequential position from left to right and breaks content to the next line.
 			- WrapPanel: Positions child elements in sequential position from left to right and breaks content to the next line.
 		</Description>
-		<PackageTags>UWP Toolkit Windows Controls XAML WrapPanel Adaptive DockPanel StaggeredPanel Staggered SwitchPresenter UniformGrid Uniform Grid</PackageTags>
+		<PackageTags>
+			Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+			Adaptive;Grid;View;AdaptiveGridView;GridView ;AdaptiveGrid    ;
+			Dock;Panel        ;DockPanel       ;
+			Staggered;Layout  ;StaggeredLayout ;
+			Staggered;Panel   ;StaggeredPanel  ;
+			Switch;Presenter  ;SwitchPresenter ;
+			Uniform;Grid      ;UniformGrid     ;
+			Wrap;Layout       ;WrapLayout      ;
+			Wrap;Panel        ;WrapPanel       ;
+		</PackageTags>
 		<!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
 		<EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
 		<LangVersion>8.0</LangVersion>
