@@ -17,7 +17,7 @@
       - StrongReferenceMessenger: a high-performance messaging system that trades weak references for speed.
       - Ioc: a helper class to configure dependency injection service containers.
     </Description>
-    <PackageTags>UWP Toolkit Windows MVVM MVVMToolkit observable Ioc dependency injection services extensions helpers</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;WinUI;WPF;Xamarin;Forms;Uno;Platform;MVVM;Toolkit;MVVMToolkit;INotifyPropertyChanged;observable;Ioc;dependency injection;services;extensions;helpers</PackageTags>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> and IAsyncEnumerable<T> types -->
