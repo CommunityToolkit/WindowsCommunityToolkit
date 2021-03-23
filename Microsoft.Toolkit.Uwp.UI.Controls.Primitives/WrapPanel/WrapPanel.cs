@@ -166,6 +166,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     foreach (var rect in row.ChildrenRects)
                     {
                         var child = Children[childIndex++];
+                        while (child.Visibility == Visibility.Collapsed)
+                        {
+                            // Collapsed children are not added into the rows,
+                            // we skip them.
+                            child = Children[childIndex++];
+                        }
+
                         var arrangeRect = new UvRect
                         {
                             Position = rect.Position,
