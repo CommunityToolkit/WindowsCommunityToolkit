@@ -97,7 +97,7 @@ namespace UnitTests.UI.Controls
                 var expected = new (int u, int v, int w, int h)[]
                 {
                     (0, 0, 150, 50),
-                    (150, 0, 0, 0),  // Collapsed
+                    (0, 0, 0, 0),  // Collapsed, 150?
                     (150, 0, 125, 50),
                     (275, 0, 50, 50),
                 };
@@ -154,7 +154,7 @@ namespace UnitTests.UI.Controls
                     (0, 0, 150, 50),
                     (150, 0, 100, 50),
                     (250, 0, 125, 50),
-                    (375, 0, 0, 0), // Collapsed
+                    (0, 0, 0, 0), // Collapsed, 375?
                 };
 
                 Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
@@ -186,6 +186,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
+        //// TODO: Add test for toggling visibility
         //// TODO: Add tests for wrapping lines based on size.
         //// TODO: Add a test with StretchChild behavior as well after...
     }
