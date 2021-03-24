@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
@@ -13,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
     /// <summary>
     /// Defines a framework element automation peer for the <see cref="TokenizingTextBox"/> control.
     /// </summary>
-    public class TokenizingTextBoxAutomationPeer : ListViewBaseAutomationPeer
+    public class TokenizingTextBoxAutomationPeer : ListViewBaseAutomationPeer, IValueProvider
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBoxAutomationPeer"/> class.
@@ -26,12 +27,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
         }
 
+        /// <summary>Gets a value that indicates whether the value of a control is read-only.</summary>
+        /// <returns>**true** if the value is read-only; **false** if it can be modified.</returns>
+        public bool IsReadOnly => !this.OwningTokenizingTextBox.IsEnabled;
+
+        /// <summary>Gets the value of the control.</summary>
+        /// <returns>The value of the control.</returns>
+        public string Value => this.OwningTokenizingTextBox.Text;
+
         private TokenizingTextBox OwningTokenizingTextBox
         {
             get
             {
                 return Owner as TokenizingTextBox;
             }
+        }
+
+        /// <summary>Sets the value of a control.</summary>
+        /// <param name="value">The value to set. The provider is responsible for converting the value to the appropriate data type.</param>
+        public void SetValue(string value)
+        {
+            this.OwningTokenizingTextBox.Text = value;
         }
 
         /// <summary>
@@ -50,8 +66,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <returns>
         /// Returns the first of these that is not null or empty:
         /// - Value returned by the base implementation
-        /// - Name of the owning Carousel
-        /// - Carousel class name
+        /// - Name of the owning TokenizingTextBox
+        /// - TokenizingTextBox class name
         /// </returns>
         protected override string GetNameCore()
         {
@@ -62,12 +78,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             }
 
             name = AutomationProperties.GetName(this.OwningTokenizingTextBox);
-            if (!string.IsNullOrEmpty(name))
-            {
-                return name;
-            }
+            return !string.IsNullOrEmpty(name) ? name : base.GetNameCore();
+        }
 
-            return base.GetNameCore();
+        /// <summary>
+        /// Gets the control pattern that is associated with the specified Windows.UI.Xaml.Automation.Peers.PatternInterface.
+        /// </summary>
+        /// <param name="patternInterface">A value from the Windows.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
+        /// <returns>The object that supports the specified pattern, or null if unsupported.</returns>
+        protected override object GetPatternCore(PatternInterface patternInterface)
+        {
+            return patternInterface switch
+            {
+                PatternInterface.Value => this,
+                PatternInterface.Selection => this,
+                _ => base.GetPatternCore(patternInterface)
+            };
         }
 
         /// <summary>
