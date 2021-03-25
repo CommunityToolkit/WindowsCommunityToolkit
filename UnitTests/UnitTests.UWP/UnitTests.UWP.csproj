@@ -143,6 +143,7 @@
     <Compile Include="Converters\Test_TypeToObjectConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
     <Compile Include="Extensions\Test_StringExtensions.cs" />
+    <Compile Include="Extensions\Test_UIElementExtensions_Coordinates.cs" />
     <Compile Include="Extensions\Test_VisualTreeExtensions.cs" />
     <Compile Include="Extensions\Test_PointExtensions.cs" />
     <Compile Include="Extensions\Test_RectExtensions.cs" />
@@ -207,6 +208,8 @@
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_Dimensions.cs" />
+    <Compile Include="UI\Controls\Test_WrapPanel_Visibility.cs" />
+    <Compile Include="UI\Controls\Test_WrapPanel_BasicLayout.cs" />
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
     <Compile Include="UnitTestApp.xaml.cs">
