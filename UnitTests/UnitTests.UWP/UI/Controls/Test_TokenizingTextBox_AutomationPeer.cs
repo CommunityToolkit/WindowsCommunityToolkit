@@ -24,6 +24,7 @@ namespace UnitTests.UWP.UI.Controls
             {
                 const string expectedAutomationName = "MyAutomationName";
                 const string expectedName = "MyName";
+                const string expectedValue = "Wor";
 
                 var items = new ObservableCollection<TokenizingTextBoxTestItem> { new() { Title = "Hello" }, new() { Title = "World" } };
 
@@ -43,6 +44,9 @@ namespace UnitTests.UWP.UI.Controls
                 // Asserts the automation peer name based on the element Name property.
                 tokenizingTextBox.Name = expectedName;
                 Assert.IsTrue(tokenizingTextBoxAutomationPeer.GetName().Contains(expectedName), "Verify that the UIA name contains the given Name of the TokenizingTextBox.");
+
+                tokenizingTextBox.Text = expectedValue;
+                Assert.IsTrue(tokenizingTextBoxAutomationPeer.Value.Equals(expectedValue), "Verify that the Value contains the given Text of the TokenizingTextBox.");
             });
         }
 

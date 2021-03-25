@@ -91,7 +91,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             return patternInterface switch
             {
                 PatternInterface.Value => this,
-                PatternInterface.Selection => this,
                 _ => base.GetPatternCore(patternInterface)
             };
         }
