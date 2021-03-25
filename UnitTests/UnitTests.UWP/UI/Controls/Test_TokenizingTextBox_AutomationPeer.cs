@@ -45,8 +45,29 @@ namespace UnitTests.UWP.UI.Controls
                 tokenizingTextBox.Name = expectedName;
                 Assert.IsTrue(tokenizingTextBoxAutomationPeer.GetName().Contains(expectedName), "Verify that the UIA name contains the given Name of the TokenizingTextBox.");
 
-                tokenizingTextBox.Text = expectedValue;
+                tokenizingTextBoxAutomationPeer.SetValue(expectedValue);
                 Assert.IsTrue(tokenizingTextBoxAutomationPeer.Value.Equals(expectedValue), "Verify that the Value contains the given Text of the TokenizingTextBox.");
+            });
+        }
+
+        [TestMethod]
+        public async Task ShouldThrowElementNotEnabledExceptionIfValueSetWhenDisabled()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                const string expectedValue = "Wor";
+
+                var tokenizingTextBox = new TokenizingTextBox { IsEnabled = false };
+
+                await SetTestContentAsync(tokenizingTextBox);
+
+                var tokenizingTextBoxAutomationPeer =
+                    FrameworkElementAutomationPeer.CreatePeerForElement(tokenizingTextBox) as TokenizingTextBoxAutomationPeer;
+
+                Assert.ThrowsException<ElementNotEnabledException>(() =>
+                {
+                    tokenizingTextBoxAutomationPeer.SetValue(expectedValue);
+                });
             });
         }
 

@@ -45,8 +45,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 
         /// <summary>Sets the value of a control.</summary>
         /// <param name="value">The value to set. The provider is responsible for converting the value to the appropriate data type.</param>
+        /// <exception cref="T:Windows.UI.Xaml.Automation.ElementNotEnabledException">Thrown if the control is in a read-only state.</exception>
         public void SetValue(string value)
         {
+            if (IsReadOnly)
+            {
+                throw new ElementNotEnabledException($"Could not set the value of the {nameof(TokenizingTextBox)} ");
+            }
+
             this.OwningTokenizingTextBox.Text = value;
         }
 
