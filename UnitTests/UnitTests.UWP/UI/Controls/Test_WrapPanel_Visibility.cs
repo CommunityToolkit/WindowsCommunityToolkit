@@ -57,12 +57,12 @@ namespace UnitTests.UI.Controls
                 // Force Layout calculations
                 panel.UpdateLayout();
 
-                var children = panel.Children.Select(item => item as FrameworkElement).ToArray();
+                var children = panel.Children.Cast<FrameworkElement>().ToArray();
 
                 Assert.AreEqual(4, panel.Children.Count);
 
                 // Check all children are in expected places.
-                for (int i = 0; i < children.Count(); i++)
+                for (int i = 0; i < children.Length; i++)
                 {
                     var transform = treeRoot.CoordinatesTo(children[i]);
                     Assert.AreEqual(expected[i].u, transform.X, $"Child {i} not in expected X location.");
@@ -114,12 +114,12 @@ namespace UnitTests.UI.Controls
                 // Force Layout calculations
                 panel.UpdateLayout();
 
-                var children = panel.Children.Select(item => item as FrameworkElement).ToArray();
+                var children = panel.Children.Cast<FrameworkElement>().ToArray();
 
                 Assert.AreEqual(4, panel.Children.Count);
 
                 // Check all children are in expected places.
-                for (int i = 0; i < children.Count(); i++)
+                for (int i = 0; i < children.Length; i++)
                 {
                     var transform = treeRoot.CoordinatesTo(children[i]);
                     Assert.AreEqual(expected[i].u, transform.X, $"Child {i} not in expected X location.");
@@ -169,12 +169,12 @@ namespace UnitTests.UI.Controls
                 // Force Layout calculations
                 panel.UpdateLayout();
 
-                var children = panel.Children.Select(item => item as FrameworkElement).ToArray();
+                var children = panel.Children.Cast<FrameworkElement>().ToArray();
 
                 Assert.AreEqual(4, panel.Children.Count);
 
                 // Check all children are in expected places.
-                for (int i = 0; i < children.Count(); i++)
+                for (int i = 0; i < children.Length; i++)
                 {
                     var transform = treeRoot.CoordinatesTo(children[i]);
                     Assert.AreEqual(expected[i].u, transform.X, $"Child {i} not in expected X location.");
