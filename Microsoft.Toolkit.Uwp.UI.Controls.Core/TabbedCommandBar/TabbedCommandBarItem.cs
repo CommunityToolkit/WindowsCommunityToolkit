@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(string.Empty));
 
         /// <summary>
-        /// Gets or sets the text or <see cref="UIElement"/> to display in the header of this ribbon tab.
+        /// Gets or sets the text or <see cref="UIElement"/> to display in the header of this TabbedCommandBar tab.
         /// </summary>
         public object Header
         {
