@@ -187,6 +187,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         if (win32AppInfo.Pre7_0_1Aumid != null)
                         {
                             // Uninstall the old AUMID
+                            CleanUpOldAumid(win32AppInfo.Pre7_0_1Aumid);
                         }
 
                         // Set that it has the fix so we don't try uninstalling again in the future
