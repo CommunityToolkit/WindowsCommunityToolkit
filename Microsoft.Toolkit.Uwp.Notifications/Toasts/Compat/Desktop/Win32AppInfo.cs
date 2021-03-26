@@ -92,11 +92,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                             if (IsAlphaBitmap(bmp, out var bmpData))
                             {
                                 var alphaBitmap = GetAlphaBitmapFromBitmapData(bmpData);
-                                iconPath = SaveIconToAppPath(alphaBitmap, appId);
+                                iconPath = SaveIconToAppPath(alphaBitmap, aumid);
                             }
                             else
                             {
-                                iconPath = SaveIconToAppPath(bmp, appId);
+                                iconPath = SaveIconToAppPath(bmp, aumid);
                             }
                         }
                         catch
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             if (string.IsNullOrWhiteSpace(iconPath))
             {
                 // We use the one from the process
-                iconPath = ExtractAndObtainIconFromCurrentProcess(process, appId);
+                iconPath = ExtractAndObtainIconFromCurrentProcess(process, aumid);
             }
 
             return new Win32AppInfo()
@@ -155,12 +155,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return process.ProcessName;
         }
 
-        private static string ExtractAndObtainIconFromCurrentProcess(Process process, string appId)
+        private static string ExtractAndObtainIconFromCurrentProcess(Process process, string aumid)
         {
-            return ExtractAndObtainIconFromPath(process.MainModule.FileName, appId);
+            return ExtractAndObtainIconFromPath(process.MainModule.FileName, aumid);
         }
 
-        private static string ExtractAndObtainIconFromPath(string pathToExtract, string appId)
+        private static string ExtractAndObtainIconFromPath(string pathToExtract, string aumid)
         {
             try
             {
@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 using (var bmp = icon.ToBitmap())
                 {
-                    return SaveIconToAppPath(bmp, appId);
+                    return SaveIconToAppPath(bmp, aumid);
                 }
             }
             catch
@@ -178,11 +178,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        private static string SaveIconToAppPath(Bitmap bitmap, string appId)
+        private static string SaveIconToAppPath(Bitmap bitmap, string aumid)
         {
             try
             {
-                var path = Path.Combine(GetAppDataFolderPath(appId), "Icon.png");
+                var path = Path.Combine(GetAppDataFolderPath(aumid), "Icon.png");
 
                 // Ensure the directories exist
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -201,9 +201,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Gets the app data folder path within the ToastNotificationManagerCompat folder, used for storing icon assets and any additional data.
         /// </summary>
         /// <returns>Returns a string of the absolute folder path.</returns>
-        public static string GetAppDataFolderPath(string appId)
+        public static string GetAppDataFolderPath(string aumid)
         {
-            string conciseAumid = appId.Contains("\\") ? GenerateGuid(appId) : appId;
+            string conciseAumid = aumid.Contains('\\') || aumid.Contains('/') ? GenerateGuid(aumid) : aumid;
 
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", conciseAumid);
         }
