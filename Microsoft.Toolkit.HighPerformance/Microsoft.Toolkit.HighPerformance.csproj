@@ -22,7 +22,7 @@
       - Ref&lt;T&gt;: a stack-only struct that can store a reference to a value of a specified type.
       - NullableRef&lt;T&gt;: a stack-only struct similar to Ref&lt;T&gt;, which also supports nullable references.
   </Description>
-    <PackageTags>UWP Toolkit Windows core standard unsafe span memory string array stream buffer extensions helpers parallel performance</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;core;standard;unsafe;span;memory;string;array;stream;buffer;extensions;helpers;parallel;performance</PackageTags>
   </PropertyGroup>
   <Choose>
     <When Condition=" '$(TargetFramework)' == 'netstandard1.4' ">

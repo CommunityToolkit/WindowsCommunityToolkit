@@ -27,5 +27,8 @@
     <!-- Add your application specific runtime directives here. -->
     <Type Name="Windows.UI.Xaml.Controls.Border" Dynamic="Required Public" />
 
+    <!-- Fix for https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3883 -->
+    <Type Name="Windows.UI.Xaml.Controls.TextBlock" Dynamic="Required Public" />
+
   </Application>
 </Directives>

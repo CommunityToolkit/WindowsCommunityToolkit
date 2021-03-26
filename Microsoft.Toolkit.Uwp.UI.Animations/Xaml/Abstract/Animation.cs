@@ -91,14 +91,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public RepeatOption Repeat
         {
-            get => (RepeatOption)GetValue(RepeatOptionProperty);
-            set => SetValue(RepeatOptionProperty, value);
+            get => (RepeatOption)GetValue(RepeatProperty);
+            set => SetValue(RepeatProperty, value);
         }
 
         /// <summary>
         /// Identifies the <seealso cref="Repeat"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty RepeatOptionProperty = DependencyProperty.Register(
+        public static readonly DependencyProperty RepeatProperty = DependencyProperty.Register(
             nameof(Repeat),
             typeof(RepeatOption),
             typeof(Animation),

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
@@ -14,6 +15,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public interface IImplicitTimeline
     {
+        /// <summary>
+        /// Raised whenever a property that influences the animation changes.
+        /// This event is used by <see cref="ImplicitAnimationSet"/> to update the animations collection
+        /// assigned to a target <see cref="UIElement"/> when any of the individual animations is modified.
+        /// </summary>
+        event EventHandler? AnimationPropertyChanged;
+
         /// <summary>
         /// Gets a <see cref="CompositionAnimation"/> from the current node. This animation might
         /// be used either as an implicit show/hide animation, or as a direct implicit animation.
