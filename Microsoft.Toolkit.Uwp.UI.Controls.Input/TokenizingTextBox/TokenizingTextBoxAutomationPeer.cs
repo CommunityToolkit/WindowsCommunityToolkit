@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
         }
 
-        /// <summary>Gets a value that indicates whether the value of a control is read-only.</summary>
+        /// <summary>Gets a value indicating whether the value of a control is read-only.</summary>
         /// <returns>**true** if the value is read-only; **false** if it can be modified.</returns>
         public bool IsReadOnly => !this.OwningTokenizingTextBox.IsEnabled;
 
