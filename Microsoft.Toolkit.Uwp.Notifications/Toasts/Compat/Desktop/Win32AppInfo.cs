@@ -37,10 +37,29 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             // First get the app ID
             IApplicationResolver appResolver = (IApplicationResolver)new CAppResolver();
-            appResolver.GetAppIDForProcess(Convert.ToUInt32(process.Id), out string appId, out _, out _, out _);
+            appResolver.GetAppIDForProcess(Convert.ToUInt32(process.Id), out string appId, out _, out bool explicitAppId, out _);
 
-            // Use app ID (or hashed app ID) as AUMID
-            string aumid = appId.Length > AUMID_MAX_LENGTH ? HashAppId(appId) : appId;
+            string aumid;
+
+            // If it has an explicit app ID
+            if (explicitAppId)
+            {
+                // Use as-is
+                aumid = appId;
+            }
+            else
+            {
+                // Otherwise, it's a full-path, like C:\Program Files\..., and for versions 19042 and older of
+                // Windows 10, we can't use a full path - Issue #3870, so we change it to not be recognized as a path.
+                aumid = appId.Replace('\\', '/');
+            }
+
+            // If the AUMID is too long
+            if (aumid.Length > AUMID_MAX_LENGTH)
+            {
+                // Hash the AUMID
+                aumid = HashAppId(aumid);
+            }
 
             // Then try to get the shortcut (for display name and icon)
             IShellItem shortcutItem = null;
