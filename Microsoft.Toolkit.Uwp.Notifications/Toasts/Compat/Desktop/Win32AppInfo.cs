@@ -41,8 +41,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             string aumid;
 
-            // If it contains a backslash
-            if (appId.Contains('\\'))
+            // If the app ID is too long
+            if (appId.Length > AUMID_MAX_LENGTH)
+            {
+                // Hash the AUMID
+                aumid = HashAppId(appId);
+            }
+
+            // Else if it contains a backslash
+            else if (appId.Contains('\\'))
             {
                 // For versions 19042 and older of Windows 10, we can't use backslashes - Issue #3870
                 // So we change it to not include those
@@ -52,13 +59,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             {
                 // Use as-is
                 aumid = appId;
-            }
-
-            // If the AUMID is too long
-            if (aumid.Length > AUMID_MAX_LENGTH)
-            {
-                // Hash the AUMID
-                aumid = HashAppId(aumid);
             }
 
             // Then try to get the shortcut (for display name and icon)
