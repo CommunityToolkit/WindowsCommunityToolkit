@@ -443,7 +443,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 {
                     // Remove all scheduled notifications (do this first before clearing current notifications)
                     var notifier = CreateToastNotifier();
-                    foreach (var scheduled in CreateToastNotifier().GetScheduledToastNotifications())
+                    foreach (var scheduled in notifier.GetScheduledToastNotifications())
                     {
                         try
                         {
