@@ -3,10 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
-using Windows.Foundation.Collections;
 
 #nullable enable
 
@@ -132,30 +130,30 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnShowAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
+            static void OnAnimationsChanged(object sender, EventArgs e)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
                 if (collection.ParentReference!.TryGetTarget(out UIElement element))
                 {
-                    ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
+                    ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
                 }
             }
 
             if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                oldCollection.VectorChanged -= OnAnimationsChanged;
+                oldCollection.AnimationsChanged -= OnAnimationsChanged;
             }
 
             if (d is UIElement element &&
                 e.NewValue is ImplicitAnimationSet collection)
             {
                 collection.ParentReference = new(element);
-                collection.VectorChanged -= OnAnimationsChanged;
-                collection.VectorChanged += OnAnimationsChanged;
+                collection.AnimationsChanged -= OnAnimationsChanged;
+                collection.AnimationsChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup());
+                ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
             }
         }
 
@@ -166,30 +164,30 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnHideAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
+            static void OnAnimationsChanged(object sender, EventArgs e)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
                 if (collection.ParentReference!.TryGetTarget(out UIElement element))
                 {
-                    ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
+                    ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
                 }
             }
 
             if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                oldCollection.VectorChanged -= OnAnimationsChanged;
+                oldCollection.AnimationsChanged -= OnAnimationsChanged;
             }
 
             if (d is UIElement element &&
                 e.NewValue is ImplicitAnimationSet collection)
             {
                 collection.ParentReference = new(element);
-                collection.VectorChanged -= OnAnimationsChanged;
-                collection.VectorChanged += OnAnimationsChanged;
+                collection.AnimationsChanged -= OnAnimationsChanged;
+                collection.AnimationsChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup());
+                ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
             }
         }
 
@@ -200,30 +198,30 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(IObservableVector<DependencyObject> sender, IVectorChangedEventArgs args)
+            static void OnAnimationsChanged(object sender, EventArgs e)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
                 if (collection.ParentReference!.TryGetTarget(out UIElement element))
                 {
-                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
+                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
                 }
             }
 
             if (e.OldValue is ImplicitAnimationSet oldCollection)
             {
-                oldCollection.VectorChanged -= OnAnimationsChanged;
+                oldCollection.AnimationsChanged -= OnAnimationsChanged;
             }
 
             if (d is UIElement element &&
                 e.NewValue is ImplicitAnimationSet collection)
             {
                 collection.ParentReference = new(element);
-                collection.VectorChanged -= OnAnimationsChanged;
-                collection.VectorChanged += OnAnimationsChanged;
+                collection.AnimationsChanged -= OnAnimationsChanged;
+                collection.AnimationsChanged += OnAnimationsChanged;
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection();
+                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
             }
         }
     }

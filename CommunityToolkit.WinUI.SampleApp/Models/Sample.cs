@@ -717,5 +717,10 @@ namespace CommunityToolkit.WinUI.SampleApp
             [JsonPropertyName("sha")]
             public string Sha { get; set; }
         }
+
+        public override string ToString()
+        {
+            return $"SampleApp.Sample<{CategoryName}.{Subcategory}.{Name}>";
+        }
     }
 }

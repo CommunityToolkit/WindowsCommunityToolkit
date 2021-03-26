@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.SampleApp.Common;
 using CommunityToolkit.WinUI.SampleApp.SamplePages;
@@ -108,7 +109,7 @@ namespace CommunityToolkit.WinUI.SampleApp
             _window.Activate();
         }
 
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
@@ -124,7 +125,18 @@ namespace CommunityToolkit.WinUI.SampleApp
                 // ignore
             }
 
-            deferral.Complete();
+            try
+            {
+                await Task.Delay(2000);
+            }
+            catch
+            {
+                // ignore
+            }
+            finally
+            {
+                deferral.Complete();
+            }
         }
     }
 }
