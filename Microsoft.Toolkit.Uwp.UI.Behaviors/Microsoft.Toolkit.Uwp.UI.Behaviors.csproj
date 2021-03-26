@@ -14,7 +14,7 @@
       - ViewportBehavior: Listening for element to enter or exit the ScrollViewer viewport
       - FadeHeaderBehavior, QuickReturnHeaderBehavior, StickyHeaderBehavior: Helpers for ListViewBase Header Behavior
     </Description>
-    <PackageTags>UWP Toolkit Windows UI Behaviors XAML</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;UI;Behaviors;Interactivity;Interaction;XAML</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
   </PropertyGroup>

@@ -250,17 +250,17 @@
                         </Grid>
 
 
-                        <Border x:Name="PART_RibbonContentBorder"
+                        <Border x:Name="PART_TabbedCommandBarContentBorder"
                                 Grid.Row="1"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Background="{Binding ElementName=PART_RibbonContent, Path=Content.Background}">
-                            <ContentControl x:Name="PART_RibbonContent"
+                                Background="{Binding ElementName=PART_TabbedCommandBarContent, Path=Content.Background}">
+                            <ContentControl x:Name="PART_TabbedCommandBarContent"
                                             HorizontalContentAlignment="Stretch"
                                             Content="{TemplateBinding SelectedItem}">
                                 <ContentControl.Resources>
                                     <Storyboard x:Name="TabChangedStoryboard">
-                                        <PopInThemeAnimation TargetName="PART_RibbonContent" />
+                                        <PopInThemeAnimation TargetName="PART_TabbedCommandBarContent" />
                                     </Storyboard>
 
                                     <!--

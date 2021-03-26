@@ -11,7 +11,7 @@
       - IncrementalLoadingCollection: Simplifies the definition and usage of collections whose items can be loaded incrementally only when needed by the view.
       - String extensions and array extensions: These extensions make working with string and arrays easier.
     </Description>
-    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Incremental;Loading;Collection;IncrementalLoadingCollection;String;Array;extensions;helpers</PackageTags>
   </PropertyGroup>
 
   <!-- .NET Standard 1.4 doesn't have the [Pure] attribute -->

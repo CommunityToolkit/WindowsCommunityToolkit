@@ -9,7 +9,7 @@
       -FocusTrackerControl : The FocusTracker Control is a feature that can be used to display information about the current focused XAML element.
       -Themes : Provides the source path of the resource dictionaries for the FocusTracker.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility AlignmentGrid</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Developer;Tools;Accessibility;Alignment;Grid;AlignmentGrid</PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
