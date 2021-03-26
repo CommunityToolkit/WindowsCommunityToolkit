@@ -27,6 +27,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         public string Aumid { get; set; }
 
+        /// <summary>
+        /// Gets the AUMID before it was fixed up with the backslash issue
+        /// </summary>
+        public string Pre7_0_1Aumid { get; private set; }
+
         public string DisplayName { get; set; }
 
         public string IconPath { get; set; }
@@ -40,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             appResolver.GetAppIDForProcess(Convert.ToUInt32(process.Id), out string appId, out _, out _, out _);
 
             string aumid;
+            string pre7_0_1Aumid = null;
 
             // If the app ID is too long
             if (appId.Length > AUMID_MAX_LENGTH)
@@ -54,6 +60,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // For versions 19042 and older of Windows 10, we can't use backslashes - Issue #3870
                 // So we change it to not include those
                 aumid = appId.Replace('\\', '/');
+                pre7_0_1Aumid = appId;
             }
             else
             {
@@ -128,6 +135,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return new Win32AppInfo()
             {
                 Aumid = aumid,
+                Pre7_0_1Aumid = pre7_0_1Aumid,
                 DisplayName = displayName,
                 IconPath = iconPath
             };
