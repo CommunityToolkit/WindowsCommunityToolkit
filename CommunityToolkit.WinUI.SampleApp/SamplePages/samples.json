@@ -158,9 +158,10 @@
         "Type": "ScrollHeaderPage",
         "Subcategory": "Layout",
         "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Headers",
         "XamlCodeFile": "ScrollHeaderCode.bind",
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ScrollHeader.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/HeaderBehaviors.md"
       },
       {
         "Name": "GridSplitter",
