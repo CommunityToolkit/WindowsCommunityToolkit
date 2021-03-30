@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 
-namespace CommunityToolkit.Net.HighPerformance.Memory.Views
+namespace CommunityToolkit.HighPerformance.Memory.Views
 {
     /// <summary>
     /// A debug proxy used to display items in a 2D layout.

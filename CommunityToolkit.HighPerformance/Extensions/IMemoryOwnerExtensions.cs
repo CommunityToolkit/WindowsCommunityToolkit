@@ -7,9 +7,9 @@ using System.Buffers;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
-using MemoryStream = CommunityToolkit.Net.HighPerformance.Streams.MemoryStream;
+using MemoryStream = CommunityToolkit.HighPerformance.Streams.MemoryStream;
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="IMemoryOwner{T}"/> type.

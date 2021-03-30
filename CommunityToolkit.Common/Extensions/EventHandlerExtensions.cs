@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Net.Deferred
+namespace CommunityToolkit.Common.Deferred
 {
     /// <summary>
     /// Extensions to <see cref="EventHandler{TEventArgs}"/> for Deferred Events.

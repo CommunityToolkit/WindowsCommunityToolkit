@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using CommunityToolkit.Net.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Core;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a horizontal line.

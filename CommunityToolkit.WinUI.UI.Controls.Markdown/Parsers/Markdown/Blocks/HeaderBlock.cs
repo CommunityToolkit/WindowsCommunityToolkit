@@ -4,10 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a heading.
@@ -86,7 +85,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
             }
 
             // Parse the inline content.
-            result.Inlines = Common.ParseInlineChildren(markdown, pos, end);
+            result.Inlines = Helpers.Common.ParseInlineChildren(markdown, pos, end);
             return result;
         }
 
@@ -148,7 +147,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
             result.HeaderLevel = underlineChar == '=' ? 1 : 2;
 
             // Parse the inline content.
-            result.Inlines = Common.ParseInlineChildren(markdown, firstLineStart, firstLineEnd);
+            result.Inlines = Helpers.Common.ParseInlineChildren(markdown, firstLineStart, firstLineEnd);
             return result;
         }
 

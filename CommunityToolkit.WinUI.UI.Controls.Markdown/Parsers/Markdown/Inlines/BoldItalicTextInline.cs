@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing bold italic text.
@@ -66,7 +66,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             // Find the end of the span.  The end sequence (either '***' or '___') must be the same
             // as the start sequence.
             var innerStart = start + 3;
-            int innerEnd = Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
+            int innerEnd = Helpers.Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
             if (innerEnd == -1)
             {
                 return null;
@@ -97,7 +97,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 {
                     new ItalicTextInline
                     {
-                        Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd)
+                        Inlines = Helpers.Common.ParseInlineChildren(markdown, innerStart, innerEnd)
                     }
                 }
             };

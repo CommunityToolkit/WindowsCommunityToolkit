@@ -10,7 +10,7 @@ namespace CommunityToolkit.WinUI.Utilities
     /// Implements a weak event listener that allows the owner to be garbage
     /// collected if its only remaining link is an event handler.
     /// Note: Copied from CommunityToolkit.WinUI.Helpers.WeakEventListener to avoid taking a
-    /// dependency on CommunityToolkit.WinUI.dll and CommunityToolkit.Net.dll.
+    /// dependency on CommunityToolkit.WinUI.dll and CommunityToolkit.Common.dll.
     /// </summary>
     /// <typeparam name="TInstance">Type of instance listening for the event.</typeparam>
     /// <typeparam name="TSource">Type of source for the event.</typeparam>

@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.Diagnostics
+namespace CommunityToolkit.Diagnostics
 {
     /// <summary>
     /// Helper methods to verify conditions when running code.

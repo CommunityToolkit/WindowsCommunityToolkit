@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Net.Mvvm.Input
+namespace CommunityToolkit.Common.Mvvm.Input
 {
     /// <summary>
     /// A generic interface representing a more specific version of <see cref="IAsyncRelayCommand"/>.

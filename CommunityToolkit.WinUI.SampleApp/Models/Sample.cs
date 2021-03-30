@@ -18,8 +18,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 // TODO Reintroduce graph controls
-// using CommunityToolkit.Net.Graph.Converters;
-// using CommunityToolkit.Net.Graph.Providers;
+// using CommunityToolkit.Common.Graph.Converters;
+// using CommunityToolkit.Common.Graph.Providers;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Input.GazeInteraction;
 using CommunityToolkit.WinUI.SampleApp.Models;
@@ -660,7 +660,7 @@ namespace CommunityToolkit.WinUI.SampleApp
                 StackMode.Replace.GetType(), // CommunityToolkit.WinUI.UI.Controls.Core
 
                 // TODO Reintroduce graph controls
-                // typeof(UserToPersonConverter)) // Search in CommunityToolkit.Net.Graph.Controls
+                // typeof(UserToPersonConverter)) // Search in CommunityToolkit.Common.Graph.Controls
                 EasingType.Default.GetType(), // CommunityToolkit.WinUI.UI.Animations
                 typeof(ImageCache), // Search in CommunityToolkit.WinUI.UI
                 Interaction.Enabled.GetType(), // CommunityToolkit.WinUI.Input.GazeInteraction

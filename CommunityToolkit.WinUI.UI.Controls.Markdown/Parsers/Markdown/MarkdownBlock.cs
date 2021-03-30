@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// A Block Element is an element that is a container for other structures.

@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a type of hyperlink where the text can be different from the target URL.
@@ -168,7 +168,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 string url;
                 string tooltip = null;
                 bool lastUrlCharIsDoubleQuote = markdown[linkClose - 1] == '"';
-                int tooltipStart = Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
+                int tooltipStart = Helpers.Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
                 if (tooltipStart == linkOpen)
                 {
                     return null;
@@ -189,7 +189,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 // Check the URL is okay.
                 if (!url.IsEmail())
                 {
-                    if (!Common.IsUrlValid(url))
+                    if (!Helpers.Common.IsUrlValid(url))
                     {
                         return null;
                     }
@@ -201,7 +201,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
                 // We found a regular stand-alone link.
                 var result = new MarkdownLinkInline();
-                result.Inlines = Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
+                result.Inlines = Helpers.Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
                 result.Url = url.Replace(" ", "%20");
                 result.Tooltip = tooltip;
                 return new InlineParseResult(result, start, end);
@@ -209,7 +209,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             else if (markdown[pos] == '[')
             {
                 // Find the ']' character.
-                int linkClose = Common.IndexOf(markdown, ']', pos + 1, maxEnd);
+                int linkClose = Helpers.Common.IndexOf(markdown, ']', pos + 1, maxEnd);
                 if (linkClose == -1)
                 {
                     return null;
@@ -217,7 +217,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
                 // We found a reference-style link.
                 var result = new MarkdownLinkInline();
-                result.Inlines = Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
+                result.Inlines = Helpers.Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
                 result.ReferenceId = markdown.Substring(linkOpen + 1, linkClose - (linkOpen + 1));
                 if (result.ReferenceId == string.Empty)
                 {
@@ -254,7 +254,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             }
 
             // The reference was found. Check the URL is valid.
-            if (!Common.IsUrlValid(reference.Url))
+            if (!Helpers.Common.IsUrlValid(reference.Url))
             {
                 return;
             }

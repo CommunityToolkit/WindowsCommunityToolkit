@@ -4,7 +4,7 @@
     <id>CommunityToolkit.WinUI.Notifications</id>
     <version>$version$</version>
     <title>Windows Community Toolkit Notifications</title>
-    <authors>CommunityToolkit.Net,dotnetfoundation</authors>
+    <authors>CommunityToolkit.Common,dotnetfoundation</authors>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</projectUrl>

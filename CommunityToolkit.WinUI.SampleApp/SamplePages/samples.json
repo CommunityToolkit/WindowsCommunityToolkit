@@ -387,7 +387,7 @@
         "Name": "LoginButton",
         "Subcategory": "Graph",
         "About": "The LoginButton control is a button and flyout to facilitate Microsoft identity platform authentication for AAD or MSA accounts.",
-        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/CommunityToolkit.Net.Graph.Controls/Controls/LoginButton",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/CommunityToolkit.Common.Graph.Controls/Controls/LoginButton",
         /*"XamlCodeFile": "/SamplePages/Graph/LoginButtonXaml.bind",*/
         "Icon": "/SamplePages/Graph/LoginButton.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -398,7 +398,7 @@
         "Name": "PersonView",
         "Subcategory": "Graph",
         "About": "The PersonView control is used to display a person or contact by using their photo, name, and/or email address from Microsoft Graph.",
-        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/CommunityToolkit.Net.Graph.Controls/Controls/PersonView",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/CommunityToolkit.Common.Graph.Controls/Controls/PersonView",
         /*"XamlCodeFile": "/SamplePages/Graph/PersonViewXaml.bind",*/
         "Icon": "/SamplePages/Graph/PersonView.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -409,7 +409,7 @@
         "Name": "PeoplePicker",
         "Subcategory": "Graph",
         "About": "The PeoplePicker Control searchs for people and renders the list of results from Microsoft Graph. By default, the component will search for all people.",
-        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/CommunityToolkit.Net.Graph.Controls/Controls/PeoplePicker",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/CommunityToolkit.Common.Graph.Controls/Controls/PeoplePicker",
         /*"XamlCodeFile": "/SamplePages/Graph/PeoplePickerXaml.bind",*/
         "Icon": "/SamplePages/Graph/PeoplePicker.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -744,7 +744,7 @@
         "Type": "ObservableGroupPage",
         "Subcategory": "Data",
         "About": "Allows you to easily create observable grouped collections.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Net/Collections",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Common/Collections",
         "CodeFile": "ObservableGroup.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/collections/ObservableGroups.md"
@@ -853,7 +853,7 @@
         "Name": "Guard APIs",
         "Subcategory": "Developer",
         "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
-        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Net.Diagnostics",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Diagnostics",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
       },
@@ -861,7 +861,7 @@
         "Name": "High Performance APIs",
         "Subcategory": "Developer",
         "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
-        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Net.HighPerformance",
+        "CodeUrl" : "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.HighPerformance",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
       },
@@ -871,7 +871,7 @@
         "About": "The MVVM Toolkit package is a modern, fast, and modular MVVM library for .NET Standard 2.0.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/mvvm/Introduction.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Net.Mvvm"
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/CommunityToolkit.Mvvm"
       },
       {
         "Name": "CompareStateTrigger",
@@ -1155,7 +1155,7 @@
         "Name": "StringExtensions",
         "Type": "StringExtensionsPage",
         "About": "String Extensions to validate strings",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/CommunityToolkit.Net/Extensions/StringExtensions.cs",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/CommunityToolkit.Common/Extensions/StringExtensions.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/StringExtensions.md"
       },

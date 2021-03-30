@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Helpers
+namespace CommunityToolkit.Common.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// Reports an error during debugging.

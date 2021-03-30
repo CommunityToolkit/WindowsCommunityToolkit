@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 #pragma warning disable CS8777
 
-namespace CommunityToolkit.Net.Diagnostics
+namespace CommunityToolkit.Diagnostics
 {
     /// <summary>
     /// Helper methods to verify conditions when running code.

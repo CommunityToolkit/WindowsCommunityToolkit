@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.Net.Deferred;
+using CommunityToolkit.Common.Deferred;
 using Windows.Foundation;
 
 namespace CommunityToolkit.WinUI.Deferred

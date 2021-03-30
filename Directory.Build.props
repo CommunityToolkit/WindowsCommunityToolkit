@@ -1,7 +1,7 @@
 <Project>
   
   <PropertyGroup>
-    <Authors>CommunityToolkit.Net</Authors>
+    <Authors>CommunityToolkit.Common</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>

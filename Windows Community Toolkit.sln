@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Deve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Connectivity", "CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj", "{B1E850FF-DDE6-44D5-A830-34250E97A687}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Net", "CommunityToolkit.Net\CommunityToolkit.Net.csproj", "{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Common", "CommunityToolkit.Common\CommunityToolkit.Common.csproj", "{6FE128A8-CEFA-4A61-A987-EC92DE6B538E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Notifications", "CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj", "{97EE849B-403C-490E-80ED-D19D7CC153FD}"
 EndProject
@@ -73,7 +73,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Media", "CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Net.Mvvm", "CommunityToolkit.Net.Mvvm\CommunityToolkit.Net.Mvvm.csproj", "{D82AE6E1-E612-434E-ACB2-363EE48738D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Mvvm", "CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj", "{D82AE6E1-E612-434E-ACB2-363EE48738D3}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.Shared", "UnitTests\UnitTests.Shared\UnitTests.Shared.shproj", "{4E9466D1-D5AA-46AC-801B-C8FDAB79F0D4}"
 EndProject
@@ -81,7 +81,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.NetCore", "UnitTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Layout", "CommunityToolkit.WinUI.UI.Controls.Layout\CommunityToolkit.WinUI.UI.Controls.Layout.csproj", "{CB444381-18BA-4A51-BB32-3A498BCC1E99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Net.HighPerformance", "CommunityToolkit.Net.HighPerformance\CommunityToolkit.Net.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.HighPerformance", "CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.HighPerformance.NetCore", "UnitTests\UnitTests.HighPerformance.NetCore\UnitTests.HighPerformance.NetCore.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
 EndProject
@@ -117,9 +117,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.C
 		{6FEDF199-B052-49DD-8F3E-2A9224998E0F} = {6FEDF199-B052-49DD-8F3E-2A9224998E0F}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Net.Win32.WpfCore.SampleApp", "CommunityToolkit.Net.Win32.WpfCore.SampleApp\CommunityToolkit.Net.Win32.WpfCore.SampleApp.csproj", "{0037E4C9-7AF3-4ADD-8156-5AEFA6C36405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Win32.WpfCore.SampleApp", "CommunityToolkit.Win32.WpfCore.SampleApp\CommunityToolkit.Win32.WpfCore.SampleApp.csproj", "{0037E4C9-7AF3-4ADD-8156-5AEFA6C36405}"
 EndProject
-Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "CommunityToolkit.Net.Win32.WpfCore.SampleApp.PackagingProject", "CommunityToolkit.Net.Win32.WpfCore.SampleApp.PackagingProject\CommunityToolkit.Net.Win32.WpfCore.SampleApp.PackagingProject.wapproj", "{54349AB0-9E41-4AA6-849C-EC9CE80CDD2A}"
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject", "CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject\CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject.wapproj", "{54349AB0-9E41-4AA6-849C-EC9CE80CDD2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests.App", "UITests\UITests.App\UITests.App.csproj", "{05C83067-FA46-45E2-BEC4-EDEE84AD18D0}"
 EndProject
@@ -139,7 +139,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UITests.Tests.Shared", "UIT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Behaviors", "CommunityToolkit.WinUI.UI.Behaviors\CommunityToolkit.WinUI.UI.Behaviors.csproj", "{D4FF799D-0DF2-495A-ADC9-3BBC4AEF8971}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Net.Diagnostics", "CommunityToolkit.Net.Diagnostics\CommunityToolkit.Net.Diagnostics.csproj", "{76F89522-CA28-458D-801D-947AB033A758}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.Diagnostics", "CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj", "{76F89522-CA28-458D-801D-947AB033A758}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Controls.Media", "CommunityToolkit.WinUI.UI.Controls.Media\CommunityToolkit.WinUI.UI.Controls.Media.csproj", "{43BD2A36-9E12-4788-80AE-2377E41E6D05}"
 EndProject

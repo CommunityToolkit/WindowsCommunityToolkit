@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing superscript text.
@@ -73,7 +73,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             {
                 int innerStart = start + 5;
                 int innerEnd, end;
-                innerEnd = Common.IndexOf(markdown, "</sup>", innerStart, maxEnd);
+                innerEnd = Helpers.Common.IndexOf(markdown, "</sup>", innerStart, maxEnd);
                 if (innerEnd == -1)
                 {
                     return null;
@@ -92,7 +92,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 // We found something!
                 end = innerEnd + 6;
                 var result = new SuperscriptTextInline();
-                result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
+                result.Inlines = Helpers.Common.ParseInlineChildren(markdown, innerStart, innerEnd);
                 return new InlineParseResult(result, start, end);
             }
             else
@@ -104,7 +104,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 {
                     // Find the end parenthesis.
                     innerStart++;
-                    innerEnd = Common.IndexOf(markdown, ')', innerStart, maxEnd);
+                    innerEnd = Helpers.Common.IndexOf(markdown, ')', innerStart, maxEnd);
                     if (innerEnd == -1)
                     {
                         return null;
@@ -115,7 +115,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 else
                 {
                     // Search for the next whitespace character.
-                    innerEnd = Common.FindNextWhiteSpace(markdown, innerStart, maxEnd, ifNotFoundReturnLength: true);
+                    innerEnd = Helpers.Common.FindNextWhiteSpace(markdown, innerStart, maxEnd, ifNotFoundReturnLength: true);
                     if (innerEnd == innerStart)
                     {
                         // No match if the character after the caret is a space.
@@ -127,7 +127,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
                 // We found something!
                 var result = new SuperscriptTextInline();
-                result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
+                result.Inlines = Helpers.Common.ParseInlineChildren(markdown, innerStart, innerEnd);
                 return new InlineParseResult(result, start, end);
             }
         }

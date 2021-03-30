@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.Collections
+namespace CommunityToolkit.Common.Collections
 {
     /// <summary>
     /// An observable list of observable groups.

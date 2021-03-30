@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Markdown;
-using CommunityToolkit.Net.Parsers.Markdown.Blocks;
-using CommunityToolkit.Net.Parsers.Markdown.Render;
+using CommunityToolkit.Common.Parsers.Markdown;
+using CommunityToolkit.Common.Parsers.Markdown.Blocks;
+using CommunityToolkit.Common.Parsers.Markdown.Render;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

@@ -17,7 +17,7 @@ namespace CommunityToolkit.WinUI.UI.Converters
         {
             if (value is long size)
             {
-                return Net.Converters.ToFileSizeString(size);
+                return Common.Converters.ToFileSizeString(size);
             }
 
             return string.Empty;

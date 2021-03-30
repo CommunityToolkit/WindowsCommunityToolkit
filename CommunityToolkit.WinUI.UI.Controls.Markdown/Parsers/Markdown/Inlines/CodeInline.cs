@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing code, or other text that is to be displayed using a
@@ -61,7 +61,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 innerStart++;
 
                 // Find the end of the span.
-                innerEnd = Common.IndexOf(markdown, "``", innerStart, maxEnd);
+                innerEnd = Helpers.Common.IndexOf(markdown, "``", innerStart, maxEnd);
                 if (innerEnd == -1)
                 {
                     return null;
@@ -74,7 +74,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
                 // Standard single backtick syntax.
 
                 // Find the end of the span.
-                innerEnd = Common.IndexOf(markdown, '`', innerStart, maxEnd);
+                innerEnd = Helpers.Common.IndexOf(markdown, '`', innerStart, maxEnd);
                 if (innerEnd == -1)
                 {
                     return null;

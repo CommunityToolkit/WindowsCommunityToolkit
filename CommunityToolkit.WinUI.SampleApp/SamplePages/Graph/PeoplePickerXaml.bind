@@ -4,8 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
       xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:wgt="using:CommunityToolkit.Net.Graph.Controls"
-      xmlns:providers="using:CommunityToolkit.Net.Graph.Providers"
+      xmlns:wgt="using:CommunityToolkit.Common.Graph.Controls"
+      xmlns:providers="using:CommunityToolkit.Common.Graph.Providers"
       mc:Ignorable="d">
     <Page.Resources>
       <converters:EmptyObjectToObjectConverter x:Key="NullToVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible"/>

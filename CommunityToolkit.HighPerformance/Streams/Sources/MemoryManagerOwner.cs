@@ -6,7 +6,7 @@ using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.HighPerformance.Streams
+namespace CommunityToolkit.HighPerformance.Streams
 {
     /// <summary>
     /// An <see cref="ISpanOwner"/> implementation wrapping a <see cref="MemoryManager{T}"/> of <see cref="byte"/> instance.

@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using CommunityToolkit.Net;
+using CommunityToolkit.Common;
 using Microsoft.UI.Xaml.Data;
 
 namespace CommunityToolkit.WinUI.UI.Converters

@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CommunityToolkit.Net.Collections;
+using CommunityToolkit.Common.Collections;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

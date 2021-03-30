@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.HighPerformance.Enumerables
+namespace CommunityToolkit.HighPerformance.Enumerables
 {
     /// <summary>
     /// A <see langword="ref"/> <see langword="struct"/> that tokenizes a given <see cref="ReadOnlySpan{T}"/> instance.
@@ -77,13 +77,13 @@ namespace CommunityToolkit.Net.HighPerformance.Enumerables
                 this.start = newEnd;
 
                 // We need to call this extension explicitly or the extension method resolution rules for the C# compiler
-                // will end up picking CommunityToolkit.Net.HighPerformance.ReadOnlySpanExtensions.IndexOf instead, even
+                // will end up picking CommunityToolkit.HighPerformance.ReadOnlySpanExtensions.IndexOf instead, even
                 // though the latter takes the parameter via a readonly reference. This is because the "in" modifier is
                 // implicit, which makes the signature compatible, and because extension methods are matched in such a
                 // way that methods "closest" to where they're used are preferred. Since this type shares the same root
                 // namespace, this makes that extension a better match, so that it overrides the MemoryExtensions one.
                 // This is not a problem for consumers of this package, as their code would be outside of the
-                // CommunityToolkit.Net.HighPerformance namespace, so both extensions would be "equally distant", so that
+                // CommunityToolkit.HighPerformance namespace, so both extensions would be "equally distant", so that
                 // when they're both in scope it will be possible to choose which one to use by adding an explicit "in".
                 int index = System.MemoryExtensions.IndexOf(this.span.Slice(newEnd), this.separator);
 

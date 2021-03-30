@@ -10,7 +10,7 @@
 
   <ItemGroup>
     
-    <ProjectReference Include="..\CommunityToolkit.Net\CommunityToolkit.Net.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
   
   </ItemGroup>
   

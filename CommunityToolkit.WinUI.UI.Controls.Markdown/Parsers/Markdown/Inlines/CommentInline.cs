@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span that contains comment.
@@ -57,7 +57,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
             // Find the end of the span.  The end sequence ('-->')
             var innerStart = start + 4;
-            int innerEnd = Common.IndexOf(markdown, "-->", innerStart, maxEnd);
+            int innerEnd = Helpers.Common.IndexOf(markdown, "-->", innerStart, maxEnd);
             if (innerEnd == -1)
             {
                 return null;

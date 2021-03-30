@@ -4,11 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a block which contains tabular data.
@@ -198,7 +197,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
             internal static int ParseContents(string markdown, int startingPos, int maxEndingPos, int quoteDepth, bool requireVerticalBar, Action<int, int> contentParser)
             {
                 // Skip quote characters.
-                int pos = Common.SkipQuoteCharacters(markdown, startingPos, maxEndingPos, quoteDepth);
+                int pos = Helpers.Common.SkipQuoteCharacters(markdown, startingPos, maxEndingPos, quoteDepth);
 
                 // If the line starts with a '|' character, skip it.
                 bool lineHasVerticalBar = false;
@@ -310,7 +309,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
                     contentParser: (startingPos2, maxEndingPos2) =>
                     {
                         var cell = new TableCell();
-                        cell.Inlines = Common.ParseInlineChildren(markdown, startingPos2, maxEndingPos2);
+                        cell.Inlines = Helpers.Common.ParseInlineChildren(markdown, startingPos2, maxEndingPos2);
                         Cells.Add(cell);
                     });
             }

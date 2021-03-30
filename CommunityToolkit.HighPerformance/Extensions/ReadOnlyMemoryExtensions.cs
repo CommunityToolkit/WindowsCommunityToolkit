@@ -8,11 +8,11 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CommunityToolkit.Net.HighPerformance.Buffers.Internals;
-using CommunityToolkit.Net.HighPerformance.Buffers.Internals.Interfaces;
-using MemoryStream = CommunityToolkit.Net.HighPerformance.Streams.MemoryStream;
+using CommunityToolkit.HighPerformance.Buffers.Internals;
+using CommunityToolkit.HighPerformance.Buffers.Internals.Interfaces;
+using MemoryStream = CommunityToolkit.HighPerformance.Streams.MemoryStream;
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ReadOnlyMemory{T}"/> type.

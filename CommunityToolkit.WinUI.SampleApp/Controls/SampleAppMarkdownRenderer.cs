@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommunityToolkit.Net.Parsers.Markdown;
-using CommunityToolkit.Net.Parsers.Markdown.Blocks;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
-using CommunityToolkit.Net.Parsers.Markdown.Render;
+using CommunityToolkit.Common.Parsers.Markdown;
+using CommunityToolkit.Common.Parsers.Markdown.Blocks;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Render;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Controls.Markdown.Render;
 using Microsoft.UI;

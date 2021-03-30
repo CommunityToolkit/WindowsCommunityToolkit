@@ -5,7 +5,7 @@
 using System;
 using System.Buffers;
 
-namespace CommunityToolkit.Net.HighPerformance.Buffers.Internals.Interfaces
+namespace CommunityToolkit.HighPerformance.Buffers.Internals.Interfaces
 {
     /// <summary>
     /// An interface for a <see cref="MemoryManager{T}"/> instance that can reinterpret its underlying data.

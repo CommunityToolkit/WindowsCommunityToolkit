@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace CommunityToolkit.Net.Collections
+namespace CommunityToolkit.Common.Collections
 {
     /// <summary>
     /// An observable group.

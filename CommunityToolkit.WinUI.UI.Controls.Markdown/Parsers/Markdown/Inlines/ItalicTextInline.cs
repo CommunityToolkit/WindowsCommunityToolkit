@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing italic text.
@@ -56,7 +56,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             // Find the end of the span.  The end character (either '*' or '_') must be the same as
             // the start character.
             var innerStart = start + 1;
-            int innerEnd = Common.IndexOf(markdown, startChar, start + 1, maxEnd);
+            int innerEnd = Helpers.Common.IndexOf(markdown, startChar, start + 1, maxEnd);
             if (innerEnd == -1)
             {
                 return null;
@@ -82,7 +82,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
             // We found something!
             var result = new ItalicTextInline();
-            result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
+            result.Inlines = Helpers.Common.ParseInlineChildren(markdown, innerStart, innerEnd);
             return new InlineParseResult(result, start, innerEnd + 1);
         }
 

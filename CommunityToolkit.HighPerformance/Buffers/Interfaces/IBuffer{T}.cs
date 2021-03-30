@@ -5,7 +5,7 @@
 using System;
 using System.Buffers;
 
-namespace CommunityToolkit.Net.HighPerformance.Buffers
+namespace CommunityToolkit.HighPerformance.Buffers
 {
     /// <summary>
     /// An interface that expands <see cref="IBufferWriter{T}"/> with the ability to also inspect

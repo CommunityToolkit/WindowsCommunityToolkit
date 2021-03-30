@@ -14,7 +14,7 @@
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>CommunityToolkit.Net.Win32.WpfCore.SampleApp.PackagingProject</DisplayName>
+    <DisplayName>CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject</DisplayName>
     <PublisherDisplayName>aleader</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -33,8 +33,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="CommunityToolkit.Net.Win32.WpfCore.SampleApp.PackagingProject"
-        Description="CommunityToolkit.Net.Win32.WpfCore.SampleApp.PackagingProject"
+        DisplayName="CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject"
+        Description="CommunityToolkit.Win32.WpfCore.SampleApp.PackagingProject"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
@@ -47,7 +47,7 @@
         <!--Register COM CLSID LocalServer32 registry key-->
         <com:Extension Category="windows.comServer">
           <com:ComServer>
-            <com:ExeServer Executable="CommunityToolkit.Net.Win32.WpfCore.SampleApp\CommunityToolkit.Net.Win32.WpfCore.SampleApp.exe" Arguments="-ToastActivated" DisplayName="Toast activator">
+            <com:ExeServer Executable="CommunityToolkit.Win32.WpfCore.SampleApp\CommunityToolkit.Win32.WpfCore.SampleApp.exe" Arguments="-ToastActivated" DisplayName="Toast activator">
               <com:Class Id="80cc4528-e348-11ea-87d0-0242ac130003" DisplayName="Toast activator"/>
             </com:ExeServer>
           </com:ComServer>

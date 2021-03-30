@@ -7,10 +7,10 @@ using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using CommunityToolkit.Net.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers;
 #endif
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// A <see langword="struct"/> that can store a readonly reference to a value of a specified type.

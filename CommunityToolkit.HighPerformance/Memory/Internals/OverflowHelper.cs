@@ -7,7 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using static System.Math;
 
-namespace CommunityToolkit.Net.HighPerformance.Memory.Internals
+namespace CommunityToolkit.HighPerformance.Memory.Internals
 {
     /// <summary>
     /// A helper to validate arithmetic operations for <see cref="Memory2D{T}"/> and <see cref="Span2D{T}"/>.

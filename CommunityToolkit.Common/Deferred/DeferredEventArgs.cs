@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 #pragma warning disable CA1001
 
-namespace CommunityToolkit.Net.Deferred
+namespace CommunityToolkit.Common.Deferred
 {
     /// <summary>
     /// <see cref="EventArgs"/> which can retrieve a <see cref="EventDeferral"/> in order to process data asynchronously before an <see cref="EventHandler"/> completes and returns to the calling control.

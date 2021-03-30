@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using CommunityToolkit.Net.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using UITests.App.Pages;
 using Windows.System;

@@ -9,7 +9,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 
-namespace CommunityToolkit.Net.Collections
+namespace CommunityToolkit.Common.Collections
 {
     /// <summary>
     /// A read-only list of groups.

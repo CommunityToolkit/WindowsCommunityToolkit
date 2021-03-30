@@ -11,7 +11,7 @@ using System.Reflection;
 #endif
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.Diagnostics
+namespace CommunityToolkit.Diagnostics
 {
     /// <summary>
     /// Helpers for working with types.

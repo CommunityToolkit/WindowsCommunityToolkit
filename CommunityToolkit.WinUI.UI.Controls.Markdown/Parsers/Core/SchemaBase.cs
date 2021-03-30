@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CommunityToolkit.Net.Parsers
+namespace CommunityToolkit.Common.Parsers
 {
     /// <summary>
     /// Strong typed schema base class.

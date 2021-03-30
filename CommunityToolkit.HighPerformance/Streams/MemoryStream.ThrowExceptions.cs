@@ -5,7 +5,7 @@
 using System;
 using System.IO;
 
-namespace CommunityToolkit.Net.HighPerformance.Streams
+namespace CommunityToolkit.HighPerformance.Streams
 {
     /// <summary>
     /// A factory class to produce <see cref="MemoryStream{TSource}"/> instances.

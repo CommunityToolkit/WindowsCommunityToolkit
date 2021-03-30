@@ -9,17 +9,17 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #if !SPAN_RUNTIME_SUPPORT
-using CommunityToolkit.Net.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers;
 #endif
-using CommunityToolkit.Net.HighPerformance.Memory.Internals;
-using CommunityToolkit.Net.HighPerformance.Memory.Views;
+using CommunityToolkit.HighPerformance.Memory.Internals;
+using CommunityToolkit.HighPerformance.Memory.Views;
 #if !SPAN_RUNTIME_SUPPORT
-using RuntimeHelpers = CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
 #pragma warning disable CS0809, CA1065
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// <see cref="Span2D{T}"/> represents a 2D region of arbitrary memory. Like the <see cref="Span{T}"/> type,
@@ -1118,7 +1118,7 @@ namespace CommunityToolkit.Net.HighPerformance
         [Obsolete("Equals() on Span will always throw an exception. Use == instead.")]
         public override bool Equals(object? obj)
         {
-            throw new NotSupportedException("CommunityToolkit.Net.HighPerformance.Span2D<T>.Equals(object) is not supported");
+            throw new NotSupportedException("CommunityToolkit.HighPerformance.Span2D<T>.Equals(object) is not supported");
         }
 
         /// <inheritdoc cref="Span{T}.GetHashCode()"/>
@@ -1126,13 +1126,13 @@ namespace CommunityToolkit.Net.HighPerformance
         [Obsolete("GetHashCode() on Span will always throw an exception.")]
         public override int GetHashCode()
         {
-            throw new NotSupportedException("CommunityToolkit.Net.HighPerformance.Span2D<T>.GetHashCode() is not supported");
+            throw new NotSupportedException("CommunityToolkit.HighPerformance.Span2D<T>.GetHashCode() is not supported");
         }
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"CommunityToolkit.Net.HighPerformance.Span2D<{typeof(T)}>[{Height}, {this.width}]";
+            return $"CommunityToolkit.HighPerformance.Span2D<{typeof(T)}>[{Height}, {this.width}]";
         }
 
         /// <summary>

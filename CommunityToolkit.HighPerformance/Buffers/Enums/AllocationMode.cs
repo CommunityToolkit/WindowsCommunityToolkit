@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace CommunityToolkit.Net.HighPerformance.Buffers
+namespace CommunityToolkit.HighPerformance.Buffers
 {
     /// <summary>
     /// An <see langword="enum"/> that indicates a mode to use when allocating buffers.

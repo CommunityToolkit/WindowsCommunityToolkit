@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
-using CommunityToolkit.Net.Parsers.Markdown.Render;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Render;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;

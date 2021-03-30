@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Net.HighPerformance.Streams
+namespace CommunityToolkit.HighPerformance.Streams
 {
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping a <see cref="Memory{T}"/> or <see cref="ReadOnlyMemory{T}"/> instance.

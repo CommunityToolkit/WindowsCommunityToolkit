@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Helpers
+namespace CommunityToolkit.Common.Parsers.Markdown.Helpers
 {
     /// <summary>
     /// Represents the result of parsing an inline element.

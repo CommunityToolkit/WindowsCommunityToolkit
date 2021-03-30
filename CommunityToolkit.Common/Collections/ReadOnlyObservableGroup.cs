@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace CommunityToolkit.Net.Collections
+namespace CommunityToolkit.Common.Collections
 {
     /// <summary>
     /// A read-only observable group. It associates a <see cref="Key"/> to a <see cref="ReadOnlyObservableCollection{T}"/>.

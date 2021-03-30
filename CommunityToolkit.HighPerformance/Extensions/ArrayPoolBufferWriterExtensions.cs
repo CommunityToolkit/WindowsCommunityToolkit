@@ -5,10 +5,10 @@
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Net.HighPerformance.Buffers;
-using CommunityToolkit.Net.HighPerformance.Streams;
+using CommunityToolkit.HighPerformance.Buffers;
+using CommunityToolkit.HighPerformance.Streams;
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ArrayPoolBufferWriter{T}"/> type.

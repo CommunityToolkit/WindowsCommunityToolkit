@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Net
+namespace CommunityToolkit.Common
 {
     /// <summary>
     /// Helpers for working with tasks.

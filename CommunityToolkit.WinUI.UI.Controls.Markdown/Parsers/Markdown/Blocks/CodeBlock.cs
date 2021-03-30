@@ -4,9 +4,8 @@
 
 using System;
 using System.Text;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a block of text that is displayed in a fixed-width font.  Inline elements and
@@ -57,7 +56,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
                 Or the code block starts and ends with ```
             */
 
-            foreach (var lineInfo in Common.ParseLines(markdown, start, maxEnd, quoteDepth))
+            foreach (var lineInfo in Helpers.Common.ParseLines(markdown, start, maxEnd, quoteDepth))
             {
                 int pos = lineInfo.StartOfLine;
                 if (pos < maxEnd && markdown[pos] == '`')

@@ -6,9 +6,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Net.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers;
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="HashCode"/> type.

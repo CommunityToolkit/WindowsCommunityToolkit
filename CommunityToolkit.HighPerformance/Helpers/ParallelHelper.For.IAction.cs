@@ -6,7 +6,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Net.HighPerformance.Helpers
+namespace CommunityToolkit.HighPerformance.Helpers
 {
     /// <summary>
     /// Helpers to work with parallel code in a highly optimized manner.

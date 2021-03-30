@@ -14,7 +14,7 @@ using CommunityToolkit.WinUI.Notifications;
 using Windows.Services.Maps;
 using Windows.UI.Notifications;
 
-namespace CommunityToolkit.Net.Win32.WpfCore.SampleApp
+namespace CommunityToolkit.Win32.WpfCore.SampleApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

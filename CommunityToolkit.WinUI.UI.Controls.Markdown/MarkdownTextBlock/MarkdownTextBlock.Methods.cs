@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ColorCode;
-using CommunityToolkit.Net.Parsers.Markdown;
+using CommunityToolkit.Common.Parsers.Markdown;
 using CommunityToolkit.WinUI.UI.Controls.Markdown.Render;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

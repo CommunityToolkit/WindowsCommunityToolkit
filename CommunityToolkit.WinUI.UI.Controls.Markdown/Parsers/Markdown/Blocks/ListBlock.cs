@@ -8,12 +8,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
 
 [assembly: InternalsVisibleTo("UnitTests.UWP, PublicKey=002400000480000094000000060200000024000052534131000400000100010041753af735ae6140c9508567666c51c6ab929806adb0d210694b30ab142a060237bc741f9682e7d8d4310364b4bba4ee89cc9d3d5ce7e5583587e8ea44dca09977996582875e71fb54fa7b170798d853d5d8010b07219633bdb761d01ac924da44576d6180cdceae537973982bb461c541541d58417a3794e34f45e6f2d129e2")]
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a list, with each list item proceeded by either a number or a bullet.
@@ -57,7 +56,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
             ListItemBlock currentListItem = null;
             actualEnd = start;
 
-            foreach (var lineInfo in Common.ParseLines(markdown, start, maxEnd, quoteDepth))
+            foreach (var lineInfo in Helpers.Common.ParseLines(markdown, start, maxEnd, quoteDepth))
             {
                 // Is this line blank?
                 if (lineInfo.IsLineBlank)
@@ -349,7 +348,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
                         {
                             // Don't allow blocks.
                             var paragraph = new ParagraphBlock();
-                            paragraph.Inlines = Common.ParseInlineChildren(blockText, 0, blockText.Length);
+                            paragraph.Inlines = Helpers.Common.ParseInlineChildren(blockText, 0, blockText.Length);
                             newBlockList.Add(paragraph);
                         }
                     }

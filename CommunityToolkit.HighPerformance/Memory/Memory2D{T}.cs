@@ -10,16 +10,16 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #if SPAN_RUNTIME_SUPPORT
-using CommunityToolkit.Net.HighPerformance.Buffers.Internals;
+using CommunityToolkit.HighPerformance.Buffers.Internals;
 #endif
-using CommunityToolkit.Net.HighPerformance.Helpers;
-using CommunityToolkit.Net.HighPerformance.Memory.Internals;
-using CommunityToolkit.Net.HighPerformance.Memory.Views;
-using static CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using CommunityToolkit.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Memory.Internals;
+using CommunityToolkit.HighPerformance.Memory.Views;
+using static CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 #pragma warning disable CA2231
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// <see cref="Memory2D{T}"/> represents a 2D region of arbitrary memory. It is to <see cref="Span2D{T}"/>
@@ -894,7 +894,7 @@ namespace CommunityToolkit.Net.HighPerformance
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"CommunityToolkit.Net.HighPerformance.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
+            return $"CommunityToolkit.HighPerformance.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
         }
 
         /// <summary>

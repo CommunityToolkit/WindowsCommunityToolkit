@@ -166,13 +166,13 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommunityToolkit.Net.Diagnostics\CommunityToolkit.Net.Diagnostics.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj">
       <Project>{76f89522-ca28-458d-801d-947ab033a758}</Project>
-      <Name>CommunityToolkit.Net.Diagnostics</Name>
+      <Name>CommunityToolkit.Diagnostics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CommunityToolkit.Net.Mvvm\CommunityToolkit.Net.Mvvm.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj">
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
-      <Name>CommunityToolkit.Net.Mvvm</Name>
+      <Name>CommunityToolkit.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
@@ -218,9 +218,9 @@
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>CommunityToolkit.WinUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CommunityToolkit.Net\CommunityToolkit.Net.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>CommunityToolkit.Net</Name>
+      <Name>CommunityToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

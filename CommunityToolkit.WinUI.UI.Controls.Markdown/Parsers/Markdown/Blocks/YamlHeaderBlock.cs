@@ -4,9 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Yaml Header. use for blog.
@@ -56,7 +55,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
                 return null;
             }
 
-            int startUnderlineIndex = Common.FindNextSingleNewLine(markdown, lineStart, end, out int startOfNextLine);
+            int startUnderlineIndex = Helpers.Common.FindNextSingleNewLine(markdown, lineStart, end, out int startOfNextLine);
             if (startUnderlineIndex - lineStart != 3)
             {
                 return null;
@@ -70,7 +69,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
             List<string> elements = new List<string>();
             while (pos < end)
             {
-                int nextUnderLineIndex = Common.FindNextSingleNewLine(markdown, pos, end, out startOfNextLine);
+                int nextUnderLineIndex = Helpers.Common.FindNextSingleNewLine(markdown, pos, end, out startOfNextLine);
                 bool haveSeparator = markdown.Substring(pos, nextUnderLineIndex - pos).Contains(": ");
                 if (haveSeparator)
                 {

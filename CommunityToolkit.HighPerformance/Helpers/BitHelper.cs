@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.X86;
 #endif
 
-namespace CommunityToolkit.Net.HighPerformance.Helpers
+namespace CommunityToolkit.HighPerformance.Helpers
 {
     /// <summary>
     /// Helpers to perform bit operations on numeric types.

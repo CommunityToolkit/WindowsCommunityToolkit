@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Net.HighPerformance.Streams
+namespace CommunityToolkit.HighPerformance.Streams
 {
     /// <summary>
     /// A <see cref="Stream"/> implementation wrapping an <see cref="IBufferWriter{T}"/> instance.

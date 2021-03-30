@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace CommunityToolkit.Net
+namespace CommunityToolkit.Common
 {
     /// <summary>
     /// Helpers for working with strings and string representations.

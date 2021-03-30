@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace CommunityToolkit.Net.HighPerformance.Streams
+namespace CommunityToolkit.HighPerformance.Streams
 {
     /// <summary>
     /// A factory class to produce <see cref="MemoryStream{TSource}"/> instances.

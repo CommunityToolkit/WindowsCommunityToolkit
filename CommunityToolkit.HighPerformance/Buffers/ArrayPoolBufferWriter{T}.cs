@@ -8,10 +8,10 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CommunityToolkit.Net.HighPerformance.Buffers.Views;
-using CommunityToolkit.Net.HighPerformance.Helpers.Internals;
+using CommunityToolkit.HighPerformance.Buffers.Views;
+using CommunityToolkit.HighPerformance.Helpers.Internals;
 
-namespace CommunityToolkit.Net.HighPerformance.Buffers
+namespace CommunityToolkit.HighPerformance.Buffers
 {
     /// <summary>
     /// Represents a heap-based, array-backed output sink into which <typeparamref name="T"/> data can be written.
@@ -327,7 +327,7 @@ namespace CommunityToolkit.Net.HighPerformance.Buffers
             }
 
             // Same representation used in Span<T>
-            return $"CommunityToolkit.Net.HighPerformance.Buffers.ArrayPoolBufferWriter<{typeof(T)}>[{this.index}]";
+            return $"CommunityToolkit.HighPerformance.Buffers.ArrayPoolBufferWriter<{typeof(T)}>[{this.index}]";
         }
 
         /// <summary>

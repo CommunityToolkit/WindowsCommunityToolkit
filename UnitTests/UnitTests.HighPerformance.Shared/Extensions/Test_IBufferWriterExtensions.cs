@@ -8,8 +8,8 @@ using System.Buffers;
 #endif
 using System.IO;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Net.HighPerformance;
-using CommunityToolkit.Net.HighPerformance.Buffers;
+using CommunityToolkit.HighPerformance;
+using CommunityToolkit.HighPerformance.Buffers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Extensions

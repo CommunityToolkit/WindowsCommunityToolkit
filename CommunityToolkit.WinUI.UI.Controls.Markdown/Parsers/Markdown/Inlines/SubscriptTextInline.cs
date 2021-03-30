@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing subscript text.
@@ -59,7 +59,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             }
 
             int innerStart = start + 5;
-            int innerEnd = Common.IndexOf(markdown, "</sub>", innerStart, maxEnd);
+            int innerEnd = Helpers.Common.IndexOf(markdown, "</sub>", innerStart, maxEnd);
 
             // if don't have the end character or no character between start and end
             if (innerEnd == -1 || innerEnd == innerStart)
@@ -75,7 +75,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
             // We found something!
             var result = new SubscriptTextInline();
-            result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
+            result.Inlines = Helpers.Common.ParseInlineChildren(markdown, innerStart, innerEnd);
             return new InlineParseResult(result, start, innerEnd + 6);
         }
 

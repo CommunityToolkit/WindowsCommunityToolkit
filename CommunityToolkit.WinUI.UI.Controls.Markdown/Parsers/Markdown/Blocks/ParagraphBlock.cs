@@ -4,10 +4,9 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
+namespace CommunityToolkit.Common.Parsers.Markdown.Blocks
 {
     /// <summary>
     /// Represents a block of text that is displayed as a single paragraph.
@@ -36,7 +35,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Blocks
         internal static ParagraphBlock Parse(string markdown)
         {
             var result = new ParagraphBlock();
-            result.Inlines = Common.ParseInlineChildren(markdown, 0, markdown.Length);
+            result.Inlines = Helpers.Common.ParseInlineChildren(markdown, 0, markdown.Length);
             return result;
         }
 

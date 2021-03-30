@@ -4,10 +4,10 @@
 
 using System.Collections.Generic;
 using System.Text;
-using CommunityToolkit.Net.Parsers.Markdown.Blocks;
-using CommunityToolkit.Net.Parsers.Markdown.Inlines;
+using CommunityToolkit.Common.Parsers.Markdown.Blocks;
+using CommunityToolkit.Common.Parsers.Markdown.Inlines;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Render
+namespace CommunityToolkit.Common.Parsers.Markdown.Render
 {
     /// <summary>
     /// A base renderer for Rendering Markdown into Controls.

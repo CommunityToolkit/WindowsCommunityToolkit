@@ -178,13 +178,13 @@
     <None Include="UITests.App.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommunityToolkit.Net.HighPerformance\CommunityToolkit.Net.HighPerformance.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">
       <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>CommunityToolkit.Net.HighPerformance</Name>
+      <Name>CommunityToolkit.HighPerformance</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CommunityToolkit.Net.Mvvm\CommunityToolkit.Net.Mvvm.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj">
       <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
-      <Name>CommunityToolkit.Net.Mvvm</Name>
+      <Name>CommunityToolkit.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
@@ -234,9 +234,9 @@
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>CommunityToolkit.WinUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CommunityToolkit.Net\CommunityToolkit.Net.csproj">
+    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>CommunityToolkit.Net</Name>
+      <Name>CommunityToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

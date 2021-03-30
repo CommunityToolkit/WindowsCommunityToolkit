@@ -5,7 +5,7 @@
 using System.Windows;
 using CommunityToolkit.WinUI.Notifications;
 
-namespace CommunityToolkit.Net.Win32.WpfCore.SampleApp
+namespace CommunityToolkit.Win32.WpfCore.SampleApp
 {
     /// <summary>
     /// Interaction logic for App.xaml

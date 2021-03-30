@@ -7,10 +7,10 @@
     <ToolkitPackages>
       UWPBaseline;
       UWPBaselineWinUI;
-      CommunityToolkit.Net;
-      CommunityToolkit.Net.Diagnostics;
-      CommunityToolkit.Net.HighPerformance;
-      CommunityToolkit.Net.Mvvm;
+      CommunityToolkit.Common;
+      CommunityToolkit.Diagnostics;
+      CommunityToolkit.HighPerformance;
+      CommunityToolkit.Mvvm;
       CommunityToolkit.WinUI;
       CommunityToolkit.WinUI.Connectivity;
       CommunityToolkit.WinUI.DeveloperTools;

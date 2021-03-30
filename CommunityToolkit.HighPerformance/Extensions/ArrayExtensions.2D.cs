@@ -7,14 +7,14 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
-using CommunityToolkit.Net.HighPerformance.Buffers.Internals;
+using CommunityToolkit.HighPerformance.Buffers.Internals;
 #endif
-using CommunityToolkit.Net.HighPerformance.Enumerables;
-using CommunityToolkit.Net.HighPerformance.Helpers;
-using CommunityToolkit.Net.HighPerformance.Helpers.Internals;
-using RuntimeHelpers = CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using CommunityToolkit.HighPerformance.Enumerables;
+using CommunityToolkit.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers.Internals;
+using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.

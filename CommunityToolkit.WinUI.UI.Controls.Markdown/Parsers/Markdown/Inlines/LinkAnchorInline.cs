@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span that contains a reference for links to point to.
@@ -61,11 +61,11 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
             // Find the end of the span.  The end sequence ('-->')
             var innerStart = start + 2;
-            int innerEnd = Common.IndexOf(markdown, "</a>", innerStart, maxEnd);
+            int innerEnd = Helpers.Common.IndexOf(markdown, "</a>", innerStart, maxEnd);
             int trueEnd = innerEnd + 4;
             if (innerEnd == -1)
             {
-                innerEnd = Common.IndexOf(markdown, "/>", innerStart, maxEnd);
+                innerEnd = Helpers.Common.IndexOf(markdown, "/>", innerStart, maxEnd);
                 trueEnd = innerEnd + 2;
                 if (innerEnd == -1)
                 {
@@ -74,7 +74,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
             }
 
             // This link Reference wasn't closed properly if the next link starts before a close.
-            var nextLink = Common.IndexOf(markdown, "<a", innerStart, maxEnd);
+            var nextLink = Helpers.Common.IndexOf(markdown, "<a", innerStart, maxEnd);
             if (nextLink > -1 && nextLink < innerEnd)
             {
                 return null;

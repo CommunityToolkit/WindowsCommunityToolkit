@@ -4,7 +4,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.HighPerformance.Helpers.Internals
+namespace CommunityToolkit.HighPerformance.Helpers.Internals
 {
     /// <summary>
     /// Helpers to process sequences of values by reference with a given step.

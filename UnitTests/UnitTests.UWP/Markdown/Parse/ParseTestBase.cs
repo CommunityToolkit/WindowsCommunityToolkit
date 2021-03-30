@@ -4,8 +4,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
-using CommunityToolkit.Net.Parsers.Markdown;
-using CommunityToolkit.Net.Parsers.Markdown.Blocks;
+using CommunityToolkit.Common.Parsers.Markdown;
+using CommunityToolkit.Common.Parsers.Markdown.Blocks;
 
 namespace UnitTests.Markdown.Parse
 {

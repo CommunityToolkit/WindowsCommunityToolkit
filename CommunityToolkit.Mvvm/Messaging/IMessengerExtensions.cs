@@ -8,9 +8,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Net.Mvvm.Messaging.Internals;
+using CommunityToolkit.Common.Mvvm.Messaging.Internals;
 
-namespace CommunityToolkit.Net.Mvvm.Messaging
+namespace CommunityToolkit.Common.Mvvm.Messaging
 {
     /// <summary>
     /// Extensions for the <see cref="IMessenger"/> type.
@@ -132,7 +132,7 @@ namespace CommunityToolkit.Net.Mvvm.Messaging
             }
 
             // Get or compute the registration methods for the current recipient type.
-            // As in CommunityToolkit.Net.Diagnostics.TypeExtensions.ToTypeString, we use a lambda
+            // As in CommunityToolkit.Diagnostics.TypeExtensions.ToTypeString, we use a lambda
             // expression instead of a method group expression to leverage the statically initialized
             // delegate and avoid repeated allocations for each invocation of this method.
             // For more info on this, see the related issue at https://github.com/dotnet/roslyn/issues/5835.

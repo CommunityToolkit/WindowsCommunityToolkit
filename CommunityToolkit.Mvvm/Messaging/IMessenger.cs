@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace CommunityToolkit.Net.Mvvm.Messaging
+namespace CommunityToolkit.Common.Mvvm.Messaging
 {
     /// <summary>
     /// A <see langword="delegate"/> used to represent actions to invoke when a message is received.

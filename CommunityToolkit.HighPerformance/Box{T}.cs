@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.HighPerformance
+namespace CommunityToolkit.HighPerformance
 {
     /// <summary>
     /// A <see langword="class"/> that represents a boxed <typeparamref name="T"/> value on the managed heap.
@@ -61,7 +61,7 @@ namespace CommunityToolkit.Net.HighPerformance
         /// <exception cref="InvalidOperationException">Always thrown when this constructor is used (eg. from reflection).</exception>
         private Box()
         {
-            throw new InvalidOperationException("The CommunityToolkit.Net.HighPerformance.Box<T> constructor should never be used");
+            throw new InvalidOperationException("The CommunityToolkit.HighPerformance.Box<T> constructor should never be used");
         }
 
         /// <summary>

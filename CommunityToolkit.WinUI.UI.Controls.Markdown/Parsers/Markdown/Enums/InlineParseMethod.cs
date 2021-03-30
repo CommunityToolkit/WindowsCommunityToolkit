@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CommunityToolkit.Net.Parsers.Markdown
+namespace CommunityToolkit.Common.Parsers.Markdown
 {
     [Obsolete(Constants.ParserObsoleteMsg)]
     internal enum InlineParseMethod

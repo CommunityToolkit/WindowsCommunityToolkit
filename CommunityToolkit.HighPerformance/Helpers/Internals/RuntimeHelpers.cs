@@ -14,7 +14,7 @@ using System.Reflection;
 #endif
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Net.HighPerformance.Helpers.Internals
+namespace CommunityToolkit.HighPerformance.Helpers.Internals
 {
     /// <summary>
     /// A helper class that with utility methods for dealing with references, and other low-level details.

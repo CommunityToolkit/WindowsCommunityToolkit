@@ -5,9 +5,9 @@
 using System;
 using System.Buffers;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Net.HighPerformance.Buffers;
+using CommunityToolkit.HighPerformance.Buffers;
 
-namespace CommunityToolkit.Net.HighPerformance.Streams
+namespace CommunityToolkit.HighPerformance.Streams
 {
     /// <summary>
     /// An <see cref="IBufferWriter{T}"/> implementation wrapping an <see cref="IBufferWriter{T}"/> instance.

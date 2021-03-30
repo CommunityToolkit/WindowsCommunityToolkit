@@ -14,7 +14,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
     /// A sample implementation of the <see cref="Collections.IIncrementalSource{TSource}"/> interface.
     /// </summary>
     /// <seealso cref="Net.Collections.IIncrementalSource{TSource}"/>
-    public class PeopleSource : Net.Collections.IIncrementalSource<Person>
+    public class PeopleSource : CommunityToolkit.Common.Collections.IIncrementalSource<Person>
     {
         private readonly List<Person> _people;
 

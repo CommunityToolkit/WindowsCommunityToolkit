@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Net.Parsers.Core;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Core;
+using CommunityToolkit.Common.Parsers.Markdown.Helpers;
 
-namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
+namespace CommunityToolkit.Common.Parsers.Markdown.Inlines
 {
     /// <summary>
     /// Represents a span containing emoji symbol.
@@ -47,7 +47,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown.Inlines
 
             // Find the end of the span.
             var innerStart = start + 1;
-            int innerEnd = Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
+            int innerEnd = Helpers.Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
             if (innerEnd == -1)
             {
                 return null;

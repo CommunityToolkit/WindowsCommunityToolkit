@@ -4,7 +4,7 @@
 
 using System;
 using System.Drawing;
-using CommunityToolkit.Net.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UnitTests.HighPerformance.Shared.Buffers.Internals;
 

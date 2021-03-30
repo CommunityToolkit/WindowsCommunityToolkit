@@ -6,10 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommunityToolkit.Net.Parsers.Markdown.Blocks;
-using CommunityToolkit.Net.Parsers.Markdown.Helpers;
+using CommunityToolkit.Common.Parsers.Markdown.Blocks;
 
-namespace CommunityToolkit.Net.Parsers.Markdown
+namespace CommunityToolkit.Common.Parsers.Markdown
 {
     /// <summary>
     /// Represents a Markdown Document. <para/>
@@ -170,7 +169,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown
                             lastIndentation = lastLine.Count(c => c == '>');
                         }
 
-                        var currentEndOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out _);
+                        var currentEndOfLine = Helpers.Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out _);
                         var currentLine = markdown.Substring(realStartOfLine, currentEndOfLine - realStartOfLine);
                         var currentIndentation = currentLine.Count(c => c == '>');
                         var firstChar = markdown[realStartOfLine];
@@ -204,7 +203,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown
                 }
 
                 // Find the end of the current line.
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
+                int endOfLine = Helpers.Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
                 if (nonSpaceChar == '\0')
                 {
@@ -233,7 +232,7 @@ namespace CommunityToolkit.Net.Parsers.Markdown
                         {
                             realStartOfLine = startOfLine;
                             endOfLine = startOfLine + 3;
-                            startOfNextLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out startOfNextLine);
+                            startOfNextLine = Helpers.Common.FindNextSingleNewLine(markdown, startOfLine, end, out startOfNextLine);
 
                             paragraphText.Clear();
                         }

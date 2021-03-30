@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.Net.Collections;
+using CommunityToolkit.Common.Collections;
 using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 

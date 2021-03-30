@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CommunityToolkit.Net.Diagnostics\CommunityToolkit.Net.Diagnostics.csproj" />
-    <ProjectReference Include="..\..\CommunityToolkit.Net.Mvvm\CommunityToolkit.Net.Mvvm.csproj" />
-    <ProjectReference Include="..\..\CommunityToolkit.Net\CommunityToolkit.Net.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
   </ItemGroup>
 
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />

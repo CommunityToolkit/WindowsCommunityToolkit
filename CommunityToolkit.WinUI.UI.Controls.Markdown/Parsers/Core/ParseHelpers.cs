@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CommunityToolkit.Net.Parsers.Core
+namespace CommunityToolkit.Common.Parsers.Core
 {
     /// <summary>
     /// This class offers helpers for Parsing.

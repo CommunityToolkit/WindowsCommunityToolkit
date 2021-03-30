@@ -25,7 +25,7 @@
       <Version>10.1901.28001</Version>
     </PackageReference>-->
     <!-- TODO Reintroduce graph controls
-    <PackageReference Include="CommunityToolkit.Net.Graph.Controls">
+    <PackageReference Include="CommunityToolkit.Common.Graph.Controls">
       <Version>8.0.0-preview4</Version>
     </PackageReference>
     -->
@@ -126,9 +126,9 @@
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
       <Name>CommunityToolkit.WinUI.UI.Media</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CommunityToolkit.Net\CommunityToolkit.Net.csproj">
+    <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>CommunityToolkit.Net</Name>
+      <Name>CommunityToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>

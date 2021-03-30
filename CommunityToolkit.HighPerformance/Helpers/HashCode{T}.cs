@@ -8,14 +8,14 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using CommunityToolkit.Net.HighPerformance.Helpers.Internals;
+using CommunityToolkit.HighPerformance.Helpers.Internals;
 #if SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = System.Runtime.CompilerServices.RuntimeHelpers;
 #else
-using RuntimeHelpers = CommunityToolkit.Net.HighPerformance.Helpers.Internals.RuntimeHelpers;
+using RuntimeHelpers = CommunityToolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
-namespace CommunityToolkit.Net.HighPerformance.Helpers
+namespace CommunityToolkit.HighPerformance.Helpers
 {
     /// <summary>
     /// Combines the hash code of sequences of <typeparamref name="T"/> values into a single hash code.

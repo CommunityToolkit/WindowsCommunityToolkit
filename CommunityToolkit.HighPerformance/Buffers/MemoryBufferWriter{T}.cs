@@ -7,9 +7,9 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Net.HighPerformance.Buffers.Views;
+using CommunityToolkit.HighPerformance.Buffers.Views;
 
-namespace CommunityToolkit.Net.HighPerformance.Buffers
+namespace CommunityToolkit.HighPerformance.Buffers
 {
     /// <summary>
     /// Represents an output sink into which <typeparamref name="T"/> data can be written, backed by a <see cref="Memory{T}"/> instance.
@@ -154,7 +154,7 @@ namespace CommunityToolkit.Net.HighPerformance.Buffers
             }
 
             // Same representation used in Span<T>
-            return $"CommunityToolkit.Net.HighPerformance.Buffers.MemoryBufferWriter<{typeof(T)}>[{this.index}]";
+            return $"CommunityToolkit.HighPerformance.Buffers.MemoryBufferWriter<{typeof(T)}>[{this.index}]";
         }
 
         /// <summary>

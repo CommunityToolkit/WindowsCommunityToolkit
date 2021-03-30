@@ -4,8 +4,8 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using CommunityToolkit.Net.HighPerformance;
-using CommunityToolkit.Net.HighPerformance.Helpers;
+using CommunityToolkit.HighPerformance;
+using CommunityToolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Helpers
