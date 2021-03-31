@@ -711,37 +711,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 switch (interactionInfo.DragMode)
                 {
                     case DragMode.PointerPressed:
-                    {
-                        // Completed a click or tap without dragging, so raise the DataGrid.Sorting event.
-                        InvokeProcessSort();
-                        break;
-                    }
-
-                    case DragMode.Reorder:
-                    {
-                        // Find header hovered over
-                        int targetIndex = this.GetReorderingTargetDisplayIndex(pointerPositionHeaders);
-
-                        if ((!this.OwningColumn.IsFrozen && targetIndex >= this.OwningGrid.FrozenColumnCount) ||
-                            (this.OwningColumn.IsFrozen && targetIndex < this.OwningGrid.FrozenColumnCount))
                         {
-                            this.OwningColumn.DisplayIndex = targetIndex;
-
-                            DataGridColumnEventArgs ea = new DataGridColumnEventArgs(this.OwningColumn);
-                            this.OwningGrid.OnColumnReordered(ea);
+                            // Completed a click or tap without dragging, so raise the DataGrid.Sorting event.
+                            InvokeProcessSort();
+                            break;
                         }
 
-                        DragCompletedEventArgs dragCompletedEventArgs = new DragCompletedEventArgs(pointerPosition.X - interactionInfo.DragStart.Value.X, pointerPosition.Y - interactionInfo.DragStart.Value.Y, false);
-                        this.OwningGrid.OnColumnHeaderDragCompleted(dragCompletedEventArgs);
-                        break;
-                    }
+                    case DragMode.Reorder:
+                        {
+                            // Find header hovered over
+                            int targetIndex = this.GetReorderingTargetDisplayIndex(pointerPositionHeaders);
+
+                            if ((!this.OwningColumn.IsFrozen && targetIndex >= this.OwningGrid.FrozenColumnCount) ||
+                                (this.OwningColumn.IsFrozen && targetIndex < this.OwningGrid.FrozenColumnCount))
+                            {
+                                this.OwningColumn.DisplayIndex = targetIndex;
+
+                                DataGridColumnEventArgs ea = new DataGridColumnEventArgs(this.OwningColumn);
+                                this.OwningGrid.OnColumnReordered(ea);
+                            }
+
+                            DragCompletedEventArgs dragCompletedEventArgs = new DragCompletedEventArgs(pointerPosition.X - interactionInfo.DragStart.Value.X, pointerPosition.Y - interactionInfo.DragStart.Value.Y, false);
+                            this.OwningGrid.OnColumnHeaderDragCompleted(dragCompletedEventArgs);
+                            break;
+                        }
 
                     case DragMode.Drag:
-                    {
-                        DragCompletedEventArgs dragCompletedEventArgs = new DragCompletedEventArgs(0, 0, false);
-                        this.OwningGrid.OnColumnHeaderDragCompleted(dragCompletedEventArgs);
-                        break;
-                    }
+                        {
+                            DragCompletedEventArgs dragCompletedEventArgs = new DragCompletedEventArgs(0, 0, false);
+                            this.OwningGrid.OnColumnHeaderDragCompleted(dragCompletedEventArgs);
+                            break;
+                        }
                 }
 
                 SetResizeCursor(e.Pointer, pointerPosition);

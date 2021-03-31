@@ -318,9 +318,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                     return ActiveComparer.Compare(o1, o2);
                 }
 #endif
-                int i1 = InternalList.IndexOf(o1);
-                int i2 = InternalList.IndexOf(o2);
-                return i1 - i2;
+            int i1 = InternalList.IndexOf(o1);
+            int i2 = InternalList.IndexOf(o2);
+            return i1 - i2;
 #if FEATURE_ICOLLECTIONVIEW_GROUP
             }
             else
@@ -1701,7 +1701,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             if (!IsGrouping)
             {
 #endif
-                return InternalList.Contains(item);
+            return InternalList.Contains(item);
 #if FEATURE_ICOLLECTIONVIEW_GROUP
             }
             else
@@ -1724,7 +1724,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 #if FEATURE_IEDITABLECOLLECTIONVIEW
                 return new PlaceholderAwareEnumerator(this, InternalList.GetEnumerator(), _newItem);
 #else
-                return new PlaceholderAwareEnumerator(this, InternalList.GetEnumerator(), NoNewItem);
+            return new PlaceholderAwareEnumerator(this, InternalList.GetEnumerator(), NoNewItem);
 #endif
 #if FEATURE_ICOLLECTIONVIEW_GROUP
             }
