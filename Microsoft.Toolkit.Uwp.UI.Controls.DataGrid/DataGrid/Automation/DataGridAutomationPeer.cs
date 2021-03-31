@@ -238,14 +238,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 case PatternInterface.Table:
                     return this;
                 case PatternInterface.Scroll:
+                    if (this.HorizontallyScrollable || this.VerticallyScrollable)
                     {
-                        if (this.HorizontallyScrollable || this.VerticallyScrollable)
-                        {
-                            return this;
-                        }
-
-                        break;
+                        return this;
                     }
+
+                    break;
             }
 
             return base.GetPatternCore(patternInterface);
@@ -814,38 +812,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
             switch (editingUnit)
             {
                 case DataGridEditingUnit.Cell:
+                {
+                    DataGridCell cell = row.Cells[column.Index];
+                    AutomationPeer peer = FromElement(cell);
+                    if (peer != null)
                     {
-                        DataGridCell cell = row.Cells[column.Index];
-                        AutomationPeer peer = FromElement(cell);
-                        if (peer != null)
-                        {
-                            peer.InvalidatePeer();
-                        }
-                        else
-                        {
-                            peer = CreatePeerForElement(cell);
-                        }
+                        peer.InvalidatePeer();
+                    }
+                    else
+                    {
+                        peer = CreatePeerForElement(cell);
+                    }
 
-                        if (peer != null)
-                        {
+                    if (peer != null)
+                    {
 #if DEBUG_AUTOMATION
                         Debug.WriteLine(peer.ToString() + ".RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked)");
 #endif
-                            peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
-                        }
-
-                        break;
+                        peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
                     }
 
+                    break;
+                }
+
                 case DataGridEditingUnit.Row:
-                    {
-                        DataGridItemAutomationPeer peer = GetOrCreateItemPeer(row.DataContext);
+                {
+                    DataGridItemAutomationPeer peer = GetOrCreateItemPeer(row.DataContext);
 #if DEBUG_AUTOMATION
                     Debug.WriteLine("DataGridItemAutomationPeer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked)");
 #endif
-                        peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
-                        break;
-                    }
+                    peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
+                    break;
+                }
             }
         }
 

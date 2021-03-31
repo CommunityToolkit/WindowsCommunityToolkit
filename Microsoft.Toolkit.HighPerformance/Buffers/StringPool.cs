@@ -667,7 +667,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     goto Fallback;
                 }
 
-            Downheap:
+                Downheap:
 
                 // Assign a new timestamp to the target heap node. We use a
                 // local incremental timestamp instead of using the system timer
@@ -740,7 +740,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     root = ref Unsafe.Add(ref heapEntriesRef, (nint)(uint)currentIndex);
                 }
 
-            Fallback:
+                Fallback:
 
                 UpdateAllTimestamps();
 
