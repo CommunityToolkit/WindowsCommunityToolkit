@@ -767,14 +767,14 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="destination">The destination <see cref="Span2D{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="Span2D{T}"/> instance.
+        /// Thrown when <paramref name="destination" /> does not have the same shape as the source <see cref="Span2D{T}"/> instance.
         /// </exception>
         public void CopyTo(Span2D<T> destination)
         {
             if (destination.Height != Height ||
                 destination.width != this.width)
             {
-                ThrowHelper.ThrowArgumentException();
+                ThrowHelper.ThrowArgumentExceptionForDestinationWithNotSameShape();
             }
 
             if (IsEmpty)

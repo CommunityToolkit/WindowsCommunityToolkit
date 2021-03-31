@@ -11,7 +11,7 @@
            TargetType="local:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransparentBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlTransientBorderBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
