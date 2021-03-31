@@ -93,10 +93,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             {
                 HsvColor hsvColor = rgbColor.ToHsv();
 
-                double colorHue        = hsvColor.H;
+                double colorHue = hsvColor.H;
                 double colorSaturation = hsvColor.S;
-                double colorValue      = hsvColor.V;
-                double colorAlpha      = hsvColor.A;
+                double colorValue = hsvColor.V;
+                double colorAlpha = hsvColor.A;
 
                 // Use the HSV representation as it's more perceptual.
                 // Only the value is changed by a fixed percentage so the algorithm is reproducible.
@@ -108,10 +108,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
                 }
 
                 return Uwp.Helpers.ColorHelper.FromHsv(
-                    Math.Clamp(colorHue,        0.0, 360.0),
+                    Math.Clamp(colorHue, 0.0, 360.0),
                     Math.Clamp(colorSaturation, 0.0, 1.0),
-                    Math.Clamp(colorValue,      0.0, 1.0),
-                    Math.Clamp(colorAlpha,      0.0, 1.0));
+                    Math.Clamp(colorValue, 0.0, 1.0),
+                    Math.Clamp(colorAlpha, 0.0, 1.0));
             }
         }
 
