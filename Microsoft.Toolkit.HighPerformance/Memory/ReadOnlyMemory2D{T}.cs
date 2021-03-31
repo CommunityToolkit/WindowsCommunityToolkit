@@ -832,7 +832,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 return true;
             }
 
-        Failure:
+            Failure:
 
             memory = default;
 

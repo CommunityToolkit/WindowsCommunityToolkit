@@ -329,11 +329,11 @@ namespace UnitTests.UI.Controls
             CollectionAssert.AreEqual(new object[] { "0", 1, "2", 3, "4", 5 }, ioc, string.Format("Collection not as expected, received {0}", ioc.ToArray().ToArrayString()));
 
             Assert.AreEqual("0", ioc[0], "0 index not as expected");
-            Assert.AreEqual(1, ioc[1], "1 index not as expected");
+            Assert.AreEqual( 1,  ioc[1], "1 index not as expected");
             Assert.AreEqual("2", ioc[2], "2 index not as expected");
-            Assert.AreEqual(3, ioc[3], "3 index not as expected");
+            Assert.AreEqual( 3 , ioc[3], "3 index not as expected");
             Assert.AreEqual("4", ioc[4], "4 index not as expected");
-            Assert.AreEqual(5, ioc[5], "5 index not as expected");
+            Assert.AreEqual( 5,  ioc[5], "5 index not as expected");
         }
 
         /// <summary>

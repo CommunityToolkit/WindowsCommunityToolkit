@@ -21,34 +21,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Presents a color spectrum, a palette of colors, and color channel sliders for user selection of a color.
     /// </summary>
-    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelSlider), Type = typeof(ColorPickerSlider))]
-    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelTextBox), Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel1Slider), Type = typeof(ColorPickerSlider))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel1TextBox), Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel2Slider), Type = typeof(ColorPickerSlider))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel2TextBox), Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel3Slider), Type = typeof(ColorPickerSlider))]
-    [TemplatePart(Name = nameof(ColorPicker.Channel3TextBox), Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground1Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground2Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground3Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground4Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground5Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground6Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground7Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground8Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border), Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelSlider),          Type = typeof(ColorPickerSlider))]
+    [TemplatePart(Name = nameof(ColorPicker.AlphaChannelTextBox),         Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel1Slider),              Type = typeof(ColorPickerSlider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel1TextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel2Slider),              Type = typeof(ColorPickerSlider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel2TextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel3Slider),              Type = typeof(ColorPickerSlider))]
+    [TemplatePart(Name = nameof(ColorPicker.Channel3TextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground1Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground2Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground3Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground4Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground5Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground6Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground7Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground8Border),  Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground10Border), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl), Type = typeof(ColorSpectrum))]
-    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider), Type = typeof(ColorPickerSlider))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(ColorPickerSlider))]
-    [TemplatePart(Name = nameof(ColorPicker.HexInputTextBox), Type = typeof(TextBox))]
-    [TemplatePart(Name = nameof(ColorPicker.HsvToggleButton), Type = typeof(ToggleButton))]
-    [TemplatePart(Name = nameof(ColorPicker.RgbToggleButton), Type = typeof(ToggleButton))]
-    [TemplatePart(Name = nameof(ColorPicker.P1PreviewBorder), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.P2PreviewBorder), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.N1PreviewBorder), Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.N2PreviewBorder), Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.HexInputTextBox),             Type = typeof(TextBox))]
+    [TemplatePart(Name = nameof(ColorPicker.HsvToggleButton),             Type = typeof(ToggleButton))]
+    [TemplatePart(Name = nameof(ColorPicker.RgbToggleButton),             Type = typeof(ToggleButton))]
+    [TemplatePart(Name = nameof(ColorPicker.P1PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.P2PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.N1PreviewBorder),             Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.N2PreviewBorder),             Type = typeof(Border))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "Inline brackets are used to improve code readability with repeated null checks.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:Code should not contain multiple whitespace in a row", Justification = "Whitespace is used to align code in columns for readability.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
@@ -68,26 +68,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private long tokenIsColorPaletteVisible;
 
         private bool callbacksConnected = false;
-        private bool eventsConnected = false;
-        private bool isInitialized = false;
+        private bool eventsConnected    = false;
+        private bool isInitialized      = false;
 
         // Color information for updates
-        private HsvColor? savedHsvColor = null;
-        private Color? savedHsvColorRgbEquivalent = null;
-        private Color? updatedRgbColor = null;
-        private DispatcherQueueTimer dispatcherQueueTimer = null;
+        private HsvColor?       savedHsvColor              = null;
+        private Color?          savedHsvColorRgbEquivalent = null;
+        private Color?          updatedRgbColor            = null;
+        private DispatcherQueueTimer dispatcherQueueTimer            = null;
 
-        private ColorSpectrum ColorSpectrumControl;
+        private ColorSpectrum     ColorSpectrumControl;
         private ColorPickerSlider ColorSpectrumAlphaSlider;
         private ColorPickerSlider ColorSpectrumThirdDimensionSlider;
-        private TextBox HexInputTextBox;
-        private ToggleButton HsvToggleButton;
-        private ToggleButton RgbToggleButton;
+        private TextBox           HexInputTextBox;
+        private ToggleButton      HsvToggleButton;
+        private ToggleButton      RgbToggleButton;
 
-        private TextBox Channel1TextBox;
-        private TextBox Channel2TextBox;
-        private TextBox Channel3TextBox;
-        private TextBox AlphaChannelTextBox;
+        private TextBox           Channel1TextBox;
+        private TextBox           Channel2TextBox;
+        private TextBox           Channel3TextBox;
+        private TextBox           AlphaChannelTextBox;
         private ColorPickerSlider Channel1Slider;
         private ColorPickerSlider Channel2Slider;
         private ColorPickerSlider Channel3Slider;
@@ -175,22 +175,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We need to disconnect old events first
             this.ConnectEvents(false);
 
-            this.ColorSpectrumControl = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
-            this.ColorSpectrumAlphaSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumAlphaSlider));
+            this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
+            this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumAlphaSlider));
             this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumThirdDimensionSlider));
 
             this.HexInputTextBox = this.GetTemplateChild<TextBox>(nameof(HexInputTextBox));
             this.HsvToggleButton = this.GetTemplateChild<ToggleButton>(nameof(HsvToggleButton));
             this.RgbToggleButton = this.GetTemplateChild<ToggleButton>(nameof(RgbToggleButton));
 
-            this.Channel1TextBox = this.GetTemplateChild<TextBox>(nameof(Channel1TextBox));
-            this.Channel2TextBox = this.GetTemplateChild<TextBox>(nameof(Channel2TextBox));
-            this.Channel3TextBox = this.GetTemplateChild<TextBox>(nameof(Channel3TextBox));
+            this.Channel1TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel1TextBox));
+            this.Channel2TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel2TextBox));
+            this.Channel3TextBox     = this.GetTemplateChild<TextBox>(nameof(Channel3TextBox));
             this.AlphaChannelTextBox = this.GetTemplateChild<TextBox>(nameof(AlphaChannelTextBox));
 
-            this.Channel1Slider = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel1Slider));
-            this.Channel2Slider = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel2Slider));
-            this.Channel3Slider = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel3Slider));
+            this.Channel1Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel1Slider));
+            this.Channel2Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel2Slider));
+            this.Channel3Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel3Slider));
             this.AlphaChannelSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(AlphaChannelSlider));
 
             this.N1PreviewBorder = this.GetTemplateChild<Border>(nameof(N1PreviewBorder));
@@ -198,15 +198,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.P1PreviewBorder = this.GetTemplateChild<Border>(nameof(P1PreviewBorder));
             this.P2PreviewBorder = this.GetTemplateChild<Border>(nameof(P2PreviewBorder));
 
-            this.CheckeredBackground1Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground1Border));
-            this.CheckeredBackground2Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground2Border));
-            this.CheckeredBackground3Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground3Border));
-            this.CheckeredBackground4Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground4Border));
-            this.CheckeredBackground5Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground5Border));
-            this.CheckeredBackground6Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground6Border));
-            this.CheckeredBackground7Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground7Border));
-            this.CheckeredBackground8Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground8Border));
-            this.CheckeredBackground9Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground9Border));
+            this.CheckeredBackground1Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground1Border));
+            this.CheckeredBackground2Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground2Border));
+            this.CheckeredBackground3Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground3Border));
+            this.CheckeredBackground4Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground4Border));
+            this.CheckeredBackground5Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground5Border));
+            this.CheckeredBackground6Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground6Border));
+            this.CheckeredBackground7Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground7Border));
+            this.CheckeredBackground8Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground8Border));
+            this.CheckeredBackground9Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground9Border));
             this.CheckeredBackground10Border = this.GetTemplateChild<Border>(nameof(CheckeredBackground10Border));
 
             // Must connect after controls are resolved
@@ -249,8 +249,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 (this.callbacksConnected == false))
             {
                 // Add callbacks for dependency properties
-                this.tokenColor = this.RegisterPropertyChangedCallback(ColorProperty, OnColorChanged);
-                this.tokenCustomPalette = this.RegisterPropertyChangedCallback(CustomPaletteProperty, OnCustomPaletteChanged);
+                this.tokenColor                 = this.RegisterPropertyChangedCallback(ColorProperty,                 OnColorChanged);
+                this.tokenCustomPalette         = this.RegisterPropertyChangedCallback(CustomPaletteProperty,         OnCustomPaletteChanged);
                 this.tokenIsColorPaletteVisible = this.RegisterPropertyChangedCallback(IsColorPaletteVisibleProperty, OnIsColorPaletteVisibleChanged);
 
                 this.callbacksConnected = true;
@@ -259,8 +259,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                      (this.callbacksConnected == true))
             {
                 // Remove callbacks for dependency properties
-                this.UnregisterPropertyChangedCallback(ColorProperty, this.tokenColor);
-                this.UnregisterPropertyChangedCallback(CustomPaletteProperty, this.tokenCustomPalette);
+                this.UnregisterPropertyChangedCallback(ColorProperty,                 this.tokenColor);
+                this.UnregisterPropertyChangedCallback(CustomPaletteProperty,         this.tokenCustomPalette);
                 this.UnregisterPropertyChangedCallback(IsColorPaletteVisibleProperty, this.tokenIsColorPaletteVisible);
 
                 this.callbacksConnected = false;
@@ -280,35 +280,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Add all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged += ColorSpectrum_ColorChanged; }
-                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus += ColorSpectrum_GotFocus; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown += HexInputTextBox_KeyDown; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus += HexInputTextBox_LostFocus; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Checked += ColorRepToggleButton_CheckedUnchecked; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Unchecked += ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Checked += ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Unchecked += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus     += ColorSpectrum_GotFocus; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.KeyDown           += HexInputTextBox_KeyDown; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.LostFocus         += HexInputTextBox_LostFocus; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Checked           += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Unchecked         += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Checked           += ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Unchecked         += ColorRepToggleButton_CheckedUnchecked; }
 
-                if (this.Channel1TextBox != null) { this.Channel1TextBox.KeyDown += ChannelTextBox_KeyDown; }
-                if (this.Channel2TextBox != null) { this.Channel2TextBox.KeyDown += ChannelTextBox_KeyDown; }
-                if (this.Channel3TextBox != null) { this.Channel3TextBox.KeyDown += ChannelTextBox_KeyDown; }
-                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.KeyDown += ChannelTextBox_KeyDown; }
-                if (this.Channel1TextBox != null) { this.Channel1TextBox.LostFocus += ChannelTextBox_LostFocus; }
-                if (this.Channel2TextBox != null) { this.Channel2TextBox.LostFocus += ChannelTextBox_LostFocus; }
-                if (this.Channel3TextBox != null) { this.Channel3TextBox.LostFocus += ChannelTextBox_LostFocus; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       += ChannelTextBox_KeyDown; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       += ChannelTextBox_KeyDown; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.KeyDown       += ChannelTextBox_KeyDown; }
+                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.KeyDown   += ChannelTextBox_KeyDown; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.LostFocus     += ChannelTextBox_LostFocus; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.LostFocus     += ChannelTextBox_LostFocus; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.LostFocus     += ChannelTextBox_LostFocus; }
                 if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.LostFocus += ChannelTextBox_LostFocus; }
 
-                if (this.Channel1Slider != null) { this.Channel1Slider.ValueChanged += ChannelSlider_ValueChanged; }
-                if (this.Channel2Slider != null) { this.Channel2Slider.ValueChanged += ChannelSlider_ValueChanged; }
-                if (this.Channel3Slider != null) { this.Channel3Slider.ValueChanged += ChannelSlider_ValueChanged; }
-                if (this.AlphaChannelSlider != null) { this.AlphaChannelSlider.ValueChanged += ChannelSlider_ValueChanged; }
-                if (this.ColorSpectrumAlphaSlider != null) { this.ColorSpectrumAlphaSlider.ValueChanged += ChannelSlider_ValueChanged; }
+                if (this.Channel1Slider                    != null) { this.Channel1Slider.ValueChanged                    += ChannelSlider_ValueChanged; }
+                if (this.Channel2Slider                    != null) { this.Channel2Slider.ValueChanged                    += ChannelSlider_ValueChanged; }
+                if (this.Channel3Slider                    != null) { this.Channel3Slider.ValueChanged                    += ChannelSlider_ValueChanged; }
+                if (this.AlphaChannelSlider                != null) { this.AlphaChannelSlider.ValueChanged                += ChannelSlider_ValueChanged; }
+                if (this.ColorSpectrumAlphaSlider          != null) { this.ColorSpectrumAlphaSlider.ValueChanged          += ChannelSlider_ValueChanged; }
                 if (this.ColorSpectrumThirdDimensionSlider != null) { this.ColorSpectrumThirdDimensionSlider.ValueChanged += ChannelSlider_ValueChanged; }
 
-                if (this.Channel1Slider != null) { this.Channel1Slider.Loaded += ChannelSlider_Loaded; }
-                if (this.Channel2Slider != null) { this.Channel2Slider.Loaded += ChannelSlider_Loaded; }
-                if (this.Channel3Slider != null) { this.Channel3Slider.Loaded += ChannelSlider_Loaded; }
-                if (this.AlphaChannelSlider != null) { this.AlphaChannelSlider.Loaded += ChannelSlider_Loaded; }
-                if (this.ColorSpectrumAlphaSlider != null) { this.ColorSpectrumAlphaSlider.Loaded += ChannelSlider_Loaded; }
+                if (this.Channel1Slider                    != null) { this.Channel1Slider.Loaded                    += ChannelSlider_Loaded; }
+                if (this.Channel2Slider                    != null) { this.Channel2Slider.Loaded                    += ChannelSlider_Loaded; }
+                if (this.Channel3Slider                    != null) { this.Channel3Slider.Loaded                    += ChannelSlider_Loaded; }
+                if (this.AlphaChannelSlider                != null) { this.AlphaChannelSlider.Loaded                += ChannelSlider_Loaded; }
+                if (this.ColorSpectrumAlphaSlider          != null) { this.ColorSpectrumAlphaSlider.Loaded          += ChannelSlider_Loaded; }
                 if (this.ColorSpectrumThirdDimensionSlider != null) { this.ColorSpectrumThirdDimensionSlider.Loaded += ChannelSlider_Loaded; }
 
                 if (this.N1PreviewBorder != null) { this.N1PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
@@ -316,15 +316,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.P1PreviewBorder != null) { this.P1PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
                 if (this.P2PreviewBorder != null) { this.P2PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
 
-                if (this.CheckeredBackground1Border != null) { this.CheckeredBackground1Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground2Border != null) { this.CheckeredBackground2Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground3Border != null) { this.CheckeredBackground3Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground4Border != null) { this.CheckeredBackground4Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground5Border != null) { this.CheckeredBackground5Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground6Border != null) { this.CheckeredBackground6Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground7Border != null) { this.CheckeredBackground7Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground8Border != null) { this.CheckeredBackground8Border.Loaded += CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground9Border != null) { this.CheckeredBackground9Border.Loaded += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground1Border  != null) { this.CheckeredBackground1Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground2Border  != null) { this.CheckeredBackground2Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground3Border  != null) { this.CheckeredBackground3Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground4Border  != null) { this.CheckeredBackground4Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground5Border  != null) { this.CheckeredBackground5Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground6Border  != null) { this.CheckeredBackground6Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground7Border  != null) { this.CheckeredBackground7Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground8Border  != null) { this.CheckeredBackground8Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground9Border  != null) { this.CheckeredBackground9Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
                 if (this.CheckeredBackground10Border != null) { this.CheckeredBackground10Border.Loaded += CheckeredBackgroundBorder_Loaded; }
 
                 this.eventsConnected = true;
@@ -334,35 +334,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Remove all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged -= ColorSpectrum_ColorChanged; }
-                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus -= ColorSpectrum_GotFocus; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.KeyDown -= HexInputTextBox_KeyDown; }
-                if (this.HexInputTextBox != null) { this.HexInputTextBox.LostFocus -= HexInputTextBox_LostFocus; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Checked -= ColorRepToggleButton_CheckedUnchecked; }
-                if (this.HsvToggleButton != null) { this.HsvToggleButton.Unchecked -= ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Checked -= ColorRepToggleButton_CheckedUnchecked; }
-                if (this.RgbToggleButton != null) { this.RgbToggleButton.Unchecked -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.GotFocus     -= ColorSpectrum_GotFocus; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.KeyDown           -= HexInputTextBox_KeyDown; }
+                if (this.HexInputTextBox      != null) { this.HexInputTextBox.LostFocus         -= HexInputTextBox_LostFocus; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Checked           -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.HsvToggleButton      != null) { this.HsvToggleButton.Unchecked         -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Checked           -= ColorRepToggleButton_CheckedUnchecked; }
+                if (this.RgbToggleButton      != null) { this.RgbToggleButton.Unchecked         -= ColorRepToggleButton_CheckedUnchecked; }
 
-                if (this.Channel1TextBox != null) { this.Channel1TextBox.KeyDown -= ChannelTextBox_KeyDown; }
-                if (this.Channel2TextBox != null) { this.Channel2TextBox.KeyDown -= ChannelTextBox_KeyDown; }
-                if (this.Channel3TextBox != null) { this.Channel3TextBox.KeyDown -= ChannelTextBox_KeyDown; }
-                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.KeyDown -= ChannelTextBox_KeyDown; }
-                if (this.Channel1TextBox != null) { this.Channel1TextBox.LostFocus -= ChannelTextBox_LostFocus; }
-                if (this.Channel2TextBox != null) { this.Channel2TextBox.LostFocus -= ChannelTextBox_LostFocus; }
-                if (this.Channel3TextBox != null) { this.Channel3TextBox.LostFocus -= ChannelTextBox_LostFocus; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.KeyDown       -= ChannelTextBox_KeyDown; }
+                if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.KeyDown   -= ChannelTextBox_KeyDown; }
+                if (this.Channel1TextBox     != null) { this.Channel1TextBox.LostFocus     -= ChannelTextBox_LostFocus; }
+                if (this.Channel2TextBox     != null) { this.Channel2TextBox.LostFocus     -= ChannelTextBox_LostFocus; }
+                if (this.Channel3TextBox     != null) { this.Channel3TextBox.LostFocus     -= ChannelTextBox_LostFocus; }
                 if (this.AlphaChannelTextBox != null) { this.AlphaChannelTextBox.LostFocus -= ChannelTextBox_LostFocus; }
 
-                if (this.Channel1Slider != null) { this.Channel1Slider.ValueChanged -= ChannelSlider_ValueChanged; }
-                if (this.Channel2Slider != null) { this.Channel2Slider.ValueChanged -= ChannelSlider_ValueChanged; }
-                if (this.Channel3Slider != null) { this.Channel3Slider.ValueChanged -= ChannelSlider_ValueChanged; }
-                if (this.AlphaChannelSlider != null) { this.AlphaChannelSlider.ValueChanged -= ChannelSlider_ValueChanged; }
-                if (this.ColorSpectrumAlphaSlider != null) { this.ColorSpectrumAlphaSlider.ValueChanged -= ChannelSlider_ValueChanged; }
+                if (this.Channel1Slider                    != null) { this.Channel1Slider.ValueChanged                    -= ChannelSlider_ValueChanged; }
+                if (this.Channel2Slider                    != null) { this.Channel2Slider.ValueChanged                    -= ChannelSlider_ValueChanged; }
+                if (this.Channel3Slider                    != null) { this.Channel3Slider.ValueChanged                    -= ChannelSlider_ValueChanged; }
+                if (this.AlphaChannelSlider                != null) { this.AlphaChannelSlider.ValueChanged                -= ChannelSlider_ValueChanged; }
+                if (this.ColorSpectrumAlphaSlider          != null) { this.ColorSpectrumAlphaSlider.ValueChanged          -= ChannelSlider_ValueChanged; }
                 if (this.ColorSpectrumThirdDimensionSlider != null) { this.ColorSpectrumThirdDimensionSlider.ValueChanged -= ChannelSlider_ValueChanged; }
 
-                if (this.Channel1Slider != null) { this.Channel1Slider.Loaded -= ChannelSlider_Loaded; }
-                if (this.Channel2Slider != null) { this.Channel2Slider.Loaded -= ChannelSlider_Loaded; }
-                if (this.Channel3Slider != null) { this.Channel3Slider.Loaded -= ChannelSlider_Loaded; }
-                if (this.AlphaChannelSlider != null) { this.AlphaChannelSlider.Loaded -= ChannelSlider_Loaded; }
-                if (this.ColorSpectrumAlphaSlider != null) { this.ColorSpectrumAlphaSlider.Loaded -= ChannelSlider_Loaded; }
+                if (this.Channel1Slider                    != null) { this.Channel1Slider.Loaded                    -= ChannelSlider_Loaded; }
+                if (this.Channel2Slider                    != null) { this.Channel2Slider.Loaded                    -= ChannelSlider_Loaded; }
+                if (this.Channel3Slider                    != null) { this.Channel3Slider.Loaded                    -= ChannelSlider_Loaded; }
+                if (this.AlphaChannelSlider                != null) { this.AlphaChannelSlider.Loaded                -= ChannelSlider_Loaded; }
+                if (this.ColorSpectrumAlphaSlider          != null) { this.ColorSpectrumAlphaSlider.Loaded          -= ChannelSlider_Loaded; }
                 if (this.ColorSpectrumThirdDimensionSlider != null) { this.ColorSpectrumThirdDimensionSlider.Loaded -= ChannelSlider_Loaded; }
 
                 if (this.N1PreviewBorder != null) { this.N1PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
@@ -370,15 +370,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.P1PreviewBorder != null) { this.P1PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
                 if (this.P2PreviewBorder != null) { this.P2PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
 
-                if (this.CheckeredBackground1Border != null) { this.CheckeredBackground1Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground2Border != null) { this.CheckeredBackground2Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground3Border != null) { this.CheckeredBackground3Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground4Border != null) { this.CheckeredBackground4Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground5Border != null) { this.CheckeredBackground5Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground6Border != null) { this.CheckeredBackground6Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground7Border != null) { this.CheckeredBackground7Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground8Border != null) { this.CheckeredBackground8Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
-                if (this.CheckeredBackground9Border != null) { this.CheckeredBackground9Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground1Border  != null) { this.CheckeredBackground1Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground2Border  != null) { this.CheckeredBackground2Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground3Border  != null) { this.CheckeredBackground3Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground4Border  != null) { this.CheckeredBackground4Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground5Border  != null) { this.CheckeredBackground5Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground6Border  != null) { this.CheckeredBackground6Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground7Border  != null) { this.CheckeredBackground7Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground8Border  != null) { this.CheckeredBackground8Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
+                if (this.CheckeredBackground9Border  != null) { this.CheckeredBackground9Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
                 if (this.CheckeredBackground10Border != null) { this.CheckeredBackground10Border.Loaded -= CheckeredBackgroundBorder_Loaded; }
 
                 this.eventsConnected = false;
@@ -638,7 +638,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     };
 
                     // Must update HSV color
-                    this.savedHsvColor = hsvColor;
+                    this.savedHsvColor              = hsvColor;
                     this.savedHsvColorRgbEquivalent = rgbColor;
                 }
                 else
@@ -664,9 +664,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.ColorSpectrumThirdDimensionSlider != null)
                 {
                     // Convert the channels into a usable range for the user
-                    double hue = hsvColor.H;
+                    double hue         = hsvColor.H;
                     double staturation = hsvColor.S * 100;
-                    double value = hsvColor.V * 100;
+                    double value       = hsvColor.V * 100;
 
                     switch (this.GetActiveColorSpectrumThirdDimension())
                     {
@@ -675,7 +675,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 // Hue
                                 this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
                                 this.ColorSpectrumThirdDimensionSlider.Maximum = 360;
-                                this.ColorSpectrumThirdDimensionSlider.Value = hue;
+                                this.ColorSpectrumThirdDimensionSlider.Value   = hue;
                                 break;
                             }
 
@@ -684,7 +684,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 // Saturation
                                 this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
                                 this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
-                                this.ColorSpectrumThirdDimensionSlider.Value = staturation;
+                                this.ColorSpectrumThirdDimensionSlider.Value   = staturation;
                                 break;
                             }
 
@@ -693,7 +693,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 // Value
                                 this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
                                 this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
-                                this.ColorSpectrumThirdDimensionSlider.Value = value;
+                                this.ColorSpectrumThirdDimensionSlider.Value   = value;
                                 break;
                             }
                     }
@@ -703,10 +703,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.GetActiveColorRepresentation() == ColorRepresentation.Hsva)
                 {
                     // Convert the channels into a usable range for the user
-                    double hue = hsvColor.H;
+                    double hue         = hsvColor.H;
                     double staturation = hsvColor.S * 100;
-                    double value = hsvColor.V * 100;
-                    double alpha = hsvColor.A * 100;
+                    double value       = hsvColor.V * 100;
+                    double alpha       = hsvColor.A * 100;
 
                     // Hue
                     if (this.Channel1TextBox != null)
@@ -719,7 +719,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.Channel1Slider.Minimum = 0;
                         this.Channel1Slider.Maximum = 360;
-                        this.Channel1Slider.Value = hue;
+                        this.Channel1Slider.Value   = hue;
                     }
 
                     // Saturation
@@ -733,7 +733,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.Channel2Slider.Minimum = 0;
                         this.Channel2Slider.Maximum = 100;
-                        this.Channel2Slider.Value = staturation;
+                        this.Channel2Slider.Value   = staturation;
                     }
 
                     // Value
@@ -747,7 +747,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.Channel3Slider.Minimum = 0;
                         this.Channel3Slider.Maximum = 100;
-                        this.Channel3Slider.Value = value;
+                        this.Channel3Slider.Value   = value;
                     }
 
                     // Alpha
@@ -761,7 +761,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.AlphaChannelSlider.Minimum = 0;
                         this.AlphaChannelSlider.Maximum = 100;
-                        this.AlphaChannelSlider.Value = alpha;
+                        this.AlphaChannelSlider.Value   = alpha;
                     }
 
                     // Color spectrum alpha
@@ -769,7 +769,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.ColorSpectrumAlphaSlider.Minimum = 0;
                         this.ColorSpectrumAlphaSlider.Maximum = 100;
-                        this.ColorSpectrumAlphaSlider.Value = alpha;
+                        this.ColorSpectrumAlphaSlider.Value   = alpha;
                     }
                 }
                 else
@@ -785,7 +785,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.Channel1Slider.Minimum = 0;
                         this.Channel1Slider.Maximum = 255;
-                        this.Channel1Slider.Value = Convert.ToDouble(rgbColor.R);
+                        this.Channel1Slider.Value   = Convert.ToDouble(rgbColor.R);
                     }
 
                     // Green
@@ -799,7 +799,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.Channel2Slider.Minimum = 0;
                         this.Channel2Slider.Maximum = 255;
-                        this.Channel2Slider.Value = Convert.ToDouble(rgbColor.G);
+                        this.Channel2Slider.Value   = Convert.ToDouble(rgbColor.G);
                     }
 
                     // Blue
@@ -813,7 +813,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.Channel3Slider.Minimum = 0;
                         this.Channel3Slider.Maximum = 255;
-                        this.Channel3Slider.Value = Convert.ToDouble(rgbColor.B);
+                        this.Channel3Slider.Value   = Convert.ToDouble(rgbColor.B);
                     }
 
                     // Alpha
@@ -827,7 +827,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.AlphaChannelSlider.Minimum = 0;
                         this.AlphaChannelSlider.Maximum = 255;
-                        this.AlphaChannelSlider.Value = Convert.ToDouble(rgbColor.A);
+                        this.AlphaChannelSlider.Value   = Convert.ToDouble(rgbColor.A);
                     }
 
                     // Color spectrum alpha
@@ -835,7 +835,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         this.ColorSpectrumAlphaSlider.Minimum = 0;
                         this.ColorSpectrumAlphaSlider.Maximum = 255;
-                        this.ColorSpectrumAlphaSlider.Value = Convert.ToDouble(rgbColor.A);
+                        this.ColorSpectrumAlphaSlider.Value   = Convert.ToDouble(rgbColor.A);
                     }
                 }
 
@@ -877,10 +877,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     oldHsvColor = this.savedHsvColor.Value;
                 }
 
-                double hue = oldHsvColor.H;
+                double hue        = oldHsvColor.H;
                 double saturation = oldHsvColor.S;
-                double value = oldHsvColor.V;
-                double alpha = oldHsvColor.A;
+                double value      = oldHsvColor.V;
+                double alpha      = oldHsvColor.A;
 
                 switch (channel)
                 {
@@ -928,9 +928,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                byte red = oldRgbColor.R;
+                byte red   = oldRgbColor.R;
                 byte green = oldRgbColor.G;
-                byte blue = oldRgbColor.B;
+                byte blue  = oldRgbColor.B;
                 byte alpha = oldRgbColor.A;
 
                 switch (channel)
@@ -970,7 +970,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 };
 
                 // Must clear saved HSV color
-                this.savedHsvColor = null;
+                this.savedHsvColor              = null;
                 this.savedHsvColorRgbEquivalent = null;
             }
 
@@ -1004,7 +1004,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Therefore, always calculate HSV color here
                 // Warning: Always maintain/use HSV information in the saved HSV color
                 // This avoids loss of precision and drift caused by continuously converting to/from RGB
-                if (this.savedHsvColor == null)
+                if (this.savedHsvColor ==  null)
                 {
                     var rgbColor = this.Color;
 
@@ -1135,7 +1135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // The color was updated from an unknown source
                 // The RGB and HSV colors are no longer in sync so the HSV color must be cleared
-                this.savedHsvColor = null;
+                this.savedHsvColor              = null;
                 this.savedHsvColorRgbEquivalent = null;
             }
 
