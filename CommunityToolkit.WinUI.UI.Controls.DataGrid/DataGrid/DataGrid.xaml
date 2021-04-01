@@ -89,6 +89,7 @@
     <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity" ResourceKey="ListAccentLowOpacity"/>
     <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundColor" ResourceKey="SystemAccentColor"/>
     <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity" ResourceKey="ListAccentMediumOpacity"/>
+    <StaticResource x:Key="DataGridRowHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
     <StaticResource x:Key="DataGridRowHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush"/>
     <StaticResource x:Key="DataGridRowHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundAltHighBrush"/>
     <StaticResource x:Key="DataGridRowGroupHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumBrush"/>
@@ -597,7 +598,7 @@
                                 <VisualState x:Name="NormalAlternatingRow"/>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource SystemListLowColor}"/>
+                                        <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource DataGridRowHoveredBackgroundColor}"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="NormalSelected">

@@ -459,15 +459,21 @@ namespace CommunityToolkit.WinUI.SampleApp
             // Determine if the link is not absolute, meaning it is relative.
             if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
             {
-                url = new Uri(CurrentSample.LocalDocumentationFilePath + e.Url);
-            }
+                var imageStream = await CurrentSample.GetImageStream(CurrentSample.GetOnlineResourcePath(e.Url));
 
-            if (url.Scheme == "ms-appx")
+                if (imageStream != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream);
+                }
+            }
+            else if (url.Scheme == "ms-appx")
             {
                 image = new BitmapImage(url);
             }
             else
             {
+                // Cache a remote image from the internet.
                 var imageStream = await CurrentSample.GetImageStream(url);
 
                 if (imageStream != null)

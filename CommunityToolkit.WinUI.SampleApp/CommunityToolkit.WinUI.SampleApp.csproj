@@ -159,6 +159,7 @@
       ModifyAppXPackageRelease;
       $(_GenerateAppxManifestDependsOn)
     </_GenerateAppxManifestDependsOn>
+    <DefineConstants>REMOTE_DOCS</DefineConstants> 
   </PropertyGroup>
   <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
