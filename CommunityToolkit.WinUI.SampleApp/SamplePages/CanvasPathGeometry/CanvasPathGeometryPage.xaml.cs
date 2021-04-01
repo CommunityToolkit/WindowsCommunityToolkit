@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using Microsoft.Graphics.Canvas.Geometry;
-//using Microsoft.Graphics.Canvas.UI.Xaml;
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Media.Geometry;
+using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.System;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -97,8 +97,8 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
         private Color _fillColor;
         private bool _selectionChanged = false;
 
-        //private CanvasGeometry _errorGeometry;
-        //private GeometryStreamReader _reader;
+        private CanvasGeometry _errorGeometry;
+        private GeometryStreamReader _reader;
 
         private SolidColorBrush _commandBrush;
         private SolidColorBrush _commandErrorBrush;
@@ -108,7 +108,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
         public CanvasPathGeometryPage()
         {
             this.InitializeComponent();
-            //_reader = new GeometryStreamReader();
+            _reader = new GeometryStreamReader();
             _logger = new StringBuilder();
             _colors = new List<Color>()
             {
@@ -172,10 +172,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
         private void ParseData()
         {
             _data = InputData.Text;
-            //RenderCanvas.Invalidate();
+            RenderCanvas.Invalidate();
         }
 
-        /*
         private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(_data))
@@ -243,13 +242,12 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 CommandsList.Foreground = _commandErrorBrush;
             }
         }
-        */
 
         private void OnStrokeThicknessChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             _strokeThickness = (float)StrokeThickness.Value;
             _selectionChanged = true;
-            //RenderCanvas.Invalidate();
+            RenderCanvas.Invalidate();
         }
 
         private void OnStrokeColorChanged(object sender, SelectionChangedEventArgs e)
@@ -260,7 +258,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 _selectionChanged = true;
             }
 
-            //RenderCanvas.Invalidate();
+            RenderCanvas.Invalidate();
         }
 
         private void OnFillColorChanged(object sender, SelectionChangedEventArgs e)
@@ -271,7 +269,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 _selectionChanged = true;
             }
 
-            //RenderCanvas.Invalidate();
+            RenderCanvas.Invalidate();
         }
 
         private void ShowSample(int index)
@@ -287,7 +285,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
             }
 
             _data = InputData.Text;
-            //RenderCanvas.Invalidate();
+            RenderCanvas.Invalidate();
         }
 
         private void OnClearCanvas(object sender, RoutedEventArgs e)

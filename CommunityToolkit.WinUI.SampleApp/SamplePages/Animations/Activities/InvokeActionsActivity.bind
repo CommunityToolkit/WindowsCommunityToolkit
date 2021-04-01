@@ -17,7 +17,7 @@
         <ani:StartAnimationActivity Animation="{Binding ElementName=FadeOutAnimation}"/>
         <ani:InvokeActionsActivity>
           <interactions:ChangePropertyAction TargetObject="{Binding ElementName=MyText}" PropertyName="Foreground" Value="Purple"/>
-          <mediaactions:PlaySoundAction Source="Assets/Llama.mp3"/>
+          <!--<mediaactions:PlaySoundAction Source="Assets/Llama.mp3"/>-->
         </ani:InvokeActionsActivity>
         <ani:StartAnimationActivity Delay="0:0:2" Animation="{Binding ElementName=FadeInAnimation}"/>
       </ani:AnimationSet>

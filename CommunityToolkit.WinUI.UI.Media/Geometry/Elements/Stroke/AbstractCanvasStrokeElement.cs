@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using Microsoft.Graphics.Canvas;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
 {
@@ -51,13 +50,11 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
             ValidationCount = RegexFactory.ValidationRegex.Replace(Data, string.Empty).Length;
         }
 
-        /*
         /// <summary>
         /// Creates the ICanvasStroke from the parsed data.
         /// </summary>
         /// <returns>ICanvasStroke</returns>
         public abstract ICanvasStroke CreateStroke(ICanvasResourceCreator resourceCreator);
-        */
 
         /// <summary>
         /// Gets the Stroke Element Attributes from the Match.

@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using WinRT;
 
 namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
@@ -41,6 +42,8 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                     {
                         SuggestedStartLocation = PickerLocationId.DocumentsLibrary
                     };
+                    var initializeWithWindowWrapper = savePicker.As<App.IInitializeWithWindow>();
+                    initializeWithWindowWrapper.Initialize((App.Current as App).WindowHandle);
                     savePicker.FileTypeChoices.Add("application/json", new List<string> { ".json" });
                     savePicker.SuggestedFileName = "Infinite Canvas Export";
 
@@ -63,6 +66,8 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                         ViewMode = PickerViewMode.Thumbnail,
                         SuggestedStartLocation = PickerLocationId.DocumentsLibrary
                     };
+                    var initializeWithWindowWrapper = picker.As<App.IInitializeWithWindow>();
+                    initializeWithWindowWrapper.Initialize((App.Current as App).WindowHandle);
                     picker.FileTypeFilter.Add(".json");
                     var file = await picker.PickSingleFileAsync();
 
@@ -102,6 +107,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                             { "JPEG Picture", new List<string> { ".jpg" } }
                         }
                     };
+                    var initializeWithWindowWrapper = savePicker.As<App.IInitializeWithWindow>();
+                    initializeWithWindowWrapper.Initialize((App.Current as App).WindowHandle);
+
                     var imageFile = await savePicker.PickSaveFileAsync();
                     if (imageFile != null)
                     {

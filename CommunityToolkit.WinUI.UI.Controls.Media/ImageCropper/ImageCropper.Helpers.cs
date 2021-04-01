@@ -6,10 +6,9 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.Effects;
-// using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.UI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Foundation;
@@ -52,9 +51,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private static async Task CropImageWithShapeAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, CropShape cropShape)
         {
-            await Task.Yield();
-            throw new NotImplementedException("WinUI3");
-            /*
             var device = CanvasDevice.GetSharedDevice();
             var clipGeometry = CreateClipGeometry(device, cropShape, new Size(croppedRect.Width, croppedRect.Height));
             if (clipGeometry == null)
@@ -62,11 +58,12 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 return;
             }
 
-            CanvasBitmap sourceBitmap = null;
+            // WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
+            CanvasVirtualBitmap sourceBitmap = null;
             using (var randomAccessStream = new InMemoryRandomAccessStream())
             {
                 await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
-                sourceBitmap = await CanvasBitmap.LoadAsync(device, randomAccessStream);
+                sourceBitmap = await CanvasVirtualBitmap.LoadAsync(device, randomAccessStream);
             }
 
             using (var offScreen = new CanvasRenderTarget(device, (float)croppedRect.Width, (float)croppedRect.Height, 96f))
@@ -95,10 +92,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 bitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
                 await bitmapEncoder.FlushAsync();
             }
-            */
         }
 
-        /*
         private static CanvasGeometry CreateClipGeometry(ICanvasResourceCreator resourceCreator, CropShape cropShape, Size croppedSize)
         {
             switch (cropShape)
@@ -114,7 +109,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             return null;
         }
-        */
 
         private static Guid GetEncoderId(BitmapFileFormat bitmapFileFormat)
         {

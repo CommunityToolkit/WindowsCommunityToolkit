@@ -11,7 +11,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A hue rotation effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.HueRotationEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.HueRotationEffect"/> effect</remarks>
     public sealed class HueRotationEffect : PipelineEffect
     {
         /// <summary>
@@ -27,7 +27,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             if (IsAnimatable)
             {
                 builder = builder.HueRotation((float)Angle, out string id);
@@ -38,9 +37,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.HueRotation((float)Angle);
-            */
-
-            return null;
         }
     }
 }

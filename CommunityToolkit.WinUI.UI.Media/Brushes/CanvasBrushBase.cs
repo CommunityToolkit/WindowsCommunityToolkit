@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.DirectX;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Windows.Graphics.DirectX;
 
 namespace CommunityToolkit.WinUI.UI.Media
 {
@@ -18,7 +16,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// </summary>
     public abstract class CanvasBrushBase : XamlCompositionBrushBase
     {
-        // private CompositionSurfaceBrush _surfaceBrush;
+        private CompositionSurfaceBrush _surfaceBrush;
 
         /// <summary>
         /// Gets or sets the internal surface render width.  Modify during construction.
@@ -30,11 +28,10 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// </summary>
         protected float SurfaceHeight { get; set; }
 
-        // private CanvasDevice _device;
+        private CanvasDevice _device;
 
-        // private CompositionGraphicsDevice _graphics;
+        private CompositionGraphicsDevice _graphics;
 
-        /*
         /// <summary>
         /// Implemented by parent class and called when canvas is being constructed for brush.
         /// </summary>
@@ -43,7 +40,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <param name="size">Size of surface to draw on.</param>
         /// <returns>True if drawing was completed and the brush is ready, otherwise return False to not create brush yet.</returns>
         protected abstract bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size);
-        */
 
         /// <summary>
         /// Initializes the Composition Brush.
@@ -52,7 +48,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         {
             base.OnConnected();
 
-            /*
             if (_device != null)
             {
                 _device.DeviceLost -= CanvasDevice_DeviceLost;
@@ -66,14 +61,15 @@ namespace CommunityToolkit.WinUI.UI.Media
                 _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
             }
 
-            _graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, _device);
+            _graphics = CanvasComposition.CreateCompositionGraphicsDevice(CompositionTarget.GetCompositorForCurrentThread(), _device);
             _graphics.RenderingDeviceReplaced += CanvasDevice_RenderingDeviceReplaced;
 
             // Delay creating composition resources until they're required.
             if (CompositionBrush == null)
             {
                 // Abort if effects aren't supported.
-                if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
+                var compositionCapabilities = new CompositionCapabilities();
+                if (!compositionCapabilities.AreEffectsSupported())
                 {
                     return;
                 }
@@ -90,12 +86,11 @@ namespace CommunityToolkit.WinUI.UI.Media
                     }
                 }
 
-                _surfaceBrush = Window.Current.Compositor.CreateSurfaceBrush(surface);
+                _surfaceBrush = CompositionTarget.GetCompositorForCurrentThread().CreateSurfaceBrush(surface);
                 _surfaceBrush.Stretch = CompositionStretch.Fill;
 
                 CompositionBrush = _surfaceBrush;
             }
-            */
         }
 
         private void CanvasDevice_RenderingDeviceReplaced(CompositionGraphicsDevice sender, object args)
@@ -104,13 +99,11 @@ namespace CommunityToolkit.WinUI.UI.Media
             OnConnected();
         }
 
-        /*
         private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
         {
             OnDisconnected();
             OnConnected();
         }
-        */
 
         /// <summary>
         /// Deconstructs the Composition Brush.
@@ -119,7 +112,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         {
             base.OnDisconnected();
 
-            /*
             if (_device != null)
             {
                 _device.DeviceLost -= CanvasDevice_DeviceLost;
@@ -144,7 +136,6 @@ namespace CommunityToolkit.WinUI.UI.Media
                 _surfaceBrush.Dispose();
                 _surfaceBrush = null;
             }
-            */
         }
     }
 }

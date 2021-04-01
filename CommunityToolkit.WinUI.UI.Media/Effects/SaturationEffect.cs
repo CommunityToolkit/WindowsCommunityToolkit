@@ -12,7 +12,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A saturation effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SaturationEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.SaturationEffect"/> effect</remarks>
     public sealed class SaturationEffect : PipelineEffect
     {
         private double value = 1;
@@ -34,7 +34,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             if (IsAnimatable)
             {
                 builder = builder.Saturation((float)Value, out string id);
@@ -45,9 +44,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.Saturation((float)Value);
-            */
-
-            return null;
         }
     }
 }

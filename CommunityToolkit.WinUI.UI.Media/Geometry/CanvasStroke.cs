@@ -3,10 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-
-//using Microsoft.Graphics.Canvas;
-//using Microsoft.Graphics.Canvas.Brushes;
-//using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
+using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry
@@ -16,7 +15,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
     /// </summary>
     public sealed class CanvasStroke : ICanvasStroke
     {
-        /*
         /// <summary>
         /// Gets or sets the brush with which the stroke will be rendered
         /// </summary>
@@ -110,6 +108,5 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
         {
             return Brush?.Transform ?? Matrix3x2.Identity;
         }
-        */
     }
 }

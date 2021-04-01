@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 
@@ -48,12 +49,34 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static async void OnVisualFactoryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = (UIElement)d;
-            var attachedVisual = await ((AttachedVisualFactoryBase)e.NewValue).GetAttachedVisualAsync(element);
+            var element = (FrameworkElement)d;
 
-            attachedVisual.BindSize(element);
+            var newValue = (AttachedVisualFactoryBase)e.NewValue;
 
-            ElementCompositionPreview.SetElementChildVisual(element, attachedVisual);
+            async Task Set()
+            {
+                var attachedVisual = await newValue.GetAttachedVisualAsync(element);
+
+                attachedVisual.BindSize(element);
+
+                ElementCompositionPreview.SetElementChildVisual(element, attachedVisual);
+            }
+
+            if (element.IsLoaded)
+            {
+                await Set();
+            }
+            else
+            {
+                async void Element_Loaded(object sender, RoutedEventArgs e)
+                {
+                    element.Loaded -= Element_Loaded;
+
+                    await Set();
+                }
+
+                element.Loaded += Element_Loaded;
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
 // This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
 // more info in ThirdPartyNotices.txt in the root of the project.
 
-namespace CommunityToolkit.Common.Mvvm.Messaging.Messages
+namespace CommunityToolkit.Mvvm.Messaging.Messages
 {
     /// <summary>
     /// A message used to broadcast property changes in observable objects.

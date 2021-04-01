@@ -6,14 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.UI;
 using Windows.Foundation;
 using Windows.Graphics;
-using Windows.Storage;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
@@ -29,7 +26,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         internal void ReDraw(Rect viewPort, float zoom)
         {
-            /*
             var toDraw = GetDrawingBoundaries(viewPort);
             var scale = _screenScale * zoom;
             var rect = ScaleRect(toDraw, scale);
@@ -55,7 +51,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                  * Therefore, the only solution is to silently catch the
                  * exception and allow the app to continue
                  */
-            // }
+            }
         }
 
         private Rect ScaleRect(Rect rect, double scale)
@@ -63,7 +59,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
             return new Rect(rect.X * scale, rect.Y * scale, rect.Width * scale, rect.Height * scale);
         }
 
-        /*
         internal CanvasRenderTarget ExportMaxOffScreenDrawings()
         {
             var toDraw = GetMaxDrawingsBoundaries();
@@ -78,7 +73,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             _drawingSurface.Trim(new RectInt32[0]);
         }
-        */
 
         internal string GetSerializedList()
         {
@@ -177,7 +171,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
             return toDraw;
         }
 
-        /*
         private Rect GetMaxDrawingsBoundaries()
         {
             double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
@@ -215,6 +208,5 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             return offScreen;
         }
-        */
     }
 }

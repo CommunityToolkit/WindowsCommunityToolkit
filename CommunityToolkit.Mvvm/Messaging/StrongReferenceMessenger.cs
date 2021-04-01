@@ -7,10 +7,10 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using CommunityToolkit.Common.Mvvm.Messaging.Internals;
+using CommunityToolkit.Mvvm.Messaging.Internals;
 using Microsoft.Collections.Extensions;
 
-namespace CommunityToolkit.Common.Mvvm.Messaging
+namespace CommunityToolkit.Mvvm.Messaging
 {
     /// <summary>
     /// A class providing a reference implementation for the <see cref="IMessenger"/> interface.

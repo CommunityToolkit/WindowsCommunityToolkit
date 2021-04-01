@@ -2,7 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-//using Microsoft.Graphics.Canvas.Geometry;
+using System.Runtime.Versioning;
+using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.UI.Composition;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry
@@ -12,7 +13,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
     /// </summary>
     public static class CompositorGeometryExtensions
     {
-        /*
         /// <summary>
         /// Creates a <see cref="CompositionPath"/> based on the specified path data.
         /// </summary>
@@ -67,6 +67,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
         /// <param name="compositor"><see cref="Compositor"/></param>
         /// <param name="geometry"><see cref="CanvasGeometry"/></param>
         /// <returns>CompositionGeometricClip</returns>
+        [SupportedOSPlatform("Windows10.0.17763.0")]
         public static CompositionGeometricClip CreateGeometricClip(this Compositor compositor, CanvasGeometry geometry)
         {
             // Create the CompositionPath
@@ -85,6 +86,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
         /// <param name="compositor"><see cref="Compositor"/></param>
         /// <param name="pathData">Path data (Win2d Path Mini Language) in string format.</param>
         /// <returns><see cref="CompositionGeometricClip"/></returns>
+        [SupportedOSPlatform("Windows10.0.17763.0")]
         public static CompositionGeometricClip CreateGeometricClip(this Compositor compositor, string pathData)
         {
             // Create the CanvasGeometry from the path data
@@ -93,6 +95,5 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
             // Create the CompositionGeometricClip
             return compositor.CreateGeometricClip(geometry);
         }
-        */
     }
 }

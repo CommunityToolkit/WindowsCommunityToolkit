@@ -3,17 +3,19 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Threading.Tasks;
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.Effects;
 using CommunityToolkit.WinUI.UI.Media.Helpers;
 using CommunityToolkit.WinUI.UI.Media.Helpers.Cache;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
-//using Windows.Graphics.Effects;
+using Microsoft.UI.Xaml.Media;
+using Windows.Graphics.Effects;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.UI.Media.Pipelines
@@ -42,7 +44,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         {
             ValueTask<CompositionBrush> Factory()
             {
-                var brush = BackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateBackdropBrush());
+                var brush = BackdropBrushCache.GetValue(CompositionTarget.GetCompositorForCurrentThread(), c => c.CreateBackdropBrush());
 
                 return new ValueTask<CompositionBrush>(brush);
             }
@@ -51,7 +53,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Starts a new <see cref="PipelineBuilder"/> pipeline from the <see cref="CompositionBrush"/> returned by <see cref="Compositor.CreateHostBackdropBrush"/>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from the <see cref="CompositionBrush"/> returned by Compositor.CreateHostBackdropBrush // WinUI3: switched from <![CDATA[ <see cref="Compositor.CreateHostBackdropBrush"/> ]]>
         /// </summary>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -59,10 +61,9 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         {
             ValueTask<CompositionBrush> Factory()
             {
-                //var brush = HostBackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateHostBackdropBrush());
+                var brush = HostBackdropBrushCache.GetValue(CompositionTarget.GetCompositorForCurrentThread(), c => c.CreateBackdropBrush()); // WinUI3: switched from CreateHostBackdropBrush
 
-                //return new ValueTask<CompositionBrush>(brush);
-                return new ValueTask<CompositionBrush>(default(CompositionBrush));
+                return new ValueTask<CompositionBrush>(brush);
             }
 
             return new PipelineBuilder(Factory);
@@ -76,11 +77,9 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromColor(Color color)
         {
-            //return new PipelineBuilder(() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect { Color = color }));
-            return null;
+            return new PipelineBuilder(() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect { Color = color }));
         }
 
-        /*
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from a solid <see cref="CompositionBrush"/> with the specified color
         /// </summary>
@@ -179,7 +178,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             return new PipelineBuilder(Factory, new[] { $"{id}.{nameof(ColorSourceEffect.ColorHdr)}" });
         }
-        */
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from the input <see cref="CompositionBrush"/> instance
@@ -216,7 +214,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             return new PipelineBuilder(Factory);
         }
 
-        /*
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from the input <see cref="IGraphicsEffectSource"/> instance
         /// </summary>
@@ -251,59 +248,75 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             return new PipelineBuilder(Factory);
         }
-        */
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image
         /// </summary>
         /// <param name="relativePath">The relative path for the image to load (eg. "/Assets/image.png")</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromImage(string relativePath, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
+        public static PipelineBuilder FromImage(string relativePath, float dpi, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
         {
-            return FromImage(relativePath.ToAppxUri(), dpiMode, cacheMode);
+            return FromImage(relativePath.ToAppxUri(), dpi, dpiMode, cacheMode);
         }
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image
         /// </summary>
         /// <param name="uri">The path for the image to load</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromImage(Uri uri, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
+        public static PipelineBuilder FromImage(Uri uri, float dpi, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
         {
-            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(SurfaceLoader.LoadImageAsync(uri, dpiMode, cacheMode)));
+            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(SurfaceLoader.LoadImageAsync(uri, dpiMode, dpi, cacheMode)));
         }
 
-        /*
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image
+        /// </summary>
+        /// <param name="uri">The path for the image to load</param>
+        /// <param name="dpiFactory">Factory that return the current display DPI</param>
+        /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
+        /// <param name="cacheMode">The cache mode to use to load the image</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromImage(Uri uri, Func<float> dpiFactory, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
+        {
+            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(SurfaceLoader.LoadImageAsync(uri, dpiMode, dpiFactory(), cacheMode)));
+        }
+
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image tiled to cover the available space
         /// </summary>
         /// <param name="relativePath">The relative path for the image to load (eg. "/Assets/image.png")</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromTiles(string relativePath, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
+        public static PipelineBuilder FromTiles(string relativePath, float dpi, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
         {
-            return FromTiles(relativePath.ToAppxUri(), dpiMode, cacheMode);
+            return FromTiles(relativePath.ToAppxUri(), dpi, dpiMode, cacheMode);
         }
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image tiled to cover the available space
         /// </summary>
         /// <param name="uri">The path for the image to load</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromTiles(Uri uri, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
+        public static PipelineBuilder FromTiles(Uri uri, float dpi, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
         {
-            var image = FromImage(uri, dpiMode, cacheMode);
+            var image = FromImage(uri, dpi, dpiMode, cacheMode);
 
             async ValueTask<IGraphicsEffectSource> Factory() => new BorderEffect
             {
@@ -314,7 +327,33 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             return new PipelineBuilder(image, Factory);
         }
-        */
+
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from a Win2D image tiled to cover the available space
+        /// </summary>
+        /// <param name="uri">The path for the image to load</param>
+        /// <param name="dpiFactory">Factory that return the current display DPI</param>
+        /// <param name="dpiMode">Indicates the desired DPI mode to use when loading the image</param>
+        /// <param name="cacheMode">The cache mode to use to load the image</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromTiles(Uri uri, Func<float> dpiFactory, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+            Func<ValueTask<CompositionBrush>> imageFactory = () =>
+            {
+                return new ValueTask<CompositionBrush>(SurfaceLoader.LoadImageAsync(uri, dpiMode, dpiFactory(), cacheMode));
+            };
+
+            ValueTask<IGraphicsEffectSource> Factory() => ValueTask.FromResult<IGraphicsEffectSource>(new BorderEffect
+            {
+                ExtendX = CanvasEdgeBehavior.Wrap,
+                ExtendY = CanvasEdgeBehavior.Wrap,
+                Source = new CompositionEffectSourceParameter(id)
+            });
+
+            return new PipelineBuilder(Factory, Array.Empty<string>(), new Dictionary<string, Func<ValueTask<CompositionBrush>>> { { id, imageFactory } });
+        }
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from the <see cref="CompositionBrush"/> returned by <see cref="Compositor.CreateBackdropBrush"/> on the input <see cref="UIElement"/>

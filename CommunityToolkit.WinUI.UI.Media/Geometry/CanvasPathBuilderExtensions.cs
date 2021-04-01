@@ -6,13 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-
-//using Microsoft.Graphics.Canvas.Geometry;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry
 {
-    /*
     /// <summary>
     /// Defines extension methods for CanvasPathBuilder.
     /// </summary>
@@ -461,5 +459,4 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
             return BuildPathWithLines(builder, canvasFigureLoop, vectors);
         }
     }
-    */
 }

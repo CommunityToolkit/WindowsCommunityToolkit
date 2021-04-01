@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using CommunityToolkit.WinUI.UI.Media.Helpers;
 using CommunityToolkit.WinUI.UI.Media.Pipelines;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
@@ -199,24 +200,28 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnPipelineRequested()
         {
+            float dpi = DpiHelpers.GetDpi(this);
+
             switch (BackgroundSource)
             {
-                //case AcrylicBackgroundSource.Backdrop:
-                //    return PipelineBuilder.FromBackdropAcrylic(
-                //        TintColor,
-                //        out this.tintColorSetter,
-                //        (float)TintOpacity,
-                //        out this.tintOpacitySetter,
-                //        (float)BlurAmount,
-                //        out blurAmountSetter,
-                //        TextureUri);
-                //case AcrylicBackgroundSource.HostBackdrop:
-                //    return PipelineBuilder.FromHostBackdropAcrylic(
-                //        TintColor,
-                //        out this.tintColorSetter,
-                //        (float)TintOpacity,
-                //        out this.tintOpacitySetter,
-                //        TextureUri);
+                case AcrylicBackgroundSource.Backdrop:
+                    return PipelineBuilder.FromBackdropAcrylic(
+                        TintColor,
+                        out this.tintColorSetter,
+                        (float)TintOpacity,
+                        out this.tintOpacitySetter,
+                        (float)BlurAmount,
+                        out blurAmountSetter,
+                        TextureUri,
+                        dpi);
+                case AcrylicBackgroundSource.HostBackdrop:
+                    return PipelineBuilder.FromHostBackdropAcrylic(
+                        TintColor,
+                        out this.tintColorSetter,
+                        (float)TintOpacity,
+                        out this.tintOpacitySetter,
+                        TextureUri,
+                        dpi);
                 default: throw new ArgumentOutOfRangeException(nameof(BackgroundSource), $"Invalid acrylic source: {BackgroundSource}");
             }
         }

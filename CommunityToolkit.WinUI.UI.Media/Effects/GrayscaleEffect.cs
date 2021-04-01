@@ -9,14 +9,13 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A grayscale effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GrayscaleEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.GrayscaleEffect"/> effect</remarks>
     public sealed class GrayscaleEffect : PipelineEffect
     {
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            //return builder.Grayscale();
-            return null;
+            return builder.Grayscale();
         }
     }
 }

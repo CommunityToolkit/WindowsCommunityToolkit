@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-
-// using Microsoft.Graphics.Canvas.Effects;
 using CommunityToolkit.WinUI.UI.Media.Pipelines;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Markup;
 
@@ -16,7 +15,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A blend effect that merges the current builder with an input one
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.BlendEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.BlendEffect"/> effect</remarks>
     [ContentProperty(Name = nameof(Effects))]
     public sealed class BlendEffect : PipelineEffect
     {
@@ -33,7 +32,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <summary>
         /// Gets or sets the blending mode to use (the default mode is <see cref="ImageBlendMode.Multiply"/>)
         /// </summary>
-        //public ImageBlendMode Mode { get; set; }
+        public ImageBlendMode Mode { get; set; }
 
         /// <summary>
         /// Gets or sets the placement of the input builder with respect to the current one (the default is <see cref="Media.Placement.Foreground"/>)
@@ -43,7 +42,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             PipelineBuilder inputBuilder = Source ?? PipelineBuilder.FromBackdrop();
 
             foreach (IPipelineEffect effect in Effects)
@@ -52,8 +50,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.Blend(inputBuilder, (BlendEffectMode)Mode, Placement);
-            */
-            return null;
         }
 
         /// <inheritdoc/>

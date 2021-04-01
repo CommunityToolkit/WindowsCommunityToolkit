@@ -4,8 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
-
-// using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.UI.Media.Pipelines
@@ -15,13 +14,13 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
     /// </summary>
     public sealed partial class PipelineBuilder
     {
-        /*
         /// <summary>
         /// Returns a new <see cref="PipelineBuilder"/> instance that implements the host backdrop acrylic effect
         /// </summary>
         /// <param name="tintColor">The tint color to use</param>
         /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -29,6 +28,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             Color tintColor,
             float tintOpacity,
             Uri noiseUri,
+            float dpi,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
@@ -40,7 +40,39 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+                return pipeline.Blend(FromTiles(noiseUri, dpi, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
+
+            return pipeline;
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="PipelineBuilder"/> instance that implements the host backdrop acrylic effect
+        /// </summary>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
+        /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpiFactory">Factory that return the current display DPI</param>
+        /// <param name="cacheMode">The cache mode to use to load the image</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromHostBackdropAcrylic(
+            Color tintColor,
+            float tintOpacity,
+            Uri noiseUri,
+            Func<float> dpiFactory,
+            CacheMode cacheMode = CacheMode.Default)
+        {
+            var pipeline =
+                FromHostBackdrop()
+                .LuminanceToAlpha()
+                .Opacity(0.4f)
+                .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
+                .Shade(tintColor, tintOpacity);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, dpiFactory, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -54,6 +86,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
         /// <param name="tintOpacitySetter">The optional tint mix setter for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -63,6 +96,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             float tintOpacity,
             out EffectSetter<float> tintOpacitySetter,
             Uri noiseUri,
+            float dpi,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
@@ -74,7 +108,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+                return pipeline.Blend(FromTiles(noiseUri, dpi, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -88,6 +122,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         /// <param name="tintOpacity">The amount of tint to apply over the current effect</param>
         /// <param name="tintOpacityAnimation">The optional tint mix animation for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -97,6 +132,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             float tintOpacity,
             out EffectAnimation<float> tintOpacityAnimation,
             Uri noiseUri,
+            float dpi,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
@@ -108,7 +144,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+                return pipeline.Blend(FromTiles(noiseUri, dpi, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -121,6 +157,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         /// <param name="tintOpacity">The amount of tint to apply over the current effect (must be in the [0, 1] range)</param>
         /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -129,13 +166,43 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             float tintOpacity,
             float blurAmount,
             Uri noiseUri,
+            float dpi,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline = FromBackdrop().Shade(tintColor, tintOpacity).Blur(blurAmount);
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+                return pipeline.Blend(FromTiles(noiseUri, dpi, cacheMode: cacheMode), BlendEffectMode.Overlay);
+            }
+
+            return pipeline;
+        }
+
+        /// <summary>
+        /// Returns a new <see cref="PipelineBuilder"/> instance that implements the in-app backdrop acrylic effect
+        /// </summary>
+        /// <param name="tintColor">The tint color to use</param>
+        /// <param name="tintOpacity">The amount of tint to apply over the current effect (must be in the [0, 1] range)</param>
+        /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
+        /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpiFactory">Factory that return the current display DPI</param>
+        /// <param name="cacheMode">The cache mode to use to load the image</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromBackdropAcrylic(
+            Color tintColor,
+            float tintOpacity,
+            float blurAmount,
+            Uri noiseUri,
+            Func<float> dpiFactory,
+            CacheMode cacheMode = CacheMode.Default)
+        {
+            var pipeline = FromBackdrop().Shade(tintColor, tintOpacity).Blur(blurAmount);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, dpiFactory, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -151,6 +218,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
         /// <param name="blurAmountSetter">The optional blur setter for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -162,6 +230,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             float blurAmount,
             out EffectSetter<float> blurAmountSetter,
             Uri noiseUri,
+            float dpi,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
@@ -171,7 +240,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+                return pipeline.Blend(FromTiles(noiseUri, dpi, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
@@ -187,6 +256,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         /// <param name="blurAmount">The amount of blur to apply to the acrylic brush</param>
         /// <param name="blurAmountAnimation">The optional blur animation for the effect</param>
         /// <param name="noiseUri">The <see cref="Uri"/> for the noise texture to load for the acrylic effect</param>
+        /// <param name="dpi">Indicates the current display DPI</param>
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
@@ -198,6 +268,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             float blurAmount,
             out EffectAnimation<float> blurAmountAnimation,
             Uri noiseUri,
+            float dpi,
             CacheMode cacheMode = CacheMode.Default)
         {
             var pipeline =
@@ -207,11 +278,10 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             if (noiseUri != null)
             {
-                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay);
+                return pipeline.Blend(FromTiles(noiseUri, dpi, cacheMode: cacheMode), BlendEffectMode.Overlay);
             }
 
             return pipeline;
         }
-        */
     }
 }

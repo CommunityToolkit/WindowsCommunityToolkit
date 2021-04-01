@@ -64,7 +64,7 @@ namespace CommunityToolkit.WinUI.UI.Behaviors
         /// </summary>
         /// <param name="sender">The source <see cref="AnimationSet"/> instance.</param>
         /// <param name="e">The arguments for the event (unused).</param>
-        private void AnimationCollection_Started(object sender, global::System.EventArgs e)
+        private void AnimationCollection_Started(object? sender, global::System.EventArgs e)
         {
             Interaction.ExecuteActions(sender, Actions, e);
         }

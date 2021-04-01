@@ -20,20 +20,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         {
             var visual = ElementCompositionPreview.GetElementVisual(element).Compositor.CreateSpriteVisual();
 
-            try
-            {
-                var pipelineBuilder = OnPipelineRequested();
-#pragma warning disable SA1108 // Block statements should not contain embedded comments
-                if (pipelineBuilder != null) // TODO: WinUI3 Remove
-#pragma warning restore SA1108 // Block statements should not contain embedded comments
-                {
-                    visual.Brush = await pipelineBuilder.BuildAsync();
-                }
-            }
-            catch
-            {
-                global::System.Diagnostics.Debug.WriteLine("TODO: WinUI3 - PipelineVisualFactoryBase.GetAttachedVisualAsync() Ignore until Win2D is available on WinUI3");
-            }
+            visual.Brush = await OnPipelineRequested().BuildAsync();
 
             return visual;
         }

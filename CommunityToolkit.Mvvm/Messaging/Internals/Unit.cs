@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Common.Mvvm.Messaging.Internals
+namespace CommunityToolkit.Mvvm.Messaging.Internals
 {
     /// <summary>
     /// An empty type representing a generic token with no specific value.

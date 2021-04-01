@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -7,9 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas.Geometry;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
 {
@@ -98,7 +97,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
             // Do nothing as this scenario is not valid for CanvasPathFigure
         }
 
-        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -116,7 +114,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
 
             return currentPoint;
         }
-        */
 
         /// <summary>
         /// Get the Regex for extracting Path Element Attributes

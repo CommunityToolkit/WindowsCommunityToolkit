@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.Brushes;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 
@@ -16,7 +15,6 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// </summary>
     internal static class RadialGradientBrushInterop
     {
-        /*
         /// <summary>
         /// Converts a WPF <see cref="ColorInterpolationMode"/> to a Win2D <see cref="CanvasColorSpace"/>.
         /// https://msdn.microsoft.com/en-us/library/system.windows.media.colorinterpolationmode(v=vs.110).aspx
@@ -58,7 +56,6 @@ namespace CommunityToolkit.WinUI.UI.Media
 
             return CanvasEdgeBehavior.Clamp;
         }
-        */
 
         /// <summary>
         /// Returns a new <see cref="Windows.Foundation.Rect(double, double, double, double)"/> representing the size of the <see cref="Vector2"/>.
@@ -80,7 +77,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             return new Vector2((float)size.Width, (float)size.Height);
         }
 
-        /*
         /// <summary>
         /// Converts a <see cref="GradientStopCollection"/> to an array of <see cref="CanvasGradientStop"/>.
         /// </summary>
@@ -98,6 +94,5 @@ namespace CommunityToolkit.WinUI.UI.Media
 
             return canvasStops;
         }
-        */
     }
 }

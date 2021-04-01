@@ -4,6 +4,7 @@
 
 using System;
 using CommunityToolkit.WinUI.UI.Media.Pipelines;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
@@ -56,12 +57,33 @@ namespace CommunityToolkit.WinUI.UI.Media
         public Uri TextureUri { get; set; }
 
         /// <inheritdoc/>
-        protected override object ProvideValue()
+        protected override object ProvideValue(IXamlServiceProvider serviceProvider)
         {
+            var rootObjectProvider = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
+
+            var window = rootObjectProvider.RootObject as Window;
+            var uiElement = rootObjectProvider.RootObject as UIElement;
+
+            Func<float> dpiFactory = () =>
+            {
+                float dpi = 96.0f;
+                if (uiElement == null && window != null)
+                {
+                    uiElement = window.Content;
+                }
+
+                if (uiElement != null)
+                {
+                    dpi = (float)uiElement.XamlRoot.RasterizationScale * 96;
+                }
+
+                return dpi;
+            };
+
             return BackgroundSource switch
             {
-                // AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(this.TintColor, (float)this.TintOpacity, (float)BlurAmount, TextureUri),
-                // AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(this.TintColor, (float)this.TintOpacity, TextureUri),
+                AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(this.TintColor, (float)this.TintOpacity, (float)BlurAmount, TextureUri, dpiFactory),
+                AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(this.TintColor, (float)this.TintOpacity, TextureUri, dpiFactory),
                 _ => throw new ArgumentException($"Invalid source mode for acrylic effect: {BackgroundSource}")
             };
         }

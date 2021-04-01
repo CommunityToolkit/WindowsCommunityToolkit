@@ -36,16 +36,18 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
             _softwareBitmapSource = new SoftwareBitmapSource();
             CurrentFrameImage.Source = _softwareBitmapSource;
 
+            /*
             Application.Current.Suspending += Application_Suspending;
             Application.Current.Resuming += Application_Resuming;
+            */
 
             await InitializeAsync();
         }
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            Application.Current.Suspending -= Application_Suspending;
-            Application.Current.Resuming -= Application_Resuming;
+            // Application.Current.Suspending -= Application_Suspending;
+            // Application.Current.Resuming -= Application_Resuming;
             await CleanUpAsync();
         }
 

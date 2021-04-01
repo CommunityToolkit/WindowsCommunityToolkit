@@ -130,11 +130,11 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnShowAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(object sender, EventArgs e)
+            static void OnAnimationsChanged(object? sender, EventArgs e)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
-                if (collection.ParentReference!.TryGetTarget(out UIElement element))
+                if (collection!.ParentReference!.TryGetTarget(out UIElement element))
                 {
                     ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
                 }
@@ -164,11 +164,11 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnHideAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(object sender, EventArgs e)
+            static void OnAnimationsChanged(object? sender, EventArgs e)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
-                if (collection.ParentReference!.TryGetTarget(out UIElement element))
+                if (collection!.ParentReference!.TryGetTarget(out UIElement element))
                 {
                     ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
                 }
@@ -198,11 +198,11 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static void OnAnimationsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            static void OnAnimationsChanged(object sender, EventArgs e)
+            static void OnAnimationsChanged(object? sender, EventArgs e)
             {
                 var collection = (ImplicitAnimationSet)sender;
 
-                if (collection.ParentReference!.TryGetTarget(out UIElement element))
+                if (collection!.ParentReference!.TryGetTarget(out UIElement element))
                 {
                     ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
                 }

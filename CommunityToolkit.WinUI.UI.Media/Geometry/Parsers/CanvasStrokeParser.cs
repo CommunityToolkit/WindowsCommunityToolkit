@@ -4,10 +4,9 @@
 
 using System;
 using System.Runtime.CompilerServices;
-
-//using Microsoft.Graphics.Canvas;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke;
+using Microsoft.Graphics.Canvas;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
 {
@@ -81,7 +80,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
                                                                              "into multiple Stroke Data and call the CanvasPathGeometry.CreateStroke() method on each of them.");
         }
 
-        /*
         /// <summary>
         /// Parses the Stroke Data string and converts it into CanvasStroke.
         /// </summary>
@@ -96,6 +94,5 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
             // Create the CanvasStroke from the strokeElement
             return strokeElement.CreateStroke(resourceCreator);
         }
-        */
     }
 }

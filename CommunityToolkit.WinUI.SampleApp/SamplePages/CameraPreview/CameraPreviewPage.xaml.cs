@@ -71,16 +71,20 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
             base.OnNavigatedTo(e);
 
             SampleController.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
+            /*
             Application.Current.Suspending += Application_Suspending;
             Application.Current.Resuming += Application_Resuming;
+            */
         }
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
 
+            /*
             Application.Current.Suspending -= Application_Suspending;
             Application.Current.Resuming -= Application_Resuming;
+            */
             await CleanUpAsync();
         }
 

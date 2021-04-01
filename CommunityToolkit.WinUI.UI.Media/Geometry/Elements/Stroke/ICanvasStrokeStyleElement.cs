@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text.RegularExpressions;
-//using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
 {
@@ -22,12 +22,10 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
         /// </summary>
         int ValidationCount { get; }
 
-        /*
         /// <summary>
         /// Gets the CanvasStrokeStyle obtained by parsing the style data.
         /// </summary>
         CanvasStrokeStyle Style { get; }
-        */
 
         /// <summary>
         /// Initializes the Stroke Element with the given Capture.

@@ -4,11 +4,10 @@
 
 using System;
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Parsers;
+using Microsoft.Graphics.Canvas;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
 {
@@ -36,7 +35,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
             Initialize(match);
         }
 
-        /*
         /// <summary>
         /// Creates the ICanvasStroke from the parsed data.
         /// </summary>
@@ -45,7 +43,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Stroke
         {
             return new CanvasStroke(_brush.CreateBrush(resourceCreator), _width, _style.Style);
         }
-        */
 
         /// <summary>
         /// Gets the Stroke Element Attributes from the Match.

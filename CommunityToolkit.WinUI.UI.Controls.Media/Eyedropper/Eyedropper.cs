@@ -4,10 +4,8 @@
 
 using System;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.UI.Xaml;
-using Microsoft.UI;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -33,16 +31,16 @@ namespace CommunityToolkit.WinUI.UI.Controls
         private static readonly CoreCursor DefaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
         private static readonly CoreCursor MoveCursor = new CoreCursor(CoreCursorType.Cross, 1);
 
-        // private readonly CanvasDevice _device = CanvasDevice.GetSharedDevice();
+        private readonly CanvasDevice _device = CanvasDevice.GetSharedDevice();
         private readonly TranslateTransform _layoutTransform = new TranslateTransform();
 
-        // private readonly CanvasImageSource _previewImageSource;
+        private readonly CanvasImageSource _previewImageSource;
         private readonly Grid _rootGrid;
         private readonly Grid _targetGrid;
 
         private Popup _popup;
 
-        // private CanvasBitmap _appScreenshot;
+        private CanvasBitmap _appScreenshot;
         private Action _lazyTask;
         private uint? _pointerId = null;
         private TaskCompletionSource<Color> _taskSource;
@@ -62,12 +60,10 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             RenderTransform = _layoutTransform;
 
-            // _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
+            _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
 
-            // Preview = _previewImageSource;
+            Preview = _previewImageSource;
             Loaded += Eyedropper_Loaded;
-
-            throw new NotImplementedException("WinUI3");
         }
 
         /// <summary>
@@ -164,7 +160,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             {
                 XamlRoot.Changed -= XamlRoot_Changed;
                 XamlRoot.Changed += XamlRoot_Changed;
-                _currentDpi = XamlRoot.RasterizationScale;
+                _currentDpi = XamlRoot.RasterizationScale * 96.0;
             }
             else
             {
@@ -196,9 +192,9 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 UpdateRootGridSize(sender.Size.Width, sender.Size.Height);
             }
 
-            if (_currentDpi != sender.RasterizationScale)
+            if (_currentDpi != sender.RasterizationScale * 96.0)
             {
-                _currentDpi = sender.RasterizationScale;
+                _currentDpi = sender.RasterizationScale * 96.0;
                 await UpdateAppScreenshotAsync();
             }
         }
@@ -265,7 +261,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         {
             if (pointerId == _pointerId)
             {
-                // if (_appScreenshot == null)
+                if (_appScreenshot == null)
                 {
                     await UpdateAppScreenshotAsync();
                 }
@@ -334,8 +330,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 _popup.IsOpen = false;
             }
 
-            // _appScreenshot?.Dispose();
-            // _appScreenshot = null;
+            _appScreenshot?.Dispose();
+            _appScreenshot = null;
             ProtectedCursor = DefaultCursor;
         }
 

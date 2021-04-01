@@ -1,6 +1,6 @@
-#module nuget:?package=Cake.LongPath.Module&version=1.0.0
+#module nuget:?package=Cake.LongPath.Module&version=1.0.1
 
-#addin nuget:?package=Cake.FileHelpers&version=4.0.0
+#addin nuget:?package=Cake.FileHelpers&version=4.0.1
 #addin nuget:?package=Cake.Powershell&version=1.0.0
 #addin nuget:?package=Cake.GitVersioning&version=3.3.37
 
@@ -276,7 +276,7 @@ Task("Test")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new [] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
@@ -323,7 +323,7 @@ Task("MSTestUITest")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new [] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal
     };
     DotNetCoreTest(file.FullPath, testSettings);

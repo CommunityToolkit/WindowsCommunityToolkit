@@ -4,11 +4,10 @@
 
 using System;
 using System.Runtime.CompilerServices;
-
-//using Microsoft.Graphics.Canvas;
-//using Microsoft.Graphics.Canvas.Brushes;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
 {
@@ -105,7 +104,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
                                                                              "into multiple Brush Data and call the CanvasPathGeometry.CreateBrush() method on each of them.");
         }
 
-        /*
         /// <summary>
         /// Parses the Brush data string and converts it into ICanvasBrush.
         /// </summary>
@@ -120,6 +118,5 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Parsers
             // Create ICanvasBrush from the brushElement
             return brushElement.CreateBrush(resourceCreator);
         }
-        */
     }
 }

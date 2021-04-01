@@ -4,9 +4,8 @@
 
 using System.Numerics;
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas.Geometry;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
 {
@@ -26,7 +25,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
             _x = _y = 0;
         }
 
-        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -53,7 +51,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
             // Return current point
             return point;
         }
-        */
 
         /// <summary>
         /// Get the Regex for extracting Path Element Attributes

@@ -4,9 +4,9 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.Text;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
+using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI;
@@ -54,7 +54,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
             return IsActive;
         }
 
-        /*
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
             const int verticalMargin = 3;
@@ -70,7 +69,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             drawingSession.DrawTextLayout(textLayout, (float)(Bounds.X - sessionBounds.X + HorizontalMarginBasedOnFont), (float)(Bounds.Y - sessionBounds.Y + verticalMargin), TextColor);
         }
-        */
 
         public void UpdateBounds(double actualWidth, double actualHeight)
         {

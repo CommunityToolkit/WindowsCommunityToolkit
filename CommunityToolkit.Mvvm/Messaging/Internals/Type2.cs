@@ -5,7 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Common.Mvvm.Messaging.Internals
+namespace CommunityToolkit.Mvvm.Messaging.Internals
 {
     /// <summary>
     /// A simple type representing an immutable pair of types.

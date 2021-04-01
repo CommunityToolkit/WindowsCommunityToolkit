@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas;
-//using Microsoft.Graphics.Canvas.Brushes;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
 {
@@ -31,13 +30,11 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
         /// <param name="capture">Capture object</param>
         void Initialize(Capture capture);
 
-        /*
         /// <summary>
         /// Creates the ICanvasBrush from the parsed data
         /// </summary>
         /// <param name="resourceCreator">ICanvasResourceCreator object</param>
         /// <returns>ICanvasBrush</returns>
         ICanvasBrush CreateBrush(ICanvasResourceCreator resourceCreator);
-        */
     }
 }

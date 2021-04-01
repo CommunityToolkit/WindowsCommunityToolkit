@@ -12,7 +12,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// An exposure effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.ExposureEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.ExposureEffect"/> effect</remarks>
     public sealed class ExposureEffect : PipelineEffect
     {
         private double amount;
@@ -34,7 +34,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             if (IsAnimatable)
             {
                 builder = builder.Exposure((float)Amount, out string id);
@@ -45,9 +44,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.Exposure((float)Amount);
-            */
-
-            return null;
         }
     }
 }

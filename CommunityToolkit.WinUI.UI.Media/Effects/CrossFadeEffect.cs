@@ -15,7 +15,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A blend effect that merges the current builder with an input one
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.CrossFadeEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.CrossFadeEffect"/> effect</remarks>
     [ContentProperty(Name = nameof(Effects))]
     public sealed class CrossFadeEffect : PipelineEffect
     {
@@ -48,7 +48,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             PipelineBuilder inputBuilder = Source ?? PipelineBuilder.FromBackdrop();
 
             foreach (IPipelineEffect effect in Effects)
@@ -66,8 +65,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.CrossFade(inputBuilder, (float)Factor);
-            */
-            return null;
         }
 
         /// <inheritdoc/>

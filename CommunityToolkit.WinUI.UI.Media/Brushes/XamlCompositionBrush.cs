@@ -79,7 +79,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         protected override PipelineBuilder OnPipelineRequested() => this.Pipeline;
 
         /// <summary>
-        /// Clones the current instance by rebuilding the source <see cref="Microsoft.UI.Xaml.Media.Brush"/>. Use this method to reuse the same effects pipeline on a different <see cref="System.DispatcherQueue"/>
+        /// Clones the current instance by rebuilding the source <see cref="Microsoft.UI.Xaml.Media.Brush"/>. Use this method to reuse the same effects pipeline on a different <see cref="Microsoft.System.DispatcherQueue"/>
         /// </summary>
         /// <remarks>
         /// If your code is already on the same thread, you can just assign this brush to an arbitrary number of controls and it will still work correctly.

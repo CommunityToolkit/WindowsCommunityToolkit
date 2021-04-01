@@ -4,12 +4,10 @@
 
 using System.Numerics;
 using System.Text;
-
-//using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
-    /*
     /// <summary>
     /// Class to read the <see cref="CanvasGeometry"/> path data.
     /// </summary>
@@ -126,5 +124,4 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
             _cmdBuilder.AppendLine($"    pathBuilder.EndFigure({(figureLoop == CanvasFigureLoop.Closed ? "CanvasFigureLoop.Closed" : "CanvasFigureLoop.Open")});");
         }
     }
-    */
 }

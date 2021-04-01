@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml;
 
 namespace CommunityToolkit.WinUI.UI
 {
-    /// <inheritdoc cref="Microsoft.UI.Xaml.FrameworkElementExtensions"/>
+    /// <inheritdoc cref="FrameworkElementExtensions"/>
     public static partial class FrameworkElementExtensions
     {
         /// <summary>

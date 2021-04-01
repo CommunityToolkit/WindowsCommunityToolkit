@@ -3,15 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Text.Json;
-
-// using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
     internal interface IDrawable
     {
-        // void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds);
+        void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds);
+
         bool IsVisible(Rect viewPort);
 
         void WriteJson(Utf8JsonWriter writer);

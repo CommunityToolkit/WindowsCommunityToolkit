@@ -21,12 +21,10 @@
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
     <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
-    <MicrosoftProjectReunionVersion>0.5.0-prerelease</MicrosoftProjectReunionVersion>
+    <MicrosoftProjectReunionVersion>0.5.0</MicrosoftProjectReunionVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
     <NoWarn>SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
-    <!-- Remove when Win2D for WinUI is available -->
-    <NoWarn>$(NoWarn);SA1515;SA1005;SA1512;CS8603;CS8622;CS0649;CS0414;CS1574;CS1587</NoWarn>
     <!-- TODO: WinUI3 - Need to fix -->
     <NoWarn>$(NoWarn);CA1033;CA1065;CA1001;CS0252;CS8073;CA1063;CA2213;CA2214;CS8600;CS8604</NoWarn>
     <!-- TODO: WinUI3 - Remove when XAMLBehaviors is strong signed -->

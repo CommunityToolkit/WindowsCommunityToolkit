@@ -9,14 +9,13 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A luminance to alpha effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.LuminanceToAlphaEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.LuminanceToAlphaEffect"/> effect</remarks>
     public sealed class LuminanceToAlphaEffect : PipelineEffect
     {
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            //return builder.LuminanceToAlpha();
-            return null;
+            return builder.LuminanceToAlpha();
         }
     }
 }

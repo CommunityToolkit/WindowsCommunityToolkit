@@ -64,7 +64,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private void InfiniteCanvas_Unloaded(object sender, RoutedEventArgs e)
         {
-            Application.Current.LeavingBackground -= Current_LeavingBackground;
+            // Application.Current.LeavingBackground -= Current_LeavingBackground;
         }
 
         private void RedoButton_Click(object sender, RoutedEventArgs e)
@@ -106,7 +106,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             _canvasTextBox.Visibility = Visibility.Collapsed;
             ClearTextBoxValue();
 
-            // _drawingSurfaceRenderer.ClearAll(ViewPort);
+            _drawingSurfaceRenderer.ClearAll(ViewPort);
         }
 
         private async void Current_LeavingBackground(object sender, Windows.ApplicationModel.LeavingBackgroundEventArgs e)
@@ -114,7 +114,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             // work around to virtual drawing surface bug.
             await Task.Delay(1000);
 
-            // _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
+            _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         private void InkScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -124,13 +124,16 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            // _drawingSurfaceRenderer.ExecuteCreateInk(_inkSync.BeginDry());
-            // _inkSync.EndDry();
+            /*
+            _drawingSurfaceRenderer.ExecuteCreateInk(_inkSync.BeginDry());
+            _inkSync.EndDry();
+            */
             ReDrawCanvas();
         }
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
+            // TODO: WinUI3: still not supported
             /*
             if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(Microsoft.UI.Xaml.Controls.InkToolbarTool.Eraser) || args.CurrentPoint.Properties.IsEraser)
             {

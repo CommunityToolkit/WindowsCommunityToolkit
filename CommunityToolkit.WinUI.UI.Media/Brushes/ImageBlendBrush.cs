@@ -5,14 +5,12 @@
 //// Image loading reference from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#MA0k4EYWzqGKV501.97
 
 using System;
-
-// using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-
-//using CanvasBlendEffect = Microsoft.Graphics.Canvas.Effects.BlendEffect;
+using CanvasBlendEffect = Microsoft.Graphics.Canvas.Effects.BlendEffect;
 
 namespace CommunityToolkit.WinUI.UI.Media
 {
@@ -61,23 +59,23 @@ namespace CommunityToolkit.WinUI.UI.Media
             typeof(ImageBlendBrush),
             new PropertyMetadata(Stretch.None, OnStretchChanged));
 
-        ///// <summary>
-        ///// Gets or sets how to blend the image with the backdrop.
-        ///// </summary>
-        //public ImageBlendMode Mode
-        //{
-        //    get => (ImageBlendMode)GetValue(ModeProperty);
-        //    set => SetValue(ModeProperty, value);
-        //}
-        //
-        ///// <summary>
-        ///// Identifies the <see cref="Mode"/> dependency property.
-        ///// </summary>
-        //public static readonly DependencyProperty ModeProperty = DependencyProperty.Register(
-        //    nameof(Mode),
-        //    typeof(ImageBlendMode),
-        //    typeof(ImageBlendBrush),
-        //    new PropertyMetadata(ImageBlendMode.Multiply, OnModeChanged));
+        /// <summary>
+        /// Gets or sets how to blend the image with the backdrop.
+        /// </summary>
+        public ImageBlendMode Mode
+        {
+            get => (ImageBlendMode)GetValue(ModeProperty);
+            set => SetValue(ModeProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Mode"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ModeProperty = DependencyProperty.Register(
+            nameof(Mode),
+            typeof(ImageBlendMode),
+            typeof(ImageBlendBrush),
+            new PropertyMetadata(ImageBlendMode.Multiply, OnModeChanged));
 
         private static void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -133,7 +131,7 @@ namespace CommunityToolkit.WinUI.UI.Media
                 _surface = LoadedImageSurface.StartLoadFromUri(bitmap.UriSource);
 
                 // Load Surface onto SurfaceBrush
-                _surfaceBrush = Window.Current.Compositor.CreateSurfaceBrush(_surface);
+                _surfaceBrush = CompositionTarget.GetCompositorForCurrentThread().CreateSurfaceBrush(_surface);
                 _surfaceBrush.Stretch = CompositionStretchFromStretch(Stretch);
 
                 // Abort if effects aren't supported.
@@ -145,10 +143,9 @@ namespace CommunityToolkit.WinUI.UI.Media
                     return;
                 }
 
-                var backdrop = Window.Current.Compositor.CreateBackdropBrush();
+                var backdrop = CompositionTarget.GetCompositorForCurrentThread().CreateBackdropBrush();
 
                 // Use a Win2D invert affect applied to a CompositionBackdropBrush.
-                /*
                 var graphicsEffect = new CanvasBlendEffect
                 {
                     Name = "Invert",
@@ -157,14 +154,13 @@ namespace CommunityToolkit.WinUI.UI.Media
                     Foreground = new CompositionEffectSourceParameter("image")
                 };
 
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect);
+                var effectFactory = CompositionTarget.GetCompositorForCurrentThread().CreateEffectFactory(graphicsEffect);
                 var effectBrush = effectFactory.CreateBrush();
 
                 effectBrush.SetSourceParameter("backdrop", backdrop);
                 effectBrush.SetSourceParameter("image", _surfaceBrush);
 
                 CompositionBrush = effectBrush;
-                */
             }
         }
 

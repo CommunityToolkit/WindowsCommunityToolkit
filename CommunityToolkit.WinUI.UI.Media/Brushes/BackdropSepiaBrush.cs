@@ -66,8 +66,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnPipelineRequested()
         {
-            //return PipelineBuilder.FromBackdrop().Sepia((float)Intensity, out setter);
-            return null;
+            return PipelineBuilder.FromBackdrop().Sepia((float)Intensity, out setter);
         }
     }
 }

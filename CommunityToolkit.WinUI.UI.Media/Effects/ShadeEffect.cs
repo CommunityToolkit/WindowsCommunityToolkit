@@ -32,8 +32,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            //return builder.Shade(Color, (float)Intensity);
-            return null;
+            return builder.Shade(Color, (float)Intensity);
         }
     }
 }

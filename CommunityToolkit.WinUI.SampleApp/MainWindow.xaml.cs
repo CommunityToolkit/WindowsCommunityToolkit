@@ -10,6 +10,8 @@ namespace CommunityToolkit.WinUI.SampleApp
         {
             InitializeComponent();
 
+            Title = "Windows Community Toolkit Sample App";
+
             rootFrame.Navigate(typeof(Shell), launchParameters);
         }
     }

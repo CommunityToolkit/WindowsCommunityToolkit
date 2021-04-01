@@ -9,14 +9,13 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// An color inversion effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.InvertEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.InvertEffect"/> effect</remarks>
     public sealed class InvertEffect : PipelineEffect
     {
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            //return builder.Invert();
-            return null;
+            return builder.Invert();
         }
     }
 }

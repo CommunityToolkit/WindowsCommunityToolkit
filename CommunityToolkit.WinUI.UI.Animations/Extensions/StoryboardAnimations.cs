@@ -23,9 +23,12 @@ namespace CommunityToolkit.WinUI.UI.Animations
         {
             TaskCompletionSource<object?> taskCompletionSource = new TaskCompletionSource<object?>();
 
-            void OnCompleted(object sender, object e)
+            void OnCompleted(object? sender, object e)
             {
-                ((Storyboard)sender).Completed -= OnCompleted;
+                if (sender is Storyboard storyboard)
+                {
+                    storyboard.Completed -= OnCompleted;
+                }
 
                 taskCompletionSource.SetResult(null);
             }

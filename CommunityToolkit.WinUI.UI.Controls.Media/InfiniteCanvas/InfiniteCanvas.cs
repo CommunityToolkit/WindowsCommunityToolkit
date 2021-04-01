@@ -5,8 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -319,7 +318,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
             _undoButton.Click -= UndoButton_Click;
             _redoButton.Click -= RedoButton_Click;
             Unloaded -= InfiniteCanvas_Unloaded;
-            Application.Current.LeavingBackground -= Current_LeavingBackground;
+
+            // Application.Current.LeavingBackground -= Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted -= DrawingSurfaceRenderer_CommandExecuted;
             _canvasTextBoxFontSizeTextBox.PreviewKeyDown -= CanvasTextBoxFontSizeTextBox_PreviewKeyDown;
             Loaded -= InfiniteCanvas_Loaded;
@@ -344,7 +344,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
             _undoButton.Click += UndoButton_Click;
             _redoButton.Click += RedoButton_Click;
             Unloaded += InfiniteCanvas_Unloaded;
-            Application.Current.LeavingBackground += Current_LeavingBackground;
+
+            // Application.Current.LeavingBackground += Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted += DrawingSurfaceRenderer_CommandExecuted;
             _canvasTextBoxFontSizeTextBox.PreviewKeyDown += CanvasTextBoxFontSizeTextBox_PreviewKeyDown;
             Loaded += InfiniteCanvas_Loaded;
@@ -397,10 +398,13 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private void SetCanvasWidthHeight()
         {
-            // if (_mainContainer == null || _inkCanvas == null || _drawingSurfaceRenderer == null)
-            // {
-            //     return;
-            // }
+            // _inkCanvas == null || Todo: WinUI: UNCOMMENT
+            if (_mainContainer == null ||
+                _drawingSurfaceRenderer == null)
+            {
+                return;
+            }
+
             _mainContainer.Width = CanvasWidth;
             _mainContainer.Height = CanvasHeight;
 
@@ -478,10 +482,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// <returns>Task</returns>
         public async Task SaveBitmapAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
         {
-            await Task.Yield();
-
-            // var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
-            // await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
+            var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
+            await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
         }
 
         /// <summary>
@@ -489,7 +491,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// </summary>
         public event EventHandler ReRenderCompleted;
 
-        /*
         private static CanvasBitmapFileFormat MapToCanvasBitmapFileFormat(BitmapFileFormat bitmapFileFormat)
         {
             switch (bitmapFileFormat)
@@ -509,6 +510,5 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 default: return CanvasBitmapFileFormat.Auto;
             }
         }
-        */
     }
 }

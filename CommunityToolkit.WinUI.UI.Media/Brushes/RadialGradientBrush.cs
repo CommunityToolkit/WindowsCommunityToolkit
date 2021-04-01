@@ -6,10 +6,8 @@
 
 using System;
 using System.Numerics;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.UI;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
@@ -72,7 +70,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             GradientStops = gradientStopCollection;
         }
 
-        /*
         /// <inheritdoc/>
         protected override bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size)
         {
@@ -107,6 +104,5 @@ namespace CommunityToolkit.WinUI.UI.Media
 
             return false;
         }
-        */
     }
 }

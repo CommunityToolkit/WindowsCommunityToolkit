@@ -5,11 +5,10 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
-
-//using Microsoft.Graphics.Canvas;
-//using Microsoft.Graphics.Canvas.Brushes;
-//using Microsoft.Graphics.Canvas.Geometry;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Parsers;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
+using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry
@@ -19,7 +18,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
     /// </summary>
     public static class CanvasPathGeometry
     {
-        /*
         /// <summary>
         /// Parses the Path data string and converts it to CanvasGeometry.
         /// </summary>
@@ -103,7 +101,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry
                 return CanvasStrokeStyleParser.Parse(styleData);
             }
         }
-        */
 
         /// <summary>
         /// Converts the color string in Hexadecimal or HDR color format to the corresponding Color object.

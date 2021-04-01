@@ -4,9 +4,8 @@
 
 using System.Numerics;
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas.Geometry;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
 {
@@ -83,7 +82,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
             ValidationCount = RegexFactory.ValidationRegex.Replace(Data, string.Empty).Length;
         }
 
-        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -93,7 +91,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
         /// <param name="lastElement">The previous PathElement in the Path.</param>
         /// <returns>The latest location in the Path after adding the Path Element</returns>
         public abstract Vector2 CreatePath(CanvasPathBuilder pathBuilder, Vector2 currentPoint, ref ICanvasPathElement lastElement);
-        */
 
         /// <summary>
         /// Get the Regex for extracting Path Element Attributes

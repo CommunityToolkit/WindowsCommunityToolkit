@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Common.Mvvm.Messaging.Messages
+namespace CommunityToolkit.Mvvm.Messaging.Messages
 {
     /// <summary>
     /// A <see langword="class"/> for async request messages, which can either be used directly or through derived classes.

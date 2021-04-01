@@ -7,13 +7,12 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Windows.Graphics.Effects;
+using CanvasBlendEffect = Microsoft.Graphics.Canvas.Effects.BlendEffect;
+using CanvasCrossFadeEffect = Microsoft.Graphics.Canvas.Effects.CrossFadeEffect;
 
-// using CanvasBlendEffect = Microsoft.Graphics.Canvas.Effects.BlendEffect;
-// using CanvasCrossFadeEffect = Microsoft.Graphics.Canvas.Effects.CrossFadeEffect;
 namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
     /// <summary>
@@ -21,7 +20,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
     /// </summary>
     public sealed partial class PipelineBuilder
     {
-        /*
         /// <summary>
         /// Blends two pipelines using a <see cref="BlendEffect"/> instance with the specified mode
         /// </summary>
@@ -157,6 +155,5 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             return new PipelineBuilder(Factory, this, background, animations?.ToArray(), initializers?.ToDictionary(item => item.Name, item => item.Initializer));
         }
-        */
     }
 }

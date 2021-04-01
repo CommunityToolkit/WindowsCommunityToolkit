@@ -5,11 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
-// using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
 using Windows.Foundation;
 using Windows.UI.Input.Inking;
@@ -67,7 +65,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
             return IsActive;
         }
 
-        /*
         public void Draw(CanvasDrawingSession drawingSession, Rect sessionBounds)
         {
             var finalStrokeList = new List<InkStroke>(Strokes.Count);
@@ -86,9 +83,9 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 finalStrokeList.Add(newStroke);
             }
 
-            drawingSession.DrawInk(finalStrokeList);
+            // TODO: WinUI3: still not supported
+            // drawingSession.DrawInk(finalStrokeList);
         }
-        */
 
         private static InkPoint MapPointToToSessionBounds(InkPoint point, Rect sessionBounds)
         {

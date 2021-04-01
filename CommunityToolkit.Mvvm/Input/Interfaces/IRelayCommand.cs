@@ -4,7 +4,7 @@
 
 using System.Windows.Input;
 
-namespace CommunityToolkit.Common.Mvvm.Input
+namespace CommunityToolkit.Mvvm.Input
 {
     /// <summary>
     /// An interface expanding <see cref="ICommand"/> with the ability to raise

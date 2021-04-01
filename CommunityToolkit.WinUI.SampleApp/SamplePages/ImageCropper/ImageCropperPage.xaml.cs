@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using WinRT;
 
 namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
@@ -115,6 +116,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                     ".png", ".jpg", ".jpeg"
                 }
             };
+            var initializeWithWindowWrapper = filePicker.As<App.IInitializeWithWindow>();
+            initializeWithWindowWrapper.Initialize((App.Current as App).WindowHandle);
+
             var file = await filePicker.PickSingleFileAsync();
             if (file != null && _imageCropper != null)
             {
@@ -134,6 +138,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                     { "JPEG Picture", new List<string> { ".jpg" } }
                 }
             };
+            var initializeWithWindowWrapper = savePicker.As<App.IInitializeWithWindow>();
+            initializeWithWindowWrapper.Initialize((App.Current as App).WindowHandle);
+
             var imageFile = await savePicker.PickSaveFileAsync();
             if (imageFile != null)
             {

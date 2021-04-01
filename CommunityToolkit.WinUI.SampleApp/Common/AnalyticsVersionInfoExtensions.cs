@@ -25,7 +25,7 @@ namespace CommunityToolkit.WinUI.SampleApp.Common
             {
                 case "Windows.Desktop":
                     // TODO: WinUI3 - equivalent for UIViewSettings.GetForCurrentView()?.UserInteractionMode?
-                    //return UIViewSettings.GetForCurrentView()?.UserInteractionMode == UserInteractionMode.Mouse
+                    // return UIViewSettings.GetForCurrentView()?.UserInteractionMode == UserInteractionMode.Mouse
                     //    ? DeviceFormFactor.Desktop
                     //    : DeviceFormFactor.Tablet;
                     return DeviceFormFactor.Desktop;

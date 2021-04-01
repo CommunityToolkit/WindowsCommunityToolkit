@@ -56,8 +56,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnPipelineRequested()
         {
-            //return PipelineBuilder.FromBackdrop().Blur((float)Amount, out this.amountSetter);
-            return null;
+            return PipelineBuilder.FromBackdrop().Blur((float)Amount, out this.amountSetter);
         }
     }
 }

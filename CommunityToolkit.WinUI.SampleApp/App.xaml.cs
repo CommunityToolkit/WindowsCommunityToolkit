@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.SampleApp.Common;
-using CommunityToolkit.WinUI.SampleApp.SamplePages;
 using CommunityToolkit.WinUI.SampleApp.Styles;
 using Microsoft.UI.Xaml;
 using Windows.ApplicationModel;
@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
+using WinRT;
 
 namespace CommunityToolkit.WinUI.SampleApp
 {
@@ -21,12 +22,32 @@ namespace CommunityToolkit.WinUI.SampleApp
     {
         private MainWindow _window;
 
+        public IntPtr WindowHandle { get; private set; }
+
+        [ComImport]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [Guid("EECDBF0E-BAE9-4CB6-A68E-9598E1CB57BB")]
+        internal interface IWindowNative
+        {
+            IntPtr WindowHandle { get; }
+        }
+
+        [ComImport]
+        [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IInitializeWithWindow
+        {
+            void Initialize(IntPtr hwnd);
+        }
+
         public App()
         {
             InitializeComponent();
-            Suspending += OnSuspending;
+
+            // Suspending += OnSuspending;
         }
 
+        /*
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             RunAppInitialization(null);
@@ -49,6 +70,7 @@ namespace CommunityToolkit.WinUI.SampleApp
                 }
             }
         }
+        */
 
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs e)
         {
@@ -65,6 +87,7 @@ namespace CommunityToolkit.WinUI.SampleApp
             SystemInformation.Instance.TrackAppUse(activatedArgs);
         }
 
+        /*
         /// <summary>
         /// Event fired when a Background Task is activated (in Single Process Model)
         /// </summary>
@@ -84,10 +107,11 @@ namespace CommunityToolkit.WinUI.SampleApp
 
             deferral.Complete();
         }
+        */
 
         private void RunAppInitialization(string launchParameters)
         {
-            ThemeInjector.InjectThemeResources(Application.Current.Resources);
+            ThemeInjector.InjectThemeResources(Resources);
 
             // Go full screen on Xbox
             if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
@@ -105,6 +129,9 @@ namespace CommunityToolkit.WinUI.SampleApp
             Sample.EnsureCacheLatest();
 
             _window = new MainWindow(launchParameters);
+
+            IWindowNative windowWrapper = _window.As<IWindowNative>();
+            WindowHandle = windowWrapper.WindowHandle;
 
             _window.Activate();
         }

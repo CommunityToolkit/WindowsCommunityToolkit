@@ -12,7 +12,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// An opacity effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
     public sealed class OpacityEffect : PipelineEffect
     {
         private double value = 1;
@@ -34,7 +34,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             if (IsAnimatable)
             {
                 builder = builder.Opacity((float)Value, out string id);
@@ -45,9 +44,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.Opacity((float)Value);
-            */
-
-            return null;
         }
     }
 }

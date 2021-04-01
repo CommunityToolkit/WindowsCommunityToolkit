@@ -5,19 +5,18 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Windows.Graphics.Effects;
 using Windows.UI;
+using CanvasCrossFadeEffect = Microsoft.Graphics.Canvas.Effects.CrossFadeEffect;
+using CanvasExposureEffect = Microsoft.Graphics.Canvas.Effects.ExposureEffect;
+using CanvasHueRotationEffect = Microsoft.Graphics.Canvas.Effects.HueRotationEffect;
+using CanvasOpacityEffect = Microsoft.Graphics.Canvas.Effects.OpacityEffect;
+using CanvasSaturationEffect = Microsoft.Graphics.Canvas.Effects.SaturationEffect;
+using CanvasSepiaEffect = Microsoft.Graphics.Canvas.Effects.SepiaEffect;
+using CanvasTintEffect = Microsoft.Graphics.Canvas.Effects.TintEffect;
 
-// using CanvasCrossFadeEffect = Microsoft.Graphics.Canvas.Effects.CrossFadeEffect;
-// using CanvasExposureEffect = Microsoft.Graphics.Canvas.Effects.ExposureEffect;
-// using CanvasHueRotationEffect = Microsoft.Graphics.Canvas.Effects.HueRotationEffect;
-// using CanvasOpacityEffect = Microsoft.Graphics.Canvas.Effects.OpacityEffect;
-// using CanvasSaturationEffect = Microsoft.Graphics.Canvas.Effects.SaturationEffect;
-// using CanvasSepiaEffect = Microsoft.Graphics.Canvas.Effects.SepiaEffect;
-// using CanvasTintEffect = Microsoft.Graphics.Canvas.Effects.TintEffect;
 namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
     /// <summary>
@@ -25,7 +24,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
     /// </summary>
     public sealed partial class PipelineBuilder
     {
-        /*
         /// <summary>
         /// Adds a new <see cref="GaussianBlurEffect"/> to the current pipeline
         /// </summary>
@@ -219,6 +217,5 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             return new PipelineBuilder(this, Factory, new[] { target });
         }
-        */
     }
 }

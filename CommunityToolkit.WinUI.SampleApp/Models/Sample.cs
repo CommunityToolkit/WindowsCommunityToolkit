@@ -56,16 +56,18 @@ namespace CommunityToolkit.WinUI.SampleApp
             {
                 // Delete everything in the Cache Folder. Could be Pre 3.0.0 Cache data.
                 // Commented out WinUI3 bug
-                //foreach (var item in await ApplicationData.Current.LocalCacheFolder.GetItemsAsync())
-                //{
-                //    try
-                //    {
-                //        await item.DeleteAsync(StorageDeleteOption.Default);
-                //    }
-                //    catch
-                //    {
-                //    }
-                //}
+                /*
+                foreach (var item in await ApplicationData.Current.LocalCacheFolder.GetItemsAsync())
+                {
+                    try
+                    {
+                        await item.DeleteAsync(StorageDeleteOption.Default);
+                    }
+                    catch
+                    {
+                    }
+                }
+                */
 
                 // Update Cache Version info.
                 settingsStorage.Save(_cacheSHAKey, onlineDocsSHA);

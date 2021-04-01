@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using CommunityToolkit.WinUI.UI.Media.Helpers;
 using CommunityToolkit.WinUI.UI.Media.Pipelines;
 using Microsoft.UI.Xaml;
 
@@ -67,10 +68,12 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnPipelineRequested()
         {
-            //if (TextureUri is Uri uri)
-            //{
-            //    return PipelineBuilder.FromTiles(uri, DpiMode);
-            //}
+            if (TextureUri is Uri uri)
+            {
+                float dpi = DpiHelpers.GetDpi(this);
+
+                return PipelineBuilder.FromTiles(uri, dpi, DpiMode);
+            }
 
             return PipelineBuilder.FromColor(default);
         }

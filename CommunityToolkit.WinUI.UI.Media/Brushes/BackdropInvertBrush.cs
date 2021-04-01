@@ -17,8 +17,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         protected override PipelineBuilder OnPipelineRequested()
         {
-            //return PipelineBuilder.FromBackdrop().Invert();
-            return null;
+            return PipelineBuilder.FromBackdrop().Invert();
         }
     }
 }

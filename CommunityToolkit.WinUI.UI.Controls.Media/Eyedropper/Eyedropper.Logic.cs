@@ -5,8 +5,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -23,7 +22,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
     {
         private void UpdateEyedropper(Point position)
         {
-            /*
             if (_appScreenshot == null)
             {
                 return;
@@ -36,7 +34,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
             var y = (int)Math.Ceiling(Math.Min(_appScreenshot.SizeInPixels.Height - 1, Math.Max(position.Y, 0)));
             Color = _appScreenshot.GetPixelColors(x, y, 1, 1).Single();
             UpdatePreview(x, y);
-            */
         }
 
         private void UpdateWorkArea()
@@ -73,7 +70,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private void UpdatePreview(int centerX, int centerY)
         {
-            /*
             var halfPixelCountPerRow = (PixelCountPerRow - 1) / 2;
             var left = (int)Math.Min(
                 _appScreenshot.SizeInPixels.Width - 1,
@@ -109,7 +105,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
                     startPoint.Y += PreviewPixelsPerRawPixel;
                 }
             }
-            */
         }
 
         internal async Task UpdateAppScreenshotAsync()
@@ -142,9 +137,9 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 await renderTarget.RenderAsync(content, scaleWidth, scaleHeight);
                 var pixels = await renderTarget.GetPixelsAsync();
 
-                // _appScreenshot?.Dispose();
-                // _appScreenshot = null;
-                // _appScreenshot = CanvasBitmap.CreateFromBytes(_device, pixels, renderTarget.PixelWidth, renderTarget.PixelHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
+                _appScreenshot?.Dispose();
+                _appScreenshot = null;
+                _appScreenshot = CanvasBitmap.CreateFromBytes(_device, pixels, renderTarget.PixelWidth, renderTarget.PixelHeight, DirectXPixelFormat.B8G8R8A8UIntNormalized);
             }
             catch (OutOfMemoryException ex)
             {

@@ -12,7 +12,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A sepia effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SepiaEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.SepiaEffect"/> effect</remarks>
     public sealed class SepiaEffect : PipelineEffect
     {
         private double intensity = 0.5;
@@ -34,7 +34,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             if (IsAnimatable)
             {
                 builder = builder.Sepia((float)Intensity, out string id);
@@ -45,9 +44,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.Sepia((float)Intensity);
-            */
-
-            return null;
         }
     }
 }

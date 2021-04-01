@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Data;
 namespace CommunityToolkit.WinUI.UI.Converters
 {
     /// <summary>
-    /// Converts a file size in bytes to a more human-readable friendly format using <see cref="Toolkit.Converters.ToFileSizeString(long)"/>
+    /// Converts a file size in bytes to a more human-readable friendly format using <see cref="Common.Converters.ToFileSizeString(long)"/>
     /// </summary>
     public class FileSizeToFriendlyStringConverter : IValueConverter
     {

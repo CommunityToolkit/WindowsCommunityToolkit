@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas;
-//using Microsoft.Graphics.Canvas.Brushes;
 using CommunityToolkit.WinUI.UI.Media.Geometry.Core;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Brushes;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
 {
@@ -21,14 +20,12 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
     {
         private Vector2 _startPoint;
         private Vector2 _endPoint;
-        /*
         private CanvasAlphaMode _alphaMode;
         private CanvasBufferPrecision _bufferPrecision;
         private CanvasEdgeBehavior _edgeBehavior;
         private CanvasColorSpace _preInterpolationColorSpace;
         private CanvasColorSpace _postInterpolationColorSpace;
         private List<CanvasGradientStopHdr> _gradientStopHdrs;
-        */
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LinearGradientHdrBrushElement"/> class.
@@ -40,7 +37,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
             _startPoint = Vector2.Zero;
             _endPoint = Vector2.Zero;
             _opacity = 1f;
-            /*
             _alphaMode = (CanvasAlphaMode)0;
             _bufferPrecision = (CanvasBufferPrecision)0;
             _edgeBehavior = (CanvasEdgeBehavior)0;
@@ -48,13 +44,12 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
             // Default ColorSpace is sRGB
             _preInterpolationColorSpace = CanvasColorSpace.Srgb;
             _postInterpolationColorSpace = CanvasColorSpace.Srgb;
-            */
+            _gradientStopHdrs = new List<CanvasGradientStopHdr>();
 
             // Initialize
             Initialize(capture);
         }
 
-        /*
         /// <summary>
         /// Creates the CanvasLinearGradientBrush from the parsed data
         /// </summary>
@@ -77,7 +72,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
 
             return brush;
         }
-        */
 
         /// <summary>
         /// Gets the Regex for extracting Brush Element Attributes
@@ -94,7 +88,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
         /// <param name="match">Match object</param>
         protected override void GetAttributes(Match match)
         {
-            /*
             // Start Point
             float.TryParse(match.Groups["StartX"].Value, out var startX);
             float.TryParse(match.Groups["StartY"].Value, out var startY);
@@ -214,7 +207,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Brush
                     _gradientStopHdrs = _gradientStopHdrs.OrderBy(g => g.Position).ToList();
                 }
             }
-            */
         }
     }
 }

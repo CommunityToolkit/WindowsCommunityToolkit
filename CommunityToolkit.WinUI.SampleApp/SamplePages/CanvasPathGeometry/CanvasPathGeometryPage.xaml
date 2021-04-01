@@ -3,8 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
       mc:Ignorable="d">
-    <!-- xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml" -->
 
     <Grid Padding="10">
         <Grid.RowDefinitions>
@@ -85,44 +85,47 @@
                 HorizontalAlignment="Left"
                 Click="{x:Bind OnClearCanvas}"
                 Content="Clear" />
-        <!--
-        <Pivot x:Name="RootPivot"
+
+        <TabView x:Name="RootPivot"
+                 IsAddTabButtonVisible="False"
                Grid.Row="4">
-            <PivotItem Foreground="Black"
-                       Header="Canvas">
-                <ScrollViewer x:Name="RenderScroll"
-                              HorizontalScrollBarVisibility="Auto"
-                              VerticalScrollBarVisibility="Auto">
-                    <win2d:CanvasControl x:Name="RenderCanvas"
-                                         Width="{Binding ElementName=RenderScroll, Path=ActualWidth}"
-                                         Height="{Binding ElementName=RenderScroll, Path=ActualHeight}"
-                                         MinWidth="1200"
-                                         MinHeight="800"
-                                         HorizontalAlignment="Stretch"
-                                         VerticalAlignment="Stretch"
-                                         HorizontalContentAlignment="Stretch"
-                                         VerticalContentAlignment="Stretch"
-                                         ClearColor="#A7A7A7"
-                                         Draw="{x:Bind OnCanvasDraw}" />
-                </ScrollViewer>
-            </PivotItem>
-            <PivotItem Foreground="Black"
-                       Header="Commands">
-                <ScrollViewer Background="#272727"
-                              HorizontalScrollBarVisibility="Disabled"
-                              VerticalScrollBarVisibility="Auto">
-                    <TextBlock x:Name="CommandsList"
-                               Padding="10"
-                               FontFamily="Courier New"
-                               FontSize="16"
-                               Foreground="White"
-                               IsTextSelectionEnabled="True"
-                               SelectionHighlightColor="#007aff"
-                               TextWrapping="Wrap" />
-                </ScrollViewer>
-            </PivotItem>
-        </Pivot>
-        -->
+            <TabView.TabItems>
+                <TabViewItem Foreground="Black"
+                           Header="Canvas">
+                    <ScrollViewer x:Name="RenderScroll"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto">
+                        <win2d:CanvasControl x:Name="RenderCanvas"
+                                             Width="{Binding ElementName=RenderScroll, Path=ActualWidth}"
+                                             Height="{Binding ElementName=RenderScroll, Path=ActualHeight}"
+                                             MinWidth="1200"
+                                             MinHeight="800"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Stretch"
+                                             HorizontalContentAlignment="Stretch"
+                                             VerticalContentAlignment="Stretch"
+                                             ClearColor="#A7A7A7"
+                                             Draw="{x:Bind OnCanvasDraw}" />
+                    </ScrollViewer>
+                </TabViewItem>
+                <TabViewItem Foreground="Black"
+                           Header="Commands">
+                    <ScrollViewer Background="#272727"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="CommandsList"
+                                   Padding="10"
+                                   FontFamily="Courier New"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   IsTextSelectionEnabled="True"
+                                   SelectionHighlightColor="#007aff"
+                                   TextWrapping="Wrap" />
+                    </ScrollViewer>
+                </TabViewItem>
+            </TabView.TabItems>
+        </TabView>
+        
         <StackPanel Grid.Row="4"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"

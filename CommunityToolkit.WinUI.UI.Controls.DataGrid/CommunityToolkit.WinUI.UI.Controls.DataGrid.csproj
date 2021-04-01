@@ -8,8 +8,6 @@
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Data;Grid;DataGrid</PackageTags>
     <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
   <ItemGroup>

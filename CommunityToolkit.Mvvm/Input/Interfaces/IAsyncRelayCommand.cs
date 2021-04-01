@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Common.Mvvm.Input
+namespace CommunityToolkit.Mvvm.Input
 {
     /// <summary>
     /// An interface expanding <see cref="IRelayCommand"/> to support asynchronous operations.

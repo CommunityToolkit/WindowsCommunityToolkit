@@ -12,7 +12,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     /// <summary>
     /// A tint effect
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
+    /// <remarks>This effect maps to the Win2D <see cref="Microsoft.Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
     public sealed class TintEffect : PipelineEffect
     {
         /// <summary>
@@ -28,7 +28,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
         {
-            /*
             if (IsAnimatable)
             {
                 builder = builder.Tint(Color, out string id);
@@ -39,9 +38,6 @@ namespace CommunityToolkit.WinUI.UI.Media
             }
 
             return builder.Tint(Color);
-            */
-
-            return null;
         }
     }
 }

@@ -7,15 +7,15 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using CommunityToolkit.Common.Mvvm.Messaging.Internals;
+using CommunityToolkit.Mvvm.Messaging.Internals;
 using Microsoft.Collections.Extensions;
 #if NETSTANDARD2_1
 using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #else
-using RecipientsTable = CommunityToolkit.Common.Mvvm.Messaging.WeakReferenceMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+using RecipientsTable = CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #endif
 
-namespace CommunityToolkit.Common.Mvvm.Messaging
+namespace CommunityToolkit.Mvvm.Messaging
 {
     /// <summary>
     /// A class providing a reference implementation for the <see cref="IMessenger"/> interface.

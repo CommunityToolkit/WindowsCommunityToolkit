@@ -7,26 +7,23 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Windows.Graphics.Effects;
 using Windows.UI;
-
-// using CanvasExposureEffect = Microsoft.Graphics.Canvas.Effects.ExposureEffect;
-// using CanvasGrayscaleEffect = Microsoft.Graphics.Canvas.Effects.GrayscaleEffect;
-// using CanvasHueRotationEffect = Microsoft.Graphics.Canvas.Effects.HueRotationEffect;
-// using CanvasInvertEffect = Microsoft.Graphics.Canvas.Effects.InvertEffect;
-// using CanvasLuminanceToAlphaEffect = Microsoft.Graphics.Canvas.Effects.LuminanceToAlphaEffect;
-// using CanvasOpacityEffect = Microsoft.Graphics.Canvas.Effects.OpacityEffect;
-// using CanvasSaturationEffect = Microsoft.Graphics.Canvas.Effects.SaturationEffect;
-// using CanvasSepiaEffect = Microsoft.Graphics.Canvas.Effects.SepiaEffect;
-// using CanvasTemperatureAndTintEffect = Microsoft.Graphics.Canvas.Effects.TemperatureAndTintEffect;
-// using CanvasTintEffect = Microsoft.Graphics.Canvas.Effects.TintEffect;
+using CanvasExposureEffect = Microsoft.Graphics.Canvas.Effects.ExposureEffect;
+using CanvasGrayscaleEffect = Microsoft.Graphics.Canvas.Effects.GrayscaleEffect;
+using CanvasHueRotationEffect = Microsoft.Graphics.Canvas.Effects.HueRotationEffect;
+using CanvasInvertEffect = Microsoft.Graphics.Canvas.Effects.InvertEffect;
+using CanvasLuminanceToAlphaEffect = Microsoft.Graphics.Canvas.Effects.LuminanceToAlphaEffect;
+using CanvasOpacityEffect = Microsoft.Graphics.Canvas.Effects.OpacityEffect;
+using CanvasSaturationEffect = Microsoft.Graphics.Canvas.Effects.SaturationEffect;
+using CanvasSepiaEffect = Microsoft.Graphics.Canvas.Effects.SepiaEffect;
+using CanvasTemperatureAndTintEffect = Microsoft.Graphics.Canvas.Effects.TemperatureAndTintEffect;
+using CanvasTintEffect = Microsoft.Graphics.Canvas.Effects.TintEffect;
 
 namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 {
-    /*
     /// <summary>
     /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="CompositionBrush"/> instances from them
     /// </summary>
@@ -697,5 +694,4 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
             return new PipelineBuilder(this, Factory, animations?.ToArray(), initializers?.ToDictionary(item => item.Name, item => item.Initializer));
         }
     }
-    */
 }

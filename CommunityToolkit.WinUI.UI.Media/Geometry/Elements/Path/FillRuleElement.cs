@@ -5,8 +5,7 @@
 using System;
 using System.Numerics;
 using System.Text.RegularExpressions;
-
-//using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
 {
@@ -15,14 +14,14 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
     /// </summary>
     internal class FillRuleElement : AbstractPathElement
     {
-        //private CanvasFilledRegionDetermination _fillValue;
+        private CanvasFilledRegionDetermination _fillValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FillRuleElement"/> class.
         /// </summary>
         public FillRuleElement()
         {
-            //_fillValue = CanvasFilledRegionDetermination.Alternate;
+            _fillValue = CanvasFilledRegionDetermination.Alternate;
         }
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
             // Do nothing as this scenario is not valid for this Path Element
         }
 
-        /*
         /// <summary>
         /// Adds the Path Element to the Path.
         /// </summary>
@@ -57,7 +55,6 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
             // Return current point
             return currentPoint;
         }
-        */
 
         /// <summary>
         /// Get the Regex for extracting Path Element Attributes
@@ -75,7 +72,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Geometry.Elements.Path
         /// <param name="match">Match object</param>
         protected override void GetAttributes(Match match)
         {
-            //Enum.TryParse(match.Groups["FillValue"].Value, out _fillValue);
+            Enum.TryParse(match.Groups["FillValue"].Value, out _fillValue);
         }
     }
 }

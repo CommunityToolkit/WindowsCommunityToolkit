@@ -76,7 +76,7 @@ namespace CommunityToolkit.WinUI.UI.Animations
         /// </summary>
         /// <param name="sender">The instance raising the event.</param>
         /// <param name="e">The empty <see cref="EventArgs"/> for the event.</param>
-        private void RaiseAnimationsChanged(object sender, EventArgs e)
+        private void RaiseAnimationsChanged(object? sender, EventArgs e)
         {
             AnimationsChanged?.Invoke(this, e);
         }

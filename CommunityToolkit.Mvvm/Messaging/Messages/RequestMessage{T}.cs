@@ -6,7 +6,7 @@ using System;
 
 #pragma warning disable CS8618
 
-namespace CommunityToolkit.Common.Mvvm.Messaging.Messages
+namespace CommunityToolkit.Mvvm.Messaging.Messages
 {
     /// <summary>
     /// A <see langword="class"/> for request messages, which can either be used directly or through derived classes.

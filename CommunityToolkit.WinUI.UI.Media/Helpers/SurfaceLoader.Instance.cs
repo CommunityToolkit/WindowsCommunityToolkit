@@ -5,14 +5,14 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
-// using Microsoft.Graphics.Canvas;
-// using Microsoft.Graphics.Canvas.Text;
-// using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
+using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.Graphics.DirectX;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.Graphics.DirectX;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.UI.Media.Helpers
@@ -24,7 +24,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Helpers
     /// <param name="device">The device.</param>
     /// <param name="sizeTarget">The size target.</param>
     /// <returns>A CompositeDrawingSurface</returns>
-    //public delegate CompositionDrawingSurface LoadTimeEffectHandler(CanvasBitmap bitmap, CompositionGraphicsDevice device, Size sizeTarget);
+    public delegate CompositionDrawingSurface LoadTimeEffectHandler(CanvasVirtualBitmap bitmap, CompositionGraphicsDevice device, Size sizeTarget); // WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
 
     /// <summary>
     /// A <see langword="class"/> that can load and draw images and other objects to Win2D surfaces and brushes
@@ -42,7 +42,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Helpers
         /// <returns>A <see cref="SurfaceLoader"/> instance to use in the current window</returns>
         public static SurfaceLoader GetInstance()
         {
-            return GetInstance(Window.Current.Compositor);
+            return GetInstance(CompositionTarget.GetCompositorForCurrentThread());
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Helpers
         /// <summary>
         /// The <see cref="CanvasDevice"/> instance in use.
         /// </summary>
-        //private CanvasDevice canvasDevice;
+        private CanvasDevice canvasDevice;
 
         /// <summary>
         /// The <see cref="CompositionGraphicsDevice"/> instance to determine which GPU is handling the request.
@@ -98,34 +98,30 @@ namespace CommunityToolkit.WinUI.UI.Media.Helpers
         /// </summary>
         private void InitializeDevices()
         {
-            /*
             if (!(this.canvasDevice is null))
             {
                 this.canvasDevice.DeviceLost -= CanvasDevice_DeviceLost;
             }
-            */
 
             if (!(this.compositionDevice is null))
             {
                 this.compositionDevice.RenderingDeviceReplaced -= CompositionDevice_RenderingDeviceReplaced;
             }
 
-            /*
             this.canvasDevice = new CanvasDevice();
             this.compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(this.compositor, this.canvasDevice);
 
             this.canvasDevice.DeviceLost += CanvasDevice_DeviceLost;
-            */
             this.compositionDevice.RenderingDeviceReplaced += CompositionDevice_RenderingDeviceReplaced;
         }
 
         /// <summary>
         /// Invokes <see cref="InitializeDevices"/> when the current <see cref="CanvasDevice"/> is lost.
         /// </summary>
-        //private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
-        //{
-        //    InitializeDevices();
-        //}
+        private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
+        {
+            InitializeDevices();
+        }
 
         /// <summary>
         /// Invokes <see cref="InitializeDevices"/> when the current <see cref="CompositionGraphicsDevice"/> changes rendering device.
@@ -153,27 +149,27 @@ namespace CommunityToolkit.WinUI.UI.Media.Helpers
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
         public async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget)
         {
-            //var bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri);
-            //var sizeSource = bitmap.Size;
+            // WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
+            var bitmap = await CanvasVirtualBitmap.LoadAsync(canvasDevice, uri);
+            var sizeSource = bitmap.Size;
 
-            //if (sizeTarget.IsEmpty)
-            //{
-            //    sizeTarget = sizeSource;
-            //}
+            if (sizeTarget.IsEmpty)
+            {
+                sizeTarget = sizeSource;
+            }
 
-            //var surface = compositionDevice.CreateDrawingSurface(
-            //    sizeTarget,
-            //    DirectXPixelFormat.B8G8R8A8UIntNormalized,
-            //    DirectXAlphaMode.Premultiplied);
+            var surface = compositionDevice.CreateDrawingSurface(
+                sizeTarget,
+                DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                DirectXAlphaMode.Premultiplied);
 
-            //using (var ds = CanvasComposition.CreateDrawingSession(surface))
-            //{
-            //    ds.Clear(Color.FromArgb(0, 0, 0, 0));
-            //    ds.DrawImage(bitmap, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), new Rect(0, 0, sizeSource.Width, sizeSource.Height));
-            //}
+            using (var ds = CanvasComposition.CreateDrawingSession(surface))
+            {
+                ds.Clear(Color.FromArgb(0, 0, 0, 0));
+                ds.DrawImage(bitmap, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), new Rect(0, 0, sizeSource.Width, sizeSource.Height));
+            }
 
-            //return surface;
-            return await Task.FromResult<CompositionDrawingSurface>(null);
+            return surface;
         }
 
         /// <summary>
@@ -185,38 +181,39 @@ namespace CommunityToolkit.WinUI.UI.Media.Helpers
         /// <param name="textColor">Color of the text.</param>
         /// <param name="bgColor">Color of the bg.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        //public CompositionDrawingSurface LoadText(string text, Size sizeTarget, CanvasTextFormat textFormat, Color textColor, Color bgColor)
-        //{
-        //    var surface = compositionDevice.CreateDrawingSurface(
-        //        sizeTarget,
-        //        DirectXPixelFormat.B8G8R8A8UIntNormalized,
-        //        DirectXAlphaMode.Premultiplied);
+        public CompositionDrawingSurface LoadText(string text, Size sizeTarget, CanvasTextFormat textFormat, Color textColor, Color bgColor)
+        {
+            var surface = compositionDevice.CreateDrawingSurface(
+                sizeTarget,
+                DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                DirectXAlphaMode.Premultiplied);
 
-        //    using (var ds = CanvasComposition.CreateDrawingSession(surface))
-        //    {
-        //        ds.Clear(bgColor);
-        //        ds.DrawText(text, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), textColor, textFormat);
-        //    }
+            using (var ds = CanvasComposition.CreateDrawingSession(surface))
+            {
+                ds.Clear(bgColor);
+                ds.DrawText(text, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), textColor, textFormat);
+            }
 
-        //    return surface;
-        //}
+            return surface;
+        }
 
-        ///// <summary>
-        ///// Loads an image from URI, with a specified size.
-        ///// </summary>
-        ///// <param name="uri">The URI.</param>
-        ///// <param name="sizeTarget">The size target.</param>
-        ///// <param name="loadEffectHandler">The load effect handler callback.</param>
-        ///// <returns><see cref="CompositionDrawingSurface"/></returns>
-        //public async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget, LoadTimeEffectHandler loadEffectHandler)
-        //{
-        //    if (loadEffectHandler != null)
-        //    {
-        //        var bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri);
-        //        return loadEffectHandler(bitmap, compositionDevice, sizeTarget);
-        //    }
+        /// <summary>
+        /// Loads an image from URI, with a specified size.
+        /// </summary>
+        /// <param name="uri">The URI.</param>
+        /// <param name="sizeTarget">The size target.</param>
+        /// <param name="loadEffectHandler">The load effect handler callback.</param>
+        /// <returns><see cref="CompositionDrawingSurface"/></returns>
+        public async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget, LoadTimeEffectHandler loadEffectHandler)
+        {
+            if (loadEffectHandler != null)
+            {
+                // WinUI3/Win2D bug: switch back to CanvasBitmap once it works.
+                var bitmap = await CanvasVirtualBitmap.LoadAsync(canvasDevice, uri);
+                return loadEffectHandler(bitmap, compositionDevice, sizeTarget);
+            }
 
-        //    return await LoadFromUri(uri, sizeTarget);
-        //}
+            return await LoadFromUri(uri, sizeTarget);
+        }
     }
 }

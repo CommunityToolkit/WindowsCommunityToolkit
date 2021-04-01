@@ -10,7 +10,7 @@ using System.Linq;
 namespace CommunityToolkit.WinUI.UI.Media
 {
     /// <summary>
-    /// An extension <see langword="class"/> for the <see cref="System.Collections.Generic"/> <see langword="namespace"/>
+    /// An extension <see langword="class"/> for the <see cref="global::System.Collections.Generic"/> <see langword="namespace"/>
     /// </summary>
     internal static class GenericExtensions
     {

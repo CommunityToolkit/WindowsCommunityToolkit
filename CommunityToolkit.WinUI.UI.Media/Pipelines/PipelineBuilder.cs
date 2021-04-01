@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
 using Windows.Graphics.Effects;
 
 namespace CommunityToolkit.WinUI.UI.Media.Pipelines
@@ -166,8 +167,8 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
 
             // Build the effects factory
             var factory = this.animationProperties.Count > 0
-                ? Window.Current.Compositor.CreateEffectFactory(effect, this.animationProperties)
-                : Window.Current.Compositor.CreateEffectFactory(effect);
+                ? CompositionTarget.GetCompositorForCurrentThread().CreateEffectFactory(effect, this.animationProperties)
+                : CompositionTarget.GetCompositorForCurrentThread().CreateEffectFactory(effect);
 
             // Create the effect factory and apply the final effect
             var effectBrush = factory.CreateBrush();
@@ -187,7 +188,7 @@ namespace CommunityToolkit.WinUI.UI.Media.Pipelines
         /// <returns>A <see cref="Task{T}"/> that returns the final <see cref="SpriteVisual"/> instance to use</returns>
         public async Task<SpriteVisual> AttachAsync(UIElement target, UIElement reference = null)
         {
-            var visual = Window.Current.Compositor.CreateSpriteVisual();
+            var visual = CompositionTarget.GetCompositorForCurrentThread().CreateSpriteVisual();
 
             visual.Brush = await BuildAsync();
 
