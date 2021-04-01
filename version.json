@@ -13,7 +13,8 @@
     "^refs/heads/master$",
     "^refs/heads/dev$",
     "^refs/heads/winui$",
-    "^refs/heads/rel/\\d+\\.\\d+\\.\\d+"
+    "^refs/heads/rel/\\d+\\.\\d+\\.\\d+",
+    "^refs/heads/rel/winui/\\d+\\.\\d+\\.\\d+"
   ],
   "release": {
     "branchName" : "rel/{version}",
