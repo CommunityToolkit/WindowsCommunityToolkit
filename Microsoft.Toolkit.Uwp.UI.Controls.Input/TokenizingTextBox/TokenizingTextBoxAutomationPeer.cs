@@ -78,13 +78,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         protected override string GetNameCore()
         {
             string name = this.OwningTokenizingTextBox.Name;
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
                 return name;
             }
 
             name = AutomationProperties.GetName(this.OwningTokenizingTextBox);
-            return !string.IsNullOrEmpty(name) ? name : base.GetNameCore();
+            return !string.IsNullOrWhiteSpace(name) ? name : base.GetNameCore();
         }
 
         /// <summary>
