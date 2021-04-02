@@ -104,6 +104,7 @@
                                               Margin="0,0,12,0"
                                               VerticalAlignment="Center"
                                               ToolTipService.ToolTip="Font Size"
+                                              IsEditable="True"
                                               >
                                         <ComboBoxItem Content="8" />
                                         <ComboBoxItem Content="9" />
