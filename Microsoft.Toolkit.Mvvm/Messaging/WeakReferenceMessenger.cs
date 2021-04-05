@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 // Traverse all the existing conditional tables and remove all the ones
                 // with the target recipient as key. We don't perform a cleanup here,
-                // as that is responsability of a separate method defined below.
+                // as that is responsibility of a separate method defined below.
                 while (enumerator.MoveNext())
                 {
                     enumerator.Value.Remove(recipient);
