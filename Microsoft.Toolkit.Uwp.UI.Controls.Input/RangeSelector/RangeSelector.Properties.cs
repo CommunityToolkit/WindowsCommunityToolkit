@@ -133,7 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
 
             if (newValue > rangeSelector.Maximum)
             {
@@ -157,10 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             rangeSelector.Minimum = newValue;
 
-            if (newValue != oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.SyncThumbs();
         }
 
         private static void MaximumChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -173,7 +169,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var newValue = (double)e.NewValue;
-            var oldValue = (double)e.OldValue;
 
             if (newValue < rangeSelector.Minimum)
             {
@@ -197,10 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             rangeSelector.Maximum = newValue;
 
-            if (newValue != oldValue)
-            {
-                rangeSelector.SyncThumbs();
-            }
+            rangeSelector.SyncThumbs();
         }
 
         private static double SteppedDistanceFromBound(double stepSize, double distanceFromBound)
@@ -230,11 +222,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                var steppedNewValue = SteppedDistanceFromBound(rangeSelector.StepFrequency, newValue - rangeSelector.Minimum);
+                var steppedNewValue = rangeSelector.Minimum + SteppedDistanceFromBound(rangeSelector.StepFrequency, newValue - rangeSelector.Minimum);
 
-                if (steppedNewValue > rangeSelector.Maximum)
+                if (steppedNewValue > rangeSelector.RangeEnd)
                 {
-                    rangeSelector.RangeStart = steppedNewValue <= rangeSelector.RangeEnd ? steppedNewValue : steppedNewValue - rangeSelector.StepFrequency;
+                    var steppedMax = rangeSelector.Minimum + SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.RangeEnd - rangeSelector.Minimum);
+                    rangeSelector.RangeStart = steppedMax > rangeSelector.RangeEnd ? steppedMax - rangeSelector.StepFrequency : steppedMax;
                 }
                 else
                 {
@@ -251,40 +244,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var rangeSelector = d as RangeSelector;
 
-            if (rangeSelector == null)
-            {
-                return;
-            }
-
-            rangeSelector._maxSet = true;
-
-            if (!rangeSelector._valuesAssigned)
+            if (rangeSelector == null || !rangeSelector._valuesAssigned)
             {
                 return;
             }
 
             var newValue = (double)e.NewValue;
-            rangeSelector.RangeMaxToStepFrequency();
 
-            if (rangeSelector._valuesAssigned)
+            if (newValue > rangeSelector.Maximum)
             {
-                if (newValue < rangeSelector.Minimum)
-                {
-                    rangeSelector.RangeEnd = rangeSelector.Minimum;
-                }
-                else if (newValue > rangeSelector.Maximum)
-                {
-                    rangeSelector.RangeEnd = rangeSelector.Maximum;
-                }
+                rangeSelector.RangeEnd = rangeSelector.Maximum;
+            }
+            else
+            {
+                var steppedNewValue = rangeSelector.Maximum - SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.Maximum - newValue);
 
-                rangeSelector.SyncActiveRectangle();
-
-                // If the new max is less than the old minimum then move the minimum
-                if (newValue < rangeSelector.RangeStart)
+                if (steppedNewValue < rangeSelector.RangeStart)
                 {
-                    rangeSelector.RangeStart = newValue;
+                    var steppedMin = rangeSelector.Maximum - SteppedDistanceFromBound(rangeSelector.StepFrequency, rangeSelector.Maximum - rangeSelector.RangeStart);
+                    rangeSelector.RangeEnd = steppedMin < rangeSelector.RangeStart ? steppedMin + rangeSelector.StepFrequency : steppedMin;
+                }
+                else
+                {
+                    rangeSelector.RangeEnd = steppedNewValue;
                 }
             }
+
+            rangeSelector.SyncActiveRectangle();
 
             rangeSelector.SyncThumbs();
         }
