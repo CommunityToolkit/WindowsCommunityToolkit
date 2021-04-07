@@ -6,13 +6,17 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Grpc.Core;
+using Grpc.Net.Client;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
-using Windows.ApplicationModel.AppService;
+using UITests.App.Protos;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -26,16 +30,20 @@ namespace UITests.Tests
 {
     public abstract class UITestBase
     {
-        public static TestApplicationInfo WinUICsUWPSampleApp
+        public static TestApplicationInfo UITestsAppSampleApp
         {
             get
             {
                 string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
+                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App.Package");
 
                 Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
 
-                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
+#if USING_TAEF
+                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
+                string installerName = "UITests.App";
+#else
+                var exclude = new[] { "Microsoft.ProjectReunion", "Microsoft.VCLibs" };
                 var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
 
                 if (files.Count() == 0)
@@ -57,13 +65,18 @@ namespace UITests.Tests
                     }
                 }
 
+                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
+                string installerName = mostRecentlyBuiltPackage.Replace(".msix", string.Empty);
+#endif
+
                 return new TestApplicationInfo(
                     testAppPackageName: "UITests.App",
-                    testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App",
+                    testAppName: testAppName,
                     testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
                     testAppMainWindowTitle: "UITests.App",
                     processName: "UITests.App.exe",
-                    installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
+                    installerName: installerName,
+                    isUwpApp: false,
                     certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
                     baseAppxDir: baseDirectory);
             }
@@ -82,7 +95,13 @@ namespace UITests.Tests
 
         public TestContext TestContext { get; set; }
 
-        private AppServiceConnection CommunicationService { get; set; }
+        private GrpcChannel _channel;
+
+        private AppService.AppServiceClient _communicationService;
+
+        private CancellationTokenSource _subscribeLogTokenSource;
+        private Task _subscribeLogTask;
+        private AsyncServerStreamingCall<LogUpdate> _logStream;
 
         [TestInitialize]
         public async Task TestInitialize()
@@ -122,92 +141,91 @@ namespace UITests.Tests
             Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
 
             // Make the connection if we haven't already.
-            if (CommunicationService == null)
+            if (_channel == null)
             {
-                CommunicationService = new AppServiceConnection();
+                Log.Comment("[Harness] Trying to connect...");
 
-                CommunicationService.RequestReceived += this.CommunicationService_RequestReceived;
+                _channel = GrpcChannel.ForAddress(
+                    "https://localhost:5001",
+                    new GrpcChannelOptions
+                    {
+                        HttpHandler = new HttpClientHandler
+                        {
+                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        }
+                    });
 
-                // Here, we use the app service name defined in the app service
-                // provider's Package.appxmanifest file in the <Extension> section.
-                CommunicationService.AppServiceName = "TestHarnessCommunicationService";
+                Log.Comment("[Harness] Trying to connect 2...");
 
-                // Use Windows.ApplicationModel.Package.Current.Id.FamilyName
-                // within the app service provider to get this value.
-                CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t";
+                _communicationService = new AppService.AppServiceClient(_channel);
 
-                var status = await CommunicationService.OpenAsync();
+                Log.Comment("[Harness] Connected!");
 
-                if (status != AppServiceConnectionStatus.Success)
+                _logStream = _communicationService.SubscribeLog(new SubscribeLogRequest());
+
+                _subscribeLogTokenSource = new CancellationTokenSource();
+
+                static async Task SubscribeLog(IAsyncStreamReader<LogUpdate> stream, CancellationToken token)
                 {
-                    Log.Error("Failed to connect to App Service host.");
-                    CommunicationService = null;
-                    throw new Exception("Failed to connect to App Service host.");
+                    try
+                    {
+                        await foreach (var update in stream.ReadAllAsync(token))
+                        {
+                            switch (update.Level)
+                            {
+                                case "Comment":
+                                    Log.Comment("[Host] {0}", update.Message);
+                                    break;
+                                case "Warning":
+                                    Log.Warning("[Host] {0}", update.Message);
+                                    break;
+                                case "Error":
+                                    Log.Error("[Host] {0}", update.Message);
+                                    break;
+                            }
+                        }
+                    }
+                    catch (RpcException e) when (e.StatusCode == StatusCode.Cancelled)
+                    {
+                        return;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Console.WriteLine("Finished.");
+                    }
                 }
+
+                _subscribeLogTask = SubscribeLog(_logStream.ResponseStream, _subscribeLogTokenSource.Token);
             }
 
-            // Call the service.
-            var message = new ValueSet();
-            message.Add("Command", "Start");
-            message.Add("Page", pageName);
+            Log.Comment("[Harness] Calling start!");
 
-            AppServiceResponse response = await CommunicationService.SendMessageAsync(message);
+            // Call the service.
+            var response = await _communicationService.StartAsync(new StartRequest
+            {
+                PageName = pageName
+            });
             string result = string.Empty;
 
-            if (response.Status == AppServiceResponseStatus.Success)
+            // Get the data  that the service sent to us.
+            if (response.Status == "OK")
             {
-                // Get the data  that the service sent to us.
-                if (response.Message["Status"] as string == "OK")
-                {
-                    Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
-                    Wait.ForIdle();
-                    Log.Comment("[Harness] Starting Test for {0}...", pageName);
-                    return;
-                }
+                Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+                Wait.ForIdle();
+                Log.Comment("[Harness] Starting Test for {0}...", pageName);
+                return;
             }
 
             // Error case, we didn't get confirmation of test starting.
             throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
         }
 
-        private void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        [TestCleanup]
+        public async Task TestCleanup()
         {
-            AppServiceDeferral messageDeferral = args.GetDeferral();
-            ValueSet message = args.Request.Message;
-            string cmd = message["Command"] as string;
-
-            try
-            {
-                // Return the data to the caller.
-                if (cmd == "Log")
-                {
-                    string level = message["Level"] as string;
-                    string msg = message["Message"] as string;
-
-                    switch (level)
-                    {
-                        case "Comment":
-                            Log.Comment("[Host] {0}", msg);
-                            break;
-                        case "Warning":
-                            Log.Warning("[Host] {0}", msg);
-                            break;
-                        case "Error":
-                            Log.Error("[Host] {0}", msg);
-                            break;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error("Exception receiving message: {0}", e.Message);
-            }
-            finally
-            {
-                // Complete the deferral so that the platform knows that we're done responding to the app service call.
-                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
-                messageDeferral.Complete();
-            }
+            _subscribeLogTokenSource.Cancel();
+            await _subscribeLogTask;
+            _logStream.Dispose();
         }
 
         // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)

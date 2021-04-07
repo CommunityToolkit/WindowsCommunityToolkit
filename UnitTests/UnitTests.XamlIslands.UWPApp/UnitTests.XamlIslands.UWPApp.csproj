@@ -169,7 +169,7 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
-    <PackageReference Include="CommunityToolkit.Win32.UI.XamlApplication">
+    <PackageReference Include="Microsoft.Toolkit.Win32.UI.XamlApplication">
       <Version>6.1.2</Version>
     </PackageReference>
     <!-- Ignored for now, until it supports Xaml Islands

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "UITests.App.Protos";
+
+package UITestsAppService;
+
+service AppService {
+  rpc Start (StartRequest) returns (StartReply);
+  rpc SubscribeLog (SubscribeLogRequest) returns (stream LogUpdate);
+}
+
+message StartRequest {
+	string pageName = 1;
+}
+
+message StartReply {
+	string status = 1;
+}
+
+message SubscribeLogRequest {
+}
+
+message LogUpdate {
+  string level = 1;
+  string message = 2;
+}

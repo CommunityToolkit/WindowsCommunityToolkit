@@ -2,7 +2,7 @@
 
 #addin nuget:?package=Cake.FileHelpers&version=4.0.1
 #addin nuget:?package=Cake.Powershell&version=1.0.0
-#addin nuget:?package=Cake.GitVersioning&version=3.3.37
+#addin nuget:?package=Cake.GitVersioning&version=3.4.190
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.1.0
 #tool nuget:?package=vswhere&version=2.8.4
@@ -35,7 +35,7 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
-var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/netcoreapp3.1/win10-x86";
+var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/net5.0-windows10.0.19041/win10-x86";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -43,7 +43,10 @@ var stylerFile = baseDir + "/settings.xamlstyler";
 string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
-var inheritDocExclude = "Foo.*";
+
+// Ignoring NerdBank until this is merged and we can use a new version of inheridoc:
+// https://github.com/firesharkstudios/InheritDoc/pull/27
+var inheritDocExclude = "Nerdbank.GitVersioning.ManagedGit.GitRepository";
 
 //////////////////////////////////////////////////////////////////////
 // METHODS
@@ -285,8 +288,10 @@ Task("Test")
 
 Task("UITest")
 	.Description("Runs all UI Tests")
-    .DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
+    .Does(() =>
 {
+    var file = GetFiles(taefBinDir + "/UITests.Tests.TAEF.dll").FirstOrDefault();
+
     Information("\nRunning TAEF Interaction Tests");
 
     var result = StartProcess(System.IO.Path.GetDirectoryName(file.FullPath) + "/TE.exe", file.FullPath + " /screenCaptureOnError /enableWttLogging /logFile:UITestResults.wtl");
@@ -337,7 +342,7 @@ Task("MSTestUITest")
 Task("Default")
     .IsDependentOn("Build")
     //.IsDependentOn("Test")
-    //.IsDependentOn("UITest")
+    .IsDependentOn("UITest")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")

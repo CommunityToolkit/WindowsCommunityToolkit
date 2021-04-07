@@ -3,15 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
+using Grpc.Core;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using UITests.App.Pages;
-using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Background;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using UITests.App.Protos;
 
 namespace UITests.App
 {
@@ -20,84 +19,69 @@ namespace UITests.App
     /// </summary>
     public sealed partial class App
     {
-        private AppServiceConnection _appServiceConnection;
-        private BackgroundTaskDeferral _appServiceDeferral;
+        private Task _host;
 
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        private async void InitAppService()
         {
-            base.OnBackgroundActivated(args);
-            IBackgroundTaskInstance taskInstance = args.TaskInstance;
-            AppServiceTriggerDetails appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
-            _appServiceDeferral = taskInstance.GetDeferral();
-            taskInstance.Canceled += OnAppServicesCanceled;
-            _appServiceConnection = appService.AppServiceConnection;
-            _appServiceConnection.RequestReceived += OnAppServiceRequestReceived;
-            _appServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+            var builder = Host.CreateDefaultBuilder()
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+            _host = builder.Build().RunAsync();
+            await _host;
         }
 
-        private async void OnAppServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        public class AppServiceServer : AppService.AppServiceBase
         {
-            AppServiceDeferral messageDeferral = args.GetDeferral();
-            ValueSet message = args.Request.Message;
-            string cmd = message["Command"] as string;
+            internal static BlockingCollection<LogUpdate> LogUpdates;
 
-            try
+            public AppServiceServer(BlockingCollection<LogUpdate> logUpdates)
             {
-                // Return the data to the caller.
-                if (cmd == "Start")
+                LogUpdates = logUpdates;
+            }
+
+            public override async Task<StartReply> Start(StartRequest request, ServerCallContext context)
+            {
+                Log.Comment("Received request for Page: {0}", request.PageName);
+
+                // We await the OpenPage method to ensure the navigation has finished.
+                if (await WeakReferenceMessenger.Default.Send(new RequestPageMessage(request.PageName)))
                 {
-                    var pageName = message["Page"] as string;
-
-                    Log.Comment("Received request for Page: {0}", pageName);
-
-                    ValueSet returnMessage = new ValueSet();
-
-                    // We await the OpenPage method to ensure the navigation has finished.
-                    if (await WeakReferenceMessenger.Default.Send(new RequestPageMessage(pageName)))
-                    {
-                        returnMessage.Add("Status", "OK");
-                    }
-                    else
-                    {
-                        returnMessage.Add("Status", "BAD");
-                    }
-
-                    await args.Request.SendResponseAsync(returnMessage);
+                    return new StartReply { Status = "OK" };
+                }
+                else
+                {
+                    return new StartReply { Status = "BAD" };
                 }
             }
-            catch (Exception e)
+
+            public override async Task SubscribeLog(SubscribeLogRequest request, IServerStreamWriter<LogUpdate> responseStream, ServerCallContext context)
             {
-                // Your exception handling code here.
-                Log.Error("Exception processing request: {0}", e.Message);
+                while(!context.CancellationToken.IsCancellationRequested)
+                {
+                    var message = LogUpdates.Take(context.CancellationToken);
+
+                    try
+                    {
+                        await responseStream.WriteAsync(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        // TODO: do we care if we have a problem here?
+                        System.Diagnostics.Debug.WriteLine(ex);
+                    }
+                }
             }
-            finally
+        }
+
+        public void SendLogMessage(string level, string msg)
+        {
+            AppServiceServer.LogUpdates.Add(new LogUpdate
             {
-                // Complete the deferral so that the platform knows that we're done responding to the app service call.
-                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
-                messageDeferral.Complete();
-            }
-        }
-
-        private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
-        {
-            _appServiceDeferral.Complete();
-        }
-
-        private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            _appServiceDeferral.Complete();
-        }
-
-        public async void SendLogMessage(string level, string msg)
-        {
-            var message = new ValueSet();
-            message.Add("Command", "Log");
-            message.Add("Level", level);
-            message.Add("Message", msg);
-
-            await _appServiceConnection.SendMessageAsync(message);
-
-            // TODO: do we care if we have a problem here?
+                Level = level,
+                Message = msg
+            });
         }
     }
 }

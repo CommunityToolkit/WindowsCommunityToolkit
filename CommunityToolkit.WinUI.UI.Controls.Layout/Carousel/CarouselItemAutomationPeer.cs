@@ -19,7 +19,7 @@ namespace CommunityToolkit.WinUI.UI.Automation.Peers
         /// Initializes a new instance of the <see cref="CarouselItemAutomationPeer"/> class.
         /// </summary>
         /// <param name="owner">
-        /// The <see cref="CarouselItem" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.CarouselItemAutomationPeer" />.
+        /// The <see cref="CarouselItem" /> that is associated with this <see cref="T:Microsoft.UI.Xaml.Automation.Peers.CarouselItemAutomationPeer" />.
         /// </param>
         public CarouselItemAutomationPeer(CarouselItem owner)
             : base(owner)
@@ -126,9 +126,9 @@ namespace CommunityToolkit.WinUI.UI.Automation.Peers
         }
 
         /// <summary>
-        /// Gets the control pattern that is associated with the specified Windows.UI.Xaml.Automation.Peers.PatternInterface.
+        /// Gets the control pattern that is associated with the specified Microsoft.UI.Xaml.Automation.Peers.PatternInterface.
         /// </summary>
-        /// <param name="patternInterface">A value from the Windows.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
+        /// <param name="patternInterface">A value from the Microsoft.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
         /// <returns>The object that supports the specified pattern, or null if unsupported.</returns>
         protected override object GetPatternCore(PatternInterface patternInterface)
         {

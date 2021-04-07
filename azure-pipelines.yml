@@ -50,30 +50,12 @@ jobs:
   #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
 
-#  - powershell: |
-#     Write-Host "##vso[task.setvariable variable=PATH;]${env:LocalAppData}\Microsoft\dotnet;${env:PATH}";
-#     
-#     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; 
-#     
-#     dotnet new globaljson --sdk-version "$($env:NET5_SDK_VERSION)" 
-#     
-#     &([scriptblock]::Create((Invoke-WebRequest -UseBasicParsing 'https://dot.net/v1/dotnet-install.ps1'))) -Version "$($env:NET5_SDK_VERSION)" -Architecture "x64" -AzureFeed "$($env:NET5_SDK_FEED)"
-#     
-#    failOnStderr: true
-#    displayName: 'Install .NET 5 SDK'
-
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
     inputs:
       version: 5.0.201
       performMultiLevelLookup: true
   
-# Temporary until ADO have VS16.8
-#  - bash: dotnet tool update -g dotnet-vs
-#  - bash: vs install preview -sku:enterprise --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools +Microsoft.VisualStudio.Workload.UniversalBuildTools +Microsoft.VisualStudio.ComponentGroup.UWP.BuildTools +Microsoft.VisualStudio.Workload.MSBuildTools +Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools +Microsoft.VisualStudio.Component.Windows10SDK +Microsoft.VisualStudio.Component.Windows10SDK.18062 +Microsoft.VisualStudio.Workload.Universal
-#  - bash: echo "##vso[task.prependpath]$(vs where preview --prop=InstallationPath)\MSBuild\Current\Bin"
-# Temporary until ADO have VS16.8
-
   - powershell: .\build\build.ps1 --target=Build
     displayName: Build
 
@@ -98,15 +80,15 @@ jobs:
 
   ### UI Integration Tests ###
 
-#  - powershell: .\build\build.ps1 --target=UITest
-#    displayName: UI Integration Tests
+  - powershell: .\build\build.ps1 --target=UITest
+    displayName: UI Integration Tests
 
-#  - task: PublishPipelineArtifact@1
-#    displayName: Publish UI Test Results
-#    inputs:
-#      targetPath: .\build\UITestResults.wtl
-#      artifactName: WexUITestLogFileOutput
-#    condition: always()
+  - task: PublishPipelineArtifact@1
+    displayName: Publish UI Test Results
+    inputs:
+      targetPath: .\build\UITestResults.wtl
+      artifactName: WexUITestLogFileOutput
+    condition: always()
 
   ### Package ###
 

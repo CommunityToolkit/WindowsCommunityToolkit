@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -26,6 +26,7 @@ namespace UITests.Tests
         [AssemblyInitialize]
         [TestProperty("CoreClrProfile", ".")]
         [TestProperty("RunFixtureAs:Assembly", "ElevatedUserOrSystem")]
+        [TestProperty("Hosting:Mode", "UAP")]
         public static void AssemblyInitialize(TestContext testContext)
         {
             TestEnvironment.AssemblyInitialize(testContext, "UITests.App.pfx");
