@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CommunityToolkit.WinUI.SampleApp": {
+      "commandName": "AppContainer",
+      "BackgroundDebugEngine": "Mixed",
+      "DebugEngine": "Mixed"
+    }
+  }
+}
