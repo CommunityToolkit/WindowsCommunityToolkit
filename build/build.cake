@@ -176,13 +176,14 @@ Task("InheritDoc")
     .Does(() =>
 {
     Information("\nDownloading InheritDoc...");
-    var installSettings = new NuGetInstallSettings {
+    var installSettings = new NuGetInstallSettings
+    {
         ExcludeVersion = true,
         Version = inheritDocVersion,
         OutputDirectory = toolsDir
     };
 
-    NuGetInstall(new []{"InheritDoc"}, installSettings);
+    NuGetInstall(new[] {"InheritDoc"}, installSettings);
 
     var args = new ProcessArgumentBuilder()
                 .AppendSwitchQuoted("-b", baseDir)
@@ -210,7 +211,8 @@ Task("Package")
     .Does(() =>
 {
     // Invoke the pack target in the end
-    var buildSettings = new MSBuildSettings {
+    var buildSettings = new MSBuildSettings
+    {
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
@@ -334,12 +336,13 @@ Task("StyleXaml")
     .Does(() =>
 {
     Information("\nDownloading XamlStyler...");
-    var installSettings = new NuGetInstallSettings {
+    var installSettings = new NuGetInstallSettings
+    {
         ExcludeVersion  = true,
         OutputDirectory = toolsDir
     };
 
-    NuGetInstall(new []{"xamlstyler.console"}, installSettings);
+    NuGetInstall(new[] {"xamlstyler.console"}, installSettings);
 
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
