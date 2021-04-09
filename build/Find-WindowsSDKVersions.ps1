@@ -9,13 +9,13 @@ function Get-Nodes
 {
     param(
         [parameter(ValueFromPipeline=$true)]
-        [xml] $xml, 
+        [xml] $xml,
         [parameter(Mandatory=$true)]
         [string] $nodeName)
 
     # Try the old style csproj. Also format required for .targets and .props files
     $n = Select-Xml -Xml $xml.Project -Namespace @{d = $ns } -XPath "//d:$nodeName"
-    
+
     # Try the SDK-style files
     if (!$n) {
         $r = Select-Xml -Xml $xml.Project -XPath "//$nodeName"
@@ -28,7 +28,7 @@ function Get-NodeValue
 {
     param(
         [parameter(ValueFromPipeline=$true)]
-        [xml] $xml,         
+        [xml] $xml,
         [string] $nodeName)
 
     $node = get-nodes $xml $nodeName
@@ -45,7 +45,7 @@ function Get-NodeValue
 function Get-SdkVersion
 {
     param(
-        [Parameter(ValueFromPipeline=$true)] $file) 
+        [Parameter(ValueFromPipeline=$true)] $file)
 
     [xml] $xml = Get-Content $file
 
@@ -150,7 +150,7 @@ foreach($version in $versions) {
     if ($version -match "10\.0\.\d{5}\.0") {
         $installRequired = Test-InstallWindowsSDK $version
         Write-Host "Windows SDK '$version' install required: $installRequired"
-        if ($installRequired) {           
+        if ($installRequired) {
             # Automatically invoke Install-WindowsSDKIso.ps1 ?
             $anyInstallRequired = $true
         }
@@ -158,7 +158,7 @@ foreach($version in $versions) {
 }
 
 Write-Host
-if ($anyInstallRequired) {    
+if ($anyInstallRequired) {
     throw "At least one Windows SDK is missing from this machine"
 } else {
     Write-Host "All referenced Windows SDKs are installed!"

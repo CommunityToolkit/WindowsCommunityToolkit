@@ -11,14 +11,14 @@ pr:
 pool:
   vmImage: windows-2019
 
-variables: 
+variables:
   BuildConfiguration: Release
 
 jobs:
 ### BUILD ###
 - job: BuildBits
   timeoutInMinutes: 60
-  
+
   steps:
   - task: BatchScript@1
     inputs:
@@ -32,7 +32,7 @@ jobs:
     inputs:
       versionSpec: 5.6.0
 
-  - task: DotNetCoreCLI@2  
+  - task: DotNetCoreCLI@2
     inputs:
       command: custom
       custom: tool
@@ -49,7 +49,7 @@ jobs:
     displayName: Build
 
   ### Unit Tests ###
-  
+
   - powershell: .\build\build.ps1 -target=Test
     displayName: Test
 
@@ -105,7 +105,7 @@ jobs:
 - job: SmokeTests
   dependsOn: BuildBits
   timeoutInMinutes: 60
-  
+
   steps:
   - task: DownloadPipelineArtifact@2
     displayName: Download NuGet Packages Artifact
@@ -113,7 +113,7 @@ jobs:
       artifact: Packages
       path: .\bin\nupkg
 
-  - task: DotNetCoreCLI@2  
+  - task: DotNetCoreCLI@2
     inputs:
       command: custom
       custom: tool
