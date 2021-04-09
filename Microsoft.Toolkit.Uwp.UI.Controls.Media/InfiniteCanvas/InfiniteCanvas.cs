@@ -315,6 +315,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Application.Current.LeavingBackground -= Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted -= DrawingSurfaceRenderer_CommandExecuted;
             _canvasComboBoxFontSizeTextBox.PreviewKeyDown -= CanvasComboBoxFontSizeTextBox_PreviewKeyDown;
+            _canvasComboBoxFontSizeTextBox.TextSubmitted -= CanvasComboBoxFontSizeTextBox_TextSubmitted;
             Loaded -= InfiniteCanvas_Loaded;
         }
 
@@ -339,6 +340,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Application.Current.LeavingBackground += Current_LeavingBackground;
             _drawingSurfaceRenderer.CommandExecuted += DrawingSurfaceRenderer_CommandExecuted;
             _canvasComboBoxFontSizeTextBox.PreviewKeyDown += CanvasComboBoxFontSizeTextBox_PreviewKeyDown;
+            _canvasComboBoxFontSizeTextBox.TextSubmitted += CanvasComboBoxFontSizeTextBox_TextSubmitted;
             Loaded += InfiniteCanvas_Loaded;
         }
 
@@ -366,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             SetCanvasWidthHeight();
 
-            _canvasTextBox.UpdateFontSize(TextFontSize);
+            SetFontSize(_textFontSize);
         }
 
         private void SetZoomFactor()
