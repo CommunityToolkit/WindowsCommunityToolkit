@@ -193,7 +193,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     // Updating toolbar
                     _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
-                    _canvasComboBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBoxBoldButton.IsChecked = SelectedTextDrawable.IsBold;
                     _canvasTextBoxItalicButton.IsChecked = SelectedTextDrawable.IsItalic;
 
