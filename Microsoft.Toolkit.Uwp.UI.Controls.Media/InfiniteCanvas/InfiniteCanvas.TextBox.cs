@@ -35,16 +35,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
-        private int _lastValidTextFontSizeValue = DefaultFontValue;
+        private float _lastValidTextFontSizeValue = DefaultFontValue;
 
-        private int TextFontSize
+        private float TextFontSize
         {
             get
             {
                 if (!string.IsNullOrWhiteSpace(_canvasComboBoxFontSizeTextBox.SelectedValue.ToString()) &&
                     Regex.IsMatch(_canvasComboBoxFontSizeTextBox.Text, "^[0-9]*$"))
                 {
-                    var fontSize = int.Parse((_canvasComboBoxFontSizeTextBox.SelectedItem as ComboBoxItem).Content.ToString());
+                    var fontSize = float.Parse((_canvasComboBoxFontSizeTextBox.SelectedItem as ComboBoxItem).Content.ToString());
                     _lastValidTextFontSizeValue = fontSize;
                 }
 
