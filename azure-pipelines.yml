@@ -45,12 +45,12 @@ jobs:
   #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
 
-  - powershell: .\build\build.ps1 -target=Build
+  - powershell: .\build\build.ps1 -Target Build
     displayName: Build
 
   ### Unit Tests ###
 
-  - powershell: .\build\build.ps1 -target=Test
+  - powershell: .\build\build.ps1 -Target Test
     displayName: Test
 
   - task: PublishTestResults@2
@@ -62,7 +62,7 @@ jobs:
 
   ### UI Integration Tests ###
 
-  - powershell: .\build\build.ps1 -target=UITest
+  - powershell: .\build\build.ps1 -Target UITest
     displayName: UI Integration Tests
 
   - task: PublishPipelineArtifact@1
@@ -81,7 +81,7 @@ jobs:
 
   ### Package ###
 
-  - powershell: .\build\build.ps1 -target=Package
+  - powershell: .\build\build.ps1 -Target Package
     displayName: Package
 
   - task: PowerShell@2
@@ -123,7 +123,7 @@ jobs:
   - script: nbgv cloud
     displayName: Set Version
 
-  - powershell: .\build\build.ps1 -target=SmokeTest
+  - powershell: .\build\build.ps1 -Target SmokeTest
     displayName: SmokeTest
 
   - task: CopyFiles@2

@@ -1,10 +1,10 @@
-#module nuget:?package=Cake.LongPath.Module&version=0.7.0
+#module nuget:?package=Cake.LongPath.Module&version=1.0.1
 
-#addin nuget:?package=Cake.FileHelpers&version=3.2.1
-#addin nuget:?package=Cake.Powershell&version=0.4.8
-#addin nuget:?package=Cake.GitVersioning&version=3.3.37
+#addin nuget:?package=Cake.FileHelpers&version=4.0.1
+#addin nuget:?package=Cake.Powershell&version=1.0.1
+#addin nuget:?package=Cake.GitVersioning&version=3.4.220
 
-#tool nuget:?package=MSTest.TestAdapter&version=2.1.0
+#tool nuget:?package=MSTest.TestAdapter&version=2.2.5
 #tool nuget:?package=vswhere&version=2.8.4
 
 using System;
@@ -94,7 +94,7 @@ void VerifyHeaders(bool Replace)
 
     if(!Replace && hasMissing)
     {
-        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -target=UpdateHeaders' and commit the changes.");
+        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -Target UpdateHeaders' and commit the changes.");
     }
 }
 
@@ -259,7 +259,7 @@ Task("Test")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
@@ -306,7 +306,7 @@ Task("MSTestUITest")
     {
         Configuration = "Release",
         NoBuild = true,
-        Logger = "trx;LogFilePrefix=VsTestResults",
+        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal
     };
     DotNetCoreTest(file.FullPath, testSettings);
