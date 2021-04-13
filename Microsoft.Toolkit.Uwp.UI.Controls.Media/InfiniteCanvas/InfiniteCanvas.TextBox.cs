@@ -107,6 +107,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (float.TryParse(args.Text, out var size))
             {
                 SetFontSize(size);
+
+                if (SelectedTextDrawable != null)
+                {
+                    _drawingSurfaceRenderer.ExecuteUpdateTextBoxFontSize(size);
+                    ReDrawCanvas();
+                }
             }
         }
 
