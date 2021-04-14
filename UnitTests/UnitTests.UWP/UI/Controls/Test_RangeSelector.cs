@@ -135,7 +135,7 @@ namespace UnitTests.UI.Controls
         // Else
         // RangeEnd will be Maximum
 
-        // Input:Sf   Min   Max   Start End        Expected:Sf   Min   Max   Start End
+        // Input:Sf   Min   Start End   Max        Expected:Sf   Min   Start End   Max
         [DataRow(   1,    0,    0,    0,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum == Maximum, Minimum == RangeStart == RangeEnd == Maximum")]
         [DataRow(   1,    0,    0,   10,    0,                 1,    0,    0, 0.01, 0.01, DisplayName = "Minimum == Maximum, Minimum == RangeStart  < RangeEnd  > Maximum")]
         [DataRow(   1,    0,    0,  -10,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum == Maximum, Minimum == RangeStart  > RangeEnd  < Maximum")]
@@ -184,6 +184,81 @@ namespace UnitTests.UI.Controls
                 var actual = BuildTestRecord(r);
 
                 Assert.AreEqual(expected, actual);
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Set Prop")]
+#pragma warning disable SA1008, SA1025
+
+        // Input:Sf   Min   Max   Start End           TargetProp   Target Value Expected:Sf   Min       Max     Start   End
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,             0,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,           -10,             1,  -10   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,            10,             1,   10   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,            50,             1,   50   ,  50   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,            90,             1,   90   ,  90   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,           100,             1,  100   , 100   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,           110,             1,  110   , 110.01, 110.01, 110.01)]
+
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,           100,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,           110,             1,    0   ,  10   ,  90   , 110   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,            90,             1,    0   ,  10   ,  90   ,  90   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,            50,             1,    0   ,  10   ,  50   ,  50   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,            10,             1,    0   ,  10   ,  10   ,  10   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,             0,             1,    0   ,   0   ,   0   ,   0   )]
+        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,           -10,             1,  -10.01, -10   , -10   , -10   )]
+
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",            10,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",             5,             1,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",             0,             1,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",           -10,             1,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",            90,             1,    0   ,  90   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",            95,             1,    0   ,  95   ,  95   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",           100,             1,    0   , 100   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",           110,             1,    0   , 100   , 100   , 100   )]
+
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,            90,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,            95,             1,    0   ,  10   ,  95   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           100,             1,    0   ,  10   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           110,             1,    0   ,  10   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,            10,             1,    0   ,  10   ,  10   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,             5,             1,    0   ,   5   ,   5   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,             0,             1,    0   ,   0   ,   0   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           -10,             1,    0   ,   0   ,   0   , 100   )]
+#pragma warning restore SA1025, SA1008
+        public async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, string targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var inital = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
+                var r = BuildRangeSelecor(inital);
+
+                await SetTestContentAsync(r);
+
+                Assert.AreEqual(inital, BuildTestRecord(r));
+
+                switch (targetProp)
+                {
+                    case "Minimum":
+                        r.Minimum = propInput;
+                        break;
+                    case "RangeStart":
+                        r.RangeStart = propInput;
+                        break;
+                    case "RangeEnd":
+                        r.RangeEnd = propInput;
+                        break;
+                    case "Maximum":
+                        r.Maximum = propInput;
+                        break;
+                    default:
+                        Assert.Fail("Invalid param {0}", targetProp);
+                        break;
+                }
+                
+                var expected = new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
+
+                Assert.AreEqual(expected, BuildTestRecord(r));
             });
         }
 
