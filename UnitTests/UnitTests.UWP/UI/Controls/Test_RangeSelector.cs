@@ -225,6 +225,24 @@ namespace UnitTests.UI.Controls
         [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,             5,             1,    0   ,   5   ,   5   , 100   )]
         [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,             0,             1,    0   ,   0   ,   0   , 100   )]
         [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           -10,             1,    0   ,   0   ,   0   , 100   )]
+
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",            10,             5,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             5,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             0,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             1,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           2.4,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           2.5,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           2.6,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             4,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             6,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             9,             5,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           100,             5,    0   , 100   , 100   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",            89,             5,    0   ,  90   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",            91,             5,    0   ,  90   ,  90   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            80,            30,    0   , 100   , 100   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            74,            30,    0   ,  60   ,  60   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            75,            30,    0   ,  60   ,  60   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            76,            30,    0   , 100   , 100   , 100   )]
 #pragma warning restore SA1025, SA1008
         public async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, string targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
