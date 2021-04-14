@@ -12,6 +12,7 @@ namespace UnitTests.UI.Controls
     [TestClass]
     public class Test_RangeSelector : VisualUITestBase
     {
+#pragma warning disable SA1008, SA1025
         [TestCategory("Initialize")]
         [TestMethod]
 
@@ -147,7 +148,6 @@ namespace UnitTests.UI.Controls
         [DataRow(   1,    0,   10,  -10,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum == Maximum, Minimum  < RangeStart  > RangeEnd  < Maximum")]
         [DataRow(   1,    0,  -10,   10,    0,                 1,    0,    0, 0.01, 0.01, DisplayName = "Minimum == Maximum, Minimum  > RangeStart  < RangeEnd  > Maximum")]
 
-
         [DataRow(   1,  100,    0,  100,    0,                 1,    0,    0, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart  < RangeEnd  > Maximum, RangeStart == Maximum, RangeEnd == Minimum")]
         [DataRow(   1,  100,   10,   90,    0,                 1,    0, 0.01, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart  < RangeEnd  > Maximum")]
         [DataRow(   1,  100,   50,   50,    0,                 1,    0, 0.01, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart == RangeEnd  > Maximum")]
@@ -160,10 +160,7 @@ namespace UnitTests.UI.Controls
         [DataRow(   1,  100,  100,   10,    0,                 1,    0, 0.01, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart  > RangeEnd  > Maximum, RangeStart == Maximum")]
         [DataRow(   1,  100,   90,    0,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart  > RangeEnd  > Maximum, RangeEnd   == Maximum")]
 
-
         [DataRow(   1,  100,  100,    0,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum  > Maximum, Minimum == RangeStart  > RangeEnd == Maximum")]
-
-
 
         [DataRow(   1,  100,  -90,  -10,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart  < RangeEnd  < Maximum")]
         [DataRow(   1,  100,  -10,  -90,    0,                 1,    0,    0,    0, 0.01, DisplayName = "Minimum  > Maximum, Minimum  > RangeStart  > RangeEnd  < Maximum")]
@@ -172,7 +169,7 @@ namespace UnitTests.UI.Controls
         [DataRow(   1,  100,  110,  190,    0,                 1,    0, 0.01, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  < RangeStart  < RangeEnd  > Maximum")]
         [DataRow(   1,  100,  190,  110,    0,                 1,    0, 0.01, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  < RangeStart  > RangeEnd  > Maximum")]
         [DataRow(   1,  100,  150,  150,    0,                 1,    0, 0.01, 0.01, 0.01, DisplayName = "Minimum  > Maximum, Minimum  < RangeStart == RangeEnd  > Maximum")]
-
+#pragma warning restore SA1025, SA1008
         public async Task Initialize(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
             var input = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
@@ -204,6 +201,5 @@ namespace UnitTests.UI.Controls
 
         public static TestRecord BuildTestRecord(RangeSelector r)
             => new(r.StepFrequency, r.Minimum, r.RangeStart, r.RangeEnd, r.Maximum);
-
     }
 }
