@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 #if NETCORE_RUNTIME || NET5_0_OR_GREATER
@@ -213,6 +214,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <summary>
         /// Throws an <see cref="OverflowException"/> when the "column" parameter is invalid.
         /// </summary>
+        [StackTraceHidden]
         private static void ThrowOverflowException()
         {
             throw new OverflowException();
