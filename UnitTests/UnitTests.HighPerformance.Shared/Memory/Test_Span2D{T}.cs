@@ -761,7 +761,51 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("Span2DT")]
         [TestMethod]
-        public void Test_Span2DT_TryGetSpan_1()
+        public void Test_Span2DT_TryGetSpan_From1DArray_1()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            Span2D<int> span2d = new Span2D<int>(array, 3, 3);
+
+            bool success = span2d.TryGetSpan(out Span<int> span);
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(span.Length, span2d.Length);
+            Assert.IsTrue(Unsafe.AreSame(ref array[0], ref span[0]));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryGetSpan_From1DArray_2()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            Span2D<int> span2d = new Span2D<int>(array, 3, 3).Slice(1, 0, 2, 3);
+
+            bool success = span2d.TryGetSpan(out Span<int> span);
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(span.Length, span2d.Length);
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref span[0]));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryGetSpan_From1DArray_3()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            Span2D<int> span2d = new Span2D<int>(array, 3, 3).Slice(0, 1, 3, 2);
+
+            bool success = span2d.TryGetSpan(out Span<int> span);
+
+            Assert.IsFalse(success);
+            Assert.AreEqual(span.Length, 0);
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public void Test_Span2DT_TryGetSpan_From2DArray_1()
         {
             int[,] array =
             {
@@ -790,7 +834,7 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("Span2DT")]
         [TestMethod]
-        public void Test_Span2DT_TryGetSpan_2()
+        public void Test_Span2DT_TryGetSpan_From2DArray_2()
         {
             int[,] array =
             {
