@@ -412,7 +412,7 @@ namespace UnitTests.HighPerformance
 
             ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
 
-            ReadOnlySpan2D<int> slice1 = span2d.Slice(1, 1, 2, 1);
+            ReadOnlySpan2D<int> slice1 = span2d.Slice(1, 1, 1, 2);
 
             Assert.AreEqual(slice1.Length, 2);
             Assert.AreEqual(slice1.Height, 1);
@@ -431,11 +431,11 @@ namespace UnitTests.HighPerformance
 
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(-1, 1, 1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, -1, 1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 1, -1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 1, 1, -1));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 1, -1, 1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(10, 1, 1, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 12, 12, 1));
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 1, 1, 55));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 12, 1, 12));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).Slice(1, 1, 55, 1));
         }
 
         [TestCategory("ReadOnlySpan2DT")]
@@ -458,7 +458,7 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(slice1[0, 0], 1);
             Assert.AreEqual(slice1[1, 1], 5);
 
-            ReadOnlySpan2D<int> slice2 = slice1.Slice(1, 0, 2, 1);
+            ReadOnlySpan2D<int> slice2 = slice1.Slice(1, 0, 1, 2);
 
             Assert.AreEqual(slice2.Length, 2);
             Assert.AreEqual(slice2.Height, 1);
