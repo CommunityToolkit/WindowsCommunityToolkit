@@ -400,6 +400,89 @@ namespace UnitTests.HighPerformance
             Assert.IsTrue(Unsafe.AreSame(ref r0, ref array[0, 0]));
         }
 
+#if NETCOREAPP3_1_OR_GREATER
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Index_Indexer_1()
+        {
+            int[,] array = new int[4, 4];
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
+
+            ref int arrayRef = ref array[1, 3];
+            ref readonly int span2dRef = ref span2d[1, ^1];
+
+            Assert.IsTrue(Unsafe.AreSame(ref arrayRef, ref Unsafe.AsRef(in span2dRef)));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Index_Indexer_2()
+        {
+            int[,] array = new int[4, 4];
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
+
+            ref int arrayRef = ref array[2, 1];
+            ref readonly int span2dRef = ref span2d[^2, ^3];
+
+            Assert.IsTrue(Unsafe.AreSame(ref arrayRef, ref Unsafe.AsRef(in span2dRef)));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public unsafe void Test_ReadOnlySpan2DT_Index_Indexer_Fail()
+        {
+            int[,] array = new int[4, 4];
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
+
+            ref readonly int span2dRef = ref span2d[^6, 2];
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Range_Indexer_1()
+        {
+            int[,] array = new int[4, 4];
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
+            ReadOnlySpan2D<int> slice = span2d[1.., 1..];
+
+            Assert.AreEqual(slice.Length, 9);
+            Assert.IsTrue(Unsafe.AreSame(ref array[1, 1], ref Unsafe.AsRef(in slice[0, 0])));
+            Assert.IsTrue(Unsafe.AreSame(ref array[3, 3], ref Unsafe.AsRef(in slice[2, 2])));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        public unsafe void Test_ReadOnlySpan2DT_Range_Indexer_2()
+        {
+            int[,] array = new int[4, 4];
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
+            ReadOnlySpan2D<int> slice = span2d[0..^2, 1..^1];
+
+            Assert.AreEqual(slice.Length, 4);
+            Assert.IsTrue(Unsafe.AreSame(ref array[0, 1], ref Unsafe.AsRef(in slice[0, 0])));
+            Assert.IsTrue(Unsafe.AreSame(ref array[1, 2], ref Unsafe.AsRef(in slice[1, 1])));
+        }
+
+        [TestCategory("Span2DT")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public unsafe void Test_ReadOnlySpan2DT_Range_Indexer_Fail()
+        {
+            int[,] array = new int[4, 4];
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array);
+            _ = span2d[0..6, 2..^1];
+
+            Assert.Fail();
+        }
+#endif
+
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
         public void Test_ReadOnlySpan2DT_Slice_1()
