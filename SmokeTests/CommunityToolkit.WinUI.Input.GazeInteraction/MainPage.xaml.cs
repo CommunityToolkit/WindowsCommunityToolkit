@@ -5,8 +5,8 @@
 using System.Collections.ObjectModel;
 using Windows.Devices.Input.Preview;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace SmokeTest
 {

@@ -7,7 +7,7 @@ using CommunityToolkit.WinUI.Helpers;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.System;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace SmokeTest
 {
@@ -23,7 +23,7 @@ namespace SmokeTest
             image.Source = new SoftwareBitmapSource();
         }
 
-        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (_cameraHelper != null)
             {

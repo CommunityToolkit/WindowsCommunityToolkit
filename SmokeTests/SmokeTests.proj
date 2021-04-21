@@ -5,7 +5,6 @@
     <BuildPlatforms>x86</BuildPlatforms>
     <BuildConfigurations>Release</BuildConfigurations>
     <ToolkitPackages>
-      UWPBaseline;
       UWPBaselineWinUI;
       CommunityToolkit.Common;
       CommunityToolkit.Diagnostics;
@@ -60,7 +59,7 @@
       <ToolkitPackage Include="$(ToolkitPackages)" />
 
       <ToolkitProject Include="@(ToolkitPackage)">
-        <Platforms>x86;x64;ARM;ARM64</Platforms>
+        <Platforms>x86;x64;ARM64</Platforms>
         <BinDir>bin</BinDir>
         <AssemblyName>%(ToolkitPackage.Identity)</AssemblyName>
       </ToolkitProject>

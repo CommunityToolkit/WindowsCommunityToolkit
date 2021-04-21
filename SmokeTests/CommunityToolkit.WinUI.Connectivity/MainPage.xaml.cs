@@ -13,7 +13,7 @@ namespace SmokeTest
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             textBlock.Text = NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable.ToString();
         }

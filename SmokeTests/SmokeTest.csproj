@@ -1,6 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup Condition="'$(CurrentProject)' == ''">
     <!-- When writting the SmokeTests, change this to whichever Toolkit project you want to build a test to, then reload the project -->
@@ -11,46 +9,39 @@
   </PropertyGroup>
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{A6E4CB52-1025-4BBA-9C65-BB871D1FB53F}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+
     <RootNamespace>SmokeTest</RootNamespace>
     <AssemblyName>SmokeTest.$(CurrentProject)</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.$(TargetPlatformRevision).0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <!--<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>-->
+
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <LangVersion>8.0</LangVersion>
+    <NoWarn>$(NoWarn);0108;2008;0001;SA1601;1591;SA1642</NoWarn>
+    
+    <!--<AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <AppxBundlePlatforms>$(Platform)</AppxBundlePlatforms>
     <AppxBundle>Always</AppxBundle>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
-    <PlatformTarget>$(Platform)</PlatformTarget>
-    <NoWarn>;2008;SA0001;SA1601</NoWarn>
-    <Prefer32Bit>true</Prefer32Bit>
-    <ErrorReport>prompt</ErrorReport>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>$(Platform)</PlatformTarget>-->
   </PropertyGroup>
   <PropertyGroup Condition="'$(CurrentProject)' != ''">
-    <AppxPackageName>SmokeTest_$(CurrentProject)</AppxPackageName>
-    <IntermediateOutputPath>obj\$(CurrentProject)\</IntermediateOutputPath>
-    <OutputPath>bin\$(CurrentProject)\$(Platform)\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <!--<AppxPackageName>SmokeTest_$(CurrentProject)</AppxPackageName>-->
+    
+    <!--<IntermediateOutputPath>obj\$(CurrentProject)</IntermediateOutputPath>-->
+    <BaseOutputPath>bin\$(CurrentProject)\$(Platform)\</BaseOutputPath>
+
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
   <!-- These empty PropertyGroup just make VS happy -->
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -69,16 +60,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM64' ">
   </PropertyGroup>
-  <PropertyGroup>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-  </PropertyGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
+    <!--<AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
-    </AppxManifest>
+    </AppxManifest>-->
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -88,46 +75,48 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <!--<Compile Remove="**\*.cs" />
+    <Page Remove="**\*.xaml" />-->
+    <!--<None Remove="**\*.xaml" />-->
+
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    
+    <None Include="$(ApplicationManifest)" />
+    <Manifest Include="$(ApplicationManifest)" />
+
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="MainWindow.xaml.cs" />
+    <Compile Include="obj\$(Platform)\$(Configuration)\App.g.cs" />
+    <Compile Include="obj\$(Platform)\$(Configuration)\App.g.i.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(CurrentProject)' != ''">
     <Compile Include="$(CurrentProject)\*.cs" />
-    <Page Include="$(CurrentProject)\*.xaml">
+    <Compile Include="obj\$(CurrentProject)\**\MainPage*.cs" />
+    <Page Include="$(CurrentProject)\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.10</Version>
-    </PackageReference>
-  </ItemGroup>
-  <!-- Only the Layout package have a dependency on WinUI -->
-  <ItemGroup Condition="$(CurrentProject) == 'UWPBaselineWinUI'  or $(CurrentProject) == 'CommunityToolkit.WinUI.UI.Controls.Layout'">
-    <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.3</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(CurrentProject)' != '' and '$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' != 'To Fill In With Local Version Number'">
     <PackageReference Include="$(CurrentProject)" Version="$(NuGetPackageVersion)" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Target Name="BeforeBuild">
     <ItemGroup Condition="$(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'">
-      <ToolkitNugets Include="../bin/nupkg/$(CurrentProject).*.nupkg"/>
-      <ToolkitNuget Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(ToolkitNugets)"/>
+      <ToolkitNugets Include="../bin/nupkg/$(CurrentProject).*.nupkg" />
+      <ToolkitNuget Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(ToolkitNugets)" />
     </ItemGroup>
-    <Error Condition="'@(ToolkitNuget)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet $(CurrentProject).[SEMVER].nupkg doesn't exist!"/>
-    <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set NuGetPackageVersion at the top of SmokeTest.csproj with the version to smoke test locally."/>
+    <Error Condition="'@(ToolkitNuget)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet $(CurrentProject).[SEMVER].nupkg doesn't exist!" />
+    <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set NuGetPackageVersion at the top of SmokeTest.csproj with the version to smoke test locally." />
   </Target>
 </Project>

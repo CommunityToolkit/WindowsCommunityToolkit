@@ -6,8 +6,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using CommunityToolkit.WinUI.UI.Behaviors;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Xaml.Interactivity;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace SmokeTest
 {
@@ -20,7 +20,7 @@ namespace SmokeTest
             Loaded += this.MainPage_Loaded;
         }
 
-        private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             var behaviors = Interaction.GetBehaviors(EffectElementHost);
             var viewportBehavior = behaviors.OfType<ViewportBehavior>().FirstOrDefault();

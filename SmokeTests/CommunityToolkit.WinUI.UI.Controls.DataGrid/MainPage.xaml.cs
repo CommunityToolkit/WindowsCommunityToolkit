@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using CommunityToolkit.WinUI.UI.Controls;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace SmokeTest
 {

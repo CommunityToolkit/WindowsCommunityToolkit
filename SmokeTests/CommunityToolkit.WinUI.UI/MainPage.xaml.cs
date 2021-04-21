@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using CommunityToolkit.WinUI.UI;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace SmokeTest
 {
@@ -19,7 +19,7 @@ namespace SmokeTest
             Loaded += this.MainPage_Loaded;
         }
 
-        private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MainPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             var border = this.FindDescendant<Border>();
         }

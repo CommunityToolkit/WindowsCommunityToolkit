@@ -315,6 +315,8 @@ Task("SmokeTest")
     }
     .WithProperty("NuGetPackageVersion", Version);
 
+    UpdateToolsPath(buildSettings);
+
     MSBuild(baseDir + "/SmokeTests/SmokeTests.proj", buildSettings);
 }).DeferOnError();
 

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace SmokeTest
 {
@@ -16,7 +16,7 @@ namespace SmokeTest
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             Canvas.SetTop(Element, _random.NextDouble() * this.ActualHeight);
             Canvas.SetLeft(Element, _random.NextDouble() * this.ActualWidth);

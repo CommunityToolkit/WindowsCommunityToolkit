@@ -14,7 +14,7 @@ namespace SmokeTest
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ToastContent content = GenerateToastContent();
             ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
