@@ -115,6 +115,36 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Gets the <see cref="Visual.TransformMatrix"/>.<see cref="Matrix4x4.Translation"/> property of a <see cref="UIElement"/> in a <see cref="string"/> form.
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+        /// <returns>A <see cref="Vector3"/> <see cref="string"/> representation of the <see cref="Visual.TransformMatrix"/>.<see cref="Matrix4x4.Translation"/> property.</returns>
+        public static string GetTranslation(DependencyObject obj)
+        {
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
+            {
+                return GetTranslationForElement(element);
+            }
+
+            return (string)obj.GetValue(TranslationProperty);
+        }
+
+        /// <summary>
+        /// Sets the <see cref="Visual.TransformMatrix"/>.<see cref="Matrix4x4.Translation"/> property of a <see cref="UIElement"/> in a <see cref="string"/> form.
+        /// </summary>
+        /// <param name="obj">The <see cref="DependencyObject"/> instance.</param>
+        /// <param name="value">The <see cref="string"/> representation of the <see cref="Vector3"/> to be set.</param>
+        public static void SetTranslation(DependencyObject obj, string value)
+        {
+            if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode && obj is UIElement element)
+            {
+                SetTranslationForElement(value, element);
+            }
+
+            obj.SetValue(TranslationProperty, value);
+        }
+
+        /// <summary>
         /// Gets the <see cref="Visual.Opacity"/> of a UIElement
         /// </summary>
         /// <param name="obj">The <see cref="UIElement"/></param>
@@ -335,6 +365,12 @@ namespace Microsoft.Toolkit.Uwp.UI
             DependencyProperty.RegisterAttached("Offset", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnOffsetChanged));
 
         /// <summary>
+        /// Identifies the Translation attached property.
+        /// </summary>
+        public static readonly DependencyProperty TranslationProperty =
+            DependencyProperty.RegisterAttached("Translation", typeof(string), typeof(VisualExtensions), new PropertyMetadata(null, OnTranslationChanged));
+
+        /// <summary>
         /// Identifies the Opacity attached property.
         /// </summary>
         public static readonly DependencyProperty OpacityProperty =
@@ -397,6 +433,14 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (e.NewValue is string str)
             {
                 SetOffset(d, str);
+            }
+        }
+
+        private static void OnTranslationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is string str)
+            {
+                SetTranslation(d, str);
             }
         }
 
@@ -501,6 +545,23 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             var visual = GetVisual(element);
             visual.Offset = value.ToVector3();
+        }
+
+        private static string GetTranslationForElement(UIElement element)
+        {
+            return GetVisual(element).TransformMatrix.Translation.ToString();
+        }
+
+        private static void SetTranslationForElement(string value, UIElement element)
+        {
+            ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+
+            Visual visual = GetVisual(element);
+            Matrix4x4 transform = visual.TransformMatrix;
+
+            transform.Translation = value.ToVector3();
+
+            visual.TransformMatrix = transform;
         }
 
         private static double GetOpacityForElement(UIElement element)
