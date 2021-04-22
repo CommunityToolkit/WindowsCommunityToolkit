@@ -53,7 +53,7 @@ jobs:
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
     inputs:
-      version: 5.0.201
+      version: 5.0.202
       performMultiLevelLookup: true
   
   - powershell: .\build\build.ps1 --target=Build
