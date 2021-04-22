@@ -37,9 +37,6 @@
       <Version>3.0.0-zmain.210407.3-CI</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.2.0" />
-    <PackageReference Include="TAEF.Redist.Wlk" Version="10.57.200928001" GeneratePathProperty="true">
-      <ExcludeAssets>all</ExcludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Grpc" Version="2.36.4" />
     <PackageReference Include="Google.Protobuf" Version="3.15.7" />
@@ -107,10 +104,6 @@
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
       <Name>CommunityToolkit.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ReferenceCopyLocalPaths Include="$(Pkgtaef_redist_wlk)\build\Binaries\$(Platform)\*.*" Exclude="$(Pkgtaef_redist_wlk)\build\Binaries\$(Platform)\Wex.Logger.Interop.dll" />
-    <Reference Include="$(Pkgtaef_redist_wlk)\lib\netstandard1.1\*.*" />
   </ItemGroup>
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
 </Project>

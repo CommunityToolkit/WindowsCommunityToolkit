@@ -99,12 +99,6 @@ namespace UITests.App
 
             // Ensure the current window is active
             App.CurrentWindow.Activate();
-
-            // If there are multiple arguments we assume we're being launched as a TAEF AppX test, so start up the TAEF dispatcher.
-            if (Environment.GetCommandLineArgs().Length > 1)
-            {
-                global::Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(string.Join(' ', Environment.GetCommandLineArgs().Skip(1)));
-            }
         }
 
         /// <summary>

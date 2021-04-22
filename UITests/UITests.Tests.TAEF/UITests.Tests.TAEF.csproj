@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.NET.Ref" Version="10.0.19041.15" GeneratePathProperty="true">
+    <PackageReference Include="Microsoft.Windows.SDK.NET.Ref" Version="10.0.19041.16" GeneratePathProperty="true">
       <NoWarn>
         NU1701; <!-- Package 'x' was restored using 'y' instead of the project target framework 'z'. This package may not be fully compatible with your project. -->
       </NoWarn>

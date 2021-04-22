@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Temporary fix for https://github.com/microsoft/microsoft-ui-xaml/issues/4414 -->
-    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.19041.15" />
+    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.19041.16" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="landingPageLinks.json" />
