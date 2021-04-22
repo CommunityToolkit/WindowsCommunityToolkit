@@ -122,6 +122,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public PackageVersion FirstVersionInstalled { get; }
 
         /// <summary>
+        /// Gets the previous version of the app that was installed.
+        /// This will be the current version if a previous version of the app was installed before accessing this property.
+        /// </summary>
+        public PackageVersion PreviousVersionInstalled { get; }
+
+        /// <summary>
         /// Gets the DateTime (in UTC) when the app was launched for the first time.
         /// </summary>
         public DateTime FirstUseTime { get; }
@@ -310,6 +316,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             IsAppUpdated = DetectIfAppUpdated();
             FirstUseTime = DetectFirstUseTime();
             FirstVersionInstalled = DetectFirstVersionInstalled();
+            PreviousVersionInstalled = DetectPreviousVersionInstalled();
             InitializeValuesSetWithTrackAppUse();
         }
 
@@ -377,6 +384,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 result = ApplicationVersion;
                 _localObjectStorageHelper.Save(nameof(FirstVersionInstalled), ApplicationVersion.ToFormattedString());
+            }
+
+            return result;
+        }
+
+        private PackageVersion DetectPreviousVersionInstalled()
+        {
+            PackageVersion result;
+
+            if (_localObjectStorageHelper.KeyExists(nameof(PreviousVersionInstalled)))
+            {
+                result = _localObjectStorageHelper.Read<string>(nameof(PreviousVersionInstalled)).ToPackageVersion();
+            }
+            else
+            {
+                result = ApplicationVersion;
+                _localObjectStorageHelper.Save(nameof(PreviousVersionInstalled), ApplicationVersion.ToFormattedString());
             }
 
             return result;
