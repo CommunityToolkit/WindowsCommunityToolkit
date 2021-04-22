@@ -115,6 +115,7 @@
     <Compile Include="PrivateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
+    <Compile Include="UI\Animations\Test_AnimationBuilderStart.cs" />
     <Compile Include="UI\Controls\Test_Carousel.cs" />
     <Compile Include="UI\Controls\Test_BladeView.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
