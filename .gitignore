@@ -235,3 +235,4 @@ msbuild.binlog
 # TAEF Log output
 WexLogFileOutput
 *.wtl
+*.wtl.trace
