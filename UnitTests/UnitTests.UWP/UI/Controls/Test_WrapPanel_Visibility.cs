@@ -37,6 +37,8 @@ namespace UnitTests.UI.Controls
     </controls:WrapPanel>
 </Page>") as FrameworkElement;
 
+                treeRoot.UseLayoutRounding = false;
+
                 var expected = new (int u, int v, int w, int h)[]
                 {
                     (0, 0, 0, 0), // Collapsed
@@ -94,6 +96,8 @@ namespace UnitTests.UI.Controls
     </controls:WrapPanel>
 </Page>") as FrameworkElement;
 
+                treeRoot.UseLayoutRounding = false;
+
                 var expected = new (int u, int v, int w, int h)[]
                 {
                     (0, 0, 150, 50),
@@ -148,6 +152,8 @@ namespace UnitTests.UI.Controls
         <Border Width=""50"" Height=""50"" Visibility=""Collapsed""/>
     </controls:WrapPanel>
 </Page>") as FrameworkElement;
+
+                treeRoot.UseLayoutRounding = false;
 
                 var expected = new (int u, int v, int w, int h)[]
                 {
