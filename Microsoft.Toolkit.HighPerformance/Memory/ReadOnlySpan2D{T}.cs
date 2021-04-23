@@ -803,15 +803,15 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="row">The target row to map within the current instance.</param>
         /// <param name="column">The target column to map within the current instance.</param>
-        /// <param name="width">The width to map within the current instance.</param>
         /// <param name="height">The height to map within the current instance.</param>
+        /// <param name="width">The width to map within the current instance.</param>
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for the current instance.
         /// </exception>
         /// <returns>A new <see cref="ReadOnlySpan2D{T}"/> instance representing a slice of the current one.</returns>
         [Pure]
-        public ReadOnlySpan2D<T> Slice(int row, int column, int width, int height)
+        public ReadOnlySpan2D<T> Slice(int row, int column, int height, int width)
         {
             if ((uint)row >= Height)
             {
@@ -823,14 +823,14 @@ namespace Microsoft.Toolkit.HighPerformance
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
-            if ((uint)width > (this.width - column))
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
-            }
-
             if ((uint)height > (Height - row))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
+            }
+
+            if ((uint)width > (this.width - column))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
             }
 
             nint shift = ((nint)(uint)this.stride * (nint)(uint)row) + (nint)(uint)column;
