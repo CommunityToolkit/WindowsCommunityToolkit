@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             "ClipToBounds",
             typeof(bool),
             typeof(UIElementExtensions),
-            new PropertyMetadata(DependencyProperty.UnsetValue, OnClipToBoundsPropertyChanged));
+            new PropertyMetadata(null, OnClipToBoundsPropertyChanged));
 
         /// <summary>
         /// Gets the value of <see cref="ClipToBoundsProperty"/>
