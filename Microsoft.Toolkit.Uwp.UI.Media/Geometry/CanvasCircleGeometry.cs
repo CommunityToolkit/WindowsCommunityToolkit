@@ -42,8 +42,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnCenterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ellipseGeometry = (CanvasCircleGeometry)d;
-            ellipseGeometry.OnCenterChanged();
+            var circleGeometry = (CanvasCircleGeometry)d;
+            circleGeometry.OnCenterChanged();
         }
 
         /// <summary>
@@ -59,16 +59,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         public static readonly DependencyProperty RadiusProperty = DependencyProperty.Register(
             "Radius",
-            typeof(float),
+            typeof(double),
             typeof(CanvasCircleGeometry),
-            new PropertyMetadata(0f, OnRadiusChanged));
+            new PropertyMetadata(0, OnRadiusChanged));
 
         /// <summary>
         /// Gets or sets the radius value of the <see cref="CanvasCircleGeometry"/>.
         /// </summary>
-        public float Radius
+        public double Radius
         {
-            get => (float)GetValue(RadiusProperty);
+            get => (double)GetValue(RadiusProperty);
             set => SetValue(RadiusProperty, value);
         }
 
@@ -79,8 +79,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var roundedRectangleGeometry = (CanvasCircleGeometry)d;
-            roundedRectangleGeometry.OnRadiusChanged();
+            var circleGeometry = (CanvasCircleGeometry)d;
+            circleGeometry.OnRadiusChanged();
         }
 
         /// <summary>
@@ -94,7 +94,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <inheritdoc/>
         protected override void UpdateGeometry()
         {
-            Geometry = CanvasGeometry.CreateCircle(CompositionGenerator.Instance.Device, Center, Radius);
+            Geometry?.Dispose();
+
+            Geometry = CanvasGeometry.CreateCircle(CompositionGenerator.Instance.Device, Center, (float)Radius);
         }
     }
 }

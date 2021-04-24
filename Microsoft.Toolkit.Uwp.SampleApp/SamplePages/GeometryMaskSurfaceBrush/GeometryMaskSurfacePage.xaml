@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GeometryMaskSurfaceBrush.GeometryMaskSurfacePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GeometryMaskSurfaceBrush"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:brushes="using:Microsoft.Toolkit.Uwp.UI.Media.Brushes" xmlns:geometry="using:Microsoft.Toolkit.Uwp.UI.Media.Geometry"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.Background>
+            <!--<brushes:GeometryMaskSurfaceBrush SurfaceWidth="600" SurfaceHeight="400">
+                <brushes:GeometryMaskSurfaceBrush.Source>-->
+                    <brushes:ImageSurfaceBrush SurfaceWidth="600" SurfaceHeight="400" Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg"></brushes:ImageSurfaceBrush>
+                <!--</brushes:GeometryMaskSurfaceBrush.Source>
+                <brushes:GeometryMaskSurfaceBrush.Geometry>
+                    <geometry:CanvasCircleGeometry Center="300,200" Radius="100"></geometry:CanvasCircleGeometry>
+                </brushes:GeometryMaskSurfaceBrush.Geometry>
+            </brushes:GeometryMaskSurfaceBrush>-->
+        </Grid.Background>
+        <Grid Width="100" Height="100" Background="Red"></Grid>
+    </Grid>
+</Page>

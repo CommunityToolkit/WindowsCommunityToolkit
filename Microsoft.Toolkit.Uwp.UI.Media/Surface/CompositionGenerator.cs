@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// </summary>
         private CompositionGenerator()
         {
-            Compositor = Window.Current.Compositor;
+            Compositor = Window.Current?.Compositor;
             if (Compositor == null)
             {
                 // Since the compositor is null, we cannot proceed with the initialization of the CompositionGenerator. Therefore, throw an exception so that the value of

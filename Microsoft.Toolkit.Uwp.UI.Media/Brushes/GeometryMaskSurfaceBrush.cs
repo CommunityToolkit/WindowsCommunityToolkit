@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
@@ -47,6 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// </summary>
         private void OnGeometryChanged()
         {
+            OnSurfaceBrushUpdated();
         }
 
         /// <summary>
@@ -83,6 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// </summary>
         private void OnSourceChanged()
         {
+            OnSurfaceBrushUpdated();
         }
 
         /// <inheritdoc/>
@@ -90,10 +93,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         {
             base.OnSurfaceBrushUpdated();
 
+            CompositionBrush?.Dispose();
+
             if (Source != null && Geometry != null)
             {
                 var maskBrush = Window.Current.Compositor.CreateMaskBrush();
                 maskBrush.Source = Source.Brush;
+                RenderSurface = Generator.CreateGeometryMaskSurface(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry);
+                maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
+                CompositionBrush = maskBrush;
             }
         }
     }

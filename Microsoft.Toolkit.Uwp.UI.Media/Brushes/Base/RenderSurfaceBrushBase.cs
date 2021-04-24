@@ -11,6 +11,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public abstract class RenderSurfaceBrushBase : XamlCompositionBrushBase
     {
         /// <summary>
+        /// Gets or sets the CompositionSurface associated with the brush.
+        /// </summary>
+        protected IRenderSurface RenderSurface { get; set; }
+
+        /// <summary>
         /// The initialization <see cref="AsyncMutex"/> instance.
         /// </summary>
         private readonly AsyncMutex connectedMutex = new AsyncMutex();
@@ -31,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         public static readonly DependencyProperty SurfaceWidthProperty = DependencyProperty.Register(
             "SurfaceWidth",
-            typeof(float),
+            typeof(double),
             typeof(RenderSurfaceBrushBase),
             new PropertyMetadata(0f, OnSurfaceWidthChanged));
 
@@ -40,25 +45,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         public static readonly DependencyProperty SurfaceHeightProperty = DependencyProperty.Register(
             "SurfaceHeight",
-            typeof(float),
+            typeof(double),
             typeof(RenderSurfaceBrushBase),
             new PropertyMetadata(0f, OnSurfaceHeightChanged));
 
         /// <summary>
         /// Gets or sets the width of the Brush Surface.
         /// </summary>
-        public float SurfaceWidth
+        public double SurfaceWidth
         {
-            get => (float)GetValue(SurfaceWidthProperty);
+            get => (double)GetValue(SurfaceWidthProperty);
             set => SetValue(SurfaceWidthProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the height of the Brush Surface.
         /// </summary>
-        public float SurfaceHeight
+        public double SurfaceHeight
         {
-            get => (float)GetValue(SurfaceHeightProperty);
+            get => (double)GetValue(SurfaceHeightProperty);
             set => SetValue(SurfaceHeightProperty, value);
         }
 
@@ -112,15 +117,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             {
                 if (CompositionBrush == null)
                 {
-                    Generator = CompositionGenerator.Instance;
-
-                    Generator.DeviceReplaced += OnDeviceReplaced;
+                    GetGeneratorInstance();
 
                     OnSurfaceBrushUpdated();
                 }
             }
 
             base.OnConnected();
+        }
+
+        /// <summary>
+        /// Gets the CompositionGenerator Instance
+        /// </summary>
+        protected void GetGeneratorInstance()
+        {
+            if (Window.Current != null)
+            {
+                Generator = CompositionGenerator.Instance;
+
+                Generator.DeviceReplaced += OnDeviceReplaced;
+            }
         }
 
         /// <inheritdoc/>
