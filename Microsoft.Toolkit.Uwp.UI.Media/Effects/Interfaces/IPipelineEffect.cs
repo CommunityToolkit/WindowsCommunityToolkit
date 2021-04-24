@@ -12,13 +12,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// <summary>
     /// The base <see langword="interface"/> for all the builder effects to be used in a <see cref="CompositionBrush"/>.
     /// </summary>
-    public interface IPipelineEffect
+    public interface IPipelineEffect : IBrushEffect
     {
-        /// <summary>
-        /// Gets the current <see cref="CompositionBrush"/> instance, if one is in use.
-        /// </summary>
-        CompositionBrush? Brush { get; }
-
         /// <summary>
         /// Appends the current effect to the input <see cref="PipelineBuilder"/> instance.
         /// </summary>

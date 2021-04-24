@@ -832,9 +832,6 @@
     <Compile Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockPage.xaml.cs">
       <DependentUpon>MarkdownTextBlockPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\TileControl\TileControlPage.xaml.cs">
-      <DependentUpon>TileControlPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\RadialProgressBar\RadialProgressBarPage.xaml.cs">
       <DependentUpon>RadialProgressBarPage.xaml</DependentUpon>
     </Compile>
@@ -1242,10 +1239,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Expander\ExpanderPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\TileControl\TileControlPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

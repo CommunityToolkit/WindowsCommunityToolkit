@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.Graphics.Effects;
 using Windows.UI;
 using Windows.UI.Composition;
+using CanvasBorderEffect = Microsoft.Graphics.Canvas.Effects.BorderEffect;
 using CanvasExposureEffect = Microsoft.Graphics.Canvas.Effects.ExposureEffect;
 using CanvasGrayscaleEffect = Microsoft.Graphics.Canvas.Effects.GrayscaleEffect;
 using CanvasHueRotationEffect = Microsoft.Graphics.Canvas.Effects.HueRotationEffect;
@@ -102,6 +104,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(GaussianBlurEffect.BlurAmount)}", value, duration);
 
             return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(GaussianBlurEffect.BlurAmount)}" });
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="BorderEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="extendX">The <see cref="CanvasEdgeBehavior"/> in the horizontal direction</param>
+        /// <param name="extendY">The <see cref="CanvasEdgeBehavior"/> in the vertical direction</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Border(CanvasEdgeBehavior extendX, CanvasEdgeBehavior extendY)
+        {
+            async ValueTask<IGraphicsEffectSource> Factory() => new CanvasBorderEffect
+            {
+                ExtendX = extendX,
+                ExtendY = extendY,
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
         }
 
         /// <summary>

@@ -206,11 +206,10 @@
       },
       {
         "Name": "TileControl",
-        "Type": "TileControlPage",
         "Subcategory": "Layout",
         "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Core/TileControl",
-        "XamlCodeFile": "TileControl.bind",
+        "XamlCodeFile": "/SamplePages/TileControl/TileControl.bind",
         "Icon": "/SamplePages/TileControl/TileControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TileControl.md"
       },
