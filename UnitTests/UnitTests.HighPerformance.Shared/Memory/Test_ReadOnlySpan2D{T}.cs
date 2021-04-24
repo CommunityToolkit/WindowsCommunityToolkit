@@ -605,7 +605,7 @@ namespace UnitTests.HighPerformance
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3).Slice(1, 0, 3, 2);
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3).Slice(1, 0, 2, 3);
 
             bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
 
@@ -620,7 +620,7 @@ namespace UnitTests.HighPerformance
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3).Slice(0, 1, 2, 3);
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3).Slice(0, 1, 3, 2);
 
             bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
 
