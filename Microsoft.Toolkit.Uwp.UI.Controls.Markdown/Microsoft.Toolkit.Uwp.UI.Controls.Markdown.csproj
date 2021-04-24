@@ -6,7 +6,7 @@
       This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is part of the Windows Community Toolkit.
 
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Markdown MarkdownTextBlock</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Markdown;Text;Block;MarkdownTextBlock</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>

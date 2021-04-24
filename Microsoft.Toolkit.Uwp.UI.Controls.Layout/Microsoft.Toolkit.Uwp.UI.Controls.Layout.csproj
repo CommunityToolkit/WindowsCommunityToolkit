@@ -17,7 +17,18 @@
         - ListDetailsView: Implements the List/Details design pattern.
         - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
     </Description>
-    <PackageTags>BladeView Blade Carousel Expander GridSplitter HeaderedContent List Details ListDetails Orbit</PackageTags>
+    <PackageTags>
+      Windows;Community;Toolkit;WCT;
+      Blade;View              ;BladeView             ;
+      Carousel                ;
+      Expander                ;
+      Grid;Splitter           ;GridSplitter          ;
+      Headered;Content;Control;HeaderedContentControl;ContentControl ;HeaderedContent;
+      Headered;Items;Control  ;HeaderedItemsControl  ;ItemsControl   ;HeaderedItems  ;
+      Layout;Transform;Control;LayoutTransformControl;LayoutTransform;
+      List;Details;View       ;ListDetailsView       ;ListDetails    ;
+      Orbit;View              ;OrbitView             ;
+    </PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
@@ -31,6 +42,10 @@
     <Compile Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\ControlHelpers.XamlHost.cs" Link="ControlHelpers.XamlHost.cs" />
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>

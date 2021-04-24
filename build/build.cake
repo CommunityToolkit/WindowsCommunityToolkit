@@ -43,7 +43,10 @@ var stylerFile = baseDir + "/settings.xamlstyler";
 string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
-var inheritDocExclude = "Foo.*";
+
+// Ignoring NerdBank until this is merged and we can use a new version of inheridoc:
+// https://github.com/firesharkstudios/InheritDoc/pull/27
+var inheritDocExclude = "Nerdbank.GitVersioning.ManagedGit.GitRepository";
 
 //////////////////////////////////////////////////////////////////////
 // METHODS
@@ -249,7 +252,7 @@ Task("Test")
     };
 
     VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
-}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*.NetCore.csproj"), (file) => 
+}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*NetCore.csproj"), (file) => 
 {
     Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings

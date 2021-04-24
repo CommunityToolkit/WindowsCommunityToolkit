@@ -8,11 +8,11 @@
 
   <Page.Resources>
     <DataTemplate x:Name="NormalTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Green"></TextBlock>
+      <TextBlock Text="{Binding Title}" Foreground="Green"/>
     </DataTemplate>
 
     <DataTemplate x:Name="AlternateTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Red"></TextBlock>
+      <TextBlock Text="{Binding Title}" Foreground="Red"/>
     </DataTemplate>
   </Page.Resources>
 
@@ -26,7 +26,7 @@
         ui:ListViewExtensions.Command="{Binding SampleCommand}"
         ui:ListViewExtensions.AlternateColor="#33AAAAAA"
         ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-        ui:ListViewExtensions.StretchItemContainerDirection="Both">
+        ui:ListViewExtensions.ItemContainerStretchDirection="Both">
     </ListView>
   </Grid>
 </Page>

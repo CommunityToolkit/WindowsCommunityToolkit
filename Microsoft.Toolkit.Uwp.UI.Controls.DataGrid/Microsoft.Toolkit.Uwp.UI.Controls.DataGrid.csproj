@@ -6,7 +6,7 @@
       This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
 
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Data;Grid;DataGrid</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
@@ -15,6 +15,10 @@
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,10 +14,24 @@
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
         - RadialProgressBar: Displays progress as a circle getting filled.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
+        - TabbedCommandBar: A command bar that organizes features of an application into a series of tabs.
         - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
         - TileControl: A ContentControl that show an image repeated many times.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Markdown CameraPreview Camera DropShadow ImageEx InAppNotification InfiniteCanvas Radial RadialProgressBar Scroll ScrollHeader Tile</PackageTags>
+    <PackageTags>
+        Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+        Camera;Preview     ;CameraPreview    ;
+        Drop;Shadow;Panel  ;DropShadowPanel  ;DropShadow  ;
+        Image;Ex           ;ImageEx          ;
+        In;App;Notification;InAppNotification;InApp       ;
+        Loading            ;
+        Menu               ;
+        Radial;Progress;Bar;RadialProgressBar;ProgressBar ;
+        Rotator;Tile       ;RotatorTile      ;
+        Tabbed;Command;Bar ;TabbedCommandBar ;CommandBar  ;
+        Text;Tool;Bar      ;TextToolBar      ;ToolBar     ;Markdown;
+        Tile;Control       ;TileControl      ;
+    </PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>9.0</LangVersion>
@@ -31,6 +45,10 @@
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design*.dll;$(OutDir)\Design\$(MSBuildProjectName).Design*.pdb" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>

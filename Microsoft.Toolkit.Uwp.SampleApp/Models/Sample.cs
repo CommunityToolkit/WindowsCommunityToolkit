@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 // TODO Reintroduce graph controls
 // using Microsoft.Toolkit.Graph.Converters;
 // using Microsoft.Toolkit.Graph.Providers;
@@ -26,6 +27,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Microsoft.UI.Xaml;
+using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -70,7 +72,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private string _cachedDocumentation = string.Empty;
-        private string _cachedPath = string.Empty;
 
         internal static async Task<Sample> FindAsync(string category, string name)
         {
@@ -114,10 +115,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             set
             {
-#if DEBUG
+#if !REMOTE_DOCS
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/Microsoft/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/windows-toolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;
@@ -134,7 +135,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 else
                 {
-                    _codeUrl = $"https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/{path}";
+                    var packageVersion = Package.Current.Id.Version.ToFormattedString(3);
+                    _codeUrl = $"https://github.com/Microsoft/WindowsCommunityToolkit/tree/rel/{packageVersion}/{path}";
                 }
 #endif
             }
@@ -148,7 +150,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string XamlCode { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the path set in the samples.json pointing to the doc for the sample.
+        /// </summary>
         public string DocumentationUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the absolute local doc path for cached file in app.
+        /// </summary>
+        public string LocalDocumentationFilePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the base path segment to the current document location.
+        /// </summary>
+        public string RemoteDocumentationPath { get; set; }
 
         public string Icon { get; set; }
 
@@ -190,18 +205,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-#pragma warning disable SA1009 // Doesn't like ValueTuples.
-        public async Task<(string contents, string path)> GetDocumentationAsync()
-#pragma warning restore SA1009 // Doesn't like ValueTuples.
+        public async Task<string> GetDocumentationAsync()
         {
             if (!string.IsNullOrWhiteSpace(_cachedDocumentation))
             {
-                return (_cachedDocumentation, _cachedPath);
+                return _cachedDocumentation;
             }
 
             var filepath = string.Empty;
             var filename = string.Empty;
-            var localPath = string.Empty;
+            LocalDocumentationFilePath = string.Empty;
 
             var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
@@ -209,13 +222,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 filepath = docMatch.Groups["file"].Value;
                 filename = Path.GetFileName(filepath);
-                localPath = $"ms-appx:///docs/{Path.GetDirectoryName(filepath)}/";
+
+                RemoteDocumentationPath = Path.GetDirectoryName(filepath);
+                LocalDocumentationFilePath = $"ms-appx:///docs/{filepath}/";
             }
 
-#if !DEBUG // use the docs repo in release mode
-            string modifiedDocumentationUrl = $"{_docsOnlineRoot}master/docs/{filepath}";
-
-            _cachedPath = modifiedDocumentationUrl.Replace(filename, string.Empty);
+#if REMOTE_DOCS // use the docs repo in release mode
+            string modifiedDocumentationUrl = $"{_docsOnlineRoot}live/docs/{filepath}";
 
             // Read from Cache if available.
             try
@@ -263,7 +276,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         var result = await localDocsStream.ReadTextAsync(Encoding.UTF8);
                         _cachedDocumentation = ProcessDocs(result);
-                        _cachedPath = localPath;
                     }
                 }
                 catch (Exception)
@@ -271,7 +283,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            return (_cachedDocumentation, _cachedPath);
+            return _cachedDocumentation;
+        }
+
+        public Uri GetOnlineResourcePath(string relativePath)
+        {
+            return new Uri($"{_docsOnlineRoot}live/docs/{RemoteDocumentationPath}/{relativePath}");
         }
 
         /// <summary>
@@ -290,10 +307,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             IRandomAccessStream imageStream = null;
-            var localPath = $"{uri.Host}/{uri.LocalPath}";
+            var localPath = $"{uri.Host}/{uri.LocalPath}".Replace("//", "/");
 
-            // Cache only in Release
-#if !DEBUG
+            if (localPath.StartsWith(_docsOnlineRoot.Substring(8)))
+            {
+                // If we're looking for docs we should look in our local area first.
+                localPath = localPath.Substring(_docsOnlineRoot.Length - 3); // want to chop "live/" but missing https:// as well.
+            }
+
+            // Try cache only in Release (using remote docs)
+#if REMOTE_DOCS
             try
             {
                 imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localPath, Windows.Storage.FileAccessMode.Read);
@@ -301,12 +324,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             catch
             {
             }
-#endif
 
             if (imageStream == null)
             {
                 try
                 {
+                    // Our docs don't reference any external images, this should only be for getting latest image from repo.
                     using (var response = await client.GetAsync(uri))
                     {
                         if (response.IsSuccessStatusCode)
@@ -314,16 +337,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                             var imageCopy = await CopyStream(response.Content);
                             imageStream = imageCopy.AsRandomAccessStream();
 
-                            // Cache only in Release
-#if !DEBUG
                             // Takes a second copy of the image stream, so that is can save the image data to cache.
                             using (var saveStream = await CopyStream(response.Content))
                             {
                                 await SaveImageToCache(localPath, saveStream);
                             }
-#endif
                         }
                     }
+                }
+                catch
+                {
+                }
+            }
+#endif
+
+            // If we don't have internet, then try to see if we have a packaged copy
+            if (imageStream == null)
+            {
+                try
+                {
+                    imageStream = await StreamHelper.GetPackagedFileStreamAsync(localPath);
                 }
                 catch
                 {
@@ -648,6 +681,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 GridSplitter.GridResizeDirection.Auto.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Layout
                 typeof(MarkdownTextBlock), // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
                 BitmapFileFormat.Bmp.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Media
+                typeof(AlphaMode), // Microsoft.Toolkit.Uwp.UI.Media
                 StretchChild.Last.GetType() // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
             };
 
@@ -659,7 +693,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                var branchEndpoint = "https://api.github.com/repos/microsoftdocs/uwpcommunitytoolkitdocs/git/refs/heads/live";
+                var branchEndpoint = "https://api.github.com/repos/microsoftdocs/windowscommunitytoolkitdocs/git/refs/heads/live";
 
                 var request = new HttpRequestMessage(HttpMethod.Get, branchEndpoint);
                 request.Headers.Add("User-Agent", "Windows Community Toolkit Sample App");
@@ -695,6 +729,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             [JsonPropertyName("sha")]
             public string Sha { get; set; }
+        }
+
+        public override string ToString()
+        {
+            return $"SampleApp.Sample<{CategoryName}.{Subcategory}.{Name}>";
         }
     }
 }

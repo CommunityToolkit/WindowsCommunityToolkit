@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _logs.Clear();
         }
 
-        private async void EffectElementHost_EnteredViewport(object sender, EventArgs e)
+        private void EffectElementHost_EnteredViewport(object sender, EventArgs e)
         {
             AddLog("Entered viewport");
 
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _effectElement.Source = new BitmapImage(new Uri("ms-appx:///Assets/ToolkitLogo.png"));
         }
 
-        private async void EffectElementHost_ExitedViewport(object sender, EventArgs e)
+        private void EffectElementHost_ExitedViewport(object sender, EventArgs e)
         {
             AddLog("Exited viewport");
 

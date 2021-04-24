@@ -9,7 +9,7 @@ using Windows.System;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Set of extention methods for using <see cref="DispatcherQueueTimer"/>.
+    /// Set of extension methods for using <see cref="DispatcherQueueTimer"/>.
     /// </summary>
     public static class DispatcherQueueTimerExtensions
     {

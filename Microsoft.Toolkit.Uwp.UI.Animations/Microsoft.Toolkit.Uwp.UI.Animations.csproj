@@ -14,12 +14,11 @@
       - Expressions: ExpressionNodes, ExpressionValues, ReferenceNodes, CompositionExtensions, ExpressionFunctions, OperationType
       - AnimationExtensions: Blur, Fade, Light, Offset, Rotate, Saturation, Scale
     </Description>
-    <PackageTags>UWP Toolkit Windows Animations Composition Connected Implicit XAML</PackageTags>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Animations;Composition;Connected;Implicit;XAML</PackageTags>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>
 
