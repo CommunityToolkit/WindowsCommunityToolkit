@@ -189,74 +189,95 @@ namespace UnitTests.UI.Controls
 
         [TestMethod]
         [TestCategory("Set Prop")]
+
+        // Given:Sf   Min   Max   Start End      Set:Minimum       Then:Sf  Min     Max     Start   End
 #pragma warning disable SA1008, SA1025
+        [DataRow(   1,    0,   10,   90,  100,             0,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,           -10,             1,  -10   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            10,             1,   10   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            50,             1,   50   ,  50   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            90,             1,   90   ,  90   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,           100,             1,  100   , 100   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,           110,             1,  110   , 110.01, 110.01, 110.01)]
+        public Task SetMinimum(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double setMinimumValue, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+            => SetProp(stepFrequency, minimum, rangeStart, rangeEnd, maximum, Property.Minimum, setMinimumValue, expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
 
-        // Input:Sf   Min   Max   Start End           TargetProp   Target Value Expected:Sf   Min       Max     Start   End
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,             0,             1,    0   ,  10   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,           -10,             1,  -10   ,  10   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,            10,             1,   10   ,  10   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,            50,             1,   50   ,  50   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,            90,             1,   90   ,  90   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,           100,             1,  100   , 100   , 100   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Minimum"   ,           110,             1,  110   , 110.01, 110.01, 110.01)]
+        [TestMethod]
+        [TestCategory("Set Prop")]
 
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,           100,             1,    0   ,  10   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,           110,             1,    0   ,  10   ,  90   , 110   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,            90,             1,    0   ,  10   ,  90   ,  90   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,            50,             1,    0   ,  10   ,  50   ,  50   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,            10,             1,    0   ,  10   ,  10   ,  10   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,             0,             1,    0   ,   0   ,   0   ,   0   )]
-        [DataRow(   1,    0,   10,   90,  100,      "Maximum"   ,           -10,             1,  -10.01, -10   , -10   , -10   )]
+        // Given:Sf   Min   Max   Start End      Set:Maximum       Then:Sf  Min      Max     Start   End
+        [DataRow(   1,    0,   10,   90,  100,           100,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,           110,             1,    0   ,  10   ,  90   , 110   )]
+        [DataRow(   1,    0,   10,   90,  100,            90,             1,    0   ,  10   ,  90   ,  90   )]
+        [DataRow(   1,    0,   10,   90,  100,            50,             1,    0   ,  10   ,  50   ,  50   )]
+        [DataRow(   1,    0,   10,   90,  100,            10,             1,    0   ,  10   ,  10   ,  10   )]
+        [DataRow(   1,    0,   10,   90,  100,             0,             1,    0   ,   0   ,   0   ,   0   )]
+        [DataRow(   1,    0,   10,   90,  100,           -10,             1,  -10.01, -10   , -10   , -10   )]
+        public Task SetMaximum(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+            => SetProp(stepFrequency, minimum, rangeStart, rangeEnd, maximum, Property.Maximum, propInput, expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
 
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",            10,             1,    0   ,  10   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",             5,             1,    0   ,   5   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",             0,             1,    0   ,   0   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",           -10,             1,    0   ,   0   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",            90,             1,    0   ,  90   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",            95,             1,    0   ,  95   ,  95   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",           100,             1,    0   , 100   , 100   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeStart",           110,             1,    0   , 100   , 100   , 100   )]
+        [TestMethod]
+        [TestCategory("Set Prop")]
 
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,            90,             1,    0   ,  10   ,  90   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,            95,             1,    0   ,  10   ,  95   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           100,             1,    0   ,  10   , 100   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           110,             1,    0   ,  10   , 100   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,            10,             1,    0   ,  10   ,  10   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,             5,             1,    0   ,   5   ,   5   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,             0,             1,    0   ,   0   ,   0   , 100   )]
-        [DataRow(   1,    0,   10,   90,  100,      "RangeEnd"  ,           -10,             1,    0   ,   0   ,   0   , 100   )]
+        // Given:Sf   Min   Max   Start End    Set:RangeStart       Then:Sf  Min      Max     Start   End
+        [DataRow(   1,    0,   10,   90,  100,             10,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,              5,             1,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,              0,             1,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            -10,             1,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,             90,             1,    0   ,  90   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,             95,             1,    0   ,  95   ,  95   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            100,             1,    0   , 100   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            110,             1,    0   , 100   , 100   , 100   )]
 
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",            10,             5,    0   ,  10   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             5,             5,    0   ,   5   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             0,             5,    0   ,   0   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             1,             5,    0   ,   0   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           2.4,             5,    0   ,   0   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           2.5,             5,    0   ,   0   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           2.6,             5,    0   ,   5   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             4,             5,    0   ,   5   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             6,             5,    0   ,   5   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",             9,             5,    0   ,  10   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",           100,             5,    0   , 100   , 100   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",            89,             5,    0   ,  90   ,  90   , 100   )]
-        [DataRow(   5,    0,   10,   90,  100,      "RangeStart",            91,             5,    0   ,  90   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,             10,             5,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,              5,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,              0,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,              1,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,            2.4,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,            2.5,             5,    0   ,   0   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,            2.6,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,              4,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,              6,             5,    0   ,   5   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,              9,             5,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,            100,             5,    0   , 100   , 100   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,             89,             5,    0   ,  90   ,  90   , 100   )]
+        [DataRow(   5,    0,   10,   90,  100,             91,             5,    0   ,  90   ,  90   , 100   )]
 
-        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            80,            30,    0   , 100   , 100   , 100   )]
-        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            74,            30,    0   ,  60   ,  60   , 100   )]
-        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            75,            30,    0   ,  60   ,  60   , 100   )]
-        [DataRow(  30,    0,   60,   70,  100,      "RangeStart",            76,            30,    0   , 100   , 100   , 100   )]
-        [DataRow(  40,    0,   40,   60,  100,      "RangeStart",            20,            40,    0   ,   0   ,  60   , 100   )]
-        [DataRow(  40,    0,   40,   60,  100,      "RangeStart",            50,            40,    0   ,  40   ,  60   , 100   )]
-        [DataRow(  40,    0,   40,   60,  100,      "RangeStart",            60,            40,    0   , 100   , 100   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             80,            30,    0   , 100   , 100   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             74,            30,    0   ,  60   ,  60   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             75,            30,    0   ,  60   ,  60   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             76,            30,    0   , 100   , 100   , 100   )]
+        [DataRow(  40,    0,   40,   60,  100,             20,            40,    0   ,   0   ,  60   , 100   )]
+        [DataRow(  40,    0,   40,   60,  100,             50,            40,    0   ,  40   ,  60   , 100   )]
+        [DataRow(  40,    0,   40,   60,  100,             60,            40,    0   , 100   , 100   , 100   )]
+        public Task SetRangeStart(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+            => SetProp(stepFrequency, minimum, rangeStart, rangeEnd, maximum, Property.RangeStart, propInput, expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
 
-        [DataRow(  30,    0,   60,   70,  100,      "RangeEnd"  ,            50,            30,    0   ,  60   ,  60   , 100   )]
-        [DataRow(  30,    0,   60,   70,  100,      "RangeEnd"  ,            36,            30,    0   ,  30   ,  30   , 100   )]
-        [DataRow(  30,    0,   60,   70,  100,      "RangeEnd"  ,            35,            30,    0   ,  30   ,  30   , 100   )]
-        [DataRow(  30,    0,   60,   70,  100,      "RangeEnd"  ,            34,            30,    0   ,  30   ,  30   , 100   )]
-        [DataRow(  40,    0,   40,   60,  100,      "RangeEnd"  ,            80,            40,    0   ,  40   , 100   , 100   )]
-        [DataRow(  40,    0,   40,   60,  100,      "RangeEnd"  ,            30,            40,    0   ,  40   ,  40   , 100   )]
-        [DataRow(  40,    0,   40,   60,  100,      "RangeEnd"  ,             0,            40,    0   ,   0   ,   0   , 100   )]
+        [TestMethod]
+        [TestCategory("Set Prop")]
+
+        // Given:Sf   Min   Max   Start End      Set:RangeEnd       Then:Sf  Min      Max     Start   End
+        [DataRow(   1,    0,   10,   90,  100,             90,             1,    0   ,  10   ,  90   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,             95,             1,    0   ,  10   ,  95   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            100,             1,    0   ,  10   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            110,             1,    0   ,  10   , 100   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,             10,             1,    0   ,  10   ,  10   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,              5,             1,    0   ,   5   ,   5   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,              0,             1,    0   ,   0   ,   0   , 100   )]
+        [DataRow(   1,    0,   10,   90,  100,            -10,             1,    0   ,   0   ,   0   , 100   )]
+
+        [DataRow(  30,    0,   60,   70,  100,             50,            30,    0   ,  60   ,  60   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             36,            30,    0   ,  30   ,  30   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             35,            30,    0   ,  30   ,  30   , 100   )]
+        [DataRow(  30,    0,   60,   70,  100,             34,            30,    0   ,  30   ,  30   , 100   )]
+        [DataRow(  40,    0,   40,   60,  100,             80,            40,    0   ,  40   , 100   , 100   )]
+        [DataRow(  40,    0,   40,   60,  100,             30,            40,    0   ,  40   ,  40   , 100   )]
+        [DataRow(  40,    0,   40,   60,  100,              0,            40,    0   ,   0   ,   0   , 100   )]
 #pragma warning restore SA1025, SA1008
-        public async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, string targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+        public Task SetRangeEnd(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+            => SetProp(stepFrequency, minimum, rangeStart, rangeEnd, maximum, Property.RangeEnd, propInput, expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
+
+        public async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, Property targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -269,17 +290,20 @@ namespace UnitTests.UI.Controls
 
                 switch (targetProp)
                 {
-                    case "Minimum":
+                    case Property.Minimum:
                         r.Minimum = propInput;
                         break;
-                    case "RangeStart":
+                    case Property.Maximum:
+                        r.Maximum = propInput;
+                        break;
+                    case Property.RangeStart:
                         r.RangeStart = propInput;
                         break;
-                    case "RangeEnd":
+                    case Property.RangeEnd:
                         r.RangeEnd = propInput;
                         break;
-                    case "Maximum":
-                        r.Maximum = propInput;
+                    case Property.StepFrequency:
+                        r.StepFrequency = propInput;
                         break;
                     default:
                         Assert.Fail("Invalid param {0}", targetProp);
@@ -290,6 +314,15 @@ namespace UnitTests.UI.Controls
 
                 Assert.AreEqual(expected, BuildTestRecord(r));
             });
+        }
+
+        public enum Property
+        {
+            StepFrequency,
+            Minimum,
+            Maximum,
+            RangeStart,
+            RangeEnd
         }
 
         public record TestRecord(double StepFrequency, double Minimum, double RangeStart, double RangeEnd, double Maximum);
