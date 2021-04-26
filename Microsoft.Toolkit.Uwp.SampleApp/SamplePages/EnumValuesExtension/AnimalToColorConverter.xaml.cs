@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.SampleApp.Enums;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
@@ -21,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Converters
                 Animal.Llama => Colors.Beige,
                 Animal.Parrot => Colors.YellowGreen,
                 Animal.Squirrel => Colors.SaddleBrown,
-                _ => throw new ArgumentException("Invalid value", nameof(value))
+                _ => DependencyProperty.UnsetValue
             };
         }
 
