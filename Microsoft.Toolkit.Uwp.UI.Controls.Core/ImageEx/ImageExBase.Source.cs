@@ -114,7 +114,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (imageSource != null)
             {
                 AttachSource(imageSource);
-
+                //start fixing issue #3957
+                ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
+                VisualStateManager.GoToState(this, LoadedState, true);
+                //end fixing issue #3957
                 return;
             }
 
