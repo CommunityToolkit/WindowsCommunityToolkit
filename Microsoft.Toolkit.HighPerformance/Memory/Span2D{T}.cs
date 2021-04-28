@@ -1062,7 +1062,10 @@ namespace Microsoft.Toolkit.HighPerformance
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.Instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.Instance).AsSpan((int)this.Offset, (int)Length);
+                    T[] array = Unsafe.As<T[]>(this.Instance)!;
+                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.Offset));
+
+                    span = array.AsSpan(index, (int)Length);
 
                     return true;
                 }
