@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UnitTests.WinUI": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

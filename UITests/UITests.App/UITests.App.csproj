@@ -36,7 +36,7 @@
     <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI">
       <Version>3.0.0-zmain.210407.3-CI</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.2.0" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinRTVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Grpc" Version="2.36.4" />
     <PackageReference Include="Google.Protobuf" Version="3.15.7" />

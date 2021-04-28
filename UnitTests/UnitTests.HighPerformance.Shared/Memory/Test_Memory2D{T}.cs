@@ -4,9 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-#if !WINDOWS_UWP
 using System.Runtime.CompilerServices;
-#endif
 using CommunityToolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -205,7 +203,6 @@ namespace UnitTests.HighPerformance
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new Memory2D<int>(array, 0, 0, 0, 3, 3));
         }
 
-#if !WINDOWS_UWP
         [TestCategory("Memory2DT")]
         [TestMethod]
         public void Test_Memory2DT_MemoryConstructor()
@@ -237,7 +234,6 @@ namespace UnitTests.HighPerformance
             Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(1, 2, 3, 0));
             Assert.ThrowsException<ArgumentException>(() => memory.AsMemory2D(0, 10, 1, 120));
         }
-#endif
 
         [TestCategory("Memory2DT")]
         [TestMethod]
@@ -341,14 +337,9 @@ namespace UnitTests.HighPerformance
             // Memory<T> (or a Span<T> too, for that matter) from a 2D array.
             bool success = memory2d.TryGetMemory(out Memory<int> memory);
 
-#if WINDOWS_UWP
-            Assert.IsFalse(success);
-            Assert.IsTrue(memory.IsEmpty);
-#else
             Assert.IsTrue(success);
             Assert.AreEqual(memory.Length, array.Length);
             Assert.IsTrue(Unsafe.AreSame(ref array[0, 0], ref memory.Span[0]));
-#endif
         }
 
         [TestCategory("Memory2DT")]
@@ -368,7 +359,6 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(memory.Span[2], 3);
         }
 
-#if !WINDOWS_UWP
         [TestCategory("Memory2DT")]
         [TestMethod]
         public void Test_Memory2DT_TryGetMemory_3()
@@ -386,7 +376,6 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(memory.Length, data.Length);
             Assert.AreEqual(memory.Span[2], 3);
         }
-#endif
 
         [TestCategory("Memory2DT")]
         [TestMethod]

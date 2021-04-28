@@ -63,14 +63,22 @@ namespace CommunityToolkit.WinUI.Notifications
                     var packageInstalledLocation = Package.Current.InstalledLocation.Path;
                     var actualExeFullPath = Process.GetCurrentProcess().MainModule.FileName;
 
-                    // If inside package location
-                    if (actualExeFullPath.StartsWith(packageInstalledLocation))
+                    // If is a background Task process, then it is containerized
+                    if (actualExeFullPath.EndsWith("backgroundTaskHost.exe", StringComparison.InvariantCultureIgnoreCase))
                     {
                         _isContainerized = true;
                     }
                     else
                     {
-                        _isContainerized = false;
+                        // If inside package location
+                        if (actualExeFullPath.StartsWith(packageInstalledLocation))
+                        {
+                            _isContainerized = true;
+                        }
+                        else
+                        {
+                            _isContainerized = false;
+                        }
                     }
                 }
 

@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if !WINDOWS_UWP
 using System.Buffers;
-#endif
 using System.IO;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.HighPerformance;

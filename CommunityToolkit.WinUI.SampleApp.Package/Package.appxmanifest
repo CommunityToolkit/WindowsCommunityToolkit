@@ -53,14 +53,23 @@
             <uap:DisplayName>Windows Community Toolkit</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
-        <!--<Extension Category="windows.backgroundTasks" EntryPoint="CommunityToolkit.WinUI.Samples.BackgroundTasks.TestBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="CommunityToolkit.WinUI.Samples.BackgroundTasks.TestBackgroundTask">
           <BackgroundTasks>
             <Task Type="timer" />
           </BackgroundTasks>
-        </Extension>-->
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
+
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>CommunityToolkit.WinUI.SampleApp\WinRT.Host.dll</Path>
+        <ActivatableClass ActivatableClassId="CommunityToolkit.WinUI.Samples.BackgroundTasks.TestBackgroundTask" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
 
   <Capabilities>
     <Capability Name="internetClient" />

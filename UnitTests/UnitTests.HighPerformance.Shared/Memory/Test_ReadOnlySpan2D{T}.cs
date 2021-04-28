@@ -39,7 +39,6 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(empty2.Height, 0);
         }
 
-#if !WINDOWS_UWP
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
         public unsafe void Test_ReadOnlySpan2DT_RefConstructor()
@@ -62,7 +61,6 @@ namespace UnitTests.HighPerformance
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, -2, 0));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => ReadOnlySpan2D<int>.DangerousCreate(Unsafe.AsRef<int>(null), 1, 0, -5));
         }
-#endif
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
@@ -474,7 +472,6 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(slice3[0, 0], 5);
         }
 
-#if !WINDOWS_UWP
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
         public void Test_ReadOnlySpan2DT_GetRowReadOnlySpan()
@@ -499,7 +496,6 @@ namespace UnitTests.HighPerformance
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRowSpan(-1));
             Assert.ThrowsException<ArgumentOutOfRangeException>(() => new ReadOnlySpan2D<int>(array).GetRowSpan(5));
         }
-#endif
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
@@ -515,14 +511,8 @@ namespace UnitTests.HighPerformance
 
             bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
 
-#if WINDOWS_UWP
-            // Can't get a ReadOnlySpan<T> over a T[,] array on UWP
-            Assert.IsFalse(success);
-            Assert.AreEqual(span.Length, 0);
-#else
             Assert.IsTrue(success);
             Assert.AreEqual(span.Length, span2d.Length);
-#endif
         }
 
         [TestCategory("ReadOnlySpan2DT")]

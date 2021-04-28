@@ -25,8 +25,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Microsoft.Internal.MUXTestInfra.MSTest" Version="3.0.0-zmain.210407.3-CI" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.4-preview-20210331-02" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.4-preview-20210331-02" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.4-preview-20210428-02" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.4-preview-20210428-02" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />

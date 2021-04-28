@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformRevision>19041</TargetPlatformRevision>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 
     <RootNamespace>CommunityToolkit.WinUI.SampleApp</RootNamespace>
@@ -44,10 +45,6 @@
     <PackageReference Include="Microsoft.ProjectReunion" Version="$(MicrosoftProjectReunionVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Temporary fix for https://github.com/microsoft/microsoft-ui-xaml/issues/4414 -->
-    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.19041.16" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="landingPageLinks.json" />
     <Content Include="Assets\mtns.csv" />
     <Content Include="**\*.png" />
@@ -77,10 +74,7 @@
       <Project>{97ee849b-403c-490e-80ed-d19d7cc153fd}</Project>
       <Name>CommunityToolkit.WinUI.Notifications</Name>
     </ProjectReference>
-    <!--<ProjectReference Include="..\CommunityToolkit.WinUI.Samples.BackgroundTasks\CommunityToolkit.WinUI.Samples.BackgroundTasks.csproj">
-      <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
-      <Name>CommunityToolkit.WinUI.Samples.BackgroundTasks</Name>
-    </ProjectReference>-->
+    <ProjectReference Include="..\CommunityToolkit.WinUI.Samples.BackgroundTasks\CommunityToolkit.WinUI.Samples.BackgroundTasks.csproj" />
     <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Behaviors\CommunityToolkit.WinUI.UI.Behaviors.csproj">
       <Project>{d4ff799d-0df2-495a-adc9-3bbc4aef8971}</Project>
       <Name>CommunityToolkit.WinUI.UI.Behaviors</Name>

@@ -4,9 +4,9 @@
     <When Condition="$(TargetFramework.StartsWith('net5.0-windows10.0.'))">
       <!-- 'TargetPlatform*Version' for uap10.0 where TPMV isn't implied -->
       <PropertyGroup>
-        <TargetPlatformVersion>10.0.$(TargetPlatformRevision).0</TargetPlatformVersion>
-        <TargetPlatformMinVersion>10.0.$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
-        <SupportedOSPlatformVersion>$(TargetPlatformMinVersion)</SupportedOSPlatformVersion>
+        <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">10.0.$(TargetPlatformRevision).0</TargetPlatformVersion>
+        <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == ''">10.0.$(TargetPlatformMinRevision).0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion Condition="'$(SupportedOSPlatformVersion)' == ''">$(TargetPlatformMinVersion)</SupportedOSPlatformVersion>
         <DebugType Condition="'$(DebugType)' == ''">Portable</DebugType>
       </PropertyGroup>
       <ItemGroup Condition="'$(IsWinUIProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">

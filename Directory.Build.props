@@ -22,6 +22,7 @@
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
     <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
     <MicrosoftProjectReunionVersion>0.5.0</MicrosoftProjectReunionVersion>
+    <MicrosoftCsWinRTVersion>1.2.5</MicrosoftCsWinRTVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
     <NoWarn>SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
