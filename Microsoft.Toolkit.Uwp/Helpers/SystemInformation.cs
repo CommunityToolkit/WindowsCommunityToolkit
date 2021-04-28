@@ -123,7 +123,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         /// <summary>
         /// Gets the previous version of the app that was installed.
-        /// This will be the current version if a previous version of the app was installed before accessing this property.
+        /// This will be the current version if a previous version of the app was installed
+        /// before using SystemInformation or if the app is not updated.
         /// </summary>
         public PackageVersion PreviousVersionInstalled { get; }
 
@@ -346,6 +347,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 var lastVersion = _localObjectStorageHelper.Read<string>(nameof(currentVersion));
                 if (currentVersion != lastVersion)
                 {
+                    _localObjectStorageHelper.Save(nameof(PreviousVersionInstalled), lastVersion);
                     _localObjectStorageHelper.Save(nameof(currentVersion), currentVersion);
                     return true;
                 }
