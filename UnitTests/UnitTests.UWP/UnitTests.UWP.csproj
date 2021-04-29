@@ -124,7 +124,7 @@
       <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
     </PackageReference>
     <PackageReference Include="System.Text.Json">
-      <Version>4.7.2</Version>
+      <Version>5.0.2</Version>
     </PackageReference>
     <PackageReference Include="System.Xml.XPath.XmlDocument">
       <Version>4.3.0</Version>
