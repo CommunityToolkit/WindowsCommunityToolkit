@@ -12,7 +12,7 @@ namespace UnitTests.UI.Controls
     [TestClass]
     public class Test_RangeSelector : VisualUITestBase
     {
-#pragma warning disable SA1008, SA1025
+#pragma warning disable SA1008, SA1025, SA1021
         [TestCategory("Initialize")]
         [TestMethod]
 
@@ -178,7 +178,6 @@ namespace UnitTests.UI.Controls
         [DataRow(  110,  190,              0, 0.01, 0.01, 0.01, DisplayName = "Minimum  < RangeStart  < RangeEnd  > Maximum")]
         [DataRow(  190,  110,              0, 0.01, 0.01, 0.01, DisplayName = "Minimum  < RangeStart  > RangeEnd  > Maximum")]
         [DataRow(  150,  150,              0, 0.01, 0.01, 0.01, DisplayName = "Minimum  < RangeStart == RangeEnd  > Maximum")]
-#pragma warning restore SA1025, SA1008
         public Task Initialize_MinGtMax(double rangeStart, double rangeEnd, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
             => Initialize(1, 100, rangeStart, rangeEnd, 0, 1, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
 
@@ -203,7 +202,6 @@ namespace UnitTests.UI.Controls
         [TestCategory("Set Prop")]
 
         // Set:Min      Then:Min   Start   End     Max
-#pragma warning disable SA1008, SA1025
         [DataRow(     0,         0,  10   ,  90   , 100   )]
         [DataRow(   -10,       -10,  10   ,  90   , 100   )]
         [DataRow(    10,        10,  10   ,  90   , 100   )]
@@ -294,9 +292,10 @@ namespace UnitTests.UI.Controls
         [DataRow(  40,   40,   60,     80,        40, 100)]
         [DataRow(  40,   40,   60,     30,        40,  40)]
         [DataRow(  40,   40,   60,      0,         0,   0)]
-#pragma warning restore SA1025, SA1008
         public Task SetRangeEnd_StepTest(double stepFrequency, double rangeStart, double rangeEnd, double propInput, double expectedRangeStart, double expectedRangeEnd)
             => SetProp(stepFrequency, 0, rangeStart, rangeEnd, 100, Property.RangeEnd, propInput, stepFrequency, 0, expectedRangeStart, expectedRangeEnd, 100);
+
+#pragma warning restore SA1025, SA1008, SA1021
 
         public async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, Property targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
