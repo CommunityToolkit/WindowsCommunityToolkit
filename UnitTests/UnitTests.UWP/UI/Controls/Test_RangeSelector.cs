@@ -243,6 +243,7 @@ namespace UnitTests.UI.Controls
 
         [TestMethod]
         [TestCategory("Set Prop")]
+
         // Given:Step Start End   Set:Start Then:Start End
         [DataRow(   5,   10,   90,       10,        10,  90)]
         [DataRow(   5,   10,   90,        5,         5,  90)]
@@ -284,6 +285,7 @@ namespace UnitTests.UI.Controls
 
         [TestMethod]
         [TestCategory("Set Prop")]
+
         // Given:Step Start End   Set:End Then:Start End
         [DataRow(  30,   60,   70,     50,        60,  60)]
         [DataRow(  30,   60,   70,     36,        30,  30)]
