@@ -181,23 +181,6 @@ namespace UnitTests.UI.Controls
         public Task Initialize_MinGtMax(double rangeStart, double rangeEnd, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
             => Initialize(1, 100, rangeStart, rangeEnd, 0, 1, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
 
-        public async Task Initialize(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
-        {
-            var input = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
-            var expected = new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
-
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var r = BuildRangeSelecor(input);
-
-                await SetTestContentAsync(r);
-
-                var actual = BuildTestRecord(r);
-
-                Assert.AreEqual(expected, actual);
-            });
-        }
-
         [TestMethod]
         [TestCategory("Set Prop")]
 
@@ -299,7 +282,24 @@ namespace UnitTests.UI.Controls
 
 #pragma warning restore SA1025, SA1008, SA1021
 
-        public async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, Property targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+        private async Task Initialize(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
+        {
+            var input = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
+            var expected = new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
+
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var r = BuildRangeSelecor(input);
+
+                await SetTestContentAsync(r);
+
+                var actual = BuildTestRecord(r);
+
+                Assert.AreEqual(expected, actual);
+            });
+        }
+
+        private async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, Property targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -338,7 +338,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
-        public enum Property
+        private enum Property
         {
             StepFrequency,
             Minimum,
@@ -347,9 +347,9 @@ namespace UnitTests.UI.Controls
             RangeEnd
         }
 
-        public record TestRecord(double StepFrequency, double Minimum, double RangeStart, double RangeEnd, double Maximum);
+        private record TestRecord(double StepFrequency, double Minimum, double RangeStart, double RangeEnd, double Maximum);
 
-        public static RangeSelector BuildRangeSelecor(TestRecord input)
+        private static RangeSelector BuildRangeSelecor(TestRecord input)
             => new()
             {
                 StepFrequency = input.StepFrequency,
@@ -359,7 +359,7 @@ namespace UnitTests.UI.Controls
                 RangeEnd = input.RangeEnd,
             };
 
-        public static TestRecord BuildTestRecord(RangeSelector r)
+        private static TestRecord BuildTestRecord(RangeSelector r)
             => new(r.StepFrequency, r.Minimum, r.RangeStart, r.RangeEnd, r.Maximum);
     }
 }
