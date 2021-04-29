@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using ColorPickerSlider = Microsoft.Toolkit.Uwp.UI.Controls.Primitives.ColorPickerSlider;
-using ColorSpectrum = Microsoft.UI.Xaml.Controls.Primitives.ColorSpectrum;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -1228,7 +1227,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event handler for when the color spectrum color is changed.
         /// This occurs when the user presses on the spectrum to select a new color.
         /// </summary>
-        private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Microsoft.UI.Xaml.Controls.ColorChangedEventArgs args)
+        private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Windows.UI.Xaml.Controls.ColorChangedEventArgs args)
         {
             // It is OK in this case to use the RGB representation
             this.ScheduleColorUpdate(this.ColorSpectrumControl.Color);
