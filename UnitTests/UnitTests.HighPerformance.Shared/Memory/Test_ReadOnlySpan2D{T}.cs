@@ -586,7 +586,51 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
-        public void Test_ReadOnlySpan2DT_TryGetReadOnlySpan_1()
+        public void Test_ReadOnlySpan2DT_TryGetSpan_From1DArray_1()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3);
+
+            bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(span.Length, span2d.Length);
+            Assert.IsTrue(Unsafe.AreSame(ref array[0], ref Unsafe.AsRef(in span[0])));
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
+        public void Test_ReadOnlySpan2DT_TryGetSpan_From1DArray_2()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3).Slice(1, 0, 2, 3);
+
+            bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
+
+            Assert.IsTrue(success);
+            Assert.AreEqual(span.Length, span2d.Length);
+            Assert.IsTrue(Unsafe.AreSame(ref array[3], ref Unsafe.AsRef(in span[0])));
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
+        public void Test_ReadOnlySpan2DT_TryGetSpan_From1DArray_3()
+        {
+            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            ReadOnlySpan2D<int> span2d = new ReadOnlySpan2D<int>(array, 3, 3).Slice(0, 1, 3, 2);
+
+            bool success = span2d.TryGetSpan(out ReadOnlySpan<int> span);
+
+            Assert.IsFalse(success);
+            Assert.AreEqual(span.Length, 0);
+        }
+
+        [TestCategory("ReadOnlySpan2DT")]
+        [TestMethod]
+        public void Test_ReadOnlySpan2DT_TryGetReadOnlySpan_From2DArray_1()
         {
             int[,] array =
             {
@@ -610,7 +654,7 @@ namespace UnitTests.HighPerformance
 
         [TestCategory("ReadOnlySpan2DT")]
         [TestMethod]
-        public void Test_ReadOnlySpan2DT_TryGetReadOnlySpan_2()
+        public void Test_ReadOnlySpan2DT_TryGetReadOnlySpan_From2DArray_2()
         {
             int[,] array =
             {
