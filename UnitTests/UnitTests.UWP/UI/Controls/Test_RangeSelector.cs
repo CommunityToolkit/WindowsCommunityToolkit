@@ -284,57 +284,60 @@ namespace UnitTests.UI.Controls
 
         private async Task Initialize(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
-            var input = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
-            var expected = new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
+            var initalProps = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
+            var inital = await InitGetProps(initalProps);
 
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var r = BuildRangeSelecor(input);
-
-                await SetTestContentAsync(r);
-
-                var actual = BuildTestRecord(r);
-
-                Assert.AreEqual(expected, actual);
-            });
+            Assert.AreEqual(new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum), inital.Item2);
         }
 
         private async Task SetProp(double stepFrequency, double minimum, double rangeStart, double rangeEnd, double maximum, Property targetProp, double propInput, double expectedStepFrequency, double expectedMinimum, double expectedRangeStart, double expectedRangeEnd, double expectedMaximum)
         {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
+            var initalProps = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
+            var inital = await InitGetProps(initalProps);
+            Assert.AreEqual(initalProps, inital.Item2);
+
+            var post = await SetPropGetProps(inital.Item1, targetProp, propInput);
+            Assert.AreEqual(new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum), post);
+        }
+
+        private async Task<(RangeSelector, TestRecord)> InitGetProps(TestRecord testRecord)
+        {
+            var t = testRecord;
+            return await App.DispatcherQueue.EnqueueAsync(async () =>
             {
-                var inital = new TestRecord(stepFrequency, minimum, rangeStart, rangeEnd, maximum);
-                var r = BuildRangeSelecor(inital);
+                var ragneSelector = BuildRangeSelecor(t);
+                await SetTestContentAsync(ragneSelector);
+                var testRecord = BuildTestRecord(ragneSelector);
+                return (ragneSelector, testRecord);
+            });
+        }
 
-                await SetTestContentAsync(r);
-
-                Assert.AreEqual(inital, BuildTestRecord(r));
-
+        private static async Task<TestRecord> SetPropGetProps(RangeSelector test, Property targetProp, double propInput)
+        {
+            return await App.DispatcherQueue.EnqueueAsync(() =>
+            {
                 switch (targetProp)
                 {
                     case Property.Minimum:
-                        r.Minimum = propInput;
+                        test.Minimum = propInput;
                         break;
                     case Property.Maximum:
-                        r.Maximum = propInput;
+                        test.Maximum = propInput;
                         break;
                     case Property.RangeStart:
-                        r.RangeStart = propInput;
+                        test.RangeStart = propInput;
                         break;
                     case Property.RangeEnd:
-                        r.RangeEnd = propInput;
+                        test.RangeEnd = propInput;
                         break;
                     case Property.StepFrequency:
-                        r.StepFrequency = propInput;
+                        test.StepFrequency = propInput;
                         break;
                     default:
-                        Assert.Fail("Invalid param {0}", targetProp);
                         break;
                 }
-                
-                var expected = new TestRecord(expectedStepFrequency, expectedMinimum, expectedRangeStart, expectedRangeEnd, expectedMaximum);
 
-                Assert.AreEqual(expected, BuildTestRecord(r));
+                return BuildTestRecord(test);
             });
         }
 
