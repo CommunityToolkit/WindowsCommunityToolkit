@@ -53,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _popupOpenDown;
         private ITextRange _currentRange;
         private CancellationTokenSource _suggestionRequestedTokenSource;
+        private PointerEventHandler _pointerEventHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RichSuggestBox"/> class.
@@ -61,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _tokens = new Dictionary<string, SuggestionInfo>();
             _visibleTokens = new ObservableCollection<SuggestionInfo>();
+            _pointerEventHandler = new PointerEventHandler(RichEditBoxPointerEventHandler);
             Tokens = new ReadOnlyObservableCollection<SuggestionInfo>(_visibleTokens);
             LockObj = new object();
 
@@ -69,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
             RegisterPropertyChangedCallback(CornerRadiusProperty, OnCornerRadiusChanged);
             RegisterPropertyChangedCallback(PopupCornerRadiusProperty, OnCornerRadiusChanged);
+            LostFocus += (sender, args) => ShowSuggestionsPopup(false);
         }
 
         /// <summary>
@@ -102,20 +105,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ConditionallyLoadElement(Header, PartHeaderContentPresenter);
             ConditionallyLoadElement(Description, PartDescriptionPresenter);
 
+            _richEditBox.SizeChanged -= RichEditBox_SizeChanged;
+            _richEditBox.TextChanging -= RichEditBox_TextChanging;
+            _richEditBox.TextChanged -= RichEditBox_TextChanged;
+            _richEditBox.SelectionChanging -= RichEditBox_SelectionChanging;
+            _richEditBox.SelectionChanged -= RichEditBox_SelectionChanged;
+            _richEditBox.Paste -= RichEditBox_Paste;
+            _richEditBox.RemoveHandler(PointerPressedEvent, _pointerEventHandler);
+            _richEditBox.ProcessKeyboardAccelerators -= RichEditBox_ProcessKeyboardAccelerators;
+
             _richEditBox.SizeChanged += RichEditBox_SizeChanged;
             _richEditBox.TextChanging += RichEditBox_TextChanging;
             _richEditBox.TextChanged += RichEditBox_TextChanged;
             _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
             _richEditBox.Paste += RichEditBox_Paste;
-            _richEditBox.AddHandler(PointerPressedEvent, new PointerEventHandler(RichEditBoxPointerEventHandler), true);
+            _richEditBox.AddHandler(PointerPressedEvent, _pointerEventHandler, true);
             _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
+
+            _suggestionsList.ItemClick -= SuggestionsList_ItemClick;
+            _suggestionsList.SizeChanged -= SuggestionsList_SizeChanged;
+            _suggestionsList.GotFocus -= SuggestionList_GotFocus;
 
             _suggestionsList.ItemClick += SuggestionsList_ItemClick;
             _suggestionsList.SizeChanged += SuggestionsList_SizeChanged;
-            _suggestionsList.GotFocus += (sender, args) => _richEditBox.Focus(FocusState.Programmatic);
-
-            LostFocus += (sender, args) => ShowSuggestionsPopup(false);
+            _suggestionsList.GotFocus += SuggestionList_GotFocus;
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -159,6 +173,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (this._suggestionPopup.IsOpen)
             {
                 this.UpdatePopupOffset();
+            }
+        }
+
+        private void SuggestionList_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (_richEditBox != null)
+            {
+                _richEditBox.Focus(FocusState.Programmatic);
             }
         }
 
@@ -479,6 +501,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ShowSuggestionsPopup(bool show)
         {
+            if (_suggestionPopup == null)
+            {
+                return;
+            }
+
             this._suggestionPopup.IsOpen = show;
             if (!show)
             {
