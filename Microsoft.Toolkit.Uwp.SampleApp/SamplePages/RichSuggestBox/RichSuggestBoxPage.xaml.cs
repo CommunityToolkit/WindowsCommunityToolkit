@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -101,26 +101,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 this._rsb.SuggestionsRequested -= this.SuggestingBox_OnSuggestionsRequested;
             }
 
-            if (control.FindChildByName("SuggestingBox") is RichSuggestBox rsb)
+            if (control.FindChild("SuggestingBox") is RichSuggestBox rsb)
             {
                 this._rsb = rsb;
                 this._rsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
                 this._rsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
             }
 
-            if (control.FindChildByName("PlainTextSuggestingBox") is RichSuggestBox tsb)
+            if (control.FindChild("PlainTextSuggestingBox") is RichSuggestBox tsb)
             {
                 this._tsb = tsb;
                 this._tsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
             }
 
-            if (control.FindChildByName("TokenListView1") is ListView tls1)
+            if (control.FindChild("TokenListView1") is ListView tls1)
             {
                 tls1.ItemsSource = this._rsb?.Tokens;
             }
 
-            if (control.FindChildByName("TokenListView2") is ListView tls2)
+            if (control.FindChild("TokenListView2") is ListView tls2)
             {
                 tls2.ItemsSource = this._tsb?.Tokens;
             }
