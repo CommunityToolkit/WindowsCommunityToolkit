@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -26,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
                 return task.GetResultOrDefault();
             }
 
-            return null;
+            return DependencyProperty.UnsetValue;
         }
 
         /// <inheritdoc/>
