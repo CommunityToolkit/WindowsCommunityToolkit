@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             }
             else
             {
+                // Invalid color value provided
                 return DependencyProperty.UnsetValue;
             }
 
@@ -47,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             object parameter,
             string language)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }

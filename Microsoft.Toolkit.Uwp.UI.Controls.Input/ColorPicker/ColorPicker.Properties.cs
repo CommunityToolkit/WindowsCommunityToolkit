@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(CustomPaletteColors),
                 typeof(ObservableCollection<Windows.UI.Color>),
                 typeof(ColorPicker),
-                new PropertyMetadata(Windows.UI.Color.FromArgb(0x00, 0x00, 0x00, 0x00)));
+                new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the list of custom palette colors.
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(CustomPalette),
                 typeof(IColorPalette),
                 typeof(ColorPicker),
-                new PropertyMetadata(DependencyProperty.UnsetValue));
+                new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the custom color palette.

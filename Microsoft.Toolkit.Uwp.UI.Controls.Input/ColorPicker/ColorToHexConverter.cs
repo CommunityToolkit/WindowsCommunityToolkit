@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             else
             {
+                // Invalid color value provided
                 return DependencyProperty.UnsetValue;
             }
 
@@ -59,7 +60,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
                 }
                 catch
                 {
-                    throw new ArgumentException("Invalid hex color value provided");
+                    // Invalid hex color value provided
+                    return DependencyProperty.UnsetValue;
                 }
             }
             else
@@ -70,7 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
                 }
                 catch
                 {
-                    throw new ArgumentException("Invalid hex color value provided");
+                    // Invalid hex color value provided
+                    return DependencyProperty.UnsetValue;
                 }
             }
         }

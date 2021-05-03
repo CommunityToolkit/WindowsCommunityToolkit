@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             else
             {
+                // Invalid color value provided
                 return DependencyProperty.UnsetValue;
             }
 
@@ -51,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             catch
             {
+                // Invalid parameter provided, unable to convert to integer
                 return DependencyProperty.UnsetValue;
             }
 
@@ -120,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             object parameter,
             string language)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }
