@@ -4,6 +4,7 @@
 
 using System;
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
@@ -34,7 +35,8 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
             }
             else
             {
-                throw new ArgumentException("Invalid color value provided");
+                // Invalid color value provided
+                return DependencyProperty.UnsetValue;
             }
 
             string hexColor = color.ToHex().Replace("#", string.Empty);
@@ -58,7 +60,8 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
                 }
                 catch
                 {
-                    throw new ArgumentException("Invalid hex color value provided");
+                    // Invalid hex color value provided
+                    return DependencyProperty.UnsetValue;
                 }
             }
             else
@@ -69,7 +72,8 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
                 }
                 catch
                 {
-                    throw new ArgumentException("Invalid hex color value provided");
+                    // Invalid hex color value provided
+                    return DependencyProperty.UnsetValue;
                 }
             }
         }

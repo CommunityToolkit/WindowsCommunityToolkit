@@ -20,7 +20,7 @@ namespace CommunityToolkit.WinUI.Design.Common
 {
     public abstract class MetadataRegistrationBase : IProvideAttributeTable
     {
-        private AttributeTable masterMetadataTable;
+        private AttributeTable mainMetadataTable;
 
         internal MetadataRegistrationBase() { }
 
@@ -36,8 +36,8 @@ namespace CommunityToolkit.WinUI.Design.Common
             AddAttributes(builder);
             AddTables(builder, this);
 
-            masterMetadataTable = builder.CreateTable();
-            return masterMetadataTable;
+            mainMetadataTable = builder.CreateTable();
+            return mainMetadataTable;
         }
 
         #region IProvideAttributeTable Members
