@@ -30,6 +30,8 @@ namespace Microsoft.Toolkit.Uwp
          ISupportIncrementalLoading
          where TSource : Collections.IIncrementalSource<IType>
     {
+        private static readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
+
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
         /// </summary>
@@ -226,19 +228,29 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         protected virtual async Task<IEnumerable<IType>> LoadDataAsync(CancellationToken cancellationToken)
         {
-            var result = await Source.GetPagedItemsAsync(CurrentPageIndex, ItemsPerPage, cancellationToken)
-                .ContinueWith(
-                    t =>
-                    {
-                        if (t.Status == TaskStatus.RanToCompletion)
+            // TODO (2021.05.05): Make use common AsyncMutex class.
+            // AsyncMutex is located at Microsoft.Toolkit.Uwp.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
+            await _mutex.WaitAsync();
+            try
+            {
+                var result = await Source.GetPagedItemsAsync(CurrentPageIndex, ItemsPerPage, cancellationToken)
+                    .ContinueWith(
+                        t =>
                         {
-                            CurrentPageIndex += 1;
-                        }
+                            if (t.Status == TaskStatus.RanToCompletion)
+                            {
+                                CurrentPageIndex += 1;
+                            }
 
-                        return t.Result;
-                    }, cancellationToken);
+                            return t.Result;
+                        }, cancellationToken);
 
-            return result;
+                return result;
+            }
+            finally
+            {
+                _mutex.Release();
+            }
         }
 
         private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
