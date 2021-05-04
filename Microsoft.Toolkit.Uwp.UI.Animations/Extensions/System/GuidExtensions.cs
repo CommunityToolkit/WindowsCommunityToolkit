@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Guid"/> type
