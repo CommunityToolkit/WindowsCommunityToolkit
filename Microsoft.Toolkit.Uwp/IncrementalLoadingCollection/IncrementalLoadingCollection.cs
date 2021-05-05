@@ -228,36 +228,28 @@ namespace Microsoft.Toolkit.Uwp
         /// </returns>
         protected virtual async Task<IEnumerable<IType>> LoadDataAsync(CancellationToken cancellationToken)
         {
-            // TODO (2021.05.05): Make use common AsyncMutex class.
-            // AsyncMutex is located at Microsoft.Toolkit.Uwp.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
-            await _mutex.WaitAsync();
-            try
-            {
-                var result = await Source.GetPagedItemsAsync(CurrentPageIndex, ItemsPerPage, cancellationToken)
-                    .ContinueWith(
-                        t =>
+            var result = await Source.GetPagedItemsAsync(CurrentPageIndex, ItemsPerPage, cancellationToken)
+                .ContinueWith(
+                    t =>
+                    {
+                        if (t.Status == TaskStatus.RanToCompletion)
                         {
-                            if (t.Status == TaskStatus.RanToCompletion)
-                            {
-                                CurrentPageIndex += 1;
-                            }
+                            CurrentPageIndex += 1;
+                        }
 
-                            return t.Result;
-                        }, cancellationToken);
+                        return t.Result;
+                    }, cancellationToken);
 
-                return result;
-            }
-            finally
-            {
-                _mutex.Release();
-            }
+            return result;
         }
 
         private async Task<LoadMoreItemsResult> LoadMoreItemsAsync(uint count, CancellationToken cancellationToken)
         {
             uint resultCount = 0;
             _cancellationToken = cancellationToken;
-
+            // TODO (2021.05.05): Make use common AsyncMutex class.
+            // AsyncMutex is located at Microsoft.Toolkit.Uwp.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
+            await _mutex.WaitAsync();
             try
             {
                 if (!_cancellationToken.IsCancellationRequested)
@@ -301,6 +293,8 @@ namespace Microsoft.Toolkit.Uwp
                     _refreshOnLoad = false;
                     await RefreshAsync();
                 }
+
+                _mutex.Release();
             }
 
             return new LoadMoreItemsResult { Count = resultCount };
