@@ -111,7 +111,7 @@ namespace UnitTests.UI
                 willFail = !willFail;
             }
 
-            CollectionAssert.AreEquivalent(AllData, collection);
+            CollectionAssert.AreEqual(AllData, collection);
         }
 
         [TestMethod]
