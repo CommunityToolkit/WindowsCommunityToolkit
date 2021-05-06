@@ -15,6 +15,9 @@ namespace UnitTests.UI
     [TestClass]
     public class Test_IncrementalLoadingCollection
     {
+        private const int PageSize = 20;
+        private const int Pages = 5;
+
         private static readonly DataSource<int>.PageOperation[] FailPassSequence
             = new DataSource<int>.PageOperation[]
             {
@@ -25,125 +28,110 @@ namespace UnitTests.UI
                 DataSource<int>.ThrowException, DataSource<int>.PassThrough,
             };
 
-        [DataRow(2500, 1000, 1000, 1000, 1000)]
+        private static readonly int[] AllData
+            = Enumerable.Range(0, Pages * PageSize).ToArray();
+
         [DataRow]
+        [DataRow(2500, 1000, 1000, 1000, 1000)]
         [TestMethod]
         public async Task Requests(params int[] pageDelays)
         {
-            const int pageSize = 20;
-            const int pages = 5;
+            var source = new DataSource<int>(AllData, pageDelays.Select(DataSource<int>.MakeDelayOp));
+            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, PageSize);
 
-            var source = new DataSource<int>(Enumerable.Range(0, pageSize * pages), pageDelays.Select(DataSource<int>.MakeDelayOp));
-            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
-
-            for (int pageNum = 1; pageNum <= pages; pageNum++)
+            for (int pageNum = 1; pageNum <= Pages; pageNum++)
             {
-                var rez1 = await collection.LoadMoreItemsAsync(0);
-                Assert.AreEqual((uint)pageSize, rez1.Count);
-                CollectionAssert.AreEqual(Enumerable.Range(0, pageSize * pageNum).ToArray(), collection);
+                await collection.LoadMoreItemsAsync(0);
+                CollectionAssert.AreEqual(Enumerable.Range(0, PageSize * pageNum).ToArray(), collection);
             }
         }
 
-        [DataRow(2500, 1000, 1000, 1000, 1000)]
         [DataRow]
+        [DataRow(2500, 1000, 1000, 1000, 1000)]
         [TestMethod]
         public async Task RequestsAsync(params int[] pageDelays)
         {
-            const int pageSize = 20; 
-            const int pages = 5;
-
-            var source = new DataSource<int>(Enumerable.Range(0, pageSize * pages), pageDelays.Select(DataSource<int>.MakeDelayOp));
-            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
+            var source = new DataSource<int>(AllData, pageDelays.Select(DataSource<int>.MakeDelayOp));
+            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, PageSize);
 
             var requests = new List<Task>();
 
-            for (int pageNum = 1; pageNum <= pages; pageNum++)
+            for (int pageNum = 1; pageNum <= Pages; pageNum++)
             {
-                requests.Add(collection.LoadMoreItemsAsync(0).AsTask().ContinueWith(t =>
-                {
-                    Assert.AreEqual(TaskStatus.RanToCompletion, t.Status);
-                    Assert.AreEqual((uint)pageSize, t.Result.Count);
-                }));
+                requests.Add(collection.LoadMoreItemsAsync(0).AsTask()
+                    .ContinueWith(t => Assert.IsTrue(t.IsCompletedSuccessfully)));
             }
 
             await Task.WhenAll(requests);
 
-            CollectionAssert.AreEqual(Enumerable.Range(0, pageSize * pages).ToArray(), collection);
+            CollectionAssert.AreEqual(AllData, collection);
         }
 
         [TestMethod]
         public async Task FirstRequestFails()
         {
-            const int pageSize = 20;
-            const int pages = 5;
+            var source = new DataSource<int>(AllData, DataSource<int>.ThrowException);
+            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, PageSize);
 
-            var source = new DataSource<int>(Enumerable.Range(0, pageSize * pages), DataSource<int>.ThrowException);
-            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
-
-            await Assert.ThrowsExceptionAsync<AggregateException>(async () => await collection.LoadMoreItemsAsync(0));
+            await Assert.ThrowsExceptionAsync<AggregateException>(collection.LoadMoreItemsAsync(0).AsTask);
 
             Assert.IsTrue(!collection.Any());
             
             var requests = new List<Task>();
 
-            for (int pageNum = 1; pageNum <= pages; pageNum++)
+            for (int pageNum = 1; pageNum <= Pages; pageNum++)
             {
-                requests.Add(collection.LoadMoreItemsAsync(0).AsTask());
+                requests.Add(collection.LoadMoreItemsAsync(0).AsTask()
+                    .ContinueWith(t => Assert.IsTrue(t.IsCompletedSuccessfully)));
             }
 
             await Task.WhenAll(requests);
 
-            CollectionAssert.AreEqual(Enumerable.Range(0, pageSize * pages).ToArray(), collection);
+            CollectionAssert.AreEqual(AllData, collection);
         }
 
         [TestMethod]
         public async Task EveryOtherRequestFails()
         {
-            const int pageSize = 20;
-            const int pages = 5;
-
-            var source = new DataSource<int>(Enumerable.Range(0, pageSize * pages), FailPassSequence);
-            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
+            var source = new DataSource<int>(AllData, FailPassSequence);
+            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, PageSize);
 
             var willFail = true;
-            for (int submitedRequests = 0; submitedRequests < 10; submitedRequests++)
+            for (int submitedRequests = 0; submitedRequests < Pages * 2; submitedRequests++)
             {
                 if (willFail)
                 {
-                     await collection.LoadMoreItemsAsync(0).AsTask().ContinueWith(t => Assert.AreEqual(TaskStatus.Faulted, t.Status));
+                    await Assert.ThrowsExceptionAsync<AggregateException>(collection.LoadMoreItemsAsync(0).AsTask);
                 }
                 else
                 {
-                    await collection.LoadMoreItemsAsync(0).AsTask().ContinueWith(t => Assert.AreEqual(TaskStatus.RanToCompletion, t.Status));
+                    await collection.LoadMoreItemsAsync(0);
                 }
 
                 willFail = !willFail;
             }
 
-            CollectionAssert.AreEquivalent(Enumerable.Range(0, pageSize * pages).ToArray(), collection);
+            CollectionAssert.AreEquivalent(AllData, collection);
         }
 
         [TestMethod]
         public async Task EveryOtherRequestFailsAsync()
         {
-            const int pageSize = 20;
-            const int pages = 5;
-
-            var source = new DataSource<int>(Enumerable.Range(0, pageSize * pages), FailPassSequence);
-            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
+            var source = new DataSource<int>(AllData, FailPassSequence);
+            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, PageSize);
 
             var requests = new List<Task>();
 
             var willFail = true;
-            for (int submitedRequests = 0; submitedRequests < 10; submitedRequests++)
+            for (int submitedRequests = 0; submitedRequests < Pages * 2; submitedRequests++)
             {
                 if (willFail)
                 {
-                    requests.Add(Assert.ThrowsExceptionAsync<AggregateException>(() => collection.LoadMoreItemsAsync(0).AsTask()));
+                    requests.Add(Assert.ThrowsExceptionAsync<AggregateException>(collection.LoadMoreItemsAsync(0).AsTask));
                 }
                 else
                 {
-                    requests.Add(collection.LoadMoreItemsAsync(0).AsTask());
+                    requests.Add(collection.LoadMoreItemsAsync(0).AsTask().ContinueWith(t => Assert.IsTrue(t.IsCompletedSuccessfully)));
                 }
 
                 willFail = !willFail;
@@ -151,7 +139,7 @@ namespace UnitTests.UI
 
             await Task.WhenAll(requests);
 
-            CollectionAssert.AreEqual(Enumerable.Range(0, pageSize * pages).ToArray(), collection);
+            CollectionAssert.AreEqual(AllData, collection);
         }
     }
 }
