@@ -232,7 +232,12 @@ namespace Microsoft.Toolkit.Uwp
                 .ContinueWith(
                     t =>
                     {
-                        if (t.Status == TaskStatus.RanToCompletion)
+                        if(t.IsFaulted)
+                        {
+                            throw t.Exception;
+                        }
+
+                        if (t.IsCompletedSuccessfully)
                         {
                             CurrentPageIndex += 1;
                         }
