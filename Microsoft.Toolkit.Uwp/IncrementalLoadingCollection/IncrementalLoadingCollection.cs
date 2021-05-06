@@ -252,6 +252,7 @@ namespace Microsoft.Toolkit.Uwp
         {
             uint resultCount = 0;
             _cancellationToken = cancellationToken;
+
             // TODO (2021.05.05): Make use common AsyncMutex class.
             // AsyncMutex is located at Microsoft.Toolkit.Uwp.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
             await _mutex.WaitAsync();
