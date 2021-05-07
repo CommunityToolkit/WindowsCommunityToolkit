@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.5.0.12" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.5.0.14" />
   </ItemGroup>
 
   <ItemGroup>
