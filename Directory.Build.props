@@ -1,10 +1,10 @@
 <Project>
   
   <PropertyGroup>
-    <Authors>CommunityToolkit.Common</Authors>
+    <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
     <PackageIcon>images\nuget.png</PackageIcon>
     <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>    
@@ -21,7 +21,7 @@
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
     <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
-    <MicrosoftProjectReunionVersion>0.5.0</MicrosoftProjectReunionVersion>
+    <MicrosoftProjectReunionVersion>0.5.6</MicrosoftProjectReunionVersion>
     <MicrosoftCsWinRTVersion>1.2.5</MicrosoftCsWinRTVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->

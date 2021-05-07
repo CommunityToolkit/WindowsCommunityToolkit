@@ -4,6 +4,7 @@
 
 using System;
 using CommunityToolkit.WinUI.Helpers;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
@@ -40,7 +41,8 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
             }
             else
             {
-                throw new ArgumentException("Invalid color value provided");
+                // Invalid color value provided
+                return DependencyProperty.UnsetValue;
             }
 
             // Get the value component delta
@@ -50,7 +52,8 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
             }
             catch
             {
-                throw new ArgumentException("Invalid parameter provided, unable to convert to integer");
+                // Invalid parameter provided, unable to convert to integer
+                return DependencyProperty.UnsetValue;
             }
 
             // Specially handle minimum (black) and maximum (white)
@@ -119,7 +122,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.ColorPickerConverters
             object parameter,
             string language)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }

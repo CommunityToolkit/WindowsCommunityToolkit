@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using Windows.Graphics.Effects;

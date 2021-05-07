@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.UI;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
@@ -34,7 +35,8 @@ namespace CommunityToolkit.WinUI.UI.Converters
             }
             else
             {
-                throw new ArgumentException("Invalid color value provided");
+                // Invalid color value provided
+                return DependencyProperty.UnsetValue;
             }
 
             return ColorHelper.ToDisplayName(color);
@@ -47,7 +49,7 @@ namespace CommunityToolkit.WinUI.UI.Converters
             object parameter,
             string language)
         {
-            throw new NotImplementedException();
+            return DependencyProperty.UnsetValue;
         }
     }
 }

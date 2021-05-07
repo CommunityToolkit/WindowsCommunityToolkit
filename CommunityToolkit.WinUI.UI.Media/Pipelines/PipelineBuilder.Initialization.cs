@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Threading.Tasks;
+using CommunityToolkit.WinUI.UI.Animations;
 using CommunityToolkit.WinUI.UI.Media.Helpers;
 using CommunityToolkit.WinUI.UI.Media.Helpers.Cache;
 using Microsoft.Graphics.Canvas;
