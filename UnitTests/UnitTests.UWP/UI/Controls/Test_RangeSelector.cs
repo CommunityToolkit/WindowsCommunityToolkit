@@ -312,7 +312,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
-        private static async Task<TestRecord> SetPropGetProps(RangeSelector test, Property targetProp, double propInput)
+        private async Task<TestRecord> SetPropGetProps(RangeSelector test, Property targetProp, double propInput)
         {
             return await App.DispatcherQueue.EnqueueAsync(() =>
             {
