@@ -41,13 +41,13 @@ namespace UnitTests.UI.Controls
         // Then
         // RangeEnd dose not change
         // Input:Start End   Expected:Start End
-        [DataRow(    0,  100,             0,  100, DisplayName = "Minimum == RangeStart  < RangeEnd == Maximum")]
-        [DataRow(   10,   90,            10,   90, DisplayName = "Minimum  < RangeStart  < RangeEnd  < Maximum")]
-        [DataRow(   50,   50,            50,   50, DisplayName = "Minimum  < RangeStart == RangeEnd  < Maximum")]
-        [DataRow(    0,   90,             0,   90, DisplayName = "Minimum == RangeStart  < RangeEnd  < Maximum")]
-        [DataRow(    0,    0,             0,    0, DisplayName = "Minimum == RangeStart == RangeEnd  < Maximum")]
-        [DataRow(   10,  100,            10,  100, DisplayName = "Minimum  < RangeStart  < RangeEnd == Maximum")]
-        [DataRow(  100,  100,           100,  100, DisplayName = "Minimum  < RangeStart == RangeEnd == Maximum")]
+        [DataRow(    0,  100,             0,  100)]
+        [DataRow(   10,   90,            10,   90)]
+        [DataRow(   50,   50,            50,   50)]
+        [DataRow(    0,   90,             0,   90)]
+        [DataRow(    0,    0,             0,    0)]
+        [DataRow(   10,  100,            10,  100)]
+        [DataRow(  100,  100,           100,  100)]
 
         // If
         // Minimum < Maximum
@@ -58,8 +58,8 @@ namespace UnitTests.UI.Controls
         //
         // Then
         // RangeStart will be RangeEnd
-        [DataRow(   90,   10,            10,   10, DisplayName = "Minimum  < RangeStart  > RangeEnd  < Maximum")]
-        [DataRow(  110,   10,            10,   10, DisplayName = "Minimum  < RangeStart  > RangeEnd  < Maximum, RangeStart > Maximum")]
+        [DataRow(   90,   10,            10,   10)]
+        [DataRow(  110,   10,            10,   10)]
 
         // If
         // Minimum < Maximum
@@ -83,11 +83,11 @@ namespace UnitTests.UI.Controls
         // Then
         // RangeEnd will be Minimum
         // RangeStart will be Minimum
-        [DataRow(  -50,  -50,             0,    0, DisplayName = "Minimum  > RangeStart == RangeEnd  < Maximum")]
-        [DataRow(  -90,   90,             0,   90, DisplayName = "Minimum  > RangeStart  < RangeEnd  < Maximum")]
-        [DataRow(  -90,  -10,             0,    0, DisplayName = "Minimum  > RangeStart  < RangeEnd  < Maximum, RangeEnd < Minimum")]
-        [DataRow(  -10,  -90,             0,    0, DisplayName = "Minimum  > RangeStart  > RangeEnd  < Maximum")]
-        [DataRow(   10,  -90,             0,    0, DisplayName = "Minimum  < RangeStart  > RangeEnd  < Maximum, RangeEnd < Minimum")]
+        [DataRow(  -50,  -50,             0,    0)]
+        [DataRow(  -90,   90,             0,   90)]
+        [DataRow(  -90,  -10,             0,    0)]
+        [DataRow(  -10,  -90,             0,    0)]
+        [DataRow(   10,  -90,             0,    0)]
 
         // If
         // Minimum < Maximum
@@ -104,10 +104,10 @@ namespace UnitTests.UI.Controls
         // Then
         // RangeStart will be Maximum
         // RangeEnd will be Maximum
-        [DataRow( 150,  150,            100,  100, DisplayName = "Minimum  < RangeStart == RangeEnd  > Maximum")]
-        [DataRow(  10,  190,             10,  100, DisplayName = "Minimum  < RangeStart  < RangeEnd  > Maximum")]
-        [DataRow( 110,  190,            100,  100, DisplayName = "Minimum  < RangeStart  < RangeEnd  > Maximum, RangeStart > Maximum")]
-        [DataRow( 190,  110,            100,  100, DisplayName = "Minimum  < RangeStart  > RangeEnd  > Maximum")]
+        [DataRow( 150,  150,            100,  100)]
+        [DataRow(  10,  190,             10,  100)]
+        [DataRow( 110,  190,            100,  100)]
+        [DataRow( 190,  110,            100,  100)]
         public Task Initialize_MinLtMax(double rangeStart, double rangeEnd, double expectedRangeStart, double expectedRangeEnd)
             => Initialize(1, 0, rangeStart, rangeEnd, 100, 1, 0, expectedRangeStart, expectedRangeEnd, 100);
 
@@ -141,43 +141,43 @@ namespace UnitTests.UI.Controls
         // RangeEnd will be Maximum
 
         // Input:Start End    Expected:Start End  
-        [DataRow(    0,    0,              0,    0, DisplayName = "Minimum == RangeStart == RangeEnd == Maximum")]
-        [DataRow(    0,   10,              0, 0.01, DisplayName = "Minimum == RangeStart  < RangeEnd  > Maximum")]
-        [DataRow(    0,  -10,              0,    0, DisplayName = "Minimum == RangeStart  > RangeEnd  < Maximum")]
-        [DataRow(  -10,    0,              0,    0, DisplayName = "Minimum  > RangeStart  < RangeEnd == Maximum")]
-        [DataRow(   10,    0,              0,    0, DisplayName = "Minimum  < RangeStart  > RangeEnd == Maximum")] 
-        [DataRow(   10,   90,           0.01, 0.01, DisplayName = "Minimum  < RangeStart  < RangeEnd  > Maximum")]
-        [DataRow(   90,   10,           0.01, 0.01, DisplayName = "Minimum  < RangeStart  > RangeEnd  > Maximum")]
-        [DataRow(  -90,  -10,              0,    0, DisplayName = "Minimum  > RangeStart  < RangeEnd  < Maximum")]
-        [DataRow(  -10,  -90,              0,    0, DisplayName = "Minimum  > RangeStart  > RangeEnd  < Maximum")]
-        [DataRow(   10,  -10,              0,    0, DisplayName = "Minimum  < RangeStart  > RangeEnd  < Maximum")]
-        [DataRow(  -10,   10,              0, 0.01, DisplayName = "Minimum  > RangeStart  < RangeEnd  > Maximum")]
+        [DataRow(    0,    0,              0,    0)]
+        [DataRow(    0,   10,              0, 0.01)]
+        [DataRow(    0,  -10,              0,    0)]
+        [DataRow(  -10,    0,              0,    0)]
+        [DataRow(   10,    0,              0,    0)]
+        [DataRow(   10,   90,           0.01, 0.01)]
+        [DataRow(   90,   10,           0.01, 0.01)]
+        [DataRow(  -90,  -10,              0,    0)]
+        [DataRow(  -10,  -90,              0,    0)]
+        [DataRow(   10,  -10,              0,    0)]
+        [DataRow(  -10,   10,              0, 0.01)]
         public Task Initialize_MinEqMax(double rangeStart, double rangeEnd, double expectedRangeStart, double expectedRangeEnd)
             => Initialize(1, 0, rangeStart, rangeEnd, 0, 1, 0, expectedRangeStart, expectedRangeEnd, 0.01);
 
         [TestCategory("Initialize")]
         [TestMethod]
-        [DataRow(    0,  100,              0, 0.01, DisplayName = "Minimum  > RangeStart  < RangeEnd  > Maximum, RangeStart == Maximum, RangeEnd == Minimum")]
-        [DataRow(   10,   90,           0.01, 0.01, DisplayName = "Minimum  > RangeStart  < RangeEnd  > Maximum")]
-        [DataRow(   50,   50,           0.01, 0.01, DisplayName = "Minimum  > RangeStart == RangeEnd  > Maximum")]
-        [DataRow(    0,    0,              0,    0, DisplayName = "Minimum  > RangeStart == RangeEnd == Maximum")]
-        [DataRow(  100,  100,           0.01, 0.01, DisplayName = "Minimum == RangeStart == RangeEnd  > Maximum")]
+        [DataRow(    0,  100,              0, 0.01)]
+        [DataRow(   10,   90,           0.01, 0.01)]
+        [DataRow(   50,   50,           0.01, 0.01)]
+        [DataRow(    0,    0,              0,    0)]
+        [DataRow(  100,  100,           0.01, 0.01)]
 
-        [DataRow(   10,  100,           0.01, 0.01, DisplayName = "Minimum  > RangeStart  < RangeEnd  > Maximum, RangeEnd   == Maximum")]
+        [DataRow(   10,  100,           0.01, 0.01)]
 
-        [DataRow(   90,   10,           0.01, 0.01, DisplayName = "Minimum  > RangeStart  > RangeEnd  > Maximum")]
-        [DataRow(  100,   10,           0.01, 0.01, DisplayName = "Minimum  > RangeStart  > RangeEnd  > Maximum, RangeStart == Maximum")]
-        [DataRow(   90,    0,              0,    0, DisplayName = "Minimum  > RangeStart  > RangeEnd  > Maximum, RangeEnd   == Maximum")]
+        [DataRow(   90,   10,           0.01, 0.01)]
+        [DataRow(  100,   10,           0.01, 0.01)]
+        [DataRow(   90,    0,              0,    0)]
 
-        [DataRow(  100,    0,              0,    0, DisplayName = "Minimum == RangeStart  > RangeEnd == Maximum")]
+        [DataRow(  100,    0,              0,    0)]
 
-        [DataRow(  -90,  -10,              0,    0, DisplayName = "Minimum  > RangeStart  < RangeEnd  < Maximum")]
-        [DataRow(  -10,  -90,              0,    0, DisplayName = "Minimum  > RangeStart  > RangeEnd  < Maximum")]
-        [DataRow(  -50,  -50,              0,    0, DisplayName = "Minimum  > RangeStart == RangeEnd  < Maximum")]
+        [DataRow(  -90,  -10,              0,    0)]
+        [DataRow(  -10,  -90,              0,    0)]
+        [DataRow(  -50,  -50,              0,    0)]
 
-        [DataRow(  110,  190,           0.01, 0.01, DisplayName = "Minimum  < RangeStart  < RangeEnd  > Maximum")]
-        [DataRow(  190,  110,           0.01, 0.01, DisplayName = "Minimum  < RangeStart  > RangeEnd  > Maximum")]
-        [DataRow(  150,  150,           0.01, 0.01, DisplayName = "Minimum  < RangeStart == RangeEnd  > Maximum")]
+        [DataRow(  110,  190,           0.01, 0.01)]
+        [DataRow(  190,  110,           0.01, 0.01)]
+        [DataRow(  150,  150,           0.01, 0.01)]
         public Task Initialize_MinGtMax(double rangeStart, double rangeEnd, double expectedRangeStart, double expectedRangeEnd)
             => Initialize(1, 100, rangeStart, rangeEnd, 0, 1, 0, expectedRangeStart, expectedRangeEnd, 0.01);
 
