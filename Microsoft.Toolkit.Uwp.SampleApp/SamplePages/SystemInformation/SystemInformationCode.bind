@@ -38,7 +38,7 @@
         public PackageVersion FirstVersionInstalled => SystemInformation.Instance.FirstVersionInstalled;
 
         // To get the previous version installed
-        public string PreviousVersionInstalled => SystemInformation.Instance.PreviousVersionInstalled.ToFormattedString();
+        public PackageVersion PreviousVersionInstalled => SystemInformation.Instance.PreviousVersionInstalled;
 
         // To get the first time the app was launched
         public DateTime FirstUseTime => SystemInformation.Instance.FirstUseTime;
