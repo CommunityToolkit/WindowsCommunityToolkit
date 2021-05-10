@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp
          ISupportIncrementalLoading
          where TSource : Collections.IIncrementalSource<IType>
     {
-        private static readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
