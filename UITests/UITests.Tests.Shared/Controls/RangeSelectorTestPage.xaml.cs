@@ -17,55 +17,55 @@ namespace UITests.App.Pages
             this.InitializeComponent();
         }
 
-        private void submitStepFrequency_Click(object sender, RoutedEventArgs e)
+        private void SubmitStepFrequency_Click(object sender, RoutedEventArgs e)
         {
-            if(tryDoubleFromTextBox(inputStepFrequency, out var sf))
+            if(TryDoubleFromTextBox(inputStepFrequency, out var sf))
             {
                 rangeSelector.StepFrequency = sf;
             }
         }
 
-        private void submitMinimum_Click(object sender, RoutedEventArgs e)
+        private void SubmitMinimum_Click(object sender, RoutedEventArgs e)
         {
-            if(tryDoubleFromTextBox(inputMinimum, out var min))
+            if(TryDoubleFromTextBox(inputMinimum, out var min))
             {
                 rangeSelector.Minimum = min;
             }
         }
 
-        private void submitRangeStart_Click(object sender, RoutedEventArgs e)
+        private void SubmitRangeStart_Click(object sender, RoutedEventArgs e)
         {
-            if(tryDoubleFromTextBox(inputRangeStart, out var rStart))
+            if(TryDoubleFromTextBox(inputRangeStart, out var rStart))
             {
                 rangeSelector.RangeStart = rStart;
             }
         }
 
-        private void submitRangeEnd_Click(object sender, RoutedEventArgs e)
+        private void SubmitRangeEnd_Click(object sender, RoutedEventArgs e)
         {
-            if(tryDoubleFromTextBox(inputRangeEnd, out var rEnd))
+            if(TryDoubleFromTextBox(inputRangeEnd, out var rEnd))
             {
                 rangeSelector.RangeEnd = rEnd;
             }
         }
 
-        private void submitMaximum_Click(object sender, RoutedEventArgs e)
+        private void SubmitMaximum_Click(object sender, RoutedEventArgs e)
         {
-            if(tryDoubleFromTextBox(inputMaximum, out var max))
+            if(TryDoubleFromTextBox(inputMaximum, out var max))
             {
                 rangeSelector.Maximum = max;
             }
         }
 
-        private void submitAll_Click(object sender, RoutedEventArgs e)
+        private void SubmitAll_Click(object sender, RoutedEventArgs e)
         {
-            if(tryDoubleFromTextBox(inputStepFrequency, out var sf)
-                && tryDoubleFromTextBox(inputMinimum, out var min)
-                && tryDoubleFromTextBox(inputRangeStart, out var rStart)
-                && tryDoubleFromTextBox(inputRangeEnd, out var rEnd)
-                && tryDoubleFromTextBox(inputMaximum, out var max))
+            if(TryDoubleFromTextBox(inputStepFrequency, out var sf)
+                && TryDoubleFromTextBox(inputMinimum, out var min)
+                && TryDoubleFromTextBox(inputRangeStart, out var rStart)
+                && TryDoubleFromTextBox(inputRangeEnd, out var rEnd)
+                && TryDoubleFromTextBox(inputMaximum, out var max))
             {
-                // This order is important. 
+                // This order is important.
                 // TODO (2021.04.28) - document that this order for changing these props is the most predicable.
                 rangeSelector.Minimum = min;
                 rangeSelector.Maximum = max;
@@ -75,7 +75,7 @@ namespace UITests.App.Pages
             }
         }
 
-        private bool tryDoubleFromTextBox(TextBox tbx, out double value)
+        private bool TryDoubleFromTextBox(TextBox tbx, out double value)
         {
             if (tbx.Text is string s && double.TryParse(s, out value))
             {

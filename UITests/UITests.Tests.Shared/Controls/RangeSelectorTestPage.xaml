@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:UITests.Tests.Shared.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:sys="using:System"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -41,7 +40,7 @@
         <Button x:Name="submitStepFrequency"
                 Grid.Row="2"
                 Grid.Column="0"
-                Click="submitStepFrequency_Click"
+                Click="SubmitStepFrequency_Click"
                 Content="Submit" />
 
         <TextBox x:Name="inputMinimum"
@@ -51,7 +50,7 @@
         <Button x:Name="submitMinimum"
                 Grid.Row="2"
                 Grid.Column="2"
-                Click="submitMinimum_Click"
+                Click="SubmitMinimum_Click"
                 Content="Submit" />
 
         <TextBox x:Name="inputRangeStart"
@@ -61,7 +60,7 @@
         <Button x:Name="submitRangeStart"
                 Grid.Row="2"
                 Grid.Column="4"
-                Click="submitRangeStart_Click"
+                Click="SubmitRangeStart_Click"
                 Content="Submit" />
 
         <TextBox x:Name="inputRangeEnd"
@@ -71,7 +70,7 @@
         <Button x:Name="submitRangeEnd"
                 Grid.Row="2"
                 Grid.Column="6"
-                Click="submitRangeEnd_Click"
+                Click="SubmitRangeEnd_Click"
                 Content="Submit" />
 
         <TextBox x:Name="inputMaximum"
@@ -81,14 +80,14 @@
         <Button x:Name="submitMaximum"
                 Grid.Row="2"
                 Grid.Column="8"
-                Click="submitMaximum_Click"
+                Click="SubmitMaximum_Click"
                 Content="Submit" />
 
         <Button x:Name="submitAll"
                 Grid.Row="0"
                 Grid.RowSpan="3"
                 Grid.Column="10"
-                Click="submitAll_Click"
+                Click="SubmitAll_Click"
                 Content="Submit All" />
 
         <controls:RangeSelector x:Name="rangeSelector"
