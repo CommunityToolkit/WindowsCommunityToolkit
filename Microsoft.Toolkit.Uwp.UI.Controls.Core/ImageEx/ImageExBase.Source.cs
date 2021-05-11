@@ -129,8 +129,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var url = source as string ?? source.ToString();
                 if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
                 {
-                    ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new UriFormatException("Invalid uri specified.")));
                     VisualStateManager.GoToState(this, FailedState, true);
+                    ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new UriFormatException("Invalid uri specified.")));
                     return;
                 }
             }
@@ -150,8 +150,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             catch (Exception e)
             {
-                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
                 VisualStateManager.GoToState(this, FailedState, true);
+                ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(e));
             }
         }
 
