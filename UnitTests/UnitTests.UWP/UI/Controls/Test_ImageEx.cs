@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,20 +29,11 @@ namespace UnitTests.UWP.UI.Controls
             {
                 var bitmapImage = new BitmapImage();
 
-                using var client = new HttpClient();
-                var response = await client.GetAsync(new Uri("https://st.depositphotos.com/1428083/2946/i/600/depositphotos_29460297-stock-photo-bird-cage.jpg"));
-                using var stream = await response.Content.ReadAsStreamAsync();
-                try
-                {
-                    using var memStream = new MemoryStream();
-                    await stream.CopyToAsync(memStream);
-                    memStream.Seek(0, SeekOrigin.Begin);
-                    await bitmapImage.SetSourceAsync(memStream.AsRandomAccessStream());
-                }
-                catch
-                {
-                    Assert.Fail();
-                }
+                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(@"UnitTests.UWP.Assets.StoreLogo.embeded.png");
+                using var memStream = new MemoryStream();
+                await stream.CopyToAsync(memStream);
+                memStream.Seek(0, SeekOrigin.Begin);
+                await bitmapImage.SetSourceAsync(memStream.AsRandomAccessStream());
 
                 var imageLoader = new ImageEx();
 
@@ -65,9 +56,10 @@ namespace UnitTests.UWP.UI.Controls
         }
 
         [TestMethod]
-        public async Task SetSourceToUriOfData()
+        [DataRow(ImageString)]
+        [DataRow(@"ms-appx:///Assets/StoreLogo.png")]
+        public async Task SetSourceToUri(string uri)
         {
-            var imageOpendedCallCount = 0;
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 var imageLoader = new ImageEx();
@@ -76,13 +68,14 @@ namespace UnitTests.UWP.UI.Controls
 
                 Assert.AreEqual("Unloaded", GetCurrentState(imageLoader));
 
+                var imageOpendedCallCount = 0;
                 imageLoader.ImageExOpened += (s, e) =>
                 {
                     imageOpendedCallCount++;
                     Assert.AreEqual("Loaded", GetCurrentState(imageLoader));
                 };
 
-                imageLoader.Source = new Uri(ImageString);
+                imageLoader.Source = new Uri(uri);
 
                 // TODO (2021.05.11): Test in a more deterministic way.
                 // Setting source causes some async code to trigger and
