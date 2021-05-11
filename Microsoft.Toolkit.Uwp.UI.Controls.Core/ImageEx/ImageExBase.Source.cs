@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, UnloadedState, true);
             }
-            else if (source is BitmapSource bitmap && bitmap.PixelHeight > 0 && bitmap.PixelWidth > 0)
+            else if (source is BitmapSource { PixelHeight: > 0, PixelWidth: > 0 })
             {
                 VisualStateManager.GoToState(this, LoadedState, true);
                 ImageExOpened?.Invoke(this, new ImageExOpenedEventArgs());
