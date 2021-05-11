@@ -201,6 +201,7 @@
     <Compile Include="UI\Collection\Test_IncrementalLoadingCollection.cs" />
     <Compile Include="UI\Controls\Test_Carousel.cs" />
     <Compile Include="UI\Controls\Test_BladeView.cs" />
+    <Compile Include="UI\Controls\Test_ImageEx.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
     <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
     <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
