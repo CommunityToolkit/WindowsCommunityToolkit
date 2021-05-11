@@ -92,7 +92,7 @@ Therefore, for any new control/extension, you should still have a simplified sni
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
-This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
+This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
 ```csharp
 var markdownText = control.FindChild("MarkdownText") as MarkdownTextBlock;
@@ -148,9 +148,9 @@ Select the category where you want your page to be listed and add the following 
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/docs/controls/AdaptiveGridView.md"
       }
     ]
   }
@@ -188,7 +188,7 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 `https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/{branch}/docs/{folder/file.md}`
 
-> NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
+> NOTE: When building and running the app in release mode, the branch will automatically be changed to **main** before loading. 
 
 > NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on GitHub, the sample app will use the packaged version
 
@@ -201,4 +201,4 @@ Use the DocumentationUrl property to add a link to the raw documentation in *sam
 
 ### CodeUrl
 
-The value of CodeUrl is modified when the app is built in release mode. The branch is automatically changed to **master**. This allows you to test the link in debug while pointing to dev.
+The value of CodeUrl is modified when the app is built in release mode. The branch is automatically changed to **main**. This allows you to test the link in debug while pointing to dev.

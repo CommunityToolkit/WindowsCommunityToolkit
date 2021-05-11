@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Graphics.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;

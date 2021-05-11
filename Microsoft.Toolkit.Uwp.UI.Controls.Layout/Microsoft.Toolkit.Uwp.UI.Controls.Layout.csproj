@@ -7,7 +7,7 @@
       This library provides XAML layout controls. It is part of the Windows Community Toolkit.
 
       Controls:
-        - BladeView: Provides a horizontal collection of blades for master-detail scenarios.
+        - BladeView: Provides a horizontal collection of blades for drilling into detailed scenarios.
         - Carousel: Presents items in a carousel control.
         - Expander: Expander allows user to show/hide content based on a boolean state.
         - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.

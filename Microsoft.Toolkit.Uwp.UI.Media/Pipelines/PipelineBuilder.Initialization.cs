@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
 using Windows.Graphics.Effects;
