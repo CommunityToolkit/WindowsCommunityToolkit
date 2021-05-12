@@ -105,12 +105,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (key)
             {
                 case VirtualKey.Escape:
-                    {
-                        // Clear any selection and place the focus back into the text box
-                        DeselectAllTokensAndText();
-                        FocusPrimaryAutoSuggestBox();
-                        break;
-                    }
+                {
+                    // Clear any selection and place the focus back into the text box
+                    DeselectAllTokensAndText();
+                    FocusPrimaryAutoSuggestBox();
+                    break;
+                }
             }
         }
 

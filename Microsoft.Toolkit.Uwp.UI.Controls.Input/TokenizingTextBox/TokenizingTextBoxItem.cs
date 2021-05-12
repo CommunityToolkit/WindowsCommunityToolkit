@@ -111,10 +111,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     case VirtualKey.Back:
                     case VirtualKey.Delete:
-                        {
-                            ClearAllAction?.Invoke(this, e);
-                            break;
-                        }
+                    {
+                        ClearAllAction?.Invoke(this, e);
+                        break;
+                    }
                 }
             }
         }
