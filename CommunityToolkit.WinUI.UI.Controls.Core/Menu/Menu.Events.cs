@@ -105,7 +105,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 return;
             }
 
-            string gestureKey = MapInputToGestureKey(XamlRoot, e.Key);
+            string gestureKey = MapInputToGestureKey(e.Key);
 
             if (gestureKey == null)
             {
@@ -219,7 +219,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             if (args.Modifiers == VirtualKeyModifiers.Menu || !_isLostFocus)
             {
-                var gestureKey = MapInputToGestureKey(XamlRoot, args.Key, !_isLostFocus);
+                var gestureKey = MapInputToGestureKey(args.Key, !_isLostFocus);
                 if (gestureKey == null)
                 {
                     return;
