@@ -104,7 +104,7 @@ namespace CommunityToolkit.Mvvm.Messaging.Messages
 
             List<T> results = new(this.responses.Count);
 
-            await foreach (var response in this.WithCancellation(cancellationToken))
+            await foreach (var response in this.WithCancellation(cancellationToken).ConfigureAwait(false))
             {
                 results.Add(response);
             }

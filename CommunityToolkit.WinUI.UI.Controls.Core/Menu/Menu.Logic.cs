@@ -4,13 +4,10 @@
 
 using System.Linq;
 using System.Text;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Composition.Experimental;
-using Microsoft.UI.Input.Experimental;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.System;
@@ -138,13 +135,11 @@ namespace CommunityToolkit.WinUI.UI.Controls
             return nextItem;
         }
 
-        private static string MapInputToGestureKey(XamlRoot xamlRoot, VirtualKey key, bool menuHasFocus = false)
+        private static string MapInputToGestureKey(VirtualKey key, bool menuHasFocus = false)
         {
-            Compositor compositor = ElementCompositionPreview.GetElementVisual(xamlRoot.Content).Compositor;
-            var keyboardInput = ExpKeyboardInput.GetForInputSite(ExpInputSite.GetOrCreateForContent(ExpCompositionContent.Create(compositor)));
-            var isCtrlDown = keyboardInput.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var isShiftDown = keyboardInput.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isAltDown = keyboardInput.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down) || menuHasFocus;
+            var isCtrlDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var isShiftDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var isAltDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down) || menuHasFocus;
 
             if (!isCtrlDown && !isShiftDown && !isAltDown)
             {
