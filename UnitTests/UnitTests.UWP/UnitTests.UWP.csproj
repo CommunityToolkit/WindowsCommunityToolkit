@@ -174,6 +174,7 @@
     <Compile Include="Helpers\Test_StorageHelper.cs" />
     <Compile Include="Helpers\Test_StreamHelper.cs" />
     <Compile Include="Helpers\Test_DeepLinkParser.cs" />
+    <Compile Include="IsExternalInit.cs" />
     <Compile Include="Markdown\Parse\BoldTests.cs" />
     <Compile Include="Markdown\Parse\CodeTests.cs" />
     <Compile Include="Markdown\Parse\HeaderTests.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_Dimensions.cs" />
+    <Compile Include="UI\Controls\Test_RangeSelector.cs" />
     <Compile Include="UI\Controls\Test_WrapPanel_Visibility.cs" />
     <Compile Include="UI\Controls\Test_WrapPanel_BasicLayout.cs" />
     <Compile Include="UI\Extensions\Test_VisualExtensions.cs" />
