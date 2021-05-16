@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private string _currentPrefix;
         private bool _ignoreChange;
         private bool _popupOpenDown;
+        private bool _tokenAtStart;
         private ITextRange _currentRange;
         private CancellationTokenSource _suggestionRequestedTokenSource;
         private PointerEventHandler _pointerEventHandler;
@@ -220,6 +221,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void RichEditBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            var selection = TextDocument.Selection.GetClone();
+            _tokenAtStart = false;
+            if (selection.StartPosition == 0 && _tokens.ContainsKey(selection.Link))
+            {
+                _tokenAtStart = true;
+            }
+
             await RequestForSuggestionsAsync();
         }
 
@@ -280,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_TextChanging(RichEditBox sender, RichEditBoxTextChangingEventArgs args)
         {
-            if (_ignoreChange)
+            if (_ignoreChange || !args.IsContentChanging)
             {
                 return;
             }
@@ -448,6 +456,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             ForEachLinkInDocument(TextDocument, ValidateTokenFromRange);
+
+            // Handle the special case where editing a token at the start of the document
+            // does not completely reset the character format.
+            if (_tokenAtStart)
+            {
+                var range = TextDocument.Selection.GetClone();
+                range.SetRange(0, range.EndPosition);
+                range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
+                TextDocument.Selection.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
+                _tokenAtStart = false;
+            }
         }
 
         private void ValidateTokenFromRange(ITextRange range)
