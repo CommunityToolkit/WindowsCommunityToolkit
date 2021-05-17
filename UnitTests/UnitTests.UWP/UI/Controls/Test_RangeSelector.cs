@@ -75,7 +75,7 @@ namespace UnitTests.UI.Controls
         // Then
         // RangeEnd will be Minimum
 
-        // If 
+        // If
         // Minimum < Maximum
         // RangeEnd <= Minimum
         // RangeStart >= RangeEnd
@@ -115,7 +115,7 @@ namespace UnitTests.UI.Controls
         [TestMethod]
 
         // If
-        // Minimum >= Maximum 
+        // Minimum >= Maximum
         //
         // Then
         // Minimum will be Maximum
@@ -140,7 +140,7 @@ namespace UnitTests.UI.Controls
         // Else
         // RangeEnd will be Maximum
 
-        // Input:Start End    Expected:Start End  
+        // Input:Start End    Expected:Start End
         [DataRow(    0,    0,              0,    0)]
         [DataRow(    0,   10,              0, 0.01)]
         [DataRow(    0,  -10,              0,    0)]

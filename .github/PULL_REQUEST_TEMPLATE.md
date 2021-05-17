@@ -43,7 +43,7 @@ Please check if your PR fulfills the following requirements:
 - [ ] Header has been added to all new source files (run *build/UpdateHeaders.bat*)
 - [ ] Contains **NO** breaking changes
 
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
+<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below.
      Please note that breaking changes are likely to be rejected within minor release cycles or held until major versions. -->
 
 
