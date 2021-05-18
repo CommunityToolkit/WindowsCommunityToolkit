@@ -417,54 +417,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, SuggestionTokenFormat format, bool addTrailingSpace = true)
         {
-            _ignoreChange = true;
-            TextDocument.BeginUndoGroup();
-
-            // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
-            range.GetText(TextGetOptions.NoHidden, out var existingText);
-            if (existingText != displayText)
+            try
             {
-                range.SetText(TextSetOptions.Unhide, displayText);
+                _ignoreChange = true;
+                TextDocument.BeginUndoGroup();
+
+                // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
+                range.GetText(TextGetOptions.NoHidden, out var existingText);
+                if (existingText != displayText)
+                {
+                    range.SetText(TextSetOptions.Unhide, displayText);
+                }
+
+                range.Link = $"\"{id}\"";
+
+                // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
+                if (range.Link != $"\"{id}\"")
+                {
+                    return false;
+                }
+
+                range.CharacterFormat.BackgroundColor = format.Background;
+                range.CharacterFormat.ForegroundColor = format.Foreground;
+                range.CharacterFormat.Bold = format.Bold;
+                range.CharacterFormat.Italic = format.Italic;
+                range.CharacterFormat.FontStretch = format.FontStretch;
+                range.CharacterFormat.FontStyle = format.FontStyle;
+                range.CharacterFormat.Name = format.FontName;
+                range.CharacterFormat.Kerning = format.Kerning;
+                range.CharacterFormat.Strikethrough = format.Strikethrough;
+                range.CharacterFormat.Size = format.FontSize;
+                range.CharacterFormat.Outline = format.Outline;
+                range.CharacterFormat.Weight = format.Weight;
+                range.CharacterFormat.Spacing = format.Spacing;
+                range.CharacterFormat.Subscript = format.Subscript;
+                range.CharacterFormat.Superscript = format.Superscript;
+                range.CharacterFormat.Position = format.Position;
+
+                var clone = range.GetClone();
+
+                if (addTrailingSpace)
+                {
+                    clone.Collapse(false);
+                    clone.SetText(TextSetOptions.Unhide, " ");
+                    clone.Collapse(false);
+                    TextDocument.Selection.SetRange(clone.EndPosition, clone.EndPosition);
+                }
+
+                TextDocument.EndUndoGroup();
+                return true;
             }
-
-            range.Link = $"\"{id}\"";
-
-            // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
-            if (range.Link != $"\"{id}\"")
+            finally
             {
-                return false;
+                _ignoreChange = false;
             }
-
-            range.CharacterFormat.BackgroundColor = format.Background;
-            range.CharacterFormat.ForegroundColor = format.Foreground;
-            range.CharacterFormat.Bold = format.Bold;
-            range.CharacterFormat.Italic = format.Italic;
-            range.CharacterFormat.FontStretch = format.FontStretch;
-            range.CharacterFormat.FontStyle = format.FontStyle;
-            range.CharacterFormat.Name = format.FontName;
-            range.CharacterFormat.Kerning = format.Kerning;
-            range.CharacterFormat.Strikethrough = format.Strikethrough;
-            range.CharacterFormat.Size = format.FontSize;
-            range.CharacterFormat.Outline = format.Outline;
-            range.CharacterFormat.Weight = format.Weight;
-            range.CharacterFormat.Spacing = format.Spacing;
-            range.CharacterFormat.Subscript = format.Subscript;
-            range.CharacterFormat.Superscript = format.Superscript;
-            range.CharacterFormat.Position = format.Position;
-
-            var clone = range.GetClone();
-
-            if (addTrailingSpace)
-            {
-                clone.Collapse(false);
-                clone.SetText(TextSetOptions.Unhide, " ");
-                clone.Collapse(false);
-                TextDocument.Selection.SetRange(clone.EndPosition, clone.EndPosition);
-            }
-
-            TextDocument.EndUndoGroup();
-            _ignoreChange = false;
-            return true;
         }
 
         private void ValidateTokensInDocument()
