@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 range.MoveStart(TextRangeUnit.Link, -1);
                 if (selection.StartPosition != range.StartPosition || selection.StartPosition == 0)
                 {
-                    ApplyDefaultFormatToRange(selection);
+                    selection.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
                 }
             }
         }
@@ -748,16 +748,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return suggestionFormat;
-        }
-
-        private void ApplyDefaultFormatToRange(ITextRange range)
-        {
-            var defaultFormat = TextDocument.GetDefaultCharacterFormat();
-            range.CharacterFormat.BackgroundColor = defaultFormat.BackgroundColor;
-            range.CharacterFormat.ForegroundColor = defaultFormat.ForegroundColor;
-            range.CharacterFormat.Bold = defaultFormat.Bold;
-            range.CharacterFormat.Italic = defaultFormat.Italic;
-            range.CharacterFormat.Underline = defaultFormat.Underline;
         }
 
         private void UpdateVisibleTokenList()
