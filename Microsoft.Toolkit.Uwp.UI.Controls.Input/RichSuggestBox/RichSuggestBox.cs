@@ -439,7 +439,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             range.CharacterFormat.ForegroundColor = format.Foreground;
             range.CharacterFormat.Bold = format.Bold;
             range.CharacterFormat.Italic = format.Italic;
-            range.CharacterFormat.Underline = format.Underline;
+            range.CharacterFormat.FontStretch = format.FontStretch;
+            range.CharacterFormat.FontStyle = format.FontStyle;
+            range.CharacterFormat.Name = format.FontName;
+            range.CharacterFormat.Kerning = format.Kerning;
+            range.CharacterFormat.Strikethrough = format.Strikethrough;
+            range.CharacterFormat.Size = format.FontSize;
+            range.CharacterFormat.Outline = format.Outline;
+            range.CharacterFormat.Weight = format.Weight;
+            range.CharacterFormat.Spacing = format.Spacing;
+            range.CharacterFormat.Subscript = format.Subscript;
+            range.CharacterFormat.Superscript = format.Superscript;
+            range.CharacterFormat.Position = format.Position;
 
             var clone = range.GetClone();
 
@@ -719,24 +730,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private SuggestionTokenFormat CreateSuggestionTokenFormat()
         {
             var defaultFormat = TextDocument.GetDefaultCharacterFormat();
+            var suggestionFormat = new SuggestionTokenFormat(defaultFormat);
             if (SuggestionBackground != null)
             {
-                defaultFormat.BackgroundColor = SuggestionBackground.Color;
+                suggestionFormat.Background = SuggestionBackground.Color;
             }
 
             if (SuggestionForeground != null)
             {
-                defaultFormat.ForegroundColor = SuggestionForeground.Color;
+                suggestionFormat.Foreground = SuggestionForeground.Color;
             }
 
-            return new SuggestionTokenFormat
-            {
-                Foreground = defaultFormat.ForegroundColor,
-                Background = defaultFormat.BackgroundColor,
-                Italic = defaultFormat.Italic,
-                Bold = defaultFormat.Bold,
-                Underline = defaultFormat.Underline
-            };
+            return suggestionFormat;
         }
 
         private void ApplyDefaultFormatToRange(ITextRange range)
