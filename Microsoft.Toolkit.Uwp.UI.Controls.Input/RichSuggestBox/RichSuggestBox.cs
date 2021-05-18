@@ -267,6 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     args.Handled = true;
                     break;
 
+                case VirtualKey.Tab when _suggestionsList.SelectedItem != null:
                 case VirtualKey.Enter when _suggestionsList.SelectedItem != null:
                     ShowSuggestionsPopup(false);
                     _ = OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
