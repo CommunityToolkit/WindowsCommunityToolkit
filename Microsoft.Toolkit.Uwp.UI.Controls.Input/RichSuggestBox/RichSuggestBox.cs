@@ -405,15 +405,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             lock (LockObj)
             {
                 var displayText = prefix + text;
-                var tokenRange = CommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format);
-
-                var token = new SuggestionInfo(id, displayText) { Active = true, Item = selectedItem };
-                token.UpdateTextRange(tokenRange);
-                _tokens.Add(tokenRange.Link, token);
+                if (TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format))
+                {
+                    var token = new SuggestionInfo(id, displayText) { Active = true, Item = selectedItem };
+                    token.UpdateTextRange(range);
+                    _tokens.TryAdd(range.Link, token);
+                }
             }
         }
 
-        private ITextRange CommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, SuggestionTokenFormat format, bool addTrailingSpace = true)
+        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, SuggestionTokenFormat format, bool addTrailingSpace = true)
         {
             _ignoreChange = true;
             TextDocument.BeginUndoGroup();
@@ -427,25 +428,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             range.Link = $"\"{id}\"";
 
+            // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
+            if (range.Link != $"\"{id}\"")
+            {
+                return false;
+            }
+
             range.CharacterFormat.BackgroundColor = format.Background;
             range.CharacterFormat.ForegroundColor = format.Foreground;
             range.CharacterFormat.Bold = format.Bold;
             range.CharacterFormat.Italic = format.Italic;
             range.CharacterFormat.Underline = format.Underline;
 
-            var returnRange = TextDocument.GetRange(range.StartPosition, range.EndPosition);
+            var clone = range.GetClone();
 
             if (addTrailingSpace)
             {
-                range.Collapse(false);
-                range.SetText(TextSetOptions.Unhide, " ");
-                range.Collapse(false);
-                TextDocument.Selection.SetRange(range.EndPosition, range.EndPosition);
+                clone.Collapse(false);
+                clone.SetText(TextSetOptions.Unhide, " ");
+                clone.Collapse(false);
+                TextDocument.Selection.SetRange(clone.EndPosition, clone.EndPosition);
             }
 
             TextDocument.EndUndoGroup();
             _ignoreChange = false;
-            return returnRange;
+            return true;
         }
 
         private void ValidateTokensInDocument()
@@ -489,10 +496,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 lock (LockObj)
                 {
                     var guid = Guid.NewGuid();
-                    range = CommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateSuggestionTokenFormat(), false);
-                    token = new SuggestionInfo(guid, token.DisplayText) { Active = true, Item = token.Item };
-                    token.UpdateTextRange(range);
-                    _tokens.Add(range.Link, token);
+                    if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateSuggestionTokenFormat(), false))
+                    {
+                        token = new SuggestionInfo(guid, token.DisplayText) { Active = true, Item = token.Item };
+                        token.UpdateTextRange(range);
+                        _tokens.Add(range.Link, token);
+                    }
+
                     return;
                 }
             }
