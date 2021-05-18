@@ -37,9 +37,8 @@ namespace UITests.Tests
 
         [TestMethod]
         [TestPage("RangeSelectorTestPage")]
-        public void SimpleTestMethod()
+        public void SimpleTestMethod2()
         {
-
             var inputStepFrequency = new TextBlock(FindElement.ById("inputStepFrequency"));
             var inputMinimum = new TextBlock(FindElement.ById("inputMinimum"));
             var inputRangeStart = new TextBlock(FindElement.ById("inputRangeStart"));
