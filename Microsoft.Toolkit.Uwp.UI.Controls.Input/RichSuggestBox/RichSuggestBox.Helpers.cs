@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (string.IsNullOrEmpty(value))
             {
-                return "@";
+                return string.Empty;
             }
 
             var possibles = string.Concat(value.Where(char.IsPunctuation));
