@@ -52,6 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _ignoreChange;
         private bool _popupOpenDown;
         private bool _tokenAtStart;
+        private bool _textCompositionActive;
         private ITextRange _currentRange;
         private CancellationTokenSource _suggestionRequestedTokenSource;
         private PointerEventHandler _pointerEventHandler;
@@ -109,6 +110,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SizeChanged -= RichEditBox_SizeChanged;
             _richEditBox.TextChanging -= RichEditBox_TextChanging;
             _richEditBox.TextChanged -= RichEditBox_TextChanged;
+            _richEditBox.TextCompositionStarted -= RichEditBox_TextCompositionStarted;
+            _richEditBox.TextCompositionChanged -= RichEditBox_TextCompositionChanged;
+            _richEditBox.TextCompositionEnded -= RichEditBox_TextCompositionEnded;
             _richEditBox.SelectionChanging -= RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged -= RichEditBox_SelectionChanged;
             _richEditBox.Paste -= RichEditBox_Paste;
@@ -118,6 +122,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SizeChanged += RichEditBox_SizeChanged;
             _richEditBox.TextChanging += RichEditBox_TextChanging;
             _richEditBox.TextChanged += RichEditBox_TextChanged;
+            _richEditBox.TextCompositionStarted += RichEditBox_TextCompositionStarted;
+            _richEditBox.TextCompositionChanged += RichEditBox_TextCompositionChanged;
+            _richEditBox.TextCompositionEnded += RichEditBox_TextCompositionEnded;
             _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
             _richEditBox.Paste += RichEditBox_Paste;
@@ -228,7 +235,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _tokenAtStart = true;
             }
 
-            await RequestForSuggestionsAsync();
+            // During text composition changing (e.g. user typing with an IME),
+            // SelectionChanged event is fired multiple times with each keystroke.
+            // To reduce the number of suggestion requests, the request is made
+            // in TextCompositionChanged handler instead.
+            if (_textCompositionActive)
+            {
+                return;
+            }
+
+            await RequestSuggestionsAsync();
         }
 
         private void RichEditBoxPointerEventHandler(object sender, PointerRoutedEventArgs e)
@@ -307,6 +323,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateVisibleTokenList();
         }
 
+        private void RichEditBox_TextCompositionStarted(RichEditBox sender, TextCompositionStartedEventArgs args)
+        {
+            _textCompositionActive = true;
+        }
+
+        private async void RichEditBox_TextCompositionChanged(RichEditBox sender, TextCompositionChangedEventArgs args)
+        {
+            var range = TextDocument.GetRange(args.StartIndex == 0 ? 0 : args.StartIndex - 1, args.StartIndex + args.Length);
+            await RequestSuggestionsAsync(range);
+        }
+
+        private void RichEditBox_TextCompositionEnded(RichEditBox sender, TextCompositionEndedEventArgs args)
+        {
+            _textCompositionActive = false;
+        }
+
         private void RichEditBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.UpdatePopupWidth();
@@ -338,12 +370,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private async Task RequestForSuggestionsAsync()
+        private async Task RequestSuggestionsAsync(ITextRange range = null)
         {
+            string prefix;
+            string query;
+            var queryFound = range == null
+                ? TryExtractQueryFromSelection(out prefix, out query, out range)
+                : TryExtractQueryFromRange(range, out prefix, out query);
+
+            if (queryFound && prefix == _currentPrefix && query == _currentQuery &&
+                range.EndPosition == _currentRange?.EndPosition && _suggestionPopup.IsOpen)
+            {
+                return;
+            }
+
             _suggestionRequestedTokenSource?.Cancel();
 
-            if (TryExtractQueryFromSelection(out var prefix, out var query, out var range) &&
-                SuggestionsRequested != null)
+            if (queryFound && SuggestionsRequested != null)
             {
                 _suggestionRequestedTokenSource = new CancellationTokenSource();
                 _currentPrefix = prefix;
