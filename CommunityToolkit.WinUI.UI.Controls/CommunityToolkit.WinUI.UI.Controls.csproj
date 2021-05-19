@@ -10,7 +10,7 @@
     </Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)readme.txt" Pack="true" PackagePath="\"/>
     <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Controls.Primitives\CommunityToolkit.WinUI.UI.Controls.Primitives.csproj" />

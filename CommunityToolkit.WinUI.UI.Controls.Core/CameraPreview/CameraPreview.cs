@@ -45,7 +45,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task StartAsync()
         {
-             await StartAsync(new CameraHelper());
+            await StartAsync(new CameraHelper());
         }
 
         /// <summary>

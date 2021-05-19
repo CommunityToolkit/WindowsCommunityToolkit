@@ -1,4 +1,4 @@
-﻿<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.MouseCursorPage"
+<Page x:Class="CommunityToolkit.WinUI.SampleApp.SamplePages.MouseCursorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:ui="using:CommunityToolkit.WinUI.UI">

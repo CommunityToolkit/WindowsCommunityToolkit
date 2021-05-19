@@ -1,4 +1,4 @@
-﻿<Application x:Class="CommunityToolkit.WinUI.SampleApp.App"
+<Application x:Class="CommunityToolkit.WinUI.SampleApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters">

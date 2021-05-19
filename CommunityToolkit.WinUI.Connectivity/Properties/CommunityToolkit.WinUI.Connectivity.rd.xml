@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
     This file contains Runtime Directives, specifications about types your application accesses
     through reflection and other dynamic code patterns. Runtime Directives are used to control the

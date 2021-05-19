@@ -76,7 +76,7 @@ namespace UnitTests.UI
             await Assert.ThrowsExceptionAsync<AggregateException>(collection.LoadMoreItemsAsync(0).AsTask);
 
             Assert.IsTrue(!collection.Any());
-            
+
             var requests = new List<Task>();
 
             for (int pageNum = 1; pageNum <= Pages; pageNum++)

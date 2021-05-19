@@ -1,4 +1,4 @@
-﻿// Make sure you have the capability webcam enabled for your app to access the device's camera.
+// Make sure you have the capability webcam enabled for your app to access the device's camera.
 
 <Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,7 +23,7 @@ CameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArri
 var softwareBitmapSource = new SoftwareBitmapSource();
 CurrentFrameImage.Source = softwareBitmapSource;
 
-// Register for FrameArrived to get real time video frames, software bitmaps. 
+// Register for FrameArrived to get real time video frames, software bitmaps.
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
 {
     var videoFrame = e.VideoFrame;

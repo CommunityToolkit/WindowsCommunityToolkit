@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
@@ -11,7 +11,7 @@
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Developer;Tools;Accessibility;Alignment;Grid;AlignmentGrid</PackageTags>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
