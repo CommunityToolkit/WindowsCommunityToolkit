@@ -25,13 +25,6 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <TextCommandBarFlyout x:Key="TextControlCommandBarContextFlyout"
-                          contract7Present:Placement="BottomEdgeAlignedLeft"
-                          contract7Present:ShowMode="Standard" />
-    <TextCommandBarFlyout x:Key="TextControlCommandBarSelectionFlyout"
-                          contract7Present:Placement="TopEdgeAlignedLeft"
-                          contract7Present:ShowMode="TransientWithDismissOnPointerMoveAway" />
-
     <Style TargetType="controls:RichSuggestBox">
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
