@@ -53,12 +53,18 @@ namespace UITests.Tests
             var submitAll = new Button(FindElement.ById("submitAll"));
 
             inputStepFrequency.SendKeys("1");
+            Wait.ForIdle();
             inputMinimum.SendKeys("0");
+            Wait.ForIdle();
             inputRangeStart.SendKeys("10");
+            Wait.ForIdle();
             inputRangeEnd.SendKeys("90");
+            Wait.ForIdle();
             inputMaximum.SendKeys("100");
+            Wait.ForIdle();
 
             submitAll.Click();
+            Wait.ForIdle();
 
             var currentStepFrequency = new TextBlock(FindElement.ById("currentStepFrequency"));
             var currentMinimum = new TextBlock(FindElement.ById("currentMinimum"));
