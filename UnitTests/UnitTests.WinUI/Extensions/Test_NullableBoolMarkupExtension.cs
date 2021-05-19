@@ -127,9 +127,9 @@ namespace UnitTests.Extensions
             Assert.AreEqual(null, obj.NullableBool, "Expected obj value to be null.");
         }
 
-        #pragma warning disable SA1124 // Do not use regions
+#pragma warning disable SA1124 // Do not use regions
         #region System-based Unit Tests, See Issue #3198
-        #pragma warning restore SA1124 // Do not use regions
+#pragma warning restore SA1124 // Do not use regions
         [TestCategory("NullableBoolMarkupExtension")]
 
         [UITestMethod]
@@ -211,7 +211,7 @@ namespace UnitTests.Extensions
         <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{ui:NullableBool Value=True}""/>
     </Page.Resources>
 </Page>") as FrameworkElement;
-                
+
             var obj = treeroot.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
             Assert.IsNotNull(obj, "Could not find object in resources.");

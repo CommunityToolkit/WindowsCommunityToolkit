@@ -50,7 +50,7 @@ namespace UnitTests.UI.Controls
             var items = Enumerable.Range(1, 10).ToArray();
             var listDetailsView = new ListDetailsView();
             listDetailsView.ItemsSource = items;
-            listDetailsView.SelectedIndex = 5;            
+            listDetailsView.SelectedIndex = 5;
             listDetailsView.SelectedIndex = -1;
             Assert.IsNull(listDetailsView.SelectedItem);
         }

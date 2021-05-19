@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.6" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.5.7" />
   </ItemGroup>
 
   <ItemGroup>

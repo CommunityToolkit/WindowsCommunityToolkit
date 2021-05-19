@@ -58,7 +58,7 @@ namespace UITests.App
 
             public override async Task SubscribeLog(SubscribeLogRequest request, IServerStreamWriter<LogUpdate> responseStream, ServerCallContext context)
             {
-                while(!context.CancellationToken.IsCancellationRequested)
+                while (!context.CancellationToken.IsCancellationRequested)
                 {
                     var message = LogUpdates.Take(context.CancellationToken);
 

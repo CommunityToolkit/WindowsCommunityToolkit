@@ -92,9 +92,9 @@ namespace UnitTests.Converters
             Assert.AreEqual(null, converter.Convert(Task.FromCanceled(cts.Token), null, null, null));
             Assert.AreEqual(null, converter.Convert(Task.FromException(new Exception()), null, null, null));
             Assert.AreEqual(null, converter.Convert(Task.CompletedTask, null, null, null));
-            
+
             TaskCompletionSource<int> tcs1 = new TaskCompletionSource<int>();
-            
+
             Assert.AreEqual(null, converter.Convert(tcs1.Task, null, null, null));
 
             TaskCompletionSource<string> tcs2 = new TaskCompletionSource<string>();

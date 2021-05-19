@@ -7,7 +7,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
     <PackageIcon>images\nuget.png</PackageIcon>
     <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>    
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <Company>.NET Foundation</Company>
@@ -21,8 +21,8 @@
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
     <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
-    <MicrosoftProjectReunionVersion>0.5.6</MicrosoftProjectReunionVersion>
-    <MicrosoftCsWinRTVersion>1.2.5</MicrosoftCsWinRTVersion>
+    <MicrosoftProjectReunionVersion>0.5.7</MicrosoftProjectReunionVersion>
+    <MicrosoftCsWinRTVersion>1.2.6</MicrosoftCsWinRTVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
     <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
     <NoWarn>SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>

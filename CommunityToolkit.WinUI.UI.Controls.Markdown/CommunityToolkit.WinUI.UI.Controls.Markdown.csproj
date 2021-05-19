@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
     <Title>Windows Community Toolkit Controls Markdown</Title>
@@ -47,11 +47,11 @@
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
 
-  <!-- 
+  <!--
     Required workaround for ProjectReference inclusion of the Controls package
-    The UWP project system is including the Controls resources in the pri file because 
+    The UWP project system is including the Controls resources in the pri file because
     it doesn't know it'll be an independent package later during packing.
-    Therefore, we need to remove these extra resources in the PRI pipeline so the 
+    Therefore, we need to remove these extra resources in the PRI pipeline so the
     Markdown pri file is properly generated and doesn't include duplicate references to Control resources.
   -->
   <Target Name="RemoveUnwantedPri" AfterTargets="GetPackagingOutputs">
