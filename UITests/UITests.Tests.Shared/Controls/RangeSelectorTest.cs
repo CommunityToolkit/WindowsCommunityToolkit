@@ -52,16 +52,11 @@ namespace UITests.Tests
             var submitMaximum = new Button(FindElement.ById("submitMaximum"));
             var submitAll = new Button(FindElement.ById("submitAll"));
 
-            inputStepFrequency.SendKeys("1");
-            Wait.ForIdle();
-            inputMinimum.SendKeys("0");
-            Wait.ForIdle();
-            inputRangeStart.SendKeys("10");
-            Wait.ForIdle();
-            inputRangeEnd.SendKeys("90");
-            Wait.ForIdle();
-            inputMaximum.SendKeys("100");
-            Wait.ForIdle();
+            KeyboardHelper.EnterText(inputStepFrequency, "1");
+            KeyboardHelper.EnterText(inputMinimum, "0");
+            KeyboardHelper.EnterText(inputRangeStart, "10");
+            KeyboardHelper.EnterText(inputRangeEnd, "90");
+            KeyboardHelper.EnterText(inputMaximum, "100");
 
             submitAll.Click();
             Wait.ForIdle();
