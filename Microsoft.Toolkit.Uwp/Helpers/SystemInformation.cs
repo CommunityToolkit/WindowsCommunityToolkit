@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     {
         private readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
         private DateTime _sessionStart;
+        private PackageVersion _previousVersionInstalled;
 
         /// <summary>
         /// Launches the store app so the user can leave a review.
@@ -126,7 +127,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// This will be the current version if a previous version of the app was installed
         /// before using <see cref="SystemInformation"/> or if the app is not updated.
         /// </summary>
-        public PackageVersion PreviousVersionInstalled { get; }
+        public PackageVersion PreviousVersionInstalled 
+        {
+            get => _previousVersionInstalled;
+            private set => _previousVersionInstalled = value;
+        }
 
         /// <summary>
         /// Gets the DateTime (in UTC) when the app was launched for the first time.
@@ -317,7 +322,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             IsAppUpdated = DetectIfAppUpdated();
             FirstUseTime = DetectFirstUseTime();
             FirstVersionInstalled = DetectFirstVersionInstalled();
-            PreviousVersionInstalled = DetectPreviousVersionInstalled();
             InitializeValuesSetWithTrackAppUse();
         }
 
@@ -345,9 +349,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             else
             {
                 var lastVersion = _localObjectStorageHelper.Read<string>(nameof(currentVersion));
+                PreviousVersionInstalled = lastVersion.ToPackageVersion();
                 if (currentVersion != lastVersion)
                 {
-                    _localObjectStorageHelper.Save(nameof(PreviousVersionInstalled), lastVersion);
                     _localObjectStorageHelper.Save(nameof(currentVersion), currentVersion);
                     return true;
                 }
@@ -386,23 +390,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 result = ApplicationVersion;
                 _localObjectStorageHelper.Save(nameof(FirstVersionInstalled), ApplicationVersion.ToFormattedString());
-            }
-
-            return result;
-        }
-
-        private PackageVersion DetectPreviousVersionInstalled()
-        {
-            PackageVersion result;
-
-            if (_localObjectStorageHelper.KeyExists(nameof(PreviousVersionInstalled)))
-            {
-                result = _localObjectStorageHelper.Read<string>(nameof(PreviousVersionInstalled)).ToPackageVersion();
-            }
-            else
-            {
-                result = ApplicationVersion;
-                _localObjectStorageHelper.Save(nameof(PreviousVersionInstalled), ApplicationVersion.ToFormattedString());
             }
 
             return result;
