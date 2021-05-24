@@ -5,8 +5,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -20,8 +18,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
         }
-
-        public ICommand SampleCommand => new DelegateCommand<string>(OnExecuteSampleCommand);
 
         public async void OnXamlRendered(FrameworkElement control)
         {
@@ -48,14 +44,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 sampleListView.ItemsSource = GetOddEvenSource(500);
             }
-
-            // Transfer Data Context so we can access SampleCommand
-            control.DataContext = this;
-        }
-
-        private async void OnExecuteSampleCommand(string item)
-        {
-            await new MessageDialog($"You clicked {item} via the 'ListViewExtensions.Command' binding", "Item Clicked").ShowAsync();
         }
 
         public ObservableCollection<string> GetOddEvenSource(int count)
@@ -69,6 +57,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             return oddEvenSource;
+        }
+    }
+
+#pragma warning disable SA1402 // File may only contain a single class
+    internal class SampleCommand : ICommand
+#pragma warning restore SA1402 // File may only contain a single class
+    {
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add { }
+            remove { }
+        }
+
+        public bool CanExecute(object parameter) => true;
+
+        public void Execute(object parameter)
+        {
+            if (parameter is string s)
+            {
+                OnExecuteSampleCommand(s);
+            }
+        }
+
+        private static async void OnExecuteSampleCommand(string item)
+        {
+            await new MessageDialog($"You clicked {item} via the 'ListViewExtensions.Command' binding", "Item Clicked").ShowAsync();
         }
     }
 }
