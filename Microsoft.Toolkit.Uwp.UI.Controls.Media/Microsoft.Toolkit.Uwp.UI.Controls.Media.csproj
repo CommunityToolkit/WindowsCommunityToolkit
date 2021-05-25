@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
@@ -11,7 +11,12 @@
         - ImageCropper: ImageCropper control allows user to crop image freely.
         - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
     </Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML InfiniteCanvas Eyedropper</PackageTags>
+    <PackageTags>
+      Windows;Community;Toolkit;WCT;UWP;Controls;XAML;
+      Eye;Dropper    ;EyeDropper    ;
+      Image;Cropper  ;ImageCropper  ;Crop;
+      Infinite;Canvas;InfiniteCanvas;
+    </PackageTags>
     <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
     <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
@@ -19,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <PackageReference Include="Win2D.uwp" Version="1.25.0" />
   </ItemGroup>
 
