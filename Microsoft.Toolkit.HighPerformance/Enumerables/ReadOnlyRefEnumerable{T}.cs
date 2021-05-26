@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
             return ref MemoryMarshal.GetReference(this.span);
 #else
-            return ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
+            return ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
         }
 
@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref MemoryMarshal.GetReference(this.span);
 #else
-            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
+            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
             // Here we just offset by shifting down as if we were traversing a 2D array with a
             // a single column, with the width of each row represented by the step, the height

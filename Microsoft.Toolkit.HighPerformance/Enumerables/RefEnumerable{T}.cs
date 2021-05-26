@@ -9,9 +9,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
-#else
+
+#if !SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
