@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         private readonly ReadOnlySpan<T> span;
 
         /// <summary>
-        /// The total available length for the sequence.
+        /// Gets the total available length for the sequence.
         /// </summary>
         public int Length => span.Length;
 #else
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         private readonly IntPtr offset;
 
         /// <summary>
-        /// The total available length for the sequence.
+        /// Gets the total available length for the sequence.
         /// </summary>
         public int Length { get; }
 #endif
