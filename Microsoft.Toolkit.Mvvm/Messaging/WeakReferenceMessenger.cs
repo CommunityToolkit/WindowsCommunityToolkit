@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.Collections.Extensions;
 using Microsoft.Toolkit.Mvvm.Messaging.Internals;
 #if NETSTANDARD2_0
@@ -13,14 +14,23 @@ using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.Internals.ConditionalWe
 using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #endif
 
+#pragma warning disable SA1204
+
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
     /// <summary>
     /// A class providing a reference implementation for the <see cref="IMessenger"/> interface.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This <see cref="IMessenger"/> implementation uses weak references to track the registered
     /// recipients, so it is not necessary to manually unregister them when they're no longer needed.
+    /// </para>
+    /// <para>
+    /// The <see cref="WeakReferenceMessenger"/> type will automatically perform internal trimming when
+    /// full GC collections are invoked, so calling <see cref="Cleanup"/> manually is not necessary to
+    /// ensure that on average the internal data structures are as trimmed and compact as possible.
+    /// </para>
     /// </remarks>
     public sealed class WeakReferenceMessenger : IMessenger
     {
@@ -45,6 +55,22 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// The map of currently registered recipients for all message types.
         /// </summary>
         private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeakReferenceMessenger"/> class.
+        /// </summary>
+        public WeakReferenceMessenger()
+        {
+            // Register an automatic GC callback to trigger a non-blocking cleanup. This will ensure that the
+            // current messenger instance is trimmed and without leftover recipient maps that are no longer used.
+            // This is necessary (as in, some form of cleanup, either explicit or automatic like in this case)
+            // because the ConditionalWeakTable<TKey, TValue> instances will just remove key-value pairs on their
+            // own as soon as a key (ie. a recipient) is collected, causing their own keys (ie. the Type2 instances
+            // mapping to each conditional table for a pair of message and token types) to potentially remain in the
+            // root mapping structure but without any remaining recipients actually registered there, which just
+            // adds unnecessary overhead when trying to enumerate recipients during broadcasting operations later on.
+            Gen2GcCallback.Register(static obj => ((WeakReferenceMessenger)obj).CleanupWithNonBlockingLock(), this);
+        }
 
         /// <summary>
         /// Gets the default <see cref="WeakReferenceMessenger"/> instance.
@@ -224,52 +250,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                using ArrayPoolBufferWriter<Type2> type2s = ArrayPoolBufferWriter<Type2>.Create();
-                using ArrayPoolBufferWriter<object> emptyRecipients = ArrayPoolBufferWriter<object>.Create();
-
-                var enumerator = this.recipientsMap.GetEnumerator();
-
-                // First, we go through all the currently registered pairs of token and message types.
-                // These represents all the combinations of generic arguments with at least one registered
-                // handler, with the exception of those with recipients that have already been collected.
-                while (enumerator.MoveNext())
-                {
-                    emptyRecipients.Reset();
-
-                    bool hasAtLeastOneHandler = false;
-
-                    // Go through the currently alive recipients to look for those with no handlers left. We track
-                    // the ones we find to remove them outside of the loop (can't modify during enumeration).
-                    foreach (KeyValuePair<object, IDictionarySlim> pair in enumerator.Value)
-                    {
-                        if (pair.Value.Count == 0)
-                        {
-                            emptyRecipients.Add(pair.Key);
-                        }
-                        else
-                        {
-                            hasAtLeastOneHandler = true;
-                        }
-                    }
-
-                    // Remove the handler maps for recipients that are still alive but with no handlers
-                    foreach (object recipient in emptyRecipients.Span)
-                    {
-                        enumerator.Value.Remove(recipient);
-                    }
-
-                    // Track the type combinations with no recipients or handlers left
-                    if (!hasAtLeastOneHandler)
-                    {
-                        type2s.Add(enumerator.Key);
-                    }
-                }
-
-                // Remove all the mappings with no handlers left
-                foreach (Type2 key in type2s.Span)
-                {
-                    this.recipientsMap.TryRemove(key);
-                }
+                CleanupWithoutLock();
             }
         }
 
@@ -279,6 +260,87 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 this.recipientsMap.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Executes a cleanup without locking the current instance. This method has to be
+        /// invoked when a lock on <see cref="recipientsMap"/> has already been acquired.
+        /// </summary>
+        private void CleanupWithNonBlockingLock()
+        {
+            object lockObject = this.recipientsMap;
+            bool lockTaken = false;
+
+            try
+            {
+                Monitor.TryEnter(lockObject, ref lockTaken);
+
+                if (lockTaken)
+                {
+                    CleanupWithoutLock();
+                }
+            }
+            finally
+            {
+                if (lockTaken)
+                {
+                    Monitor.Exit(lockObject);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Executes a cleanup without locking the current instance. This method has to be
+        /// invoked when a lock on <see cref="recipientsMap"/> has already been acquired.
+        /// </summary>
+        private void CleanupWithoutLock()
+        {
+            using ArrayPoolBufferWriter<Type2> type2s = ArrayPoolBufferWriter<Type2>.Create();
+            using ArrayPoolBufferWriter<object> emptyRecipients = ArrayPoolBufferWriter<object>.Create();
+
+            var enumerator = this.recipientsMap.GetEnumerator();
+
+            // First, we go through all the currently registered pairs of token and message types.
+            // These represents all the combinations of generic arguments with at least one registered
+            // handler, with the exception of those with recipients that have already been collected.
+            while (enumerator.MoveNext())
+            {
+                emptyRecipients.Reset();
+
+                bool hasAtLeastOneHandler = false;
+
+                // Go through the currently alive recipients to look for those with no handlers left. We track
+                // the ones we find to remove them outside of the loop (can't modify during enumeration).
+                foreach (KeyValuePair<object, IDictionarySlim> pair in enumerator.Value)
+                {
+                    if (pair.Value.Count == 0)
+                    {
+                        emptyRecipients.Add(pair.Key);
+                    }
+                    else
+                    {
+                        hasAtLeastOneHandler = true;
+                    }
+                }
+
+                // Remove the handler maps for recipients that are still alive but with no handlers
+                foreach (object recipient in emptyRecipients.Span)
+                {
+                    enumerator.Value.Remove(recipient);
+                }
+
+                // Track the type combinations with no recipients or handlers left
+                if (!hasAtLeastOneHandler)
+                {
+                    type2s.Add(enumerator.Key);
+                }
+            }
+
+            // Remove all the mappings with no handlers left
+            foreach (Type2 key in type2s.Span)
+            {
+                this.recipientsMap.TryRemove(key);
             }
         }
 
