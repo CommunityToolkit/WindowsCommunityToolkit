@@ -29,11 +29,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <remarks>The <see cref="ReadOnlySpan{T}.Length"/> field maps to the total available length.</remarks>
         private readonly ReadOnlySpan<T> span;
-
-        /// <summary>
-        /// Gets the total available length for the sequence.
-        /// </summary>
-        public int Length => span.Length;
 #else
         /// <summary>
         /// The target <see cref="object"/> instance, if present.
@@ -46,9 +41,9 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         private readonly IntPtr offset;
 
         /// <summary>
-        /// Gets the total available length for the sequence.
+        /// The total available length for the sequence.
         /// </summary>
-        public int Length { get; }
+        private readonly int length;
 #endif
 
         /// <summary>
@@ -56,40 +51,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         /// <remarks>The distance refers to <typeparamref name="T"/> items, not byte offset.</remarks>
         private readonly int step;
-
-        /// <summary>
-        /// Gets the element at the specified zero-based index.
-        /// </summary>
-        /// <returns>A reference to the element at the specified index.</returns>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Thrown when <paramref name="index"/> is invalid.
-        /// </exception>
-        public ref readonly T this[int index]
-        {
-            get
-            {
-                if ((uint)index >= (uint)Length)
-                {
-                    ThrowHelper.ThrowIndexOutOfRangeException();
-                }
-
-                return ref DangerousGetReferenceAt(index);
-            }
-        }
-
-#if NETSTANDARD2_1_OR_GREATER
-        /// <summary>
-        /// Gets the element at the specified zero-based index.
-        /// </summary>
-        /// <returns>A reference to the element at the specified index.</returns>
-        /// <exception cref="IndexOutOfRangeException">
-        /// Thrown when <paramref name="index"/> is invalid.
-        /// </exception>
-        public ref readonly T this[Index index]
-        {
-            get => ref this[index.GetOffset(Length)];
-        }
-#endif
 
 #if SPAN_RUNTIME_SUPPORT
         /// <summary>
@@ -155,53 +116,76 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         {
             this.instance = instance;
             this.offset = offset;
-            Length = length;
+            this.length = length;
             this.step = step;
         }
 #endif
 
         /// <summary>
-        /// Returns a reference to the first element within the current instance, with no bounds check.
+        /// Gets the total available length for the sequence.
         /// </summary>
-        /// <returns>A reference to the first element within the current instance.</returns>
-        internal ref readonly T DangerousGetReference()
+        public int Length
         {
 #if SPAN_RUNTIME_SUPPORT
-            return ref MemoryMarshal.GetReference(this.span);
+            get => this.span.Length;
 #else
-            return ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+            get => this.length;
 #endif
         }
 
         /// <summary>
-        /// Returns a reference to a specified element within the current instance, with no bounds check.
+        /// Gets the element at the specified zero-based index.
         /// </summary>
         /// <returns>A reference to the element at the specified index.</returns>
-        internal ref readonly T DangerousGetReferenceAt(int index)
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown when <paramref name="index"/> is invalid.
+        /// </exception>
+        public ref readonly T this[int index]
         {
-#if SPAN_RUNTIME_SUPPORT
-            ref T r0 = ref MemoryMarshal.GetReference(this.span);
-#else
-            ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-#endif
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                if ((uint)index >= (uint)Length)
+                {
+                    ThrowHelper.ThrowIndexOutOfRangeException();
+                }
 
-            // Here we just offset by shifting down as if we were traversing a 2D array with a
-            // a single column, with the width of each row represented by the step, the height
-            // represented by the current position, and with only the first element of each row
-            // being inspected. We can perform all the indexing operations in this type as nint,
-            // as the maximum offset is guaranteed never to exceed the maximum value, since on
-            // 32 bit architectures it's not possible to allocate that much memory anyway.
-            nint offset = (nint)(uint)index * (nint)(uint)this.step;
-            ref T ri = ref Unsafe.Add(ref r0, offset);
-            return ref ri;
+#if SPAN_RUNTIME_SUPPORT
+                ref T r0 = ref MemoryMarshal.GetReference(this.span);
+#else
+                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+#endif
+                nint offset = (nint)(uint)index * (nint)(uint)this.step;
+                ref T ri = ref Unsafe.Add(ref r0, offset);
+                return ref ri;
+            }
         }
+
+#if NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Gets the element at the specified zero-based index.
+        /// </summary>
+        /// <returns>A reference to the element at the specified index.</returns>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown when <paramref name="index"/> is invalid.
+        /// </exception>
+        public ref readonly T this[Index index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref this[index.GetOffset(Length)];
+        }
+#endif
 
         /// <inheritdoc cref="System.Collections.IEnumerable.GetEnumerator"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Enumerator GetEnumerator()
         {
-            return new Enumerator(this);
+#if SPAN_RUNTIME_SUPPORT
+            return new Enumerator(this.span, this.step);
+#else
+            return new Enumerator(this.instance, this.offset, this.length, this.step);
+#endif
         }
 
         /// <summary>
@@ -237,7 +221,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
             ref T destinationRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(destination.Instance, destination.Offset);
             int
-                sourceLength = Length,
+                sourceLength = this.length,
                 destinationLength = destination.Length;
 #endif
 
@@ -262,7 +246,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 destinationLength = destination.Span.Length;
 #else
             int
-                sourceLength = Length,
+                sourceLength = this.length,
                 destinationLength = destination.Length;
 #endif
 
@@ -297,7 +281,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             int length = this.span.Length;
 #else
             ref T sourceRef = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
-            int length = Length;
+            int length = this.length;
 #endif
             if ((uint)destination.Length < (uint)length)
             {
@@ -319,7 +303,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
             int length = this.span.Length;
 #else
-            int length = Length;
+            int length = this.length;
 #endif
 
             if (destination.Length >= length)
@@ -339,7 +323,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #if SPAN_RUNTIME_SUPPORT
             int length = this.span.Length;
 #else
-            int length = Length;
+            int length = this.length;
 #endif
 
             // Empty array if no data is mapped
@@ -374,10 +358,22 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         public ref struct Enumerator
         {
-            /// <summary>
-            /// The <see cref="ReadOnlyRefEnumerable{T}"/> used by this enumerator.
-            /// </summary>
-            private readonly ReadOnlyRefEnumerable<T> enumerable;
+#if SPAN_RUNTIME_SUPPORT
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.span"/>
+            private readonly ReadOnlySpan<T> span;
+#else
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.instance"/>
+            private readonly object? instance;
+
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.offset"/>
+            private readonly IntPtr offset;
+
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.length"/>
+            private readonly int length;
+#endif
+
+            /// <inheritdoc cref="ReadOnlyRefEnumerable{T}.step"/>
+            private readonly int step;
 
             /// <summary>
             /// The current position in the sequence.
@@ -392,8 +388,10 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <param name="step">The distance between items in the sequence to enumerate.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal Enumerator(ReadOnlySpan<T> span, int step)
-                : this(new ReadOnlyRefEnumerable<T>(span, step))
             {
+                this.span = span;
+                this.step = step;
+                this.position = -1;
             }
 #else
             /// <summary>
@@ -405,25 +403,23 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <param name="step">The distance between items in the sequence to enumerate.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal Enumerator(object? instance, IntPtr offset, int length, int step)
-                : this(new ReadOnlyRefEnumerable<T>(instance, offset, length, step))
             {
-            }
-#endif
-
-            internal Enumerator(ReadOnlyRefEnumerable<T> enumerable)
-            {
-                this.enumerable = enumerable;
+                this.instance = instance;
+                this.offset = offset;
+                this.length = length;
+                this.step = step;
                 this.position = -1;
             }
+#endif
 
             /// <inheritdoc cref="System.Collections.IEnumerator.MoveNext"/>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext()
             {
 #if SPAN_RUNTIME_SUPPORT
-                return ++this.position < this.enumerable.span.Length;
+                return ++this.position < this.span.Length;
 #else
-                return ++this.position < this.enumerable.Length;
+                return ++this.position < this.length;
 #endif
             }
 
@@ -431,7 +427,18 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             public readonly ref readonly T Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => ref this.enumerable.DangerousGetReferenceAt(this.position);
+                get
+                {
+#if SPAN_RUNTIME_SUPPORT
+                    ref T r0 = ref this.span.DangerousGetReference();
+#else
+                    ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
+#endif
+                    nint offset = (nint)(uint)this.position * (nint)(uint)this.step;
+                    ref T ri = ref Unsafe.Add(ref r0, offset);
+
+                    return ref ri;
+                }
             }
         }
 
