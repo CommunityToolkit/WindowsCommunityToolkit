@@ -179,6 +179,7 @@ namespace UITests.Tests
         public async Task TestCleanup()
         {
             helper.Dispose();
+            TestCleanupHelper.Cleanup();
         }
 
         private void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
