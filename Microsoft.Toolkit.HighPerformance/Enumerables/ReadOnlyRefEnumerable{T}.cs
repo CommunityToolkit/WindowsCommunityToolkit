@@ -184,6 +184,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #else
             ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.instance, this.offset);
 #endif
+
             // Here we just offset by shifting down as if we were traversing a 2D array with a
             // a single column, with the width of each row represented by the step, the height
             // represented by the current position, and with only the first element of each row
