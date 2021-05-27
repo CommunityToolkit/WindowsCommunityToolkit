@@ -147,17 +147,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 Type2 type2 = new(typeof(TMessage), typeof(TToken));
-                var enumerator = this.recipientsMap.GetEnumerator();
 
-                // Traverse all the existing token and message pairs matching the current type
-                // arguments, and remove all the handlers with a matching token, as above.
-                while (enumerator.MoveNext())
+                // Get the target mapping table for the combination of message and token types,
+                // and remove the handler with a matching token (the entire map), if present.
+                if (this.recipientsMap.TryGetValue(type2, out RecipientsTable? value) &&
+                    value!.TryGetValue(recipient, out IDictionarySlim? mapping))
                 {
-                    if (enumerator.Key.Equals(type2) &&
-                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim? mapping))
-                    {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token, out _);
-                    }
+                    Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token, out _);
                 }
             }
         }
