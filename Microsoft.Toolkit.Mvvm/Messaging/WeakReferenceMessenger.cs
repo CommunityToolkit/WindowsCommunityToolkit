@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // of token and message types. If it exists, check if there is a matching token.
                 return
                     this.recipientsMap.TryGetValue(type2, out RecipientsTable? table) &&
-                    table!.TryGetValue(recipient, out IDictionarySlim? mapping) &&
+                    table.TryGetValue(recipient, out IDictionarySlim? mapping) &&
                     Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.ContainsKey(token);
             }
         }
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     if (enumerator.Key.TToken == typeof(TToken) &&
                         enumerator.Value.TryGetValue(recipient, out IDictionarySlim? mapping))
                     {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token, out _);
+                        Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token);
                     }
                 }
             }
@@ -151,9 +151,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Get the target mapping table for the combination of message and token types,
                 // and remove the handler with a matching token (the entire map), if present.
                 if (this.recipientsMap.TryGetValue(type2, out RecipientsTable? value) &&
-                    value!.TryGetValue(recipient, out IDictionarySlim? mapping))
+                    value.TryGetValue(recipient, out IDictionarySlim? mapping))
                 {
-                    Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token, out _);
+                    Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token);
                 }
             }
         }
@@ -184,13 +184,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // to enumerate all the existing recipients for the token and message types pair
                 // corresponding to the generic arguments for this invocation, and then track the
                 // handlers with a matching token, and their corresponding recipients.
-                foreach (KeyValuePair<object, IDictionarySlim> pair in table!)
+                foreach (KeyValuePair<object, IDictionarySlim> pair in table)
                 {
                     var map = Unsafe.As<DictionarySlim<TToken, object>>(pair.Value);
 
                     if (map.TryGetValue(token, out object? handler))
                     {
-                        bufferWriter.Add(handler!);
+                        bufferWriter.Add(handler);
                         bufferWriter.Add(pair.Key);
                         i++;
                     }
@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove all the mappings with no handlers left
                 foreach (Type2 key in type2s.Span)
                 {
-                    this.recipientsMap.TryRemove(key, out _);
+                    this.recipientsMap.TryRemove(key);
                 }
             }
         }
