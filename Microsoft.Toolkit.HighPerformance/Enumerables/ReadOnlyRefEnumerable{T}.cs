@@ -136,6 +136,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Gets the element at the specified zero-based index.
         /// </summary>
+        /// <param name="index">The zero-based index of the element.</param>
         /// <returns>A reference to the element at the specified index.</returns>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown when <paramref name="index"/> is invalid.
@@ -166,6 +167,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// Gets the element at the specified zero-based index.
         /// </summary>
+        /// <param name="index">The zero-based index of the element.</param>
         /// <returns>A reference to the element at the specified index.</returns>
         /// <exception cref="IndexOutOfRangeException">
         /// Thrown when <paramref name="index"/> is invalid.
