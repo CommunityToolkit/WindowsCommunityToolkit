@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
-
 #if !SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
@@ -109,6 +108,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// </summary>
         public int Length
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #if SPAN_RUNTIME_SUPPORT
             get => this.Span.Length;
 #else
@@ -140,6 +140,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
 #endif
                 nint offset = (nint)(uint)index * (nint)(uint)this.Step;
                 ref T ri = ref Unsafe.Add(ref r0, offset);
+
                 return ref ri;
             }
         }
