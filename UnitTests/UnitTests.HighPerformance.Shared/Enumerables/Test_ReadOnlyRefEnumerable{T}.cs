@@ -47,6 +47,53 @@ namespace UnitTests.HighPerformance.Enumerables
         {
             _ = ReadOnlyRefEnumerable<int>.DangerousCreate(in Unsafe.NullRef<int>(), length, step);
         }
+
+        [TestCategory("ReadOnlyRefEnumerable")]
+        [TestMethod]
+        [DataRow(1, 1, new[] { 1 })]
+        [DataRow(4, 1, new[] { 1, 2, 3, 4 })]
+        [DataRow(4, 4, new[] { 1, 5, 9, 13 })]
+        [DataRow(4, 5, new[] { 1, 6, 11, 16 })]
+        public void Test_ReadOnlyRefEnumerable_Indexer(int length, int step, int[] values)
+        {
+            Span<int> data = new[]
+            {
+                1, 2, 3, 4,
+                5, 6, 7, 8,
+                9, 10, 11, 12,
+                13, 14, 15, 16
+            };
+
+            ReadOnlyRefEnumerable<int> enumerable = ReadOnlyRefEnumerable<int>.DangerousCreate(in data[0], length, step);
+
+            for (int i = 0; i < enumerable.Length; i++)
+            {
+                Assert.AreEqual(enumerable[i], values[i]);
+            }
+        }
+
+#if NETCOREAPP3_1_OR_GREATER
+        [TestCategory("ReadOnlyRefEnumerable")]
+        [TestMethod]
+        [DataRow(1, 1, new[] { 1 })]
+        [DataRow(4, 1, new[] { 1, 2, 3, 4 })]
+        [DataRow(4, 4, new[] { 1, 5, 9, 13 })]
+        [DataRow(4, 5, new[] { 1, 6, 11, 16 })]
+        public void Test_ReadOnlyRefEnumerable_Index_Indexer(int length, int step, int[] values)
+        {
+            Span<int> data = new[]
+            {
+                1, 2, 3, 4,
+                5, 6, 7, 8,
+                9, 10, 11, 12,
+                13, 14, 15, 16
+            };
+
+            ReadOnlyRefEnumerable<int> enumerable = ReadOnlyRefEnumerable<int>.DangerousCreate(in data[0], length, step);
+
+            Assert.AreEqual(values[^1], enumerable[^1]);
+        }
+#endif
     }
 }
 
