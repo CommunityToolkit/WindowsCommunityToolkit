@@ -61,6 +61,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// </summary>
         public WeakReferenceMessenger()
         {
+            // Proxy function for the GC callback. This needs to be static and to take the target instance as
+            // an input parameter in order to avoid rooting it from the Gen2GcCallback object invoking it.
+            static void Gen2GcCallbackProxy(object target)
+            {
+                ((WeakReferenceMessenger)target).CleanupWithNonBlockingLock();
+            }
+
             // Register an automatic GC callback to trigger a non-blocking cleanup. This will ensure that the
             // current messenger instance is trimmed and without leftover recipient maps that are no longer used.
             // This is necessary (as in, some form of cleanup, either explicit or automatic like in this case)
@@ -69,7 +76,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // mapping to each conditional table for a pair of message and token types) to potentially remain in the
             // root mapping structure but without any remaining recipients actually registered there, which just
             // adds unnecessary overhead when trying to enumerate recipients during broadcasting operations later on.
-            Gen2GcCallback.Register(static obj => ((WeakReferenceMessenger)obj).CleanupWithNonBlockingLock(), this);
+            Gen2GcCallback.Register(Gen2GcCallbackProxy, this);
         }
 
         /// <summary>
