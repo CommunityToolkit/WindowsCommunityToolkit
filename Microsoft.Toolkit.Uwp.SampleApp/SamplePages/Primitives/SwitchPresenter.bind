@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -26,7 +26,7 @@
                    ui:TextBoxExtensions.Regex="^[a-zA-Z]{6}$"
                    Header="Confirmation code"
                    PlaceholderText="6 letters" />
-          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid), ElementName=ConfirmationCodeValidator}">Thanks for entering a valid code!</TextBlock>
+          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid), ElementName=ConfirmationCodeValidator}" Text="Thanks for entering a valid code!"/>
         </StackPanel>
       </controls:Case>
       <controls:Case Value="E-ticket number">
@@ -35,7 +35,7 @@
                    ui:TextBoxExtensions.Regex="(^\d{10}$)|(^\d{13}$)"
                    Header="E-ticket number"
                    PlaceholderText="10 or 13 numbers" />
-          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid), ElementName=TicketValidator}">Thanks for entering a valid code!</TextBlock>
+          <TextBlock Visibility="{Binding (ui:TextBoxExtensions.IsValid), ElementName=TicketValidator}" Text="Thanks for entering a valid code!"/>
         </StackPanel>
       </controls:Case>
       <controls:Case Value="Mileage Plan number">
@@ -45,7 +45,7 @@
       </controls:Case>
       <!-- You can also provide a default case if no match is found -->
       <controls:Case IsDefault="True">
-        <TextBlock>Please select a way to lookup your reservation above...</TextBlock>
+        <TextBlock Text="Please select a way to lookup your reservation above..."/>
       </controls:Case>
     </controls:SwitchPresenter>
 
@@ -60,22 +60,22 @@
                               TargetType="enums:Animal"
                               Padding="16">
       <controls:Case Value="Cat">
-        <TextBlock FontSize="32">🐈</TextBlock>
+        <TextBlock FontSize="32" Text="🐈"/>
       </controls:Case>
       <controls:Case Value="Dog">
-        <TextBlock FontSize="32">🐕</TextBlock>
+        <TextBlock FontSize="32" Text="🐕"/>
       </controls:Case>
       <controls:Case Value="Bunny">
-        <TextBlock FontSize="32">🐇</TextBlock>
+        <TextBlock FontSize="32" Text="🐇"/>
       </controls:Case>
       <controls:Case Value="Llama">
-        <TextBlock FontSize="32">🦙</TextBlock>
+        <TextBlock FontSize="32" Text="🦙"/>
       </controls:Case>
       <controls:Case Value="Parrot">
-        <TextBlock FontSize="32">🦜</TextBlock>
+        <TextBlock FontSize="32" Text="🦜"/>
       </controls:Case>
       <controls:Case Value="Squirrel">
-        <TextBlock FontSize="32">🐿</TextBlock>
+        <TextBlock FontSize="32" Text="🐿"/>
       </controls:Case>
     </controls:SwitchPresenter>
   </StackPanel>

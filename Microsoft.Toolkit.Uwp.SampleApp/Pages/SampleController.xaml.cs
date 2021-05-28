@@ -273,10 +273,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasDocumentation)
                 {
-#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
-                    var (contents, path) = await CurrentSample.GetDocumentationAsync();
-#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
-                    documentationPath = path;
+                    var contents = await CurrentSample.GetDocumentationAsync();
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
                         DocumentationTextBlock.Text = contents;
@@ -431,9 +428,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             TrackingManager.TrackEvent("Link", e.Link);
             var link = e.Link;
-            if (e.Link.EndsWith(".md"))
+            if (link.EndsWith(".md"))
             {
-                link = string.Format("https://docs.microsoft.com/en-us/windows/communitytoolkit/{0}/{1}", CurrentSample.CategoryName.ToLower(), link.Replace(".md", string.Empty));
+                // Link to one of our other documents, so we'll construct the proper link here
+                link = string.Format("https://docs.microsoft.com/windows/communitytoolkit/{0}/{1}", CurrentSample.RemoteDocumentationPath, link.Replace(".md", string.Empty));
+            }
+            else if (link.StartsWith("/"))
+            {
+                // We don't root our links to other docs.microsoft.com pages anymore, so we'll add it here.
+                link = string.Format("https://docs.microsoft.com{0}", link);
             }
 
             if (Uri.TryCreate(link, UriKind.Absolute, out Uri result))
@@ -450,15 +453,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Determine if the link is not absolute, meaning it is relative.
             if (!Uri.TryCreate(e.Url, UriKind.Absolute, out Uri url))
             {
-                url = new Uri(documentationPath + e.Url);
-            }
+                var imageStream = await CurrentSample.GetImageStream(CurrentSample.GetOnlineResourcePath(e.Url));
 
-            if (url.Scheme == "ms-appx")
+                if (imageStream != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(imageStream);
+                }
+            }
+            else if (url.Scheme == "ms-appx")
             {
                 image = new BitmapImage(url);
             }
             else
             {
+                // Cache a remote image from the internet.
                 var imageStream = await CurrentSample.GetImageStream(url);
 
                 if (imageStream != null)
@@ -698,7 +707,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private PaneState _paneState;
         private bool _onlyDocumentation;
-        private string documentationPath;
 
         private ThemeListener _themeListener;
 
