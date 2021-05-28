@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 return
                     this.recipientsMap.TryGetValue(type2, out RecipientsTable? table) &&
                     table.TryGetValue(recipient, out IDictionarySlim? mapping) &&
-                    Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.ContainsKey(token);
+                    Unsafe.As<DictionarySlim<TToken, object>>(mapping).ContainsKey(token);
             }
         }
 
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // as that is responsibility of a separate method defined below.
                 while (enumerator.MoveNext())
                 {
-                    enumerator.Value.Remove(recipient);
+                    _ = enumerator.Value.Remove(recipient);
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     if (enumerator.Key.TToken == typeof(TToken) &&
                         enumerator.Value.TryGetValue(recipient, out IDictionarySlim? mapping))
                     {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token);
+                        _ = Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token);
                     }
                 }
             }
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 if (this.recipientsMap.TryGetValue(type2, out RecipientsTable? value) &&
                     value.TryGetValue(recipient, out IDictionarySlim? mapping))
                 {
-                    Unsafe.As<DictionarySlim<TToken, object>>(mapping)!.TryRemove(token);
+                    _ = Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token);
                 }
             }
         }
@@ -334,7 +334,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove the handler maps for recipients that are still alive but with no handlers
                 foreach (object recipient in emptyRecipients.Span)
                 {
-                    enumerator.Value.Remove(recipient);
+                    _ = enumerator.Value.Remove(recipient);
                 }
 
                 // Track the type combinations with no recipients or handlers left
@@ -347,7 +347,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // Remove all the mappings with no handlers left
             foreach (Type2 key in type2s.Span)
             {
-                this.recipientsMap.TryRemove(key);
+                _ = this.recipientsMap.TryRemove(key);
             }
         }
 

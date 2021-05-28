@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -33,7 +34,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Internals
         private readonly LinkedList<WeakReference<TKey>> keys = new();
 
         /// <inheritdoc cref="ConditionalWeakTable{TKey,TValue}.TryGetValue"/>
-        public bool TryGetValue(TKey key, out TValue? value)
+        public bool TryGetValue(TKey key, [NotNullWhen(true)] out TValue? value)
         {
             return this.table.TryGetValue(key, out value);
         }

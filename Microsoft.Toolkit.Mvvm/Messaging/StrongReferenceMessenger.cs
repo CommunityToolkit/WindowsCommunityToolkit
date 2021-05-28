@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 set ??= new HashSet<IMapping>();
 
-                set.Add(mapping);
+                _ = set.Add(mapping);
             }
         }
 
@@ -169,12 +169,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // dictionary (a hashed collection) only costs O(1) in the best case, while
                         // if we had tried to iterate the whole dictionary every time we would have
                         // paid an O(n) minimum cost for each single remove operation.
-                        this.typesMap.TryRemove(mapping.TypeArguments);
+                        _ = this.typesMap.TryRemove(mapping.TypeArguments);
                     }
                 }
 
                 // Remove the associated set in the recipients map
-                this.recipientsMap.TryRemove(key);
+                _ = this.recipientsMap.TryRemove(key);
             }
         }
 
@@ -246,7 +246,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         holder.Count == 0)
                     {
                         // If the map is empty, remove the recipient entirely from its container
-                        map.TryRemove(key);
+                        _ = map.TryRemove(key);
 
                         // If no handlers are left at all for the recipient, across all
                         // message types and token types, remove the set of mappings
@@ -257,7 +257,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                             set.Remove(Unsafe.As<IMapping>(map)) &&
                             set.Count == 0)
                         {
-                            this.recipientsMap.TryRemove(key);
+                            _ = this.recipientsMap.TryRemove(key);
                         }
                     }
                 }
@@ -312,14 +312,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     // of the specific token value (ie. the channel used to receive messages of that type).
                     // We can remove the map entirely from this container, and remove the link to the map itself
                     // to the current mapping between existing registered recipients (or entire recipients too).
-                    mapping.TryRemove(key);
+                    _ = mapping.TryRemove(key);
 
                     HashSet<IMapping> set = this.recipientsMap[key];
 
                     if (set.Remove(mapping) &&
                         set.Count == 0)
                     {
-                        this.recipientsMap.TryRemove(key);
+                        _ = this.recipientsMap.TryRemove(key);
                     }
                 }
             }
