@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private readonly Dictionary<string, SuggestionInfo> _tokens;
         private readonly ObservableCollection<SuggestionInfo> _visibleTokens;
+        private readonly PointerEventHandler _pointerEventHandler;
 
         private Popup _suggestionPopup;
         private RichEditBox _richEditBox;
@@ -55,7 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _textCompositionActive;
         private ITextRange _currentRange;
         private CancellationTokenSource _suggestionRequestedTokenSource;
-        private PointerEventHandler _pointerEventHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RichSuggestBox"/> class.
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _tokens = new Dictionary<string, SuggestionInfo>();
             _visibleTokens = new ObservableCollection<SuggestionInfo>();
-            _pointerEventHandler = new PointerEventHandler(RichEditBoxPointerEventHandler);
+            _pointerEventHandler = RichEditBoxPointerEventHandler;
             Tokens = new ReadOnlyObservableCollection<SuggestionInfo>(_visibleTokens);
             LockObj = new object();
 
@@ -229,11 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void RichEditBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             var selection = TextDocument.Selection.GetClone();
-            _tokenAtStart = false;
-            if (selection.StartPosition == 0 && _tokens.ContainsKey(selection.Link))
-            {
-                _tokenAtStart = true;
-            }
+            _tokenAtStart = selection.StartPosition == 0 && _tokens.ContainsKey(selection.Link);
 
             // During text composition changing (e.g. user typing with an IME),
             // SelectionChanged event is fired multiple times with each keystroke.
