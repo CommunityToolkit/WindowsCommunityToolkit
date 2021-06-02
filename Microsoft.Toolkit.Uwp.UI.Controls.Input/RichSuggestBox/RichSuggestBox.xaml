@@ -25,7 +25,12 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Style TargetType="controls:RichSuggestBox">
+    <!--  Default style for RichSuggestBox  -->
+    <Style BasedOn="{StaticResource DefaultRichSuggestBoxStyle}"
+           TargetType="controls:RichSuggestBox" />
+
+    <Style x:Key="DefaultRichSuggestBoxStyle"
+           TargetType="controls:RichSuggestBox">
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
