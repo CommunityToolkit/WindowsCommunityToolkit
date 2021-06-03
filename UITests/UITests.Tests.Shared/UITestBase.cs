@@ -104,22 +104,12 @@ namespace UITests.Tests
             var theClassName = TestContext.FullyQualifiedTestClassName;
 #endif
             var currentlyRunningClassType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).FirstOrDefault(f => f.FullName == theClassName);
-            if (!(Type.GetType(theClassName) is Type type))
-            {
-                Verify.Fail("Type is null. TestClassName : " + theClassName);
-                return;
-            }
 
-            if (!(type.GetMethod(testName) is MethodInfo method))
+            if (!(Type.GetType(theClassName) is Type type
+                && type.GetMethod(testName) is MethodInfo method
+                && method.GetCustomAttribute(typeof(TestPageAttribute), true) is TestPageAttribute attribute))
             {
-                Verify.Fail("Mothod is null. TestClassName : " + theClassName + " Testname: " + testName);
-                return;
-            }
-
-            if (!(method.GetCustomAttribute(typeof(TestPageAttribute), true) is TestPageAttribute attribute))
-            {
-                Verify.Fail("Attribute is null. TestClassName : " + theClassName);
-                return;
+                throw new Exception("Could not find " + nameof(TestPageAttribute) + " on test method.");
             }
 
             var pageName = attribute.XamlFile;
