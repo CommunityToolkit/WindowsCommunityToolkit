@@ -1,9 +1,9 @@
-﻿Thanks for installing the Windows Community Toolkit Controls NuGet package!
+Thanks for installing the Windows Community Toolkit Controls NuGet package!
 
 This is a meta-package made up of various Windows Community Toolkit packages.
 It is for your ease and convenience to use all of the controls available!
 
-You also have the option to only use packages you need which can help optimize the 
+You also have the option to only use packages you need which can help optimize the
 size of your application once you are ready to ship. Visit https://aka.ms/wct/optimize to learn more.
 
 You can find out more about the Windows Community Toolkit at https://aka.ms/windowstoolkit
