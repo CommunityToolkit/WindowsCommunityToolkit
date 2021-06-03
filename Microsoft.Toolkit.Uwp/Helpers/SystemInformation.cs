@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// This will be the current version if a previous version of the app was installed
         /// before using <see cref="SystemInformation"/> or if the app is not updated.
         /// </summary>
-        public PackageVersion PreviousVersionInstalled 
+        public PackageVersion PreviousVersionInstalled
         {
             get => _previousVersionInstalled;
             private set => _previousVersionInstalled = value;
