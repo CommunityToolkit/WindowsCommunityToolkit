@@ -147,14 +147,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double availableWidth = availableSize.Width;
             double availableHeight = availableSize.Height;
 
-            double columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            double columnWidth = double.IsNaN(DesiredColumnWidth) ? availableWidth : Math.Min(DesiredColumnWidth, availableWidth);
             if (columnWidth != state.ColumnWidth)
             {
                 // The items will need to be remeasured
                 state.Clear();
             }
 
-            state.ColumnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            state.ColumnWidth = double.IsNaN(DesiredColumnWidth) ? availableWidth : Math.Min(DesiredColumnWidth, availableWidth);
             int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / state.ColumnWidth));
 
             // adjust for column spacing on all columns expect the first
