@@ -147,6 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double availableWidth = availableSize.Width;
             double availableHeight = availableSize.Height;
 
+            // This ternary prevents the column width from being NaN, which would otherwise cause an exception when measuring item sizes
             double columnWidth = double.IsNaN(DesiredColumnWidth) ? availableWidth : Math.Min(DesiredColumnWidth, availableWidth);
             if (columnWidth != state.ColumnWidth)
             {
@@ -154,6 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 state.Clear();
             }
 
+            // This ternary prevents the column width from being NaN, which would otherwise cause an exception when measuring item sizes
             state.ColumnWidth = double.IsNaN(DesiredColumnWidth) ? availableWidth : Math.Min(DesiredColumnWidth, availableWidth);
             int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / state.ColumnWidth));
 
