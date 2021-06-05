@@ -2,10 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Xaml;
 
@@ -17,41 +15,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
     public class CanvasCircleGeometry : CanvasCoreGeometry
     {
         /// <summary>
-        /// Center Dependency Property
+        /// CenterX Dependency Property
         /// </summary>
-        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register(
-            "Center",
-            typeof(Vector2),
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register(
+            "CenterX",
+            typeof(double),
             typeof(CanvasCircleGeometry),
-            new PropertyMetadata(Vector2.Zero, OnCenterChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the <see cref="Vector2"/> structure that describes the position and size of the <see cref="CanvasCircleGeometry"/>. The default is <see cref="Vector2.Zero"/>.
+        /// Gets or sets the the x coordinate of the center.
         /// </summary>
-        [TypeConverter(typeof(Vector2Converter))]
-        public Vector2 Center
+        public double CenterX
         {
-            get => (Vector2)GetValue(CenterProperty);
-            set => SetValue(CenterProperty, value);
+            get => (double)GetValue(CenterXProperty);
+            set => SetValue(CenterXProperty, value);
         }
 
         /// <summary>
-        /// Handles changes to the Center property.
+        /// CenterY Dependency Property
         /// </summary>
-        /// <param name="d">CanvasCircleGeometry</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnCenterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var circleGeometry = (CanvasCircleGeometry)d;
-            circleGeometry.OnCenterChanged();
-        }
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register(
+            "CenterY",
+            typeof(double),
+            typeof(CanvasCircleGeometry),
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
-        /// Instance handler for the changes to the Center dependency property.
+        /// Gets or sets the y coordinate of the Center.
         /// </summary>
-        private void OnCenterChanged()
+        public double CenterY
         {
-            UpdateGeometry();
+            get => (double)GetValue(CenterYProperty);
+            set => SetValue(CenterYProperty, value);
         }
 
         /// <summary>
@@ -61,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             "Radius",
             typeof(double),
             typeof(CanvasCircleGeometry),
-            new PropertyMetadata(0, OnRadiusChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the radius value of the <see cref="CanvasCircleGeometry"/>.
@@ -73,30 +69,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Handles changes to the Radius property.
+        /// Method that is called whenever the dependency properties of the Brush changes
         /// </summary>
-        /// <param name="d"><see cref="CanvasCircleGeometry"/></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var circleGeometry = (CanvasCircleGeometry)d;
-            circleGeometry.OnRadiusChanged();
-        }
+            var geometry = (CanvasCircleGeometry)d;
 
-        /// <summary>
-        /// Instance handler for the changes to the Radius dependency property.
-        /// </summary>
-        private void OnRadiusChanged()
-        {
-            UpdateGeometry();
+            // Recreate the geometry on any property change.
+            geometry.OnUpdateGeometry();
         }
 
         /// <inheritdoc/>
-        protected override void UpdateGeometry()
+        protected override void OnUpdateGeometry()
         {
             Geometry?.Dispose();
 
-            Geometry = CanvasGeometry.CreateCircle(CompositionGenerator.Instance.Device, Center, (float)Radius);
+            var center = new Vector2((float)CenterX, (float)CenterY);
+            Geometry = CanvasGeometry.CreateCircle(CompositionGenerator.Instance.Device, center, (float)Radius);
+
+            base.OnUpdateGeometry();
         }
     }
 }

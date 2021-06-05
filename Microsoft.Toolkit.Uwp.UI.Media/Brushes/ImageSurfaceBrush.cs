@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
@@ -15,12 +13,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
     /// </summary>
     public class ImageSurfaceBrush : RenderSurfaceBrushBase
     {
-        private Uri _uri;
+        private WeakEventListener<ImageSurfaceOptions, object, EventArgs> _imageSurfaceOptionsUpdateListener;
 
-        private static bool IsHttpUri(Uri uri)
-        {
-            return uri != null && uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
-        }
+        private Uri _uri;
 
         /// <summary>
         /// Background Dependency Property
@@ -120,11 +115,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
             OnSurfaceBrushUpdated();
         }
 
+        /// <summary>
+        /// ImageOptions Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty ImageOptionsProperty = DependencyProperty.Register(
+            "ImageOptions",
+            typeof(ImageSurfaceOptions),
+            typeof(ImageSurfaceBrush),
+            new PropertyMetadata(null, OnImageOptionsChanged));
+
+        /// <summary>
+        /// Gets or sets the additional options that can be used to configure the image used to create the brush.
+        /// </summary>
+        public ImageSurfaceOptions ImageOptions
+        {
+            get => (ImageSurfaceOptions)GetValue(ImageOptionsProperty);
+            set => SetValue(ImageOptionsProperty, value);
+        }
+
+        /// <summary>
+        /// Handles changes to the ImageOptions property.
+        /// </summary>
+        /// <param name="d"><see cref="ImageSurfaceBrush" /></param>
+        /// <param name="e">DependencyProperty changed event arguments</param>
+        private static void OnImageOptionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var imageSurfaceBrush = (ImageSurfaceBrush)d;
+            imageSurfaceBrush.OnImageOptionsChanged();
+        }
+
+        /// <summary>
+        /// Instance handler for the changes to the ImageOptions dependency property.
+        /// </summary>
+        private void OnImageOptionsChanged()
+        {
+            _imageSurfaceOptionsUpdateListener?.Detach();
+            _imageSurfaceOptionsUpdateListener = null;
+
+            if (ImageOptions != null)
+            {
+                _imageSurfaceOptionsUpdateListener = new WeakEventListener<ImageSurfaceOptions, object, EventArgs>(ImageOptions)
+                {
+                    OnEventAction = async (instance, source, args) =>
+                    {
+                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            OnSurfaceBrushUpdated();
+                        });
+                    }
+                };
+
+                ImageOptions.Updated += _imageSurfaceOptionsUpdateListener.OnEvent;
+
+                OnSurfaceBrushUpdated();
+            }
+        }
+
         /// <inheritdoc/>
         protected async override void OnSurfaceBrushUpdated()
         {
-            base.OnSurfaceBrushUpdated();
-
             CompositionBrush?.Dispose();
 
             if (Generator == null)
@@ -134,9 +183,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
 
             if (_uri != null && Generator != null)
             {
-                RenderSurface = await Generator.CreateImageSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), ImageSurfaceOptions.Default);
+                RenderSurface = await Generator.CreateImageSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), ImageOptions ?? ImageSurfaceOptions.Default);
                 CompositionBrush = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
             }
+
+            base.OnSurfaceBrushUpdated();
         }
 
         /// <summary>
@@ -144,7 +195,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// </summary>
         public ImageSurfaceBrush()
         {
-
         }
     }
 }

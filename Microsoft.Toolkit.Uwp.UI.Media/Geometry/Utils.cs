@@ -1,10 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -31,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first double to compare. </param>
         /// <param name="value2"> The second double to compare. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsCloseTo(this double value1, double value2)
         {
@@ -55,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first double to compare. </param>
         /// <param name="value2"> The second double to compare. </param>
         /// <returns>
-        /// bool - the result of the LessThan comparison.
+        /// bool - the result of the LessThan comparision.
         /// </returns>
         public static bool IsLessThan(this double value1, double value2)
         {
@@ -68,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first double to compare. </param>
         /// <param name="value2"> The second double to compare. </param>
         /// <returns>
-        /// bool - the result of the GreaterThan comparison.
+        /// bool - the result of the GreaterThan comparision.
         /// </returns>
         public static bool IsGreaterThan(this double value1, double value2)
         {
@@ -81,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The double to compare to 1. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsOne(this double value)
         {
@@ -94,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The double to compare to 0. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsZero(this double value)
         {
@@ -107,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first float to compare. </param>
         /// <param name="value2"> The second float to compare. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsCloseTo(this float value1, float value2)
         {
@@ -131,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first float to compare. </param>
         /// <param name="value2"> The second float to compare. </param>
         /// <returns>
-        /// bool - the result of the LessThan comparison.
+        /// bool - the result of the LessThan comparision.
         /// </returns>
         public static bool IsLessThan(this float value1, float value2)
         {
@@ -144,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first float to compare. </param>
         /// <param name="value2"> The second float to compare. </param>
         /// <returns>
-        /// bool - the result of the GreaterThan comparison.
+        /// bool - the result of the GreaterThan comparision.
         /// </returns>
         public static bool IsGreaterThan(this float value1, float value2)
         {
@@ -157,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The float to compare to 1. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsOne(this float value)
         {
@@ -170,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The float to compare to 0. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsZero(this float value)
         {

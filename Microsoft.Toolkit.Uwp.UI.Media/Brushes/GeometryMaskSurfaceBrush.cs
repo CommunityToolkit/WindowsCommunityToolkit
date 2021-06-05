@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.Numerics;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.Foundation;
+using Windows.UI.Composition;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
@@ -14,95 +15,223 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
     /// </summary>
     public sealed class GeometryMaskSurfaceBrush : RenderSurfaceBrushBase
     {
-        /// <summary>
-        /// Geometry Dependency Property
-        /// </summary>
-        public static readonly DependencyProperty GeometryProperty = DependencyProperty.Register(
-            "Geometry",
-            typeof(CanvasCoreGeometry),
-            typeof(GeometryMaskSurfaceBrush),
-            new PropertyMetadata(null, OnGeometryChanged));
+        private CompositionMaskBrush _maskBrush;
+
+        private WeakEventListener<CanvasCoreGeometry, object, EventArgs> _maskUpdateListener;
+        private WeakEventListener<RenderSurfaceBrushBase, object, EventArgs> _targetUpdateListener;
 
         /// <summary>
-        /// Gets or sets the <see cref="CanvasCoreGeometry"/> that is used to create the mask.
+        /// Target Dependency Property
         /// </summary>
-        public CanvasCoreGeometry Geometry
-        {
-            get => (CanvasCoreGeometry)GetValue(GeometryProperty);
-            set => SetValue(GeometryProperty, value);
-        }
-
-        /// <summary>
-        /// Handles changes to the Geometry property.
-        /// </summary>
-        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnGeometryChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var maskSurfaceBrush = (GeometryMaskSurfaceBrush)d;
-            maskSurfaceBrush.OnGeometryChanged();
-        }
-
-        /// <summary>
-        /// Instance handler for the changes to the Geometry dependency property.
-        /// </summary>
-        private void OnGeometryChanged()
-        {
-            OnSurfaceBrushUpdated();
-        }
-
-        /// <summary>
-        /// Source Dependency Property
-        /// </summary>
-        public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            "Source",
+        public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(
+            "Target",
             typeof(RenderSurfaceBrushBase),
             typeof(GeometryMaskSurfaceBrush),
-            new PropertyMetadata(null, OnSourceChanged));
+            new PropertyMetadata(null, OnTargetChanged));
 
         /// <summary>
-        /// Gets or sets the <see cref="RenderSurfaceBrushBase"/> on which the mask needs to be applied.
+        /// Gets or sets the Target Geometry on which the Mask is applied.
         /// </summary>
-        public RenderSurfaceBrushBase Source
+        public RenderSurfaceBrushBase Target
         {
-            get => (RenderSurfaceBrushBase)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get => (RenderSurfaceBrushBase)GetValue(TargetProperty);
+            set => SetValue(TargetProperty, value);
         }
 
         /// <summary>
-        /// Handles changes to the Source property.
+        /// Handles changes to the Target property.
         /// </summary>
         /// <param name="d"><see cref="GeometryMaskSurfaceBrush" /></param>
         /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var maskSurfaceBrush = (GeometryMaskSurfaceBrush)d;
-            maskSurfaceBrush.OnSourceChanged();
+            var geometryMaskSurfaceBrush = (GeometryMaskSurfaceBrush)d;
+            geometryMaskSurfaceBrush.OnTargetChanged();
         }
 
         /// <summary>
-        /// Instance handler for the changes to the Source dependency property.
+        /// Instance handler for the changes to the Target dependency property.
         /// </summary>
-        private void OnSourceChanged()
+        private void OnTargetChanged()
         {
-            OnSurfaceBrushUpdated();
+            _targetUpdateListener?.Detach();
+            _targetUpdateListener = null;
+
+            if (Target != null)
+            {
+                _targetUpdateListener = new WeakEventListener<RenderSurfaceBrushBase, object, EventArgs>(Target)
+                {
+                    OnEventAction = async (instance, source, args) =>
+                    {
+                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            OnSurfaceBrushUpdated();
+                        });
+                    }
+                };
+
+                Target.Updated += _targetUpdateListener.OnEvent;
+
+                OnSurfaceBrushUpdated();
+            }
+        }
+
+        /// <summary>
+        /// Mask Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty MaskProperty = DependencyProperty.Register(
+            "Mask",
+            typeof(CanvasCoreGeometry),
+            typeof(GeometryMaskSurfaceBrush),
+            new PropertyMetadata(null, OnMaskChanged));
+
+        /// <summary>
+        /// Gets or sets the Mask Geometry that is applied on the Target Geometry.
+        /// </summary>
+        public CanvasCoreGeometry Mask
+        {
+            get => (CanvasCoreGeometry)GetValue(MaskProperty);
+            set => SetValue(MaskProperty, value);
+        }
+
+        /// <summary>
+        /// Handles changes to the Mask property.
+        /// </summary>
+        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" /></param>
+        /// <param name="e">DependencyProperty changed event arguments</param>
+        private static void OnMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var geometryMaskSurfaceBrush = (GeometryMaskSurfaceBrush)d;
+            geometryMaskSurfaceBrush.OnMaskChanged();
+        }
+
+        /// <summary>
+        /// Instance handler for the changes to the Mask dependency property.
+        /// </summary>
+        private void OnMaskChanged()
+        {
+            _maskUpdateListener?.Detach();
+            _maskUpdateListener = null;
+
+            if (Mask != null)
+            {
+                _maskUpdateListener = new WeakEventListener<CanvasCoreGeometry, object, EventArgs>(Mask)
+                {
+                    OnEventAction = async (instance, source, args) =>
+                    {
+                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            OnSurfaceBrushUpdated();
+                        });
+                    }
+                };
+
+                Mask.Updated += _maskUpdateListener.OnEvent;
+
+                OnSurfaceBrushUpdated();
+            }
+        }
+
+        /// <summary>
+        /// OffsetX Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register(
+            "OffsetX",
+            typeof(double),
+            typeof(GeometryMaskSurfaceBrush),
+            new PropertyMetadata(0d, OnPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the offset on the x-axis from the top left corner of the Brush Surface where the Geometry is rendered.
+        /// </summary>
+        public double OffsetX
+        {
+            get => (double)GetValue(OffsetXProperty);
+            set => SetValue(OffsetXProperty, value);
+        }
+
+        /// <summary>
+        /// OffsetY Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register(
+            "OffsetY",
+            typeof(double),
+            typeof(GeometryMaskSurfaceBrush),
+            new PropertyMetadata(0d, OnPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the offset on the y-axis from the top left corner of the Brush Surface where the Geometry is rendered.
+        /// </summary>
+        public double OffsetY
+        {
+            get => (double)GetValue(OffsetYProperty);
+            set => SetValue(OffsetYProperty, value);
+        }
+
+        /// <summary>
+        /// BlurRadius Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty BlurRadiusProperty = DependencyProperty.Register(
+            "BlurRadius",
+            typeof(double),
+            typeof(GeometryMaskSurfaceBrush),
+            new PropertyMetadata(0d, OnPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the radius of Gaussian Blur to be applied on the brush.
+        /// </summary>
+        public double BlurRadius
+        {
+            get => (double)GetValue(BlurRadiusProperty);
+            set => SetValue(BlurRadiusProperty, value);
+        }
+
+        /// <summary>
+        /// Method that is called whenever the dependency properties of the Brush changes
+        /// </summary>
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var brush = (GeometryMaskSurfaceBrush)d;
+
+            // Recreate the canvas brush on any property change.
+            brush.OnSurfaceBrushUpdated();
         }
 
         /// <inheritdoc/>
         protected override void OnSurfaceBrushUpdated()
         {
-            base.OnSurfaceBrushUpdated();
-
             CompositionBrush?.Dispose();
 
-            if (Source != null && Geometry != null)
+            if (Generator == null)
             {
-                var maskBrush = Window.Current.Compositor.CreateMaskBrush();
-                maskBrush.Source = Source.Brush;
-                RenderSurface = Generator.CreateGeometryMaskSurface(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry);
-                maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
-                CompositionBrush = maskBrush;
+                GetGeneratorInstance();
             }
+
+            if (Target == null || Target.Brush == null || Mask == null || Generator == null)
+            {
+                return;
+            }
+
+            var offset = new Vector2((float)OffsetX, (float)OffsetY);
+
+            _maskBrush = Window.Current.Compositor.CreateMaskBrush();
+            _maskBrush.Source = Target.Brush;
+
+            if (RenderSurface == null)
+            {
+                RenderSurface = Generator.CreateGaussianMaskSurface(new Size(SurfaceWidth, SurfaceHeight), Mask.Geometry, offset, (float)BlurRadius);
+            }
+            else
+            {
+                ((IGaussianMaskSurface)RenderSurface).Redraw(new Size(SurfaceWidth, SurfaceHeight), Mask.Geometry, offset, (float)BlurRadius);
+            }
+
+            _maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
+            CompositionBrush = _maskBrush;
+
+            base.OnSurfaceBrushUpdated();
         }
     }
 }

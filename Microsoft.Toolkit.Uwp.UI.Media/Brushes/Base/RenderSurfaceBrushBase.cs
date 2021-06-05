@@ -1,15 +1,18 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Media.Surface;
+using System;
+using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
 {
     /// <summary>
     /// Base class for RenderSurface brushes
     /// </summary>
     public abstract class RenderSurfaceBrushBase : XamlCompositionBrushBase
     {
+        public event EventHandler<EventArgs> Updated;
+
         /// <summary>
         /// Gets or sets the CompositionSurface associated with the brush.
         /// </summary>
@@ -18,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// The initialization <see cref="AsyncMutex"/> instance.
         /// </summary>
-        private readonly AsyncMutex connectedMutex = new AsyncMutex();
+        private readonly AsyncMutex connectedMutex = new();
 
         /// <summary>
         /// Gets the associated CompositionBrush
@@ -38,16 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             "SurfaceWidth",
             typeof(double),
             typeof(RenderSurfaceBrushBase),
-            new PropertyMetadata(0f, OnSurfaceWidthChanged));
-
-        /// <summary>
-        /// SurfaceHeight Dependency Property
-        /// </summary>
-        public static readonly DependencyProperty SurfaceHeightProperty = DependencyProperty.Register(
-            "SurfaceHeight",
-            typeof(double),
-            typeof(RenderSurfaceBrushBase),
-            new PropertyMetadata(0f, OnSurfaceHeightChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the width of the Brush Surface.
@@ -57,6 +51,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             get => (double)GetValue(SurfaceWidthProperty);
             set => SetValue(SurfaceWidthProperty, value);
         }
+
+        /// <summary>
+        /// SurfaceHeight Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty SurfaceHeightProperty = DependencyProperty.Register(
+            "SurfaceHeight",
+            typeof(double),
+            typeof(RenderSurfaceBrushBase),
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the height of the Brush Surface.
@@ -73,41 +76,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected ICompositionGenerator Generator { get; set; }
 
         /// <summary>
-        /// Handles changes to the SurfaceWidth property.
+        /// Method that is called whenever the dependency properties of the Brush changes
         /// </summary>
-        /// <param name="d">RenderSurfaceBrushBase</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnSurfaceWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var target = (RenderSurfaceBrushBase)d;
-            target.OnSurfaceWidthChanged();
-        }
-
-        /// <summary>
-        /// Handles changes to the SurfaceHeight property.
-        /// </summary>
-        /// <param name="d">RenderSurfaceBrushBase</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnSurfaceHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (RenderSurfaceBrushBase)d;
-            brush.OnSurfaceHeightChanged();
-        }
 
-        /// <summary>
-        /// Instance handler for the changes to the SurfaceWidth property.
-        /// </summary>
-        private void OnSurfaceWidthChanged()
-        {
-            OnSurfaceBrushUpdated();
-        }
+            if (brush.SurfaceWidth < 0d)
+            {
+                throw new ArgumentException("SurfaceWidth must be a positive number!");
+            }
 
-        /// <summary>
-        /// Instance handler for the changes to the SurfaceHeight property.
-        /// </summary>
-        private void OnSurfaceHeightChanged()
-        {
-            OnSurfaceBrushUpdated();
+            if (brush.SurfaceHeight < 0d)
+            {
+                throw new ArgumentException("SurfaceHeight must be a positive number!");
+            }
+
+            // Recreate the Render Surface Brush on any property change.
+            brush.Refresh();
         }
 
         /// <inheritdoc/>
@@ -180,6 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         protected virtual void OnSurfaceBrushUpdated()
         {
+            Updated?.Invoke(this, null);
         }
 
         /// <summary>
@@ -195,6 +184,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public void Refresh()
         {
             OnSurfaceBrushUpdated();
+        }
+
+        /// <summary>
+        /// Checks if the URI starts with http: or https:
+        /// </summary>
+        /// <param name="uri">URI.</param>
+        /// <returns>True if it does, otherwise false.</returns>
+        protected static bool IsHttpUri(Uri uri)
+        {
+            return uri != null && uri.IsAbsoluteUri && (uri.Scheme == "http" || uri.Scheme == "https");
         }
     }
 }

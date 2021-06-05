@@ -15,6 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
     /// </summary>
     public abstract class CanvasCoreGeometry : DependencyObject, ICanvasPathGeometry, IDisposable
     {
+        public event EventHandler<EventArgs> Updated;
+
         private bool _disposedValue;
 
         /// <summary>
@@ -56,14 +58,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <summary>
         /// Method to be called when any of the parameters affecting the Geometry is updated.
         /// </summary>
-        protected abstract void UpdateGeometry();
+        protected virtual void OnUpdateGeometry()
+        {
+            Updated?.Invoke(this, null);
+        }
+
+        protected void RaiseUpdatedEvent()
+        {
+            Updated?.Invoke(this, null);
+        }
 
         /// <summary>
         /// Call this method to redraw its Geometry (usually when <see cref="CompositionGenerator.DeviceReplaced"/> event is raised).
         /// </summary>
         public void Refresh()
         {
-            UpdateGeometry();
+            OnUpdateGeometry();
         }
 
         /// <summary>

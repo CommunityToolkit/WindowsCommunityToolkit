@@ -2,10 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
-using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Xaml;
 
@@ -17,47 +14,96 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
     public class CanvasRectangleGeometry : CanvasCoreGeometry
     {
         /// <summary>
-        /// Rect Dependency Property
+        /// X Dependency Property
         /// </summary>
-        public static readonly DependencyProperty RectProperty = DependencyProperty.Register(
-            "Rect",
-            typeof(Vector4),
+        public static readonly DependencyProperty XProperty = DependencyProperty.Register(
+            "X",
+            typeof(double),
             typeof(CanvasRectangleGeometry),
-            new PropertyMetadata(Vector4.Zero, OnRectChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the <see cref="Vector4"/> structure that describes the position and size of the geometry. The default is <see cref="Vector4.Zero"/>.
+        /// Gets or sets the x-coordinate of the upper-left corner of the rectangle geometry.
         /// </summary>
-        [TypeConverter(typeof(Vector4Converter))]
-        public Vector4 Rect
+        public double X
         {
-            get => (Vector4)GetValue(RectProperty);
-            set => SetValue(RectProperty, value);
+            get => (double)GetValue(XProperty);
+            set => SetValue(XProperty, value);
         }
 
         /// <summary>
-        /// Handles changes to the Rect property.
+        /// Y Dependency Property
         /// </summary>
-        /// <param name="d">CanvasRectangleGeometry</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnRectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty YProperty = DependencyProperty.Register(
+            "Y",
+            typeof(double),
+            typeof(CanvasRectangleGeometry),
+            new PropertyMetadata(0d, OnPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the y-coordinate of the upper-left corner of the rectangle geometry.
+        /// </summary>
+        public double Y
         {
-            var rectangleGeometry = (CanvasRectangleGeometry)d;
-            rectangleGeometry.OnRectChanged();
+            get => (double)GetValue(YProperty);
+            set => SetValue(YProperty, value);
         }
 
         /// <summary>
-        /// Instance handler for the changes to the Rect dependency property.
+        /// Width Dependency Property
         /// </summary>
-        private void OnRectChanged()
+        public static readonly DependencyProperty WidthProperty = DependencyProperty.Register(
+            "Width",
+            typeof(double),
+            typeof(CanvasRectangleGeometry),
+            new PropertyMetadata(0d, OnPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the width of the rectangle geometry.
+        /// </summary>
+        public double Width
         {
-            UpdateGeometry();
+            get => (double)GetValue(WidthProperty);
+            set => SetValue(WidthProperty, value);
+        }
+
+        /// <summary>
+        /// Height Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty HeightProperty = DependencyProperty.Register(
+            "Height",
+            typeof(double),
+            typeof(CanvasRectangleGeometry),
+            new PropertyMetadata(0d, OnPropertyChanged));
+
+        /// <summary>
+        /// Gets or sets the height of the rectangle geometry.
+        /// </summary>
+        public double Height
+        {
+            get => (double)GetValue(HeightProperty);
+            set => SetValue(HeightProperty, value);
+        }
+
+        /// <summary>
+        /// Method that is called whenever the dependency properties of the Brush changes
+        /// </summary>
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var geometry = (CanvasRectangleGeometry)d;
+
+            // Recreate the geometry on any property change.
+            geometry.OnUpdateGeometry();
         }
 
         /// <inheritdoc/>
-        protected override void UpdateGeometry()
+        protected override void OnUpdateGeometry()
         {
-            Geometry = CanvasGeometry.CreateRectangle(CompositionGenerator.Instance.Device, Rect.X, Rect.Y, Rect.Z, Rect.W);
+            Geometry = CanvasGeometry.CreateRectangle(CompositionGenerator.Instance.Device, (float)X, (float)Y, (float)Width, (float)Height);
+
+            RaiseUpdatedEvent();
         }
     }
 }

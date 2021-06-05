@@ -18,36 +18,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         public static readonly DependencyProperty RadiusXProperty = DependencyProperty.Register(
             "RadiusX",
-            typeof(float),
+            typeof(double),
             typeof(CanvasRoundedRectangleGeometry),
-            new PropertyMetadata(0f, OnRadiusXChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the radius of the corners in the x-axis.
         /// </summary>
-        public float RadiusX
+        public double RadiusX
         {
-            get => (float)GetValue(RadiusXProperty);
+            get => (double)GetValue(RadiusXProperty);
             set => SetValue(RadiusXProperty, value);
-        }
-
-        /// <summary>
-        /// Handles changes to the RadiusX property.
-        /// </summary>
-        /// <param name="d">CanvasRoundedRectangleGeometry</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnRadiusXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var roundedRectangleGeometry = (CanvasRoundedRectangleGeometry)d;
-            roundedRectangleGeometry.OnRadiusXChanged();
-        }
-
-        /// <summary>
-        /// Instance handler for the changes to the RadiusX dependency property.
-        /// </summary>
-        private void OnRadiusXChanged()
-        {
-            UpdateGeometry();
         }
 
         /// <summary>
@@ -55,42 +36,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         public static readonly DependencyProperty RadiusYProperty = DependencyProperty.Register(
             "RadiusY",
-            typeof(float),
+            typeof(double),
             typeof(CanvasRoundedRectangleGeometry),
-            new PropertyMetadata(0f, OnRadiusYChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the radius of the corners in the x-axis.
         /// </summary>
-        public float RadiusY
+        public double RadiusY
         {
-            get => (float)GetValue(RadiusYProperty);
+            get => (double)GetValue(RadiusYProperty);
             set => SetValue(RadiusYProperty, value);
         }
 
         /// <summary>
-        /// Handles changes to the RadiusY property.
+        /// Method that is called whenever the dependency properties of the Brush changes
         /// </summary>
-        /// <param name="d">CanvasRoundedRectangleGeometry</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnRadiusYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var roundedRectangleGeometry = (CanvasRoundedRectangleGeometry)d;
-            roundedRectangleGeometry.OnRadiusYChanged();
-        }
+            var geometry = (CanvasRoundedRectangleGeometry)d;
 
-        /// <summary>
-        /// Instance handler for the changes to the RadiusY dependency property.
-        /// </summary>
-        private void OnRadiusYChanged()
-        {
-            UpdateGeometry();
+            // Recreate the geometry on any property change.
+            geometry.OnUpdateGeometry();
         }
 
         /// <inheritdoc/>
-        protected override void UpdateGeometry()
+        protected override void OnUpdateGeometry()
         {
-            Geometry = CanvasGeometry.CreateRoundedRectangle(CompositionGenerator.Instance.Device, Rect.X, Rect.Y, Rect.Z, Rect.W, RadiusX, RadiusY);
+            Geometry = CanvasGeometry.CreateRoundedRectangle(CompositionGenerator.Instance.Device, (float)X, (float)Y, (float)Width, (float)Height, (float)RadiusX, (float)RadiusY);
+
+            RaiseUpdatedEvent();
         }
     }
 }

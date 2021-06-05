@@ -2,11 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
+using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Converters;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -17,6 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
     /// </summary>
     public class CanvasCombinedGeometry : CanvasCoreGeometry
     {
+        private WeakEventListener<CanvasCoreGeometry, object, EventArgs> _geometry1UpdateListener;
+        private WeakEventListener<CanvasCoreGeometry, object, EventArgs> _geometry2UpdateListener;
+
         /// <summary>
         /// Geometry1 Dependency Property
         /// </summary>
@@ -51,7 +53,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         private void OnGeometry1Changed()
         {
-            UpdateGeometry();
+            _geometry1UpdateListener?.Detach();
+            _geometry1UpdateListener = null;
+
+            if (Geometry1 != null)
+            {
+                _geometry1UpdateListener = new WeakEventListener<CanvasCoreGeometry, object, EventArgs>(Geometry1)
+                {
+                    OnEventAction = async (instance, source, args) =>
+                    {
+                        await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                        {
+                            OnUpdateGeometry();
+                        });
+                    }
+                };
+
+                Geometry1.Updated += _geometry1UpdateListener.OnEvent;
+
+                OnUpdateGeometry();
+            }
         }
 
         /// <summary>
@@ -88,7 +109,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         private void OnGeometry2Changed()
         {
-            UpdateGeometry();
+            _geometry2UpdateListener?.Detach();
+            _geometry2UpdateListener = null;
+
+            if (Geometry2 != null)
+            {
+                _geometry2UpdateListener = new WeakEventListener<CanvasCoreGeometry, object, EventArgs>(Geometry2)
+                {
+                    OnEventAction = async (instance, source, args) =>
+                    {
+                        await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                        {
+                            OnUpdateGeometry();
+                        });
+                    }
+                };
+
+                Geometry2.Updated += _geometry2UpdateListener.OnEvent;
+
+                OnUpdateGeometry();
+            }
         }
 
         /// <summary>
@@ -98,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             "Transform",
             typeof(MatrixTransform),
             typeof(CanvasCombinedGeometry),
-            new PropertyMetadata(Matrix3x2.Identity.ToMatrixTransform(), OnTransformChanged));
+            new PropertyMetadata(Matrix3x2.Identity.ToMatrixTransform(), OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the MatrixTransform to be applied to Geometry2 before combining with Geometry1.
@@ -110,32 +150,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Handles changes to the Transform property.
-        /// </summary>
-        /// <param name="d"><see cref="CanvasCombinedGeometry" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnTransformChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var combinedGeometry = (CanvasCombinedGeometry)d;
-            combinedGeometry.OnTransformChanged();
-        }
-
-        /// <summary>
-        /// Instance handler for the changes to the Transform dependency property.
-        /// </summary>
-        private void OnTransformChanged()
-        {
-            UpdateGeometry();
-        }
-
-        /// <summary>
         /// GeometryCombineMode Dependency Property
         /// </summary>
         public static readonly DependencyProperty GeometryCombineModeProperty = DependencyProperty.Register(
             "GeometryCombineMode",
             typeof(CanvasGeometryCombine),
             typeof(CanvasCombinedGeometry),
-            new PropertyMetadata(CanvasGeometryCombine.Union, OnGeometryCombineModeChanged));
+            new PropertyMetadata(CanvasGeometryCombine.Union, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the method by which the geometries specified by <see cref="Geometry1"/> and <see cref="Geometry2"/> are meant to be combined.
@@ -147,26 +168,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Handles changes to the GeometryCombineMode property.
+        /// Method that is called whenever the dependency properties of the Brush changes
         /// </summary>
-        /// <param name="d"><see cref="CanvasCombinedGeometry" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnGeometryCombineModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var combinedGeometry = (CanvasCombinedGeometry)d;
-            combinedGeometry.OnGeometryCombineModeChanged();
-        }
+            var geometry = (CanvasCombinedGeometry)d;
 
-        /// <summary>
-        /// Instance handler for the changes to the GeometryCombineMode dependency property.
-        /// </summary>
-        private void OnGeometryCombineModeChanged()
-        {
-            UpdateGeometry();
+            // Recreate the geometry on any property change.
+            geometry.OnUpdateGeometry();
         }
 
         /// <inheritdoc/>
-        protected override void UpdateGeometry()
+        protected override void OnUpdateGeometry()
         {
             if (Geometry1?.Geometry == null || Geometry2?.Geometry == null)
             {
@@ -175,6 +190,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
 
             Geometry = Geometry1.Geometry.CombineWith(Geometry2.Geometry, Transform.ToMatrix3x2(), GeometryCombineMode);
+
+            RaiseUpdatedEvent();
         }
     }
 }

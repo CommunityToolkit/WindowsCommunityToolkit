@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         protected virtual void OnDataChanged()
         {
-            UpdateGeometry();
+            OnUpdateGeometry();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <inheritdoc/>
-        protected override void UpdateGeometry()
+        protected override void OnUpdateGeometry()
         {
             // Dispose previous CanvasGeometry (if any)
             Geometry?.Dispose();
@@ -80,6 +80,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             {
                 Geometry = null;
             }
+
+            RaiseUpdatedEvent();
         }
 
         /// <summary>

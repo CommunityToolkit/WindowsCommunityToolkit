@@ -2,10 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Xaml;
 
@@ -17,41 +15,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
     public class CanvasEllipseGeometry : CanvasCoreGeometry
     {
         /// <summary>
-        /// Center Dependency Property
+        /// CenterX Dependency Property
         /// </summary>
-        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register(
-            "Center",
-            typeof(Vector2),
+        public static readonly DependencyProperty CenterXProperty = DependencyProperty.Register(
+            "CenterX",
+            typeof(double),
             typeof(CanvasEllipseGeometry),
-            new PropertyMetadata(Vector2.Zero, OnCenterChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the <see cref="Vector2"/> structure that describes the position and size of the <see cref="CanvasEllipseGeometry"/>. The default is <see cref="Vector2.Zero"/>.
+        /// Gets or sets the coordinate of the center of the <see cref="CanvasEllipseGeometry"/> on the x-axis.
         /// </summary>
-        [TypeConverter(typeof(Vector2Converter))]
-        public Vector2 Center
+        public double CenterX
         {
-            get => (Vector2)GetValue(CenterProperty);
-            set => SetValue(CenterProperty, value);
+            get => (double)GetValue(CenterXProperty);
+            set => SetValue(CenterXProperty, value);
         }
 
         /// <summary>
-        /// Handles changes to the Center property.
+        /// CenterY Dependency Property
         /// </summary>
-        /// <param name="d"><see cref="CanvasEllipseGeometry"/></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnCenterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var ellipseGeometry = (CanvasEllipseGeometry)d;
-            ellipseGeometry.OnCenterChanged();
-        }
+        public static readonly DependencyProperty CenterYProperty = DependencyProperty.Register(
+            "CenterY",
+            typeof(double),
+            typeof(CanvasEllipseGeometry),
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
-        /// Instance handler for the changes to the Center dependency property.
+        /// Gets or sets the coordinate of the center of the <see cref="CanvasEllipseGeometry"/> on the y-axis.
         /// </summary>
-        private void OnCenterChanged()
+        public double CenterY
         {
-            UpdateGeometry();
+            get => (double)GetValue(CenterYProperty);
+            set => SetValue(CenterYProperty, value);
         }
 
         /// <summary>
@@ -61,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             "RadiusX",
             typeof(float),
             typeof(CanvasEllipseGeometry),
-            new PropertyMetadata(0f, OnRadiusXChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the x-radius value of the <see cref="CanvasEllipseGeometry"/>.
@@ -73,32 +69,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Handles changes to the RadiusX property.
-        /// </summary>
-        /// <param name="d"><see cref="CanvasEllipseGeometry"/></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnRadiusXChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var roundedRectangleGeometry = (CanvasEllipseGeometry)d;
-            roundedRectangleGeometry.OnRadiusXChanged();
-        }
-
-        /// <summary>
-        /// Instance handler for the changes to the RadiusX dependency property.
-        /// </summary>
-        private void OnRadiusXChanged()
-        {
-            UpdateGeometry();
-        }
-
-        /// <summary>
         /// RadiusY Dependency Property
         /// </summary>
         public static readonly DependencyProperty RadiusYProperty = DependencyProperty.Register(
             "RadiusY",
             typeof(float),
             typeof(CanvasEllipseGeometry),
-            new PropertyMetadata(0f, OnRadiusYChanged));
+            new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the y-radius value of the <see cref="CanvasEllipseGeometry"/>.
@@ -110,28 +87,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         }
 
         /// <summary>
-        /// Handles changes to the RadiusY property.
+        /// Method that is called whenever the dependency properties of the Brush changes
         /// </summary>
-        /// <param name="d"><see cref="CanvasEllipseGeometry"/></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
-        private static void OnRadiusYChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="d">The object whose property has changed</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var roundedRectangleGeometry = (CanvasEllipseGeometry)d;
-            roundedRectangleGeometry.OnRadiusYChanged();
-        }
+            var geometry = (CanvasEllipseGeometry)d;
 
-        /// <summary>
-        /// Instance handler for the changes to the RadiusY dependency property.
-        /// </summary>
-        private void OnRadiusYChanged()
-        {
-            UpdateGeometry();
+            // Recreate the geometry on any property change.
+            geometry.OnUpdateGeometry();
         }
 
         /// <inheritdoc/>
-        protected override void UpdateGeometry()
+        protected override void OnUpdateGeometry()
         {
-            Geometry = CanvasGeometry.CreateEllipse(CompositionGenerator.Instance.Device, Center, RadiusX, RadiusY);
+            Geometry = CanvasGeometry.CreateEllipse(CompositionGenerator.Instance.Device, new Vector2((float)CenterX, (float)CenterY), RadiusX, RadiusY);
+
+            RaiseUpdatedEvent();
         }
     }
 }

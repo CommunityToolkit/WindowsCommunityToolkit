@@ -30,8 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// </summary>
         public event EventHandler<object> DeviceReplaced;
 
-        private static Lazy<ICompositionGenerator> _instance =
-            new Lazy<ICompositionGenerator>(() => new CompositionGenerator(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+        private static Lazy<ICompositionGenerator> _instance = new(() => new CompositionGenerator(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         private readonly object _disposingLock;
         private bool _useSharedCanvasDevice;
@@ -144,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
                         canvasBitmap,                                                       // CanvasBitmap
                         new Rect(0, 0, surfaceSize.Width, surfaceSize.Height),              // Target Rectangle
                         new Rect(0, 0, canvasBitmap.Size.Width, canvasBitmap.Size.Height),  // Source Rectangle
-                        options.Opacity,                                                    // Opacity
+                        (float)options.Opacity,                                             // Opacity
                         options.Interpolation);                                             // Interpolation
                 }
                 else
@@ -176,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
                         canvasBitmap,               // CanvasBitmap
                         targetRect,                 // Target Rectangle
                         canvasBitmap.Bounds,        // Source Rectangle
-                        options.Opacity,            // Opacity
+                        (float)options.Opacity,     // Opacity
                         options.Interpolation);     // Interpolation
                 }
             }
@@ -281,7 +280,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
                 var blurEffect = new GaussianBlurEffect
                 {
                     Source = alphaEffect,
-                    BlurAmount = options.BlurRadius
+                    BlurAmount = (float)options.BlurRadius
                 };
 
                 // Draw the final mask to the surface
@@ -295,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
                     blurEffect,               // CanvasBitmap
                     surfaceBounds,            // Target Rectangle
                     surfaceBounds,            // Source Rectangle
-                    options.Opacity,          // Opacity
+                    (float)options.Opacity,   // Opacity
                     options.Interpolation);   // Interpolation
             }
         }
