@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    
+
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
   </ItemGroup>
