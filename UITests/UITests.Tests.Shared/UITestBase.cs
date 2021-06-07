@@ -3,14 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Windows.Apps.Test.Foundation.Controls;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
@@ -28,7 +23,7 @@ namespace UITests.Tests
     {
         private TestSetupHelper helper;
 
-        public static TestApplicationInfo WinUICsUWPSampleApp
+        internal static TestApplicationInfo WinUICsUWPSampleApp
         {
             get
             {
@@ -71,145 +66,81 @@ namespace UITests.Tests
             }
         }
 
-        public static TestSetupHelper.TestSetupHelperOptions TestSetupHelperOptions
-        {
-            get
+        private static TestSetupHelper.TestSetupHelperOptions TestSetupHelperOptions
+            => new()
             {
-                return new TestSetupHelper.TestSetupHelperOptions
-                {
-                    AutomationIdOfSafeItemToClick = string.Empty
-                };
-            }
-        }
+                AutomationIdOfSafeItemToClick = string.Empty
+            };
 
         public TestContext TestContext { get; set; }
 
-        private AppServiceConnection CommunicationService { get; set; }
-
         [TestInitialize]
-        public async Task TestInitialize()
+        public void TestInitialize()
         {
             // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
             // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
             // our loading.
             helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
 
+            var pageName = GetPageForTest(TestContext);
+
+            var rez = TestAssembly.OpenPage(pageName);
+            rez.Wait();
+
+            if (!rez.Result)
+            {
+                // Error case, we didn't get confirmation of test starting.
+                throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
+            }
+
+            Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+            Wait.ForIdle();
+            Log.Comment("[Harness] Starting Test for {0}...", pageName);
+            return;
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            helper.Dispose();
+        }
+
+        private static string GetPageForTest(TestContext testContext)
+        {
 #if USING_TAEF
-            var fullTestName = TestContext.TestName;
+            var fullTestName = testContext.TestName;
             var lastDotIndex = fullTestName.LastIndexOf('.');
             var testName = fullTestName.Substring(lastDotIndex + 1);
             var theClassName = fullTestName.Substring(0, lastDotIndex);
 #else
-            var testName = TestContext.TestName;
-            var theClassName = TestContext.FullyQualifiedTestClassName;
+            var testName = testContext.TestName;
+            var theClassName = testContext.FullyQualifiedTestClassName;
 #endif
-            var currentlyRunningClassType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).FirstOrDefault(f => f.FullName == theClassName);
-
-            if (!(Type.GetType(theClassName) is Type type
-                && type.GetMethod(testName) is MethodInfo method
-                && method.GetCustomAttribute(typeof(TestPageAttribute), true) is TestPageAttribute attribute))
+            var testClassString = $"test class \"{theClassName}\"";
+            if (Type.GetType(theClassName) is not Type type)
             {
-                throw new Exception("Could not find " + nameof(TestPageAttribute) + " on test method.");
+                throw new Exception($"Could not find {testClassString}.");
             }
 
-            var pageName = attribute.XamlFile;
+            Log.Comment($"Found {testClassString}.");
 
-            Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
-
-            // Make the connection if we haven't already.
-            if (CommunicationService == null)
+            var testMethodString = $"test method \"{testName}\" in {testClassString}";
+            if (type.GetMethod(testName) is not MethodInfo method)
             {
-                CommunicationService = new AppServiceConnection();
-
-                CommunicationService.RequestReceived += this.CommunicationService_RequestReceived;
-
-                // Here, we use the app service name defined in the app service
-                // provider's Package.appxmanifest file in the <Extension> section.
-                CommunicationService.AppServiceName = "TestHarnessCommunicationService";
-
-                // Use Windows.ApplicationModel.Package.Current.Id.FamilyName
-                // within the app service provider to get this value.
-                CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t";
-
-                var status = await CommunicationService.OpenAsync();
-
-                if (status != AppServiceConnectionStatus.Success)
-                {
-                    Log.Error("Failed to connect to App Service host.");
-                    CommunicationService = null;
-                    throw new Exception("Failed to connect to App Service host.");
-                }
+                throw new Exception($"Could not find {testMethodString}.");
             }
 
-            // Call the service.
-            var message = new ValueSet();
-            message.Add("Command", "Start");
-            message.Add("Page", pageName);
+            Log.Comment($"Found {testMethodString}.");
 
-            AppServiceResponse response = await CommunicationService.SendMessageAsync(message);
-            string result = string.Empty;
-
-            if (response.Status == AppServiceResponseStatus.Success)
+            var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
+            if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
             {
-                // Get the data  that the service sent to us.
-                if (response.Message["Status"] as string == "OK")
-                {
-                    Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
-                    Wait.ForIdle();
-                    Log.Comment("[Harness] Starting Test for {0}...", pageName);
-                    return;
-                }
+                throw new Exception($"Could not find {testpageAttributeString}.");
             }
 
-            // Error case, we didn't get confirmation of test starting.
-            throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
-        }
+            Log.Comment($"Found {testpageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
 
-        [TestCleanup]
-        public async Task TestCleanup()
-        {
-            helper.Dispose();
-            TestCleanupHelper.Cleanup();
-        }
-
-        private void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            AppServiceDeferral messageDeferral = args.GetDeferral();
-            ValueSet message = args.Request.Message;
-            string cmd = message["Command"] as string;
-
-            try
-            {
-                // Return the data to the caller.
-                if (cmd == "Log")
-                {
-                    string level = message["Level"] as string;
-                    string msg = message["Message"] as string;
-
-                    switch (level)
-                    {
-                        case "Comment":
-                            Log.Comment("[Host] {0}", msg);
-                            break;
-                        case "Warning":
-                            Log.Warning("[Host] {0}", msg);
-                            break;
-                        case "Error":
-                            Log.Error("[Host] {0}", msg);
-                            break;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error("Exception receiving message: {0}", e.Message);
-            }
-            finally
-            {
-                // Complete the deferral so that the platform knows that we're done responding to the app service call.
-                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
-                messageDeferral.Complete();
-            }
+            return attribute.XamlFile;
         }
     }
 }
