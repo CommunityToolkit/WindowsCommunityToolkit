@@ -44,6 +44,7 @@ namespace UITests.App
             var message = args.Request.Message;
             if(!TryGetValueAndLog(message, "Command", out var cmd))
             {
+                await args.Request.SendResponseAsync(BadResult);
                 messageDeferral.Complete();
                 return;
             }
