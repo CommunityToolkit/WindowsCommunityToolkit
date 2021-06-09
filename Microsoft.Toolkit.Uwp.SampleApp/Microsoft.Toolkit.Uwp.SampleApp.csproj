@@ -977,6 +977,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
       <SubType>Designer</SubType>
     </Content>
