@@ -969,10 +969,9 @@
     </Page>
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.bind">
       <SubType>Designer</SubType>
-    </Page>
+    </Content>
     <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Content>
     <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
       <SubType>Designer</SubType>

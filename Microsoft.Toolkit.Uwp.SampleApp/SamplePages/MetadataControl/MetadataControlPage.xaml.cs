@@ -1,12 +1,12 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _metadataControl = control.FindChildByName("metadataControl") as MetadataControl;
+            _metadataControl = control.FindChild("metadataControl") as MetadataControl;
             if (_metadataControl != null)
             {
                 _metadataControl.Items = _units;
