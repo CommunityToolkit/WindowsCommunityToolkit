@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,12 +6,11 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 #if !WINDOWS_UWP
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
-using Microsoft.Toolkit.HighPerformance.Memory;
+using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Memory
+namespace UnitTests.HighPerformance
 {
     /* ====================================================================
     *                                 NOTE
@@ -484,7 +483,7 @@ namespace UnitTests.HighPerformance.Memory
 
             string text = memory2d.ToString();
 
-            const string expected = "Microsoft.Toolkit.HighPerformance.Memory.ReadOnlyMemory2D<System.Int32>[2, 3]";
+            const string expected = "Microsoft.Toolkit.HighPerformance.ReadOnlyMemory2D<System.Int32>[2, 3]";
 
             Assert.AreEqual(text, expected);
         }

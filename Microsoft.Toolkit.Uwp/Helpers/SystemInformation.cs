@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public sealed class SystemInformation
     {
-        private readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper();
+        private readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
         private DateTime _sessionStart;
 
         /// <summary>

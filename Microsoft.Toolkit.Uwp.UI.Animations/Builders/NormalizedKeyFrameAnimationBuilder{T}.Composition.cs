@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media.Animation;
@@ -25,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="repeat">The <see cref="RepeatOption"/> value for the animation</param>
+        /// <param name="delayBehavior">The delay behavior mode to use.</param>
         /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
         /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
         public static CompositionAnimation GetAnimation<TKeyFrame>(
@@ -33,7 +33,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay,
             TimeSpan duration,
             RepeatOption repeat,
-            ReadOnlySpan<TKeyFrame> keyFrames)
+            AnimationDelayBehavior delayBehavior,
+            ArraySegment<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
             KeyFrameAnimation animation;
@@ -42,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 BooleanKeyFrameAnimation boolAnimation = target.Compositor.CreateBooleanKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(boolAnimation, duration))
                     {
@@ -58,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(scalarAnimation, duration))
                     {
@@ -83,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ScalarKeyFrameAnimation scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(scalarAnimation, duration))
                     {
@@ -108,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector2KeyFrameAnimation vector2Animation = target.Compositor.CreateVector2KeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(vector2Animation, duration))
                     {
@@ -133,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector3KeyFrameAnimation vector3Animation = target.Compositor.CreateVector3KeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(vector3Animation, duration))
                     {
@@ -158,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Vector4KeyFrameAnimation vector4Animation = target.Compositor.CreateVector4KeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(vector4Animation, duration))
                     {
@@ -183,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 ColorKeyFrameAnimation colorAnimation = target.Compositor.CreateColorKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(colorAnimation, duration))
                     {
@@ -208,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 QuaternionKeyFrameAnimation quaternionAnimation = target.Compositor.CreateQuaternionKeyFrameAnimation();
 
-                foreach (ref readonly var keyFrame in keyFrames)
+                foreach (var keyFrame in keyFrames)
                 {
                     if (keyFrame.TryInsertExpressionKeyFrame(quaternionAnimation, duration))
                     {
@@ -231,13 +232,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
             else
             {
-                return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             animation.Duration = duration;
 
             if (delay.HasValue)
             {
+                animation.DelayBehavior = delayBehavior;
                 animation.DelayTime = delay!.Value;
             }
 
@@ -253,12 +255,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Composition : NormalizedKeyFrameAnimationBuilder<T>, AnimationBuilder.ICompositionAnimationFactory
         {
             /// <summary>
+            /// The target delay behavior to use.
+            /// </summary>
+            private readonly AnimationDelayBehavior delayBehavior;
+
+            /// <summary>
             /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
-            /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
-            public Composition(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeat)
+            /// <param name="property">The target property to animate.</param>
+            /// <param name="delay">The target delay for the animation.</param>
+            /// <param name="duration">The target duration for the animation.</param>
+            /// <param name="repeat">The repeat options for the animation.</param>
+            /// <param name="delayBehavior">The delay behavior mode to use.</param>
+            public Composition(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeat, AnimationDelayBehavior delayBehavior)
                 : base(property, delay, duration, repeat)
             {
+                this.delayBehavior = delayBehavior;
             }
 
             /// <inheritdoc/>
@@ -284,7 +296,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     this.duration,
                     this.repeat,
-                    this.keyFrames.AsSpan());
+                    this.delayBehavior,
+                    this.keyFrames.GetArraySegment());
             }
         }
     }

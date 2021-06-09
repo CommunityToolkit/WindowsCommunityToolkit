@@ -978,6 +978,37 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_Actions_SnoozeAndDismissUsingBuilders()
+        {
+            AssertActionsPayload("<actions><action content='' activationType='system' arguments='snooze'/><action content='' activationType='system' arguments='dismiss'/><action content='Hide' activationType='system' arguments='dismiss'/><action content='Later' activationType='system' arguments='snooze'/><action content='Remind me' activationType='system' arguments='snooze' hint-inputId='snoozePicker'/></actions>", new ToastActionsCustom()
+            {
+                Buttons =
+                {
+                    // Allowing system to auto-generate text content
+                    new ToastButton()
+                        .SetSnoozeActivation(),
+
+                    // Allowing system to auto-generate text content
+                    new ToastButton()
+                        .SetDismissActivation(),
+
+                    // Specifying specific content
+                    new ToastButton()
+                        .SetContent("Hide")
+                        .SetDismissActivation(),
+
+                    new ToastButton()
+                        .SetContent("Later")
+                        .SetSnoozeActivation(),
+
+                    new ToastButton()
+                        .SetContent("Remind me")
+                        .SetSnoozeActivation("snoozePicker")
+                }
+            });
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_Actions_TwoContextMenuItems()
         {
             AssertActionsPayload("<actions><action placement='contextMenu' content='Menu item 1' arguments='1'/><action placement='contextMenu' content='Menu item 2' arguments='2'/></actions>", new ToastActionsCustom()

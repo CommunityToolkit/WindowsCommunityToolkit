@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         /// <summary>
         /// Gets the default <see cref="Ioc"/> instance.
         /// </summary>
-        public static Ioc Default { get; } = new Ioc();
+        public static Ioc Default { get; } = new();
 
         /// <summary>
         /// The <see cref="IServiceProvider"/> instance to use, if initialized.
@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Mvvm.DependencyInjection
         {
             IServiceProvider? oldServices = Interlocked.CompareExchange(ref this.serviceProvider, serviceProvider, null);
 
-            if (!(oldServices is null))
+            if (oldServices is not null)
             {
                 ThrowInvalidOperationExceptionForRepeatedConfiguration();
             }

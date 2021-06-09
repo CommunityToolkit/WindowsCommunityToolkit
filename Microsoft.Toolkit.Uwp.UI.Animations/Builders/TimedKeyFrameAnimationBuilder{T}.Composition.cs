@@ -20,12 +20,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Composition : TimedKeyFrameAnimationBuilder<T>, AnimationBuilder.ICompositionAnimationFactory
         {
             /// <summary>
+            /// The target delay behavior to use.
+            /// </summary>
+            private readonly AnimationDelayBehavior delayBehavior;
+
+            /// <summary>
             /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
-            /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
-            public Composition(string property, TimeSpan? delay, RepeatOption repeat)
+            /// <param name="property">The target property to animate.</param>
+            /// <param name="delay">The target delay for the animation.</param>
+            /// <param name="repeat">The repeat options for the animation.</param>
+            /// <param name="delayBehavior">The delay behavior mode to use.</param>
+            public Composition(string property, TimeSpan? delay, RepeatOption repeat, AnimationDelayBehavior delayBehavior)
                 : base(property, delay, repeat)
             {
+                this.delayBehavior = delayBehavior;
             }
 
             /// <inheritdoc/>
@@ -47,8 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 // We can retrieve the total duration from the last timed keyframe, and then set
                 // this as the target duration and use it to normalize the keyframe progresses.
-                ReadOnlySpan<KeyFrameInfo> keyFrames = this.keyFrames.AsSpan();
-                TimeSpan duration = keyFrames[keyFrames.Length - 1].GetTimedProgress(default);
+                ArraySegment<KeyFrameInfo> keyFrames = this.keyFrames.GetArraySegment();
+                TimeSpan duration = keyFrames[keyFrames.Count - 1].GetTimedProgress(default);
 
                 return NormalizedKeyFrameAnimationBuilder<T>.GetAnimation(
                     targetHint,
@@ -56,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     duration,
                     this.repeat,
+                    this.delayBehavior,
                     keyFrames);
             }
         }

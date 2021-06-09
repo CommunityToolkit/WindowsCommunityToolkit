@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -18,7 +18,10 @@ namespace UnitTests.UI.Controls
     {
         [TestCategory("InfiniteCanvas")]
         [TestMethod]
-        public async Task Test_InfiniteCanvas_LoadsV1File()
+        [DataRow(@"Assets\Samples\InfiniteCanvasExportPreMedia.json", DisplayName = "Version1")]
+        [DataRow(@"Assets\Samples\InfiniteCanvasExport.json", DisplayName = "Version2")]
+
+        public async Task Test_InfiniteCanvas_LoadsFile(string file)
         {
             var taskSource = new TaskCompletionSource<object>();
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
@@ -26,7 +29,7 @@ namespace UnitTests.UI.Controls
                 {
                     try
                     {
-                        string json = await StorageFileHelper.ReadTextFromPackagedFileAsync(@"Assets\Samples\InfiniteCanvasExport.json");
+                        string json = await StorageFileHelper.ReadTextFromPackagedFileAsync(file);
 
                         InfiniteCanvasVirtualDrawingSurface.LoadJson(json).Should().NotBeEmpty();
 

@@ -8,11 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Memory;
-#endif
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="ReadOnlySpan{T}"/> type.
@@ -186,7 +183,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int height, int width)
         {
-            return new ReadOnlySpan2D<T>(span, height, width);
+            return new(span, height, width);
         }
 
         /// <summary>
@@ -209,7 +206,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan2D<T> AsSpan2D<T>(this ReadOnlySpan<T> span, int offset, int height, int width, int pitch)
         {
-            return new ReadOnlySpan2D<T>(span, offset, height, width, pitch);
+            return new(span, offset, height, width, pitch);
         }
 #endif
 
@@ -316,7 +313,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<T> Enumerate<T>(this ReadOnlySpan<T> span)
         {
-            return new ReadOnlySpanEnumerable<T>(span);
+            return new(span);
         }
 
         /// <summary>
@@ -342,7 +339,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ReadOnlySpanTokenizer<T> Tokenize<T>(this ReadOnlySpan<T> span, T separator)
             where T : IEquatable<T>
         {
-            return new ReadOnlySpanTokenizer<T>(span, separator);
+            return new(span, separator);
         }
 
         /// <summary>

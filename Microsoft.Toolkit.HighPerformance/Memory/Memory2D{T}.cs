@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -12,14 +12,14 @@ using System.Runtime.InteropServices;
 #if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
-using Microsoft.Toolkit.HighPerformance.Extensions;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 using static Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
 #pragma warning disable CA2231
 
-namespace Microsoft.Toolkit.HighPerformance.Memory
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// <see cref="Memory2D{T}"/> represents a 2D region of arbitrary memory. It is to <see cref="Span2D{T}"/>
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
             this.height = height;
             this.width = width;
             this.pitch = pitch;
@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
             this.height = height;
             this.width = width;
             this.pitch = columns - width;
@@ -250,7 +250,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
             this.width = array.GetLength(2);
             this.pitch = 0;
@@ -306,7 +306,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
             }
 
             this.instance = array;
-            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
             this.width = width;
             this.pitch = columns - width;
@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 ref char r0 = ref text.DangerousGetReferenceAt(textStart + offset);
 
                 this.instance = text;
-                this.offset = text.DangerousGetObjectDataByteOffset(ref r0);
+                this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(text, ref r0);
             }
             else if (MemoryMarshal.TryGetArray(memory, out ArraySegment<T> segment))
             {
@@ -477,7 +477,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 T[] array = segment.Array!;
 
                 this.instance = array;
-                this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(segment.Offset + offset));
+                this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(segment.Offset + offset));
             }
             else if (MemoryMarshal.TryGetMemoryManager<T, MemoryManager<T>>(memory, out var memoryManager, out int memoryManagerStart, out _))
             {
@@ -525,7 +525,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <param name="width">The width of the 2D memory area to map.</param>
         /// <param name="pitch">The pitch of the 2D memory area to map.</param>
         /// <returns>A <see cref="Memory2D{T}"/> instance with the specified parameters.</returns>
-        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
+        /// <remarks>The <paramref name="value"/> parameter is not validated, and it's responsibility of the caller to ensure it's valid.</remarks>
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when one of the input parameters is out of range.
         /// </exception>
@@ -549,7 +549,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
             OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-            IntPtr offset = instance.DangerousGetObjectDataByteOffset(ref value);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(instance, ref value);
 
             return new Memory2D<T>(instance, offset, height, width, pitch);
         }
@@ -615,7 +615,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                     }
                     else
                     {
-                        ref T r0 = ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset);
+                        ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset);
 
                         return new Span2D<T>(ref r0, this.height, this.width, this.pitch);
                     }
@@ -749,7 +749,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
 
                 GCHandle handle = GCHandle.Alloc(this.instance, GCHandleType.Pinned);
 
-                void* pointer = Unsafe.AsPointer(ref this.instance.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                void* pointer = Unsafe.AsPointer(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.instance, this.offset));
 
                 return new MemoryHandle(pointer, handle);
             }
@@ -775,7 +775,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 else if (typeof(T) == typeof(char) && this.instance.GetType() == typeof(string))
                 {
                     string text = Unsafe.As<string>(this.instance)!;
-                    int index = text.AsSpan().IndexOf(in text.DangerousGetObjectDataReferenceAt<char>(this.offset));
+                    int index = text.AsSpan().IndexOf(in ObjectMarshal.DangerousGetObjectDataReferenceAt<char>(text, this.offset));
                     ReadOnlyMemory<char> temp = text.AsMemory(index, (int)Length);
 
                     // The string type could still be present if a user ends up creating a
@@ -795,7 +795,7 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
                 {
                     // If it's a T[] array, also handle the initial offset
                     T[] array = Unsafe.As<T[]>(this.instance)!;
-                    int index = array.AsSpan().IndexOf(ref array.DangerousGetObjectDataReferenceAt<T>(this.offset));
+                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.offset));
 
                     memory = array.AsMemory(index, this.height * this.width);
                 }
@@ -894,12 +894,12 @@ namespace Microsoft.Toolkit.HighPerformance.Memory
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"Microsoft.Toolkit.HighPerformance.Memory.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
+            return $"Microsoft.Toolkit.HighPerformance.Memory2D<{typeof(T)}>[{this.height}, {this.width}]";
         }
 
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="Memory2D{T}"/>
         /// </summary>
-        public static implicit operator Memory2D<T>(T[,]? array) => new Memory2D<T>(array);
+        public static implicit operator Memory2D<T>(T[,]? array) => new(array);
     }
 }

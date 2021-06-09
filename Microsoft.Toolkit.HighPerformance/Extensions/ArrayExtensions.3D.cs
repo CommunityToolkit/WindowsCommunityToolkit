@@ -5,15 +5,15 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Buffers.Internals;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-using Microsoft.Toolkit.HighPerformance.Memory;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance
 {
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #else
             IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
 
-            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
 #endif
         }
 
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/>
         /// and <paramref name="j"/> parameters are valid. Furthermore, this extension will ignore the lower bounds for the input
-        /// array, and will just assume that the input index is 0-based. It is responsability of the caller to adjust the input
+        /// array, and will just assume that the input index is 0-based. It is responsibility of the caller to adjust the input
         /// indices to account for the actual lower bounds, if the input array has either axis not starting at 0.
         /// </remarks>
         [Pure]
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 ((nint)(uint)i * (nint)(uint)height * (nint)(uint)width) +
                 ((nint)(uint)j * (nint)(uint)width) + (nint)(uint)k;
             IntPtr offset = RuntimeHelpers.GetArray3DDataByteOffset<T>();
-            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
+            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
             ref T ri = ref Unsafe.Add(ref r0, index);
 
             return ref ri;
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
             ref T r0 = ref array.DangerousGetReferenceAt(depth, 0, 0);
-            IntPtr offset = array.DangerousGetObjectDataByteOffset(ref r0);
+            IntPtr offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref r0);
             int length = checked(array.GetLength(1) * array.GetLength(2));
 
             return new RawObjectMemoryManager<T>(array, offset, length).Memory;
@@ -235,7 +235,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this T[,,] array, int depth)
         {
-            return new Span2D<T>(array, depth);
+            return new(array, depth);
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Memory2D<T> AsMemory2D<T>(this T[,,] array, int depth)
         {
-            return new Memory2D<T>(array, depth);
+            return new(array, depth);
         }
 
         /// <summary>

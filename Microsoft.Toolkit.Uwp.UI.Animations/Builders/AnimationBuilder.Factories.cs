@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -62,6 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             T? From,
             TimeSpan Delay,
             TimeSpan Duration,
+            RepeatOption Repeat,
             EasingType EasingType,
             EasingMode EasingMode)
             : ICompositionAnimationFactory, IXamlAnimationFactory
@@ -71,6 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public CompositionAnimation GetAnimation(CompositionObject targetHint, out CompositionObject? target)
             {
                 CompositionEasingFunction? easingFunction = targetHint.Compositor.TryCreateEasingFunction(EasingType, EasingMode);
+                (AnimationIterationBehavior iterationBehavior, int iterationCount) = Repeat.ToBehaviorAndCount();
 
                 target = null;
 
@@ -81,7 +82,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetToAs<bool>(),
                         GetFromAs<bool>(),
                         Delay,
-                        Duration);
+                        Duration,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(float))
@@ -92,7 +95,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<float>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(double))
@@ -103,7 +108,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         (float?)GetFromAs<double>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Vector2))
@@ -114,7 +121,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Vector2>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Vector3))
@@ -125,7 +134,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Vector3>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Vector4))
@@ -136,7 +147,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Vector4>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Color))
@@ -147,7 +160,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Color>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
                 if (typeof(T) == typeof(Quaternion))
@@ -158,10 +173,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Quaternion>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        iterationBehavior: iterationBehavior,
+                        iterationCount: iterationCount);
                 }
 
-                return ThrowHelper.ThrowInvalidOperationException<CompositionAnimation>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             /// <inheritdoc/>
@@ -178,6 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
+                        Repeat.ToRepeatBehavior(),
                         enableDependecyAnimations: true);
                 }
 
@@ -190,6 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
+                        Repeat.ToRepeatBehavior(),
                         enableDependecyAnimations: true);
                 }
 
@@ -202,6 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         easingFunction,
+                        Repeat.ToRepeatBehavior(),
                         enableDependecyAnimations: true);
                 }
 
@@ -213,10 +233,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         GetFromAs<Color>(),
                         Delay,
                         Duration,
-                        easingFunction);
+                        easingFunction,
+                        Repeat.ToRepeatBehavior());
                 }
 
-                return ThrowHelper.ThrowInvalidOperationException<Timeline>("Invalid animation type");
+                throw new InvalidOperationException("Invalid animation type");
             }
 
             /// <summary>
@@ -229,9 +250,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             private TValue GetToAs<TValue>()
                 where TValue : unmanaged
             {
-                T to = To;
-
-                return Unsafe.As<T, TValue>(ref to);
+                // We employ this (T2)(object)t1 pattern multiple times in this library to alter generics.
+                // This is an equivalent but safer alternative to using Unsafe.As<TFrom, TTo>(ref TFrom).
+                // For instance, this method will result in the following IL being emitted:
+                // =============================
+                // IL_0000: ldarg.0
+                // IL_0001: call instance !0 class AnimationFactory`1<!T>::get_To()
+                // IL_0006: box !T
+                // IL_000b: unbox.any !!TValue
+                // IL_0010: ret
+                // =============================
+                // The key point is that the JIT (and AOT compilers such as .NET Native) can recognize this
+                // pattern and optimize the boxing away in case the types match. This is the case whenever
+                // the generic arguments are value types, which due to generic types in .NET being reified
+                // results in a completely different generic instantiation of the same method, making the
+                // type arguments effectively constant values known at compile time, ie. at JIT time.
+                // As a result of this, the boxing is completely avoided and the value is returned directly.
+                // Leveraging this pattern lets us keep the same optimal codegen while avoiding the extra
+                // NuGet package dependency on UWP, and the more dangerous path using the Unsafe APIs.
+                // As an example, assuming T is float, the JIT will produce the following codegen on x64:
+                // =============================
+                // L0000: vzeroupper
+                // L0003: vmovss xmm0, [rcx+8]
+                // L0008: ret
+                // =============================
+                // We can see how the property value is loaded directly from the underlying field and
+                // then returned to the caller: no boxing or unwanted overhead is introduced at all.
+                return (TValue)(object)To;
             }
 
             /// <summary>
@@ -251,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 T from = From.GetValueOrDefault();
 
-                return Unsafe.As<T, TValue>(ref from);
+                return (TValue)(object)from;
             }
         }
 
@@ -264,6 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float? From,
             TimeSpan Delay,
             TimeSpan Duration,
+            RepeatOption Repeat,
             EasingType EasingType,
             EasingMode EasingMode)
             : ICompositionAnimationFactory
@@ -274,7 +320,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Visual visual = (Visual)targetHint;
                 InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
                 CompositionEasingFunction? easingFunction = clip.Compositor.TryCreateEasingFunction(EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(Property, To, From, Delay, Duration, easingFunction);
+                (AnimationIterationBehavior iterationBehavior, int iterationCount) = Repeat.ToBehaviorAndCount();
+                ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(
+                    Property,
+                    To,
+                    From,
+                    Delay,
+                    Duration,
+                    easingFunction,
+                    iterationBehavior: iterationBehavior,
+                    iterationCount: iterationCount);
 
                 target = clip;
 
@@ -291,6 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             double? From,
             TimeSpan Delay,
             TimeSpan Duration,
+            RepeatOption Repeat,
             EasingType EasingType,
             EasingMode EasingMode)
             : IXamlAnimationFactory
@@ -305,7 +361,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     element.RenderTransform = transform = new CompositeTransform();
                 }
 
-                return transform.CreateDoubleAnimation(Property, To, From, Duration, Delay, EasingType.ToEasingFunction(EasingMode));
+                return transform.CreateDoubleAnimation(
+                    Property,
+                    To,
+                    From,
+                    Duration,
+                    Delay,
+                    EasingType.ToEasingFunction(EasingMode),
+                    Repeat.ToRepeatBehavior());
             }
         }
 

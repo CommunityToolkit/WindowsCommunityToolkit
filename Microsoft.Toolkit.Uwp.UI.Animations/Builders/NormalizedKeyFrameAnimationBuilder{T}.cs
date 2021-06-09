@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public TValue GetValueAs<TValue>()
             {
-                return Unsafe.As<T, TValue>(ref Unsafe.AsRef(in this.value));
+                return (TValue)(object)this.value;
             }
 
             /// <inheritdoc/>

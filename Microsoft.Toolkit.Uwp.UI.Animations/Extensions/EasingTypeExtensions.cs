@@ -1,11 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
 
+using System;
 using System.Diagnostics.Contracts;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Xaml.Media.Animation;
 using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 
@@ -46,8 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 EasingType.Quintic => new QuinticEase { EasingMode = easingMode },
                 EasingType.Sine => new SineEase { EasingMode = easingMode },
 
-                _ => ThrowHelper.ThrowArgumentException<EasingFunctionBase?>("Invalid easing type")
+                _ => ThrowArgumentException()
             };
+
+            static EasingFunctionBase ThrowArgumentException() => throw new ArgumentException("Invalid easing type");
         }
     }
 }

@@ -9,8 +9,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ObjectStoragePage
     {
-        private readonly IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper();
-        private readonly IObjectStorageHelper roamingStorageHelper = new RoamingObjectStorageHelper();
+        private readonly IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
 
         public ObjectStoragePage()
         {
@@ -24,21 +23,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            if (StorageModeToggle.IsOn)
+            // Read from local storage
+            if (localStorageHelper.KeyExists(KeyTextBox.Text))
             {
-                // Read from roaming storage
-                if (roamingStorageHelper.KeyExists(KeyTextBox.Text))
-                {
-                    ContentTextBox.Text = roamingStorageHelper.Read<string>(KeyTextBox.Text);
-                }
-            }
-            else
-            {
-                // Read from local storage
-                if (localStorageHelper.KeyExists(KeyTextBox.Text))
-                {
-                    ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
-                }
+                ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
             }
         }
 
@@ -54,16 +42,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            if (StorageModeToggle.IsOn)
-            {
-                // Save into roaming storage
-                roamingStorageHelper.Save(KeyTextBox.Text, ContentTextBox.Text);
-            }
-            else
-            {
-                // Save into local storage
-                localStorageHelper.Save(KeyTextBox.Text, ContentTextBox.Text);
-            }
+            // Save into local storage
+            localStorageHelper.Save(KeyTextBox.Text, ContentTextBox.Text);
         }
     }
 }

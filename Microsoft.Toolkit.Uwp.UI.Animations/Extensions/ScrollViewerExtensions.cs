@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -66,11 +66,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     visual.StartAnimation($"{nameof(Visual.Offset)}.{targetAxis}", animation);
                     break;
                 default:
-                    ThrowHelper.ThrowArgumentException("Invalid target property");
+                    ThrowArgumentException();
                     break;
             }
 
             return animation;
+
+            static ExpressionAnimation ThrowArgumentException() => throw new ArgumentException("Invalid target property");
         }
     }
 }

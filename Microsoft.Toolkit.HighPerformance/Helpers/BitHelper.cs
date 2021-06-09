@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -209,8 +209,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // and perform an OR with the resulting value of the previous
             // operation. This will always guaranteed to work, thanks to the
             // initial code clearing that bit before setting it again.
+            bool copy = flag;
             uint
-                flag32 = *(byte*)&flag,
+                flag32 = *(byte*)&copy,
                 shift = flag32 << n,
                 or = and | shift;
 
@@ -378,8 +379,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             ulong
                 bit = 1ul << n,
                 not = ~bit,
-                and = value & not,
-                flag64 = *(byte*)&flag,
+                and = value & not;
+            bool copy = flag;
+            ulong flag64 = *(byte*)&copy,
                 shift = flag64 << n,
                 or = and | shift;
 

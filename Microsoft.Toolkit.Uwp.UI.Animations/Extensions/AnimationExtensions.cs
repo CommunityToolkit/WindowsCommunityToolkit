@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Numerics;
-using Microsoft.Toolkit.Diagnostics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -38,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// The default <see cref="EasingMode"/> value used for animations.
         /// </summary>
         public const EasingMode DefaultEasingMode = EasingMode.EaseInOut;
+
+        /// <summary>
+        /// The default <see cref="AnimationDelayBehavior"/> value used for animations (only applies to composition animations).
+        /// </summary>
+        public const AnimationDelayBehavior DefaultDelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
         /// <summary>
         /// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.
@@ -111,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "AnchorPoint.X",
                     Axis.Y => "AnchorPoint.Y",
                     Axis.Z => "AnchorPoint.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -132,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Translation.X",
                     Axis.Y => "Translation.Y",
                     Axis.Z => "Translation.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -153,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Offset.X",
                     Axis.Y => "Offset.Y",
                     Axis.Z => "Offset.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -174,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Scale.X",
                     Axis.Y => "Scale.Y",
                     Axis.Z => "Scale.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -195,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "CenterPoint.X",
                     Axis.Y => "CenterPoint.Y",
                     Axis.Z => "CenterPoint.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -217,7 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Side.Bottom => nameof(InsetClip.BottomInset),
                     Side.Right => nameof(InsetClip.RightInset),
                     Side.Left => nameof(InsetClip.LeftInset),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid clip side")
+                    _ => ThrowArgumentException<string>("Invalid clip side")
                 };
 
                 /// <summary>
@@ -238,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Axis.X => "Size.X",
                     Axis.Y => "Size.Y",
                     Axis.Z => "Size.Z",
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
             }
 
@@ -257,7 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(CompositeTransform.TranslateX),
                     Axis.Y => nameof(CompositeTransform.TranslateY),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -270,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(CompositeTransform.ScaleX),
                     Axis.Y => nameof(CompositeTransform.ScaleY),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -283,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(CompositeTransform.CenterX),
                     Axis.Y => nameof(CompositeTransform.CenterY),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
 
                 /// <summary>
@@ -296,8 +300,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     Axis.X => nameof(FrameworkElement.Width),
                     Axis.Y => nameof(FrameworkElement.Height),
-                    _ => ThrowHelper.ThrowArgumentException<string>("Invalid axis")
+                    _ => ThrowArgumentException<string>("Invalid axis")
                 };
+            }
+
+            /// <summary>
+            /// Throws a new <see cref="ArgumentException"/> with a given message.
+            /// </summary>
+            private static T ThrowArgumentException<T>(string message)
+            {
+                throw new ArgumentException(message);
             }
         }
     }

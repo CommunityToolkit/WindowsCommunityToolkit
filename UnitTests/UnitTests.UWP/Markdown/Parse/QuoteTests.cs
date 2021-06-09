@@ -13,6 +13,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class QuoteTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_SingleLine()
@@ -210,5 +211,6 @@ namespace UnitTests.Markdown.Parse
                     new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
                     new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" })))));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
