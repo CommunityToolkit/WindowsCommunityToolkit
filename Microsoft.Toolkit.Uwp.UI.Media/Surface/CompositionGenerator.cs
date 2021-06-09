@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,14 +11,14 @@ using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Composition;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Core class which is used to create various RenderSurfaces like GeometrySurface, GeometryMaskSurface, GaussianMaskSurface, ImageSurface, ImageMaskSurface

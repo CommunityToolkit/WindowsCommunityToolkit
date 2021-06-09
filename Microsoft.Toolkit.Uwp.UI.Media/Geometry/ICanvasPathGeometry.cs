@@ -1,6 +1,6 @@
-﻿using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Graphics.Canvas.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     internal interface ICanvasPathGeometry
     {

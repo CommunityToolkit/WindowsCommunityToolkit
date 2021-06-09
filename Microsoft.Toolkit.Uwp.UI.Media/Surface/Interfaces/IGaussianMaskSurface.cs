@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,7 @@ using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Interface for rendering custom shaped geometries onto ICompositionSurface so that they can be used as masks on Composition Visuals.

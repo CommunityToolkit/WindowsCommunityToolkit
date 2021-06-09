@@ -1,10 +1,16 @@
-﻿using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.Graphics.Canvas.Brushes;
 using Windows.UI;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
+    /// <summary>
+    /// XAML equivalent of Win2d's CanvasSolidColorBrush class which paints in solid color.
+    /// </summary>
     public class SolidColorCanvasBrush : RenderCanvasBrushBase
     {
         /// <summary>
@@ -38,14 +44,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
             brush.OnUpdated();
         }
 
+        /// <inheritdoc/>
         protected override void OnUpdated()
         {
             CanvasBrush = new CanvasSolidColorBrush(CompositionGenerator.Instance.Device, Color);
             base.OnUpdated();
-        }
-
-        public SolidColorCanvasBrush()
-        {
         }
     }
 }

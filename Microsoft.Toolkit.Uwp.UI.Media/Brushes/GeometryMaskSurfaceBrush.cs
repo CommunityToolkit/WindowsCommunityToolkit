@@ -1,17 +1,19 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Represents a brush
+    /// Represents a brush which defines a <see cref="CanvasCoreGeometry"/> as a mask to be applied on a <see cref="RenderSurfaceBrushBase"/> derivative.
     /// </summary>
     public sealed class GeometryMaskSurfaceBrush : RenderSurfaceBrushBase
     {
@@ -30,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
             new PropertyMetadata(null, OnTargetChanged));
 
         /// <summary>
-        /// Gets or sets the Target Geometry on which the Mask is applied.
+        /// Gets or sets the target <see cref="RenderSurfaceBrushBase"/> on which the Mask is applied.
         /// </summary>
         public RenderSurfaceBrushBase Target
         {

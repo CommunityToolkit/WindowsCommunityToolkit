@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -8,7 +8,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Enum to define the location of the
@@ -43,6 +43,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
     /// </summary>
     public class ImageSurfaceOptions : DependencyObject
     {
+        /// <summary>
+        /// Event which indicates that the components of the <see cref="ImageSurfaceOptions"/> have changed.
+        /// </summary>
         public event EventHandler<EventArgs> Updated;
 
         /// <summary>
@@ -186,7 +189,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Surface
         /// <summary>
         /// <para>Gets or sets a value describing how image is positioned vertically in the IImageSurface or IImageMaskSurface.</para>
         /// <para>NOTE: This property is taken into consideration only if AutoResize is False.</para>
-        /// </summary>
         /// </summary>
         public AlignmentY VerticalAlignment
         {

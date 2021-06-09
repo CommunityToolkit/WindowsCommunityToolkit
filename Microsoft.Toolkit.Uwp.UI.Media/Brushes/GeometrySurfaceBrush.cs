@@ -1,17 +1,20 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Brush
+    /// Brush which renders the provided <see cref="CanvasCoreGeometry"/>.
     /// </summary>
     public sealed class GeometrySurfaceBrush : RenderSurfaceBrushBase
     {
@@ -42,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// <summary>
         /// Handles changes to the Geometry property.
         /// </summary>
-        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" /></param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnGeometryChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

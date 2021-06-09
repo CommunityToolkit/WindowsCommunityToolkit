@@ -1,13 +1,19 @@
-﻿using System;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
+    /// <summary>
+    /// Represents a brush which uses an Image to create a mask to be applied on a <see cref="RenderSurfaceBrushBase"/> derivative.
+    /// </summary>
     public sealed class ImageMaskSurfaceBrush : RenderSurfaceBrushBase
     {
         private CompositionMaskBrush _maskBrush;

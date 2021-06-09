@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,10 +6,8 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Parser for the CanvasStrokeStyle

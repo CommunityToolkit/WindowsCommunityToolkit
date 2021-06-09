@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -7,12 +7,10 @@ using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Represents a complex vector-based shape that may be composed of arcs, curves, ellipses, lines, rectangles, rounded rectangles, squircles.

@@ -1,16 +1,22 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Base class for RenderSurface brushes
     /// </summary>
     public abstract class RenderSurfaceBrushBase : XamlCompositionBrushBase
     {
+        /// <summary>
+        /// Event which indicates that the components of the brush have changed.
+        /// </summary>
         public event EventHandler<EventArgs> Updated;
 
         /// <summary>

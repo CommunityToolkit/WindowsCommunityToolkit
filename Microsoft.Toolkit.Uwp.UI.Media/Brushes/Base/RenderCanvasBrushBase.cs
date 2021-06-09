@@ -1,17 +1,30 @@
-﻿using System;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Runtime.CompilerServices;
 using Microsoft.Graphics.Canvas.Brushes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
+    /// <summary>
+    /// Abstract base class for SolidColorCanvasBrush, LinearGradientCanvasBrush and RadialGradientCanvasBrush
+    /// </summary>
     public abstract class RenderCanvasBrushBase : DependencyObject, IDisposable
     {
+        /// <summary>
+        /// Event which indicates that the components of the brush have changed.
+        /// </summary>
         public event EventHandler<EventArgs> Updated;
 
         private bool _disposedValue;
 
+        /// <summary>
+        /// Gets or sets the associated CanvasBrush.
+        /// </summary>
         public ICanvasBrush CanvasBrush { get; protected set; }
 
         /// <summary>
@@ -58,6 +71,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
             RaiseUpdatedEvent();
         }
 
+        /// <summary>
+        /// Raises the Updated event.
+        /// </summary>
         protected void RaiseUpdatedEvent()
         {
             Updated?.Invoke(this, null);

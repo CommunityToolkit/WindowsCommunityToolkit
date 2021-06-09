@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 [assembly: InternalsVisibleTo("UnitTests.UWP")]
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Contains all the Regular Expressions which are used for parsing the Win2d Path Mini Language.

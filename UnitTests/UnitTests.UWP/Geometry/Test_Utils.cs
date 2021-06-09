@@ -8,7 +8,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 

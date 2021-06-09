@@ -1,16 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
+    /// <summary>
+    /// Class which defines various properties which govern how the stroke is rendered.
+    /// </summary>
     public class StrokeStyle : DependencyObject, IDisposable
     {
         private bool _disposedValue;
         private CanvasStrokeStyle _canvasStrokeStyle;
 
+        /// <summary>
+        /// Event to notify that the properties of this class have been updated.
+        /// </summary>
         public event EventHandler<EventArgs> Updated;
 
         /// <summary>
@@ -84,6 +90,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             OnUpdated();
         }
 
+        /// <summary>
+        /// Gets the custom dash style parsed from the input string.
+        /// </summary>
         public float[] ParsedCustomDashStyle { get; private set; } = null;
 
         /// <summary>
@@ -262,6 +271,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             Updated?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StrokeStyle"/> class.
+        /// </summary>
         public StrokeStyle()
         {
             ParsedCustomDashStyle = new float[0];
@@ -282,6 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -289,6 +302,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Gets the CanvasStrokeStyle.
+        /// </summary>
+        /// <returns><see cref="CanvasStrokeStyle"/></returns>
         public CanvasStrokeStyle GetCanvasStrokeStyle()
         {
             return _canvasStrokeStyle;

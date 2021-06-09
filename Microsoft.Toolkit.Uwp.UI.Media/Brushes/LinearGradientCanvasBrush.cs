@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Surface;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
@@ -11,6 +13,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
 {
+    /// <summary>
+    /// XAML equivalent of Win2d's CanvasLinearGradientBrush class which paints in linear gradient.
+    /// </summary>
     [ContentProperty(Name = nameof(Stops))]
     public class LinearGradientCanvasBrush : RenderCanvasBrushBase
     {
