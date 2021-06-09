@@ -20,14 +20,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private static readonly string[] Labels = "Lorem ipsum dolor sit amet consectetur adipiscing elit".Split(" ");
 
         private readonly Random _random;
-        private readonly ObservableCollection<MetadataUnit> _units;
+        private readonly ObservableCollection<MetadataItem> _units;
         private readonly DelegateCommand<object> _command;
         private MetadataControl _metadataControl;
 
         public MetadataControlPage()
         {
             _random = new Random();
-            _units = new ObservableCollection<MetadataUnit>();
+            _units = new ObservableCollection<MetadataItem>();
             _command = new DelegateCommand<object>(OnExecuteCommand);
             InitializeComponent();
             Setup();
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _metadataControl = control.FindChildByName("metadataControl") as MetadataControl;
             if (_metadataControl != null)
             {
-                _metadataControl.MetadataUnits = _units;
+                _metadataControl.Items = _units;
             }
         }
 
@@ -46,13 +46,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SampleController.Current.RegisterNewCommand("Add label", (sender, args) =>
             {
-                _units.Add(new MetadataUnit { Label = GetRandomLabel() });
+                _units.Add(new MetadataItem { Label = GetRandomLabel() });
             });
 
             SampleController.Current.RegisterNewCommand("Add command", (sender, args) =>
             {
                 var label = GetRandomLabel();
-                _units.Add(new MetadataUnit
+                _units.Add(new MetadataItem
                 {
                     Label = label,
                     Command = _command,

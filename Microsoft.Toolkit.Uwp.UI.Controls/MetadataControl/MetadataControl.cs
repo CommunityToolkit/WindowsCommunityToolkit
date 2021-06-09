@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Documents;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Display <see cref="MetadataUnit"/>s separated by bullets.
+    /// Display <see cref="MetadataItem"/>s separated by bullets.
     /// </summary>
     [TemplatePart(Name = TextContainerPart, Type = typeof(TextBlock))]
     public sealed class MetadataControl : Control
@@ -38,13 +38,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(", ", OnPropertyChanged));
 
         /// <summary>
-        /// The DP to store the <see cref="MetadataUnits"/> property value.
+        /// The DP to store the <see cref="Items"/> property value.
         /// </summary>
-        public static readonly DependencyProperty MetadataUnitsProperty = DependencyProperty.Register(
-            nameof(MetadataUnits),
-            typeof(IEnumerable<MetadataUnit>),
+        public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
+            nameof(Items),
+            typeof(IEnumerable<MetadataItem>),
             typeof(MetadataControl),
-            new PropertyMetadata(null, OnMetadataUnitsChanged));
+            new PropertyMetadata(null, OnMetadataItemsChanged));
+
+        /// <summary>
+        /// The DP to store the TextBlockStyle value.
+        /// </summary>
+        public static readonly DependencyProperty TextBlockStyleProperty = DependencyProperty.Register(
+            nameof(TextBlockStyle),
+            typeof(Style),
+            typeof(MetadataControl),
+            new PropertyMetadata(null));
 
         private const string TextContainerPart = "TextContainer";
 
@@ -60,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the separator to display between the <see cref="MetadataUnit"/>.
+        /// Gets or sets the separator to display between the <see cref="MetadataItem"/>.
         /// </summary>
         public string Separator
         {
@@ -78,13 +87,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets he <see cref="MetadataUnit"/> to display in the control.
+        /// Gets or sets the <see cref="MetadataItem"/> to display in the control.
         /// If it implements <see cref="INotifyCollectionChanged"/>, the control will automatically update itself.
         /// </summary>
-        public IEnumerable<MetadataUnit> MetadataUnits
+        public IEnumerable<MetadataItem> Items
         {
-            get => (IEnumerable<MetadataUnit>)GetValue(MetadataUnitsProperty);
-            set => SetValue(MetadataUnitsProperty, value);
+            get => (IEnumerable<MetadataItem>)GetValue(ItemsProperty);
+            set => SetValue(ItemsProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Style"/> to use on the inner <see cref="TextBlock"/> control.
+        /// </summary>
+        public Style TextBlockStyle
+        {
+            get => (Style)GetValue(TextBlockStyleProperty);
+            set => SetValue(TextBlockStyleProperty, value);
         }
 
         /// <inheritdoc/>
@@ -94,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Update();
         }
 
-        private static void OnMetadataUnitsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnMetadataItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (MetadataControl)d;
             void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args) => control.Update();
@@ -127,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _textContainer.Inlines.Clear();
 
-            if (MetadataUnits is null)
+            if (Items is null)
             {
                 AutomationProperties.SetName(_textContainer, string.Empty);
                 NotifyLiveRegionChanged();
@@ -136,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Inline unitToAppend;
             var accessibleString = new StringBuilder();
-            foreach (var unit in MetadataUnits)
+            foreach (var unit in Items)
             {
                 if (_textContainer.Inlines.Count > 0)
                 {
