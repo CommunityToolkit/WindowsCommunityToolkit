@@ -92,7 +92,7 @@ namespace UnitTests.HighPerformance.Enumerables
         [DataRow(1, new[] { 1, 2, 3, 4 })]
         [DataRow(4, new[] { 1, 5, 9, 13 })]
         [DataRow(5, new[] { 1, 6, 11, 16 })]
-        public void Test_RefEnumerable_Index_Indexer(int length, int step, int[] values)
+        public void Test_RefEnumerable_Index_Indexer(int step, int[] values)
         {
             Span<int> data = new[]
             {
