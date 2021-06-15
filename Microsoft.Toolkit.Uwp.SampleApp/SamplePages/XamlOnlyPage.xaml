@@ -50,6 +50,7 @@
                 <controls:Case IsDefault="True" />
             </controls:CaseCollection>
         </controls:SwitchPresenter>
+        <controls:ContentSizer x:Key="ContentSizerControl" />
         <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
         <media:AttachedCardShadow x:Key="AttachedShadow" />
         <ui:AttachedDropShadow x:Key="AttachedDropShadow" />
