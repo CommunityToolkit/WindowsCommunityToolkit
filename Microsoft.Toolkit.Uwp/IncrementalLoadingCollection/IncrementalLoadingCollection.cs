@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp
                 .ContinueWith(
                     t =>
                     {
-                        if(t.IsFaulted)
+                        if (t.IsFaulted)
                         {
                             throw t.Exception;
                         }

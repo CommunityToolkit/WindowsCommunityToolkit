@@ -77,7 +77,7 @@ namespace UnitTests.Converters
 
             Assert.AreEqual(DependencyProperty.UnsetValue, converter.Convert(null, null, null, null));
             Assert.AreEqual(DependencyProperty.UnsetValue, converter.Convert("Hello world", null, null, null));
-         }
+        }
 
         [TestCategory("Converters")]
         [UITestMethod]
