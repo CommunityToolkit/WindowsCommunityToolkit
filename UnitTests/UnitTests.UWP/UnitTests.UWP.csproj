@@ -19,8 +19,6 @@
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
-  <Target Name="Pack">
-  </Target>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
@@ -546,11 +544,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>
