@@ -281,6 +281,7 @@
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
+    <Content Include="SamplePages\MetadataControl\MetadataControl.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -505,6 +506,9 @@
     </Compile>
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
+      <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
@@ -966,6 +970,13 @@
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
