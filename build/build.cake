@@ -182,6 +182,7 @@ Task("BuildProjects")
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
+    .EnableBinaryLogger()
     .WithTarget("Build");
 
     UpdateToolsPath(buildSettings);
@@ -342,7 +343,7 @@ Task("MSTestUITest")
 Task("Default")
     .IsDependentOn("Build")
     //.IsDependentOn("Test")
-    .IsDependentOn("UITest")
+    //.IsDependentOn("UITest")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")
