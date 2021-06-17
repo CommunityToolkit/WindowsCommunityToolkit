@@ -4,7 +4,7 @@
 #addin nuget:?package=Cake.Powershell&version=1.0.0
 #addin nuget:?package=Cake.GitVersioning&version=3.4.190
 
-#tool nuget:?package=MSTest.TestAdapter&version=2.2.4-preview-20210428-02
+#tool nuget:?package=MSTest.TestAdapter&version=2.2.5-preview-20210605-01
 #tool nuget:?package=vswhere&version=2.8.4
 
 using System;
@@ -248,7 +248,7 @@ public string getMSTestAdapterPath(){
     if(nugetPaths.Count == 0){
         throw new Exception(
             "Cannot locate the MSTest test adapter. " +
-            "You might need to add '#tool nuget:?package=MSTest.TestAdapter&version=2.2.4-preview-20210428-02' " +
+            "You might need to add '#tool nuget:?package=MSTest.TestAdapter&version=2.2.5-preview-20210605-01' " +
             "to the top of your build.cake file.");
     }
 

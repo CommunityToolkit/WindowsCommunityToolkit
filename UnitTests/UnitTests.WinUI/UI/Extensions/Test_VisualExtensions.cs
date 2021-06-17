@@ -11,7 +11,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.UWP.UI
+namespace UnitTests.WinUI.UI
 {
     [TestClass]
     [TestCategory("Test_VisualExtensions")]

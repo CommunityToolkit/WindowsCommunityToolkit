@@ -12,7 +12,7 @@ using CommunityToolkit.WinUI.UI;
 using System;
 using Microsoft.UI.Xaml.Media;
 
-namespace UnitTests.UWP.UI.Animations
+namespace UnitTests.WinUI.UI.Animations
 {
     [TestClass]
     [TestCategory("Test_AnimationBuilderStart")]

@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 
@@ -22,14 +22,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="Microsoft.Internal.MUXTestInfra.MSTest" Version="3.0.0-zmain.210407.3-CI" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.4-preview-20210428-02" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.4-preview-20210428-02" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.5-preview-20210605-01" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.5-preview-20210605-01" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="Microsoft.Windows.Apps.Test" Version="1.0.181205002" />
     <PackageReference Include="Grpc.Tools" Version="2.36.4" />
     <PackageReference Include="Grpc.Net.Client" Version="2.36.0" />

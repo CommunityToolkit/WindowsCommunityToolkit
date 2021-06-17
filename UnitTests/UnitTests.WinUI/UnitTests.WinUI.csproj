@@ -39,10 +39,10 @@
       <Version>5.10.3</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.2.4-preview-20210428-02</Version>
+      <Version>2.2.5-preview-20210605-01</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.2.4-preview-20210428-02</Version >
+      <Version>2.2.5-preview-20210605-01</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeCoverage">
       <Version>16.9.4</Version>
@@ -82,6 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Assets\StoreLogo.embeded.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\StoreLogo.embeded.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj" />

@@ -12,7 +12,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.UI.Xaml.Automation.Peers;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     [TestCategory("Test_Carousel")]

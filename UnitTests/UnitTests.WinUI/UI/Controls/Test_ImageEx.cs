@@ -15,7 +15,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     public class Test_ImageEx : VisualUITestBase
@@ -29,7 +29,7 @@ namespace UnitTests.UWP.UI.Controls
             {
                 var bitmapImage = new BitmapImage();
 
-                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(@"UnitTests.UWP.Assets.StoreLogo.embeded.png");
+                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(@"UnitTests.WinUI.Assets.StoreLogo.embeded.png");
                 using var memStream = new MemoryStream();
                 await stream.CopyToAsync(memStream);
                 memStream.Seek(0, SeekOrigin.Begin);
