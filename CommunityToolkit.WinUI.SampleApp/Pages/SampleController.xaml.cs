@@ -215,9 +215,9 @@ namespace CommunityToolkit.WinUI.SampleApp
                             method.Invoke(SamplePage, new object[] { e });
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        ExceptionNotification.Show("Sample Page failed to load.");
+                        ExceptionNotification.Show("Sample Page failed to load: " + ex.Message);
                     }
 
                     if (SamplePage != null)

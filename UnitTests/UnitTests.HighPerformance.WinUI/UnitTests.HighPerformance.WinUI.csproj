@@ -18,8 +18,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
-  <Target Name="Pack">
-  </Target>
   <ItemGroup>
     <None Remove="MainWindow.xaml" />
   </ItemGroup>
@@ -71,4 +69,6 @@
     </Page>
   </ItemGroup>
   <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>

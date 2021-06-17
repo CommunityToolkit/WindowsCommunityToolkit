@@ -105,5 +105,6 @@
     </Page>
   </ItemGroup>
   <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
-
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>

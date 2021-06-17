@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-
     <ProjectReference Include="..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj" />
-
   </ItemGroup>
 
 </Project>

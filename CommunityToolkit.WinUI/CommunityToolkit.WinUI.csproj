@@ -9,9 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-
     <ProjectReference Include="..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
-
   </ItemGroup>
 
 </Project>

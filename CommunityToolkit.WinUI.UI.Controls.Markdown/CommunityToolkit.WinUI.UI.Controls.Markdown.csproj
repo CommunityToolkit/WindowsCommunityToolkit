@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
     <Title>Windows Community Toolkit Controls Markdown</Title>
@@ -8,8 +9,6 @@
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Markdown;Text;Block;MarkdownTextBlock</PackageTags>
     <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
   <ItemGroup>
@@ -62,4 +61,5 @@
     </ItemGroup>
     <!--<Message Text="Files After: @(PackagingOutputs)" Importance="high" />-->
   </Target>
+
 </Project>

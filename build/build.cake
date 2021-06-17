@@ -182,6 +182,7 @@ Task("BuildProjects")
         MaxCpuCount = 0
     }
     .SetConfiguration("Release")
+    .EnableBinaryLogger()
     .WithTarget("Build");
 
     UpdateToolsPath(buildSettings);

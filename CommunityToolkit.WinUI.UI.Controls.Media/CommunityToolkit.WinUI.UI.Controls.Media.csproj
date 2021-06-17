@@ -17,8 +17,6 @@
       Image;Cropper  ;ImageCropper  ;Crop;
       Infinite;Canvas;InfiniteCanvas;
     </PackageTags>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
@@ -44,4 +42,5 @@
     <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
+
 </Project>

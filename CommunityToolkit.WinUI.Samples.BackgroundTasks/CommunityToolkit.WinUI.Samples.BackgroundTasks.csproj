@@ -31,7 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CommunityToolkit.WinUI.Notifications\CommunityToolkit.WinUI.Notifications.csproj" />
   </ItemGroup>
-  <Target Name="Pack">
-    <!-- No-op to avoid build error when packing solution from commandline -->
-  </Target>
+	<!-- No-op to avoid build error when packing solution from commandline -->
+	<Target Name="Pack" />
 </Project>

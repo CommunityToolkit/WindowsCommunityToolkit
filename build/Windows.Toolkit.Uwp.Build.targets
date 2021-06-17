@@ -11,8 +11,8 @@
       </PropertyGroup>
       <ItemGroup Condition="'$(IsWinUIProject)' == 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">
         <PackageReference Include="Microsoft.ProjectReunion" Version="$(MicrosoftProjectReunionVersion)" />
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.$(TargetPlatformRevision).16" />
-        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.$(TargetPlatformRevision).16" />
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.$(TargetPlatformRevision).17" />
+        <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.$(TargetPlatformRevision).17" />
       </ItemGroup>
     </When>
   </Choose>
