@@ -45,21 +45,44 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
       </PropertyGroup>
     </When>
+    <Otherwise>
+      <PropertyGroup>
+        <IsPackable>false</IsPackable>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
+    <When Condition="('$(IsWinUIProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+      <PropertyGroup>
+        <GenerateLibraryLayout>true</GenerateLibraryLayout>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(Configuration)' == 'Debug' and '$(IsDesignProject)' != 'true'">
+      <!-- Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios -->
+      <PropertyGroup>
+        <EnableXBindDiagnostics>false</EnableXBindDiagnostics>
+        <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
+      </PropertyGroup>
+    </When>
   </Choose>
 
   <Choose>
     <When Condition="'$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
       <PropertyGroup>
-        <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+        <!-- Declare that the Repository URL can be published to NuSpec -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+        <!-- Embed source files that are not tracked by the source control manager to the PDB -->
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <!-- Optional: Include PDB in the built .nupkg --> 
+        <!-- Include PDB in the built .nupkg -->
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0" PrivateAssets="All"/>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
       </ItemGroup>
     </When>
   </Choose>
@@ -67,7 +90,7 @@
   <Choose>
     <When Condition="'$(IsDesignProject)' != 'true'">
       <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
       </ItemGroup>
     </When>
   </Choose>
@@ -80,10 +103,10 @@
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="$(MSBuildThisFileDirectory)license.md" Pack="true" PackagePath="\"/>
-    <None Include="$(MSBuildThisFileDirectory)build\nuget.png" Pack="true" PackagePath="images\"/>
+    <None Include="$(MSBuildThisFileDirectory)License.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)build\nuget.png" Pack="true" PackagePath="images\" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.VisualStudio.Design.props" Condition="'$(IsDesignProject)' == 'true'"/>
+  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.VisualStudio.Design.props" Condition="'$(IsDesignProject)' == 'true'" />
 
 </Project>

@@ -232,7 +232,7 @@ namespace CommunityToolkit.WinUI
                 .ContinueWith(
                     t =>
                     {
-                        if(t.IsFaulted)
+                        if (t.IsFaulted)
                         {
                             throw t.Exception;
                         }
@@ -254,7 +254,7 @@ namespace CommunityToolkit.WinUI
             _cancellationToken = cancellationToken;
 
             // TODO (2021.05.05): Make use common AsyncMutex class.
-            // AsyncMutex is located at Microsoft.Toolkit.Uwp.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
+            // AsyncMutex is located at CommunityToolkit.WinUI.UI.Media/Extensions/System.Threading.Tasks/AsyncMutex.cs at the time of this note.
             await _mutex.WaitAsync();
             try
             {

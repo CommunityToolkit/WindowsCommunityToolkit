@@ -19,4 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CommunityToolkit.WinUI.Input.GazeInteraction\CommunityToolkit.WinUI.Input.GazeInteraction.csproj" />
   </ItemGroup>
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>
