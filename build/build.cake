@@ -269,7 +269,7 @@ Task("Test")
     {
         ToolPath = vswhere + "/Common7/IDE/CommonExtensions/Microsoft/TestWindow/vstest.console.exe",
         TestAdapterPath = getMSTestAdapterPath(),
-        ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10"),
+        ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10 --diag:diag.log"),
     };
 
     VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);

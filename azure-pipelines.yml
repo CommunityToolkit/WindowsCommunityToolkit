@@ -71,6 +71,21 @@ jobs:
     displayName: Publish Test Results
     condition: always()
 
+  - task: CopyFiles@2
+    displayName: Copy Test Diagnostic Output
+    inputs:
+      sourceFolder: .\build
+      contents: '**\*.log'
+      targetFolder: $(build.artifactstagingdirectory)\TestDiagnosticOutput
+    condition: failed()
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Test Diagnostic Output
+    inputs:
+      targetPath: $(build.artifactstagingdirectory)\TestDiagnosticOutput
+      artifactName: TestDiagOutput
+    condition: failed()
+
   - task: PublishPipelineArtifact@1
     displayName: Publish Test WexLogFileOutput
     inputs:
