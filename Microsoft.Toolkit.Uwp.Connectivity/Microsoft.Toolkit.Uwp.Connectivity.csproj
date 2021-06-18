@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-
   </ItemGroup>
 
 </Project>
