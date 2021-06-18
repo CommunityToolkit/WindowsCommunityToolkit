@@ -622,6 +622,7 @@
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
     <Content Include="SamplePages\Animations\Activities\InvokeActionsActivityCode.bind" />
     <Content Include="SamplePages\Animations\Activities\StartAnimationActivityCode.bind" />
+    <Content Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorXaml.bind" />
     <Content Include="SamplePages\Graph\LoginButtonXaml.bind" />
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
