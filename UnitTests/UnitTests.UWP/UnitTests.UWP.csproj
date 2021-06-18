@@ -112,9 +112,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.1</Version>
-    </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.1.2</Version>
     </PackageReference>

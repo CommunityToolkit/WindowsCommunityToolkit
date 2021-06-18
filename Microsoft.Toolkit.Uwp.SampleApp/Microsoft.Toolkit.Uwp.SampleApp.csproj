@@ -494,9 +494,6 @@
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorPage.xaml.cs">
-      <DependentUpon>AutoSelectBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\CanvasPathGeometry\GeometryStreamReader.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\Animal.cs" />
     <Compile Include="SamplePages\EnumValuesExtension\AnimalToColorConverter.xaml.cs" />
@@ -958,10 +955,6 @@
     <Page Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\EnumValuesExtension\EnumValuesExtensionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
