@@ -511,6 +511,29 @@ namespace UnitTests.Mvvm
             messenger.Cleanup();
         }
 
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
+        public void Test_Messenger_RegisterMultiple_UnregisterSingle(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+
+            var recipient1 = new object();
+            var recipient2 = new object();
+
+            int handlerCalledCount = 0;
+
+            messenger.Register<object, MessageA>(recipient1, (r, m) => { handlerCalledCount++; });
+            messenger.Register<object, MessageA>(recipient2, (r, m) => { handlerCalledCount++; });
+
+            messenger.UnregisterAll(recipient2);
+
+            messenger.Send(new MessageA());
+
+            Assert.AreEqual(1, handlerCalledCount);
+        }
+
         public sealed class RecipientWithNoMessages
         {
             public int Number { get; set; }
