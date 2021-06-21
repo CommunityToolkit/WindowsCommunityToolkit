@@ -57,10 +57,35 @@
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <!-- Microsoft.UI.Xaml TAEF Extensions -->
     <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
+
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
     <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />
     <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
     <!-- Windows SDK package -->
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(PkgMUXCustomBuildTasks)\tools\x86\WttLog.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="MainClass.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="UITests.App.dependencies.Debug.txt" Condition="'$(Configuration)' == 'Debug'">
+      <Link>UITests.App.dependencies.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UITests.App.dependencies.Release.txt" Condition="'$(Configuration)' == 'Release'">
+      <Link>UITests.App.dependencies.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
