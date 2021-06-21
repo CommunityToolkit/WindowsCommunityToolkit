@@ -1,0 +1,44 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GeometrySurfaceBrush.GeometrySurfaceBrushPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+      mc:Ignorable="d">
+
+    <!--  Shallow Copy  -->
+    <Grid>
+        <!--<Grid.Background>
+            <media:GeometrySurfaceBrush x:Name="surfaceBrush"
+                                        SurfaceHeight="800"
+                                        SurfaceWidth="800"
+                                        StrokeThickness="35">
+                <media:GeometrySurfaceBrush.RenderStrokeStyle>
+                    <media:StrokeStyle />
+                </media:GeometrySurfaceBrush.RenderStrokeStyle>
+                <media:GeometrySurfaceBrush.Stroke>
+                    <media:SolidColorCanvasBrush Color="Blue"></media:SolidColorCanvasBrush>
+                </media:GeometrySurfaceBrush.Stroke>
+                <media:GeometrySurfaceBrush.Geometry>
+                    <media:CanvasCombinedGeometry GeometryCombineMode="Union">
+                        <media:CanvasCombinedGeometry.Geometry1>
+                            <media:CanvasCircleGeometry x:Name="MaskGeometry1"
+                                                        CenterX="300"
+                                                        CenterY="200"
+                                                        Radius="200" />
+                        </media:CanvasCombinedGeometry.Geometry1>
+                        <media:CanvasCombinedGeometry.Geometry2>
+                            <media:CanvasRoundedRectangleGeometry x:Name="MaskGeometry2"
+                                                                  Width="200"
+                                                                  Height="300"
+                                                                  RadiusX="30"
+                                                                  RadiusY="30"
+                                                                  X="200"
+                                                                  Y="200" />
+                        </media:CanvasCombinedGeometry.Geometry2>
+                    </media:CanvasCombinedGeometry>
+                </media:GeometrySurfaceBrush.Geometry>
+            </media:GeometrySurfaceBrush>
+        </Grid.Background>-->
+    </Grid>
+</Page>

@@ -15,17 +15,14 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GeometryMaskSurfaceBrush
+namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.GeometrySurfaceBrush
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class GeometryMaskSurfacePage : Page
+    public sealed partial class GeometrySurfaceBrushPage : Page
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeometryMaskSurfacePage"/> class.
-        /// </summary>
-        public GeometryMaskSurfacePage()
+        public GeometrySurfaceBrushPage()
         {
             this.InitializeComponent();
         }
