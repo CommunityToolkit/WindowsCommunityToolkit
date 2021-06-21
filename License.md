@@ -2,7 +2,7 @@
 
 Copyright (c) .NET Foundation and Contributors
 
-All rights reserved. 
+All rights reserved.
 
 # MIT License (MIT)
 
