@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -35,13 +35,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI">
       <Version>3.0.0-zmain.210407.3-CI</Version>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinRTVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-    <PackageReference Include="Grpc" Version="2.36.4" />
-    <PackageReference Include="Google.Protobuf" Version="3.15.7" />
-    <PackageReference Include="Grpc.Tools" Version="2.36.4" PrivateAssets="All" />
-    <PackageReference Include="Grpc.AspNetCore" Version="2.36.0" />
+    <PackageReference Include="Grpc" Version="2.38.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.17.3" />
+    <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">
