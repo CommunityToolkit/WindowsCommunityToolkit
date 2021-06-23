@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using System.Threading.Tasks;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -75,7 +76,7 @@ namespace UITests.Tests
         public TestContext TestContext { get; set; }
 
         [TestInitialize]
-        public void TestInitialize()
+        public async Task TestInitialize()
         {
             // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
             // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
@@ -84,10 +85,9 @@ namespace UITests.Tests
 
             var pageName = GetPageForTest(TestContext);
 
-            var rez = TestAssembly.OpenPage(pageName);
-            rez.Wait();
+            var rez = await TestAssembly.OpenPage(pageName);
 
-            if (!rez.Result)
+            if (!rez)
             {
                 // Error case, we didn't get confirmation of test starting.
                 throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
@@ -96,7 +96,6 @@ namespace UITests.Tests
             Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
             Wait.ForIdle();
             Log.Comment("[Harness] Starting Test for {0}...", pageName);
-            return;
         }
 
         [TestCleanup]
