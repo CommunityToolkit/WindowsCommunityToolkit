@@ -39,11 +39,11 @@ namespace UITests.Tests
         [TestPage("RangeSelectorTestPage")]
         public void SimpleTestMethod2()
         {
-            var inputStepFrequency = new TextBlock(FindElement.ById("inputStepFrequency"));
-            var inputMinimum = new TextBlock(FindElement.ById("inputMinimum"));
-            var inputRangeStart = new TextBlock(FindElement.ById("inputRangeStart"));
-            var inputRangeEnd = new TextBlock(FindElement.ById("inputRangeEnd"));
-            var inputMaximum = new TextBlock(FindElement.ById("inputMaximum"));
+            var inputStepFrequency = new Edit(FindElement.ById("inputStepFrequency"));
+            var inputMinimum = new Edit(FindElement.ById("inputMinimum"));
+            var inputRangeStart = new Edit(FindElement.ById("inputRangeStart"));
+            var inputRangeEnd = new Edit(FindElement.ById("inputRangeEnd"));
+            var inputMaximum = new Edit(FindElement.ById("inputMaximum"));
 
             var submitStepFrequency = new Button(FindElement.ById("submitStepFrequency"));
             var submitMinimum = new Button(FindElement.ById("submitMinimum"));
