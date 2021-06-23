@@ -99,7 +99,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        [Ignore("WinUI3/CSWinRT Bug - https://github.com/microsoft/CsWinRT/issues/612")]
         public async Task Test_StorageFileHelper_Text_StorageFolder()
         {
             var folder = ApplicationData.Current.LocalFolder;
@@ -175,7 +174,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        [Ignore("WinUI3/CSWinRT Bug - https://github.com/microsoft/CsWinRT/issues/612")]
         public async Task Test_StorageFileHelper_Bytes_StorageFolder()
         {
             byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
@@ -194,7 +192,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        [Ignore("WinUI3/CSWinRT Bug - https://github.com/microsoft/CsWinRT/issues/612")]
         public async Task Test_StorageFileHelper_FileExists()
         {
             byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);
@@ -211,7 +208,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        [Ignore("WinUI3/CSWinRT Bug - https://github.com/microsoft/CsWinRT/issues/612")]
         public async Task Test_StorageFileHelper_FileExists_Recursive()
         {
             byte[] unicodeBytes = Encoding.Unicode.GetBytes(Sampletext);

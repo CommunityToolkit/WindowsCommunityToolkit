@@ -83,7 +83,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        [Ignore("WinUI3/CSWinRT Bug - https://github.com/microsoft/CsWinRT/issues/612")]
         public async Task Test_StreamHelper_LocalFolder()
         {
             var localFolder = ApplicationData.Current.LocalFolder;
@@ -105,7 +104,6 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
-        [Ignore("WinUI3/CSWinRT Bug - https://github.com/microsoft/CsWinRT/issues/612")]
         public async Task Test_StreamHelper_LocalCacheFolder()
         {
             var localCacheFolder = ApplicationData.Current.LocalCacheFolder;
