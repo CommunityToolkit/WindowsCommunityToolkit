@@ -523,16 +523,18 @@ namespace UnitTests.Mvvm
             var recipient1 = new object();
             var recipient2 = new object();
 
-            int handlerCalledCount = 0;
+            int handler1CalledCount = 0;
+            int handler2CalledCount = 0;
 
-            messenger.Register<object, MessageA>(recipient1, (r, m) => { handlerCalledCount++; });
-            messenger.Register<object, MessageA>(recipient2, (r, m) => { handlerCalledCount++; });
+            messenger.Register<object, MessageA>(recipient1, (r, m) => { handler1CalledCount++; });
+            messenger.Register<object, MessageA>(recipient2, (r, m) => { handler2CalledCount++; });
 
             messenger.UnregisterAll(recipient2);
 
             messenger.Send(new MessageA());
 
-            Assert.AreEqual(1, handlerCalledCount);
+            Assert.AreEqual(1, handler1CalledCount);
+            Assert.AreEqual(0, handler2CalledCount);
         }
 
         public sealed class RecipientWithNoMessages
