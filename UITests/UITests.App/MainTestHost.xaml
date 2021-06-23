@@ -19,6 +19,7 @@
                 Opacity="0" />
 
         <Frame x:Name="navigationFrame"
+               IsNavigationStackEnabled="False"
                Navigated="NavigationFrame_Navigated"
                NavigationFailed="NavigationFrame_NavigationFailed" />
     </Grid>

@@ -118,7 +118,7 @@ namespace UITests.App
         private void GoBackInvokerButton_Click(object sender, RoutedEventArgs e)
         {
             Log.Comment("Go Back Clicked. Navigating to Page...");
-            navigationFrame.Navigate(typeof(Page));
+            navigationFrame.Navigate(typeof(HomePage));
             Log.Comment("Navigated to Page.");
         }
     }
