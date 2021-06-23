@@ -94,6 +94,7 @@
     <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj" />
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Behaviors\CommunityToolkit.WinUI.UI.Behaviors.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Layout\CommunityToolkit.WinUI.UI.Controls.Layout.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Input\CommunityToolkit.WinUI.UI.Controls.Input.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Markdown\CommunityToolkit.WinUI.UI.Controls.Markdown.csproj" />
