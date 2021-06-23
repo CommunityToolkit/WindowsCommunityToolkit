@@ -92,7 +92,7 @@ namespace UITests.Tests
             // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
             // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
             // our loading.
-            helper = new TestSetupHelper(new string[] { }, new TestSetupHelper.TestSetupHelperOptions());
+            helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
 
 #if USING_TAEF
             var fullTestName = TestContext.TestName;
