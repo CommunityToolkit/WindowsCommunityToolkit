@@ -30,12 +30,6 @@ namespace UITests.Tests
             TestEnvironment.Initialize(testContext, UITestsAppSampleApp);
         }
 
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            TestEnvironment.AssemblyCleanupWorker(UITestsAppSampleApp);
-        }
-
         [TestMethod]
         [TestPage("TextBoxMaskTestPage")]
         public void TestTextBoxMaskBinding_Property()

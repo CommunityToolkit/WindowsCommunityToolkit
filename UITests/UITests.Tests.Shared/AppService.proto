@@ -5,15 +5,15 @@ option csharp_namespace = "UITests.App.Protos";
 package UITestsAppService;
 
 service AppService {
-  rpc Start (StartRequest) returns (StartReply);
+  rpc OpenPage (OpenPageRequest) returns (OpenPageReply);
   rpc SubscribeLog (SubscribeLogRequest) returns (stream LogUpdate);
 }
 
-message StartRequest {
+message OpenPageRequest {
 	string pageName = 1;
 }
 
-message StartReply {
+message OpenPageReply {
 	string status = 1;
 }
 

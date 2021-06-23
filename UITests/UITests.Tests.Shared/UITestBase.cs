@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -30,7 +29,9 @@ namespace UITests.Tests
 {
     public abstract class UITestBase
     {
-        public static TestApplicationInfo UITestsAppSampleApp
+        private TestSetupHelper helper;
+
+        internal static TestApplicationInfo UITestsAppSampleApp
         {
             get
             {
@@ -82,161 +83,79 @@ namespace UITests.Tests
             }
         }
 
-        public static TestSetupHelper.TestSetupHelperOptions TestSetupHelperOptions
-        {
-            get
+        private static TestSetupHelper.TestSetupHelperOptions TestSetupHelperOptions
+            => new()
             {
-                return new TestSetupHelper.TestSetupHelperOptions
-                {
-                    AutomationIdOfSafeItemToClick = string.Empty
-                };
-            }
-        }
+                AutomationIdOfSafeItemToClick = string.Empty
+            };
 
         public TestContext TestContext { get; set; }
-
-        private GrpcChannel _channel;
-
-        private AppService.AppServiceClient _communicationService;
-
-        private CancellationTokenSource _subscribeLogTokenSource;
-        private Task _subscribeLogTask;
-        private AsyncServerStreamingCall<LogUpdate> _logStream;
 
         [TestInitialize]
         public async Task TestInitialize()
         {
-            PreTestSetup();
+            // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
+            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
+            // our loading.
+            helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
 
+            var pageName = GetPageForTest(TestContext);
+
+            var rez = await TestAssembly.OpenPage(pageName);
+
+            if (!rez)
+            {
+                // Error case, we didn't get confirmation of test starting.
+                throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
+            }
+
+            Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+            Wait.ForIdle();
+            Log.Comment("[Harness] Starting Test for {0}...", pageName);
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            helper.Dispose();
+        }
+
+        private static string GetPageForTest(TestContext testContext)
+        {
 #if USING_TAEF
-            var fullTestName = TestContext.TestName;
+            var fullTestName = testContext.TestName;
             var lastDotIndex = fullTestName.LastIndexOf('.');
             var testName = fullTestName.Substring(lastDotIndex + 1);
             var theClassName = fullTestName.Substring(0, lastDotIndex);
 #else
-            var testName = TestContext.TestName;
-            var theClassName = TestContext.FullyQualifiedTestClassName;
+            var testName = testContext.TestName;
+            var theClassName = testContext.FullyQualifiedTestClassName;
 #endif
-            var currentlyRunningClassType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).FirstOrDefault(f => f.FullName == theClassName);
-            if (!(Type.GetType(theClassName) is Type type))
+            var testClassString = $"test class \"{theClassName}\"";
+            if (Type.GetType(theClassName) is not Type type)
             {
-                Verify.Fail("Type is null. TestClassName : " + theClassName);
-                return;
+                throw new Exception($"Could not find {testClassString}.");
             }
 
-            if (!(type.GetMethod(testName) is MethodInfo method))
+            Log.Comment($"Found {testClassString}.");
+
+            var testMethodString = $"test method \"{testName}\" in {testClassString}";
+            if (type.GetMethod(testName) is not MethodInfo method)
             {
-                Verify.Fail("Mothod is null. TestClassName : " + theClassName + " Testname: " + testName);
-                return;
+                throw new Exception($"Could not find {testMethodString}.");
             }
 
-            if (!(method.GetCustomAttribute(typeof(TestPageAttribute), true) is TestPageAttribute attribute))
+            Log.Comment($"Found {testMethodString}.");
+
+            var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
+            if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
             {
-                Verify.Fail("Attribute is null. TestClassName : " + theClassName);
-                return;
+                throw new Exception($"Could not find {testpageAttributeString}.");
             }
 
-            var pageName = attribute.XamlFile;
+            Log.Comment($"Found {testpageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
 
-            Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
-
-            // Make the connection if we haven't already.
-            if (_channel == null)
-            {
-                Log.Comment("[Harness] Trying to connect...");
-
-                _channel = GrpcChannel.ForAddress(
-                    "https://localhost:5001",
-                    new GrpcChannelOptions
-                    {
-                        HttpHandler = new HttpClientHandler
-                        {
-                            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-                        }
-                    });
-
-                Log.Comment("[Harness] Trying to connect 2...");
-
-                _communicationService = new AppService.AppServiceClient(_channel);
-
-                Log.Comment("[Harness] Connected!");
-
-                _logStream = _communicationService.SubscribeLog(new SubscribeLogRequest());
-
-                _subscribeLogTokenSource = new CancellationTokenSource();
-
-                static async Task SubscribeLog(IAsyncStreamReader<LogUpdate> stream, CancellationToken token)
-                {
-                    try
-                    {
-                        await foreach (var update in stream.ReadAllAsync(token))
-                        {
-                            switch (update.Level)
-                            {
-                                case "Comment":
-                                    Log.Comment("[Host] {0}", update.Message);
-                                    break;
-                                case "Warning":
-                                    Log.Warning("[Host] {0}", update.Message);
-                                    break;
-                                case "Error":
-                                    Log.Error("[Host] {0}", update.Message);
-                                    break;
-                            }
-                        }
-                    }
-                    catch (RpcException e) when (e.StatusCode == StatusCode.Cancelled)
-                    {
-                        return;
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        Console.WriteLine("Finished.");
-                    }
-                }
-
-                _subscribeLogTask = SubscribeLog(_logStream.ResponseStream, _subscribeLogTokenSource.Token);
-            }
-
-            Log.Comment("[Harness] Calling start!");
-
-            // Call the service.
-            var response = await _communicationService.StartAsync(new StartRequest
-            {
-                PageName = pageName
-            });
-            string result = string.Empty;
-
-            // Get the data  that the service sent to us.
-            if (response.Status == "OK")
-            {
-                Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
-                Wait.ForIdle();
-                Log.Comment("[Harness] Starting Test for {0}...", pageName);
-                return;
-            }
-
-            // Error case, we didn't get confirmation of test starting.
-            throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
-        }
-
-        [TestCleanup]
-        public async Task TestCleanup()
-        {
-            _subscribeLogTokenSource.Cancel();
-            await _subscribeLogTask;
-            _logStream.Dispose();
-        }
-
-        // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
-        // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
-        // our loading.
-        private void PreTestSetup()
-        {
-            _ = new TestSetupHelper(new string[] { }, new TestSetupHelper.TestSetupHelperOptions()
-            {
-                AutomationIdOfSafeItemToClick = null
-            });
+            return attribute.XamlFile;
         }
     }
 }
