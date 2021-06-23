@@ -94,6 +94,105 @@ namespace UITests.Tests
             Verify.AreEqual(columnDefinitionEnd.MinWidth, columnDefinitionEnd.ActualWidth, "Column was not the minimum size expected.");
         }
 
+        [TestMethod]
+        [TestPage("GridSplitterTestPage")]
+        public async Task TestGridSplitterDragHorizontalPastMaximumAsync()
+        {
+            var amount = 150;
+
+            var gridSplitter = FindElement.ById("GridSplitterHorizontal");
+
+            Verify.IsNotNull(gridSplitter, "Can't find Horizontal GridSplitter");
+
+            // Drag to the Left
+            InputHelper.DragDistance(gridSplitter, amount, Direction.East, 1000);
+
+            Wait.ForMilliseconds(1050);
+            Wait.ForIdle();
+
+            ColumnDefinition columnDefinitionEnd = (await VisualTreeHelper.FindElementPropertyAsync<List<ColumnDefinition>>("GridSplitterRoot", "ColumnDefinitions"))?.FirstOrDefault();
+
+            Wait.ForIdle();
+
+            Verify.AreEqual(columnDefinitionEnd.MaxWidth, columnDefinitionEnd.ActualWidth, "Column was not the maximum size expected.");
+        }
+
+        [TestMethod]
+        [TestPage("GridSplitterTestPage")]
+        public async Task TestGridSplitterDragVerticalAsync()
+        {
+            var amount = 50;
+            var tolerance = 10;
+
+            var grid = FindElement.ByName("GridSplitterRoot");
+            var gridSplitter = FindElement.ById("GridSplitterVertical");
+
+            Verify.IsNotNull(grid, "Can't find GridSplitterRoot");
+            Verify.IsNotNull(gridSplitter, "Can't find Vertical GridSplitter");
+
+            RowDefinition rowDefinitionStart = (await VisualTreeHelper.FindElementPropertyAsync<List<RowDefinition>>("GridSplitterRoot", "RowDefinitions"))?.FirstOrDefault();
+
+            Verify.IsNotNull(rowDefinitionStart, "Couldn't retrieve Row Definition");
+
+            // Drag to the Left
+            InputHelper.DragDistance(gridSplitter, amount, Direction.North, 1000);
+
+            Wait.ForMilliseconds(1050);
+            Wait.ForIdle();
+
+            RowDefinition rowDefinitionEnd = (await VisualTreeHelper.FindElementPropertyAsync<List<RowDefinition>>("GridSplitterRoot", "RowDefinitions"))?.FirstOrDefault();
+
+            Wait.ForIdle();
+
+            Verify.IsTrue(Math.Abs(rowDefinitionStart.ActualHeight - amount - rowDefinitionEnd.ActualHeight) <= tolerance, $"RowDefinition not in range expected {rowDefinitionStart.ActualHeight - amount} was {rowDefinitionEnd.ActualHeight}");
+        }
+
+        [TestMethod]
+        [TestPage("GridSplitterTestPage")]
+        public async Task TestGridSplitterDragVerticalPastMinimumAsync()
+        {
+            var amount = 150;
+
+            var gridSplitter = FindElement.ById("GridSplitterVertical");
+
+            Verify.IsNotNull(gridSplitter, "Can't find Vertical GridSplitter");
+
+            // Drag to the Left
+            InputHelper.DragDistance(gridSplitter, amount, Direction.North, 1000);
+
+            Wait.ForMilliseconds(1050);
+            Wait.ForIdle();
+
+            RowDefinition rowDefinitionEnd = (await VisualTreeHelper.FindElementPropertyAsync<List<RowDefinition>>("GridSplitterRoot", "RowDefinitions"))?.FirstOrDefault();
+
+            Wait.ForIdle();
+
+            Verify.AreEqual(rowDefinitionEnd.MinHeight, rowDefinitionEnd.ActualHeight, "Row was not the minimum size expected.");
+        }
+
+        [TestMethod]
+        [TestPage("GridSplitterTestPage")]
+        public async Task TestGridSplitterDragVerticalPastMaximumAsync()
+        {
+            var amount = 150;
+
+            var gridSplitter = FindElement.ById("GridSplitterVertical");
+
+            Verify.IsNotNull(gridSplitter, "Can't find Vertical GridSplitter");
+
+            // Drag to the Left
+            InputHelper.DragDistance(gridSplitter, amount, Direction.South, 1000);
+
+            Wait.ForMilliseconds(1050);
+            Wait.ForIdle();
+
+            RowDefinition rowDefinitionEnd = (await VisualTreeHelper.FindElementPropertyAsync<List<RowDefinition>>("GridSplitterRoot", "RowDefinitions"))?.FirstOrDefault();
+
+            Wait.ForIdle();
+
+            Verify.AreEqual(rowDefinitionEnd.MaxHeight, rowDefinitionEnd.ActualHeight, "Row was not the maximum size expected.");
+        }
+
         private class ColumnDefinition
         {
             public GridLength Width { get; set; }
@@ -103,6 +202,17 @@ namespace UITests.Tests
             public double MinWidth { get; set; }
 
             public double MaxWidth { get; set; }
+        }
+
+        private class RowDefinition
+        {
+            public GridLength Height { get; set; }
+
+            public double ActualHeight { get; set; }
+
+            public double MinHeight { get; set; }
+
+            public double MaxHeight { get; set; }
         }
 
         private class GridLength
