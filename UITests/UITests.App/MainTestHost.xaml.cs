@@ -121,5 +121,10 @@ namespace UITests.App
             navigationFrame.Navigate(typeof(HomePage));
             Log.Comment("Navigated to Page.");
         }
+
+        private void CloseAppInvokerButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Current.Exit();
+        }
     }
 }

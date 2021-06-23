@@ -6,18 +6,33 @@
       xmlns:testhelpers="using:AppTestAutomationHelpers"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="AutomationHelperStyle"
+               TargetType="Control">
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="Width" Value="0" />
+            <Setter Property="Height" Value="0" />
+            <Setter Property="Opacity" Value="0" />
+        </Style>
+    </Page.Resources>
 
     <Grid>
         <testhelpers:TestAutomationHelpersPanel />
-        <Button x:Name="GoBackInvokerButton"
-                Width="0"
-                Height="0"
-                AutomationProperties.AutomationId="__GoBackInvoker"
-                IsHitTestVisible="False"
-                IsTabStop="False"
-                Click="GoBackInvokerButton_Click"
-                Opacity="0" />
-
+        <StackPanel Width="0"
+                    Height="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+            <Button x:Name="GoBackInvokerButton"
+                    AutomationProperties.AutomationId="__GoBackInvoker"
+                    Click="GoBackInvokerButton_Click"
+                    Style="{StaticResource AutomationHelperStyle}" />
+            <Button x:Name="CloseAppInvokerButton"
+                    AutomationProperties.AutomationId="__CloseAppInvoker"
+                    Click="CloseAppInvokerButton_Click"
+                    Style="{StaticResource AutomationHelperStyle}" />
+        </StackPanel>
         <Frame x:Name="navigationFrame"
                IsNavigationStackEnabled="False"
                Navigated="NavigationFrame_Navigated"
