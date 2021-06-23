@@ -29,9 +29,10 @@
           BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"
           BorderThickness="0,0,1,1">
         <Grid.RowDefinitions>
-            <RowDefinition MinHeight="100"
+            <RowDefinition Height="200"
+                           MinHeight="100"
                            MaxHeight="300" />
-            <RowDefinition Height="200" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"
@@ -72,11 +73,7 @@
         <controls:GridSplitter x:Name="GridSplitterHorizontal"
                                Grid.Column="1"
                                Width="16"
-                               HorizontalAlignment="Left"
-                               CursorBehavior="ChangeOnSplitterHover"
-                               GripperCursor="Default"
-                               ResizeBehavior="BasedOnAlignment"
-                               ResizeDirection="Auto">
+                               HorizontalAlignment="Left">
             <!--<controls:GridSplitter.RenderTransform>
                 <TranslateTransform X="-8" />
             </controls:GridSplitter.RenderTransform>-->
