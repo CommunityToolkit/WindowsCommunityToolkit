@@ -179,7 +179,6 @@ namespace UITests.Tests
         public async Task TestCleanup()
         {
             helper.Dispose();
-            TestEnvironment.ShouldRestartApplication = true;
             TestCleanupHelper.Cleanup();
         }
 

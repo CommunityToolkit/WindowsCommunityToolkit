@@ -114,5 +114,12 @@ namespace UITests.App
             Log.Error("Failed to navigate to page {0}", e.SourcePageType.FullName);
             _loadingStateTask.SetResult(false);
         }
+
+        private void GoBackInvokerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Log.Comment("Go Back Clicked. Navigating to Page...");
+            navigationFrame.Navigate(typeof(Page));
+            Log.Comment("Navigated to Page.");
+        }
     }
 }

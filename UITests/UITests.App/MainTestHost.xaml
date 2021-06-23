@@ -9,6 +9,14 @@
 
     <Grid>
         <testhelpers:TestAutomationHelpersPanel />
+        <Button x:Name="GoBackInvokerButton"
+                Width="0"
+                Height="0"
+                AutomationProperties.AutomationId="__GoBackInvoker"
+                IsHitTestVisible="False"
+                IsTabStop="False"
+                Click="GoBackInvokerButton_Click"
+                Opacity="0" />
 
         <Frame x:Name="navigationFrame"
                Navigated="NavigationFrame_Navigated"
