@@ -36,8 +36,7 @@ namespace UITests.Tests
         [AssemblyCleanup]
         public static void AssemblyCleanup()
         {
-            TestEnvironment.AssemblyCleanup();
-            CloseTestApp();
+            TestEnvironment.AssemblyCleanupWorker(UITestBase.WinUICsUWPSampleApp);
         }
 
         private static async Task InitalizeComService()
@@ -63,8 +62,6 @@ namespace UITests.Tests
                 throw new Exception("Failed to connect to App Service host.");
             }
         }
-
-        private static Task<bool> CloseTestApp() => SendMessageToApp(new () { { "Command", "Close" } });
 
         internal static Task<bool> OpenPage(string pageName)
         {

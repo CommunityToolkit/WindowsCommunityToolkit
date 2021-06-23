@@ -66,10 +66,6 @@ namespace UITests.App
                     await args.Request.SendResponseAsync(pageResponse ? OkResult : BadResult);
 
                     break;
-                case "Close":
-                    Current.Exit();
-                    await args.Request.SendResponseAsync(OkResult);
-                    break;
                 default:
                     break;
             }
