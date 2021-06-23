@@ -19,6 +19,9 @@ namespace UITests.App
     /// </summary>
     public sealed partial class App
     {
+        private static readonly OpenPageReply BadResult = new() { Status = "BAD" };
+        private static readonly OpenPageReply OkResult = new() { Status = "OK" };
+
         private Task _host;
 
         private async void InitAppService()
@@ -34,26 +37,21 @@ namespace UITests.App
 
         public class AppServiceServer : AppService.AppServiceBase
         {
-            internal static BlockingCollection<LogUpdate> LogUpdates;
+            internal static BlockingCollection<LogUpdate> LogUpdates { get; private set; }
 
             public AppServiceServer(BlockingCollection<LogUpdate> logUpdates)
             {
                 LogUpdates = logUpdates;
             }
 
-            public override async Task<StartReply> Start(StartRequest request, ServerCallContext context)
+            public override async Task<OpenPageReply> OpenPage(OpenPageRequest request, ServerCallContext context)
             {
                 Log.Comment("Received request for Page: {0}", request.PageName);
 
                 // We await the OpenPage method to ensure the navigation has finished.
-                if (await WeakReferenceMessenger.Default.Send(new RequestPageMessage(request.PageName)))
-                {
-                    return new StartReply { Status = "OK" };
-                }
-                else
-                {
-                    return new StartReply { Status = "BAD" };
-                }
+                var pageResponse = await WeakReferenceMessenger.Default.Send(new RequestPageMessage(request.PageName));
+
+                return pageResponse ? OkResult : BadResult;
             }
 
             public override async Task SubscribeLog(SubscribeLogRequest request, IServerStreamWriter<LogUpdate> responseStream, ServerCallContext context)
