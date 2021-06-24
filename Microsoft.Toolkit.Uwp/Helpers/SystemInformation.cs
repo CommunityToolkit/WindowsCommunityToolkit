@@ -50,7 +50,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             DeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
+
             ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+
             OperatingSystemVersion = new OSVersion
             {
                 Major = (ushort)((version & 0xFFFF000000000000L) >> 48),
@@ -58,8 +60,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 Build = (ushort)((version & 0x00000000FFFF0000L) >> 16),
                 Revision = (ushort)(version & 0x000000000000FFFFL)
             };
+
             OperatingSystemArchitecture = Package.Current.Id.Architecture;
-            EasClientDeviceInformation deviceInfo = new EasClientDeviceInformation();
+
+            EasClientDeviceInformation deviceInfo = new();
+
             OperatingSystem = deviceInfo.OperatingSystem;
             DeviceManufacturer = deviceInfo.SystemManufacturer;
             DeviceModel = deviceInfo.SystemProductName;
@@ -67,6 +72,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             (IsAppUpdated, PreviousVersionInstalled) = DetectIfAppUpdated();
             FirstUseTime = DetectFirstUseTime();
             FirstVersionInstalled = DetectFirstVersionInstalled();
+
             InitializeValuesSetWithTrackAppUse();
         }
 
