@@ -12,6 +12,7 @@ using Windows.Security.ExchangeActiveSyncProvisioning;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.System.UserProfile;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
@@ -21,24 +22,58 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public sealed class SystemInformation
     {
-        private readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
-        private DateTime _sessionStart;
-        private PackageVersion _previousVersionInstalled;
+        /// <summary>
+        /// The <see cref="LocalObjectStorageHelper"/> instance used to save and retrieve application settings.
+        /// </summary>
+        private readonly LocalObjectStorageHelper localObjectStorageHelper = new(new SystemSerializer());
 
         /// <summary>
-        /// Launches the store app so the user can leave a review.
+        /// The starting time of the current application session (since app launch or last move to foreground).
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <remarks>This method needs to be called from your UI thread.</remarks>
-        public static async Task LaunchStoreForReviewAsync()
+        private DateTime sessionStart;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SystemInformation"/> class.
+        /// </summary>
+        private SystemInformation()
         {
-            await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
+            ApplicationName = Package.Current.DisplayName;
+            ApplicationVersion = Package.Current.Id.Version;
+
+            try
+            {
+                Culture = GlobalizationPreferences.Languages.Count > 0 ? new CultureInfo(GlobalizationPreferences.Languages.First()) : null;
+            }
+            catch
+            {
+                Culture = null;
+            }
+
+            DeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
+            ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            OperatingSystemVersion = new OSVersion
+            {
+                Major = (ushort)((version & 0xFFFF000000000000L) >> 48),
+                Minor = (ushort)((version & 0x0000FFFF00000000L) >> 32),
+                Build = (ushort)((version & 0x00000000FFFF0000L) >> 16),
+                Revision = (ushort)(version & 0x000000000000FFFFL)
+            };
+            OperatingSystemArchitecture = Package.Current.Id.Architecture;
+            EasClientDeviceInformation deviceInfo = new EasClientDeviceInformation();
+            OperatingSystem = deviceInfo.OperatingSystem;
+            DeviceManufacturer = deviceInfo.SystemManufacturer;
+            DeviceModel = deviceInfo.SystemProductName;
+            IsFirstRun = DetectIfFirstUse();
+            (IsAppUpdated, PreviousVersionInstalled) = DetectIfAppUpdated();
+            FirstUseTime = DetectFirstUseTime();
+            FirstVersionInstalled = DetectFirstVersionInstalled();
+            InitializeValuesSetWithTrackAppUse();
         }
 
         /// <summary>
         /// Gets the unique instance of <see cref="SystemInformation"/>.
         /// </summary>
-        public static SystemInformation Instance { get; } = new SystemInformation();
+        public static SystemInformation Instance { get; } = new();
 
         /// <summary>
         /// Gets the application's name.
@@ -127,11 +162,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// This will be the current version if a previous version of the app was installed
         /// before using <see cref="SystemInformation"/> or if the app is not updated.
         /// </summary>
-        public PackageVersion PreviousVersionInstalled
-        {
-            get => _previousVersionInstalled;
-            private set => _previousVersionInstalled = value;
-        }
+        public PackageVersion PreviousVersionInstalled { get; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) when the app was launched for the first time.
@@ -178,15 +209,38 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 if (LaunchCount > 0)
                 {
-                    var subSessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+                    var subSessionLength = DateTime.UtcNow.Subtract(this.sessionStart).Ticks;
+                    var uptimeSoFar = this.localObjectStorageHelper.Read<long>(nameof(AppUptime));
 
-                    var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
-
-                    return new TimeSpan(uptimeSoFar + subSessionLength);
+                    return new(uptimeSoFar + subSessionLength);
                 }
 
                 return TimeSpan.MinValue;
             }
+        }
+
+        /// <summary>
+        /// Adds to the record of how long the app has been running.
+        /// Use this to optionally include time spent in background tasks or extended execution.
+        /// </summary>
+        /// <param name="duration">The amount to time to add</param>
+        public void AddToAppUptime(TimeSpan duration)
+        {
+            var uptimeSoFar = this.localObjectStorageHelper.Read<long>(nameof(AppUptime));
+
+            this.localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + duration.Ticks);
+        }
+
+        /// <summary>
+        /// Resets the launch count.
+        /// </summary>
+        public void ResetLaunchCount()
+        {
+            LastResetTime = DateTime.UtcNow;
+            LaunchCount = 0;
+
+            this.localObjectStorageHelper.Save(nameof(LastResetTime), LastResetTime.ToFileTimeUtc());
+            this.localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
         }
 
         /// <summary>
@@ -196,11 +250,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="xamlRoot">The XamlRoot object from your visual tree.</param>
         public void TrackAppUse(IActivatedEventArgs args, XamlRoot xamlRoot = null)
         {
-            if (args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser
-             || args.PreviousExecutionState == ApplicationExecutionState.NotRunning)
+            if (args.PreviousExecutionState is ApplicationExecutionState.ClosedByUser or ApplicationExecutionState.NotRunning)
             {
-                LaunchCount = _localObjectStorageHelper.Read<long>(nameof(LaunchCount)) + 1;
-                TotalLaunchCount = _localObjectStorageHelper.Read<long>(nameof(TotalLaunchCount)) + 1;
+                LaunchCount = this.localObjectStorageHelper.Read<long>(nameof(LaunchCount)) + 1;
+                TotalLaunchCount = this.localObjectStorageHelper.Read<long>(nameof(TotalLaunchCount)) + 1;
 
                 // In case we upgraded the properties, make TotalLaunchCount is correct
                 if (TotalLaunchCount < LaunchCount)
@@ -208,21 +261,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     TotalLaunchCount = LaunchCount;
                 }
 
-                _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
-                _localObjectStorageHelper.Save(nameof(TotalLaunchCount), TotalLaunchCount);
+                this.localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
+                this.localObjectStorageHelper.Save(nameof(TotalLaunchCount), TotalLaunchCount);
 
                 LaunchTime = DateTime.UtcNow;
 
-                var lastLaunch = _localObjectStorageHelper.Read<long>(nameof(LastLaunchTime));
-                LastLaunchTime = lastLaunch != default(long)
+                var lastLaunch = this.localObjectStorageHelper.Read<long>(nameof(LastLaunchTime));
+
+                LastLaunchTime = lastLaunch != 0
                     ? DateTime.FromFileTimeUtc(lastLaunch)
                     : LaunchTime;
 
-                _localObjectStorageHelper.Save(nameof(LastLaunchTime), LaunchTime.ToFileTimeUtc());
-                _localObjectStorageHelper.Save(nameof(AppUptime), 0L);
+                this.localObjectStorageHelper.Save(nameof(LastLaunchTime), LaunchTime.ToFileTimeUtc());
+                this.localObjectStorageHelper.Save(nameof(AppUptime), 0L);
 
-                var lastResetTime = _localObjectStorageHelper.Read<long>(nameof(LastResetTime));
-                LastResetTime = lastResetTime != default(long)
+                var lastResetTime = this.localObjectStorageHelper.Read<long>(nameof(LastResetTime));
+
+                LastResetTime = lastResetTime != 0
                     ? DateTime.FromFileTimeUtc(lastResetTime)
                     : DateTime.MinValue;
             }
@@ -239,13 +294,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             else
             {
-                void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
+                void App_VisibilityChanged(CoreWindow sender, VisibilityChangedEventArgs e)
                 {
                     UpdateVisibility(e.Visible);
                 }
 
-                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
-                Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+                CoreWindow windowForCurrentThread = CoreWindow.GetForCurrentThread();
+
+                windowForCurrentThread.VisibilityChanged -= App_VisibilityChanged;
+                windowForCurrentThread.VisibilityChanged += App_VisibilityChanged;
             }
         }
 
@@ -253,146 +310,88 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (visible)
             {
-                _sessionStart = DateTime.UtcNow;
+                this.sessionStart = DateTime.UtcNow;
             }
             else
             {
-                var subSessionLength = DateTime.UtcNow.Subtract(_sessionStart).Ticks;
+                var subSessionLength = DateTime.UtcNow.Subtract(this.sessionStart).Ticks;
+                var uptimeSoFar = this.localObjectStorageHelper.Read<long>(nameof(AppUptime));
 
-                var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
-
-                _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subSessionLength);
+                this.localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + subSessionLength);
             }
-        }
-
-        /// <summary>
-        /// Adds to the record of how long the app has been running.
-        /// Use this to optionally include time spent in background tasks or extended execution.
-        /// </summary>
-        /// <param name="duration">The amount to time to add</param>
-        public void AddToAppUptime(TimeSpan duration)
-        {
-            var uptimeSoFar = _localObjectStorageHelper.Read<long>(nameof(AppUptime));
-            _localObjectStorageHelper.Save(nameof(AppUptime), uptimeSoFar + duration.Ticks);
-        }
-
-        /// <summary>
-        /// Resets the launch count.
-        /// </summary>
-        public void ResetLaunchCount()
-        {
-            LastResetTime = DateTime.UtcNow;
-            LaunchCount = 0;
-
-            _localObjectStorageHelper.Save(nameof(LastResetTime), LastResetTime.ToFileTimeUtc());
-            _localObjectStorageHelper.Save(nameof(LaunchCount), LaunchCount);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SystemInformation"/> class.
-        /// </summary>
-        private SystemInformation()
-        {
-            ApplicationName = Package.Current.DisplayName;
-            ApplicationVersion = Package.Current.Id.Version;
-            try
-            {
-                Culture = GlobalizationPreferences.Languages.Count > 0 ? new CultureInfo(GlobalizationPreferences.Languages.First()) : null;
-            }
-            catch
-            {
-                Culture = null;
-            }
-
-            DeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
-            ulong version = ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
-            OperatingSystemVersion = new OSVersion
-            {
-                Major = (ushort)((version & 0xFFFF000000000000L) >> 48),
-                Minor = (ushort)((version & 0x0000FFFF00000000L) >> 32),
-                Build = (ushort)((version & 0x00000000FFFF0000L) >> 16),
-                Revision = (ushort)(version & 0x000000000000FFFFL)
-            };
-            OperatingSystemArchitecture = Package.Current.Id.Architecture;
-            EasClientDeviceInformation deviceInfo = new EasClientDeviceInformation();
-            OperatingSystem = deviceInfo.OperatingSystem;
-            DeviceManufacturer = deviceInfo.SystemManufacturer;
-            DeviceModel = deviceInfo.SystemProductName;
-            IsFirstRun = DetectIfFirstUse();
-            IsAppUpdated = DetectIfAppUpdated();
-            FirstUseTime = DetectFirstUseTime();
-            FirstVersionInstalled = DetectFirstVersionInstalled();
-            InitializeValuesSetWithTrackAppUse();
         }
 
         private bool DetectIfFirstUse()
         {
-            if (_localObjectStorageHelper.KeyExists(nameof(IsFirstRun)))
+            if (this.localObjectStorageHelper.KeyExists(nameof(IsFirstRun)))
             {
                 return false;
             }
-            else
-            {
-                _localObjectStorageHelper.Save(nameof(IsFirstRun), true);
-                return true;
-            }
+
+            this.localObjectStorageHelper.Save(nameof(IsFirstRun), true);
+
+            return true;
         }
 
-        private bool DetectIfAppUpdated()
+        private (bool IsUpdated, PackageVersion PreviousVersion) DetectIfAppUpdated()
         {
             var currentVersion = ApplicationVersion.ToFormattedString();
 
-            if (!_localObjectStorageHelper.KeyExists(nameof(currentVersion)))
+            // If the "currentVersion" key does not exist, it means that this is the first time this method
+            // is ever called. That is, this is either the first time the app has been launched, or the first
+            // time a previously existing app has run this method (or has run it after a new update of the app).
+            // In this case, save the current version and report the same version as previous version installed.
+            if (!this.localObjectStorageHelper.KeyExists(nameof(currentVersion)))
             {
-                _localObjectStorageHelper.Save(nameof(currentVersion), currentVersion);
+                this.localObjectStorageHelper.Save(nameof(currentVersion), currentVersion);
             }
             else
             {
-                var lastVersion = _localObjectStorageHelper.Read<string>(nameof(currentVersion));
-                PreviousVersionInstalled = lastVersion.ToPackageVersion();
-                if (currentVersion != lastVersion)
+                var previousVersion = this.localObjectStorageHelper.Read<string>(nameof(currentVersion));
+
+                // There are two possible cases if the "currentVersion" key exists:
+                //   1) The previous version is different than the current one. This means that the application
+                //      has been updated since the last time this method was called. We can overwrite the saved
+                //      setting for "currentVersion" to bring that value up to date, and return its old value.
+                //   2) The previous version matches the current one: the app has just been reopened without updates.
+                //      In this case we have nothing to do and just return the previous version installed to be the same.
+                if (currentVersion != previousVersion)
                 {
-                    _localObjectStorageHelper.Save(nameof(currentVersion), currentVersion);
-                    return true;
+                    this.localObjectStorageHelper.Save(nameof(currentVersion), currentVersion);
+
+                    return (true, previousVersion.ToPackageVersion());
                 }
             }
 
-            return false;
+            return (false, currentVersion.ToPackageVersion());
         }
 
         private DateTime DetectFirstUseTime()
         {
-            DateTime result;
+            if (this.localObjectStorageHelper.KeyExists(nameof(FirstUseTime)))
+            {
+                var firstUse = this.localObjectStorageHelper.Read<long>(nameof(FirstUseTime));
 
-            if (_localObjectStorageHelper.KeyExists(nameof(FirstUseTime)))
-            {
-                var firstUse = _localObjectStorageHelper.Read<long>(nameof(FirstUseTime));
-                result = DateTime.FromFileTimeUtc(firstUse);
-            }
-            else
-            {
-                result = DateTime.UtcNow;
-                _localObjectStorageHelper.Save(nameof(FirstUseTime), result.ToFileTimeUtc());
+                return DateTime.FromFileTimeUtc(firstUse);
             }
 
-            return result;
+            DateTime utcNow = DateTime.UtcNow;
+
+            this.localObjectStorageHelper.Save(nameof(FirstUseTime), utcNow.ToFileTimeUtc());
+
+            return utcNow;
         }
 
         private PackageVersion DetectFirstVersionInstalled()
         {
-            PackageVersion result;
-
-            if (_localObjectStorageHelper.KeyExists(nameof(FirstVersionInstalled)))
+            if (this.localObjectStorageHelper.KeyExists(nameof(FirstVersionInstalled)))
             {
-                result = _localObjectStorageHelper.Read<string>(nameof(FirstVersionInstalled)).ToPackageVersion();
-            }
-            else
-            {
-                result = ApplicationVersion;
-                _localObjectStorageHelper.Save(nameof(FirstVersionInstalled), ApplicationVersion.ToFormattedString());
+                return this.localObjectStorageHelper.Read<string>(nameof(FirstVersionInstalled)).ToPackageVersion();
             }
 
-            return result;
+            this.localObjectStorageHelper.Save(nameof(FirstVersionInstalled), ApplicationVersion.ToFormattedString());
+
+            return ApplicationVersion;
         }
 
         private void InitializeValuesSetWithTrackAppUse()
@@ -402,6 +401,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             TotalLaunchCount = 0;
             LastLaunchTime = DateTime.MinValue;
             LastResetTime = DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Launches the store app so the user can leave a review.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>This method needs to be called from your UI thread.</remarks>
+        public static Task LaunchStoreForReviewAsync()
+        {
+            return Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName))).AsTask();
         }
     }
 }
