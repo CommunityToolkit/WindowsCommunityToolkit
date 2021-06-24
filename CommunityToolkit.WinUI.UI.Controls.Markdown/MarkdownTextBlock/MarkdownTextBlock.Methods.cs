@@ -346,7 +346,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             }
 
             multiClickDetectionTriggered = true;
-            await DispatcherQueue.EnqueueAsync(() => multiClickDetectionTriggered = false, Microsoft.System.DispatcherQueuePriority.High);
+            await DispatcherQueue.EnqueueAsync(() => multiClickDetectionTriggered = false, Microsoft.UI.Dispatching.DispatcherQueuePriority.High);
 
             // Get the hyperlink URL.
             if (url == null)

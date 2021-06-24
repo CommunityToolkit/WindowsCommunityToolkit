@@ -18,17 +18,19 @@ namespace CommunityToolkit.WinUI.UI.Media
     [MarkupExtensionReturnType(ReturnType = typeof(PipelineBuilder))]
     public sealed class AcrylicSourceExtension : MarkupExtension
     {
+        /*
         /// <summary>
         /// Gets or sets the background source mode for the effect (the default is <see cref="AcrylicBackgroundSource.Backdrop"/>).
         /// </summary>
         public AcrylicBackgroundSource BackgroundSource { get; set; } = AcrylicBackgroundSource.Backdrop;
+        */
 
         private double blurAmount;
 
         /// <summary>
         /// Gets or sets the blur amount for the effect (must be a positive value)
         /// </summary>
-        /// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
+        ///// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
         public double BlurAmount
         {
             get => this.blurAmount;
@@ -80,12 +82,15 @@ namespace CommunityToolkit.WinUI.UI.Media
                 return dpi;
             };
 
+            /*
             return BackgroundSource switch
             {
                 AcrylicBackgroundSource.Backdrop => PipelineBuilder.FromBackdropAcrylic(this.TintColor, (float)this.TintOpacity, (float)BlurAmount, TextureUri, dpiFactory),
                 AcrylicBackgroundSource.HostBackdrop => PipelineBuilder.FromHostBackdropAcrylic(this.TintColor, (float)this.TintOpacity, TextureUri, dpiFactory),
                 _ => throw new ArgumentException($"Invalid source mode for acrylic effect: {BackgroundSource}")
             };
+            */
+            return PipelineBuilder.FromBackdropAcrylic(this.TintColor, (float)this.TintOpacity, (float)BlurAmount, TextureUri, dpiFactory);
         }
     }
 }

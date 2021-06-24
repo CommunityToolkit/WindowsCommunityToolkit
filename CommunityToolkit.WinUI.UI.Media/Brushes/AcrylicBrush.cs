@@ -7,7 +7,7 @@ using CommunityToolkit.WinUI.UI.Media.Helpers;
 using CommunityToolkit.WinUI.UI.Media.Pipelines;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
 
 namespace CommunityToolkit.WinUI.UI.Media
@@ -20,7 +20,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <summary>
         /// The <see cref="EffectSetter{T}"/> instance in use to set the blur amount
         /// </summary>
-        /// <remarks>This is only set when <see cref="BackgroundSource"/> is <see cref="AcrylicBackgroundSource.Backdrop"/></remarks>
+        ///// <remarks>This is only set when <see cref="BackgroundSource"/> is <see cref="AcrylicBackgroundSource.Backdrop"/></remarks>
         private EffectSetter<float> blurAmountSetter;
 
         /// <summary>
@@ -33,6 +33,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// </summary>
         private EffectSetter<float> tintOpacitySetter;
 
+        /*
         /// <summary>
         /// Gets or sets the background source mode for the effect (the default is <see cref="AcrylicBackgroundSource.Backdrop"/>).
         /// </summary>
@@ -65,11 +66,12 @@ namespace CommunityToolkit.WinUI.UI.Media
                 brush.OnConnected();
             }
         }
+        */
 
         /// <summary>
         /// Gets or sets the blur amount for the effect (must be a positive value)
         /// </summary>
-        /// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
+        ///// <remarks>This property is ignored when the active mode is <see cref="AcrylicBackgroundSource.HostBackdrop"/></remarks>
         public double BlurAmount
         {
             get => (double)GetValue(BlurAmountProperty);
@@ -85,17 +87,12 @@ namespace CommunityToolkit.WinUI.UI.Media
             typeof(AcrylicBrush),
             new PropertyMetadata(0.0, OnBlurAmountPropertyChanged));
 
-        /// <summary>
-        /// Updates the UI when <see cref="BackgroundSource"/> changes
-        /// </summary>
-        /// <param name="d">The current <see cref="AcrylicBrush"/> instance</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="BackgroundSourceProperty"/></param>
         private static void OnBlurAmountPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is AcrylicBrush brush &&
-                brush.BackgroundSource != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
                 brush.CompositionBrush is CompositionBrush target)
             {
+                // brush.BackgroundSource != AcrylicBackgroundSource.HostBackdrop && // Blur is fixed by OS when using HostBackdrop source.
                 brush.blurAmountSetter?.Invoke(target, (float)(double)e.NewValue);
             }
         }
@@ -202,6 +199,7 @@ namespace CommunityToolkit.WinUI.UI.Media
         {
             float dpi = DpiHelpers.GetDpi(this);
 
+            /*
             switch (BackgroundSource)
             {
                 case AcrylicBackgroundSource.Backdrop:
@@ -224,6 +222,16 @@ namespace CommunityToolkit.WinUI.UI.Media
                         dpi);
                 default: throw new ArgumentOutOfRangeException(nameof(BackgroundSource), $"Invalid acrylic source: {BackgroundSource}");
             }
+            */
+            return PipelineBuilder.FromBackdropAcrylic(
+                        TintColor,
+                        out this.tintColorSetter,
+                        (float)TintOpacity,
+                        out this.tintOpacitySetter,
+                        (float)BlurAmount,
+                        out blurAmountSetter,
+                        TextureUri,
+                        dpi);
         }
     }
 }

@@ -314,7 +314,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
 
             if (this.OwningGrid.CommitEdit(DataGridEditingUnit.Row, true /*exitEditingMode*/))
             {
-                DispatcherQueue.TryEnqueue(Microsoft.System.DispatcherQueuePriority.Normal, () => { ProcessSort(); });
+                DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, () => { ProcessSort(); });
             }
         }
 

@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.System;
+using Microsoft.UI.Dispatching;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.Core;

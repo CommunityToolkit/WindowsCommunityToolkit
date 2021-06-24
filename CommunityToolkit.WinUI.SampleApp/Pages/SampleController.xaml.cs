@@ -424,7 +424,7 @@ namespace CommunityToolkit.WinUI.SampleApp
 
         private void XamlCodeEditor_UpdateRequested(object sender, EventArgs e)
         {
-            DispatcherQueue.TryEnqueue(Microsoft.System.DispatcherQueuePriority.Low, () =>
+            DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
             {
                 UpdateXamlRender(XamlCodeEditor.Text);
             });
@@ -575,7 +575,7 @@ namespace CommunityToolkit.WinUI.SampleApp
             {
                 fe.Loaded -= XamlFrameworkElement_Loaded;
 
-                DispatcherQueue.TryEnqueue(Microsoft.System.DispatcherQueuePriority.Low, () =>
+                DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
                 {
                     (SamplePage as IXamlRenderListener)?.OnXamlRendered(fe);
                 });

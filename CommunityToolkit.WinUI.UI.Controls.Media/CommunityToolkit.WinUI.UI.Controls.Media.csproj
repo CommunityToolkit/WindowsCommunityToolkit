@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.5.0.14" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.8.0.21" />
   </ItemGroup>
 
   <ItemGroup>

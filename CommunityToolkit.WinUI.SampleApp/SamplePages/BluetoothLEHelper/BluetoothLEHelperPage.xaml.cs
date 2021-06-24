@@ -4,7 +4,7 @@
 
 using System;
 using CommunityToolkit.WinUI.Connectivity;
-using Microsoft.System;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;

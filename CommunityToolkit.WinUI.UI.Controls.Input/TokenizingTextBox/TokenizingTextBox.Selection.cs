@@ -160,7 +160,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                     }
 
                     (ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem).Focus(FocusState.Programmatic);
-                }, Microsoft.System.DispatcherQueuePriority.Normal);
+                }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
         }
 
         internal void DeselectAllTokensAndText(TokenizingTextBoxItem ignoreItem = null)

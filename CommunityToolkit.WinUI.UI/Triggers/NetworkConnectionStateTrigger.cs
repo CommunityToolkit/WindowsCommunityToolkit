@@ -30,7 +30,7 @@ namespace CommunityToolkit.WinUI.UI.Triggers
 
         private void NetworkInformation_NetworkStatusChanged(object sender)
         {
-            _ = DispatcherQueue.EnqueueAsync(UpdateState, Microsoft.System.DispatcherQueuePriority.Normal);
+            _ = DispatcherQueue.EnqueueAsync(UpdateState, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
         }
 
         private void UpdateState()

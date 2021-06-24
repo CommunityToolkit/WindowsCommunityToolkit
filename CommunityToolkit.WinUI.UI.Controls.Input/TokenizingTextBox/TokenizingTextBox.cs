@@ -272,9 +272,9 @@ namespace CommunityToolkit.WinUI.UI.Controls
                                         }
 
                                         newContainer.AutoSuggestTextBoxLoaded += WaitForLoad;
-                                    }, Microsoft.System.DispatcherQueuePriority.Normal);
+                                    }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
                             }
-                        }, Microsoft.System.DispatcherQueuePriority.Normal);
+                        }, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
                 }
                 else
                 {

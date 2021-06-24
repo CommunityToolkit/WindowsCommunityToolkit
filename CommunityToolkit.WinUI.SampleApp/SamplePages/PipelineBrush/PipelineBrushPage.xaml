@@ -24,7 +24,8 @@
             <Border>
                 <Border.Background>
                     <media:PipelineBrush Source="{media:AcrylicSource}">
-                        <media:BlendEffect Source="{media:BackdropSource BackgroundSource=Backdrop}" />
+                        <!--<media:BlendEffect Source="{media:BackdropSource BackgroundSource=Backdrop}" />-->
+                        <media:BlendEffect Source="{media:BackdropSource}" />
                         <media:BlurEffect />
                         <media:ExposureEffect />
                         <media:GrayscaleEffect />
