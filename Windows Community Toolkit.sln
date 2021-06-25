@@ -68,7 +68,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinUI.UI.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.Input.GazeInteraction", "CommunityToolkit.WinUI.Input.GazeInteraction\CommunityToolkit.WinUI.Input.GazeInteraction.csproj", "{5BF75694-798A-43A0-8150-415DE195359C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GazeInputTest", "GazeInputTest\GazeInputTest.csproj", "{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommunityToolkit.WinUI.UI.Media", "CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj", "{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF}"
 EndProject

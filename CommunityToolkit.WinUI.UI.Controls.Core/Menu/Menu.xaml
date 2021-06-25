@@ -10,10 +10,10 @@
             <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}" />
             <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
             <AcrylicBrush x:Key="SystemControlFlyoutBackgroundBrush"
-                                           BackgroundSource="Backdrop"
                                            TintColor="{StaticResource SystemChromeMediumLowColor}"
                                            TintOpacity="0.8"
                                            FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
+            <!-- BackgroundSource="Backdrop" -->
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Dark">

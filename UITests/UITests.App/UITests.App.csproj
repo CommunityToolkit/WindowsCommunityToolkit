@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI">
-      <Version>3.0.0-zmain.210407.3-CI</Version>
+      <Version>3.0.0-zmain.210615.2-CI</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinRTVersion)" />

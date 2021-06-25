@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.System;
-using UnitTests.WinUI;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using UnitTests.WinUI;
 
 namespace UnitTests
 {

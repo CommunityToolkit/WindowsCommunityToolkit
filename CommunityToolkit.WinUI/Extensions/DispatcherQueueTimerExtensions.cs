@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Concurrent;
-using Microsoft.System;
+using Microsoft.UI.Dispatching;
 
 namespace CommunityToolkit.WinUI.UI
 {

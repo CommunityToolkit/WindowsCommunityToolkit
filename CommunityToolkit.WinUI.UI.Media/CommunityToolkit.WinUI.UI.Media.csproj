@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
@@ -44,7 +44,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.5.0.14" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.8.0.21" />
   </ItemGroup>
 
   <ItemGroup>

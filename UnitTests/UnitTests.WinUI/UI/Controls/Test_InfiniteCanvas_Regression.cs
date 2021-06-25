@@ -9,7 +9,7 @@ using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CommunityToolkit.WinUI;
-using Microsoft.System;
+using Microsoft.UI.Dispatching;
 
 namespace UnitTests.UI.Controls
 {

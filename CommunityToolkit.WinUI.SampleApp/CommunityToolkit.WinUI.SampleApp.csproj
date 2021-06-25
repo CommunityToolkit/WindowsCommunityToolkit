@@ -10,7 +10,9 @@
 
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-
+    
+    <UseWinUI>true</UseWinUI>
+    
     <ApplicationManifest>app.manifest</ApplicationManifest>
     
     <LangVersion>8.0</LangVersion>
@@ -34,10 +36,10 @@
       <Version>0.10.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed">
-      <Version>2.0.3</Version>
+      <Version>2.0.4</Version>
     </PackageReference>
     <PackageReference Include="NotificationsVisualizerLibrary.WinUI">
-      <Version>2.0.0</Version>
+      <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>

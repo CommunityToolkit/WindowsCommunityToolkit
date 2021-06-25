@@ -39,7 +39,9 @@ namespace CommunityToolkit.WinUI.UI.Converters
                 return DependencyProperty.UnsetValue;
             }
 
-            return ColorHelper.ToDisplayName(color);
+            // return global::Microsoft.UI.Xaml.ColorDisplayNameHelper.ToDisplayName(color);
+            // Removed on Reunion 0.8-RC. Not sure what to replace with.
+            return DependencyProperty.UnsetValue;
         }
 
         /// <inheritdoc/>

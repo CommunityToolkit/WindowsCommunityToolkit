@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Internal.MUXTestInfra.TAEF" Version="3.0.0-zmain.210407.3-CI" />
+    <PackageReference Include="Microsoft.Internal.MUXTestInfra.TAEF" Version="3.0.0-zmain.210615.2-CI" />
     <PackageReference Include="TAEF.Redist.Wlk" Version="10.57.200928001" GeneratePathProperty="true" />
     <PackageReference Include="Grpc.Tools" Version="2.36.4" />
     <PackageReference Include="Grpc.Net.Client" Version="2.36.0" />
@@ -57,6 +57,7 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\AppPackages\*\Dependencies\$(PlatformTarget)\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="$(Pkgtaef_redist_wlk)\build\Binaries\x86\WTTlog.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

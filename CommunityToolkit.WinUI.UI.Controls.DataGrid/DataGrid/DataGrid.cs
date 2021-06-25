@@ -33,7 +33,7 @@ using Windows.Foundation.Collections;
 using Windows.System;
 using DataErrorsChangedEventArgs = System.ComponentModel.DataErrorsChangedEventArgs;
 using DiagnosticsDebug = System.Diagnostics.Debug;
-using DispatcherQueueTimer = Microsoft.System.DispatcherQueueTimer;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using INotifyDataErrorInfo = System.ComponentModel.INotifyDataErrorInfo;
 
 namespace CommunityToolkit.WinUI.UI.Controls
