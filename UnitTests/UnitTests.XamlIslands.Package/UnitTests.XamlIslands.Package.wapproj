@@ -94,4 +94,6 @@
       </_FilteredNonWapProjProjectOutput>
     </ItemGroup>
   </Target>
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>

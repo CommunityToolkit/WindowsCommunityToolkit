@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.1</TargetFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
 
     <TaefRootDirectory>$(PkgTAEF_Redist_Wlk)\build\Binaries\x86\CoreClr\</TaefRootDirectory>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -56,7 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="MainClass.cs"/>
+    <Compile Include="MainClass.cs" />
   </ItemGroup>
 
   <ItemGroup>

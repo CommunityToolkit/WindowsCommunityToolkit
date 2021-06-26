@@ -49,10 +49,10 @@
 
     <MSBuild Projects="SmokeTest.csproj"
               Targets="restore;build"
-              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)"/>
+              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)" />
   </Target>
 
-  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNugets">
+  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNuGets">
     <ItemGroup>
       <BuildPlatform Include="$(BuildPlatforms)" />
       <BuildConfiguration Include="$(BuildConfigurations)" />
@@ -80,14 +80,14 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="CheckNugets">
+  <Target Name="CheckNuGets">
     <PropertyGroup>
-      <ToolkitNugets>../bin/nupkg/*.nupkg</ToolkitNugets>
+      <ToolkitNuGets>$(MSBuildThisFileDirectory)..\bin\nupkg\*.nupkg</ToolkitNuGets>
     </PropertyGroup>
     <ItemGroup>
-      <ToolkitNugets Include="$(ToolkitNugets)" />
+      <ToolkitNuGets Include="$(ToolkitNuGets)" />
     </ItemGroup>
-    <Error Condition="'@(ToolkitNugets)' == ''" Text="Directory '$(ToolkitNugets)' is empty"/>
+    <Error Condition="'@(ToolkitNuGets)' == ''" Text="Directory '$(ToolkitNuGets)' is empty" />
   </Target>
 
 </Project>
