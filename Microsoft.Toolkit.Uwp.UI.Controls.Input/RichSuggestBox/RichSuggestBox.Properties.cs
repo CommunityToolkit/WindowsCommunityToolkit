@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Prefixes),
                 typeof(string),
                 typeof(RichSuggestBox),
-                new PropertyMetadata("@", OnPrefixesChanged));
+                new PropertyMetadata(string.Empty, OnPrefixesChanged));
 
         /// <summary>
         /// Identifies the <see cref="ClipboardPasteFormat"/> dependency property.

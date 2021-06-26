@@ -45,13 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static string EnforcePrefixesRequirements(string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return string.Empty;
-            }
-
-            var possibles = string.Concat(value.Where(char.IsPunctuation));
-            return string.IsNullOrEmpty(possibles) ? "@" : possibles;
+            return string.IsNullOrEmpty(value) ? string.Empty : string.Concat(value.Where(char.IsPunctuation));
         }
 
         private static void ForEachLinkInDocument(ITextDocument document, Action<ITextRange> action)
