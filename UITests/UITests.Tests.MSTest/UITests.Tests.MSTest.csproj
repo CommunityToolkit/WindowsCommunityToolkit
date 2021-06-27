@@ -6,7 +6,7 @@
     <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.1</TargetFrameworkVersion>
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
 
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <PlatformTarget>x86</PlatformTarget>
