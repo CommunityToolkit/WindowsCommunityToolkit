@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
         /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
-        public static async Task SmoothScrollIntoViewWithIndex(this ListViewBase listViewBase, int index, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
+        public static async Task SmoothScrollIntoViewWithIndexAsync(this ListViewBase listViewBase, int index, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
             if (index > (listViewBase.Items.Count - 1))
             {
@@ -199,9 +199,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
         /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
-        public static async Task SmoothScrollIntoViewWithItem(this ListViewBase listViewBase, object item, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
+        public static async Task SmoothScrollIntoViewWithItemAsync(this ListViewBase listViewBase, object item, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
-            await SmoothScrollIntoViewWithIndex(listViewBase, listViewBase.Items.IndexOf(item), itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+            await SmoothScrollIntoViewWithIndexAsync(listViewBase, listViewBase.Items.IndexOf(item), itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var scrollIfVisibile = scrollIfVisibileInput.IsChecked ?? true;
                 var additionalHorizontalOffset = int.TryParse(additionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
                 var additionalVerticalOffset = int.TryParse(additionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
-                sampleListView.SmoothScrollIntoViewWithIndex(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+                sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
             });
 
             if (sampleListView != null)
