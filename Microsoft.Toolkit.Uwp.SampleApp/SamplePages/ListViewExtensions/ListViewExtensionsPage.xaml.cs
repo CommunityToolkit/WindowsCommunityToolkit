@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -15,12 +15,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class ListViewExtensionsPage : Page, IXamlRenderListener
     {
         private ListView sampleListView;
-        private TextBlock indexInput;
-        private TextBlock itemPlacementInput;
+        private TextBox indexInput;
+        private ComboBox itemPlacementInput;
         private CheckBox disableAnimationInput;
         private CheckBox scrollIfVisibileInput;
-        private TextBlock additionalHorizontalOffsetInput;
-        private TextBlock additionalVerticalOffsetInput;
+        private TextBox additionalHorizontalOffsetInput;
+        private TextBox additionalVerticalOffsetInput;
 
         public ListViewExtensionsPage()
         {
@@ -31,12 +31,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             sampleListView = control.FindChild("SampleListView") as ListView;
-            indexInput = control.FindChild("IndexInput") as TextBlock;
-            itemPlacementInput = control.FindChild("ItemPlacementInput") as TextBlock;
+            indexInput = control.FindChild("IndexInput") as TextBox;
+            itemPlacementInput = control.FindChild("ItemPlacementInput") as ComboBox;
             disableAnimationInput = control.FindChild("DisableAnimationInput") as CheckBox;
             scrollIfVisibileInput = control.FindChild("ScrollIfVisibileInput") as CheckBox;
-            additionalHorizontalOffsetInput = control.FindChild("AdditionalHorizontalOffsetInput") as TextBlock;
-            additionalVerticalOffsetInput = control.FindChild("AdditionalVerticalOffsetInput") as TextBlock;
+            additionalHorizontalOffsetInput = control.FindChild("AdditionalHorizontalOffsetInput") as TextBox;
+            additionalVerticalOffsetInput = control.FindChild("AdditionalVerticalOffsetInput") as TextBox;
 
             if (sampleListView != null)
             {
@@ -51,12 +51,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (sender, args) =>
             {
-                var index = int.Parse(indexInput?.Text);
-                var itemPlacement = (ItemPlacement)Enum.Parse(typeof(ItemPlacement), itemPlacementInput?.Text);
-                var disableAnimation = disableAnimationInput?.IsChecked ?? false;
-                var scrollIfVisibile = scrollIfVisibileInput?.IsChecked ?? true;
-                var additionalHorizontalOffset = int.Parse(additionalHorizontalOffsetInput?.Text);
-                var additionalVerticalOffset = int.Parse(additionalVerticalOffsetInput?.Text);
+                var index = int.TryParse(indexInput.Text, out var i) ? i : 0;
+                var itemPlacement = itemPlacementInput.SelectedItem switch
+                {
+                    "Default" => UI.ItemPlacement.Default,
+                    "Left" => UI.ItemPlacement.Left,
+                    "Top" => UI.ItemPlacement.Top,
+                    "Center" => UI.ItemPlacement.Center,
+                    "Right" => UI.ItemPlacement.Right,
+                    "Bottom" => UI.ItemPlacement.Bottom,
+                    _ => UI.ItemPlacement.Default
+                };
+
+                var disableAnimation = disableAnimationInput.IsChecked ?? false;
+                var scrollIfVisibile = scrollIfVisibileInput.IsChecked ?? true;
+                var additionalHorizontalOffset = int.TryParse(additionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
+                var additionalVerticalOffset = int.TryParse(additionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
                 sampleListView.SmoothScrollIntoViewWithIndex(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
             });
 
