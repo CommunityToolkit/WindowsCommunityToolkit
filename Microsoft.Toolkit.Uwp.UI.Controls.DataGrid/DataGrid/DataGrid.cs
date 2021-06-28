@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [StyleTypedProperty(Property = "DropLocationIndicatorStyle", StyleTargetType = typeof(Control))]
     [StyleTypedProperty(Property = "RowHeaderStyle", StyleTargetType = typeof(DataGridRowHeader))]
     [StyleTypedProperty(Property = "RowStyle", StyleTargetType = typeof(DataGridRow))]
-    public partial class DataGrid : Control
+    public partial class DataGrid : ListViewBase
     {
         private enum ScrollBarVisualState
         {
