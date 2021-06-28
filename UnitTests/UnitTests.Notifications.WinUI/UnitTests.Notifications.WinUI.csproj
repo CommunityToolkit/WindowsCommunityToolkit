@@ -37,13 +37,13 @@
   
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.2.5-preview-20210625-07</Version>
+      <Version>2.2.5</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.2.5-preview-20210625-07</Version>
+      <Version>2.2.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.TestPlatform.TestHost">
-      <Version>16.10.0-release-20210422-02</Version>
+      <Version>16.10.0</Version>
       <ExcludeAssets>build</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
