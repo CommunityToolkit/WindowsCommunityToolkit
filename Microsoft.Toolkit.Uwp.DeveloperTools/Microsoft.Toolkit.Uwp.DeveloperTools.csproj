@@ -10,8 +10,6 @@
       -Themes : Provides the source path of the resource dictionaries for the FocusTracker.
     </Description>
     <PackageTags>Windows;Community;Toolkit;WCT;UWP;Controls;XAML;Developer;Tools;Accessibility;Alignment;Grid;AlignmentGrid</PackageTags>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection Condition="'$(Configuration)' == 'Debug'">false</EnableTypeInfoReflection>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,4 +24,5 @@
     <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
+
 </Project>
