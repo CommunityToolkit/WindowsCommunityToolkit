@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -36,6 +37,9 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public TabbedCommandBar()
         {
             DefaultStyleKey = typeof(TabbedCommandBar);
+
+            // WinUI3 workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/3502
+            this.DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             SelectionChanged += SelectedItemChanged;
         }
