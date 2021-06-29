@@ -15,12 +15,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class ListViewExtensionsPage : Page, IXamlRenderListener
     {
         private ListView sampleListView;
-        private TextBox indexInput;
-        private ComboBox itemPlacementInput;
-        private CheckBox disableAnimationInput;
-        private CheckBox scrollIfVisibileInput;
-        private TextBox additionalHorizontalOffsetInput;
-        private TextBox additionalVerticalOffsetInput;
 
         public ListViewExtensionsPage()
         {
@@ -31,12 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             sampleListView = control.FindChild("SampleListView") as ListView;
-            indexInput = control.FindChild("IndexInput") as TextBox;
-            itemPlacementInput = control.FindChild("ItemPlacementInput") as ComboBox;
-            disableAnimationInput = control.FindChild("DisableAnimationInput") as CheckBox;
-            scrollIfVisibileInput = control.FindChild("ScrollIfVisibileInput") as CheckBox;
-            additionalHorizontalOffsetInput = control.FindChild("AdditionalHorizontalOffsetInput") as TextBox;
-            additionalVerticalOffsetInput = control.FindChild("AdditionalVerticalOffsetInput") as TextBox;
 
             if (sampleListView != null)
             {
@@ -51,8 +39,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (sender, args) =>
             {
-                var index = int.TryParse(indexInput.Text, out var i) ? i : 0;
-                var itemPlacement = itemPlacementInput.SelectedItem switch
+                var index = int.TryParse(IndexInput.Text, out var i) ? i : 0;
+                var itemPlacement = ItemPlacementInput.SelectedItem switch
                 {
                     "Default" => ItemPlacement.Default,
                     "Left" => ItemPlacement.Left,
@@ -63,10 +51,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     _ => ItemPlacement.Default
                 };
 
-                var disableAnimation = disableAnimationInput.IsChecked ?? false;
-                var scrollIfVisibile = scrollIfVisibileInput.IsChecked ?? true;
-                var additionalHorizontalOffset = int.TryParse(additionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
-                var additionalVerticalOffset = int.TryParse(additionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
+                var disableAnimation = DisableAnimationInput.IsChecked ?? false;
+                var scrollIfVisibile = ScrollIfVisibileInput.IsChecked ?? true;
+                var additionalHorizontalOffset = int.TryParse(AdditionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
+                var additionalVerticalOffset = int.TryParse(AdditionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
                 sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
             });
 

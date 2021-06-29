@@ -18,54 +18,13 @@
       <TextBlock Text="{Binding}" Foreground="Red" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
     </DataTemplate>
   </Page.Resources>
-
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
-
-    <ListView
-        x:Name="SampleListView"
-        Grid.Column="0"
-        Margin="12"
-        ItemTemplate="{StaticResource NormalTemplate}"
-        IsItemClickEnabled="True"
-        ui:ListViewExtensions.Command="{StaticResource SampleCommand}"
-        ui:ListViewExtensions.AlternateColor="#33AAAAAA"
-        ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-        ui:ListViewExtensions.ItemContainerStretchDirection="Both">
-    </ListView>
-
-    <StackPanel Grid.Column="1" Margin="5,0,5,0" Width="200">
-      <TextBox x:Name="IndexInput"
-                Header="Index"
-                InputScope="Number"
-                Text="0" />
-      <ComboBox x:Name="ItemPlacementInput"
-                Header="Item Placement"
-                SelectedIndex="0">
-        <x:String>Default</x:String>
-        <x:String>Left</x:String>
-        <x:String>Top</x:String>
-        <x:String>Center</x:String>
-        <x:String>Right</x:String>
-        <x:String>Bottom</x:String>
-      </ComboBox>
-      <CheckBox x:Name="DisableAnimationInput"
-                Content="Disable Animation"
-                IsChecked="False" />
-      <CheckBox x:Name="ScrollIfVisibileInput"
-                Content="Scroll If Visible"
-                IsChecked="True" />
-      <TextBox x:Name="AdditionalHorizontalOffsetInput"
-                Header="Horizontal Offset"
-                InputScope="Number"
-                Text="0" />
-      <TextBox x:Name="AdditionalVerticalOffsetInput"
-                Header="Vertical Offset"
-                InputScope="Number"
-                Text="0" />
-    </StackPanel>
-  </Grid>
+  <ListView
+      x:Name="SampleListView"
+      ItemTemplate="{StaticResource NormalTemplate}"
+      IsItemClickEnabled="True"
+      ui:ListViewExtensions.Command="{StaticResource SampleCommand}"
+      ui:ListViewExtensions.AlternateColor="#33AAAAAA"
+      ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+      ui:ListViewExtensions.ItemContainerStretchDirection="Both">
+  </ListView>
 </Page>

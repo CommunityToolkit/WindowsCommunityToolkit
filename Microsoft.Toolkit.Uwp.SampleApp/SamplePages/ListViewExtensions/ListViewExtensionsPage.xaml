@@ -24,15 +24,15 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ListView x:Name="SampleListView"
-                  Grid.Column="0"
-                  Margin="12"
-                  ui:ListViewExtensions.AlternateColor="#33AAAAAA"
-                  ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
-                  ui:ListViewExtensions.Command="{StaticResource SampleCommand}"
-                  ui:ListViewExtensions.ItemContainerStretchDirection="Both"
-                  IsItemClickEnabled="True"
-                  ItemTemplate="{StaticResource NormalTemplate}" />
+        <Grid x:Name="XamlRoot" Grid.Column="0" Margin="12">
+            <ListView x:Name="SampleListView"
+                      ui:ListViewExtensions.AlternateColor="#33AAAAAA"
+                      ui:ListViewExtensions.AlternateItemTemplate="{StaticResource AlternateTemplate}"
+                      ui:ListViewExtensions.Command="{StaticResource SampleCommand}"
+                      ui:ListViewExtensions.ItemContainerStretchDirection="Both" 
+                      IsItemClickEnabled="True"
+                      ItemTemplate="{StaticResource NormalTemplate}" />
+        </Grid>
 
         <StackPanel Grid.Column="1" Margin="5,0,5,0" Width="200">
             <TextBox x:Name="IndexInput"
