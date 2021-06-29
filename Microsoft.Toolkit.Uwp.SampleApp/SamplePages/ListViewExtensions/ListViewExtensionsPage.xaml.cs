@@ -42,13 +42,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var index = int.TryParse(IndexInput.Text, out var i) ? i : 0;
                 var itemPlacement = ItemPlacementInput.SelectedItem switch
                 {
-                    "Default" => ItemPlacement.Default,
-                    "Left" => ItemPlacement.Left,
-                    "Top" => ItemPlacement.Top,
-                    "Center" => ItemPlacement.Center,
-                    "Right" => ItemPlacement.Right,
-                    "Bottom" => ItemPlacement.Bottom,
-                    _ => ItemPlacement.Default
+                    "Default" => ScrollItemPlacement.Default,
+                    "Left" => ScrollItemPlacement.Left,
+                    "Top" => ScrollItemPlacement.Top,
+                    "Center" => ScrollItemPlacement.Center,
+                    "Right" => ScrollItemPlacement.Right,
+                    "Bottom" => ScrollItemPlacement.Bottom,
+                    _ => ScrollItemPlacement.Default
                 };
 
                 var disableAnimation = DisableAnimationInput.IsChecked ?? false;

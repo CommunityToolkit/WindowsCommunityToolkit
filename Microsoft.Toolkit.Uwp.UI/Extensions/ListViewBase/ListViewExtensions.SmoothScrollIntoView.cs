@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
         /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
-        public static async Task SmoothScrollIntoViewWithIndexAsync(this ListViewBase listViewBase, int index, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
+        public static async Task SmoothScrollIntoViewWithIndexAsync(this ListViewBase listViewBase, int index, ScrollItemPlacement itemPlacement = ScrollItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
             if (index > (listViewBase.Items.Count - 1))
             {
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 switch (itemPlacement)
                 {
-                    case ItemPlacement.Default:
+                    case ScrollItemPlacement.Default:
                         if (previousXOffset <= maxXPosition && previousXOffset >= minXPosition)
                         {
                             finalXPosition = previousXOffset + additionalHorizontalOffset;
@@ -151,29 +151,29 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                         break;
 
-                    case ItemPlacement.Left:
+                    case ScrollItemPlacement.Left:
                         finalXPosition = maxXPosition + additionalHorizontalOffset;
                         finalYPosition = previousYOffset + additionalVerticalOffset;
                         break;
 
-                    case ItemPlacement.Top:
+                    case ScrollItemPlacement.Top:
                         finalXPosition = previousXOffset + additionalHorizontalOffset;
                         finalYPosition = maxYPosition + additionalVerticalOffset;
                         break;
 
-                    case ItemPlacement.Center:
+                    case ScrollItemPlacement.Center:
                         var centreX = (listViewBaseWidth - selectorItemWidth) / 2.0;
                         var centreY = (listViewBaseHeight - selectorItemHeight) / 2.0;
                         finalXPosition = maxXPosition - centreX + additionalHorizontalOffset;
                         finalYPosition = maxYPosition - centreY + additionalVerticalOffset;
                         break;
 
-                    case ItemPlacement.Right:
+                    case ScrollItemPlacement.Right:
                         finalXPosition = minXPosition + additionalHorizontalOffset;
                         finalYPosition = previousYOffset + additionalVerticalOffset;
                         break;
 
-                    case ItemPlacement.Bottom:
+                    case ScrollItemPlacement.Bottom:
                         finalXPosition = previousXOffset + additionalHorizontalOffset;
                         finalYPosition = minYPosition + additionalVerticalOffset;
                         break;
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
         /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
-        public static async Task SmoothScrollIntoViewWithItemAsync(this ListViewBase listViewBase, object item, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
+        public static async Task SmoothScrollIntoViewWithItemAsync(this ListViewBase listViewBase, object item, ScrollItemPlacement itemPlacement = ScrollItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
             await SmoothScrollIntoViewWithIndexAsync(listViewBase, listViewBase.Items.IndexOf(item), itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
         }

@@ -675,7 +675,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
               // TODO Reintroduce graph controls
               // typeof(UserToPersonConverter)) // Search in Microsoft.Toolkit.Graph.Controls
-                ItemPlacement.Default.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
+                ScrollItemPlacement.Default.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
                 EasingType.Default.GetType(), // Microsoft.Toolkit.Uwp.UI.Animations
                 ImageBlendMode.Multiply.GetType(), // Search in Microsoft.Toolkit.Uwp.UI.Media
                 Interaction.Enabled.GetType(), // Microsoft.Toolkit.Uwp.Input.GazeInteraction
