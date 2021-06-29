@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
 using ColorPickerSlider = CommunityToolkit.WinUI.UI.Controls.Primitives.ColorPickerSlider;
+using ColorSpectrum = Microsoft.UI.Xaml.Controls.Primitives.ColorSpectrum;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
