@@ -32,7 +32,7 @@
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v16.0\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
     <ExtrasImplicitPlatformPackageIsPrivate>true</ExtrasImplicitPlatformPackageIsPrivate>
 
     <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0. This makes it UAP10_0_10240_0 to match the rest -->
