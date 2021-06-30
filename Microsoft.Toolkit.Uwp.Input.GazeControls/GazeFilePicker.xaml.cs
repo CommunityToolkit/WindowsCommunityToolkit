@@ -16,6 +16,15 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+using Microsoft.Toolkit.Uwp.Input.GazeControls;
+
+// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
@@ -276,6 +285,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             foreach (var grid in viewGrids)
             {
                 grid.Visibility = Visibility.Collapsed;
+            _enterFilenameButton.Visibility = Visibility.Collapsed;
             }
 
             viewGrids[(int)filePickerView].Visibility = Visibility.Visible;
@@ -286,8 +296,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 FileListingGrid.Visibility = Visibility.Visible;
                 FileListingGrid.IsEnabled = false;
                 CommandRow.IsEnabled = false;
+            SetKeyboardInputLayout();
+            await GazeKeyboard.LoadLayout("FilenameEntry.xaml");
             }
             else if (CurrentView == FilePickerView.FileListing)
+        private async void OnNewFolderClick(object sender, RoutedEventArgs e)
             {
                 FileListingGrid.IsEnabled = true;
                 CommandRow.IsEnabled = true;

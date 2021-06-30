@@ -81,6 +81,13 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private StorageItemThumbnail _storageThumbnail;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public async Task GetThumbnailAsync()
         {
             var props = Item as IStorageItemProperties;
