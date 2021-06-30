@@ -1,12 +1,10 @@
-//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license. 
-//See LICENSE in the project root for license information. 
+// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+// See LICENSE in the project root for license information.
 
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Data.Text;
@@ -14,8 +12,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Input.Preview.Injection;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -24,6 +20,9 @@ using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
+    /// <summary>
+    /// Gaze optimized soft keyboard with support for custom layouts and predictions
+    /// </summary>
     [Bindable]
     public sealed partial class GazeKeyboard : UserControl
     {
@@ -35,10 +34,19 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         private string _predictionLanguage;
         private Button[] _predictionTargets;
 
-        public bool GazePlusClickMode;
+        /// <summary>
+        /// Gets or sets a value indicating whether the keys activate with gaze and dwell, or gaze and click
+        /// </summary>
+        public bool GazePlusClickMode { get; set; }
 
-        public TextBox Target;
+        /// <summary>
+        /// Gets or sets the target text box for injecting keys
+        /// </summary>
+        public TextBox Target { get; set; }
 
+        /// <summary>
+        /// Gets or sets the prediction language
+        /// </summary>
         public string PredictionLanguage
         {
             get
@@ -55,6 +63,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
         }
 
+        /// <summary>
+        /// Gets or sets the prediction targets
+        /// </summary>
         public Button[] PredictionTargets
         {
             get
@@ -71,15 +82,18 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                         target.Click -= OnPredictionSelected;
                     }
                 }
+
                 _predictionTargets = value;
                 foreach (var target in _predictionTargets)
                 {
                     target.Click += OnPredictionSelected;
                 }
-
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GazeKeyboard"/> class.
+        /// </summary>
         public GazeKeyboard()
         {
             InitializeComponent();
@@ -125,6 +139,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
         }
 
+        /// <summary>
+        /// Loads the given keyboard layout from a file
+        /// </summary>
+        /// <param name="layoutFile"> Name of layout </param>
+        /// <returns>Task</returns>
         public async Task LoadLayout(string layoutFile)
         {
             try
@@ -360,7 +379,13 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 keys.Add(key);
             }
 
-            _injector.InjectKeyboardInput(keys);
+            // Injecting too many keys at once can result in ArgumentException. 
+            // So inject a max of 8 keys at a time. 8 seems to work for now.
+            for (int i = 0; i < keys.Count; i += 8)
+            {
+                var count = Math.Min(8, keys.Count - i);
+                _injector.InjectKeyboardInput(keys.GetRange(i, count));
+            }
         }
 
         private void OnPredictionSelected(object sender, RoutedEventArgs e)
@@ -439,7 +464,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             var prevWordsExceptLast = prevWords.GetRange(1, prevWords.Count - 1);
 
             // It looks like we need to send in a larger number than necessary to get good quality predictions.
-
             uint maxCandidates = (uint)PredictionTargets.Length * 2;
             predictions = await _textPredictionGenerator.GetCandidatesAsync(
                             prevWords[0],

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
-    class PathPart
+    internal class PathPart
     {
-        public int Index;
-        public string Name;
+        public int Index { get; set; }
+
+        public string Name { get; set; }
     }
 }

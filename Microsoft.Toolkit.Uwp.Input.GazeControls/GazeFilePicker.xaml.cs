@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -12,23 +11,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
-using Microsoft.Toolkit.Uwp.Input.GazeControls;
-
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
+    /// <summary>
+    /// Provides file picker dialogs optimized for gaze input
+    /// </summary>
     public sealed partial class GazeFilePicker : ContentDialog, INotifyPropertyChanged
     {
         private Grid _commandSpaceGrid;
@@ -47,8 +39,14 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private StorageFile _selectedItem;
 
-        public bool SaveMode = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether this is FileSave dialog or a FileOpen dialog
+        /// </summary>
+        public bool SaveMode { get; set; }
 
+        /// <summary>
+        /// Gets the currently selected file in the dialog as a StorageFile
+        /// </summary>
         public StorageFile SelectedItem
         {
             get
@@ -59,6 +57,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private StorageFolder _currentFolder;
 
+        /// <summary>
+        /// Gets or sets the current folder for the file picker dialog
+        /// </summary>
         public StorageFolder CurrentFolder
         {
             get
@@ -181,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
             else
             {
-                _selectedItem = _curSelectedItem.Item as StorageFile;
+                _selectedItem = _curSelectedItem?.Item as StorageFile;
             }
         }
 
@@ -247,10 +248,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             {
                 newCurrentFolder = await StorageFolder.GetFolderFromPathAsync(path);
             }
-            catch (UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException)
             {
                 return;
             }
+
             _currentFolder = newCurrentFolder;
 
             var items = await _currentFolder.GetItemsAsync();
@@ -275,7 +277,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             var clickedItem = e.ClickedItem as StorageItem;
             var selectedItem = CurrentFolderContents.SelectedItem as StorageItem;
 
-            //if ((clickedItem == selectedItem) && clickedItem.IsFolder)
             if (clickedItem.IsFolder)
             {
                 RefreshContents(clickedItem.Path);
@@ -290,11 +291,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         {
             var buttonIndex = int.Parse((sender as Button).Tag.ToString());
             int selectedIndex = CurrentFolderPartsList.SelectedIndex;
-            //if (buttonIndex != selectedIndex)
-            //{
-            //    CurrentFolderPartsList.SelectedIndex = buttonIndex;
-            //    return;
-            //}
 
             var newFolder = Path.Combine(_currentFolderParts.Select(part => part.Name).Take(buttonIndex + 1).ToArray());
             RefreshContents(newFolder);
