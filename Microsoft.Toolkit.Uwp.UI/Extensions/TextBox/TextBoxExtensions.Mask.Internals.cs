@@ -298,7 +298,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (oldSelectionStart >= oldText.Length && !isDeleteOrBackspace)
             {
                 // ignore change(s) if oldtext is a substring of new text value
-                if (textbox.Text.Contains(oldText, StringComparison.OrdinalIgnoreCase))
+                if (textbox.Text.Contains(oldText))
                 {
                     textbox.Text = oldText;
 
