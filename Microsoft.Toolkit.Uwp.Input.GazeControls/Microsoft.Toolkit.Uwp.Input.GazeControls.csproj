@@ -1,0 +1,38 @@
+<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFramework>uap10.0.17134</TargetFramework>
+    <Title>Windows Community Toolkit Gaze Controls Library</Title>
+    <Description>A library controls optimized for gaze interaction</Description>
+    <PackageTags>Windows;Community;Toolkit;WCT;UWP;Gaze;Eye;Tracker;EyeTracker</PackageTags>
+    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    <Page Remove="KeyboardLayouts\FilenameEntry.xaml" />
+    <Page Remove="KeyboardLayouts\FullKeyboard.xaml" />
+    <Page Remove="KeyboardLayouts\MinAAC.xaml" />
+    <Page Remove="KeyboardLayouts\TwoStageKeyboard.xaml" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <Content Include="KeyboardLayouts\FilenameEntry.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardLayouts\FullKeyboard.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardLayouts\MinAAC.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KeyboardLayouts\TwoStageKeyboard.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.csproj" />
+  </ItemGroup>
+
+</Project>

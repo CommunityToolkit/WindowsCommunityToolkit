@@ -1,0 +1,85 @@
+﻿<ContentDialog
+    x:Class="Microsoft.Toolkit.Uwp.Input.GazeControls.GazeFilePicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.Input.GazeControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Open File" 
+    PrimaryButtonText="Select" 
+    CloseButtonText="Cancel"
+    MinWidth="1500"
+    Width="1500" Height="800" 
+    FullSizeDesired="True"
+    Closing="OnFilePickerClosing"
+  >
+
+  <ContentDialog.Resources>
+    <DataTemplate x:Key="FolderItemTemplate" x:DataType="local:StorageItem">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="8*" />
+          <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <Image Grid.Row="0" Width="128" Height="128" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{x:Bind Thumbnail}" />
+        <TextBlock Grid.Row="1" HorizontalAlignment="Stretch" Text="{x:Bind Name}" HorizontalTextAlignment="Center" />
+      </Grid>
+    </DataTemplate>
+    <Style x:Key="PickerButtonStyles" TargetType="Button">
+      <Setter Property="Height" Value="128" />
+      <Setter Property="Width" Value="256" />
+    </Style>
+  </ContentDialog.Resources>
+  <Grid>
+    <Grid x:Name="FilenameEntryGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1*"/>
+        <RowDefinition Height="9*"/>
+      </Grid.RowDefinitions>
+      <TextBox x:Name="FilenameTextbox" Grid.Row="0" TextWrapping="Wrap" FontSize="45" Margin="3,3,0,3" AcceptsReturn="True" />
+      <local:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="1" />
+    </Grid>
+    <Grid x:Name="FileListingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="2*" />
+        <RowDefinition Height="7*" />
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <ListView x:Name="CurrentFolderPartsList" 
+              Grid.Row="0" 
+              VerticalAlignment="Stretch" 
+              ItemsSource="{x:Bind Mode=OneWay, Path=_currentFolderParts}" 
+              VerticalContentAlignment="Stretch"
+              >
+        <ListView.ItemsPanel>
+          <ItemsPanelTemplate>
+            <ItemsStackPanel Orientation="Horizontal" VerticalAlignment="Stretch" />
+          </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+        <ListView.ItemTemplate>
+          <DataTemplate x:DataType="local:PathPart">
+            <Grid>
+              <Button VerticalAlignment="Stretch" Height="128" MinWidth="128" Click="OnPathPartClick" Content="{x:Bind Name}" Tag="{x:Bind Index}"/>
+            </Grid>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+      <GridView x:Name="CurrentFolderContents" 
+              Grid.Row="1" 
+              IsItemClickEnabled="True" 
+              SelectionMode="Single" 
+              ItemTemplate="{StaticResource FolderItemTemplate}" 
+              ItemsSource="{x:Bind Mode=OneWay, Path=_currentFolderItems}" 
+              VerticalAlignment="Stretch" 
+              HorizontalAlignment="Stretch"
+              ItemClick="OnCurrentFolderContentsItemClick"
+              MinWidth="1500"
+              />
+      <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <TextBlock Text="File name: "/>
+        <TextBlock Text="{x:Bind Mode=OneWay, Path=_curSelectedItem.Name}" FontWeight="Bold" Margin="20,0,0,0" />
+      </StackPanel>
+    </Grid>
+  </Grid>
+</ContentDialog>
