@@ -14,8 +14,6 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Input.Preview.Injection;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -87,7 +85,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 {
                     target.Click += OnPredictionSelected;
                 }
-
             }
         }
 
@@ -463,7 +460,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             var prevWordsExceptLast = prevWords.GetRange(1, prevWords.Count - 1);
 
             // It looks like we need to send in a larger number than necessary to get good quality predictions.
-
             uint maxCandidates = (uint)PredictionTargets.Length * 2;
             predictions = await _textPredictionGenerator.GetCandidatesAsync(
                             prevWords[0],
