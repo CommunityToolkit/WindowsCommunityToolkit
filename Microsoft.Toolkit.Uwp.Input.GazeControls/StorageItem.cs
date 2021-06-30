@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
     internal class StorageItem : INotifyPropertyChanged
     {
-        public readonly IStorageItem Item;
+        public IStorageItem Item { get; }
 
         public StorageItem(IStorageItem item)
         {

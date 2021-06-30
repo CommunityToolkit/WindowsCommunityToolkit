@@ -73,13 +73,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void OnFileOpen(object sender, RoutedEventArgs e)
         {
             var file = await ShowFilePicker(false);
-            _textControl.Text = await FileIO.ReadTextAsync(file);
+            if (file != null)
+            {
+                _textControl.Text = await FileIO.ReadTextAsync(file);
+            }
         }
 
         private async void OnFileSave(object sender, RoutedEventArgs e)
         {
             var file = await ShowFilePicker(true);
-            await FileIO.WriteTextAsync(file, _textControl.Text);
+            if (file != null)
+            {
+                await FileIO.WriteTextAsync(file, _textControl.Text);
+            }
         }
 
         private async Task<StorageFile> ShowFilePicker(bool saveMode)

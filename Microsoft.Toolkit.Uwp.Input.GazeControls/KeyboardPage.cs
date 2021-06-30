@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +9,17 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
     internal class KeyboardPage
     {
-        public FrameworkElement Page;
-        public KeyboardPage Parent;
-        public List<string> ChildrenNames;
-        public List<KeyboardPage> Children;
-        public KeyboardPage CurrentChild;
-        public KeyboardPage PrevChild;
+        public FrameworkElement Page { get; set; }
+
+        public KeyboardPage Parent { get; set; }
+
+        public List<string> ChildrenNames { get; set; }
+
+        public List<KeyboardPage> Children { get; set; }
+
+        public KeyboardPage CurrentChild { get; set; }
+
+        public KeyboardPage PrevChild { get; set; }
 
         public KeyboardPage(FrameworkElement page, KeyboardPage parent)
         {

@@ -9,13 +9,6 @@
     <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
-  <!--<ItemGroup>
-    <Page Remove="KeyboardLayouts\FilenameEntry.xaml" />
-    <Page Remove="KeyboardLayouts\FullKeyboard.xaml" />
-    <Page Remove="KeyboardLayouts\MinAAC.xaml" />
-    <Page Remove="KeyboardLayouts\TwoStageKeyboard.xaml" />
-  </ItemGroup>-->
-
   <ItemGroup>
     <Content Include="KeyboardLayouts\FilenameEntry.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
