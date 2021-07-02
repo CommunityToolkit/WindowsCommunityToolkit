@@ -34,11 +34,12 @@
                       ItemTemplate="{StaticResource NormalTemplate}" />
         </Grid>
 
-        <StackPanel Grid.Column="1" Margin="5,0,5,0" Width="200">
+        <StackPanel Grid.Column="1" Margin="5,10,10,0" Width="200">
+            <TextBlock Text="Smooth Scroll Settings" FontSize="{StaticResource TextStyleLargeFontSize}" Margin="0,0,0,10"/>
             <TextBox x:Name="IndexInput"
                      Header="Index"
                      InputScope="Number"
-                     Text="0" />
+                     Text="100" />
             <ComboBox x:Name="ItemPlacementInput"
                       Header="Item Placement"
                       SelectedIndex="0">
