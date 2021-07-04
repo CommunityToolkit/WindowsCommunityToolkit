@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -13,8 +14,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
@@ -32,7 +35,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private bool _newFolderMode;
 
-        private PathPart[] _currentFolderParts;
         private ObservableCollection<StorageItem> _currentFolderItems;
 
         private StorageItem _curSelectedItem;
@@ -69,9 +71,15 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             set
             {
-                RefreshContents(value.Path);
+                RefreshContents(value);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the list of storage folders that appear as shortcuts
+        /// on top of the folder view
+        /// </summary>
+        public List<StorageFolder> Favorites { get; set; }
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -98,12 +106,64 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         private void OnInitializationTimerTick(object sender, object e)
         {
             _initializationTimer.Stop();
-            CreateDialogButtons();
+            CreateFavoritesButtons();
+            CreateCommandSpaceButtons();
             GazeKeyboard.Target = FilenameTextbox;
             SetFileListingsLayout();
         }
 
-        private void CreateDialogButtons()
+        private async void CreateFavoritesButtons()
+        {
+            var favoritesPanel = this.FindControl<StackPanel>("FavoritesPanel");
+            Debug.Assert(favoritesPanel != null, "KnownFoldersPanel not found");
+
+            var style = (Style)this.Resources["PickerButtonStyles"];
+
+            favoritesPanel.Children.Clear();
+
+            List<StorageFolder> favorites;
+            if ((Favorites == null) || (Favorites.Count == 0))
+            {
+                KnownFolderId[] knownFolderIds =
+                {
+                    KnownFolderId.DocumentsLibrary,
+                    KnownFolderId.PicturesLibrary,
+                    KnownFolderId.VideosLibrary,
+                    KnownFolderId.MusicLibrary
+                };
+
+                favorites = new List<StorageFolder>();
+                foreach (var folderId in knownFolderIds)
+                {
+                    try
+                    {
+                        var knownFolder = await KnownFolders.GetFolderAsync(folderId);
+                        favorites.Add(knownFolder);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                favorites = Favorites;
+            }
+
+            foreach (var folder in favorites)
+            {
+                var button = new Button();
+                button.Style = style;
+                button.Tag = folder;
+                button.Click += OnFavoritesClick;
+                button.Content = folder.Name;
+
+                favoritesPanel.Children.Add(button);
+            }
+        }
+
+        private void CreateCommandSpaceButtons()
         {
             _commandSpaceGrid = this.FindControl<Grid>("CommandSpace");
             Debug.Assert(_commandSpaceGrid != null, "CommandSpaceGrid not found");
@@ -118,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 _commandSpaceGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
 
-            var style = (Style)this.Resources["PickerButtonStyles"];
+            var style = (Style)this.Resources["CommandSpaceButtonStyles"];
             this.PrimaryButtonStyle = style;
             this.SecondaryButtonStyle = style;
             this.CloseButtonStyle = style;
@@ -173,17 +233,19 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             {
                 _newFolderMode = false;
                 await _currentFolder.CreateFolderAsync(FilenameTextbox.Text);
-                RefreshContents(_currentFolder.Path);
+                RefreshContents(_currentFolder);
                 SetFileListingsLayout();
             }
             else if (SaveMode)
             {
                 _selectedItem = await _currentFolder.CreateFileAsync(FilenameTextbox.Text);
             }
-            else
+            else if (!_curSelectedItem.IsFolder)
             {
                 _selectedItem = _curSelectedItem?.Item as StorageFile;
             }
+
+            SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
         }
 
         private void OnCancelButtonClick(object sender, RoutedEventArgs e)
@@ -241,21 +303,17 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             return tasks;
         }
 
-        private async void RefreshContents(string path)
+        private async void RefreshContents(StorageFolder folder)
         {
-            StorageFolder newCurrentFolder;
-            try
-            {
-                newCurrentFolder = await StorageFolder.GetFolderFromPathAsync(path);
-            }
-            catch (UnauthorizedAccessException)
+            if (folder == null)
             {
                 return;
             }
 
-            _currentFolder = newCurrentFolder;
+            _currentFolder = folder;
+            _curSelectedItem = new StorageItem(_currentFolder);
 
-            var items = await _currentFolder.GetItemsAsync();
+            var items = await folder.GetItemsAsync();
             _currentFolderItems = new ObservableCollection<StorageItem>(items.Select(item => new StorageItem(item)));
 
             var tasks = GetThumbnailsAsync(_currentFolderItems);
@@ -265,11 +323,13 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 item.OnPropertyChanged("Thumbnail");
             }
 
-            var parts = _currentFolder.Path.Split('\\');
-            _currentFolderParts = parts.Select((part, index) => new PathPart { Index = index, Name = part }).ToArray();
-
-            OnPropertyChanged("_currentFolderParts");
+            _selectButton.IsEnabled = !_curSelectedItem.IsFolder;
+            SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
+            OnPropertyChanged("_curSelectedItem");
             OnPropertyChanged("_currentFolderItems");
+
+            folder = await _currentFolder.GetParentAsync();
+            ParentFolderButton.IsEnabled = folder != null;
         }
 
         private void OnCurrentFolderContentsItemClick(object sender, ItemClickEventArgs e)
@@ -279,7 +339,12 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             if (clickedItem.IsFolder)
             {
-                RefreshContents(clickedItem.Path);
+                RefreshContents(clickedItem.Item as StorageFolder);
+                _selectButton.IsEnabled = false;
+            }
+            else
+            {
+                _selectButton.IsEnabled = true;
             }
 
             _curSelectedItem = clickedItem;
@@ -287,13 +352,17 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             OnPropertyChanged("_curSelectedItem");
         }
 
-        private void OnPathPartClick(object sender, RoutedEventArgs e)
+        private async void OnParentFolderClick(object sender, RoutedEventArgs e)
         {
-            var buttonIndex = int.Parse((sender as Button).Tag.ToString());
-            int selectedIndex = CurrentFolderPartsList.SelectedIndex;
+            var folder = await _currentFolder.GetParentAsync();
+            RefreshContents(folder);
+        }
 
-            var newFolder = Path.Combine(_currentFolderParts.Select(part => part.Name).Take(buttonIndex + 1).ToArray());
-            RefreshContents(newFolder);
+        private void OnFavoritesClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var folder = button.Tag as StorageFolder;
+            RefreshContents(folder);
         }
 
         private void OnFilePickerClosing(ContentDialog sender, ContentDialogClosingEventArgs args)
