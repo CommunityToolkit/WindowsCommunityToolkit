@@ -58,6 +58,9 @@
     <DeviceCapability Name="webcam" />
     <DeviceCapability Name="gazeInput" />
     <DeviceCapability Name="documentsLibrary"/>
+    <DeviceCapability Name="musicLibrary"/>
+    <DeviceCapability Name="picturesLibrary"/>
+    <DeviceCapability Name="videosLibrary"/>
     <DeviceCapability Name="inputInjectionBrokered" />
   </Capabilities>
 </Package>

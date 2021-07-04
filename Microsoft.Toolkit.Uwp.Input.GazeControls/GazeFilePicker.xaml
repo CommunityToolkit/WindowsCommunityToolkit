@@ -26,9 +26,14 @@
         <TextBlock Grid.Row="1" HorizontalAlignment="Stretch" Text="{x:Bind Name}" HorizontalTextAlignment="Center" />
       </Grid>
     </DataTemplate>
+    <Style x:Key="CommandSpaceButtonStyles" TargetType="Button">
+      <Setter Property="Height" Value="120" />
+      <Setter Property="Width" Value="240" />
+    </Style>
     <Style x:Key="PickerButtonStyles" TargetType="Button">
       <Setter Property="Height" Value="128" />
-      <Setter Property="Width" Value="256" />
+      <Setter Property="Width" Value="128" />
+      <Setter Property="Margin" Value="0,8,16,8" />
     </Style>
   </ContentDialog.Resources>
   <Grid>
@@ -42,31 +47,15 @@
     </Grid>
     <Grid x:Name="FileListingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
       <Grid.RowDefinitions>
-        <RowDefinition Height="2*" />
-        <RowDefinition Height="7*" />
-        <RowDefinition Height="1*" />
+        <RowDefinition Height="144" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="144" />
       </Grid.RowDefinitions>
-      <ListView x:Name="CurrentFolderPartsList" 
-              Grid.Row="0" 
-              VerticalAlignment="Stretch" 
-              ItemsSource="{x:Bind Mode=OneWay, Path=_currentFolderParts}" 
-              VerticalContentAlignment="Stretch"
-              >
-        <ListView.ItemsPanel>
-          <ItemsPanelTemplate>
-            <ItemsStackPanel Orientation="Horizontal" VerticalAlignment="Stretch" />
-          </ItemsPanelTemplate>
-        </ListView.ItemsPanel>
-        <ListView.ItemTemplate>
-          <DataTemplate x:DataType="local:PathPart">
-            <Grid>
-              <Button VerticalAlignment="Stretch" Height="128" MinWidth="128" Click="OnPathPartClick" Content="{x:Bind Name}" Tag="{x:Bind Index}"/>
-            </Grid>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
-      <GridView x:Name="CurrentFolderContents" 
-              Grid.Row="1" 
+      <StackPanel x:Name="FavoritesPanel" Grid.Row="0" Orientation="Horizontal">
+      </StackPanel>
+
+      <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="0,0,0,0">
+        <GridView x:Name="CurrentFolderContents" 
               IsItemClickEnabled="True" 
               SelectionMode="Single" 
               ItemTemplate="{StaticResource FolderItemTemplate}" 
@@ -76,10 +65,24 @@
               ItemClick="OnCurrentFolderContentsItemClick"
               MinWidth="1500"
               />
-      <StackPanel Grid.Row="2" Orientation="Horizontal">
-        <TextBlock Text="File name: "/>
-        <TextBlock Text="{x:Bind Mode=OneWay, Path=_curSelectedItem.Name}" FontWeight="Bold" Margin="20,0,0,0" />
-      </StackPanel>
+      </Border>
+
+      <Grid Grid.Row="2" Margin="0,8,0,8" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="144"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ParentFolderButton" Grid.Column="0" Width="128" Height="128" Click="OnParentFolderClick" Content="&#xF0AD;" FontFamily="Segoe MDL2 Assets" FontSize="32" Margin="0,0,20,0"/>
+        <Border Grid.Column="1"  BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch">
+          <ScrollViewer x:Name="SelectedItemScrollViewer" VerticalScrollBarVisibility="Disabled" 
+                        HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" 
+                        HorizontalScrollMode="Enabled" >
+            <TextBlock Text="{x:Bind Mode=OneWay, Path=_curSelectedItem.Path}" 
+                       FontWeight="Bold" FontSize="18"  Margin="16,0,0,0" 
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch" Padding="0,0,16,0"/>
+          </ScrollViewer>
+        </Border>
+      </Grid>
     </Grid>
   </Grid>
 </ContentDialog>
