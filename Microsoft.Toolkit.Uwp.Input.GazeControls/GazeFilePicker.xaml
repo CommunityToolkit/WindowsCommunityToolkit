@@ -14,7 +14,6 @@
     FullSizeDesired="True"
     Closing="OnFilePickerClosing"
   >
-
   <ContentDialog.Resources>
     <DataTemplate x:Key="FolderItemTemplate" x:DataType="local:StorageItem">
       <Grid>
