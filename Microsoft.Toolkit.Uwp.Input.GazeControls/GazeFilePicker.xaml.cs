@@ -39,8 +39,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private StorageItem _curSelectedItem;
 
-        private StorageFile _selectedItem;
-
         /// <summary>
         /// Gets or sets a value indicating whether this is FileSave dialog or a FileOpen dialog
         /// </summary>
@@ -49,13 +47,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// <summary>
         /// Gets the currently selected file in the dialog as a StorageFile
         /// </summary>
-        public StorageFile SelectedItem
-        {
-            get
-            {
-                return _selectedItem;
-            }
-        }
+        public StorageFile SelectedItem { get; private set; }
 
         private StorageFolder _currentFolder;
 
@@ -81,6 +73,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// </summary>
         public List<StorageFolder> Favorites { get; set; }
 
+        /// <summary>
+        /// Gets or sets the collection of file types that the file open picker displays.
+        /// </summary>
+        public List<string> FileTypeFilter { get; set; }
+
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -97,6 +94,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             this.InitializeComponent();
 
             this.Opened += OnGazeFilePickerOpened;
+
+            FileTypeFilter = new List<string>();
 
             _initializationTimer = new DispatcherTimer();
             _initializationTimer.Interval = TimeSpan.FromMilliseconds(125);
@@ -238,11 +237,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
             else if (SaveMode)
             {
-                _selectedItem = await _currentFolder.CreateFileAsync(FilenameTextbox.Text);
+                SelectedItem = await _currentFolder.CreateFileAsync(FilenameTextbox.Text);
             }
             else if (!_curSelectedItem.IsFolder)
             {
-                _selectedItem = _curSelectedItem?.Item as StorageFile;
+                SelectedItem = _curSelectedItem?.Item as StorageFile;
             }
 
             SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
@@ -313,7 +312,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             _currentFolder = folder;
             _curSelectedItem = new StorageItem(_currentFolder);
 
-            var items = await folder.GetItemsAsync();
+            var allItems = await folder.GetItemsAsync();
+            var items = allItems.Where(item => item.IsOfType(StorageItemTypes.Folder) ||
+                                          FileTypeFilter.Contains((item as StorageFile).FileType));
             _currentFolderItems = new ObservableCollection<StorageItem>(items.Select(item => new StorageItem(item)));
 
             var tasks = GetThumbnailsAsync(_currentFolderItems);

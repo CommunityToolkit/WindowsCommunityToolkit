@@ -92,8 +92,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             var picker = new GazeFilePicker();
             var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
-            picker.CurrentFolder = library.SaveFolder;
             picker.SaveMode = saveMode;
+            picker.FileTypeFilter.Add(".txt");
+            picker.FileTypeFilter.Add(".html");
+            picker.FileTypeFilter.Add(".log");
+            picker.CurrentFolder = library.SaveFolder;
             await picker.ShowAsync();
             return picker.SelectedItem;
         }
