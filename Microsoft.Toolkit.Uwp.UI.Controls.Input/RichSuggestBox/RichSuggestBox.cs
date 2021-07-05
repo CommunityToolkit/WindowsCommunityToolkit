@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
             RegisterPropertyChangedCallback(CornerRadiusProperty, OnCornerRadiusChanged);
             RegisterPropertyChangedCallback(PopupCornerRadiusProperty, OnCornerRadiusChanged);
-            LostFocus += (sender, args) => ShowSuggestionsPopup(false);
+            LostFocus += OnLostFocus;
         }
 
         /// <summary>
@@ -116,6 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SelectionChanging -= RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged -= RichEditBox_SelectionChanged;
             _richEditBox.Paste -= RichEditBox_Paste;
+            _richEditBox.PreviewKeyDown -= RichEditBox_PreviewKeyDown;
             _richEditBox.RemoveHandler(PointerPressedEvent, _pointerEventHandler);
             _richEditBox.ProcessKeyboardAccelerators -= RichEditBox_ProcessKeyboardAccelerators;
 
@@ -128,6 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
             _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
             _richEditBox.Paste += RichEditBox_Paste;
+            _richEditBox.PreviewKeyDown += RichEditBox_PreviewKeyDown;
             _richEditBox.AddHandler(PointerPressedEvent, _pointerEventHandler, true);
             _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
 
@@ -174,6 +176,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnCornerRadiusChanged(DependencyObject sender, DependencyProperty dp)
         {
             UpdateCornerRadii();
+        }
+
+        private void OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            ShowSuggestionsPopup(false);
         }
 
         private void SuggestionsList_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -248,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ShowSuggestionsPopup(false);
         }
 
-        private void RichEditBox_ProcessKeyboardAccelerators(UIElement sender, ProcessKeyboardAcceleratorEventArgs args)
+        private async void RichEditBox_ProcessKeyboardAccelerators(UIElement sender, ProcessKeyboardAcceleratorEventArgs args)
         {
             var itemsList = _suggestionsList.Items;
             if (!_suggestionPopup.IsOpen || itemsList == null || itemsList.Count == 0)
@@ -261,35 +268,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Up when itemsList.Count == 1:
                 case VirtualKey.Down when itemsList.Count == 1:
-                    _suggestionsList.SelectedItem = itemsList[0];
                     args.Handled = true;
+                    _suggestionsList.SelectedItem = itemsList[0];
                     break;
 
                 case VirtualKey.Up:
+                    args.Handled = true;
                     _suggestionChoice = _suggestionChoice <= 0 ? itemsList.Count : _suggestionChoice - 1;
                     _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
                     _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
-                    args.Handled = true;
                     break;
 
                 case VirtualKey.Down:
+                    args.Handled = true;
                     _suggestionChoice = _suggestionChoice >= itemsList.Count ? 0 : _suggestionChoice + 1;
                     _suggestionsList.SelectedItem = _suggestionChoice == 0 ? null : itemsList[_suggestionChoice - 1];
                     _suggestionsList.ScrollIntoView(_suggestionsList.SelectedItem);
-                    args.Handled = true;
                     break;
 
-                case VirtualKey.Tab when _suggestionsList.SelectedItem != null:
                 case VirtualKey.Enter when _suggestionsList.SelectedItem != null:
-                    ShowSuggestionsPopup(false);
-                    _ = OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
                     args.Handled = true;
+                    await OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
                     break;
 
                 case VirtualKey.Escape:
-                    ShowSuggestionsPopup(false);
                     args.Handled = true;
+                    ShowSuggestionsPopup(false);
                     break;
+            }
+        }
+
+        private async void RichEditBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Tab && _suggestionsList.SelectedItem != null)
+            {
+                e.Handled = true;
+                await OnSuggestionSelectedAsync(_suggestionsList.SelectedItem);
             }
         }
 
@@ -566,8 +580,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (token.ToString() != range.Text)
             {
-                // range.Link = string.Empty;   Do not manually set link to empty string here. Character format will not reset properly.
-                // Setting CharacterFormat to default format will also clear the Link property.
+                // Need to reset both Link and CharacterFormat or the token id will still persist in the RTF text.
+                range.Link = string.Empty;
                 range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
                 token.Active = false;
                 return;
@@ -678,6 +692,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <summary>
+        /// Set corner radii so that inner corners, where suggestion list and text box connect, are square.
+        /// This only applies when <see cref="PopupPlacement"/> is set to <see cref="SuggestionPopupPlacementMode.Attached"/>.
+        /// </summary>
+        /// https://docs.microsoft.com/en-us/windows/apps/design/style/rounded-corner#when-not-to-round
         private void UpdateCornerRadii()
         {
             if (this._richEditBox == null || this._suggestionsContainer == null ||
