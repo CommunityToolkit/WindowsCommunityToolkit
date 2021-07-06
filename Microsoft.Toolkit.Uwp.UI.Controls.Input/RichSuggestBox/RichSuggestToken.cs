@@ -9,9 +9,9 @@ using Windows.UI.Text;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// SuggestionInfo describes a suggestion token in the document.
+    /// RichSuggestToken describes a suggestion token in the document.
     /// </summary>
-    public class SuggestionInfo : INotifyPropertyChanged
+    public class RichSuggestToken : INotifyPropertyChanged
     {
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,11 +51,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ITextRange _range;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuggestionInfo"/> class.
+        /// Initializes a new instance of the <see cref="RichSuggestToken"/> class.
         /// </summary>
         /// <param name="id">Token ID</param>
         /// <param name="displayText">Text in the document</param>
-        public SuggestionInfo(Guid id, string displayText)
+        public RichSuggestToken(Guid id, string displayText)
         {
             Id = id;
             DisplayText = displayText;

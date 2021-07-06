@@ -359,6 +359,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a collection of suggestion tokens that are present in the document.
         /// </summary>
-        public ReadOnlyObservableCollection<SuggestionInfo> Tokens { get; }
+        public ReadOnlyObservableCollection<RichSuggestToken> Tokens { get; }
     }
 }

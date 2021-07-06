@@ -40,6 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the formatting construct to override this token formatting.
         /// </summary>
-        public SuggestionTokenFormat Format { get; internal set; }
+        public RichSuggestTokenFormat Format { get; internal set; }
     }
 }

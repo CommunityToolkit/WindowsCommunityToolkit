@@ -8,9 +8,9 @@ using Windows.UI.Text;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// SuggestionTokenFormat describes how a token should be formatted.
+    /// RichSuggestTokenFormat describes how a token should be formatted.
     /// </summary>
-    public class SuggestionTokenFormat
+    public class RichSuggestTokenFormat
     {
         /// <summary>
         /// Gets or sets token foreground color.
@@ -93,10 +93,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public float Position { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SuggestionTokenFormat"/> class.
+        /// Initializes a new instance of the <see cref="RichSuggestTokenFormat"/> class.
         /// </summary>
         /// <param name="source">Source formatting to initialize from.</param>
-        public SuggestionTokenFormat(ITextCharacterFormat source)
+        public RichSuggestTokenFormat(ITextCharacterFormat source)
         {
             Foreground = source.ForegroundColor;
             Background = source.BackgroundColor;

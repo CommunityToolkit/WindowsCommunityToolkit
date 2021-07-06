@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Text;
@@ -38,8 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
         private const string PartDescriptionPresenter = "DescriptionPresenter";
 
-        private readonly Dictionary<string, SuggestionInfo> _tokens;
-        private readonly ObservableCollection<SuggestionInfo> _visibleTokens;
+        private readonly Dictionary<string, RichSuggestToken> _tokens;
+        private readonly ObservableCollection<RichSuggestToken> _visibleTokens;
         private readonly PointerEventHandler _pointerEventHandler;
 
         private Popup _suggestionPopup;
@@ -62,10 +63,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public RichSuggestBox()
         {
-            _tokens = new Dictionary<string, SuggestionInfo>();
-            _visibleTokens = new ObservableCollection<SuggestionInfo>();
+            _tokens = new Dictionary<string, RichSuggestToken>();
+            _visibleTokens = new ObservableCollection<RichSuggestToken>();
             _pointerEventHandler = RichEditBoxPointerEventHandler;
-            Tokens = new ReadOnlyObservableCollection<SuggestionInfo>(_visibleTokens);
+            Tokens = new ReadOnlyObservableCollection<RichSuggestToken>(_visibleTokens);
             LockObj = new object();
 
             DefaultStyleKey = typeof(RichSuggestBox);
@@ -220,6 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Prevent user from manually editing the link
                 selection.SetRange(range.StartPosition, range.EndPosition);
+                InvokeTokenSelected(selection);
             }
             else if (selection.StartPosition == range.StartPosition)
             {
@@ -380,6 +382,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void InvokeTokenSelected(ITextSelection selection)
+        {
+            var id = selection.Link;
+            if (string.IsNullOrEmpty(id) || !_tokens.TryGetValue(id, out var token))
+            {
+                return;
+            }
+
+            var tokenRect = GetTokenRect(selection);
+            TokenSelected?.Invoke(this, new RichSuggestTokenSelectedEventArgs(token, tokenRect));
+        }
+
         private async Task RequestSuggestionsAsync(ITextRange range = null)
         {
             string prefix;
@@ -441,7 +455,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Prefix = prefix,
                 Query = query,
                 SelectedItem = selectedItem,
-                Format = CreateSuggestionTokenFormat()
+                Format = this.CreateTokenFormat()
             };
             var textBefore = range.Text;
             await SuggestionChosen.InvokeAsync(this, eventArgs);
@@ -461,14 +475,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var displayText = prefix + text;
                 if (TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format))
                 {
-                    var token = new SuggestionInfo(id, displayText) { Active = true, Item = selectedItem };
+                    var token = new RichSuggestToken(id, displayText) { Active = true, Item = selectedItem };
                     token.UpdateTextRange(range);
                     _tokens.TryAdd(range.Link, token);
                 }
             }
         }
 
-        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, SuggestionTokenFormat format, bool addTrailingSpace = true)
+        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
         {
             try
             {
@@ -567,9 +581,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 lock (LockObj)
                 {
                     var guid = Guid.NewGuid();
-                    if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateSuggestionTokenFormat(), false))
+                    if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, this.CreateTokenFormat(), false))
                     {
-                        token = new SuggestionInfo(guid, token.DisplayText) { Active = true, Item = token.Item };
+                        token = new RichSuggestToken(guid, token.DisplayText) { Active = true, Item = token.Item };
                         token.UpdateTextRange(range);
                         _tokens.Add(range.Link, token);
                     }
@@ -791,10 +805,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private SuggestionTokenFormat CreateSuggestionTokenFormat()
+        private RichSuggestTokenFormat CreateTokenFormat()
         {
             var defaultFormat = TextDocument.GetDefaultCharacterFormat();
-            var suggestionFormat = new SuggestionTokenFormat(defaultFormat);
+            var suggestionFormat = new RichSuggestTokenFormat(defaultFormat);
             if (SuggestionBackground != null)
             {
                 suggestionFormat.Background = SuggestionBackground.Color;
@@ -806,6 +820,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return suggestionFormat;
+        }
+
+        private Rect GetTokenRect(ITextRange tokenRange)
+        {
+            var padding = _richEditBox.Padding;
+            tokenRange.GetRect(PointOptions.None, out var rect, out _);
+            rect.X += padding.Left;
+            rect.Y += padding.Top;
+            var transform = _richEditBox.TransformToVisual(this);
+            return transform.TransformBounds(rect);
         }
 
         private void UpdateVisibleTokenList()
