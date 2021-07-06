@@ -63,6 +63,25 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
         }
 
+        private Uri _layoutUri;
+
+        /// <summary>
+        /// Gets or sets the URI of the layout file for the keyboard
+        /// </summary>
+        public Uri LayoutUri
+        {
+            get
+            {
+                return _layoutUri;
+            }
+
+            set
+            {
+                _layoutUri = value;
+                _ = LoadLayout(value);
+            }
+        }
+
         /// <summary>
         /// Gets or sets the prediction targets
         /// </summary>
@@ -142,13 +161,12 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// <summary>
         /// Loads the given keyboard layout from a file
         /// </summary>
-        /// <param name="layoutFile"> Name of layout </param>
+        /// <param name="uri"> Uri of the layout file</param>
         /// <returns>Task</returns>
-        public async Task LoadLayout(string layoutFile)
+        private async Task LoadLayout(Uri uri)
         {
             try
             {
-                var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/{layoutFile}");
                 var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
                 var xaml = await FileIO.ReadTextAsync(storageFile);
                 var xamlNode = XamlReader.Load(xaml) as FrameworkElement;

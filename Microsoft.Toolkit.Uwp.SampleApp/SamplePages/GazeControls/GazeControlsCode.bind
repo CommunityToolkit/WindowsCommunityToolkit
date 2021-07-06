@@ -23,10 +23,11 @@ public sealed partial class GazeControlsPage : IXamlRenderListener
         _speechSynthesizer = new SpeechSynthesizer();
     }
 
-    private async void GazeControlsPage_Loaded(object sender, RoutedEventArgs e)
+    private void GazeControlsPage_Loaded(object sender, RoutedEventArgs e)
     {
         GazeKeyboard.Target = TextControl;
-        await GazeKeyboard.LoadLayout("MinAAC.xaml");
+        var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/MinAAC.xaml");
+        GazeKeyboard.LayoutUri = uri;
         GazeKeyboard.PredictionTargets = _predictions;
     }
 
