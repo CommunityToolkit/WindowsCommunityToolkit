@@ -280,18 +280,20 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             _enterFilenameButton.Visibility = Visibility.Collapsed;
         }
 
-        private async void OnEnterFilenameButtonClick(object sender, RoutedEventArgs e)
+        private void OnEnterFilenameButtonClick(object sender, RoutedEventArgs e)
         {
             _newFolderMode = false;
             SetKeyboardInputLayout();
-            await GazeKeyboard.LoadLayout("FilenameEntry.xaml");
+            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
+            GazeKeyboard.LayoutUri = uri;
         }
 
-        private async void OnNewFolderClick(object sender, RoutedEventArgs e)
+        private void OnNewFolderClick(object sender, RoutedEventArgs e)
         {
             _newFolderMode = true;
             SetKeyboardInputLayout();
-            await GazeKeyboard.LoadLayout("FilenameEntry.xaml");
+            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
+            GazeKeyboard.LayoutUri = uri;
         }
 
         private void OnGazeFilePickerOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)

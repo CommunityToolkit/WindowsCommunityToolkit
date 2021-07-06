@@ -14,5 +14,4 @@
     mc:Ignorable="d">
 
   <Grid x:Name="XamlRoot" />
-
 </Page>

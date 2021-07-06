@@ -46,7 +46,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _gazeKeyboard = control.FindChild("GazeKeyboard") as GazeKeyboard;
 
             _gazeKeyboard.Target = _textControl;
-            await _gazeKeyboard.LoadLayout("MinAAC.xaml");
             _gazeKeyboard.PredictionTargets = _predictions;
 
             var speakButton = control.FindChild("SpeakButton") as Button;
