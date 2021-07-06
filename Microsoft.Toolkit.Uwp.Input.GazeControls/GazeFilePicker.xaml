@@ -474,12 +474,16 @@
       </Border>
 
       <Grid Grid.Row="2" Margin="0,8,0,8" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="144"/>
           <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ParentFolderButton" Grid.Column="0" Width="128" Height="128" Click="OnParentFolderClick" Content="&#xF0AD;" FontFamily="Segoe MDL2 Assets" FontSize="32" Margin="0,0,20,0"/>
-        <Border Grid.Column="1"  BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch">
+        <Button x:Name="ParentFolderButton" Grid.Column="0" Grid.RowSpan="2" Width="128" Height="128" Click="OnParentFolderClick" Content="&#xF0AD;" FontFamily="Segoe MDL2 Assets" FontSize="32" Margin="0,0,20,0"/>
+        <Border Grid.Row="0" Grid.Column="1"  BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" Margin="0,0,0,8">
           <ScrollViewer x:Name="SelectedItemScrollViewer" VerticalScrollBarVisibility="Disabled" 
                         HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" 
                         HorizontalScrollMode="Enabled" >
@@ -487,6 +491,9 @@
                        FontWeight="Bold" FontSize="18"  Margin="16,0,0,0" 
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Padding="0,0,16,0"/>
           </ScrollViewer>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="Black" Margin="0,8,0,0">
+          <TextBlock x:Name="FileTypeFilterTextBlock" FontSize="18"/>
         </Border>
       </Grid>
     </Grid>

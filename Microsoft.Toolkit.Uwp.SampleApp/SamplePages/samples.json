@@ -1265,7 +1265,7 @@
         "CodeFile": "GazeControlsCode.bind",
         "Icon": "/SamplePages/GazeControls/GazeControls.png",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview",
-        "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md"
+        "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeControls.md"
       }
     ]
   }
