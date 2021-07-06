@@ -26,6 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Shadows
         private static readonly TypedResourceKey<CompositionSurfaceBrush> SurfaceBrushResourceKey = "SurfaceBrush";
         private static readonly TypedResourceKey<CompositionVisualSurface> VisualSurfaceResourceKey = "VisualSurface";
 
+        /// <summary>
+        /// The <see cref="DependencyProperty"/> for <see cref="CornerRadius"/>
+        /// </summary>
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register(
                 nameof(CornerRadius),
@@ -40,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Shadows
         }
 
         /// <summary>
-        /// Gets or sets the roundness of the shadow's corners
+        /// Gets or sets the roundness of the shadow's corners.
         /// </summary>
         public double CornerRadius
         {
@@ -48,15 +51,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Shadows
             set => SetValue(CornerRadiusProperty, value);
         }
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
         public override bool IsSupported => SupportsCompositionVisualSurface;
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public override bool SupportsOnSizeChangedEvent => true;
+        protected override bool SupportsOnSizeChangedEvent => true;
 
         protected override void OnElementContextUninitialized(AttachedShadowElementContext context)
         {
