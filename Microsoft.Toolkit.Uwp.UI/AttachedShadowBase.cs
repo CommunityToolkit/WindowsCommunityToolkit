@@ -16,16 +16,29 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public abstract class AttachedShadowBase : DependencyObject
     {
-        public static AttachedShadowBase GetShadow(DependencyObject obj)
+        /// <summary>
+        /// Gets the shadow attached to a <see cref="FrameworkElement"/> by getting the value of the <see cref="ShadowProperty"/> property.
+        /// </summary>
+        /// <param name="obj">The <see cref="FrameworkElement"/> the <see cref="AttachedShadowBase"/> is attached to.</param>
+        /// <returns>The <see cref="AttachedShadowBase"/> that is attached to the <paramref name="obj">FrameworkElement.</paramref></returns>
+        public static AttachedShadowBase GetShadow(FrameworkElement obj)
         {
             return (AttachedShadowBase)obj.GetValue(ShadowProperty);
         }
 
-        public static void SetShadow(DependencyObject obj, AttachedShadowBase value)
+        /// <summary>
+        /// Attaches a shadow to an element by setting the <see cref="ShadowProperty"/> property.
+        /// </summary>
+        /// <param name="obj">The <see cref="FrameworkElement"/> to attach the shadow to.</param>
+        /// <param name="value">The <see cref="AttachedShadowBase"/> that will be attached to the element</param>
+        public static void SetShadow(FrameworkElement obj, AttachedShadowBase value)
         {
             obj.SetValue(ShadowProperty, value);
         }
 
+        /// <summary>
+        /// Backing dependency property used to attach shadows to UI elements.
+        /// </summary>
         public static readonly DependencyProperty ShadowProperty =
             DependencyProperty.RegisterAttached("Shadow", typeof(AttachedShadowBase), typeof(AttachedShadowBase), new PropertyMetadata(null, OnShadowChanged));
 
@@ -47,12 +60,21 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
         }
 
+        /// <summary>
+        /// The <see cref="DependencyProperty"/> for <see cref="BlurRadius"/>.
+        /// </summary>
         public static readonly DependencyProperty BlurRadiusProperty =
             DependencyProperty.Register(nameof(BlurRadius), typeof(double), typeof(AttachedShadowBase), new PropertyMetadata(12d, OnDependencyPropertyChanged));
 
+        /// <summary>
+        /// The <see cref="DependencyProperty"/> for <see cref="Color"/>.
+        /// </summary>
         public static readonly DependencyProperty ColorProperty =
             DependencyProperty.Register(nameof(Color), typeof(Color), typeof(AttachedShadowBase), new PropertyMetadata(Colors.Black, OnDependencyPropertyChanged));
 
+        /// <summary>
+        /// The <see cref="DependencyProperty"/> for <see cref="Opacity"/>.
+        /// </summary>
         public static readonly DependencyProperty OffsetProperty =
             DependencyProperty.Register(
                 nameof(Offset),
@@ -60,21 +82,24 @@ namespace Microsoft.Toolkit.Uwp.UI
                 typeof(AttachedShadowBase),
                 new PropertyMetadata(Vector3.Zero, OnDependencyPropertyChanged));
 
+        /// <summary>
+        /// The <see cref="DependencyProperty"/> for <see cref="Opacity"/>
+        /// </summary>
         public static readonly DependencyProperty OpacityProperty =
             DependencyProperty.Register(nameof(Opacity), typeof(double), typeof(AttachedShadowBase), new PropertyMetadata(1d, OnDependencyPropertyChanged));
 
         /// <summary>
-        /// Returns whether or not this <see cref="AttachedShadowBase"/> implementation is supported on the current platform
+        /// Returns whether or not this <see cref="AttachedShadowBase"/> implementation is supported on the current platform.
         /// </summary>
         public abstract bool IsSupported { get; }
 
         /// <summary>
-        /// Returns the collection of <see cref="AttachedShadowElementContext"/> for each element this <see cref="AttachedShadowBase"/> is connected to
+        /// Gets or sets the collection of <see cref="AttachedShadowElementContext"/> for each element this <see cref="AttachedShadowBase"/> is connected to.
         /// </summary>
-        protected ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; private set; }
+        private ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; set; }
 
         /// <summary>
-        /// Gets or set the blur radius of the shadow
+        /// Gets or set the blur radius of the shadow.
         /// </summary>
         public double BlurRadius
         {
@@ -83,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Gets or sets the opacity of the shadow
+        /// Gets or sets the opacity of the shadow.
         /// </summary>
         public double Opacity
         {
@@ -92,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Gets or sets the offset of the shadow
+        /// Gets or sets the offset of the shadow.
         /// </summary>
         public Vector3 Offset
         {
@@ -101,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Gets or sets the color of the shadow
+        /// Gets or sets the color of the shadow.
         /// </summary>
         public Color Color
         {
@@ -110,9 +135,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Returns whether or not OnSizeChanged should be called when <see cref="FrameworkElement.SizeChanged"/> is fired
+        /// Returns whether or not OnSizeChanged should be called when <see cref="FrameworkElement.SizeChanged"/> is fired.
         /// </summary>
-        public abstract bool SupportsOnSizeChangedEvent { get; }
+        protected internal abstract bool SupportsOnSizeChangedEvent { get; }
 
         private void ConnectElement(FrameworkElement element)
         {
@@ -171,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Get the associated <see cref="AttachedShadowElementContext"/> for the specified <see cref="FrameworkElement"/>
+        /// Get the associated <see cref="AttachedShadowElementContext"/> for the specified <see cref="FrameworkElement"/>.
         /// </summary>
         public AttachedShadowElementContext GetElementContext(FrameworkElement element)
         {
@@ -193,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Use this method as the <see cref="PropertyChangedCallback"/> for <see cref="DependencyProperty">DependencyProperties</see> in derived classes
+        /// Use this method as the <see cref="PropertyChangedCallback"/> for <see cref="DependencyProperty">DependencyProperties</see> in derived classes.
         /// </summary>
         protected static void OnDependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
@@ -217,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Get a <see cref="CompositionBrush"/> in the shape of the element that is casting the shadow
+        /// Get a <see cref="CompositionBrush"/> in the shape of the element that is casting the shadow.
         /// </summary>
         protected virtual CompositionBrush GetShadowMask(AttachedShadowElementContext context)
         {
@@ -233,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Update the mask that gives the shadow its shape
+        /// Update the mask that gives the shadow its shape.
         /// </summary>
         protected void UpdateShadowMask(AttachedShadowElementContext context)
         {
@@ -246,7 +271,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Update the clipping on the shadow's <see cref="SpriteVisual"/>
+        /// Update the clipping on the shadow's <see cref="SpriteVisual"/>.
         /// </summary>
         protected void UpdateShadowClip(AttachedShadowElementContext context)
         {
@@ -259,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// This method is called when a DependencyProperty is changed
+        /// This method is called when a DependencyProperty is changed.
         /// </summary>
         protected virtual void OnPropertyChanged(AttachedShadowElementContext context, DependencyProperty property, object oldValue, object newValue)
         {
@@ -287,11 +312,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// This method is called when the element size changes, and <see cref="SupportsOnSizeChangedEvent"/> = <see cref="bool">true</see>
+        /// This method is called when the element size changes, and <see cref="SupportsOnSizeChangedEvent"/> = <see cref="bool">true</see>.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="newSize"></param>
-        /// <param name="previousSize"></param>
+        /// <param name="context">The <see cref="AttachedShadowElementContext"/> for the <see cref="FrameworkElement"/> firing its SizeChanged event</param>
+        /// <param name="newSize">The new size of the <see cref="FrameworkElement"/></param>
+        /// <param name="previousSize">The previous size of the <see cref="FrameworkElement"/></param>
         protected internal virtual void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
         }
