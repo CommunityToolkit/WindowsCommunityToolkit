@@ -98,9 +98,14 @@ namespace UITests.Tests
 
         internal static bool CheckResponseStatusOK(AppServiceResponse response)
         {
+            object message = null;
+            var hasMessage = response?.Message?.TryGetValue("Status", out message) is true;
+
+            Log.Comment("[Harness] Checking Response AppServiceResponseStatus({0}), Message Status: {1}", response.Status.ToString(), message?.ToString());
+
             return response.Status == AppServiceResponseStatus.Success
-                    && response.Message.TryGetValue("Status", out var s)
-                    && s is string status
+                    && hasMessage
+                    && message is string status
                     && status == "OK";
         }
 

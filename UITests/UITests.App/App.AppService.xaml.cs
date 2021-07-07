@@ -50,6 +50,8 @@ namespace UITests.App
                 return;
             }
 
+            Log.Comment("Received Command: {0}", cmd);
+
             switch (cmd)
             {
                 case "OpenPage":
