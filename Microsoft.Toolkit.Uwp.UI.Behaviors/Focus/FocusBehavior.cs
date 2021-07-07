@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// The focus will be set following the <see cref="Targets"/> order. The first control being ready
     /// and accepting the focus will receive it.
     /// The focus can be set to another control with a higher priority if it loads before <see cref="FocusEngagementTimeout"/>.
+    /// The focus can be set to another control if some controls will be loaded/unloaded later.
     /// </summary>
     [ContentProperty(Name = nameof(Targets))]
     public sealed class FocusBehavior : BehaviorBase<UIElement>
