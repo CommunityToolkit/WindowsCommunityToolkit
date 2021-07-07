@@ -9,9 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
-#if SPAN_RUNTIME_SUPPORT
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
-#else
+#if !SPAN_RUNTIME_SUPPORT
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
@@ -39,11 +38,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// The initial offset within <see cref="Instance"/>.
         /// </summary>
         internal readonly IntPtr Offset;
-
-        /// <summary>
-        /// The total available length for the sequence.
-        /// </summary>
-        internal readonly int Length;
 #endif
 
         /// <summary>
@@ -106,6 +100,65 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             Offset = offset;
             Length = length;
             Step = step;
+        }
+#endif
+
+        /// <summary>
+        /// Gets the total available length for the sequence.
+        /// </summary>
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#if SPAN_RUNTIME_SUPPORT
+            get => this.Span.Length;
+#else
+            get;
+#endif
+        }
+
+        /// <summary>
+        /// Gets the element at the specified zero-based index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element.</param>
+        /// <returns>A reference to the element at the specified index.</returns>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown when <paramref name="index"/> is invalid.
+        /// </exception>
+        public ref T this[int index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                if ((uint)index >= (uint)Length)
+                {
+                    ThrowHelper.ThrowIndexOutOfRangeException();
+                }
+
+#if SPAN_RUNTIME_SUPPORT
+                ref T r0 = ref MemoryMarshal.GetReference(this.Span);
+#else
+                ref T r0 = ref RuntimeHelpers.GetObjectDataAtOffsetOrPointerReference<T>(this.Instance, this.Offset);
+#endif
+                nint offset = (nint)(uint)index * (nint)(uint)this.Step;
+                ref T ri = ref Unsafe.Add(ref r0, offset);
+
+                return ref ri;
+            }
+        }
+
+#if NETSTANDARD2_1_OR_GREATER
+        /// <summary>
+        /// Gets the element at the specified zero-based index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element.</param>
+        /// <returns>A reference to the element at the specified index.</returns>
+        /// <exception cref="IndexOutOfRangeException">
+        /// Thrown when <paramref name="index"/> is invalid.
+        /// </exception>
+        public ref T this[Index index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref this[index.GetOffset(Length)];
         }
 #endif
 
