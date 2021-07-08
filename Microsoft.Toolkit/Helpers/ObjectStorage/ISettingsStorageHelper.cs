@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <param name="key">Key of the object.</param>
         /// <param name="default">Default value of the object.</param>
         /// <returns>The T object</returns>
-        T Read<T>(string key, T @default = default(T));
+        T Read<T>(string key, T? @default = default(T));
 
         /// <summary>
         /// Retrieves a single item by its key in composite.
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <param name="key">Key of the object.</param>
         /// <param name="default">Default value of the object.</param>
         /// <returns>The T object.</returns>
-        T Read<T>(string compositeKey, string key, T @default = default(T));
+        T Read<T>(string compositeKey, string key, T? @default = default(T));
 
         /// <summary>
         /// Saves a single item by its key.
