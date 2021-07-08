@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_range == null)
             {
-                _range = range;
+                _range = range.GetClone();
                 RangeStart = _range.StartPosition;
                 RangeEnd = _range.EndPosition;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));

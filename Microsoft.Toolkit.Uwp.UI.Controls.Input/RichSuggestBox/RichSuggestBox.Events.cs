@@ -35,6 +35,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event TypedEventHandler<RichSuggestBox, RoutedEventArgs> TextChanged;
 
         /// <summary>
+        /// Event raised when the text selection has changed.
+        /// </summary>
+        public event TypedEventHandler<RichSuggestBox, RoutedEventArgs> SelectionChanged;
+
+        /// <summary>
         /// Event raised when text is pasted into the control.
         /// </summary>
         public event TypedEventHandler<RichSuggestBox, TextControlPasteEventArgs> Paste;

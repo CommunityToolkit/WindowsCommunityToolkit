@@ -217,9 +217,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            if (selection.StartPosition == 0 && this._tokens.ContainsKey(selection.GetClone().Link))
+            {
+                selection.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
+            }
+
             if (range.StartPosition < selection.StartPosition && selection.EndPosition < range.EndPosition)
             {
-                // Prevent user from manually editing the link
+                // Snap selection to token on click
                 selection.SetRange(range.StartPosition, range.EndPosition);
                 InvokeTokenSelected(selection);
             }
@@ -237,8 +242,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void RichEditBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var selection = TextDocument.Selection.GetClone();
-            _tokenAtStart = selection.StartPosition == 0 && _tokens.ContainsKey(selection.Link);
+            SelectionChanged?.Invoke(this, e);
+            var selection = TextDocument.Selection;
+            _tokenAtStart = selection.StartPosition == 0 &&
+                            selection.Type == SelectionType.Normal &&
+                            _tokens.ContainsKey(selection.GetClone().Link);
 
             // During text composition changing (e.g. user typing with an IME),
             // SelectionChanged event is fired multiple times with each keystroke.
@@ -324,6 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _ignoreChange = true;
             ValidateTokensInDocument();
+            ResetFormatAfterTokenRemoveAtStart();
             TextDocument.EndUndoGroup();
             TextDocument.BeginUndoGroup();
             _ignoreChange = false;
@@ -384,8 +393,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InvokeTokenSelected(ITextSelection selection)
         {
-            var id = selection.Link;
-            if (string.IsNullOrEmpty(id) || !_tokens.TryGetValue(id, out var token))
+            var id = selection.GetClone().Link;
+            if (string.IsNullOrEmpty(id) || !_tokens.TryGetValue(id, out var token) ||
+                token.RangeEnd != selection.EndPosition)
             {
                 return;
             }
@@ -436,7 +446,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task OnSuggestionSelectedAsync(object selectedItem)
         {
-            var range = _currentRange;
+            var range = _currentRange?.GetClone();
             var id = Guid.NewGuid();
             var prefix = _currentPrefix;
             var query = _currentQuery;
@@ -501,30 +511,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
                 if (range.Link != $"\"{id}\"")
                 {
+                    range.Link = string.Empty;
                     return false;
                 }
 
-                range.CharacterFormat.BackgroundColor = format.Background;
-                range.CharacterFormat.ForegroundColor = format.Foreground;
-                range.CharacterFormat.Bold = format.Bold;
-                range.CharacterFormat.Italic = format.Italic;
-                range.CharacterFormat.FontStretch = format.FontStretch;
-                range.CharacterFormat.FontStyle = format.FontStyle;
-                range.CharacterFormat.Name = format.FontName;
-                range.CharacterFormat.Kerning = format.Kerning;
-                range.CharacterFormat.Strikethrough = format.Strikethrough;
-                range.CharacterFormat.Size = format.FontSize;
-                range.CharacterFormat.Outline = format.Outline;
-                range.CharacterFormat.Weight = format.Weight;
-                range.CharacterFormat.Spacing = format.Spacing;
-                range.CharacterFormat.Subscript = format.Subscript;
-                range.CharacterFormat.Superscript = format.Superscript;
-                range.CharacterFormat.Position = format.Position;
-
-                var clone = range.GetClone();
+                ApplyTokenFormat(range.CharacterFormat, format);
 
                 if (addTrailingSpace)
                 {
+                    var clone = range.GetClone();
                     clone.Collapse(false);
                     clone.SetText(TextSetOptions.Unhide, " ");
                     clone.Collapse(false);
@@ -548,28 +543,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             ForEachLinkInDocument(TextDocument, ValidateTokenFromRange);
-
-            // Handle the special case where editing a token at the start of the document
-            // does not completely reset the character format.
-            if (_tokenAtStart)
-            {
-                var range = TextDocument.Selection.GetClone();
-                range.SetRange(0, range.EndPosition);
-                range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
-                TextDocument.Selection.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
-                _tokenAtStart = false;
-            }
         }
 
         private void ValidateTokenFromRange(ITextRange range)
         {
-            if (range.Length == 0 || string.IsNullOrEmpty(range.Link) ||
-                !_tokens.TryGetValue(range.Link, out var token))
+            var clone = range.GetClone();
+            if (clone.Length == 0 || string.IsNullOrEmpty(clone.Link) ||
+                !_tokens.TryGetValue(clone.Link, out var token))
             {
                 // Handle case where range.Link is empty but it still recognized and rendered as a link
-                if (range.CharacterFormat.LinkType == LinkType.FriendlyLinkName)
+                if (clone.CharacterFormat.LinkType == LinkType.FriendlyLinkName)
                 {
-                    range.Link = string.Empty;
+                    clone.Link = string.Empty;
                 }
 
                 return;
@@ -594,15 +579,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (token.ToString() != range.Text)
             {
-                // Need to reset both Link and CharacterFormat or the token id will still persist in the RTF text.
-                range.Link = string.Empty;
-                range.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
+                this.ResetFormat(range);
                 token.Active = false;
                 return;
             }
 
             token.UpdateTextRange(range);
             token.Active = true;
+        }
+
+        /// <summary>
+        /// Handle the special case where editing a token at the start of the document does not completely reset the character format.
+        /// </summary>
+        private void ResetFormatAfterTokenRemoveAtStart()
+        {
+            if (_tokenAtStart)
+            {
+                var range = TextDocument.Selection.GetClone();
+                range.SetRange(0, range.EndPosition);
+                this.ResetFormat(range);
+                _tokenAtStart = false;
+            }
+        }
+
+        private void ResetFormat(ITextRange range)
+        {
+            // Need to reset both Link and CharacterFormat or the token id will still persist in the RTF text.
+            var defaultFormat = TextDocument.GetDefaultCharacterFormat();
+            var selection = TextDocument.Selection;
+            if (!string.IsNullOrEmpty(range.Link))
+            {
+                range.Link = string.Empty;
+            }
+
+            range.CharacterFormat = defaultFormat;
+
+            if (selection.Type == SelectionType.InsertionPoint && selection.EndPosition == range.EndPosition)
+            {
+                selection.CharacterFormat = defaultFormat;
+            }
         }
 
         private void ConditionallyLoadElement(object property, string elementName)
