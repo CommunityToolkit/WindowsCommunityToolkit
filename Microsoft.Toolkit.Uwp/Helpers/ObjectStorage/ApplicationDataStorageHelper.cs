@@ -10,7 +10,7 @@ using Microsoft.Toolkit.Helpers;
 using Windows.Storage;
 using Windows.System;
 
-namespace Microsoft.Toolkit.Uwp.Helpers.ObjectStorage
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Storage helper for files and folders living in Windows.Storage.ApplicationData storage endpoints.
