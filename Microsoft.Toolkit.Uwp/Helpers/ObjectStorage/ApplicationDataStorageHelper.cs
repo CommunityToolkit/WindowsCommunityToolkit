@@ -58,13 +58,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers.ObjectStorage
         /// <param name="objectSerializer">Serializer for converting stored values.</param>
         public ApplicationDataStorageHelper(ApplicationData appData, Toolkit.Helpers.IObjectSerializer objectSerializer)
         {
-            if (appData == null)
-            {
-                throw new ArgumentNullException(nameof(appData));
-            }
-
-            AppData = appData;
-
+            AppData = appData ?? throw new ArgumentNullException(nameof(appData));
             _serializer = objectSerializer ?? throw new ArgumentNullException(nameof(objectSerializer));
         }
 
