@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <typeparam name="T">Type to serialize from.</typeparam>
         /// <param name="value">Value to serialize.</param>
         /// <returns>String representation of value.</returns>
-        public object Serialize<T>(T value)
+        public object? Serialize<T>(T value)
         {
             return value;
         }

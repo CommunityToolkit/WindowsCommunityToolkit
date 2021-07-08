@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <typeparam name="T">The type of the object to serialize.</typeparam>
         /// <param name="value">The object to serialize.</param>
         /// <returns>The serialized object.</returns>
-        object Serialize<T>(T value);
+        object? Serialize<T>(T value);
 
         /// <summary>
         /// Deserialize a primitive or string into an object of the given type.
