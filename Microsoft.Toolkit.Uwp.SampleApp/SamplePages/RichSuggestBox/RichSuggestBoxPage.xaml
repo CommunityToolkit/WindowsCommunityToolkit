@@ -9,6 +9,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <local:SuggestionTemplateSelector x:Key="SuggestionTemplateSelector" />
+            <local:NameToColorConverter x:Key="NameToColorConverter" />
         </ResourceDictionary>
     </Page.Resources>
 

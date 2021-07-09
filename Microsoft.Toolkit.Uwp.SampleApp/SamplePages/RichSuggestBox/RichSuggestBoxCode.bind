@@ -1,27 +1,54 @@
-﻿private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
+﻿private async void SuggestingBox_OnPointerReleased(object sender, PointerRoutedEventArgs e)
 {
-	if (args.Prefix == "#")
-	{
-		args.Format.Background = Colors.DarkOrange;
-		args.Format.Foreground = Colors.OrangeRed;
-		args.Text = ((SampleDataType)args.SelectedItem).Text;
-	}
-	else
-	{
-		args.Text = ((SampleEmailDataType)args.SelectedItem).DisplayName;
-	}
+  await Task.Delay(10);
+  this._showFlyout?.Invoke();
+  this._showFlyout = null;
+}
+
+private void SuggestingBox_OnTokenSelected(RichSuggestBox sender, RichSuggestTokenSelectedEventArgs args)
+{
+  this._showFlyout = () =>
+  {
+    var x = (args.Rect.Width / 2) + args.Rect.X;
+    var y = (args.Rect.Height / 2) + args.Rect.Y;
+    var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
+    if (flyout.Content is ContentPresenter cp)
+    {
+      cp.Content = args.Token.Item;
+      flyout.ShowAt(sender, new FlyoutShowOptions
+      {
+        Position = new Point(x, y),
+        ExclusionRect = args.Rect,
+        ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway
+      });
+    }
+  };
+}
+
+private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
+{
+  if (args.Prefix == "#")
+  {
+    args.Format.Background = Colors.DarkOrange;
+    args.Format.Foreground = Colors.OrangeRed;
+    args.Text = ((SampleDataType)args.SelectedItem).Text;
+  }
+  else
+  {
+    args.Text = ((SampleEmailDataType)args.SelectedItem).DisplayName;
+  }
 }
 
 private void SuggestingBox_OnSuggestionsRequested(RichSuggestBox sender, SuggestionsRequestedEventArgs args)
 {
-	if (args.Prefix == "#")
-	{
-		sender.ItemsSource =
-		this._samples.Where(x => x.Text.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
-	}
-	else
-	{
-		sender.ItemsSource =
-		this._emailSamples.Where(x => x.DisplayName.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
-	}
+  if (args.Prefix == "#")
+  {
+    sender.ItemsSource =
+      this._samples.Where(x => x.Text.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
+  }
+  else
+  {
+    sender.ItemsSource =
+      this._emailSamples.Where(x => x.DisplayName.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
+  }
 }

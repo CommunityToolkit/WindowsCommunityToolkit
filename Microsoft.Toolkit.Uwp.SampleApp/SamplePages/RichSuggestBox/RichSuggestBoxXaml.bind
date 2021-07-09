@@ -7,8 +7,20 @@
       mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <local:NameToColorConverter x:Key="NameToColorConverter"/>
+
             <DataTemplate x:Key="EmailTemplate">
-                <TextBlock Text="{Binding EmailAddress}" />
+                <StackPanel Orientation="Horizontal">
+                    <Border CornerRadius="9999" Background="{Binding DisplayName, Converter={StaticResource NameToColorConverter}}"
+                            Width="20" Height="20">
+                        <TextBlock Text="{Binding Initials}" Foreground="White"
+                                   FontSize="10"
+                                   FontWeight="Semibold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
+                </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="DataTemplate">
@@ -34,25 +46,30 @@
                         Id: <Run Text="{Binding Id}" /></TextBlock>
                 </StackPanel>
             </DataTemplate>
+
+            <Flyout x:Key="TokenSelectedFlyout">
+                <ContentPresenter x:Name="FlyoutPresenter"
+                                  ContentTemplate="{StaticResource EmailTemplate}" />
+            </Flyout>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid Margin="40">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="250" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="250" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <controls:RichSuggestBox x:Name="SuggestingBox"
                                  MaxHeight="400"
                                  HorizontalAlignment="Stretch"
-                                 Header="Rich suggest box sample"
+                                 Header="Suggest box that supports multiple prefixes"
                                  ItemTemplateSelector="{StaticResource SuggestionTemplateSelector}"
                                  Prefixes="@#" />
 
-        <ListView x:Name="TokenListView1" 
+        <ListView x:Name="TokenListView1"
                   Grid.Row="1"
                   Margin="0,16,0,0"
                   HorizontalAlignment="Stretch"
@@ -60,14 +77,16 @@
 
         <controls:RichSuggestBox x:Name="PlainTextSuggestingBox"
                                  Grid.Row="2"
+                                 Grid.Column="0"
                                  MaxHeight="400"
                                  HorizontalAlignment="Stretch"
-                                 Header="Plain text only suggest box sample"
-                                 DisabledFormattingAccelerators="All"
                                  ClipboardCopyFormat="PlainText"
                                  ClipboardPasteFormat="PlainText"
-                                 ItemTemplateSelector="{StaticResource SuggestionTemplateSelector}"
-                                 Prefixes="@#" />
+                                 DisabledFormattingAccelerators="All"
+                                 Header="Plain text suggest box with on token selected flyout"
+                                 ItemTemplate="{StaticResource EmailTemplate}"
+                                 Prefixes="@"
+                                 FlyoutBase.AttachedFlyout="{StaticResource TokenSelectedFlyout}" />
 
         <ListView x:Name="TokenListView2"
                   Grid.Row="3"
