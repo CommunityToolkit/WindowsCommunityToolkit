@@ -44,6 +44,7 @@ namespace UITests.Tests
             CommunicationService = new AppServiceConnection();
 
             CommunicationService.RequestReceived += CommunicationService_RequestReceived;
+            CommunicationService.ServiceClosed += CommunicationService_ServiceClosed;
 
             // Here, we use the app service name defined in the app service
             // provider's Package.appxmanifest file in the <Extension> section.
@@ -61,6 +62,11 @@ namespace UITests.Tests
                 CommunicationService = null;
                 throw new Exception("Failed to connect to App Service host.");
             }
+        }
+
+        private static void CommunicationService_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            Log.Warning("[Harness] Communication Service Closed! AppServiceClosedStatus: {0}", args.Status.ToString());
         }
 
         internal static Task<bool> OpenPage(string pageName)

@@ -118,11 +118,15 @@ namespace UITests.App
 
         private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
+            Log.Error("Background Task Instance Canceled. Reason: {0}", reason.ToString());
+
             _appServiceDeferral.Complete();
         }
 
         private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
+            Log.Error("AppServiceConnection Service Closed. AppServicesClosedStatus: {0}", args.Status.ToString();
+
             _appServiceDeferral.Complete();
         }
 
