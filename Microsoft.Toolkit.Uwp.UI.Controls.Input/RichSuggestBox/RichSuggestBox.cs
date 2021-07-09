@@ -824,14 +824,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var defaultFormat = TextDocument.GetDefaultCharacterFormat();
             var suggestionFormat = new RichSuggestTokenFormat(defaultFormat);
-            if (SuggestionBackground != null)
+            if (this.TokenBackground != null)
             {
-                suggestionFormat.Background = SuggestionBackground.Color;
+                suggestionFormat.Background = this.TokenBackground.Color;
             }
 
-            if (SuggestionForeground != null)
+            if (this.TokenForeground != null)
             {
-                suggestionFormat.Foreground = SuggestionForeground.Color;
+                suggestionFormat.Foreground = this.TokenForeground.Color;
             }
 
             return suggestionFormat;

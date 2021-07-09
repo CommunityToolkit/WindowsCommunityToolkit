@@ -4,27 +4,6 @@
                     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
                     xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="DefaultSuggestionForeground"
-                             Color="DodgerBlue" />
-            <SolidColorBrush x:Key="DefaultSuggestionBackground"
-                             Color="#FF21303A" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="DefaultSuggestionForeground"
-                             Color="{ThemeResource SystemColorButtonTextColor}" />
-            <SolidColorBrush x:Key="DefaultSuggestionBackground"
-                             Color="{ThemeResource SystemColorButtonFaceColor}" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="DefaultSuggestionForeground"
-                             Color="DarkSlateBlue" />
-            <SolidColorBrush x:Key="DefaultSuggestionBackground"
-                             Color="#e8f5fb" />
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
-
     <!--  Default style for RichSuggestBox  -->
     <Style BasedOn="{StaticResource DefaultRichSuggestBoxStyle}"
            TargetType="controls:RichSuggestBox" />
@@ -43,8 +22,8 @@
         <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="SuggestionForeground" Value="{ThemeResource DefaultSuggestionForeground}" />
-        <Setter Property="SuggestionBackground" Value="{ThemeResource DefaultSuggestionBackground}" />
+        <Setter Property="TokenForeground" Value="{ThemeResource HyperlinkButtonForeground}" />
+        <Setter Property="TokenBackground" Value="Transparent" />
         <Setter Property="RichEditBoxStyle" Value="{StaticResource DefaultRichEditBoxStyle}" />
         <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
         <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />

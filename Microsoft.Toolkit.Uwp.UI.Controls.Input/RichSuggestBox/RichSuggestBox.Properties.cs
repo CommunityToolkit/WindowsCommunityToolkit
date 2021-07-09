@@ -126,21 +126,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="SuggestionBackground"/> dependency property.
+        /// Identifies the <see cref="TokenBackground"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SuggestionBackgroundProperty =
+        public static readonly DependencyProperty TokenBackgroundProperty =
             DependencyProperty.Register(
-                nameof(SuggestionBackground),
+                nameof(TokenBackground),
                 typeof(SolidColorBrush),
                 typeof(RichSuggestBox),
                 new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="SuggestionForeground"/> dependency property.
+        /// Identifies the <see cref="TokenForeground"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SuggestionForegroundProperty =
+        public static readonly DependencyProperty TokenForegroundProperty =
             DependencyProperty.Register(
-                nameof(SuggestionForeground),
+                nameof(TokenForeground),
                 typeof(SolidColorBrush),
                 typeof(RichSuggestBox),
                 new PropertyMetadata(null));
@@ -295,19 +295,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the default brush used to color the suggestion token background.
         /// </summary>
-        public SolidColorBrush SuggestionBackground
+        public SolidColorBrush TokenBackground
         {
-            get => (SolidColorBrush)GetValue(SuggestionBackgroundProperty);
-            set => SetValue(SuggestionBackgroundProperty, value);
+            get => (SolidColorBrush)GetValue(TokenBackgroundProperty);
+            set => SetValue(TokenBackgroundProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the default brush used to color the suggestion token foreground.
         /// </summary>
-        public SolidColorBrush SuggestionForeground
+        public SolidColorBrush TokenForeground
         {
-            get => (SolidColorBrush)GetValue(SuggestionForegroundProperty);
-            set => SetValue(SuggestionForegroundProperty, value);
+            get => (SolidColorBrush)GetValue(TokenForegroundProperty);
+            set => SetValue(TokenForegroundProperty, value);
         }
 
         /// <summary>
