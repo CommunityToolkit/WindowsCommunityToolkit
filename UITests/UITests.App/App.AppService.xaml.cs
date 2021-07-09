@@ -125,7 +125,7 @@ namespace UITests.App
 
         private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
-            Log.Error("AppServiceConnection Service Closed. AppServicesClosedStatus: {0}", args.Status.ToString();
+            Log.Error("AppServiceConnection Service Closed. AppServicesClosedStatus: {0}", args.Status.ToString());
 
             _appServiceDeferral.Complete();
         }
