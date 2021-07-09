@@ -475,6 +475,15 @@
         "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
         "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
+      },
+      {
+        "Name": "ConstrainedPresenter",
+        "Subcategory": "Layout",
+        "About": "The ConstrainedPresenter is a ContentPresenter which can allow a developer to constrain the scale or aspect ratio of its content.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/ConstrainedPresenter",
+        "XamlCodeFile": "/SamplePages/Primitives/ConstrainedPresenter.bind",
+        "Icon": "/SamplePages/Primitives/ConstrainedPresenter.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ConstrainedPresenter.md"
       }
     ]
   },
