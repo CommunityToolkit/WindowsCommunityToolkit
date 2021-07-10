@@ -36,16 +36,6 @@
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="textname">
-            <uap:SupportedFileTypes>
-              <uap:FileType>.txt</uap:FileType>
-              <uap:FileType>.log</uap:FileType>
-              <uap:FileType>.md</uap:FileType>
-            </uap:SupportedFileTypes>
-            <uap:DisplayName>Text files</uap:DisplayName>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
