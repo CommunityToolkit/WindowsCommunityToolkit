@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using ColorPickerSlider = Microsoft.Toolkit.Uwp.UI.Controls.Primitives.ColorPickerSlider;
+using ColorSpectrum = Microsoft.UI.Xaml.Controls.Primitives.ColorSpectrum;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -52,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "Inline brackets are used to improve code readability with repeated null checks.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:Code should not contain multiple whitespace in a row", Justification = "Whitespace is used to align code in columns for readability.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
-    public partial class ColorPicker : Windows.UI.Xaml.Controls.ColorPicker
+    public partial class ColorPicker : Microsoft.UI.Xaml.Controls.ColorPicker
     {
         internal Color CheckerBackgroundColor { get; set; } = Color.FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
 
@@ -122,6 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ColorPicker()
         {
             this.DefaultStyleKey = typeof(ColorPicker);
+            this.DefaultStyleResourceUri = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/Themes/Generic.xaml");
 
             // Setup collections
             this.SetValue(CustomPaletteColorsProperty, new ObservableCollection<Color>());
@@ -486,22 +488,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             switch (this.ColorSpectrumComponents)
             {
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationValue:
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueSaturation:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.SaturationValue:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.ValueSaturation:
                 {
                     // Hue
                     return ColorChannel.Channel1;
                 }
 
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueValue:
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.HueValue:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue:
                 {
                     // Saturation
                     return ColorChannel.Channel2;
                 }
 
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation:
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue:
                 {
                     // Value
                     return ColorChannel.Channel3;
@@ -1125,7 +1127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          ***************************************************************************************/
 
         /// <summary>
-        /// Callback for when the <see cref="Windows.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
+        /// Callback for when the <see cref="Microsoft.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
         /// </summary>
         private void OnColorChanged(DependencyObject d, DependencyProperty e)
         {
@@ -1226,7 +1228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event handler for when the color spectrum color is changed.
         /// This occurs when the user presses on the spectrum to select a new color.
         /// </summary>
-        private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Windows.UI.Xaml.Controls.ColorChangedEventArgs args)
+        private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Microsoft.UI.Xaml.Controls.ColorChangedEventArgs args)
         {
             // It is OK in this case to use the RGB representation
             this.ScheduleColorUpdate(this.ColorSpectrumControl.Color);
