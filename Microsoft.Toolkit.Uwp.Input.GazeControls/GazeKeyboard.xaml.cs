@@ -36,11 +36,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         private Button[] _predictionTargets;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the keys activate with gaze and dwell, or gaze and click
-        /// </summary>
-        public bool GazePlusClickMode { get; set; }
-
-        /// <summary>
         /// Gets or sets the target text box for injecting keys
         /// </summary>
         public TextBox Target { get; set; }
