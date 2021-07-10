@@ -33,7 +33,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         private Button _selectButton;
         private Button _cancelButton;
         private DispatcherTimer _initializationTimer;
-
+        private bool _dialogInitialized;
+        private bool _refreshNeeded;
         private bool _newFolderMode;
 
         private ObservableCollection<StorageItem> _currentFolderItems;
@@ -111,6 +112,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             GazeKeyboard.Target = FilenameTextbox;
             SetFileListingsLayout();
             SetFileTypeFilterText();
+            _dialogInitialized = true;
+            if (_refreshNeeded)
+            {
+                RefreshContents(_currentFolder);
+            }
         }
 
         private void SetFileTypeFilterText()
@@ -322,6 +328,14 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             _currentFolder = folder;
             _curSelectedItem = new StorageItem(_currentFolder);
+
+            if (!_dialogInitialized)
+            {
+                _refreshNeeded = true;
+                return;
+            }
+
+            _refreshNeeded = false;
 
             var allItems = await folder.GetItemsAsync();
             var items = allItems.Where(item => item.IsOfType(StorageItemTypes.Folder) ||
