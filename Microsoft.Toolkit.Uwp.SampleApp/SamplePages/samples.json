@@ -1093,6 +1093,16 @@
         "Icon": "/SamplePages/TilesBrush/TilesBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/TilesBrush.md"
+      },
+      {
+        "Name": "GeometrySurfaceBrush",
+        "Type": "GeometrySurfaceBrushPage",
+        "About": "Brush which fills the contents with a CanvasCoreGeometry.",
+        "CodeUrl": "https://github.com/ratishphilip/WindowsCommunityToolkit/tree/feature/rendersurfaces/Microsoft.Toolkit.Uwp.UI.Media/Brushes/GeometrySurfaceBrush.cs",
+        "XamlCodeFile": "GeometrySurfaceBrushXaml.bind",
+        "Icon": "/SamplePages/GeometrySurfaceBrush/GeometrySurfaceBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
       }
     ]
   },

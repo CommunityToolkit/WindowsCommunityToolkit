@@ -630,7 +630,7 @@
     <Content Include="SamplePages\Graph\LoginButtonXaml.bind" />
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
-    <None Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind" />
+    <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -994,6 +994,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
