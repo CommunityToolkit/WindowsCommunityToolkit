@@ -5,8 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Data.Text;
 using Windows.Storage;
@@ -17,7 +18,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
@@ -28,7 +28,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     public sealed partial class GazeKeyboard : UserControl
     {
         private InputInjector _injector;
-        private List<ButtonBase> _keyboardButtons;
         private KeyboardPage _rootPage;
         private TextPredictionGenerator _textPredictionGenerator;
         private WordsSegmenter _wordsSegmenter;
@@ -116,23 +115,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             _injector = InputInjector.TryCreate();
         }
 
-        internal static void FindChildren<T>(List<T> results, DependencyObject startNode)
-          where T : DependencyObject
-        {
-            int count = VisualTreeHelper.GetChildrenCount(startNode);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
-                {
-                    T asType = (T)current;
-                    results.Add(asType);
-                }
-
-                FindChildren<T>(results, current);
-            }
-        }
-
         private void BuildPageHierarchy(KeyboardPage parent)
         {
             var children = GazeKeyboard.GetPageList(parent.Page);
@@ -167,10 +149,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 var xaml = await FileIO.ReadTextAsync(storageFile);
                 var xamlNode = XamlReader.Load(xaml) as FrameworkElement;
 
-                _keyboardButtons = new List<ButtonBase>();
-                FindChildren<ButtonBase>(_keyboardButtons, xamlNode);
-
-                foreach (var button in _keyboardButtons)
+                foreach (var button in xamlNode.FindDescendants().OfType<ButtonBase>())
                 {
                     button.Click += OnKeyboardButtonClick;
                 }
