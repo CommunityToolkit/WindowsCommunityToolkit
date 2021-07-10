@@ -18,7 +18,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
@@ -29,7 +28,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     public sealed partial class GazeKeyboard : UserControl
     {
         private InputInjector _injector;
-        private List<ButtonBase> _keyboardButtons;
         private KeyboardPage _rootPage;
         private TextPredictionGenerator _textPredictionGenerator;
         private WordsSegmenter _wordsSegmenter;
@@ -115,23 +113,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             InitializeComponent();
             PredictionLanguage = "en-US";
             _injector = InputInjector.TryCreate();
-        }
-
-        internal static void FindChildren<T>(List<T> results, DependencyObject startNode)
-          where T : DependencyObject
-        {
-            int count = VisualTreeHelper.GetChildrenCount(startNode);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
-                {
-                    T asType = (T)current;
-                    results.Add(asType);
-                }
-
-                FindChildren<T>(results, current);
-            }
         }
 
         private void BuildPageHierarchy(KeyboardPage parent)
