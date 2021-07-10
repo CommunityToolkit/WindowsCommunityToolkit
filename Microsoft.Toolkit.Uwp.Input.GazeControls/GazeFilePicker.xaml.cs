@@ -14,8 +14,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -27,12 +29,14 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     /// </summary>
     public sealed partial class GazeFilePicker : ContentDialog, INotifyPropertyChanged
     {
+        private const int INITIALIZATION_DELAY = 125;
         private Grid _commandSpaceGrid;
         private Button _newFolderButton;
         private Button _enterFilenameButton;
         private Button _selectButton;
         private Button _cancelButton;
-        private DispatcherTimer _initializationTimer;
+        private DispatcherQueue _queue;
+        private DispatcherQueueTimer _initializationTimer;
         private bool _dialogInitialized;
         private bool _refreshNeeded;
         private bool _newFolderMode;
@@ -99,8 +103,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             FileTypeFilter = new List<string>();
 
-            _initializationTimer = new DispatcherTimer();
-            _initializationTimer.Interval = TimeSpan.FromMilliseconds(125);
+            _queue = DispatcherQueue.GetForCurrentThread();
+            _initializationTimer = _queue.CreateTimer();
+            _initializationTimer.Interval = TimeSpan.FromMilliseconds(INITIALIZATION_DELAY);
             _initializationTimer.Tick += OnInitializationTimerTick;
         }
 
@@ -128,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private async void CreateFavoritesButtons()
         {
-            var favoritesPanel = this.FindControl<StackPanel>("FavoritesPanel");
+            var favoritesPanel = this.FindDescendant("FavoritesPanel") as StackPanel;
             Debug.Assert(favoritesPanel != null, "KnownFoldersPanel not found");
 
             var style = (Style)this.Resources["PickerButtonStyles"];
@@ -179,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private void CreateCommandSpaceButtons()
         {
-            _commandSpaceGrid = this.FindControl<Grid>("CommandSpace");
+            _commandSpaceGrid = this.FindDescendant("CommandSpace") as Grid;
             Debug.Assert(_commandSpaceGrid != null, "CommandSpaceGrid not found");
 
             _commandSpaceGrid.Children.Clear();
