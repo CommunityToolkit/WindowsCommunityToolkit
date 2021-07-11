@@ -118,7 +118,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// Gets or sets the collection of file types that the file open picker displays.
         /// </summary>
         public List<string> FileTypeFilter { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GazeFilePicker"/> class.
         /// </summary>
