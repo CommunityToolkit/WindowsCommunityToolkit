@@ -12,11 +12,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
-    internal class StorageItem : INotifyPropertyChanged
+    internal class StorageItem : DependencyObject
     {
         public IStorageItem Item { get; }
 
@@ -80,18 +81,24 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         private StorageItemThumbnail _storageThumbnail;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public async Task GetThumbnailAsync()
         {
             var props = Item as IStorageItemProperties;
             _storageThumbnail = await props.GetThumbnailAsync(ThumbnailMode.DocumentsView);
-            OnPropertyChanged("Thumbnail");
         }
+
+        internal static readonly DependencyProperty StorageThumbnailProperty =
+            DependencyProperty.Register(
+                "StorageThumbnail",
+                typeof(StorageItemThumbnail),
+                typeof(StorageItem),
+                null);
+
+        internal StorageItemThumbnail StorageThumbnail
+        {
+            get { return (StorageItemThumbnail)GetValue(StorageThumbnailProperty); }
+            set { SetValue(StorageThumbnailProperty, value); }
+        }
+
     }
 }
