@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     /// <summary>
     /// Provides file picker dialogs optimized for gaze input
     /// </summary>
-    public sealed partial class GazeFilePicker : ContentDialog, INotifyPropertyChanged
+    public sealed partial class GazeFilePicker : ContentDialog
     {
         private const int INITIALIZATION_DELAY = 125;
         private Grid _commandSpaceGrid;
@@ -41,10 +41,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         private bool _refreshNeeded;
         private bool _newFolderMode;
 
-        private ObservableCollection<StorageItem> _currentFolderItems;
-
-        private StorageItem _curSelectedItem;
-
         /// <summary>
         /// Gets or sets a value indicating whether this is FileSave dialog or a FileOpen dialog
         /// </summary>
@@ -56,6 +52,32 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         public StorageFile SelectedItem { get; private set; }
 
         private StorageFolder _currentFolder;
+
+        internal static readonly DependencyProperty CurrentSelectedItemProperty =
+            DependencyProperty.Register(
+                "CurrentSelectedItem",
+                typeof(StorageItem),
+                typeof(GazeFilePicker),
+                null);
+
+        internal StorageItem CurrentSelectedItem
+        {
+            get { return (StorageItem)GetValue(CurrentSelectedItemProperty); }
+            set { SetValue(CurrentSelectedItemProperty, value); }
+        }
+
+        internal static readonly DependencyProperty CurrentFolderItemsProperty =
+            DependencyProperty.Register(
+                "CurrentFolderItems",
+                typeof(ObservableCollection<StorageItem>),
+                typeof(GazeFilePicker),
+                null);
+
+        internal ObservableCollection<StorageItem> CurrentFolderItems
+        {
+            get { return (ObservableCollection<StorageItem>)GetValue(CurrentFolderItemsProperty); }
+            set { SetValue(CurrentFolderItemsProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the current folder for the file picker dialog
@@ -83,14 +105,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// Gets or sets the collection of file types that the file open picker displays.
         /// </summary>
         public List<string> FileTypeFilter { get; set; }
-
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GazeFilePicker"/> class.
@@ -259,9 +273,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             {
                 SelectedItem = await _currentFolder.CreateFileAsync(FilenameTextbox.Text);
             }
-            else if (!_curSelectedItem.IsFolder)
+            else if (!CurrentSelectedItem.IsFolder)
             {
-                SelectedItem = _curSelectedItem?.Item as StorageFile;
+                SelectedItem = CurrentSelectedItem?.Item as StorageFile;
             }
 
             SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
@@ -332,7 +346,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
 
             _currentFolder = folder;
-            _curSelectedItem = new StorageItem(_currentFolder);
 
             if (!_dialogInitialized)
             {
@@ -345,19 +358,16 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             var allItems = await folder.GetItemsAsync();
             var items = allItems.Where(item => item.IsOfType(StorageItemTypes.Folder) ||
                                           FileTypeFilter.Contains((item as StorageFile).FileType));
-            _currentFolderItems = new ObservableCollection<StorageItem>(items.Select(item => new StorageItem(item)));
+            var currentFolderItems = new ObservableCollection<StorageItem>(items.Select(item => new StorageItem(item)));
 
-            var tasks = GetThumbnailsAsync(_currentFolderItems);
+            var tasks = GetThumbnailsAsync(currentFolderItems);
             await Task.WhenAll(tasks);
-            foreach (var item in _currentFolderItems)
-            {
-                item.OnPropertyChanged("Thumbnail");
-            }
 
-            _selectButton.IsEnabled = !_curSelectedItem.IsFolder;
+            _selectButton.IsEnabled = (CurrentSelectedItem != null) && (!CurrentSelectedItem.IsFolder);
             SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
-            OnPropertyChanged("_curSelectedItem");
-            OnPropertyChanged("_currentFolderItems");
+
+            CurrentSelectedItem = new StorageItem(_currentFolder);
+            CurrentFolderItems = currentFolderItems;
 
             folder = await _currentFolder.GetParentAsync();
             ParentFolderButton.IsEnabled = folder != null;
@@ -378,9 +388,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 _selectButton.IsEnabled = true;
             }
 
-            _curSelectedItem = clickedItem;
-
-            OnPropertyChanged("_curSelectedItem");
+            CurrentSelectedItem = clickedItem;
         }
 
         private async void OnParentFolderClick(object sender, RoutedEventArgs e)

@@ -372,7 +372,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 keys.Add(key);
             }
 
-            // Injecting too many keys at once can result in ArgumentException. 
+            // Injecting too many keys at once can result in ArgumentException.
             // So inject a max of 8 keys at a time. 8 seems to work for now.
             for (int i = 0; i < keys.Count; i += 8)
             {
