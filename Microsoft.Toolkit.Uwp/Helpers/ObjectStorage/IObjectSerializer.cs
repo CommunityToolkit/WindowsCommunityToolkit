@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// A basic serialization service.
     /// </summary>
-    [Obsolete("IObjectSerializer has been migrated to the *.Toolikit package.")]
+    [Obsolete("IObjectSerializer has been migrated to the Microsoft.Toolkit (CommunityToolkit.Common) package.")]
     public interface IObjectSerializer
     {
         /// <summary>
