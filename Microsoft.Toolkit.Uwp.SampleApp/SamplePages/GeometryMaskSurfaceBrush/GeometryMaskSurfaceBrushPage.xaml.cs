@@ -6,9 +6,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class GeometrySurfaceBrushPage : Page
+    public sealed partial class GeometryMaskSurfaceBrushPage : Page
     {
-        public GeometrySurfaceBrushPage()
+        public GeometryMaskSurfaceBrushPage()
         {
             this.InitializeComponent();
         }

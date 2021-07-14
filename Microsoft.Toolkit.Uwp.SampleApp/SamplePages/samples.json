@@ -1103,6 +1103,36 @@
         "Icon": "/SamplePages/GeometrySurfaceBrush/GeometrySurfaceBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+      },
+      {
+        "Name": "GeometryMaskSurfaceBrush",
+        "Type": "GeometryMaskSurfaceBrushPage",
+        "About": "Brush which fills the contents with a CanvasCoreGeometry.",
+        "CodeUrl": "https://github.com/ratishphilip/WindowsCommunityToolkit/tree/feature/rendersurfaces/Microsoft.Toolkit.Uwp.UI.Media/Brushes/GeometryMaskSurfaceBrush.cs",
+        "XamlCodeFile": "GeometryMaskSurfaceBrushXaml.bind",
+        "Icon": "/SamplePages/GeometryMaskSurfaceBrush/GeometryMaskSurfaceBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+      },
+      {
+        "Name": "ImageSurfaceBrush",
+        "Type": "ImageSurfaceBrushPage",
+        "About": "Brush which fills the contents with a Image.",
+        "CodeUrl": "https://github.com/ratishphilip/WindowsCommunityToolkit/tree/feature/rendersurfaces/Microsoft.Toolkit.Uwp.UI.Media/Brushes/ImageSurfaceBrush.cs",
+        "XamlCodeFile": "ImageSurfaceBrushXaml.bind",
+        "Icon": "/SamplePages/ImageSurfaceBrush/ImageSurfaceBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+      },
+      {
+        "Name": "ImageMaskSurfaceBrush",
+        "Type": "ImageMaskSurfaceBrushPage",
+        "About": "Brush which fills the contents with a Image.",
+        "CodeUrl": "https://github.com/ratishphilip/WindowsCommunityToolkit/tree/feature/rendersurfaces/Microsoft.Toolkit.Uwp.UI.Media/Brushes/ImageMaskSurfaceBrush.cs",
+        "XamlCodeFile": "ImageMaskSurfaceBrushXaml.bind",
+        "Icon": "/SamplePages/ImageMaskSurfaceBrush/ImageMaskSurfaceBrush.png",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
       }
     ]
   },

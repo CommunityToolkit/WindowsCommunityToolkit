@@ -274,10 +274,16 @@
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SamplePages\GeometryMaskSurfaceBrush\GeometryMaskSurfaceBrush.png" />
     <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrush.png" />
     <Content Include="SamplePages\Graph\LoginButton.png" />
     <Content Include="SamplePages\Graph\PeoplePicker.png" />
     <Content Include="SamplePages\Graph\PersonView.png" />
+    <Content Include="SamplePages\ImageMaskSurfaceBrush\ImageMaskSurfaceBrush.png" />
+    <Content Include="SamplePages\ImageMaskSurfaceBrush\MaskImage1.png" />
+    <Content Include="SamplePages\ImageMaskSurfaceBrush\MaskImage2.png" />
+    <Content Include="SamplePages\ImageMaskSurfaceBrush\MaskImage3.png" />
+    <Content Include="SamplePages\ImageSurfaceBrush\ImageSurfaceBrush.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
@@ -508,6 +514,15 @@
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\GeometryMaskSurfaceBrush\GeometryMaskSurfaceBrushPage.xaml.cs">
+      <DependentUpon>GeometryMaskSurfaceBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageMaskSurfaceBrush\ImageMaskSurfaceBrushPage.xaml.cs">
+      <DependentUpon>ImageMaskSurfaceBrushPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageSurfaceBrush\ImageSurfaceBrushPage.xaml.cs">
+      <DependentUpon>ImageSurfaceBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
@@ -631,6 +646,9 @@
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
     <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind" />
+    <Content Include="SamplePages\GeometryMaskSurfaceBrush\GeometryMaskSurfaceBrushXaml.bind" />
+    <Content Include="SamplePages\ImageSurfaceBrush\ImageSurfaceBrushXaml.bind" />
+    <Content Include="SamplePages\ImageMaskSurfaceBrush\ImageMaskSurfaceBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -979,6 +997,18 @@
     <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\GeometryMaskSurfaceBrush\GeometryMaskSurfaceBrushPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageMaskSurfaceBrush\ImageMaskSurfaceBrushPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageSurfaceBrush\ImageSurfaceBrushPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -994,9 +1024,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind">
-      <SubType>Designer</SubType>
-    </Content>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

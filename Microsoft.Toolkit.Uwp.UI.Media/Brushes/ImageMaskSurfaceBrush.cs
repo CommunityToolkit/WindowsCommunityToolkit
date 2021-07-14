@@ -16,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public sealed class ImageMaskSurfaceBrush : RenderSurfaceBrushBase
     {
+        private AsyncMutex _renderMutex = new();
+
         private CompositionMaskBrush _maskBrush;
         private Uri _uri;
 
@@ -184,14 +186,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     {
                         await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
-                            OnSurfaceBrushUpdated();
+                            OnImageOptionsUpdated();
                         });
                     }
                 };
 
                 ImageOptions.Updated += _imageSurfaceOptionsUpdateListener.OnEvent;
 
-                OnSurfaceBrushUpdated();
+                OnImageOptionsUpdated();
             }
         }
 
@@ -247,14 +249,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 return;
             }
 
-            _maskBrush = Window.Current.Compositor.CreateMaskBrush();
-            _maskBrush.Source = Target.Brush;
+            using (await _renderMutex.LockAsync())
+            {
+                _maskBrush = Window.Current.Compositor.CreateMaskBrush();
+                _maskBrush.Source = Target.Brush;
 
-            RenderSurface = await Generator.CreateImageMaskSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), Padding, ImageOptions ?? ImageSurfaceOptions.Default);
-            _maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
-            CompositionBrush = _maskBrush;
+                RenderSurface = await Generator.CreateImageMaskSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), Padding, ImageOptions ?? ImageSurfaceOptions.Default);
+                _maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
+                CompositionBrush = _maskBrush;
 
-            base.OnSurfaceBrushUpdated();
+                base.OnSurfaceBrushUpdated();
+            }
+        }
+
+        private async void OnImageOptionsUpdated()
+        {
+            if (Generator == null)
+            {
+                GetGeneratorInstance();
+            }
+
+            if (Target == null || Target.Brush == null || _uri == null || Generator == null || RenderSurface == null)
+            {
+                return;
+            }
+
+            using (await _renderMutex.LockAsync())
+            {
+                await ((IImageMaskSurface)RenderSurface).RedrawAsync(_uri, ImageOptions ?? ImageSurfaceOptions.Default);
+            }
         }
     }
 }

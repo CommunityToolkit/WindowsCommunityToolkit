@@ -1323,9 +1323,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 }
                 catch (Exception)
                 {
-                    // Do nothing here as RenderBitmap method will fill the surface
-                    // with options.SurfaceBackgroundColor as the image failed to load
-                    // from Uri
+                    // Do nothing here as RenderBitmap method will fill the surface with options.SurfaceBackgroundColor as the image failed to load from the provided Uri.
                 }
             }
 
