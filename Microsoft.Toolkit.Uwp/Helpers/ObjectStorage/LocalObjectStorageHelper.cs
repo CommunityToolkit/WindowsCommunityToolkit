@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Store data in the Local environment (only on the current device).
     /// </summary>
-    [Obsolete("LocalObjectStorageHelper is deprecated and has been superceded by the ApplicationDataStorageHelper.")]
+    [Obsolete("LocalObjectStorageHelper is deprecated and has been superceded by the ApplicationDataStorageHelper. To upgrade, simply swap any LocalObjectStorageHelper instances with ApplicationDataStorageHelper.GetCurrent(serializer). The underlying interfaces are nearly identical but now with even more features available, such as deletion and access to user specific data stores!")]
     public class LocalObjectStorageHelper : BaseObjectStorageHelper
     {
         /// <summary>

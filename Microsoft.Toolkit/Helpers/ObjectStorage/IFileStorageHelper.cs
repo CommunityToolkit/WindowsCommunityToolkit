@@ -2,22 +2,28 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Helpers
 {
     /// <summary>
-    /// Service interface used to store data in files and folders.
+    /// Service interface used to store data in a directory/file-system via files and folders.
+    ///
+    /// This interface is meant to help abstract file storage operations across platforms in a library,
+    /// but the actual behavior will be up to the implementer. Such as, we don't provide a sense of a current directory,
+    /// so an implementor should consider using full paths to support any file operations. Otherwise, a "directory aware"
+    /// implementation could be achieved with a current directory field and traversal functions, in which case relative paths would be applicable.
     /// </summary>
     public interface IFileStorageHelper
     {
         /// <summary>
-        /// Determines whether a file already exists.
+        /// Determines if a directory item already exists.
         /// </summary>
-        /// <param name="filePath">Key of the file (that contains object).</param>
-        /// <returns>True if a value exists.</returns>
-        Task<bool> FileExistsAsync(string filePath);
+        /// <param name="itemName">Key of the file.</param>
+        /// <returns>True if an item exists.</returns>
+        Task<bool> ItemExistsAsync(string itemName);
 
         /// <summary>
         /// Retrieves an object from a file.
@@ -29,11 +35,11 @@ namespace Microsoft.Toolkit.Helpers
         Task<T> ReadFileAsync<T>(string filePath, T? @default = default);
 
         /// <summary>
-        /// Retrieves all file listings for a folder.
+        /// Retrieves the listings for a folder and the item types.
         /// </summary>
         /// <param name="folderPath">The path to the target folder.</param>
-        /// <returns>A list of file names in the target folder.</returns>
-        Task<IList<string>> ReadFolderAsync(string folderPath);
+        /// <returns>A list of file types and names in the target folder.</returns>
+        Task<IList<Tuple<DirectoryItemType, string>>> ReadFolderAsync(string folderPath);
 
         /// <summary>
         /// Saves an object inside a file.
@@ -45,7 +51,7 @@ namespace Microsoft.Toolkit.Helpers
         Task SaveFileAsync<T>(string filePath, T value);
 
         /// <summary>
-        /// Saves a folder.
+        /// Ensure a folder exists at the folder path specified.
         /// </summary>
         /// <param name="folderPath">The path and name of the target folder.</param>
         /// <returns>Waiting task until completion.</returns>

@@ -164,9 +164,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public Task<bool> FileExistsAsync(string filePath)
+        public Task<bool> ItemExistsAsync(string itemName)
         {
-            return FileExistsAsync(DefaultFolder, filePath);
+            return ItemExistsAsync(DefaultFolder, itemName);
         }
 
         /// <inheritdoc />
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public Task<IList<string>> ReadFolderAsync(string folderPath)
+        public Task<IList<Tuple<DirectoryItemType, string>>> ReadFolderAsync(string folderPath)
         {
             return ReadFolderAsync(DefaultFolder, folderPath);
         }
@@ -199,9 +199,27 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return DeleteItemAsync(DefaultFolder, itemPath);
         }
 
-        private Task<bool> FileExistsAsync(StorageFolder folder, string filePath)
+        /// <summary>
+        /// Determine the existance of a file at the specified path.
+        /// To check for folders, use <see cref="ItemExistsAsync(string)" />.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="isRecursive">Whether the file should be searched for recursively.</param>
+        /// <returns>A task with the result of the file query.</returns>
+        public Task<bool> FileExistsAsync(string fileName, bool isRecursive = false)
         {
-            return folder.FileExistsAsync(filePath);
+            return FileExistsAsync(DefaultFolder, fileName, isRecursive);
+        }
+
+        private async Task<bool> ItemExistsAsync(StorageFolder folder, string itemName)
+        {
+            var item = await folder.TryGetItemAsync(itemName);
+            return item != null;
+        }
+
+        private Task<bool> FileExistsAsync(StorageFolder folder, string fileName, bool isRecursive)
+        {
+            return folder.FileExistsAsync(fileName, isRecursive);
         }
 
         private async Task<T> ReadFileAsync<T>(StorageFolder folder, string filePath, T @default = default)
@@ -210,11 +228,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return (value != null) ? _serializer.Deserialize<T>(value) : @default;
         }
 
-        private async Task<IList<string>> ReadFolderAsync(StorageFolder folder, string folderPath)
+        private async Task<IList<Tuple<DirectoryItemType, string>>> ReadFolderAsync(StorageFolder folder, string folderPath)
         {
             var targetFolder = await folder.GetFolderAsync(folderPath);
-            var files = await targetFolder.GetFilesAsync();
-            return files.Select((f) => f.Path + f.Name).ToList();
+            var items = await targetFolder.GetItemsAsync();
+
+            return items.Select((item) =>
+            {
+                var itemType = item.IsOfType(StorageItemTypes.File) ? DirectoryItemType.File
+                    : item.IsOfType(StorageItemTypes.Folder) ? DirectoryItemType.Folder
+                    : DirectoryItemType.None;
+
+                return new Tuple<DirectoryItemType, string>(itemType, item.Name);
+            }).ToList();
         }
 
         private Task SaveFileAsync<T>(StorageFolder folder, string filePath, T value)
