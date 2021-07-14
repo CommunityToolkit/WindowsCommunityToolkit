@@ -48,14 +48,14 @@ namespace Microsoft.Toolkit.Helpers
         /// <param name="filePath">Path to the file that will contain the object.</param>
         /// <param name="value">Object to save.</param>
         /// <returns>Waiting task until completion.</returns>
-        Task SaveFileAsync<T>(string filePath, T value);
+        Task CreateFileAsync<T>(string filePath, T value);
 
         /// <summary>
         /// Ensure a folder exists at the folder path specified.
         /// </summary>
         /// <param name="folderPath">The path and name of the target folder.</param>
         /// <returns>Waiting task until completion.</returns>
-        Task SaveFolderAsync(string folderPath);
+        Task CreateFolderAsync(string folderPath);
 
         /// <summary>
         /// Deletes a file or folder item.

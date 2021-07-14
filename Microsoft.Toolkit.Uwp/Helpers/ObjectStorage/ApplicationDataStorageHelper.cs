@@ -182,15 +182,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public Task SaveFileAsync<T>(string filePath, T value)
+        public Task CreateFileAsync<T>(string filePath, T value)
         {
-            return SaveFileAsync<T>(DefaultFolder, filePath, value);
+            return CreateFileAsync<T>(DefaultFolder, filePath, value);
         }
 
         /// <inheritdoc />
-        public Task SaveFolderAsync(string folderPath)
+        public Task CreateFolderAsync(string folderPath)
         {
-            return SaveFolderAsync(DefaultFolder, folderPath);
+            return CreateFolderAsync(DefaultFolder, folderPath);
         }
 
         /// <inheritdoc />
@@ -243,12 +243,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }).ToList();
         }
 
-        private Task SaveFileAsync<T>(StorageFolder folder, string filePath, T value)
+        private Task CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
         {
             return StorageFileHelper.WriteTextToFileAsync(folder, _serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
         }
 
-        private async Task SaveFolderAsync(StorageFolder folder, string folderPath)
+        private async Task CreateFolderAsync(StorageFolder folder, string folderPath)
         {
             await folder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
         }
