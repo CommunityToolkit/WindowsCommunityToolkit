@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public Task CreateFileAsync<T>(string filePath, T value)
         {
-            return CreateFileAsync<T>(DefaultFolder, filePath, value);
+            return SaveFileAsync<T>(DefaultFolder, filePath, value);
         }
 
         /// <inheritdoc />
@@ -209,6 +209,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public Task<bool> FileExistsAsync(string fileName, bool isRecursive = false)
         {
             return FileExistsAsync(DefaultFolder, fileName, isRecursive);
+        }
+
+        /// <summary>
+        /// Saves an object inside a file.
+        /// </summary>
+        /// <typeparam name="T">Type of object saved.</typeparam>
+        /// <param name="filePath">Path to the file that will contain the object.</param>
+        /// <param name="value">Object to save.</param>
+        /// <returns>Waiting task until completion.</returns>
+        public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
+        {
+            return SaveFileAsync<T>(DefaultFolder, filePath, value);
         }
 
         private async Task<bool> ItemExistsAsync(StorageFolder folder, string itemName)
@@ -243,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }).ToList();
         }
 
-        private Task CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
+        private Task<StorageFile> SaveFileAsync<T>(StorageFolder folder, string filePath, T value)
         {
             return StorageFileHelper.WriteTextToFileAsync(folder, _serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
         }
