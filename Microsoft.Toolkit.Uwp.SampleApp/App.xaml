@@ -23,9 +23,6 @@
                                                      NotEmptyValue="Visible" />
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
-            <x:Double x:Key="ContentDialogMaxWidth">9999</x:Double>
-            <x:Double x:Key="ContentDialogMaxHeight">9999</x:Double>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
