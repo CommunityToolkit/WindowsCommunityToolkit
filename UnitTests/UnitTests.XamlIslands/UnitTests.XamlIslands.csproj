@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.XamlHost" Version="6.1.2" />
-    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.0" />
+    <PackageReference Include="Microsoft.ProjectReunion" Version="0.8.1" />
   </ItemGroup>
 
   <ItemGroup>
