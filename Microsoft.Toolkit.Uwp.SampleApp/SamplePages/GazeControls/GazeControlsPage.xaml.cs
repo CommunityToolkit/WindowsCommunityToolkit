@@ -89,9 +89,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async Task<StorageFile> ShowFilePicker(bool saveMode)
         {
-            var picker = new GazeFilePicker();
+            GazeFilePicker picker;
+            if (saveMode)
+            {
+                picker = new GazeFileSavePicker();
+            }
+            else
+            {
+                picker = new GazeFileOpenPicker();
+            }
+
             var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
-            picker.SaveMode = saveMode;
             picker.FileTypeFilter.Add(".txt");
             picker.FileTypeFilter.Add(".html");
             picker.FileTypeFilter.Add(".log");
