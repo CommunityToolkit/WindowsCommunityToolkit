@@ -283,9 +283,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
                 // Create a map to store the generated paramNames for each CompObj
                 _compObjToParamNameMap = new Dictionary<CompositionObject, string>();
+                var paramCount = 0;
                 foreach (var compObj in compObjects)
                 {
-                    string paramName = Guid.NewGuid().ToUppercaseAsciiLetters();
+                    string paramName = UniqueParamNameFromIndex(paramCount++); // Guid.NewGuid().ToUppercaseAsciiLetters();
 
                     _compObjToParamNameMap.Add(compObj, paramName);
                 }
@@ -311,6 +312,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     _objRefList.Add(new ReferenceInfo(paramName, refNode.Reference));
                     refNode.ParamName = paramName;
                 }
+            }
+
+            //Generates Excel-column-like identifiers, e.g. A, B, ..., Z, AA, AB...
+            string UniqueParamNameFromIndex(int i)
+            {
+                var alphabetLength = 'Z' - 'A' + 1;
+                var paramName = ((char)('A' + (i % alphabetLength))).ToString();
+
+                while (i / alphabetLength > 0)
+                {
+                    i = (i / alphabetLength) - 1;
+                    var nextCharacter = (char)('A' + (i % alphabetLength));
+                    paramName = nextCharacter + paramName;
+                }
+
+                return paramName;
             }
         }
 
