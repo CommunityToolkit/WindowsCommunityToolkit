@@ -16,7 +16,6 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
@@ -146,6 +145,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             GazeInput.SetMaxDwellRepeatCount(this, 2);
 
+            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
+            GazeKeyboard.LayoutUri = uri;
             GazeKeyboard.Target = FilenameTextbox;
 
             var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");

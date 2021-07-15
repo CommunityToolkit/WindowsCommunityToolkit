@@ -6,13 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="Open File" 
-    PrimaryButtonText="Select" 
-    CloseButtonText="Cancel"
     MinWidth="1500"
     Width="1500" Height="800" 
     FullSizeDesired="True"
-    Closing="OnFilePickerClosing"
   >
   <ContentDialog.Resources>
     <DataTemplate x:Key="FolderItemTemplate" x:DataType="local:StorageItem">
