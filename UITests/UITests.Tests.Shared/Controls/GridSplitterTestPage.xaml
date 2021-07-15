@@ -73,11 +73,7 @@
         <controls:GridSplitter x:Name="GridSplitterHorizontal"
                                Grid.Column="1"
                                Width="16"
-                               HorizontalAlignment="Left">
-            <!--<controls:GridSplitter.RenderTransform>
-                <TranslateTransform X="-8" />
-            </controls:GridSplitter.RenderTransform>-->
-        </controls:GridSplitter>
+                               HorizontalAlignment="Left"/>
 
         <!--  Row Grid Splitter  -->
         <controls:GridSplitter x:Name="GridSplitterVertical"
@@ -85,9 +81,6 @@
                                Grid.ColumnSpan="3"
                                Height="16"
                                VerticalAlignment="Top">
-            <!--<controls:GridSplitter.RenderTransform>
-                <TranslateTransform Y="-8" />
-            </controls:GridSplitter.RenderTransform>-->
             <controls:GridSplitter.Element>
                 <TextBlock HorizontalAlignment="Center"
                            VerticalAlignment="Center"
