@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -281,6 +281,7 @@
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
+    <Content Include="SamplePages\MetadataControl\MetadataControl.png" />
     <Content Include="SamplePages\TilesBrush\TilesBrush.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
@@ -438,7 +439,7 @@
     <Content Include="SamplePages\Menu\Menu.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
-    <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
+    <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsXaml.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
     <Content Include="SamplePages\DispatcherQueueHelper\DispatcherQueueHelperCode.bind" />
     <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
@@ -505,6 +506,9 @@
     </Compile>
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
+      <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
@@ -618,9 +622,11 @@
     <Content Include="SamplePages\VisualEffectFactory\VisualEffectFactory.bind" />
     <Content Include="SamplePages\Animations\Activities\InvokeActionsActivityCode.bind" />
     <Content Include="SamplePages\Animations\Activities\StartAnimationActivityCode.bind" />
+    <Content Include="SamplePages\AutoSelectBehavior\AutoSelectBehaviorXaml.bind" />
     <Content Include="SamplePages\Graph\LoginButtonXaml.bind" />
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
+    <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -966,6 +972,13 @@
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\CanvasPathGeometry\CanvasPathGeometryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1478,8 +1491,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <!-- ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that. -->
-    <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
@@ -1538,4 +1549,6 @@
     <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
     <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f | findstr /v /b &quot;#pragma&quot; &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
   </Target>
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>

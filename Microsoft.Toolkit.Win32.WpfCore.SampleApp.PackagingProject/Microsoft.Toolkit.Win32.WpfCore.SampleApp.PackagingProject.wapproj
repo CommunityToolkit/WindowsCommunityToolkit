@@ -76,4 +76,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+  <!-- No-op to avoid build error when packing solution from commandline -->
+  <Target Name="Pack" />
 </Project>

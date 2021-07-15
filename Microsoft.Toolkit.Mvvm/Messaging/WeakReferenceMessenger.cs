@@ -406,6 +406,8 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                     while (node is not null)
                     {
+                        LinkedListNode<WeakReference<TKey>>? nextNode = node.Next;
+
                         // Get the key and value for the current node
                         if (node.Value.TryGetTarget(out TKey? target) &&
                             this.owner.table.TryGetValue(target!, out TValue? value))
@@ -421,7 +423,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                             this.owner.keys.Remove(node);
                         }
 
-                        node = node.Next;
+                        node = nextNode;
                     }
 
                     return false;
