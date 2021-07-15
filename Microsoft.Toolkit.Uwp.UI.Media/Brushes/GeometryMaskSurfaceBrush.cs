@@ -202,10 +202,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        protected override void OnSurfaceBrushUpdated()
+        protected override void OnSurfaceBrushUpdated(bool createSurface = false)
         {
-            CompositionBrush?.Dispose();
-
             if (Generator == null)
             {
                 GetGeneratorInstance();
@@ -221,19 +219,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _maskBrush = Window.Current.Compositor.CreateMaskBrush();
             _maskBrush.Source = Target.Brush;
 
-            if (RenderSurface == null)
+            if (createSurface || (RenderSurface == null))
             {
+                CompositionBrush?.Dispose();
                 RenderSurface = Generator.CreateGaussianMaskSurface(new Size(SurfaceWidth, SurfaceHeight), Mask.Geometry, offset, (float)BlurRadius);
+                _maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
+                CompositionBrush = _maskBrush;
             }
             else
             {
                 ((IGaussianMaskSurface)RenderSurface).Redraw(new Size(SurfaceWidth, SurfaceHeight), Mask.Geometry, offset, (float)BlurRadius);
             }
 
-            _maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
-            CompositionBrush = _maskBrush;
-
-            base.OnSurfaceBrushUpdated();
+            base.OnSurfaceBrushUpdated(createSurface);
         }
     }
 }

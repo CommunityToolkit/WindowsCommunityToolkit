@@ -19,7 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private WeakEventListener<ImageSurfaceOptions, object, EventArgs> _imageSurfaceOptionsUpdateListener;
 
         private Uri _uri;
-        private AsyncMutex _renderMutex = new();
 
         /// <summary>
         /// Background Dependency Property
@@ -98,31 +97,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
 
             var uri = Source as Uri;
-            try
-            {
-                if (uri == null)
-                {
-                    var url = Source as string ?? Source.ToString();
-                    if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
-                    {
-                        _uri = null;
-                        return;
-                    }
-                }
 
-                if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
+            if (uri == null)
+            {
+                var url = Source as string ?? Source.ToString();
+                if (!Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
                 {
-                    _uri = new Uri("ms-appx:///" + uri.OriginalString.TrimStart('/'));
+                    _uri = null;
+                    return;
                 }
             }
-            catch (Exception ex)
+
+            if (!IsHttpUri(uri) && !uri.IsAbsoluteUri)
             {
-                var msg = ex.Message;
+                _uri = new Uri("ms-appx:///" + uri.OriginalString.TrimStart('/'));
             }
 
             _uri = uri;
 
-            OnSurfaceBrushUpdated();
+            OnSurfaceBrushUpdated(true);
         }
 
         /// <summary>
@@ -170,65 +163,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     {
                         await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                         {
-                            OnImageOptionsUpdated();
+                            OnSurfaceBrushUpdated();
                         });
                     }
                 };
 
                 ImageOptions.Updated += _imageSurfaceOptionsUpdateListener.OnEvent;
 
-                OnImageOptionsUpdated();
+                OnSurfaceBrushUpdated();
             }
         }
 
         /// <inheritdoc/>
-        protected async override void OnSurfaceBrushUpdated()
-        {
-            CompositionBrush?.Dispose();
-
-            if (Generator == null)
-            {
-                GetGeneratorInstance();
-            }
-
-            if (_uri != null && Generator != null)
-            {
-                using (await _renderMutex.LockAsync())
-                {
-                    RenderSurface = await Generator?.CreateImageSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), ImageOptions ?? ImageSurfaceOptions.Default);
-                    if (RenderSurface != null)
-                    {
-                        CompositionBrush = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
-                    }
-                }
-            }
-
-            base.OnSurfaceBrushUpdated();
-        }
-
-        private async void OnImageOptionsUpdated()
+        protected async override void OnSurfaceBrushUpdated(bool createSurface = false)
         {
             if (Generator == null)
             {
                 GetGeneratorInstance();
             }
 
-            if (_uri == null || Generator == null || RenderSurface == null)
+            if (_uri == null || Generator == null)
             {
                 return;
             }
 
-            using (await _renderMutex.LockAsync())
+            if (createSurface || (RenderSurface == null))
             {
-                ((IImageSurface)RenderSurface)?.Redraw(ImageOptions ?? ImageSurfaceOptions.Default);
+                CompositionBrush?.Dispose();
+                RenderSurface = await Generator?.CreateImageSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), ImageOptions ?? ImageSurfaceOptions.Default);
+                CompositionBrush = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
             }
-        }
+            else
+            {
+                ((IImageSurface)RenderSurface)?.Redraw(new Size(SurfaceWidth, SurfaceHeight), ImageOptions ?? ImageSurfaceOptions.Default);
+            }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImageSurfaceBrush"/> class.
-        /// </summary>
-        public ImageSurfaceBrush()
-        {
+            base.OnSurfaceBrushUpdated(createSurface);
         }
     }
 }

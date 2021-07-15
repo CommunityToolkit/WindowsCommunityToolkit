@@ -77,6 +77,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         void Redraw(ImageSurfaceOptions options);
 
         /// <summary>
+        /// Resizes and redraws the IImageSurface using the given options.
+        /// </summary>
+        /// <param name="size">New size of the IImageMaskSurface.</param>
+        /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
+        void Redraw(Size size, ImageSurfaceOptions options);
+
+        /// <summary>
         /// Redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface (using the alpha values of image in the given imageSurface).
         /// </summary>
         /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>

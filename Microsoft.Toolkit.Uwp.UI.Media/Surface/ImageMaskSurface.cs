@@ -163,11 +163,81 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Redraws the IImageMaskSurface with the given image options
+        /// Redraws the IImageMaskSurface with the given image options.
         /// </summary>
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public void Redraw(ImageSurfaceOptions options)
         {
+            // Set the image options
+            Options = options;
+
+            // Redraw the IImageMaskSurface
+            RedrawSurface();
+        }
+
+        /// <summary>
+        /// Redraws the IImageMaskSurface using the given padding and image options.
+        /// </summary>
+        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        public void Redraw(Thickness padding, ImageSurfaceOptions options)
+        {
+            // Set the mask padding
+            MaskPadding = padding;
+
+            // Set the image options
+            Options = options;
+
+            // Redraw the IImageMaskSurface
+            RedrawSurface();
+        }
+
+        /// <summary>
+        /// Resizes and redraws the IImageMaskSurface using the given image options.
+        /// </summary>
+        /// <param name="size">New size of the IImageMaskSurface.</param>
+        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        public void Redraw(Size size, ImageSurfaceOptions options)
+        {
+            // Resize if required
+            if (Size != size)
+            {
+                // resize the IImageMaskSurface
+                _generator.ResizeDrawingSurface(_surfaceLock, _surface, size);
+
+                // Set the size
+                Size = _surface?.Size ?? new Size(0, 0);
+            }
+
+            // Set the image options
+            Options = options;
+
+            // Redraw the IImageMaskSurface
+            RedrawSurface();
+        }
+
+        /// <summary>
+        /// Resizes and redraws the IImageMaskSurface using the given padding and image options.
+        /// </summary>
+        /// <param name="size">New size of the IImageMaskSurface.</param>
+        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
+        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        public void Redraw(Size size, Thickness padding, ImageSurfaceOptions options)
+        {
+            // Resize if required
+            if (Size != size)
+            {
+                // resize the IImageMaskSurface
+                _generator.ResizeDrawingSurface(_surfaceLock, _surface, size);
+
+                // Set the size
+                Size = _surface?.Size ?? new Size(0, 0);
+            }
+
+            // Set the mask padding
+            MaskPadding = padding;
+
             // Set the image options
             Options = options;
 

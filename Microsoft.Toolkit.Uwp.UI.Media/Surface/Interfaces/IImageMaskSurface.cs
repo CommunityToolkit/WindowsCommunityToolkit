@@ -115,6 +115,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Resizes and redraws the IImageMaskSurface using the given CanvasBitmap's alpha values with the given padding using the given options.
         /// </summary>
+        /// <param name="padding">
+        /// The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.
+        /// </param>
+        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        void Redraw(Thickness padding, ImageSurfaceOptions options);
+
+        /// <summary>
+        /// Resizes and redraws the IImageMaskSurface using the given padding and image options.
+        /// </summary>
+        /// <param name="size">New size of the IImageMaskSurface.</param>
+        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        void Redraw(Size size, Thickness padding, ImageSurfaceOptions options);
+
+        /// <summary>
+        /// Resizes and redraws the IImageMaskSurface using the given CanvasBitmap's alpha values with the given padding using the given options.
+        /// </summary>
         /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
         /// <param name="size">New size of the IImageMaskSurface.</param>
         /// <param name="padding">

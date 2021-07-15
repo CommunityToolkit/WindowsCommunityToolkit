@@ -347,10 +347,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        protected override void OnSurfaceBrushUpdated()
+        protected override void OnSurfaceBrushUpdated(bool createSurface = false)
         {
-            CompositionBrush?.Dispose();
-
             if (Generator == null)
             {
                 GetGeneratorInstance();
@@ -368,10 +366,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             var strokeStyle = (RenderStrokeStyle == null) ? new CanvasStrokeStyle() : RenderStrokeStyle.GetCanvasStrokeStyle();
             var canvasstroke = new CanvasStroke(strokeBrush, (float)StrokeThickness, strokeStyle);
 
-            RenderSurface = Generator.CreateGeometrySurface(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasstroke, fillBrush, bgBrush);
-            CompositionBrush = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
+            if (createSurface || (RenderSurface == null))
+            {
+                CompositionBrush?.Dispose();
+                RenderSurface = Generator.CreateGeometrySurface(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasstroke, fillBrush, bgBrush);
+                CompositionBrush = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
+            }
+            else
+            {
+                ((IGeometrySurface)RenderSurface).Redraw(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasstroke, fillBrush, bgBrush);
+            }
 
-            base.OnSurfaceBrushUpdated();
+            base.OnSurfaceBrushUpdated(createSurface);
         }
     }
 }

@@ -163,6 +163,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
+        /// Resizes and redraws the IImageSurface using the given options.
+        /// </summary>
+        /// <param name="size">New size of the IImageMaskSurface.</param>
+        /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
+        public void Redraw(Size size, ImageSurfaceOptions options)
+        {
+            // Resize the surface only if AutoResize option is disabled
+            if (!Options.AutoResize && Size != size)
+            {
+                // resize the IImageMaskSurface
+                _generator.ResizeDrawingSurface(_surfaceLock, _surface, size);
+
+                // Set the size
+                Size = _surface?.Size ?? new Size(0, 0);
+            }
+
+            // Set the image options
+            Options = options;
+
+            // Redraw the IImageSurface
+            RedrawSurface();
+        }
+
+        /// <summary>
         /// Redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface
         /// (using the alpha values of image in the given imageSurface).
         /// </summary>

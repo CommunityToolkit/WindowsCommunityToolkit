@@ -8,7 +8,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="36" />
+            <RowDefinition Height="46" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid>
@@ -45,7 +45,8 @@
             <ComboBox x:Name="VAOptions"
                       Grid.Column="6"
                       Width="100"
-                      Margin="0,4" />
+                      Margin="0"
+                      VerticalAlignment="Center" />
         </Grid>
         <Grid x:Name="XamlRoot"
               Grid.Row="1"

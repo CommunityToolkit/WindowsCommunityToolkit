@@ -104,22 +104,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             brush.Refresh();
         }
 
-        /// <inheritdoc/>
-        protected override async void OnConnected()
-        {
-            using (await connectedMutex.LockAsync())
-            {
-                if (CompositionBrush == null)
-                {
-                    GetGeneratorInstance();
-
-                    OnSurfaceBrushUpdated();
-                }
-            }
-
-            base.OnConnected();
-        }
-
         /// <summary>
         /// Gets the CompositionGenerator Instance
         /// </summary>
@@ -131,6 +115,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
                 Generator.DeviceReplaced += OnDeviceReplaced;
             }
+        }
+
+        /// <inheritdoc/>
+        protected override async void OnConnected()
+        {
+            using (await connectedMutex.LockAsync())
+            {
+                if (CompositionBrush == null)
+                {
+                    GetGeneratorInstance();
+
+                    OnSurfaceBrushUpdated(true);
+                }
+            }
+
+            base.OnConnected();
         }
 
         /// <inheritdoc/>
@@ -172,7 +172,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Invoked whenever any brush property is updated.
         /// </summary>
-        protected virtual void OnSurfaceBrushUpdated()
+        /// <param name="createSurface">Indicates whether the surface needs to be created.</param>
+        protected virtual void OnSurfaceBrushUpdated(bool createSurface = false)
         {
             Updated?.Invoke(this, null);
         }
