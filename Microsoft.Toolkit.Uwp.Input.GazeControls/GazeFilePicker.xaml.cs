@@ -5,51 +5,59 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.UI;
+using Windows.ApplicationModel.Resources;
+using Windows.Foundation;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 {
+    internal enum FilePickerView
+    {
+        FileListing,
+        FilenameEntry,
+        FileOverwriteConfirmation
+    }
+
     /// <summary>
     /// Provides file picker dialogs optimized for gaze input
     /// </summary>
-    public sealed partial class GazeFilePicker : ContentDialog
+    public partial class GazeFilePicker : ContentDialog
     {
-        private const int INITIALIZATION_DELAY = 125;
-        private Grid _commandSpaceGrid;
-        private Button _newFolderButton;
-        private Button _enterFilenameButton;
-        private Button _selectButton;
-        private Button _cancelButton;
-        private DispatcherQueue _queue;
-        private DispatcherQueueTimer _initializationTimer;
         private bool _dialogInitialized;
         private bool _refreshNeeded;
-        private bool _newFolderMode;
+        private ResourceLoader _resourceLoader;
+
+        internal FilePickerView CurrentView { get; private set; }
+
+        internal Button SelectButton { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this is FileSave dialog or a FileOpen dialog
+        /// Gets or sets the event handler that is called when the file picker has fully initialized
         /// </summary>
-        public bool SaveMode { get; set; }
+        public EventHandler FilePickerInitialized { get; protected set; }
 
         /// <summary>
-        /// Gets the currently selected file in the dialog as a StorageFile
+        /// Gets or sets the currently selected file in the dialog as a StorageFile
         /// </summary>
-        public StorageFile SelectedItem { get; private set; }
+        public StorageFile SelectedItem { get; protected set; }
+
+        internal Button Button0 { get; private set; }
+
+        internal Button Button1 { get; private set; }
+
+        internal Button Button2 { get; private set; }
+
+        internal Button Button3 { get; private set; }
+
+        internal TextBox FilenameTextbox { get; private set; }
 
         private StorageFolder _currentFolder;
 
@@ -113,29 +121,57 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         {
             this.InitializeComponent();
 
-            this.Opened += OnGazeFilePickerOpened;
+            this.Loaded += this.OnGazeFilePickerLoaded;
 
             FileTypeFilter = new List<string>();
 
-            _queue = DispatcherQueue.GetForCurrentThread();
-            _initializationTimer = _queue.CreateTimer();
-            _initializationTimer.Interval = TimeSpan.FromMilliseconds(INITIALIZATION_DELAY);
-            _initializationTimer.Tick += OnInitializationTimerTick;
+            var resourcePath = "Microsoft.Toolkit.Uwp.Input.GazeControls/Resources";
+            _resourceLoader = ResourceLoader.GetForViewIndependentUse(resourcePath);
         }
 
-        private void OnInitializationTimerTick(object sender, object e)
+        private void OnGazeFilePickerLoaded(object sender, RoutedEventArgs e)
         {
-            _initializationTimer.Stop();
-            CreateFavoritesButtons();
-            CreateCommandSpaceButtons();
+            Button0 = Col0Button;
+            Button1 = Col1Button;
+            Button2 = Col2Button;
+            Button3 = Col3Button;
+            FilenameTextbox = FilenameEditBox;
+
+            GazeInput.SetMaxDwellRepeatCount(this, 2);
+
+            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
+            GazeKeyboard.LayoutUri = uri;
             GazeKeyboard.Target = FilenameTextbox;
-            SetFileListingsLayout();
+
+            var dialogSpace = this.FindDescendant("DialogSpace") as Grid;
+            var commandSpace = this.FindDescendant("CommandSpace") as Grid;
+            dialogSpace.Children.Remove(commandSpace);
+
+            SetFilePickerView(FilePickerView.FileListing);
+            CreateFavoritesButtons();
             SetFileTypeFilterText();
+
             _dialogInitialized = true;
+
             if (_refreshNeeded)
             {
                 RefreshContents(_currentFolder);
             }
+
+            if (FilePickerInitialized != null)
+            {
+                FilePickerInitialized(this, null);
+            }
+        }
+
+        /// <summary>
+        /// Returns the localized string from resources
+        /// </summary>
+        /// <param name="resource">Resource id of the string to get</param>
+        /// <returns>Localized string</returns>
+        protected string GetString(string resource)
+        {
+            return _resourceLoader.GetString(resource);
         }
 
         private void SetFileTypeFilterText()
@@ -196,135 +232,44 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
         }
 
-        private void CreateCommandSpaceButtons()
+        /// <summary>
+        /// Helper to create a folder in _currentFolder
+        /// </summary>
+        /// <returns>Task</returns>
+        protected async Task CreateFolderAsync()
         {
-            _commandSpaceGrid = this.FindDescendant("CommandSpace") as Grid;
-            Debug.Assert(_commandSpaceGrid != null, "CommandSpaceGrid not found");
+            await _currentFolder.CreateFolderAsync(FilenameTextbox.Text);
+            RefreshContents(_currentFolder);
+        }
 
-            _commandSpaceGrid.Children.Clear();
-            _commandSpaceGrid.RowDefinitions.Clear();
-            _commandSpaceGrid.ColumnDefinitions.Clear();
+        /// <summary>
+        /// Helper to create a file in the current folder
+        /// </summary>
+        /// <returns>IAsyncOperation[StorageFile]</returns>
+        protected IAsyncOperation<StorageFile> CreateFileAsync()
+        {
+            return _currentFolder.CreateFileAsync(FilenameTextbox.Text);
+        }
 
-            _commandSpaceGrid.RowDefinitions.Add(new RowDefinition());
-            for (int i = 0; i < 4; i++)
+        internal void SetFilePickerView(FilePickerView filePickerView)
+        {
+            Grid[] viewGrids = { FileListingGrid, FilenameEntryGrid, FileOverwriteConfirmationGrid };
+            foreach (var grid in viewGrids)
             {
-                _commandSpaceGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.Visibility = Visibility.Collapsed;
             }
 
-            var style = (Style)this.Resources["CommandSpaceButtonStyles"];
-            this.PrimaryButtonStyle = style;
-            this.SecondaryButtonStyle = style;
-            this.CloseButtonStyle = style;
-
-            _newFolderButton = new Button();
-            _newFolderButton.Content = "New Folder...";
-            _newFolderButton.Style = style;
-            _newFolderButton.Click += OnNewFolderClick;
-
-            _enterFilenameButton = new Button();
-            _enterFilenameButton.Content = "Enter file name...";
-            _enterFilenameButton.Style = style;
-            _enterFilenameButton.Click += OnNewFolderClick;
-
-            _selectButton = _commandSpaceGrid.FindName("PrimaryButton") as Button;
-            _selectButton.Click += OnSelectButtonClick;
-            _selectButton.Content = "Select";
-
-            _cancelButton = _commandSpaceGrid.FindName("CloseButton") as Button;
-            _cancelButton.Click += OnCancelButtonClick;
-            _cancelButton.Content = "Cancel";
-
-            _commandSpaceGrid.Children.Add(_newFolderButton);
-            _commandSpaceGrid.Children.Add(_enterFilenameButton);
-            _commandSpaceGrid.Children.Add(_selectButton);
-            _commandSpaceGrid.Children.Add(_cancelButton);
-
-            _enterFilenameButton.Content = "Enter Filename...";
-            _enterFilenameButton.Click += OnEnterFilenameButtonClick;
-
-            Grid.SetRow(_newFolderButton, 0);
-            Grid.SetRow(_enterFilenameButton, 0);
-            Grid.SetRow(_selectButton, 0);
-            Grid.SetRow(_cancelButton, 0);
-
-            Grid.SetColumnSpan(_newFolderButton, 1);
-            Grid.SetColumnSpan(_enterFilenameButton, 1);
-            Grid.SetColumnSpan(_selectButton, 1);
-            Grid.SetColumnSpan(_cancelButton, 1);
-
-            Grid.SetColumn(_newFolderButton, 0);
-            Grid.SetColumn(_enterFilenameButton, 1);
-            Grid.SetColumn(_selectButton, 2);
-            Grid.SetColumn(_cancelButton, 3);
-
-            SetFileListingsLayout();
+            viewGrids[(int)filePickerView].Visibility = Visibility.Visible;
+            CurrentView = filePickerView;
+            FixFileListingButtons();
         }
 
-        private async void OnSelectButtonClick(object sender, RoutedEventArgs e)
+        private async void FixFileListingButtons()
         {
-            if (_newFolderMode)
-            {
-                _newFolderMode = false;
-                await _currentFolder.CreateFolderAsync(FilenameTextbox.Text);
-                RefreshContents(_currentFolder);
-                SetFileListingsLayout();
-            }
-            else if (SaveMode)
-            {
-                SelectedItem = await _currentFolder.CreateFileAsync(FilenameTextbox.Text);
-            }
-            else if (!CurrentSelectedItem.IsFolder)
-            {
-                SelectedItem = CurrentSelectedItem?.Item as StorageFile;
-            }
+            var folder = await _currentFolder.GetParentAsync();
+            ParentFolderButton.IsEnabled = folder != null;
 
-            SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
-        }
-
-        private void OnCancelButtonClick(object sender, RoutedEventArgs e)
-        {
-            SetFileListingsLayout();
-        }
-
-        private void SetFileListingsLayout()
-        {
-            FileListingGrid.Visibility = Visibility.Visible;
-            FilenameEntryGrid.Visibility = Visibility.Collapsed;
-
-            var vis = SaveMode ? Visibility.Visible : Visibility.Collapsed;
-            _newFolderButton.Visibility = vis;
-            _enterFilenameButton.Visibility = vis;
-        }
-
-        private void SetKeyboardInputLayout()
-        {
-            FileListingGrid.Visibility = Visibility.Collapsed;
-            FilenameEntryGrid.Visibility = Visibility.Visible;
-
-            _newFolderButton.Visibility = Visibility.Collapsed;
-            _enterFilenameButton.Visibility = Visibility.Collapsed;
-        }
-
-        private void OnEnterFilenameButtonClick(object sender, RoutedEventArgs e)
-        {
-            _newFolderMode = false;
-            SetKeyboardInputLayout();
-            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
-            GazeKeyboard.LayoutUri = uri;
-        }
-
-        private void OnNewFolderClick(object sender, RoutedEventArgs e)
-        {
-            _newFolderMode = true;
-            SetKeyboardInputLayout();
-            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
-            GazeKeyboard.LayoutUri = uri;
-        }
-
-        private void OnGazeFilePickerOpened(ContentDialog sender, ContentDialogOpenedEventArgs args)
-        {
-            _initializationTimer.Start();
-            GazeInput.SetMaxDwellRepeatCount(this, 2);
+            SelectButton.IsEnabled = (CurrentSelectedItem != null) && (!CurrentSelectedItem.IsFolder);
         }
 
         private Task[] GetThumbnailsAsync(ObservableCollection<StorageItem> storageItems)
@@ -363,14 +308,12 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             var tasks = GetThumbnailsAsync(currentFolderItems);
             await Task.WhenAll(tasks);
 
-            _selectButton.IsEnabled = (CurrentSelectedItem != null) && (!CurrentSelectedItem.IsFolder);
             SelectedItemScrollViewer.ChangeView(SelectedItemScrollViewer.ExtentWidth, 0.0, 1.0f);
 
             CurrentSelectedItem = new StorageItem(_currentFolder);
             CurrentFolderItems = currentFolderItems;
 
-            folder = await _currentFolder.GetParentAsync();
-            ParentFolderButton.IsEnabled = folder != null;
+            FixFileListingButtons();
         }
 
         private void OnCurrentFolderContentsItemClick(object sender, ItemClickEventArgs e)
@@ -381,11 +324,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             if (clickedItem.IsFolder)
             {
                 RefreshContents(clickedItem.Item as StorageFolder);
-                _selectButton.IsEnabled = false;
+                SelectButton.IsEnabled = false;
             }
             else
             {
-                _selectButton.IsEnabled = true;
+                SelectButton.IsEnabled = true;
             }
 
             CurrentSelectedItem = clickedItem;
@@ -402,16 +345,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             var button = sender as Button;
             var folder = button.Tag as StorageFolder;
             RefreshContents(folder);
-        }
-
-        private void OnFilePickerClosing(ContentDialog sender, ContentDialogClosingEventArgs args)
-        {
-            if ((FileListingGrid.Visibility == Visibility.Collapsed) &&
-                (args.Result == ContentDialogResult.None || _newFolderMode))
-            {
-                args.Cancel = true;
-                return;
-            }
         }
     }
 }
