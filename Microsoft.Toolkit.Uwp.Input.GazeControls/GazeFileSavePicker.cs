@@ -68,6 +68,10 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             SelectButton.Click += OnSaveButtonClicked;
 
             Button3.Click += OnCloseButtonClicked;
+
+            YesButton.Click += OnSaveButtonClicked;
+            NoButton.Click += OnCloseButtonClicked;
+
             ShowCommandspaceButtons(true);
         }
 
@@ -80,9 +84,19 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 SetFilePickerView(FilePickerView.FileListing);
                 ShowCommandspaceButtons(true);
             }
+            else if (CurrentView == FilePickerView.FilenameEntry)
+            {
+                SelectedItem = await CreateFileAsync(true);
+                Hide();
+            }
+            else if (CurrentView == FilePickerView.FileListing)
+            {
+                SetOverwriteWarningText();
+                SetFilePickerView(FilePickerView.FileOverwriteConfirmation);
+            }
             else
             {
-                SelectedItem = await CreateFileAsync();
+                SelectedItem = await CreateFileAsync(false);
                 Hide();
             }
 

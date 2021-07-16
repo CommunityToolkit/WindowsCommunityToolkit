@@ -454,17 +454,18 @@
       <TextBox x:Name="FilenameEditBox" Grid.Row="0" TextWrapping="Wrap" FontSize="45" Margin="3,3,0,3" AcceptsReturn="True" />
       <local:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="1" />
     </Grid>
-    <Grid Grid.Row="0" x:Name="FileListingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="144" />
-        <RowDefinition Height="*" />
-        <RowDefinition Height="144" />
-      </Grid.RowDefinitions>
-      <StackPanel x:Name="FavoritesPanel" Grid.Row="0" Orientation="Horizontal">
-      </StackPanel>
+    <UserControl Grid.Row="0" x:Name="FileListingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="144" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="144" />
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="FavoritesPanel" Grid.Row="0" Orientation="Horizontal">
+        </StackPanel>
 
-      <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="0,0,0,0">
-        <GridView x:Name="CurrentFolderContents" 
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="0,0,0,0">
+          <GridView x:Name="CurrentFolderContents" 
               IsItemClickEnabled="True" 
               SelectionMode="Single" 
               ItemTemplate="{StaticResource FolderItemTemplate}" 
@@ -475,46 +476,81 @@
               MinWidth="1500"
               Padding="0,0,128,0"
               />
-      </Border>
+        </Border>
 
-      <Grid Grid.Row="2" Margin="0,8,0,8" HorizontalAlignment="Stretch">
-        <Grid.RowDefinitions>
-          <RowDefinition />
-          <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="144"/>
-          <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Button x:Name="ParentFolderButton" Grid.Column="0" Grid.RowSpan="2" Width="128" Height="128" Click="OnParentFolderClick" Content="&#xF0AD;" FontFamily="Segoe MDL2 Assets" FontSize="32" Margin="0,0,20,0"/>
-        <Border Grid.Row="0" Grid.Column="1"  BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" Margin="0,0,0,8">
-          <ScrollViewer x:Name="SelectedItemScrollViewer" VerticalScrollBarVisibility="Disabled" 
+        <Grid Grid.Row="2" Margin="0,8,0,8" HorizontalAlignment="Stretch">
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="144"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Button x:Name="ParentFolderButton" Grid.Column="0" Grid.RowSpan="2" Width="128" Height="128" Click="OnParentFolderClick" Content="&#xF0AD;" FontFamily="Segoe MDL2 Assets" FontSize="32" Margin="0,0,20,0"/>
+          <Border Grid.Row="0" Grid.Column="1"  BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch" Margin="0,0,0,8">
+            <ScrollViewer x:Name="SelectedItemScrollViewer" VerticalScrollBarVisibility="Disabled" 
                         HorizontalScrollBarVisibility="Hidden" VerticalScrollMode="Disabled" 
                         HorizontalScrollMode="Enabled" >
-            <TextBlock Text="{x:Bind Mode=OneWay, Path=CurrentSelectedItem.Path}" 
+              <TextBlock Text="{x:Bind Mode=OneWay, Path=CurrentSelectedItem.Path}" 
                        FontWeight="Bold" FontSize="18"  Margin="16,0,0,0" 
                        VerticalAlignment="Center" HorizontalAlignment="Stretch" Padding="0,0,16,0"/>
-          </ScrollViewer>
-        </Border>
-        <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="Black" Margin="0,8,0,0">
-          <TextBlock x:Name="FileTypeFilterTextBlock" FontSize="18"/>
-        </Border>
+            </ScrollViewer>
+          </Border>
+          <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="Black" Margin="0,8,0,0">
+            <TextBlock x:Name="FileTypeFilterTextBlock" FontSize="18"/>
+          </Border>
+        </Grid>
       </Grid>
-    </Grid>
-    <Grid Grid.Row="0" x:Name="FileOverwriteConfirmationGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
-      
-    </Grid>
-    <Grid Grid.Row="1">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-        <ColumnDefinition />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <Button Grid.Column="0" x:Name="Col0Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center" Visibility="Collapsed"/>
-      <Button Grid.Column="1" x:Name="Col1Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center" Visibility="Collapsed"/>
-      <Button Grid.Column="2" x:Name="Col2Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center"/>
-      <Button Grid.Column="3" x:Name="Col3Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center"/>
-    </Grid>
+    </UserControl>
+    <Border Grid.Row="0" x:Name="FileOverwriteConfirmationGrid" 
+            BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Center" 
+            VerticalAlignment="Center" Visibility="Collapsed" Background="White">
+      <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="60"/>
+          <RowDefinition Height="120"/>
+          <RowDefinition Height="120"/>
+          <RowDefinition Height="180"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="120"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="Blue" >
+          <TextBlock Text="Confirm overwrite" HorizontalAlignment="Left" FontSize="32" Foreground="White" Padding="5,0,0,0"/>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Background="White" >
+          <TextBlock Text="&#xE7BA;" FontSize="64" FontFamily="Segoe MDL2 Assets" Foreground="Yellow" VerticalAlignment="Center"/>
+        </Border>
+        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="OverwriteWarning" FontSize="32" VerticalAlignment="Bottom"  Margin="0,0,20,0" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Do you want to replace it?" FontSize="32" VerticalAlignment="Top"  Margin="0,0,20,0" />
+        <Grid Grid.Row="3" Grid.ColumnSpan="2" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Row="0" Grid.Column="0" x:Name="YesBtn" Content="Yes" HorizontalAlignment="Center" Style="{StaticResource CommandSpaceButtonStyles}" Margin="10,0,10,0"/>
+          <Button Grid.Row="0" Grid.Column="1" x:Name="NoBtn" Content="No" HorizontalAlignment="Center" Style="{StaticResource CommandSpaceButtonStyles}" Margin="10,0,10,0"/>
+        </Grid>
+      </Grid>
+    </Border>
+    <UserControl Grid.Row="1" x:Name="CommandRow">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" x:Name="Col0Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <Button Grid.Column="1" x:Name="Col1Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <Button Grid.Column="2" x:Name="Col2Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center"/>
+        <Button Grid.Column="3" x:Name="Col3Button" Style="{StaticResource CommandSpaceButtonStyles}" HorizontalAlignment="Center"/>
+      </Grid>
+    </UserControl>
   </Grid>
 </ContentDialog>
