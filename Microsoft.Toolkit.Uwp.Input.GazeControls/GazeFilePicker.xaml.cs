@@ -57,6 +57,10 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
         internal Button Button3 { get; private set; }
 
+        internal Button YesButton { get; private set; }
+
+        internal Button NoButton { get; private set; }
+
         internal TextBox FilenameTextbox { get; private set; }
 
         private StorageFolder _currentFolder;
@@ -135,6 +139,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             Button1 = Col1Button;
             Button2 = Col2Button;
             Button3 = Col3Button;
+            YesButton = YesBtn;
+            NoButton = NoBtn;
             FilenameTextbox = FilenameEditBox;
 
             GazeInput.SetMaxDwellRepeatCount(this, 2);
@@ -246,14 +252,24 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// Helper to create a file in the current folder
         /// </summary>
         /// <returns>IAsyncOperation[StorageFile]</returns>
-        protected IAsyncOperation<StorageFile> CreateFileAsync()
+        protected IAsyncOperation<StorageFile> CreateFileAsync(bool fromTextbox)
         {
-            return _currentFolder.CreateFileAsync(FilenameTextbox.Text);
+            var filename = fromTextbox ? FilenameTextbox.Text : CurrentSelectedItem.Name;
+            return _currentFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+        }
+
+        /// <summary>
+        /// Helper function to set the overwrite warning text
+        /// </summary>
+        protected void SetOverwriteWarningText()
+        {
+            var warningTextFormat = GetString("OverwriteWarning");
+            OverwriteWarning.Text = string.Format(warningTextFormat, CurrentSelectedItem.Name);
         }
 
         internal void SetFilePickerView(FilePickerView filePickerView)
         {
-            Grid[] viewGrids = { FileListingGrid, FilenameEntryGrid, FileOverwriteConfirmationGrid };
+            FrameworkElement[] viewGrids = { FileListingGrid, FilenameEntryGrid, FileOverwriteConfirmationGrid };
             foreach (var grid in viewGrids)
             {
                 grid.Visibility = Visibility.Collapsed;
@@ -261,6 +277,19 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             viewGrids[(int)filePickerView].Visibility = Visibility.Visible;
             CurrentView = filePickerView;
+
+            if (CurrentView == FilePickerView.FileOverwriteConfirmation)
+            {
+                FileListingGrid.Visibility = Visibility.Visible;
+                FileListingGrid.IsEnabled = false;
+                CommandRow.IsEnabled = false;
+            }
+            else if (CurrentView == FilePickerView.FileListing)
+            {
+                FileListingGrid.IsEnabled = true;
+                CommandRow.IsEnabled = true;
+            }
+
             FixFileListingButtons();
         }
 

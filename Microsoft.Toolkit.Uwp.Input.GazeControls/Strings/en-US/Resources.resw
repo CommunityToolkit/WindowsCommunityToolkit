@@ -138,6 +138,9 @@
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="OverwriteWarning" xml:space="preserve">
+    <value>"{0}" already exists.</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
