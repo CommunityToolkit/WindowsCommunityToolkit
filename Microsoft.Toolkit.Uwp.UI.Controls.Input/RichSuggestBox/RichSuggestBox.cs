@@ -256,11 +256,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (selection.StartPosition == 0 && this._tokens.ContainsKey(selection.GetClone().Link))
-            {
-                selection.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
-            }
-
             if (range.StartPosition < selection.StartPosition && selection.EndPosition < range.EndPosition)
             {
                 // Snap selection to token on click
@@ -274,7 +269,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 range.MoveStart(TextRangeUnit.Link, -1);
                 if (selection.StartPosition != range.StartPosition || selection.StartPosition == 0)
                 {
-                    selection.CharacterFormat = TextDocument.GetDefaultCharacterFormat();
+                    ResetFormat(selection);
                 }
             }
         }
@@ -551,7 +546,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             lock (LockObj)
             {
                 var displayText = prefix + text;
-                if (TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format))
+
+                _ignoreChange = true;
+                TextDocument.BeginUndoGroup();
+                var committed = TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format);
+                TextDocument.EndUndoGroup();
+                _ignoreChange = false;
+
+                if (committed)
                 {
                     var token = new RichSuggestToken(id, displayText) { Active = true, Item = selectedItem };
                     token.UpdateTextRange(range);
@@ -562,45 +564,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
         {
-            try
+            // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
+            range.GetText(TextGetOptions.NoHidden, out var existingText);
+            if (existingText != displayText)
             {
-                _ignoreChange = true;
-                TextDocument.BeginUndoGroup();
-
-                // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
-                range.GetText(TextGetOptions.NoHidden, out var existingText);
-                if (existingText != displayText)
-                {
-                    range.SetText(TextSetOptions.Unhide, displayText);
-                }
-
-                range.Link = $"\"{id}\"";
-
-                // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
-                if (range.Link != $"\"{id}\"")
-                {
-                    range.Link = string.Empty;
-                    return false;
-                }
-
-                ApplyTokenFormat(range.CharacterFormat, format);
-
-                if (addTrailingSpace)
-                {
-                    var clone = range.GetClone();
-                    clone.Collapse(false);
-                    clone.SetText(TextSetOptions.Unhide, " ");
-                    clone.Collapse(false);
-                    TextDocument.Selection.SetRange(clone.EndPosition, clone.EndPosition);
-                }
-
-                TextDocument.EndUndoGroup();
-                return true;
+                range.SetText(TextSetOptions.None, displayText);
             }
-            finally
+
+            range.Link = $"\"{id}\"";
+
+            // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
+            if (range.Link != $"\"{id}\"")
             {
-                _ignoreChange = false;
+                range.Link = string.Empty;
+                return false;
             }
+
+            ApplyTokenFormat(range.CharacterFormat, format);
+
+            if (addTrailingSpace)
+            {
+                var clone = range.GetClone();
+                clone.Collapse(false);
+                clone.SetText(TextSetOptions.Unhide, " ");
+                clone.Collapse(false);
+                TextDocument.Selection.SetRange(clone.EndPosition, clone.EndPosition);
+            }
+
+            return true;
         }
 
         private void ValidateTokensInDocument()
