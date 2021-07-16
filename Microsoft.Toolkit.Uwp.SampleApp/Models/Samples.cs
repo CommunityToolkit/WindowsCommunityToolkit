@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static ApplicationDataStorageHelper _localObjectStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private static ApplicationDataStorageHelper _appDataStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_recentSamples == null)
             {
                 _recentSamples = new LinkedList<Sample>();
-                var savedSamples = _localObjectStorageHelper.Read<string>(_recentSamplesStorageKey);
+                var savedSamples = _appDataStorageHelper.Read<string>(_recentSamplesStorageKey);
 
                 if (savedSamples != null)
                 {
@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             var str = string.Join(";", _recentSamples.Take(10).Select(s => s.Name).ToArray());
-            _localObjectStorageHelper.Save<string>(_recentSamplesStorageKey, str);
+            _appDataStorageHelper.Save<string>(_recentSamplesStorageKey, str);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Service used to store data.
     /// </summary>
-    [Obsolete("IObjectStorageHelper is deprecated. Please use IDictionaryStorageHelper and IFileStorageHelper interfaces instead.")]
+    [Obsolete("IObjectStorageHelper is deprecated. Please use ISettingsStorageHelper and IFileStorageHelper interfaces instead.")]
     public interface IObjectStorageHelper
     {
         /// <summary>
