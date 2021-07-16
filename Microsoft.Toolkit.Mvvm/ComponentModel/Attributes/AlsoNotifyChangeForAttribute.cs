@@ -46,7 +46,13 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     ///     public string Name
     ///     {
     ///         get => name;
-    ///         set => SetProperty(ref name, value);
+    ///         set
+    ///         {
+    ///             if (SetProperty(ref name, value))
+    ///             {
+    ///                 OnPropertyChanged(nameof(FullName));
+    ///             }
+    ///         }
     ///     }
     ///
     ///     public string Surname
@@ -54,7 +60,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     ///         get => surname;
     ///         set
     ///         {
-    ///             if (SetProperty(ref name, value))
+    ///             if (SetProperty(ref surname, value))
     ///             {
     ///                 OnPropertyChanged(nameof(FullName));
     ///             }
