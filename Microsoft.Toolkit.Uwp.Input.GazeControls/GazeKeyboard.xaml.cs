@@ -58,25 +58,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
         }
 
-        private Uri _layoutUri;
-
-        /// <summary>
-        /// Gets or sets the URI of the layout file for the keyboard
-        /// </summary>
-        public Uri LayoutUri
-        {
-            get
-            {
-                return _layoutUri;
-            }
-
-            set
-            {
-                _layoutUri = value;
-                _ = LoadLayout(value);
-            }
-        }
-
         /// <summary>
         /// Gets or sets the prediction targets
         /// </summary>

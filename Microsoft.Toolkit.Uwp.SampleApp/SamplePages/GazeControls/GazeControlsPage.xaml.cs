@@ -20,10 +20,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class GazeControlsPage : IXamlRenderListener
     {
-        private const int NUM_PREDICTIONS = 3;
         private MediaElement _mediaElement;
         private SpeechSynthesizer _speechSynthesizer;
-        private Button[] _predictions;
         private TextBox _textControl;
         private GazeKeyboard _gazeKeyboard;
         private StorageFolder _layoutsFolder;
@@ -31,7 +29,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public GazeControlsPage()
         {
             this.InitializeComponent();
-            _predictions = new Button[NUM_PREDICTIONS];
             _mediaElement = new MediaElement();
             _speechSynthesizer = new SpeechSynthesizer();
         }

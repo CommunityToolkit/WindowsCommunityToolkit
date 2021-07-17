@@ -145,8 +145,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             GazeInput.SetMaxDwellRepeatCount(this, 2);
 
-            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
-            GazeKeyboard.LayoutUri = uri;
             GazeKeyboard.Target = FilenameTextbox;
 
             var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
