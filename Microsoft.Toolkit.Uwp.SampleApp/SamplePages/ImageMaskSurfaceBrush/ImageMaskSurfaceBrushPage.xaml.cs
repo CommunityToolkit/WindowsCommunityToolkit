@@ -40,6 +40,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             MaskImages.ItemsSource = _maskImages.Keys;
+
+            // Select the first Image as mask
             MaskImages.SelectedIndex = 0;
 
             _targetImages = new Dictionary<string, string>
@@ -51,6 +53,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             TargetImages.ItemsSource = _targetImages.Keys;
+
+            // Select the first Image as target image.
             TargetImages.SelectedIndex = 0;
         }
 
@@ -62,14 +66,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            try
-            {
-                MaskImageBrush.Source = _maskImages[image];
-            }
-            catch (Exception ex)
-            {
-                var msg = ex.Message;
-            }
+            MaskImageBrush.Source = _maskImages[image];
         }
 
         private void OnTargetImageChanged(object sender, SelectionChangedEventArgs e)
@@ -80,26 +77,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            try
-            {
-                TargetImageBrush.Source = _targetImages[image];
-            }
-            catch (Exception ex)
-            {
-                var msg = ex.Message;
-            }
+            TargetImageBrush.Source = _targetImages[image];
         }
 
         private void OnBlurRadiusChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            try
-            {
-                MaskImageOptions.BlurRadius = e.NewValue;
-            }
-            catch (Exception ex)
-            {
-                var msg = ex.Message;
-            }
+            MaskImageOptions.BlurRadius = e.NewValue;
         }
     }
 }
