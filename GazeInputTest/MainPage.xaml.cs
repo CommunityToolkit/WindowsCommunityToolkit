@@ -3,8 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.Input.GazeControls;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Windows.ApplicationModel.Core;
+using Windows.Media.SpeechSynthesis;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -17,14 +21,32 @@ namespace GazeInputTest
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private StorageFolder _layoutsFolder;
+        private MediaElement _mediaElement;
+        private SpeechSynthesizer _speechSynthesizer;
+
         public MainPage()
         {
             this.InitializeComponent();
 
             ShowCursor.IsChecked = GazeInput.GetIsCursorVisible(this);
 
+            _mediaElement = new MediaElement();
+            _speechSynthesizer = new SpeechSynthesizer();
+
             GazeInput.IsDeviceAvailableChanged += GazeInput_IsDeviceAvailableChanged;
             GazeInput_IsDeviceAvailableChanged(null, null);
+            Loaded += this.OnMainPageLoaded;
+        }
+
+        private async void OnMainPageLoaded(object sender, RoutedEventArgs e)
+        {
+            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/MinAAC.xaml");
+            var layoutFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            _layoutsFolder = await layoutFile.GetParentAsync();
+            await GazeKeyboard.TryLoadLayoutAsync(layoutFile);
+            GazeKeyboard.Target = TheTextBox;
+            GazeKeyboard.PredictionTargets = new Button[] { Prediction0, Prediction1, Prediction2 };
         }
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
@@ -76,7 +98,7 @@ namespace GazeInputTest
             e.Handled = true;
         }
 
-        private async void SpawnClicked(object sender, RoutedEventArgs e)
+        private async void OnSpawnClicked(object sender, RoutedEventArgs e)
         {
             var newView = CoreApplication.CreateNewView();
             var newViewId = 0;
@@ -97,15 +119,63 @@ namespace GazeInputTest
             bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
         }
 
-        private async void DialogClicked(object sender, RoutedEventArgs e)
+        private async void OnChangeLayout(object sender, RoutedEventArgs e)
         {
-            var dialog = new ContentDialog
+            var picker = new GazeFileOpenPicker();
+            var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+            picker.Favorites = new List<StorageFolder>();
+            picker.Favorites.Add(_layoutsFolder);
+            picker.Favorites.Add(library.SaveFolder);
+            picker.FileTypeFilter.Add(".xaml");
+            picker.CurrentFolder = library.SaveFolder;
+            await picker.ShowAsync();
+            var file = picker.SelectedItem;
+            if (file != null)
             {
-                Title = "Sample Dialog",
-                Content = "This is an example content dialog",
-                CloseButtonText = "Close"
-            };
-            await dialog.ShowAsync();
+                await GazeKeyboard.TryLoadLayoutAsync(file);
+            }
+        }
+
+        private async void OnOpenFile(object sender, RoutedEventArgs e)
+        {
+            var picker = new GazeFileOpenPicker();
+            var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+            picker.FileTypeFilter.Add(".txt");
+            picker.CurrentFolder = library.SaveFolder;
+            await picker.ShowAsync();
+            var file = picker.SelectedItem;
+            if (file != null)
+            {
+                TheTextBox.Text = await FileIO.ReadTextAsync(file);
+            }
+        }
+
+        private async void OnSaveFile(object sender, RoutedEventArgs e)
+        {
+            var picker = new GazeFileSavePicker();
+            var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+            picker.FileTypeFilter.Add(".txt");
+            picker.CurrentFolder = library.SaveFolder;
+            await picker.ShowAsync();
+            var file = picker.SelectedItem;
+            if (file != null)
+            {
+                await FileIO.WriteTextAsync(file, TheTextBox.Text);
+            }
+        }
+
+        private async void OnPlay(object sender, RoutedEventArgs e)
+        {
+            var text = TheTextBox.Text.ToString();
+            var stream = await _speechSynthesizer.SynthesizeTextToStreamAsync(text);
+            _mediaElement.SetSource(stream, stream.ContentType);
+            _mediaElement.AutoPlay = true;
+            _mediaElement.Play();
+        }
+
+        private void OnPauseResume(object sender, RoutedEventArgs e)
+        {
+            GazeKeyboard.IsEnabled = !GazeKeyboard.IsEnabled;
         }
     }
 }

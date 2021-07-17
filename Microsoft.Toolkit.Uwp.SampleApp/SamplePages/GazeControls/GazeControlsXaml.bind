@@ -70,9 +70,9 @@
       <Button x:Name="Prediction1" Height="100" MinWidth="300" Style="{StaticResource Alpha}" />
       <Button x:Name="Prediction2" Height="100" MinWidth="300" Style="{StaticResource Alpha}" />
     </StackPanel>
-    <gc:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="2"  Grid.Column="0" 
-                     LayoutUri="ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/MinAAC.xaml"/>
+    <gc:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="2"  Grid.Column="0" />
     <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center">
+      <Button x:Name="ChangeLayout" Content="Change Layout..." Style="{StaticResource Alpha}" Click="OnChangeLayout"/>
       <Button x:Name="FileOpenButton" Content="Open File..." Style="{StaticResource Alpha}" Click="OnFileOpen"/>
       <Button x:Name="FileSaveButton" Content="Save File..." Style="{StaticResource Alpha}" Click="OnFileSave"/>
     </StackPanel>

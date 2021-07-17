@@ -2,6 +2,7 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap mp">
 
   <Identity
@@ -42,6 +43,11 @@
   </Applications>
 
   <Capabilities>
+    <uap:Capability Name="documentsLibrary"/>
+    <uap:Capability Name="musicLibrary"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <uap:Capability Name="videosLibrary"/>
+    <rescap:Capability Name="inputInjectionBrokered" />
     <Capability Name="internetClient" />
     <DeviceCapability Name="gazeInput" />
   </Capabilities>
