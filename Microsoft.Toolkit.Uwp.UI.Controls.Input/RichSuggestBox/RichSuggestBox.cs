@@ -277,11 +277,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
+
                 case SelectionType.Normal:
                     if ((range.StartPosition <= selection.StartPosition && selection.EndPosition < range.EndPosition) ||
                         (range.StartPosition < selection.StartPosition && selection.EndPosition <= range.EndPosition))
                     {
                         selection.Expand(TextRangeUnit.Link);
+                        InvokeTokenSelected(selection);
                     }
 
                     break;
