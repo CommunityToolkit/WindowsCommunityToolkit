@@ -99,6 +99,5 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             get { return (StorageItemThumbnail)GetValue(StorageThumbnailProperty); }
             set { SetValue(StorageThumbnailProperty, value); }
         }
-
     }
 }

@@ -42,35 +42,44 @@ public sealed partial class GazeControlsPage : IXamlRenderListener
 
     private async void OnFileOpen(object sender, RoutedEventArgs e)
     {
-        var file = await ShowFilePicker(false);
-        _textControl.Text = await FileIO.ReadTextAsync(file);
+        var picker = new GazeFileOpenPicker();
+        var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+        picker.FileTypeFilter.Add(".txt");
+        picker.CurrentFolder = library.SaveFolder;
+        await picker.ShowAsync();
+        if (picker.SelectedItem != null)
+        {
+            _textControl.Text = await FileIO.ReadTextAsync(picker.SelectedItem);
+        }
     }
 
     private async void OnFileSave(object sender, RoutedEventArgs e)
     {
-        var file = await ShowFilePicker(true);
-        await FileIO.WriteTextAsync(file, _textControl.Text);
+        var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+        var picker = new GazeFileSavePicker();
+        picker.FileTypeFilter.Add(".txt");
+        picker.CurrentFolder = library.SaveFolder;
+        await picker.ShowAsync();
+        if (picker.SelectedItem != null)
+        {
+            await FileIO.WriteTextAsync(picker.SelectedItem, _textControl.Text);
+        }
     }
 
-    private async Task<StorageFile> ShowFilePicker(bool saveMode)
+    private async void OnChangeLayout(object sender, RoutedEventArgs e)
     {
-        GazeFilePicker picker;
-        if (saveMode)
-        {
-            picker = new GazeFileSavePicker();
-        }
-        else
-        {
-            picker = new GazeFileOpenPicker();
-        }
-
+        var picker = new GazeFileOpenPicker();
         var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+        picker.Favorites = new List<StorageFolder>();
+        picker.Favorites.Add(_layoutsFolder);
+        picker.Favorites.Add(library.SaveFolder);
+        picker.FileTypeFilter.Add(".xaml");
         picker.CurrentFolder = library.SaveFolder;
-        picker.FileTypeFilter.Add(".txt");
-        picker.FileTypeFilter.Add(".html");
-        picker.FileTypeFilter.Add(".log");
-        picker.SaveMode = saveMode;
         await picker.ShowAsync();
-        return picker.SelectedItem;
+        var file = picker.SelectedItem;
+        if (file != null)
+        {
+            await _gazeKeyboard.TryLoadLayoutAsync(file);
+        }
     }
 }

@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             _resourceLoader = ResourceLoader.GetForViewIndependentUse(resourcePath);
         }
 
-        private void OnGazeFilePickerLoaded(object sender, RoutedEventArgs e)
+        private async void OnGazeFilePickerLoaded(object sender, RoutedEventArgs e)
         {
             Button0 = Col0Button;
             Button1 = Col1Button;
@@ -145,9 +145,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             GazeInput.SetMaxDwellRepeatCount(this, 2);
 
-            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
-            GazeKeyboard.LayoutUri = uri;
             GazeKeyboard.Target = FilenameTextbox;
+
+            var uri = new Uri($"ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/FilenameEntry.xaml");
+            var layoutFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            await GazeKeyboard.TryLoadLayoutAsync(layoutFile);
 
             var dialogSpace = this.FindDescendant("DialogSpace") as Grid;
             var commandSpace = this.FindDescendant("CommandSpace") as Grid;

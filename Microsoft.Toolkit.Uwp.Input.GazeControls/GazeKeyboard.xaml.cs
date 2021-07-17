@@ -58,25 +58,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
         }
 
-        private Uri _layoutUri;
-
-        /// <summary>
-        /// Gets or sets the URI of the layout file for the keyboard
-        /// </summary>
-        public Uri LayoutUri
-        {
-            get
-            {
-                return _layoutUri;
-            }
-
-            set
-            {
-                _layoutUri = value;
-                _ = LoadLayout(value);
-            }
-        }
-
         /// <summary>
         /// Gets or sets the prediction targets
         /// </summary>
@@ -139,14 +120,13 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// <summary>
         /// Loads the given keyboard layout from a file
         /// </summary>
-        /// <param name="uri"> Uri of the layout file</param>
+        /// <param name="layoutFile"> A XAML file that contains the layout of the keyboard</param>
         /// <returns>Task</returns>
-        private async Task LoadLayout(Uri uri)
+        public async Task TryLoadLayoutAsync(StorageFile layoutFile)
         {
             try
             {
-                var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-                var xaml = await FileIO.ReadTextAsync(storageFile);
+                var xaml = await FileIO.ReadTextAsync(layoutFile);
                 var xamlNode = XamlReader.Load(xaml) as FrameworkElement;
 
                 foreach (var button in xamlNode.FindDescendants().OfType<ButtonBase>())
@@ -374,10 +354,11 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
 
             // Injecting too many keys at once can result in ArgumentException.
             // So inject a max of 8 keys at a time. 8 seems to work for now.
-            for (int i = 0; i < keys.Count; i += 8)
+            for (int i = 0; i < keys.Count; )
             {
                 var count = Math.Min(8, keys.Count - i);
                 _injector.InjectKeyboardInput(keys.GetRange(i, count));
+                i += count;
             }
         }
 
@@ -388,7 +369,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             {
                 replaceSegment = _wordsSegmenter.GetTokenAt(Target.Text, (uint)Target.SelectionStart);
             }
-            else if (Target.Text[Target.Text.Length - 1] != ' ')
+            else if (Target.Text.Length > 0 && Target.Text[Target.Text.Length - 1] != ' ')
             {
                 var tokens = _wordsSegmenter.GetTokens(Target.Text);
                 if (tokens == null || tokens.Count == 0)
@@ -405,7 +386,10 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             }
 
             string prediction = (sender as Button).Content.ToString();
-            InjectString(prediction, true);
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(prediction);
+            Clipboard.SetContent(dataPackage);
+            Target.PasteFromClipboard();
             UpdatePredictions();
         }
 

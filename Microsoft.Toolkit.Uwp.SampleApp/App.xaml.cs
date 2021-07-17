@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Microsoft.Toolkit.Uwp.SampleApp.Styles;
@@ -79,6 +80,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             SystemInformation.Instance.TrackAppUse(e);
+
+            GazeInput.Interaction = Interaction.Enabled;
         }
 
         /// <summary>

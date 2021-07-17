@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Input.GazeControls;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
@@ -19,17 +20,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class GazeControlsPage : IXamlRenderListener
     {
-        private const int NUM_PREDICTIONS = 3;
         private MediaElement _mediaElement;
         private SpeechSynthesizer _speechSynthesizer;
-        private Button[] _predictions;
         private TextBox _textControl;
         private GazeKeyboard _gazeKeyboard;
+        private StorageFolder _layoutsFolder;
 
         public GazeControlsPage()
         {
             this.InitializeComponent();
-            _predictions = new Button[NUM_PREDICTIONS];
             _mediaElement = new MediaElement();
             _speechSynthesizer = new SpeechSynthesizer();
         }
@@ -38,15 +37,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             GazeInput.IsDeviceAvailableChanged += GazeInput_IsDeviceAvailableChanged;
 
-            _predictions[0] = control.FindChild("Prediction0") as Button;
-            _predictions[1] = control.FindChild("Prediction1") as Button;
-            _predictions[2] = control.FindChild("Prediction2") as Button;
+            var predictions = new Button[3];
+            predictions[0] = control.FindChild("Prediction0") as Button;
+            predictions[1] = control.FindChild("Prediction1") as Button;
+            predictions[2] = control.FindChild("Prediction2") as Button;
             _textControl = control.FindChild("TextControl") as TextBox;
             _gazeKeyboard = control.FindChild("GazeKeyboard") as GazeKeyboard;
-            _gazeKeyboard = control.FindChild("GazeKeyboard") as GazeKeyboard;
+            var button = control.FindChild("ChangeLayout") as Button;
+
+            button.Click += OnChangeLayout;
 
             _gazeKeyboard.Target = _textControl;
-            _gazeKeyboard.PredictionTargets = _predictions;
+            _gazeKeyboard.PredictionTargets = predictions;
+
+            var uri = new Uri("ms-appx:///Microsoft.Toolkit.Uwp.Input.GazeControls/KeyboardLayouts/MinAAC.xaml");
+            var layoutFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            _layoutsFolder = await layoutFile.GetParentAsync();
+            await _gazeKeyboard.TryLoadLayoutAsync(layoutFile);
 
             var speakButton = control.FindChild("SpeakButton") as Button;
             speakButton.Click += OnSpeak;
@@ -71,41 +78,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void OnFileOpen(object sender, RoutedEventArgs e)
         {
-            var file = await ShowFilePicker(false);
-            if (file != null)
+            var picker = new GazeFileOpenPicker();
+            var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+            picker.FileTypeFilter.Add(".txt");
+            picker.CurrentFolder = library.SaveFolder;
+            await picker.ShowAsync();
+            if (picker.SelectedItem != null)
             {
-                _textControl.Text = await FileIO.ReadTextAsync(file);
+                _textControl.Text = await FileIO.ReadTextAsync(picker.SelectedItem);
             }
         }
 
         private async void OnFileSave(object sender, RoutedEventArgs e)
         {
-            var file = await ShowFilePicker(true);
-            if (file != null)
+            var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
+            var picker = new GazeFileSavePicker();
+            picker.FileTypeFilter.Add(".txt");
+            picker.CurrentFolder = library.SaveFolder;
+            await picker.ShowAsync();
+            if (picker.SelectedItem != null)
             {
-                await FileIO.WriteTextAsync(file, _textControl.Text);
+                await FileIO.WriteTextAsync(picker.SelectedItem, _textControl.Text);
             }
         }
 
-        private async Task<StorageFile> ShowFilePicker(bool saveMode)
+        private async void OnChangeLayout(object sender, RoutedEventArgs e)
         {
-            GazeFilePicker picker;
-            if (saveMode)
-            {
-                picker = new GazeFileSavePicker();
-            }
-            else
-            {
-                picker = new GazeFileOpenPicker();
-            }
-
+            var picker = new GazeFileOpenPicker();
             var library = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Documents);
-            picker.FileTypeFilter.Add(".txt");
-            picker.FileTypeFilter.Add(".html");
-            picker.FileTypeFilter.Add(".log");
+            picker.Favorites = new List<StorageFolder>();
+            picker.Favorites.Add(_layoutsFolder);
+            picker.Favorites.Add(library.SaveFolder);
+            picker.FileTypeFilter.Add(".xaml");
             picker.CurrentFolder = library.SaveFolder;
             await picker.ShowAsync();
-            return picker.SelectedItem;
+            var file = picker.SelectedItem;
+            if (file != null)
+            {
+                await _gazeKeyboard.TryLoadLayoutAsync(file);
+            }
         }
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)

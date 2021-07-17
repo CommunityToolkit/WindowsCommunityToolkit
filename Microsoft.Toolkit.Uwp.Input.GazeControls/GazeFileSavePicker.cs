@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             _newFolderButton.Visibility = visibility;
             _enterFilenameButton.Visibility = visibility;
 
-            _newFolderButton.Content = GetString("NewFolder"); ;
+            _newFolderButton.Content = GetString("NewFolder");
             _enterFilenameButton.Content = GetString("EnterFilename");
             SelectButton.Content = GetString("Save");
             Button3.Content = GetString("Cancel");
