@@ -69,6 +69,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             target.Position = format.Position;
         }
 
+        private static void ApplyFormat(ITextRange dest, ITextCharacterFormat format)
+        {
+            var target = dest.CharacterFormat;
+            target.BackgroundColor = format.BackgroundColor;
+            target.ForegroundColor = format.ForegroundColor;
+            target.Bold = format.Bold;
+            target.Italic = format.Italic;
+            target.FontStretch = format.FontStretch;
+            target.FontStyle = format.FontStyle;
+            target.Name = format.Name;
+            target.Kerning = format.Kerning;
+            target.Strikethrough = format.Strikethrough;
+            target.Size = format.Size;
+            target.Outline = format.Outline;
+            target.Weight = format.Weight;
+            target.Spacing = format.Spacing;
+            target.Subscript = format.Subscript;
+            target.Superscript = format.Superscript;
+            target.Position = format.Position;
+        }
+
         private static void ForEachLinkInDocument(ITextDocument document, Action<ITextRange> action)
         {
             var range = document.GetRange(0, 0);

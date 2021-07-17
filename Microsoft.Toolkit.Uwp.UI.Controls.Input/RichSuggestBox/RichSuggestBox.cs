@@ -244,7 +244,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TextDocument.BeginUndoGroup();
 
             var selection = TextDocument.Selection;
-            if (selection.Type != SelectionType.InsertionPoint)
+
+            if (selection.Type != SelectionType.InsertionPoint && selection.Type != SelectionType.Normal)
             {
                 return;
             }
@@ -256,31 +257,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (range.StartPosition < selection.StartPosition && selection.EndPosition < range.EndPosition)
+            switch (selection.Type)
             {
-                // Snap selection to token on click
-                selection.SetRange(range.StartPosition, range.EndPosition);
-                InvokeTokenSelected(selection);
-            }
-            else if (selection.StartPosition == range.StartPosition)
-            {
-                // Reset formatting if selection is sandwiched between 2 adjacent links
-                // or if the link is at the beginning of the document
-                range.MoveStart(TextRangeUnit.Link, -1);
-                if (selection.StartPosition != range.StartPosition || selection.StartPosition == 0)
-                {
-                    ResetFormat(selection);
-                }
+                case SelectionType.InsertionPoint:
+                    if (range.StartPosition < selection.StartPosition && selection.EndPosition < range.EndPosition)
+                    {
+                        // Snap selection to token on click
+                        selection.Expand(TextRangeUnit.Link);
+                        InvokeTokenSelected(selection);
+                    }
+                    else if (selection.StartPosition == range.StartPosition)
+                    {
+                        // Reset formatting if selection is sandwiched between 2 adjacent links
+                        range.MoveStart(TextRangeUnit.Link, -1);
+                        if (selection.StartPosition != range.StartPosition)
+                        {
+                            ResetFormat(selection);
+                        }
+                    }
+
+                    break;
+                case SelectionType.Normal:
+                    if ((range.StartPosition <= selection.StartPosition && selection.EndPosition < range.EndPosition) ||
+                        (range.StartPosition < selection.StartPosition && selection.EndPosition <= range.EndPosition))
+                    {
+                        selection.Expand(TextRangeUnit.Link);
+                    }
+
+                    break;
             }
         }
 
         private async void RichEditBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             SelectionChanged?.Invoke(this, e);
-            var selection = TextDocument.Selection;
-            _tokenAtStart = selection.StartPosition == 0 &&
-                            selection.Type == SelectionType.Normal &&
-                            _tokens.ContainsKey(selection.GetClone().Link);
+            CheckTokenAtStart();
 
             // During text composition changing (e.g. user typing with an IME),
             // SelectionChanged event is fired multiple times with each keystroke.
@@ -363,8 +374,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _ignoreChange = true;
-            ValidateTokensInDocument();
             ResetFormatAfterTokenRemoveAtStart();
+            ValidateTokensInDocument();
             TextDocument.EndUndoGroup();
             TextDocument.BeginUndoGroup();
             _ignoreChange = false;
@@ -458,6 +469,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _hoveringToken = token;
+        }
+
+        private void CheckTokenAtStart()
+        {
+            var selection = TextDocument.Selection;
+            var range = selection.GetClone();
+            range.Expand(TextRangeUnit.Link);
+            _tokenAtStart = _tokens.ContainsKey(range.Link) && (selection.StartPosition == 0 || selection.EndPosition == 0);
         }
 
         private async Task RequestSuggestionsAsync(ITextRange range = null)
@@ -648,27 +667,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var range = TextDocument.Selection.GetClone();
                 range.SetRange(0, range.EndPosition);
-                this.ResetFormat(range);
+                ResetFormat(range);
+                ResetFormat(TextDocument.Selection);
                 _tokenAtStart = false;
             }
         }
 
         private void ResetFormat(ITextRange range)
         {
-            // Need to reset both Link and CharacterFormat or the token id will still persist in the RTF text.
             var defaultFormat = TextDocument.GetDefaultCharacterFormat();
-            var selection = TextDocument.Selection;
-            if (!string.IsNullOrEmpty(range.Link))
+
+            // Need to reset both Link and CharacterFormat or the token id will still persist in the RTF text.
+            if (!string.IsNullOrEmpty(range.GetClone().Link))
             {
                 range.Link = string.Empty;
             }
 
-            range.CharacterFormat = defaultFormat;
-
-            if (selection.Type == SelectionType.InsertionPoint && selection.EndPosition == range.EndPosition)
-            {
-                selection.CharacterFormat = defaultFormat;
-            }
+            ApplyFormat(range, defaultFormat);
         }
 
         private void ConditionallyLoadElement(object property, string elementName)
