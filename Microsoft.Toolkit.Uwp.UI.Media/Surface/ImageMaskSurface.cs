@@ -11,6 +11,9 @@ using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
+    /// <summary>
+    /// Class for rendering a mask, using an Image's alpha values, onto an ICompositionSurface.
+    /// </summary>
     internal sealed class ImageMaskSurface : IImageMaskSurface
     {
         private readonly object _surfaceLock;
@@ -21,72 +24,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private bool _raiseLoadCompletedEvent;
 
         /// <summary>
-        /// Event that is raised when the image has been downloaded,
-        /// decoded and loaded to the underlying IImageSurface. This
-        /// event fires regardless of success or failure.
+        /// Event that is raised when the image has been downloaded, decoded and loaded to the underlying IImageSurface.
+        /// This event fires regardless of success or failure.
         /// </summary>
         public event TypedEventHandler<IImageSurface, ImageSurfaceLoadStatus> LoadCompleted;
 
-        /// <summary>
-        /// Gets the CompositionGenerator
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionGenerator Generator => _generator;
 
-        /// <summary>
-        /// Gets the Surface of the IImageMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionSurface Surface => _surface;
 
-        /// <summary>
-        /// Gets the Uri of the image to be loaded onto the IImageSurface
-        /// </summary>
+        /// <inheritdoc/>
         public Uri Uri => _uri;
 
-        /// <summary>
-        /// Gets the CanvasBitmap representing the loaded image
-        /// </summary>
+        /// <inheritdoc/>
         public CanvasBitmap SurfaceBitmap => _canvasBitmap;
 
-        /// <summary>
-        /// Gets the IImageMaskSurface Size
-        /// </summary>
+        /// <inheritdoc/>
         public Size Size { get; private set; }
 
-        /// <summary>
-        /// Gets the image's resize and alignment options in the allocated space.
-        /// </summary>
+        /// <inheritdoc/>
         public ImageSurfaceOptions Options { get; private set; }
 
-        /// <summary>
-        /// Gets the size of the decoded image in physical pixels.
-        /// </summary>
+        /// <inheritdoc/>
         public Size DecodedPhysicalSize { get; private set; }
 
-        /// <summary>
-        /// Gets the size of the decoded image in device independent pixels.
-        /// </summary>
+        /// <inheritdoc/>
         public Size DecodedSize { get; private set; }
 
-        /// <summary>
-        /// Gets the status whether the image was loaded successfully or not.
-        /// </summary>
+        /// <inheritdoc/>
         public ImageSurfaceLoadStatus Status { get; private set; }
 
-        /// <summary>
-        /// Gets the padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.
-        /// </summary>
+        /// <inheritdoc/>
         public Thickness MaskPadding { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageMaskSurface"/> class.
-        /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
         /// <param name="uri">Uri of the image to be loaded onto the IImageMaskSurface.</param>
-        /// <param name="size">Size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="size">Size of the IImageMaskSurface.</param>
+        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public ImageMaskSurface(ICompositionGeneratorInternal generator, Uri uri, Size size, Thickness padding, ImageSurfaceOptions options)
         {
@@ -115,11 +94,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="ImageMaskSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
         /// <param name="surfaceBitmap">The CanvasBitmap whose alpha values will be used to create the Mask.</param>
-        /// <param name="size">Size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="size">Size of the IImageMaskSurface.</param>
+        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public ImageMaskSurface(ICompositionGeneratorInternal generator, CanvasBitmap surfaceBitmap, Size size, Thickness padding, ImageSurfaceOptions options)
         {
@@ -153,19 +131,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _generator.DeviceReplaced += OnDeviceReplaced;
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Redraw()
         {
             // Reload the IImageMaskSurface
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface with the given image options.
-        /// </summary>
-        /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(ImageSurfaceOptions options)
         {
             // Set the image options
@@ -175,11 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the given padding and image options.
-        /// </summary>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(Thickness padding, ImageSurfaceOptions options)
         {
             // Set the mask padding
@@ -192,11 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface using the given image options.
-        /// </summary>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, ImageSurfaceOptions options)
         {
             // Resize if required
@@ -216,13 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface using the given padding and image options.
-        /// </summary>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, Thickness padding, ImageSurfaceOptions options)
         {
             // Resize if required
@@ -245,10 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of image in the given imageSurface.
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface)
         {
             if (imageSurface != null)
@@ -262,11 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface (using the alpha values of image in the given imageSurface).
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, ImageSurfaceOptions options)
         {
             if (imageSurface != null)
@@ -280,23 +232,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface (using the alpha values of image in the given imageSurface).
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, Size size, ImageSurfaceOptions options)
         {
             Redraw(imageSurface?.SurfaceBitmap, size, MaskPadding, options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of the image in the given IImageSurface with the given padding.
-        /// </summary>
-        /// <param name="imageSurface">ImageSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, Thickness padding)
         {
             if (imageSurface != null)
@@ -310,14 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of the image in the given IImageSurface with the given padding
-        /// using the given options.
-        /// </summary>
-        /// <param name="imageSurface">ImageSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, Thickness padding, ImageSurfaceOptions options)
         {
             if (imageSurface != null)
@@ -331,24 +266,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface using the alpha values of the image in the given IImageSurface
-        /// with the given padding and options.
-        /// </summary>
-        /// <param name="imageSurface">ImageSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             Redraw(imageSurface?.SurfaceBitmap, size, padding, options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of the image in the given IImageMaskSurface.
-        /// </summary>
-        /// <param name="imageMaskSurface">IImageMaskSurface whose image's alpha values are to be used to create the mask.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageMaskSurface imageMaskSurface)
         {
             if (imageMaskSurface != null)
@@ -362,13 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of the image in the given IImageMaskSurface with the given padding
-        /// and options.
-        /// </summary>
-        /// <param name="imageMaskSurface">IImageMaskSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageMaskSurface imageMaskSurface, Thickness padding)
         {
             if (imageMaskSurface != null)
@@ -382,11 +300,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of the image in the given IImageMaskSurface with the given options.
-        /// </summary>
-        /// <param name="imageMaskSurface">IImageMaskSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageMaskSurface imageMaskSurface, ImageSurfaceOptions options)
         {
             if (imageMaskSurface != null)
@@ -400,14 +314,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the alpha values of the image in the given IImageMaskSurface using the given padding
-        /// and options.
-        /// </summary>
-        /// <param name="imageMaskSurface">IImageMaskSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageMaskSurface imageMaskSurface, Thickness padding, ImageSurfaceOptions options)
         {
             if (imageMaskSurface != null)
@@ -421,83 +328,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface using the alpha values of the image in the given IImageMaskSurface
-        /// with the given padding and options.
-        /// </summary>
-        /// <param name="imageMaskSurface">IImageMaskSurface whose image's alpha values are to be used to create the mask.</param>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">Describes the image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageMaskSurface imageMaskSurface, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             Redraw(imageMaskSurface?.SurfaceBitmap, size, padding, options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the given CanvasBitmap's alpha values.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap)
         {
             Redraw(surfaceBitmap, Size, MaskPadding, Options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the given CanvasBitmap's alpha values with the given padding.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, Thickness padding)
         {
             Redraw(surfaceBitmap, Size, padding, Options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the given CanvasBitmap's alpha values and the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, ImageSurfaceOptions options)
         {
             Redraw(surfaceBitmap, Size, MaskPadding, options);
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface using the given CanvasBitmap's alpha values and the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, Size size, ImageSurfaceOptions options)
         {
             Redraw(surfaceBitmap, size, MaskPadding, options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface using the given CanvasBitmap's alpha values with the given padding
-        /// using the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, Thickness padding, ImageSurfaceOptions options)
         {
             Redraw(surfaceBitmap, Size, padding, options);
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageMaskSurface using the given CanvasBitmap's alpha values with the given padding
-        /// using the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             if (_canvasBitmap != surfaceBitmap)
@@ -552,63 +419,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface by loading image from the new Uri
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded on to the image surface.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri)
         {
             return RedrawAsync(uri, Size, MaskPadding, Options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface by loading image from the new Uri and image options
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded on to the image surface.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri, ImageSurfaceOptions options)
         {
             return RedrawAsync(uri, Size, MaskPadding, options);
         }
 
-        /// <summary>
-        /// Redraws the IImageMaskSurface by loading image from the new Uri and image options
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded on to the image surface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri, Thickness padding, ImageSurfaceOptions options)
         {
             return RedrawAsync(uri, Size, padding, options);
         }
 
-        /// <summary>
-        /// Resizes the IImageMaskSurface with the given size and redraws the IImageMaskSurface by loading
-        /// image from the new Uri.
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageMaskSurface.</param>
-        /// <param name="size">New size of the IImageMaskSurface</param>
-        /// <param name="options">The image's resize and alignment options in the allocated space.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri, Size size, ImageSurfaceOptions options)
         {
             return RedrawAsync(uri, size, MaskPadding, options);
         }
 
-        /// <summary>
-        /// Resizes the IImageMaskSurface with the given size and loads the image from the new Uri and uses its
-        /// alpha values to redraw the IImageMaskSurface with the given padding using the given options.
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageMaskSurface.</param>
-        /// <param name="size">New size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public async Task RedrawAsync(Uri uri, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             // If the given Uri differs from the previously stored Uri or if the ImageSurface was
@@ -644,32 +479,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             await RedrawSurfaceAsync();
         }
 
-        /// <summary>
-        /// Resizes the IImageMaskSurface to the new size.
-        /// </summary>
-        /// <param name="size">New size of the IImageMaskSurface</param>
+        /// <inheritdoc/>
         public void Resize(Size size)
         {
             Resize(size, MaskPadding, Options);
         }
 
-        /// <summary>
-        /// Resizes the IImageMaskSurface to the new size using the given options.
-        /// </summary>
-        /// <param name="size">New size of the IImageMaskSurface</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Resize(Size size, ImageSurfaceOptions options)
         {
             Resize(size, MaskPadding, options);
         }
 
-        /// <summary>
-        /// Resizes the IImageMaskSurface to the new size and redraws it with the given padding using the given options.
-        /// </summary>
-        /// <param name="size">New size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Resize(Size size, Thickness padding, ImageSurfaceOptions options)
         {
             // Set the mask padding
@@ -692,9 +514,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Disposes the resources used by the IImageMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             _surface?.Dispose();
@@ -724,8 +544,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles the DeviceReplaced event
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">object</param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">object.</param>
         private async void OnDeviceReplaced(object sender, object e)
         {
             // Recreate the ImageSurface
@@ -736,7 +556,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageMaskSurface synchronously
+        /// Helper class to redraw the IImageMaskSurface synchronously.
         /// </summary>
         private void RedrawSurface()
         {
@@ -753,7 +573,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageMaskSurface asynchronously
+        /// Helper class to redraw the IImageMaskSurface asynchronously.
         /// </summary>
         /// <returns>Task</returns>
         private async Task RedrawSurfaceAsync()

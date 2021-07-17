@@ -126,6 +126,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         void Redraw(CanvasBitmap surfaceBitmap, Size size, ImageSurfaceOptions options);
 
         /// <summary>
+        /// Redraws the IImageSurface or IImageMaskSurface by loading image from the new Uri.
+        /// </summary>
+        /// <param name="uri">Uri of the image to be loaded on to the surface.</param>
+        /// <returns>Task</returns>
+        Task RedrawAsync(Uri uri);
+
+        /// <summary>
         /// Redraws the IImageSurface or IImageMaskSurface by loading image from the new Uri and applying the image options.
         /// </summary>
         /// <param name="uri">Uri of the image to be loaded on to the surface.</param>

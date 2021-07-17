@@ -43,8 +43,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Target property.
         /// </summary>
-        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometryMaskSurfaceBrush = (GeometryMaskSurfaceBrush)d;
@@ -99,8 +99,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Mask property.
         /// </summary>
-        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometryMaskSurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnMaskChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometryMaskSurfaceBrush = (GeometryMaskSurfaceBrush)d;
@@ -189,10 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Method that is called whenever the dependency properties of the Brush changes
+        /// Method that is called whenever the dependency properties of the Brush changes.
         /// </summary>
-        /// <param name="d">The object whose property has changed</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="d">The object whose property has changed.</param>
+        /// <param name="e">Event arguments.</param>
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (GeometryMaskSurfaceBrush)d;

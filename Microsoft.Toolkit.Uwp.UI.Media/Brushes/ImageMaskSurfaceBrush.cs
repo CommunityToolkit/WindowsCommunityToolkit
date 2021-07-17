@@ -251,13 +251,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 _maskBrush = Window.Current.Compositor.CreateMaskBrush();
                 _maskBrush.Source = Target.Brush;
 
-                RenderSurface = await Generator.CreateImageMaskSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), Padding, ImageOptions ?? ImageSurfaceOptions.Default);
+                RenderSurface = await Generator.CreateImageMaskSurfaceAsync(_uri, new Size(SurfaceWidth, SurfaceHeight), Padding, ImageOptions ?? ImageSurfaceOptions.DefaultImageMaskOptions);
                 _maskBrush.Mask = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
                 CompositionBrush = _maskBrush;
             }
             else
             {
-                ((IImageMaskSurface)RenderSurface)?.Redraw(new Size(SurfaceWidth, SurfaceHeight), Padding, ImageOptions ?? ImageSurfaceOptions.Default);
+                ((IImageMaskSurface)RenderSurface)?.Redraw(new Size(SurfaceWidth, SurfaceHeight), Padding, ImageOptions ?? ImageSurfaceOptions.DefaultImageMaskOptions);
             }
 
             base.OnSurfaceBrushUpdated(createSurface);

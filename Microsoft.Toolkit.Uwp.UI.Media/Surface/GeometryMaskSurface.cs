@@ -60,52 +60,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _generator.DeviceReplaced += OnDeviceReplaced;
         }
 
-        /// <summary>
-        /// Redraws the GeometryMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Redraw()
         {
             // Redraw the mask surface
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometryMaskSurface with the new geometry.
-        /// </summary>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasGeometry geometry)
         {
             Redraw(Size, geometry, Offset);
         }
 
-        /// <summary>
-        /// Redraws the IGeometryMaskSurface with the new geometry
-        /// </summary>
-        /// <param name="geometry">New CanvasGeometry to be applied to the IGeometryMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where the Geometry is rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasGeometry geometry, Vector2 offset)
         {
             Redraw(Size, geometry, offset);
         }
 
-        /// <summary>
-        /// Resizes the GeometryMaskSurface with the given size and redraws the GeometryMaskSurface with the new geometry and fills it either with White color
-        /// (if the MaskMode is True) or with the foreground brush (if the MaskMode is False).
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry)
         {
             Redraw(size, geometry, Offset);
         }
 
-        /// <summary>
-        /// Resizes the IGeometryMaskSurface with the given size and redraws the IGeometryMaskSurface with the new geometry and fills it with White color.
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the IGeometryMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, Vector2 offset)
         {
             if (Size != size)
@@ -127,10 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometryMaskSurface to the new size.
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
+        /// <inheritdoc/>
         public void Resize(Size size)
         {
             // resize the mask surface
@@ -143,9 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Disposes the resources used by the GeometryMaskSurface.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             _surface?.Dispose();

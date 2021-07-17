@@ -12,7 +12,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering custom shaped geometries onto ICompositionSurface
+    /// Class for rendering custom shaped geometries onto ICompositionSurface.
     /// </summary>
     internal sealed class GeometrySurface : IGeometrySurface
     {
@@ -24,52 +24,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private ICanvasBrush _fill;
         private ICanvasBrush _backgroundBrush;
 
-        /// <summary>
-        /// Gets the Surface Generator
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionGenerator Generator => _generator;
 
-        /// <summary>
-        /// Gets the Surface of the GeometrySurface
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionSurface Surface => _surface;
 
-        /// <summary>
-        /// Gets the Geometry of the GeometrySurface
-        /// </summary>
+        /// <inheritdoc/>
         public CanvasGeometry Geometry => _geometry;
 
-        /// <summary>
-        /// Gets the ICanvasStroke with which the Geometry outline is rendered.
-        /// </summary>
+        /// <inheritdoc/>
         public ICanvasStroke Stroke => _stroke;
 
-        /// <summary>
-        /// Gets the Brush with which the Geometry is filled.
-        /// </summary>
+        /// <inheritdoc/>
         public ICanvasBrush Fill => _fill;
 
-        /// <summary>
-        /// Gets the Brush with which the GeometrySurface background is filled.
-        /// </summary>
+        /// <inheritdoc/>
         public ICanvasBrush BackgroundBrush => _backgroundBrush;
 
-        /// <summary>
-        /// Gets the Size of the GeometrySurface
-        /// </summary>
+        /// <inheritdoc/>
         public Size Size { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeometrySurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry of the GeometrySurface</param>
-        /// <param name="stroke">Stroke for the geometry</param>
-        /// <param name="fillColor">Fill color of the geometry</param>
-        /// <param name="backgroundColor">Brush to fill the GeometrySurface background surface which is
-        /// not covered by the geometry</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
+        /// <param name="size">Size of the GeometrySurface.</param>
+        /// <param name="geometry">Geometry of the GeometrySurface.</param>
+        /// <param name="stroke">Stroke for the geometry.</param>
+        /// <param name="fillColor">Fill color of the geometry.</param>
+        /// <param name="backgroundColor">Brush to fill the GeometrySurface background surface which is not covered by the geometry.</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
             _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
@@ -94,13 +79,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="GeometrySurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry of the GeometrySurface</param>
-        /// <param name="stroke">Stroke for the geometry</param>
-        /// <param name="fill">Brush to fill the geometry</param>
-        /// <param name="backgroundBrush">Brush to fill the GeometrySurface background surface which is
-        /// not covered by the geometry</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
+        /// <param name="size">Size of the GeometrySurface.</param>
+        /// <param name="geometry">Geometry of the GeometrySurface.</param>
+        /// <param name="stroke">Stroke for the geometry.</param>
+        /// <param name="fill">Brush to fill the geometry.</param>
+        /// <param name="backgroundBrush">Brush to fill the GeometrySurface background surface which is not covered by the geometry.</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fill, ICanvasBrush backgroundBrush)
         {
             _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
@@ -122,19 +106,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _generator.DeviceReplaced += OnDeviceReplaced;
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Redraw()
         {
             // Redraw the GeometrySurface
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface with the new geometry
-        /// </summary>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasGeometry geometry)
         {
             // Set the new geometry
@@ -144,11 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by outlining the existing geometry with
-        /// the given ICanvasStroke
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke)
         {
             // Set the new stroke
@@ -158,11 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the foreground color.
-        /// </summary>
-        /// <param name="fillColor">Color with which the GeometrySurface geometry is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(Color fillColor)
         {
             // Set the fill
@@ -179,12 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the given fill color and outlining it with the given ICanvasStroke.
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Color with which the geometry is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke, Color fillColor)
         {
             // Set the new stroke
@@ -204,12 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the foreground color and the background with the background color.
-        /// </summary>
-        /// <param name="fillColor">Color with which the GeometrySurface geometry is to be filled</param>
-        /// <param name="backgroundColor">Color with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(Color fillColor, Color backgroundColor)
         {
             // Set the fill
@@ -236,13 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by outlining the existing geometry with the
-        /// given ICanvasStroke, filling it with the fill color and the background with the background color.
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Color with which the geometry is to be filled</param>
-        /// <param name="backgroundColor">Color with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
             // Set the new stroke
@@ -272,11 +227,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the foreground brush.
-        /// </summary>
-        /// <param name="fillBrush">Brush with which the GeometrySurface geometry is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasBrush fillBrush)
         {
             // Set the fill
@@ -286,12 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by outlining the existing geometry with the
-        /// given ICanvasStroke, filling it with the fill brush.
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">Brush with which the geometry is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke, ICanvasBrush fillBrush)
         {
             // Set the new stroke
@@ -304,12 +250,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the foreground brush and the background with the background brush.
-        /// </summary>
-        /// <param name="fillBrush">Brush with which the GeometrySurface geometry is to be filled</param>
-        /// <param name="backgroundBrush">Brush with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // Set the fill
@@ -322,13 +263,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by outlining the existing geometry with the
-        /// given ICanvasStroke, filling it with the fill brush and the background with the background brush.
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">Brush with which the geometry is to be filled</param>
-        /// <param name="backgroundBrush">Brush with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // Set the new stroke
@@ -344,12 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the foreground color and the background with the background brush.
-        /// </summary>
-        /// <param name="fillColor">Color with which the GeometrySurface geometry is to be filled</param>
-        /// <param name="backgroundBrush">Brush with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(Color fillColor, ICanvasBrush backgroundBrush)
         {
             // Set the fill
@@ -369,13 +299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by outlining the existing geometry with the
-        /// given ICanvasStroke, filling it with the fill color and the background with the background brush.
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Color with which the geometry is to be filled</param>
-        /// <param name="backgroundBrush">Brush with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke, Color fillColor, ICanvasBrush backgroundBrush)
         {
             // Set the new stroke
@@ -398,12 +322,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by filling the existing geometry with
-        /// the foreground brush and the background with the background brush.
-        /// </summary>
-        /// <param name="fillBrush">Brush with which the GeometrySurface geometry is to be filled</param>
-        /// <param name="backgroundColor">Color with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasBrush fillBrush, Color backgroundColor)
         {
             // Set the fill
@@ -423,13 +342,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface by outlining the existing geometry with the
-        /// given ICanvasStroke, filling it with the fill brush and the background with the background color.
-        /// </summary>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">Brush with which the geometry is to be filled</param>
-        /// <param name="backgroundColor">Color with which the GeometrySurface background is to be filled</param>
+        /// <inheritdoc/>
         public void Redraw(ICanvasStroke stroke, ICanvasBrush fillBrush, Color backgroundColor)
         {
             // Set the new stroke
@@ -452,11 +365,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface with the new geometry
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry)
         {
             // Resize the GeometrySurface
@@ -472,13 +381,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and outlines it with the given ICanvasStroke.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasStroke stroke)
         {
             // Resize the GeometrySurface
@@ -497,13 +400,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and fills it with the foreground color.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="fillColor">Fill color for the geometry</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, Color fillColor)
         {
             // Resize the GeometrySurface
@@ -529,15 +426,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry, outlines it with the given ICanvasStroke and fills
-        /// it with the fill color.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Fill color for the geometry</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor)
         {
             // Resize the GeometrySurface
@@ -566,15 +455,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and fills it with the foreground color and
-        /// fills the background with the background color.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="fillColor">Fill color for the geometry</param>
-        /// <param name="backgroundColor">Fill color for the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, Color fillColor, Color backgroundColor)
         {
             // Resize the GeometrySurface
@@ -610,16 +491,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry, outlines it with the given ICanvasStroke and fills it with
-        /// the fill color and fills the background with the background color.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Fill color for the geometry</param>
-        /// <param name="backgroundColor">Fill color for the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
             // Resize the GeometrySurface
@@ -658,13 +530,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and fills it with the foreground brush.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="fillBrush">Brush to fill the geometry</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasBrush fillBrush)
         {
             // Resize the GeometrySurface
@@ -683,15 +549,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and fills it with the foreground brush and fills
-        /// the background with the background brush.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="fillBrush">Brush to fill the geometry</param>
-        /// <param name="backgroundBrush">Brush to fill the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             _generator.ResizeDrawingSurface(_surfaceLock, _surface, size);
@@ -712,16 +570,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry, outlines it with the given ICanvasStroke and fills it with the
-        /// fill brush and fills the background with the background brush.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">Brush to fill the geometry</param>
-        /// <param name="backgroundBrush">Brush to fill the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // Resize the GeometrySurface
@@ -746,15 +595,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and fills it with the foreground brush and the background
-        /// with the background color.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="fillBrush">Brush to fill the geometry</param>
-        /// <param name="backgroundColor">Fill color for the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasBrush fillBrush, Color backgroundColor)
         {
             _generator.ResizeDrawingSurface(_surfaceLock, _surface, size);
@@ -782,16 +623,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry, outlines it with the given ICanvasStroke and fills it with
-        /// the fill brush and the background with the background color.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">Brush to fill the geometry</param>
-        /// <param name="backgroundColor">Fill color for the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush, Color backgroundColor)
         {
             // Resize the GeometrySurface
@@ -823,15 +655,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry and fills it with the foreground color and the background
-        /// with the background brush.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="fillColor">Fill color for the geometry</param>
-        /// <param name="backgroundBrush">Brush to fill the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, Color fillColor, ICanvasBrush backgroundBrush)
         {
             _generator.ResizeDrawingSurface(_surfaceLock, _surface, size);
@@ -859,16 +683,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface with the given size and redraws the GeometrySurface
-        /// with the new geometry, outlines it with the given ICanvasStroke and fills it with
-        /// the fill color and the background with the background brush.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Fill color for the geometry</param>
-        /// <param name="backgroundBrush">Brush to fill the GeometrySurface background</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, ICanvasBrush backgroundBrush)
         {
             // Resize the GeometrySurface
@@ -900,10 +715,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GeometrySurface to the new size.
-        /// </summary>
-        /// <param name="size">New size of the GeometrySurface</param>
+        /// <inheritdoc/>
         public void Resize(Size size)
         {
             // resize the GeometrySurface
@@ -916,9 +728,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Disposes the resources used by the GeometrySurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             _surface?.Dispose();
@@ -941,10 +751,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Handles the DeviceReplaced event
+        /// Handles the DeviceReplaced event.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">object</param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">object.</param>
         private void OnDeviceReplaced(object sender, object e)
         {
             // Recreate the GeometrySurface
@@ -955,7 +765,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the surface
+        /// Helper class to redraw the surface.
         /// </summary>
         private void RedrawSurface()
         {

@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Base class for RenderSurface brushes
+    /// Base class for RenderSurface brushes.
     /// </summary>
     public abstract class RenderSurfaceBrushBase : XamlCompositionBrushBase
     {
@@ -82,10 +82,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected ICompositionGenerator Generator { get; set; }
 
         /// <summary>
-        /// Method that is called whenever the dependency properties of the Brush changes
+        /// Method that is called whenever the dependency properties of the Brush changes.
         /// </summary>
-        /// <param name="d">The object whose property has changed</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="d">The object whose property has changed.</param>
+        /// <param name="e">Event arguments.</param>
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (RenderSurfaceBrushBase)d;
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Gets the CompositionGenerator Instance
+        /// Gets the CompositionGenerator Instance.
         /// </summary>
         protected void GetGeneratorInstance()
         {
@@ -161,8 +161,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handler for the DeviceReplaced event.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs</param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">EventArgs.</param>
         private void OnDeviceReplaced(object sender, object e)
         {
             OnDisconnected();
@@ -194,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Checks if the URI starts with http: or https:
+        /// Checks if the URI starts with http: or https:.
         /// </summary>
         /// <param name="uri">URI.</param>
         /// <returns>True if it does, otherwise false.</returns>

@@ -42,8 +42,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Geometry property.
         /// </summary>
-        /// <param name="d">CanvasCoreGeometry</param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d">CanvasCoreGeometry.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnGeometryChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var coreGeometry = (CanvasCoreGeometry)d;

@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Represents a rectangular shape
+    /// Represents a rectangular geometry object with the specified extents.
     /// </summary>
     public class CanvasRectangleGeometry : CanvasCoreGeometry
     {

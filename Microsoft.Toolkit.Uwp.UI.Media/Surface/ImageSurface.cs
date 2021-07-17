@@ -11,7 +11,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering an image onto a ICompositionSurface
+    /// Class for rendering an image onto a ICompositionSurface.
     /// </summary>
     internal sealed class ImageSurface : IImageSurface
     {
@@ -28,58 +28,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         public event TypedEventHandler<IImageSurface, ImageSurfaceLoadStatus> LoadCompleted;
 
-        /// <summary>
-        /// Gets the CompositionGenerator
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionGenerator Generator => _generator;
 
-        /// <summary>
-        /// Gets the Surface of the IImageSurface
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionSurface Surface => _surface;
 
-        /// <summary>
-        /// Gets the Uri of the image to be loaded onto the IImageSurface
-        /// </summary>
+        /// <inheritdoc/>
         public Uri Uri => _uri;
 
-        /// <summary>
-        /// Gets the IImageSurface Size
-        /// </summary>
+        /// <inheritdoc/>
         public Size Size { get; private set; }
 
-        /// <summary>
-        /// Gets the image's resize and alignment options in the allocated space.
-        /// </summary>
+        /// <inheritdoc/>
         public ImageSurfaceOptions Options { get; private set; }
 
-        /// <summary>
-        /// Gets the size of the decoded image in physical pixels.
-        /// </summary>
+        /// <inheritdoc/>
         public Size DecodedPhysicalSize { get; private set; }
 
-        /// <summary>
-        /// Gets the size of the decoded image in device independent pixels.
-        /// </summary>
+        /// <inheritdoc/>
         public Size DecodedSize { get; private set; }
 
-        /// <summary>
-        /// Gets the status whether the image was loaded successfully or not.
-        /// </summary>
+        /// <inheritdoc/>
         public ImageSurfaceLoadStatus Status { get; private set; }
 
-        /// <summary>
-        /// Gets the CanvasBitmap representing the loaded image
-        /// </summary>
+        /// <inheritdoc/>
         public CanvasBitmap SurfaceBitmap => _canvasBitmap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
         /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
-        /// <param name="size">Size of the IImageSurface</param>
+        /// <param name="size">Size of the IImageSurface.</param>
         /// <param name="options">The image's resize and alignment options in the allocated space.</param>
         public ImageSurface(ICompositionGeneratorInternal generator, Uri uri, Size size, ImageSurfaceOptions options)
         {
@@ -107,9 +89,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="ImageSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
+        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
         /// <param name="surfaceBitmap">CanvasBitmap which will be rendered on the IImageSurface.</param>
-        /// <param name="size">Size of the IImageSurface</param>
+        /// <param name="size">Size of the IImageSurface.</param>
         /// <param name="options">The image's resize and alignment options in the allocated space.</param>
         internal ImageSurface(ICompositionGeneratorInternal generator, CanvasBitmap surfaceBitmap, Size size, ImageSurfaceOptions options)
         {
@@ -140,19 +122,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _generator.DeviceReplaced += OnDeviceReplaced;
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Redraw()
         {
             // Reload the IImageSurface
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface with the given image options
-        /// </summary>
-        /// <param name="options">The image's resize and alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(ImageSurfaceOptions options)
         {
             // Set the image options
@@ -162,11 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageSurface using the given options.
-        /// </summary>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, ImageSurfaceOptions options)
         {
             // Resize the surface only if AutoResize option is disabled
@@ -186,11 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface
-        /// (using the alpha values of image in the given imageSurface).
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface)
         {
             if (imageSurface != null)
@@ -204,12 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface
-        /// (using the alpha values of image in the given imageSurface).
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
-        /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, ImageSurfaceOptions options)
         {
             if (imageSurface != null)
@@ -223,32 +187,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageSurface (using the image in the given imageSurface) or the IImageMaskSurface
-        /// (using the alpha values of image in the given imageSurface).
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface whose image is to be loaded on the surface.</param>
-        /// <param name="size">New size of the IImageMaskSurface.</param>
-        /// <param name="options">Describes the image's resize, alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(IImageSurface imageSurface, Size size, ImageSurfaceOptions options)
         {
             Redraw(imageSurface?.SurfaceBitmap, size, options);
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface using the given CanvasBitmap.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image to be loaded on the surface.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap)
         {
             Redraw(surfaceBitmap, Size, Options);
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface using the given CanvasBitmap using the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="options">The image's resize, alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, ImageSurfaceOptions options)
         {
             // Set the image options
@@ -258,12 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             Redraw(surfaceBitmap, Size, Options);
         }
 
-        /// <summary>
-        /// Resizes and redraws the IImageSurface using the given CanvasBitmap using the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">Image whose alpha values are to be used to create the mask.</param>
-        /// <param name="size">New size of the IImageSurface.</param>
-        /// <param name="options">The image's resize, alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasBitmap surfaceBitmap, Size size, ImageSurfaceOptions options)
         {
             if (_canvasBitmap != surfaceBitmap)
@@ -314,35 +260,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface by loading image from the new Uri
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded on the surface.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri)
         {
             return RedrawAsync(uri, Size, Options);
         }
 
-        /// <summary>
-        /// Redraws the IImageSurface by loading image from the new Uri and image options
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded on to the image surface.</param>
-        /// <param name="options">The image's resize and alignment options in the allocated space.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri, ImageSurfaceOptions options)
         {
             return RedrawAsync(uri, Size, options);
         }
 
-        /// <summary>
-        /// Resizes the IImageSurface with the given size and redraws the IImageSurface by loading
-        /// image from the new Uri.
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
-        /// <param name="size">New size of the IImageSurface</param>
-        /// <param name="options">The image's resize and alignment options in the allocated space.</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc/>
         public Task RedrawAsync(Uri uri, Size size, ImageSurfaceOptions options)
         {
             // If the given Uri differs from the previously stored Uri or if the ImageSurface was
@@ -375,20 +305,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return RedrawSurfaceAsync();
         }
 
-        /// <summary>
-        /// Resizes the IImageSurface to the new size.
-        /// </summary>
-        /// <param name="size">New size of the IImageSurface</param>
+        /// <inheritdoc/>
         public void Resize(Size size)
         {
             Resize(size, Options);
         }
 
-        /// <summary>
-        /// Resizes the IImageSurface to the new size.
-        /// </summary>
-        /// <param name="size">New size of the IImageSurface</param>
-        /// <param name="options">The image's resize and alignment options in the allocated space.</param>
+        /// <inheritdoc/>
         public void Resize(Size size, ImageSurfaceOptions options)
         {
             // Set the image options
@@ -408,9 +331,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Disposes the resources used by the IImageSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             _surface?.Dispose();
@@ -439,10 +360,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Handles the DeviceReplaced event
+        /// Handles the DeviceReplaced event.
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">object</param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">object.</param>
         private async void OnDeviceReplaced(object sender, object e)
         {
             // Recreate the ImageSurface
@@ -453,7 +374,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageSurface synchronously
+        /// Helper class to redraw the IImageSurface synchronously.
         /// </summary>
         private void RedrawSurface()
         {
@@ -479,7 +400,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageSurface asynchronously
+        /// Helper class to redraw the IImageSurface asynchronously.
         /// </summary>
         /// <returns>Task</returns>
         private async Task RedrawSurfaceAsync()

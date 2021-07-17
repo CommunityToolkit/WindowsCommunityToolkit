@@ -13,7 +13,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Represents a complex vector-based shape that may be composed of arcs, curves, ellipses, lines, rectangles, rounded rectangles, squircles.
+    /// Represents a complex vector-based shape geometry that may be composed of arcs, curves, ellipses, lines, rectangles, rounded rectangles, squircles.
     /// Also provides several helper methods to create Win2d objects.
     /// </summary>
     public class CanvasPathGeometry : CanvasCoreGeometry

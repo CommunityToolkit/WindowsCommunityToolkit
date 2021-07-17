@@ -11,8 +11,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Enum to define the location of the
-    /// Reflection of a Visual.
+    /// Enum to define the location of the Reflection of a Visual.
     /// </summary>
     public enum ReflectionLocation
     {
@@ -38,8 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     }
 
     /// <summary>
-    /// Class to define the various options that would
-    /// influence the rendering of the image on the ImageSurface
+    /// Class to define the various options that would influence the rendering of the image on the ImageSurface
     /// </summary>
     public class ImageSurfaceOptions : DependencyObject
     {
@@ -49,8 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public event EventHandler<EventArgs> Updated;
 
         /// <summary>
-        /// Gets default ImageSurfaceOptions when AutoResize is True
-        /// Uniform Stretch and Center alignment
+        /// Gets default ImageSurfaceOptions when AutoResize is True.
+        /// Uniform Stretch and Center alignment.
         /// </summary>
         public static ImageSurfaceOptions Default =>
                     new ImageSurfaceOptions()
@@ -66,8 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     };
 
         /// <summary>
-        /// Gets default ImageSurfaceOptions when AutoResize is False
-        /// Uniform Stretch and Center alignment
+        /// Gets default ImageSurfaceOptions when AutoResize is False.
+        /// Uniform Stretch and Center alignment.
         /// </summary>
         public static ImageSurfaceOptions DefaultOptimized =>
                     new ImageSurfaceOptions()
@@ -83,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                     };
 
         /// <summary>
-        /// Gets default ImageSurfaceOptions for IImageMaskSurface
+        /// Gets default ImageSurfaceOptions for IImageMaskSurface.
         /// Uniform Stretch and Center alignment
         /// </summary>
         public static ImageSurfaceOptions DefaultImageMaskOptions =>
@@ -273,8 +271,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Method that is called whenever the dependency properties of the ImageSurfaceOptions changes.
         /// </summary>
-        /// <param name="d">The object whose property has changed</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="d">The object whose property has changed.</param>
+        /// <param name="e">Event arguments.</param>
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var options = (ImageSurfaceOptions)d;

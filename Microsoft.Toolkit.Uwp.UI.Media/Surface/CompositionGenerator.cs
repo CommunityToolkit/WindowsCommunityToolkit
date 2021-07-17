@@ -41,14 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         public static ICompositionGenerator Instance => _instance.Value;
 
-        /// <summary>
-        /// Gets the Compositor.
-        /// </summary>
+        /// <inheritdoc/>
         public Compositor Compositor { get; private set; }
 
-        /// <summary>
-        /// Gets the CanvasDevice.
-        /// </summary>
+        /// <inheritdoc/>
         public CanvasDevice Device { get; private set; }
 
         /// <summary>
@@ -80,7 +76,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <param name="surface">CompositionDrawingSurface on which the CanvasBitmap has to be rendered.</param>
         /// <param name="canvasBitmap">CanvasBitmap created by loading the image from the Uri</param>
         /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
-        private static void RenderBitmap(object surfaceLock, CompositionDrawingSurface surface, CanvasBitmap canvasBitmap, ImageSurfaceOptions options)
+        private static void RenderBitmap(
+            object surfaceLock,
+            CompositionDrawingSurface surface,
+            CanvasBitmap canvasBitmap,
+            ImageSurfaceOptions options)
         {
             var surfaceSize = surface.Size;
 
@@ -192,7 +192,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
         /// the mask, created from the loaded image's alpha values, should be rendered.</param>
         /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
-        private static void RenderBitmapMask(CanvasDevice device, object surfaceLock, CompositionDrawingSurface surface, CanvasBitmap canvasBitmap, Thickness padding, ImageSurfaceOptions options)
+        private static void RenderBitmapMask(
+            CanvasDevice device,
+            object surfaceLock,
+            CompositionDrawingSurface surface,
+            CanvasBitmap canvasBitmap,
+            Thickness padding,
+            ImageSurfaceOptions options)
         {
             var surfaceSize = surface.Size;
 
@@ -367,40 +373,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             deviceEvent?.Invoke(this, new EventArgs());
         }
 
-        /// <summary>
-        /// <para>Creates an Empty IGeometryMaskSurface having the no size and geometry.</para>
-        /// <para>NOTE: Use this API if you want to create an Empty IGeometryMaskSurface first
-        /// and change its geometry and/or size of the IGeometryMaskSurface later.</para>
-        /// </summary>
-        /// <returns>IGeometryMaskSurface</returns>
+        /// <inheritdoc/>
         public IGeometryMaskSurface CreateGeometryMaskSurface()
         {
             return CreateGeometryMaskSurface(default, null, Vector2.Zero);
         }
 
-        /// <summary>
-        /// Creates an IGeometryMaskSurface having the given size and geometry with MaskMode as True.
-        /// The geometry is filled with white color. The surface not covered by the geometry is
-        /// transparent.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <returns>IGeometryMaskSurface</returns>
+        /// <inheritdoc/>
         public IGeometryMaskSurface CreateGeometryMaskSurface(Size size, CanvasGeometry geometry)
         {
             return CreateGeometryMaskSurface(size, geometry, Vector2.Zero);
         }
 
-        /// <summary>
-        /// Creates an IGeometryMaskSurface having the given size and geometry with MaskMode as True.
-        /// The geometry is filled with white color. The surface not covered by the geometry is
-        /// transparent.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
-        /// <returns>IGeometryMaskSurface</returns>
+        /// <inheritdoc/>
         public IGeometryMaskSurface CreateGeometryMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset)
         {
             // Initialize the mask
@@ -412,27 +397,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return mask;
         }
 
-        /// <summary>
-        /// <para>Creates an Empty IGaussianMaskSurface having the no size and geometry.</para>
-        /// <para>NOTE: Use this API if you want to create an Empty IGaussianMaskSurface first
-        /// and change its geometry, size, offset and/or blurRadius of the IGaussianMaskSurface later.</para>
-        /// </summary>
-        /// <returns>IGaussianMaskSurface</returns>
+        /// <inheritdoc/>
         public IGaussianMaskSurface CreateGaussianMaskSurface()
         {
             return CreateGaussianMaskSurface(default, null, Vector2.Zero, 0);
         }
 
-        /// <summary>
-        /// Creates a IGaussianMaskSurface having the given size and geometry. The geometry is filled
-        /// with white color and a Gaussian blur is applied to it. The surface not covered by the geometry is transparent.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
-        /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the IGaussianMaskSurface</param>
-        /// <returns>IGaussianMaskSurface</returns>
+        /// <inheritdoc/>
         public IGaussianMaskSurface CreateGaussianMaskSurface(Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             // Initialize the mask
@@ -444,12 +415,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return gaussianMaskSurface;
         }
 
-        /// <summary>
-        /// <para>Creates an empty GeometrySurface having the no size and geometry.</para>
-        /// <para>NOTE: Use this API if you want to create an Empty IGeometrySurface
-        /// first and change its geometry and/or size, fillColor or stroke later.</para>
-        /// </summary>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface()
         {
             // Initialize the geometrySurface
@@ -461,13 +427,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke)
         {
             // Initialize the geometrySurface
@@ -479,14 +439,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, foreground color with
-        /// MaskMode as False.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="fillColor">Fill color of the geometry.</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, Color fillColor)
         {
             // Initialize the geometrySurface
@@ -498,14 +451,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke and fill color
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Fill color of the geometry.</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor)
         {
             // Initialize the geometrySurface
@@ -517,16 +463,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, foreground color and
-        /// background color.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="fillColor">Fill color of the geometry</param>
-        /// <param name="backgroundColor">Fill color of the Mask surface background which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, Color fillColor, Color backgroundColor)
         {
             // Initialize the geometrySurface
@@ -538,17 +475,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke, fill color and
-        /// background color.
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Fill color of the geometry</param>
-        /// <param name="backgroundColor">Fill color of the GeometrySurface background which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
             // Initialize the geometrySurface
@@ -560,14 +487,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry and foreground brush with
-        /// MaskMode as False.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasBrush fillBrush)
         {
             // Create the background brush
@@ -582,14 +502,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke and fill brush.
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush)
         {
             // Create the background brush
@@ -604,16 +517,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, foreground brush and
-        /// background brush with MaskMode as False.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <param name="backgroundBrush">The brush to fill the Mask background surface which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // Initialize the geometrySurface
@@ -625,17 +529,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke, fill brush and
-        /// background brush.
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <param name="backgroundBrush">The brush to fill the GeometrySurface background which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // Initialize the geometrySurface
@@ -647,16 +541,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, foreground brush and
-        /// background color with MaskMode as False.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <param name="backgroundColor">Fill color of the Mask background surface which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasBrush fillBrush, Color backgroundColor)
         {
             // Create the background brush
@@ -671,17 +556,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke, fill brush and
-        /// background color.
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <param name="backgroundColor">Fill color of the GeometrySurface background which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush, Color backgroundColor)
         {
             // Create the background brush
@@ -696,16 +571,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, foreground color and
-        /// background brush.
-        /// </summary>
-        /// <param name="size">Size of the mask</param>
-        /// <param name="geometry">Geometry of the mask</param>
-        /// <param name="fillColor">Fill color of the geometry</param>
-        /// <param name="backgroundBrush">The brush to fill the Mask background surface which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, Color fillColor, ICanvasBrush backgroundBrush)
         {
             // Create the foreground brush
@@ -720,17 +586,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates a GeometrySurface having the given size, geometry, stroke, fill color and
-        /// background brush.
-        /// </summary>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry to be rendered on the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillColor">Fill color of the geometry</param>
-        /// <param name="backgroundBrush">The brush to fill the GeometrySurface background which is
-        /// not covered by the geometry</param>
-        /// <returns>IGeometrySurface</returns>
+        /// <inheritdoc/>
         public IGeometrySurface CreateGeometrySurface(Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, ICanvasBrush backgroundBrush)
         {
             // Create the foreground brush
@@ -745,14 +601,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return geometrySurface;
         }
 
-        /// <summary>
-        /// Creates an IImageSurface having the given size onto which an image (based on the Uri
-        /// and the options) is loaded.
-        /// </summary>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
-        /// <param name="size">New size of the IImageSurface</param>
-        /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
-        /// <returns>ICompositionSurfaceImage</returns>
+        /// <inheritdoc/>
         public async Task<IImageSurface> CreateImageSurfaceAsync(Uri uri, Size size, ImageSurfaceOptions options)
         {
             // Initialize the IImageSurface
@@ -764,13 +613,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return imageSurface;
         }
 
-        /// <summary>
-        /// Creates an IImageSurface having the given size onto which the given image is loaded.
-        /// </summary>
-        /// <param name="bitmap">Image that will be loaded onto the IImageSurface.</param>
-        /// <param name="size">Size of the IImageSurface</param>
-        /// <param name="options">The image's resize and alignment options in the allocated space.</param>
-        /// <returns>IImageSurface</returns>
+        /// <inheritdoc/>
         public IImageSurface CreateImageSurface(CanvasBitmap bitmap, Size size, ImageSurfaceOptions options)
         {
             // Create a new IImageSurface using the given imageSurface
@@ -782,11 +625,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return imageSurface;
         }
 
-        /// <summary>
-        /// Creates a copy of the given IImageSurface
-        /// </summary>
-        /// <param name="imageSurface">IImageSurface to copy</param>
-        /// <returns>Copy of the given IImageSurface</returns>
+        /// <inheritdoc/>
         public IImageSurface CreateImageSurface(IImageSurface imageSurface)
         {
             if (imageSurface != null)
@@ -804,11 +643,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return CreateImageSurface(null, new Size(0, 0), ImageSurfaceOptions.Default);
         }
 
-        /// <summary>
-        /// Creates a copy of the given IImageMaskSurface
-        /// </summary>
-        /// <param name="imageMaskSurface">IImageMaskSurface to copy</param>
-        /// <returns>IImageMaskSurface</returns>
+        /// <inheritdoc/>
         public IImageMaskSurface CreateImageMaskSurface(IImageMaskSurface imageMaskSurface)
         {
             if (imageMaskSurface != null)
@@ -831,31 +666,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return CreateImageMaskSurface(surfaceBitmap: null, new Size(0, 0), new Thickness(0), ImageSurfaceOptions.DefaultImageMaskOptions);
         }
 
-        /// <summary>
-        /// Creates an IImageMaskSurface using the alpha values of the given image at the specified offset using
-        /// the given blur radius.
-        /// </summary>
-        /// <param name="surfaceBitmap">The CanvasBitmap whose alpha values will be used to create the Mask.</param>
-        /// <param name="size">Size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the given image's alpha values, should be rendered.</param>
-        /// <param name="blurRadius">Radius of the Gaussian blur applied to the the mask.</param>
-        /// <returns>IImageMaskSurface</returns>
+        /// <inheritdoc/>
         public IImageMaskSurface CreateImageMaskSurface(CanvasBitmap surfaceBitmap, Size size, Thickness padding, float blurRadius)
         {
             return CreateImageMaskSurface(surfaceBitmap, size, padding, ImageSurfaceOptions.GetDefaultImageMaskOptionsForBlur(blurRadius));
         }
 
-        /// <summary>
-        /// Creates an IImageMaskSurface using the alpha values of the given image at the specified offset using
-        /// the given options.
-        /// </summary>
-        /// <param name="surfaceBitmap">The CanvasBitmap whose alpha values will be used to create the Mask.</param>
-        /// <param name="size">Size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the given image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
-        /// <returns>IImageMaskSurface</returns>
+        /// <inheritdoc/>
         public IImageMaskSurface CreateImageMaskSurface(CanvasBitmap surfaceBitmap, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             var imageMaskSurface = new ImageMaskSurface(this, surfaceBitmap, size, padding, options);
@@ -866,16 +683,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return imageMaskSurface;
         }
 
-        /// <summary>
-        /// Creates an IImageMaskSurface using the alpha values of the given IImageSurface's image at the specified offset using
-        /// the given options.
-        /// </summary>
-        /// <param name="imageSurface">The IImageSurface whose image's alpha values will be used to create the Mask.</param>
-        /// <param name="size">Size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the given image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
-        /// <returns>IImageMaskSurface</returns>
+        /// <inheritdoc/>
         public IImageMaskSurface CreateImageMaskSurface(IImageSurface imageSurface, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             if (imageSurface != null)
@@ -888,16 +696,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return CreateImageMaskSurface(surfaceBitmap: null, size, padding, options);
         }
 
-        /// <summary>
-        /// Creates an IImageMaskSurface using the alpha values of the image loaded from the Uri
-        /// and rendered at the specified offset using the given options.
-        /// </summary>
-        /// <param name="uri">The URI of the image whose alpha values will be used to create the Mask.</param>
-        /// <param name="size">Size of the IImageMaskSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the given image's alpha values, should be rendered.</param>
-        /// <param name="options">The image's resize, alignment and blur radius options in the allocated space.</param>
-        /// <returns>IImageMaskSurface</returns>
+        /// <inheritdoc/>
         public async Task<IImageMaskSurface> CreateImageMaskSurfaceAsync(Uri uri, Size size, Thickness padding, ImageSurfaceOptions options)
         {
             var imageMaskSurface = new ImageMaskSurface(this, uri, size, padding, options);
@@ -908,14 +707,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return imageMaskSurface;
         }
 
-        /// <summary>
-        /// Creates a reflection of the given Visual
-        /// </summary>
-        /// <param name="visual">Visual whose reflection has to be created</param>
-        /// <param name="reflectionDistance">Distance of the reflection from the visual</param>
-        /// <param name="reflectionLength">Normalized Length of the reflected visual that will be visible.</param>
-        /// <param name="location"> <see cref="ReflectionLocation"/> - Location of the reflection with respect
-        /// to the Visual - Bottom, Top, Left or Right</param>
+        /// <inheritdoc/>
         public void CreateReflection(ContainerVisual visual, float reflectionDistance = 0f, float reflectionLength = 0.7f, ReflectionLocation location = ReflectionLocation.Bottom)
         {
             // Create the visual layer that will contained the visual's reflection
@@ -993,13 +785,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             visual.Children.InsertAtTop(reflectionLayer);
         }
 
-        /// <summary>
-        /// Creates a CompositionDrawingSurface of given size
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="size">Size of the CompositionDrawingSurface</param>
-        /// <returns>CompositionDrawingSurface</returns>
+        /// <inheritdoc/>
         public CompositionDrawingSurface CreateDrawingSurface(object surfaceLock, Size size)
         {
             var surfaceSize = size;
@@ -1018,13 +804,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Resizes the Mask Surface to the given size
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">New size of the Mask Surface</param>
+        /// <inheritdoc/>
         public void ResizeDrawingSurface(object surfaceLock, CompositionDrawingSurface surface, Size size)
         {
             // Cannot resize to Size.Empty. Will throw exception!
@@ -1045,16 +825,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the IGeometryMaskSurface with the given size and geometry
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">Size of the IGeometryMaskSurface</param>
-        /// <param name="geometry">Geometry of the IGeometryMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
+        /// <inheritdoc/>
         public void RedrawGeometryMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset)
         {
             // If the surface is not created, create it
@@ -1093,17 +864,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the GaussianMaskSurface with the given size and geometry
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">Size of the GaussianMaskSurface</param>
-        /// <param name="geometry">Geometry of the GaussianMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
-        /// <param name="blurRadius">Radius of Gaussian Blur to be applied.</param>
+        /// <inheritdoc/>
         public void RedrawGaussianMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             // If the surface is not created, create it
@@ -1161,17 +922,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Redraws the GeometrySurface with the given size, geometry, foreground brush and background brush
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="size">Size of the GeometrySurface</param>
-        /// <param name="geometry">Geometry of the GeometrySurface</param>
-        /// <param name="stroke">ICanvasStroke defining the outline for the geometry</param>
-        /// <param name="fillBrush">The brush with which the geometry has to be filled</param>
-        /// <param name="backgroundBrush">The brush with which the GeometrySurface background has to be filled</param>
+        /// <inheritdoc/>
         public void RedrawGeometrySurface(object surfaceLock, CompositionDrawingSurface surface, Size size, CanvasGeometry geometry, ICanvasStroke stroke, ICanvasBrush fillBrush, ICanvasBrush backgroundBrush)
         {
             // If the surface is not created, create it
@@ -1236,32 +987,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
-        /// <summary>
-        /// Resizes the ImageSurface to the given size and redraws the ImageSurface
-        /// by rendering the canvasBitmap onto the surface.
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
-        /// <param name="canvasBitmap">The CanvasBitmap on which the image is loaded.</param>
+        /// <inheritdoc/>
         public void RedrawImageSurface(object surfaceLock, CompositionDrawingSurface surface, ImageSurfaceOptions options, CanvasBitmap canvasBitmap)
         {
             // Render the image to the surface
             RenderBitmap(surfaceLock, surface, canvasBitmap, options);
         }
 
-        /// <summary>
-        /// Resizes the ImageSurface with the given size and redraws the ImageSurface by loading
-        /// image from the new Uri.
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
-        /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
-        /// <param name="canvasBitmap">The CanvasBitmap on which the image is loaded.</param>
-        /// <returns>CanvasBitmap</returns>
+        /// <inheritdoc/>
         public async Task<CanvasBitmap> RedrawImageSurfaceAsync(object surfaceLock, CompositionDrawingSurface surface, Uri uri, ImageSurfaceOptions options, CanvasBitmap canvasBitmap)
         {
             if ((canvasBitmap == null) && (uri != null))
@@ -1284,35 +1017,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return canvasBitmap;
         }
 
-        /// <summary>
-        /// Resizes the ImageMaskSurface to the given size and redraws the ImageMaskSurface
-        /// by rendering the mask using the image's alpha values onto the surface.
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
-        /// <param name="options">Describes the image's resize and alignment options and blur radius in the allocated space.</param>
-        /// <param name="surfaceBitmap">The image whose alpha values is used to create the IImageMaskSurface.</param>
+        /// <inheritdoc/>
         public void RedrawImageMaskSurface(object surfaceLock, CompositionDrawingSurface surface, Thickness padding, ImageSurfaceOptions options, CanvasBitmap surfaceBitmap)
         {
             // Render the image mask to the surface
             RenderBitmapMask(Device, surfaceLock, surface, surfaceBitmap, padding, options);
         }
 
-        /// <summary>
-        /// Resizes the ImageMaskSurface to the given size and redraws the ImageMaskSurface by loading the image from the new Uri and
-        /// rendering the mask using the image's alpha values onto the surface.
-        /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface</param>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the given image's alpha values, should be rendered.</param>
-        /// <param name="options">Describes the image's resize and alignment options and blur radius in the allocated space.</param>
-        /// <param name="surfaceBitmap">The CanvasBitmap on which the image is loaded.</param>
-        /// <returns>The CanvasBitmap whose alpha values is used to create the IImageMaskSurface.</returns>
+        /// <inheritdoc/>
         public async Task<CanvasBitmap> RedrawImageMaskSurfaceAsync(object surfaceLock, CompositionDrawingSurface surface, Uri uri, Thickness padding, ImageSurfaceOptions options, CanvasBitmap surfaceBitmap)
         {
             if ((surfaceBitmap == null) && (uri != null))
@@ -1333,10 +1045,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return surfaceBitmap;
         }
 
-        /// <summary>
-        /// Disposes the resources used by the CompositionGenerator.
-        /// <para>NOTE: This should be called only when the application ends because CompositionGenerator is a singleton and its instance might be used across the application.</para>
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             lock (_disposingLock)

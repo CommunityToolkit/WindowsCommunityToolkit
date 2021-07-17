@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ImageMaskSurfaceBrushPage()
         {
             this.InitializeComponent();
-            this.SizeChanged += this.OnPageSizeChanged;
 
             _maskImages = new Dictionary<string, string>
             {
@@ -51,14 +54,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             TargetImages.SelectedIndex = 0;
         }
 
-        private void OnPageSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //MaskImageBrush.SurfaceHeight = MaskGrid.ActualHeight;
-            //MaskImageBrush.SurfaceWidth = MaskGrid.ActualWidth;
-            //TargetImageBrush.SurfaceHeight = TargetGrid.ActualHeight;
-            //TargetImageBrush.SurfaceWidth = TargetGrid.ActualWidth;
-        }
-
         private void OnMaskImageChanged(object sender, SelectionChangedEventArgs e)
         {
             var image = MaskImages.SelectedValue as string;
@@ -70,7 +65,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 MaskImageBrush.Source = _maskImages[image];
-                //ImageMaskBrush.Mask = _maskImages[image];
             }
             catch (Exception ex)
             {
@@ -89,7 +83,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             try
             {
                 TargetImageBrush.Source = _targetImages[image];
-                //MaskTargetImageBrush.Source = _targetImages[image];
             }
             catch (Exception ex)
             {

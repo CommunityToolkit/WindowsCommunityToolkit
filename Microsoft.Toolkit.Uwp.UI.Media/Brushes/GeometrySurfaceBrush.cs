@@ -45,8 +45,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Geometry property.
         /// </summary>
-        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnGeometryChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var maskSurfaceBrush = (GeometrySurfaceBrush)d;
@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Stroke property.
         /// </summary>
-        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnStrokeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometrySurfaceBrush = (GeometrySurfaceBrush)d;
@@ -157,8 +157,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the StrokeThickness property.
         /// </summary>
-        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnStrokeThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometrySurfaceBrush = (GeometrySurfaceBrush)d;
@@ -199,8 +199,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the RenderStrokeStyle property.
         /// </summary>
-        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnRenderStrokeStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometrySurfaceBrush = (GeometrySurfaceBrush)d;
@@ -255,8 +255,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the FillBrush property.
         /// </summary>
-        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnFillBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometrySurfaceBrush = (GeometrySurfaceBrush)d;
@@ -311,8 +311,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the BackgroundBrush property.
         /// </summary>
-        /// <param name="d"><see cref="GeometrySurfaceBrush" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="GeometrySurfaceBrush" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnBackgroundBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var geometrySurfaceBrush = (GeometrySurfaceBrush)d;

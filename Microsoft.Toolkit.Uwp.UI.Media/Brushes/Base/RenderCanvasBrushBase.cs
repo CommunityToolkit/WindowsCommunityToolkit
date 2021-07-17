@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Abstract base class for SolidColorCanvasBrush, LinearGradientCanvasBrush and RadialGradientCanvasBrush
+    /// Abstract base class for SolidColorCanvasBrush, LinearGradientCanvasBrush and RadialGradientCanvasBrush which are XAML equivalents of Win2d brushes.
     /// </summary>
     public abstract class RenderCanvasBrushBase : DependencyObject, IDisposable
     {

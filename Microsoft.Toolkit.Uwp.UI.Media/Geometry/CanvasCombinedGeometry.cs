@@ -40,8 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Geometry1 property.
         /// </summary>
-        /// <param name="d"><see cref="CanvasCombinedGeometry"/></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="CanvasCombinedGeometry"/>.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnGeometry1Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var combinedGeometry = (CanvasCombinedGeometry)d;
@@ -96,8 +96,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Handles changes to the Geometry2 property.
         /// </summary>
-        /// <param name="d"><see cref="CanvasCombinedGeometry" /></param>
-        /// <param name="e">DependencyProperty changed event arguments</param>
+        /// <param name="d"><see cref="CanvasCombinedGeometry" />.</param>
+        /// <param name="e">DependencyProperty changed event arguments.</param>
         private static void OnGeometry2Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var combinedGeometry = (CanvasCombinedGeometry)d;

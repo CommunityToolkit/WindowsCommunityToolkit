@@ -1102,7 +1102,7 @@
         "XamlCodeFile": "GeometrySurfaceBrushXaml.bind",
         "Icon": "/SamplePages/GeometrySurfaceBrush/GeometrySurfaceBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+        "DocumentationUrl": ""
       },
       {
         "Name": "GeometryMaskSurfaceBrush",
@@ -1112,7 +1112,7 @@
         "XamlCodeFile": "GeometryMaskSurfaceBrushXaml.bind",
         "Icon": "/SamplePages/GeometryMaskSurfaceBrush/GeometryMaskSurfaceBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+        "DocumentationUrl": ""
       },
       {
         "Name": "ImageSurfaceBrush",
@@ -1122,7 +1122,7 @@
         "XamlCodeFile": "ImageSurfaceBrushXaml.bind",
         "Icon": "/SamplePages/ImageSurfaceBrush/ImageSurfaceBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+        "DocumentationUrl": ""
       },
       {
         "Name": "ImageMaskSurfaceBrush",
@@ -1132,7 +1132,7 @@
         "XamlCodeFile": "ImageMaskSurfaceBrushXaml.bind",
         "Icon": "/SamplePages/ImageMaskSurfaceBrush/ImageMaskSurfaceBrush.png",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
+        "DocumentationUrl": ""
       }
     ]
   },

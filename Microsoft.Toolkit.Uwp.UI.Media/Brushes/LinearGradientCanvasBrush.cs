@@ -166,8 +166,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// <summary>
         /// Method that is called whenever the dependency properties of the Brush changes
         /// </summary>
-        /// <param name="d">The object whose property has changed</param>
-        /// <param name="e">Event arguments</param>
+        /// <param name="d">The object whose property has changed.</param>
+        /// <param name="e">Event arguments.</param>
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (LinearGradientCanvasBrush)d;

@@ -21,35 +21,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private ICompositionGeneratorInternal _generator;
         private CompositionDrawingSurface _surface;
 
-        /// <summary>
-        /// Gets the Composition Generator
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionGenerator Generator => _generator;
 
-        /// <summary>
-        /// Gets the Surface of GaussianMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public ICompositionSurface Surface => _surface;
 
-        /// <summary>
-        /// Gets the Geometry of the GaussianMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public CanvasGeometry Geometry { get; private set; }
 
-        /// <summary>
-        /// Gets the Size of the GaussianMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public Size Size { get; private set; }
 
-        /// <summary>
-        /// Gets the offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.
-        /// </summary>
+        /// <inheritdoc/>
         public Vector2 Offset { get; private set; }
 
-        /// <summary>
-        /// Gets radius of Gaussian Blur to be applied on the GaussianMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public float BlurRadius { get; private set; }
 
         /// <summary>
@@ -81,93 +68,50 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _generator.DeviceReplaced += OnDeviceReplaced;
         }
 
-        /// <summary>
-        /// Redraws the GaussianMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Redraw()
         {
             // Redraw the mask surface
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Applies the given blur radius to the IGaussianMaskSurface.
-        /// </summary>
-        /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the GaussianMaskSurface</param>
+        /// <inheritdoc/>
         public void Redraw(float blurRadius)
         {
             Redraw(Size, Geometry, Offset, blurRadius);
         }
 
-        /// <summary>
-        /// Redraws the GaussianMaskSurface with the new geometry
-        /// </summary>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasGeometry geometry)
         {
             Redraw(Size, geometry, Offset, BlurRadius);
         }
 
-        /// <summary>
-        /// Redraws the GaussianMaskSurface with the new geometry at the specified offset.
-        /// </summary>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasGeometry geometry, Vector2 offset)
         {
             Redraw(Size, geometry, offset, BlurRadius);
         }
 
-        /// <summary>
-        /// Redraws the IGaussianMaskSurface with the new geometry and fills it with White color after applying
-        /// the Gaussian blur with given blur radius.
-        /// </summary>
-        /// <param name="geometry">New CanvasGeometry to be applied to the GaussianMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
-        /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the IGaussianMaskSurface</param>
+        /// <inheritdoc/>
         public void Redraw(CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             Redraw(Size, geometry, offset, blurRadius);
         }
 
-        /// <summary>
-        /// Resizes the GaussianMaskSurface with the given size and redraws the GaussianMaskSurface
-        /// with the new geometry and fills it with White color. A Gaussian blur is applied to the
-        /// new geometry.
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry)
         {
             Redraw(size, geometry, Offset, BlurRadius);
         }
 
-        /// <summary>
-        /// Resizes the GaussianMaskSurface with the given size and redraws the GaussianMaskSurface
-        /// with the new geometry at the specified offset and fills it with White color. A Gaussian
-        /// blur is applied to the new geometry.
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, Vector2 offset)
         {
             Redraw(size, geometry, offset, BlurRadius);
         }
 
-        /// <summary>
-        /// Resizes the GaussianMaskSurface with the given size and redraws the GaussianMaskSurface
-        /// with the new geometry and fills it with White color. A Gaussian blur is applied to the
-        /// new geometry.
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
-        /// <param name="geometry">New CanvasGeometry to be applied to the mask</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
-        /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the GaussianMaskSurface</param>
+        /// <inheritdoc/>
         public void Redraw(Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             // Resize the mask surface
@@ -189,10 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Resizes the GaussianMaskSurface to the new size.
-        /// </summary>
-        /// <param name="size">New size of the mask</param>
+        /// <inheritdoc/>
         public void Resize(Size size)
         {
             // resize the mask surface
@@ -205,9 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             RedrawSurface();
         }
 
-        /// <summary>
-        /// Disposes the resources used by the GaussianMaskSurface
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             _surface?.Dispose();
