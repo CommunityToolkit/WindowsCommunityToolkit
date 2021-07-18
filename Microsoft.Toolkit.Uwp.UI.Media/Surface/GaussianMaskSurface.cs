@@ -11,9 +11,8 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering custom shaped geometries onto ICompositionSurface
-    /// so that they can be used as masks on Composition Visuals. These geometries
-    /// have a Gaussian Blur applied to them.
+    /// Class for rendering custom shaped geometries onto <see cref="ICompositionSurface"/> so that they can be used as masks on Composition Visuals.
+    /// These geometries have a Gaussian Blur applied to them.
     /// </summary>
     internal sealed class GaussianMaskSurface : IGaussianMaskSurface
     {
@@ -43,12 +42,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="GaussianMaskSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
-        /// <param name="size">Size of the GaussianMaskSurface</param>
-        /// <param name="geometry">Geometry of the GaussianMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where
-        /// the Geometry is rendered.</param>
-        /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the GaussianMaskSurface</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object</param>
+        /// <param name="size">Size of the <see cref="GaussianMaskSurface"/></param>
+        /// <param name="geometry">Geometry of the <see cref="GaussianMaskSurface"/></param>
+        /// <param name="offset">The offset from the top left corner of the <see cref="ICompositionSurface"/> where the <see cref="Geometry"/> is rendered.</param>
+        /// <param name="blurRadius">Radius of Gaussian Blur to be applied on the <see cref="GaussianMaskSurface"/></param>
         public GaussianMaskSurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, Vector2 offset, float blurRadius)
         {
             _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
@@ -176,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the GaussianMaskSurface
+        /// Helper class to redraw the <see cref="GaussianMaskSurface"/>
         /// </summary>
         private void RedrawSurface()
         {

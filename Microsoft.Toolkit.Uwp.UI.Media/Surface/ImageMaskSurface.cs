@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering a mask, using an Image's alpha values, onto an ICompositionSurface.
+    /// Class for rendering a mask, using an Image's alpha values, onto an <see cref="ICompositionSurface"/>.
     /// </summary>
     internal sealed class ImageMaskSurface : IImageMaskSurface
     {
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private bool _raiseLoadCompletedEvent;
 
         /// <summary>
-        /// Event that is raised when the image has been downloaded, decoded and loaded to the underlying IImageSurface.
+        /// Event that is raised when the image has been downloaded, decoded and loaded to the underlying <see cref="IImageSurface"/>.
         /// This event fires regardless of success or failure.
         /// </summary>
         public event TypedEventHandler<IImageSurface, ImageSurfaceLoadStatus> LoadCompleted;
@@ -62,10 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageMaskSurface"/> class.
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageMaskSurface.</param>
-        /// <param name="size">Size of the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object.</param>
+        /// <param name="uri">Uri of the image to be loaded onto the <see cref="ImageMaskSurface"/>.</param>
+        /// <param name="size">Size of the <see cref="ImageMaskSurface"/>.</param>
+        /// <param name="padding">The padding between the <see cref="ImageMaskSurface"/> outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public ImageMaskSurface(ICompositionGeneratorInternal generator, Uri uri, Size size, Thickness padding, ImageSurfaceOptions options)
         {
@@ -94,10 +94,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="ImageMaskSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
-        /// <param name="surfaceBitmap">The CanvasBitmap whose alpha values will be used to create the Mask.</param>
-        /// <param name="size">Size of the IImageMaskSurface.</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object.</param>
+        /// <param name="surfaceBitmap">The <see cref="CanvasBitmap"/> whose alpha values will be used to create the Mask.</param>
+        /// <param name="size">Size of the <see cref="ImageMaskSurface"/>.</param>
+        /// <param name="padding">The padding between the <see cref="ImageMaskSurface"/> outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
         /// <param name="options">The image's resize, alignment options and blur radius in the allocated space.</param>
         public ImageMaskSurface(ICompositionGeneratorInternal generator, CanvasBitmap surfaceBitmap, Size size, Thickness padding, ImageSurfaceOptions options)
         {
@@ -532,9 +532,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Redraws the IImageMaskSurface asynchronously by loading the image from the Uri.
+        /// Redraws the <see cref="ImageMaskSurface"/> asynchronously by loading the image from the Uri.
         /// </summary>
-        /// <returns>Task</returns>
+        /// <returns><see cref="Task"/></returns>
         internal Task RedrawAsync()
         {
             // Reload the IImageMaskSurface
@@ -556,7 +556,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageMaskSurface synchronously.
+        /// Helper class to redraw the <see cref="ImageMaskSurface"/> synchronously.
         /// </summary>
         private void RedrawSurface()
         {
@@ -573,7 +573,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageMaskSurface asynchronously.
+        /// Helper class to redraw the <see cref="ImageMaskSurface"/> asynchronously.
         /// </summary>
         /// <returns>Task</returns>
         private async Task RedrawSurfaceAsync()

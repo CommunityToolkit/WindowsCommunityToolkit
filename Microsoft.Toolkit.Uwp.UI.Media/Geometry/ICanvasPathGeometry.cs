@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     internal interface ICanvasPathGeometry
     {
         /// <summary>
-        /// Gets the associated CanvasGeometry.
+        /// Gets the associated <see cref="CanvasGeometry"/>.
         /// </summary>
         CanvasGeometry Geometry { get; }
     }

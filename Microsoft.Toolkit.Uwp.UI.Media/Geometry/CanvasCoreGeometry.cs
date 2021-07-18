@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Provides a base class for objects that define geometric shapes using CanvasGeometry.
+    /// Provides a base class for objects that define geometric shapes using <see cref="CanvasGeometry"/>.
     /// </summary>
     public abstract class CanvasCoreGeometry : DependencyObject, ICanvasPathGeometry, IDisposable
     {

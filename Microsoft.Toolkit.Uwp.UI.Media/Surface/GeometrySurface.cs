@@ -12,7 +12,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering custom shaped geometries onto ICompositionSurface.
+    /// Class for rendering custom shaped geometries onto <see cref="ICompositionSurface"/>.
     /// </summary>
     internal sealed class GeometrySurface : IGeometrySurface
     {
@@ -49,12 +49,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="GeometrySurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
-        /// <param name="size">Size of the GeometrySurface.</param>
-        /// <param name="geometry">Geometry of the GeometrySurface.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object.</param>
+        /// <param name="size">Size of the <see cref="GeometrySurface"/>.</param>
+        /// <param name="geometry">Geometry of the <see cref="GeometrySurface"/>.</param>
         /// <param name="stroke">Stroke for the geometry.</param>
         /// <param name="fillColor">Fill color of the geometry.</param>
-        /// <param name="backgroundColor">Brush to fill the GeometrySurface background surface which is not covered by the geometry.</param>
+        /// <param name="backgroundColor">Brush to fill the <see cref="IGeometrySurface"/> background surface which is not covered by the geometry.</param>
         public GeometrySurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, ICanvasStroke stroke, Color fillColor, Color backgroundColor)
         {
             _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
@@ -79,9 +79,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="GeometrySurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
-        /// <param name="size">Size of the GeometrySurface.</param>
-        /// <param name="geometry">Geometry of the GeometrySurface.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object.</param>
+        /// <param name="size">Size of the <see cref="GeometrySurface"/>.</param>
+        /// <param name="geometry">Geometry of the <see cref="GeometrySurface"/>.</param>
         /// <param name="stroke">Stroke for the geometry.</param>
         /// <param name="fill">Brush to fill the geometry.</param>
         /// <param name="backgroundBrush">Brush to fill the GeometrySurface background surface which is not covered by the geometry.</param>
@@ -754,7 +754,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Handles the DeviceReplaced event.
         /// </summary>
         /// <param name="sender">Sender.</param>
-        /// <param name="e">object.</param>
+        /// <param name="e">Event Arguments.</param>
         private void OnDeviceReplaced(object sender, object e)
         {
             // Recreate the GeometrySurface
@@ -765,7 +765,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the surface.
+        /// Helper class to redraw the <see cref="GeometrySurface"/>.
         /// </summary>
         private void RedrawSurface()
         {

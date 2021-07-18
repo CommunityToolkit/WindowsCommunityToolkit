@@ -13,51 +13,51 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Extension methods for Windows.UI.Composition.Compositor
+    /// Extension methods for <see cref="Windows.UI.Composition.Compositor"/>
     /// </summary>
     public static class CompositorExtensions
     {
         /// <summary>
-        /// Creates the CompositionSurfaceBrush from the specified render surface.
+        /// Creates the <see cref="CompositionSurfaceBrush"/> from the specified render surface.
         /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <param name="renderSurface">An object deriving from IGeometryMaskSurface, IGaussianMaskSurface, IGeometrySurface or IImageSurface</param>
-        /// <returns>CompositionSurfaceBrush</returns>
+        /// <param name="compositor"><see cref="Compositor"/></param>
+        /// <param name="renderSurface">An object deriving from <see cref="IGeometrySurface"/>, <see cref="IGeometryMaskSurface"/>, <see cref="IGaussianMaskSurface"/>, <see cref="IImageSurface"/> or <see cref="IImageMaskSurface"/></param>
+        /// <returns><see cref="CompositionSurfaceBrush"/></returns>
         public static CompositionSurfaceBrush CreateSurfaceBrush(this Compositor compositor, IRenderSurface renderSurface)
         {
             return compositor.CreateSurfaceBrush(renderSurface.Surface);
         }
 
         /// <summary>
-        /// Creates a custom shaped Effect Brush using BackdropBrush and an IGeometryMaskSurface.
+        /// Creates a custom shaped Effect Brush using BackdropBrush and an <see cref="IGeometryMaskSurface"/>.
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IGeometryMaskSurface</param>
-        /// <param name="blendColor">Color to blend in the BackdropBrush</param>
-        /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
+        /// <param name="mask"><see cref="IGeometryMaskSurface"/>.</param>
+        /// <param name="blendColor">Color to blend in the BackdropBrush.</param>
+        /// <param name="blurAmount">Blur Amount of the BackdropBrush.</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
-        /// <returns>CompositionEffectBrush</returns>
+        /// <returns><see cref="CompositionEffectBrush"/></returns>
         public static CompositionEffectBrush CreateMaskedBackdropBrush(this Compositor compositor, IGeometryMaskSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
         {
             return CreateBackdropBrush(compositor, mask, blendColor, blurAmount, backdropBrush);
         }
 
         /// <summary>
-        /// Creates a custom shaped Effect Brush using BackdropBrush and an IGaussianMaskSurface.
+        /// Creates a custom shaped Effect Brush using BackdropBrush and an <see cref="IGaussianMaskSurface"/>.
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IGeometryMaskSurface</param>
+        /// <param name="mask"><see cref="IGeometryMaskSurface"/></param>
         /// <param name="blendColor">Color to blend in the BackdropBrush</param>
         /// <param name="blurRadius">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
-        /// <returns>CompositionEffectBrush</returns>
+        /// <returns><see cref="CompositionEffectBrush"/></returns>
         public static CompositionEffectBrush CreateGaussianMaskedBackdropBrush(this Compositor compositor, IGaussianMaskSurface mask, Color blendColor, float blurRadius, CompositionBackdropBrush backdropBrush = null)
         {
             return CreateBackdropBrush(compositor, mask, blendColor, blurRadius, backdropBrush);
         }
 
         /// <summary>
-        /// Creates a custom shaped Effect Brush using BackdropBrush and an IGeometryMaskSurface or an IGaussianMaskSurface.
+        /// Creates a custom shaped Effect Brush using BackdropBrush and an <see cref="IGeometryMaskSurface"/> or an <see cref="IGaussianMaskSurface"/>.
         /// </summary>
         /// <param name="compositor">Compositor</param>
         /// <param name="mask">IGeometryMaskSurface or IGaussianMaskSurface</param>
@@ -119,17 +119,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Creates a custom shaped Frosted Glass Effect Brush using BackdropBrush and a Mask
+        /// Creates a custom shaped Frosted Glass Effect Brush using BackdropBrush and a <see cref="IGeometryMaskSurface"/>.
         /// </summary>
         /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IGeometryMaskSurface</param>
+        /// <param name="mask"><see cref="IGeometryMaskSurface"/></param>
         /// <param name="blendColor">Color to blend in the BackdropBrush</param>
         /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
-        /// <param name="multiplyAmount">MultiplyAmount of the ArithmeticCompositeEffect</param>
-        /// <param name="colorAmount">Source1Amount of the ArithmeticCompositeEffect</param>
-        /// <param name="backdropAmount">Source2Amount of the ArithmeticCompositeEffect</param>
-        /// <returns>CompositionEffectBrush</returns>
+        /// <param name="multiplyAmount">MultiplyAmount of the <see cref="ArithmeticCompositeEffect"/></param>
+        /// <param name="colorAmount">Source1Amount of the <see cref="ArithmeticCompositeEffect"/></param>
+        /// <param name="backdropAmount">Source2Amount of the <see cref="ArithmeticCompositeEffect"/></param>
+        /// <returns><see cref="CompositionEffectBrush"/></returns>
         public static CompositionEffectBrush CreateFrostedGlassBrush(
             this Compositor compositor,
             IGeometryMaskSurface mask,
@@ -191,14 +191,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Updates the CompositionSurfaceBrush's Stretch and Alignment options
+        /// Updates the <see cref="CompositionSurfaceBrush"/>'s Stretch and Alignment options.
         /// </summary>
-        /// <param name="surfaceBrush">CompositionSurfaceBrush</param>
-        /// <param name="stretch">Stretch mode</param>
-        /// <param name="alignX">Horizontal Alignment</param>
-        /// <param name="alignY">Vertical Alignment</param>
-        /// <param name="alignXAnimation">The animation to use to update the horizontal alignment of the surface brush</param>
-        /// <param name="alignYAnimation">The animation to use to update the vertical alignment of the surface brush</param>
+        /// <param name="surfaceBrush">CompositionSurfaceBrush.</param>
+        /// <param name="stretch">Stretch mode.</param>
+        /// <param name="alignX">Horizontal Alignment.</param>
+        /// <param name="alignY">Vertical Alignment.</param>
+        /// <param name="alignXAnimation">The animation to use to update the horizontal alignment of the surface brush.</param>
+        /// <param name="alignYAnimation">The animation to use to update the vertical alignment of the surface brush.</param>
         public static void UpdateSurfaceBrushOptions(
             this CompositionSurfaceBrush surfaceBrush,
             Stretch stretch,
@@ -277,10 +277,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         ///        });
         ///
         /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <param name="batchType">Composition Batch Type</param>
-        /// <param name="action">Action to perform within the scoped batch</param>
-        /// <param name="postAction">Action to perform once the batch completes</param>
+        /// <param name="compositor">Compositor.</param>
+        /// <param name="batchType">Composition Batch Type.</param>
+        /// <param name="action">Action to perform within the scoped batch.</param>
+        /// <param name="postAction">Action to perform once the batch completes.</param>
         public static void CreateScopedBatch(this Compositor compositor, CompositionBatchTypes batchType, Action action, Action postAction = null)
         {
             if (action == null)
@@ -339,10 +339,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         ///        });
         ///
         /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <param name="batchType">Composition Batch Type</param>
-        /// <param name="action">Action to perform within the scoped batch</param>
-        /// <param name="postAction">Action to perform once the batch completes</param>
+        /// <param name="compositor">Compositor.</param>
+        /// <param name="batchType">Composition Batch Type.</param>
+        /// <param name="action">Action to perform within the scoped batch.</param>
+        /// <param name="postAction">Action to perform once the batch completes.</param>
         public static void CreateScopedBatch(this Compositor compositor, CompositionBatchTypes batchType, Action<CompositionScopedBatch> action, Action<CompositionScopedBatch> postAction = null)
         {
             if (action == null)

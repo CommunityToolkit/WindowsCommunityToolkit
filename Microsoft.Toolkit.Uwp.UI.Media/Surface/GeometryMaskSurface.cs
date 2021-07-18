@@ -11,7 +11,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering custom shaped geometries onto ICompositionSurface so that they can be used as masks on Composition Visuals.
+    /// Class for rendering custom shaped geometries onto <see cref="ICompositionSurface"/> so that they can be used as masks on Composition Visuals.
     /// </summary>
     internal sealed class GeometryMaskSurface : IGeometryMaskSurface
     {
@@ -37,10 +37,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Initializes a new instance of the <see cref="GeometryMaskSurface"/> class.
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object</param>
-        /// <param name="size">Size of the GeometryMaskSurface</param>
-        /// <param name="geometry">Geometry of the GeometryMaskSurface</param>
-        /// <param name="offset">The offset from the top left corner of the ICompositionSurface where the Geometry is rendered.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object</param>
+        /// <param name="size">Size of the <see cref="GeometryMaskSurface"/></param>
+        /// <param name="geometry">Geometry of the <see cref="GeometryMaskSurface"/></param>
+        /// <param name="offset">The offset from the top left corner of the <see cref="ICompositionSurface"/> where the Geometry is rendered.</param>
         public GeometryMaskSurface(ICompositionGeneratorInternal generator, Size size, CanvasGeometry geometry, Vector2 offset)
         {
             _generator = generator ?? throw new ArgumentException("Generator cannot be null!", nameof(generator));
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the GeometryMaskSurface.
+        /// Helper class to redraw the <see cref="GeometryMaskSurface"/>.
         /// </summary>
         private void RedrawSurface()
         {

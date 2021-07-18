@@ -11,7 +11,7 @@ using Windows.UI.Composition;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// Class for rendering an image onto a ICompositionSurface.
+    /// Class for rendering an image onto a <see cref="ICompositionSurface"/>.
     /// </summary>
     internal sealed class ImageSurface : IImageSurface
     {
@@ -59,9 +59,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="ImageSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
-        /// <param name="uri">Uri of the image to be loaded onto the IImageSurface.</param>
-        /// <param name="size">Size of the IImageSurface.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object.</param>
+        /// <param name="uri"><see cref="System.Uri"/> of the image to be loaded onto the <see cref="ImageSurface"/>.</param>
+        /// <param name="size">Size of the <see cref="ImageSurface"/>.</param>
         /// <param name="options">The image's resize and alignment options in the allocated space.</param>
         public ImageSurface(ICompositionGeneratorInternal generator, Uri uri, Size size, ImageSurfaceOptions options)
         {
@@ -89,9 +89,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Initializes a new instance of the <see cref="ImageSurface"/> class.
         /// Constructor
         /// </summary>
-        /// <param name="generator">IComposiitonGeneratorInternal object.</param>
-        /// <param name="surfaceBitmap">CanvasBitmap which will be rendered on the IImageSurface.</param>
-        /// <param name="size">Size of the IImageSurface.</param>
+        /// <param name="generator"><see cref="ICompositionGeneratorInternal"/> object.</param>
+        /// <param name="surfaceBitmap"><see cref="CanvasBitmap"/> which will be rendered on the <see cref="ImageSurface"/>.</param>
+        /// <param name="size">Size of the <see cref="ImageSurface"/>.</param>
         /// <param name="options">The image's resize and alignment options in the allocated space.</param>
         internal ImageSurface(ICompositionGeneratorInternal generator, CanvasBitmap surfaceBitmap, Size size, ImageSurfaceOptions options)
         {
@@ -349,8 +349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Redraws the IImageSurface asynchronously
-        /// by loading the image from the Uri
+        /// Redraws the <see cref="ImageSurface"/> asynchronously by loading the image from the Uri.
         /// </summary>
         /// <returns>Task</returns>
         internal Task RedrawAsync()
@@ -374,7 +373,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageSurface synchronously.
+        /// Helper class to redraw the <see cref="ImageSurface"/> synchronously.
         /// </summary>
         private void RedrawSurface()
         {
@@ -400,9 +399,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Helper class to redraw the IImageSurface asynchronously.
+        /// Helper class to redraw the <see cref="ImageSurface"/> asynchronously.
         /// </summary>
-        /// <returns>Task</returns>
+        /// <returns><see cref="Task"/></returns>
         private async Task RedrawSurfaceAsync()
         {
             // Cache the canvasBitmap to avoid reloading of the same image during Resize/Redraw operations

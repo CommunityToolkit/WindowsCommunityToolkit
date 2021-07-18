@@ -14,12 +14,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public interface IRenderSurface : IDisposable
     {
         /// <summary>
-        /// Gets the CompositionGenerator.
+        /// Gets the <see cref="CompositionGenerator"/>.
         /// </summary>
         ICompositionGenerator Generator { get; }
 
         /// <summary>
-        /// Gets the Surface.
+        /// Gets the <see cref="ICompositionSurface"/>.
         /// </summary>
         ICompositionSurface Surface { get; }
 

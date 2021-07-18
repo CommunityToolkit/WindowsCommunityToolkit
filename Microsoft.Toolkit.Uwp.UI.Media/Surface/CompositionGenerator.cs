@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private CompositionGraphicsDevice _compositionDevice;
 
         /// <summary>
-        /// Gets the CompositionGenerator instance.
+        /// Gets the <see cref="CompositionGenerator"/> instance.
         /// </summary>
         public static ICompositionGenerator Instance => _instance.Value;
 
@@ -69,12 +69,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Renders the CanvasBitmap on the CompositionDrawingSurface based on the given options.
+        /// Renders the <see cref="CanvasBitmap"/> on the <see cref="CompositionDrawingSurface"/> based on the given options.
         /// </summary>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface on which the CanvasBitmap has to be rendered.</param>
-        /// <param name="canvasBitmap">CanvasBitmap created by loading the image from the Uri</param>
+        /// <param name="surfaceLock">The object to lock to prevent multiple threads from accessing the surface at the same time.</param>
+        /// <param name="surface"><see cref="CompositionDrawingSurface"/> on which the CanvasBitmap has to be rendered.</param>
+        /// <param name="canvasBitmap"><see cref="CanvasBitmap"/> created by loading the image from the <see cref="System.Uri"/>.</param>
         /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
         private static void RenderBitmap(
             object surfaceLock,
@@ -182,15 +181,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Renders the mask using the CanvasBitmap's alpha values on the CompositionDrawingSurface based on the given options.
+        /// Renders the mask using the <see cref="CanvasBitmap"/>'s alpha values on the <see cref="CompositionDrawingSurface"/> based on the given options.
         /// </summary>
-        /// <param name="device">CanvasDevice</param>
-        /// <param name="surfaceLock">The object to lock to prevent multiple threads
-        /// from accessing the surface at the same time.</param>
-        /// <param name="surface">CompositionDrawingSurface on which the CanvasBitmap has to be rendered.</param>
-        /// <param name="canvasBitmap">CanvasBitmap created by loading the image from the Uri</param>
-        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where
-        /// the mask, created from the loaded image's alpha values, should be rendered.</param>
+        /// <param name="device"><see cref="CanvasDevice"/></param>
+        /// <param name="surfaceLock">The object to lock to prevent multiple threads from accessing the surface at the same time.</param>
+        /// <param name="surface"><see cref="CompositionDrawingSurface"/> on which the CanvasBitmap has to be rendered.</param>
+        /// <param name="canvasBitmap"><see cref="CanvasBitmap"/> created by loading the image from the <see cref="System.Uri"/>.</param>
+        /// <param name="padding">The padding between the IImageMaskSurface outer bounds and the bounds of the area where the mask, created from the loaded image's alpha values, should be rendered.</param>
         /// <param name="options">Describes the image's resize and alignment options in the allocated space.</param>
         private static void RenderBitmapMask(
             CanvasDevice device,
@@ -365,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Raises the DeviceReplacedEvent
+        /// Raises the DeviceReplacedEvent.
         /// </summary>
         private void RaiseDeviceReplacedEvent()
         {
