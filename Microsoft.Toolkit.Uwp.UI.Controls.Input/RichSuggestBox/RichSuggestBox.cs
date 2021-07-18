@@ -110,7 +110,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             token = null;
             range = range.GetClone();
-            return range != null && !string.IsNullOrEmpty(range.Link) && _tokens.TryGetValue(range.Link, out token);
+            if (range != null && !string.IsNullOrEmpty(range.Link))
+            {
+                lock (LockObj)
+                {
+                    return _tokens.TryGetValue(range.Link, out token);
+                }
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>
@@ -252,9 +260,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var range = selection.GetClone();
             range.Expand(TextRangeUnit.Link);
-            if (!_tokens.ContainsKey(range.Link))
+            lock (LockObj)
             {
-                return;
+                if (!_tokens.ContainsKey(range.Link))
+                {
+                    return;
+                }
             }
 
             switch (selection.Type)
@@ -279,9 +290,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
 
                 case SelectionType.Normal:
+                    // We do not want user to partially select a token since pasting to a partial token can break
+                    // the token tracking system, which can result in unwanted character formatting issues.
                     if ((range.StartPosition <= selection.StartPosition && selection.EndPosition < range.EndPosition) ||
                         (range.StartPosition < selection.StartPosition && selection.EndPosition <= range.EndPosition))
                     {
+                        // TODO: Figure out how to expand selection without breaking selection flow (with Shift select or pointer sweep select)
                         selection.Expand(TextRangeUnit.Link);
                         InvokeTokenSelected(selection);
                     }
@@ -478,7 +492,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var selection = TextDocument.Selection;
             var range = selection.GetClone();
             range.Expand(TextRangeUnit.Link);
-            _tokenAtStart = _tokens.ContainsKey(range.Link) && (selection.StartPosition == 0 || selection.EndPosition == 0);
+            lock (LockObj)
+            {
+                _tokenAtStart = _tokens.ContainsKey(range.Link) && (selection.StartPosition == 0 || selection.EndPosition == 0);
+            }
         }
 
         private async Task RequestSuggestionsAsync(ITextRange range = null)
@@ -617,9 +634,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ValidateTokensInDocument()
         {
-            foreach (var (_, token) in _tokens)
+            lock (LockObj)
             {
-                token.Active = false;
+                foreach (var (_, token) in _tokens)
+                {
+                    token.Active = false;
+                }
             }
 
             ForEachLinkInDocument(TextDocument, ValidateTokenFromRange);
