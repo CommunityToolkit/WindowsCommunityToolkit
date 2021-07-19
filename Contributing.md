@@ -12,16 +12,16 @@ Due to the high volume of incoming issues please keep our GitHub issues for bug 
 For missing documentation related question, please file an issue at [Microsoft Docs](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new).
 
 ## <a name="bug"></a> Fix a Bug :bug:
-If you find any bug, you can help the community by [submitting an issue](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/new?assignees=&labels=bug+%3Abug%3A&template=bug_report.md&title=). Once the issue is filed, feel free to start working on the PR and submit a PR.
+If you find any bug, you can help the community by [submitting an issue](https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/new?assignees=&labels=bug+%3Abug%3A&template=bug_report.md&title=). Once the issue is filed, feel free to start working on the PR and submit a PR.
 
 ## <a name="issue"></a>Good First Issue :ok_hand:
-If this is your first time contributing to the Windows Community Toolkit and do not have advanced level programming experience, we have got you covered :boom: WCT has a list of [good first issue](https://github.com/windows-toolkit/WindowsCommunityToolkit/labels/good%20first%20issue%20%3Aok_hand%3A) that can be a great entryway to find and fix any issues that best fit your expertise or technical background.
+If this is your first time contributing to the Windows Community Toolkit and do not have advanced level programming experience, we have got you covered :boom: WCT has a list of [good first issue](https://github.com/CommunityToolkit/WindowsCommunityToolkit/labels/good%20first%20issue%20%3Aok_hand%3A) that can be a great entryway to find and fix any issues that best fit your expertise or technical background.
 
 ## <a name="help"></a>Help Wanted :raising_hand:
-WCT has a list of issues that are labeled as [help wanted](https://github.com/windows-toolkit/WindowsCommunityToolkit/labels/help%20wanted%20%3Araising_hand%3A). The level of complexity in the list can vary but if you have an advanced level of programming experience, feel free to jump in to solve these issues.
+WCT has a list of issues that are labeled as [help wanted](https://github.com/CommunityToolkit/WindowsCommunityToolkit/labels/help%20wanted%20%3Araising_hand%3A). The level of complexity in the list can vary but if you have an advanced level of programming experience, feel free to jump in to solve these issues.
 
 ## <a name="feature"></a>Add New Feature :mailbox_with_mail:
-*	To contribute a new feature, fill out the [Feature Request Template](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/new?assignees=&labels=feature+request+%3Amailbox_with_mail%3A&template=feature_request.md&title=%5BFeature%5D) and provide detailed information to express the proposal.
+*	To contribute a new feature, fill out the [Feature Request Template](https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/new?assignees=&labels=feature+request+%3Amailbox_with_mail%3A&template=feature_request.md&title=%5BFeature%5D) and provide detailed information to express the proposal.
 *	Once the Feature Request is submitted, it will be open for discussion.
 *	If it gets approved by the team, proceed to submit a PR of the proposed Feature.
 *	If the PR contains an error-free code and the reviewer signs off, the PR will be merged.

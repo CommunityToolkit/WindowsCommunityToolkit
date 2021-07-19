@@ -511,7 +511,7 @@ namespace UnitTests.Mvvm
             messenger.Cleanup();
         }
 
-        // See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/4081
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4081
         [TestCategory("Mvvm")]
         [TestMethod]
         [DataRow(typeof(StrongReferenceMessenger))]

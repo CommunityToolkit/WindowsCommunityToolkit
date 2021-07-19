@@ -15,15 +15,15 @@
         },
         {
           "title": "GitHub Issues",
-          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/issues"
+          "url": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues"
         },
         {
           "title": "Roadmap",
-          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones"
+          "url": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/milestones"
         },
         {
           "title": "Contributors",
-          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/graphs/contributors"
+          "url": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/graphs/contributors"
         },
         {
           "title": "UWP Community Discord",
@@ -90,7 +90,7 @@
         },
         {
           "title": "ColorCode-Universal (Dependency)",
-          "url": "https://github.com/windows-toolkit/ColorCode-Universal"
+          "url": "https://github.com/CommunityToolkit/ColorCode-Universal"
         },
         {
           "title": "Monaco Editor UWP (Dependency)",
