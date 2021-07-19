@@ -49,11 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Border _suggestionsContainer;
 
         private int _suggestionChoice;
+        private int _resetStartPosition;
         private string _currentQuery;
         private string _currentPrefix;
         private bool _ignoreChange;
         private bool _popupOpenDown;
-        private bool _tokenAtStart;
         private bool _textCompositionActive;
         private ITextRange _currentRange;
         private RichSuggestToken _hoveringToken;
@@ -64,6 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public RichSuggestBox()
         {
+            _resetStartPosition = -1;
             _tokens = new Dictionary<string, RichSuggestToken>();
             _visibleTokens = new ObservableCollection<RichSuggestToken>();
             Tokens = new ReadOnlyObservableCollection<RichSuggestToken>(_visibleTokens);
@@ -268,46 +269,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            switch (selection.Type)
+            if (selection.Type == SelectionType.InsertionPoint && selection.StartPosition == range.StartPosition)
             {
-                case SelectionType.InsertionPoint:
-                    if (range.StartPosition < selection.StartPosition && selection.EndPosition < range.EndPosition)
-                    {
-                        // Snap selection to token on click
-                        selection.Expand(TextRangeUnit.Link);
-                        InvokeTokenSelected(selection);
-                    }
-                    else if (selection.StartPosition == range.StartPosition)
-                    {
-                        // Reset formatting if selection is sandwiched between 2 adjacent links
-                        range.MoveStart(TextRangeUnit.Link, -1);
-                        if (selection.StartPosition != range.StartPosition)
-                        {
-                            ResetFormat(selection);
-                        }
-                    }
-
-                    break;
-
-                case SelectionType.Normal:
-                    // We do not want user to partially select a token since pasting to a partial token can break
-                    // the token tracking system, which can result in unwanted character formatting issues.
-                    if ((range.StartPosition <= selection.StartPosition && selection.EndPosition < range.EndPosition) ||
-                        (range.StartPosition < selection.StartPosition && selection.EndPosition <= range.EndPosition))
-                    {
-                        // TODO: Figure out how to expand selection without breaking selection flow (with Shift select or pointer sweep select)
-                        selection.Expand(TextRangeUnit.Link);
-                        InvokeTokenSelected(selection);
-                    }
-
-                    break;
+                // Reset formatting if selection is sandwiched between 2 adjacent links
+                range.MoveStart(TextRangeUnit.Link, -1);
+                if (selection.StartPosition != range.StartPosition)
+                {
+                    ResetFormat(selection);
+                }
+            }
+            else
+            {
+                ExpandSelectionOnPartialTokenSelect(selection, range);
             }
         }
 
         private async void RichEditBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             SelectionChanged?.Invoke(this, e);
-            CheckTokenAtStart();
+            SetFormatResetPosition();
 
             // During text composition changing (e.g. user typing with an IME),
             // SelectionChanged event is fired multiple times with each keystroke.
@@ -390,7 +370,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _ignoreChange = true;
-            ResetFormatAfterTokenRemoveAtStart();
+            ResetFormatOnTextChanged();
             ValidateTokensInDocument();
             TextDocument.EndUndoGroup();
             TextDocument.BeginUndoGroup();
@@ -450,15 +430,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void ExpandSelectionOnPartialTokenSelect(ITextSelection selection, ITextRange tokenRange)
+        {
+            switch (selection.Type)
+            {
+                case SelectionType.InsertionPoint:
+                    // Snap selection to token on click
+                    if (tokenRange.StartPosition < selection.StartPosition && selection.EndPosition < tokenRange.EndPosition)
+                    {
+                        selection.Expand(TextRangeUnit.Link);
+                        InvokeTokenSelected(selection);
+                    }
+
+                    break;
+
+                case SelectionType.Normal:
+                    // We do not want user to partially select a token since pasting to a partial token can break
+                    // the token tracking system, which can result in unwanted character formatting issues.
+                    if ((tokenRange.StartPosition <= selection.StartPosition && selection.EndPosition < tokenRange.EndPosition) ||
+                        (tokenRange.StartPosition < selection.StartPosition && selection.EndPosition <= tokenRange.EndPosition))
+                    {
+                        // TODO: Figure out how to expand selection without breaking selection flow (with Shift select or pointer sweep select)
+                        selection.Expand(TextRangeUnit.Link);
+                        InvokeTokenSelected(selection);
+                    }
+
+                    break;
+            }
+        }
+
         private void InvokeTokenSelected(ITextSelection selection)
         {
-            if (!TryGetTokenFromRange(selection, out var token) || token.RangeEnd != selection.EndPosition)
+            if (TokenSelected == null || !TryGetTokenFromRange(selection, out var token) || token.RangeEnd != selection.EndPosition)
             {
                 return;
             }
 
             var tokenRect = GetTokenRect(selection);
-            TokenSelected?.Invoke(this, new RichSuggestTokenEventArgs
+            TokenSelected.Invoke(this, new RichSuggestTokenEventArgs
             {
                 Token = token,
                 Rect = tokenRect,
@@ -468,6 +477,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InvokeTokenHovered(Point pointerPosition)
         {
+            if (TokenHovered == null)
+            {
+                return;
+            }
+
             var padding = _richEditBox.Padding;
             pointerPosition.X += HorizontalOffset - padding.Left;
             pointerPosition.Y += VerticalOffset - padding.Top;
@@ -476,7 +490,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (range.Expand(TextRangeUnit.Link) > 0 && TryGetTokenFromRange(range, out token) &&
                 token != _hoveringToken)
             {
-                TokenHovered?.Invoke(this, new RichSuggestTokenEventArgs
+                TokenHovered.Invoke(this, new RichSuggestTokenEventArgs
                 {
                     Token = token,
                     Rect = GetTokenRect(range),
@@ -487,15 +501,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _hoveringToken = token;
         }
 
-        private void CheckTokenAtStart()
+        private void SetFormatResetPosition()
         {
+            _resetStartPosition = -1;
             var selection = TextDocument.Selection;
             var range = selection.GetClone();
             range.Expand(TextRangeUnit.Link);
+            bool isToken;
             lock (LockObj)
             {
-                _tokenAtStart = _tokens.ContainsKey(range.Link) && (selection.StartPosition == 0 || selection.EndPosition == 0);
+                isToken = _tokens.ContainsKey(range.Link);
             }
+
+            if (!isToken)
+            {
+                return;
+            }
+
+            if (selection.StartPosition == 0 || selection.EndPosition == 0)
+            {
+                _resetStartPosition = 0;
+            }
+
+            if (selection.Type == SelectionType.Normal)
+            {
+                var startPosition = range.StartPosition;
+                range.MoveStart(TextRangeUnit.Link, -1);
+                if (range.StartPosition != startPosition)
+                {
+                    _resetStartPosition = startPosition;
+                }
+            }
+
         }
 
         private async Task RequestSuggestionsAsync(ITextRange range = null)
@@ -673,7 +710,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (token.ToString() != range.Text)
             {
-                this.ResetFormat(range);
+                ResetFormat(range);
+                ResetFormat(TextDocument.Selection);
                 token.Active = false;
                 return;
             }
@@ -683,17 +721,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Handle the special case where editing a token at the start of the document does not completely reset the character format.
+        /// Reset character format after editing text that contains a token.
+        /// In some special cases, changing the text of a range that contains a token at the start
+        /// can result in the character format of the token gets applied to the changed text.
         /// </summary>
-        private void ResetFormatAfterTokenRemoveAtStart()
+        private void ResetFormatOnTextChanged()
         {
-            if (_tokenAtStart)
+            var selection = TextDocument.Selection;
+
+            if (_resetStartPosition >= 0 && selection.EndPosition > _resetStartPosition)
             {
-                var range = TextDocument.Selection.GetClone();
-                range.SetRange(0, range.EndPosition);
+                var range = selection.GetClone();
+                range.SetRange(_resetStartPosition, range.EndPosition);
                 ResetFormat(range);
-                ResetFormat(TextDocument.Selection);
-                _tokenAtStart = false;
+                ResetFormat(selection);
+                _resetStartPosition = -1;
             }
         }
 
