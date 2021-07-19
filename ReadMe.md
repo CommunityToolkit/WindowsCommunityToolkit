@@ -4,8 +4,8 @@ The Windows Community Toolkit is a collection of helper functions, custom contro
 
 | Target | Branch | Status | Recommended package version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/7.0.2 | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/7.0.2)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10&branchName=rel/7.0.2) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) |
-| Pre-release beta testing | main | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=main)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10) | [![DevOps](https://vsrm.dev.azure.com/dotnet/_apis/public/Release/badge/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/1/1)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_packaging?_a=feed&feed=WindowsCommunityToolkit-MainLatest) |
+| Production | rel/7.0.2 | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/7.0.2)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10&branchName=rel/7.0.2) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) |
+| Pre-release beta testing | main | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=main)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10) | [![DevOps](https://vsrm.dev.azure.com/dotnet/_apis/public/Release/badge/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/1/1)](https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=WindowsCommunityToolkit-MainLatest) |
 
 ## Getting Started :raised_hands:
 Please read the [Getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
@@ -31,9 +31,9 @@ The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs
 * Principle **#3**: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
 
 ## Roadmap :earth_americas:
-Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
+Read what we [plan for next iterations](https://github.com/CommunityToolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
-Check out our [Preview Packages Wiki Page](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki/Preview-Packages) to learn more about updating your NuGet sources in Visual Studio, then you can also get pre-release packages of upcoming versions to try.
+Check out our [Preview Packages Wiki Page](https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki/Preview-Packages) to learn more about updating your NuGet sources in Visual Studio, then you can also get pre-release packages of upcoming versions to try.
 
 ## Code of Conduct :page_facing_up:
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)

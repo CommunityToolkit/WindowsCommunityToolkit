@@ -380,7 +380,7 @@ So inline image syntax looks like this:
 
 which renders in:
 
-![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+![Helpers Image](https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 Rendering Images is now supported through prefix. use property **UriPrefix**
 
@@ -416,7 +416,7 @@ MarkdownTextblock supports links wrapped with Images.
 
 will render into
 
-[![image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+[![image](https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 and when clicked will go to the Linked Page.
 
@@ -425,7 +425,7 @@ MarkdownTextBlock also supports Reference based links.
 ```
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png
+[1]:https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 ```
@@ -434,7 +434,7 @@ will render into
 
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png
+[1]:https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 *****

@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if !REMOTE_DOCS
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/windows-toolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/CommunityToolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;

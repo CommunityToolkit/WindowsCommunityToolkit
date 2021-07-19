@@ -4,11 +4,11 @@
     <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
     <PackageIcon>images\nuget.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/CommunityToolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <DefaultLanguage>en-US</DefaultLanguage>
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
