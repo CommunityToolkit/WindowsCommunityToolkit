@@ -175,8 +175,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (args.Prefix == "#")
             {
-                args.Format.Background = Colors.DarkOrange;
-                args.Format.Foreground = Colors.OrangeRed;
+                args.Format.BackgroundColor = Colors.DarkOrange;
+                args.Format.ForegroundColor = Colors.OrangeRed;
+                args.Format.Bold = FormatEffect.On;
+                args.Format.Italic = FormatEffect.On;
                 args.Text = ((SampleDataType)args.SelectedItem).Text;
             }
             else

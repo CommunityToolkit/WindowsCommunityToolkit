@@ -49,47 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return string.IsNullOrEmpty(value) ? string.Empty : string.Concat(value.Where(char.IsPunctuation));
         }
 
-        private static void ApplyTokenFormat(ITextCharacterFormat target, RichSuggestTokenFormat format)
-        {
-            target.BackgroundColor = format.Background;
-            target.ForegroundColor = format.Foreground;
-            target.Bold = format.Bold;
-            target.Italic = format.Italic;
-            target.FontStretch = format.FontStretch;
-            target.FontStyle = format.FontStyle;
-            target.Name = format.FontName;
-            target.Kerning = format.Kerning;
-            target.Strikethrough = format.Strikethrough;
-            target.Size = format.FontSize;
-            target.Outline = format.Outline;
-            target.Weight = format.Weight;
-            target.Spacing = format.Spacing;
-            target.Subscript = format.Subscript;
-            target.Superscript = format.Superscript;
-            target.Position = format.Position;
-        }
-
-        private static void ApplyFormat(ITextRange dest, ITextCharacterFormat format)
-        {
-            var target = dest.CharacterFormat;
-            target.BackgroundColor = format.BackgroundColor;
-            target.ForegroundColor = format.ForegroundColor;
-            target.Bold = format.Bold;
-            target.Italic = format.Italic;
-            target.FontStretch = format.FontStretch;
-            target.FontStyle = format.FontStyle;
-            target.Name = format.Name;
-            target.Kerning = format.Kerning;
-            target.Strikethrough = format.Strikethrough;
-            target.Size = format.Size;
-            target.Outline = format.Outline;
-            target.Weight = format.Weight;
-            target.Spacing = format.Spacing;
-            target.Subscript = format.Subscript;
-            target.Superscript = format.Superscript;
-            target.Position = format.Position;
-        }
-
         private static void ForEachLinkInDocument(ITextDocument document, Action<ITextRange> action)
         {
             var range = document.GetRange(0, 0);

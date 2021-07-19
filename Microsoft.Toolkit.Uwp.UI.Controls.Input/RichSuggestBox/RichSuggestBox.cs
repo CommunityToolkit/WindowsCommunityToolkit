@@ -515,23 +515,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CancelIfNotDisposed(this._suggestionRequestedCancellationSource);
             this._suggestionRequestedCancellationSource = null;
 
-            if (queryFound && SuggestionsRequested != null)
+            if (queryFound)
             {
-                using var tokenSource = new CancellationTokenSource();
-                _suggestionRequestedCancellationSource = tokenSource;
                 _currentPrefix = prefix;
                 _currentQuery = query;
                 _currentRange = range;
 
-                var cancellationToken = tokenSource.Token;
-                var eventArgs = new SuggestionsRequestedEventArgs { Query = query, Prefix = prefix };
-                try
+                if (SuggestionsRequested != null)
                 {
-                    await SuggestionsRequested?.InvokeAsync(this, eventArgs, cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    eventArgs.Cancel = true;
+                    using var tokenSource = new CancellationTokenSource();
+                    _suggestionRequestedCancellationSource = tokenSource;
+                    var cancellationToken = tokenSource.Token;
+                    var eventArgs = new SuggestionsRequestedEventArgs { Query = query, Prefix = prefix };
+                    try
+                    {
+                        await SuggestionsRequested.InvokeAsync(this, eventArgs, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        eventArgs.Cancel = true;
+                    }
                 }
             }
             else
@@ -562,7 +565,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Query = query,
                 SelectedItem = selectedItem,
                 Text = query,
-                Format = this.CreateTokenFormat()
+                Format = CreateTokenFormat(range)
             };
 
             if (SuggestionChosen != null)
@@ -600,7 +603,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, RichSuggestTokenFormat format, bool addTrailingSpace = true)
+        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, ITextCharacterFormat format, bool addTrailingSpace = true)
         {
             // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
             range.GetText(TextGetOptions.NoHidden, out var existingText);
@@ -609,16 +612,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 range.SetText(TextSetOptions.None, displayText);
             }
 
+            range.CharacterFormat.SetClone(format);
             range.Link = $"\"{id}\"";
 
             // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
             if (range.Link != $"\"{id}\"")
             {
-                range.Link = string.Empty;
+                ResetFormat(range);
                 return false;
             }
-
-            ApplyTokenFormat(range.CharacterFormat, format);
 
             if (addTrailingSpace)
             {
@@ -658,7 +660,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 lock (LockObj)
                 {
                     var guid = Guid.NewGuid();
-                    if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, this.CreateTokenFormat(), false))
+                    if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateTokenFormat(range), false))
                     {
                         token = new RichSuggestToken(guid, token.DisplayText) { Active = true, Item = token.Item };
                         token.UpdateTextRange(range);
@@ -705,7 +707,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 range.Link = string.Empty;
             }
 
-            ApplyFormat(range, defaultFormat);
+            range.CharacterFormat.SetClone(defaultFormat);
         }
 
         private void ConditionallyLoadElement(object property, string elementName)
@@ -923,21 +925,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private RichSuggestTokenFormat CreateTokenFormat()
+        private ITextCharacterFormat CreateTokenFormat(ITextRange range)
         {
-            var defaultFormat = TextDocument.GetDefaultCharacterFormat();
-            var suggestionFormat = new RichSuggestTokenFormat(defaultFormat);
+            var format = range.CharacterFormat.GetClone();
             if (this.TokenBackground != null)
             {
-                suggestionFormat.Background = this.TokenBackground.Color;
+                format.BackgroundColor = this.TokenBackground.Color;
             }
 
             if (this.TokenForeground != null)
             {
-                suggestionFormat.Foreground = this.TokenForeground.Color;
+                format.ForegroundColor = this.TokenForeground.Color;
             }
 
-            return suggestionFormat;
+            return format;
         }
 
         private Rect GetTokenRect(ITextRange tokenRange)

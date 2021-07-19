@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Deferred;
+using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -40,6 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the formatting construct to override this token formatting.
         /// </summary>
-        public RichSuggestTokenFormat Format { get; internal set; }
+        public ITextCharacterFormat Format { get; internal set; }
     }
 }
