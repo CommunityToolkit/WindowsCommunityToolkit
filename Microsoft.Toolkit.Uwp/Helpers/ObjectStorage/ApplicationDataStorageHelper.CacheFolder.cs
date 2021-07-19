@@ -42,7 +42,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return ReadFileAsync<T>(CacheFolder, filePath, @default);
         }
 
-
         /// <summary>
         /// Retrieves the listings for a folder and the item types in the LocalCacheFolder.
         /// </summary>
