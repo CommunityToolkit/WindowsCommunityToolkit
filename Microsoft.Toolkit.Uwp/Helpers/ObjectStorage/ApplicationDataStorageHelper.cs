@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Storage helper for files and folders living in Windows.Storage.ApplicationData storage endpoints.
     /// </summary>
-    public class ApplicationDataStorageHelper : IFileStorageHelper, ISettingsStorageHelper
+    public partial class ApplicationDataStorageHelper : IFileStorageHelper, ISettingsStorageHelper
     {
         /// <summary>
         /// Get a new instance using ApplicationData.Current and the provided serializer.
@@ -43,11 +43,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets the settings container.
         /// </summary>
+        public ApplicationDataContainer Settings => AppData.LocalSettings;
+
+        /// <summary>
+        ///  Gets the storage folder.
+        /// </summary>
+        public StorageFolder Folder => AppData.LocalFolder;
+
+        /// <summary>
+        /// Gets the storage host.
+        /// </summary>
         protected ApplicationData AppData { get; private set; }
-
-        private ApplicationDataContainer DefaultSettings => AppData.LocalSettings;
-
-        private StorageFolder DefaultFolder => AppData.LocalFolder;
 
         private readonly Toolkit.Helpers.IObjectSerializer _serializer;
 
@@ -65,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public bool KeyExists(string key)
         {
-            return DefaultSettings.Values.ContainsKey(key);
+            return Settings.Values.ContainsKey(key);
         }
 
         /// <inheritdoc />
@@ -73,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (KeyExists(compositeKey))
             {
-                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)DefaultSettings.Values[compositeKey];
+                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
                 if (composite != null)
                 {
                     return composite.ContainsKey(key);
@@ -86,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public T Read<T>(string key, T @default = default)
         {
-            if (!DefaultSettings.Values.TryGetValue(key, out var value) || value == null)
+            if (!Settings.Values.TryGetValue(key, out var value) || value == null)
             {
                 return @default;
             }
@@ -97,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public T Read<T>(string compositeKey, string key, T @default = default)
         {
-            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)DefaultSettings.Values[compositeKey];
+            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
             if (composite != null)
             {
                 string value = (string)composite[key];
@@ -113,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public void Save<T>(string key, T value)
         {
-            DefaultSettings.Values[key] = _serializer.Serialize(value);
+            Settings.Values[key] = _serializer.Serialize(value);
         }
 
         /// <inheritdoc />
@@ -121,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (KeyExists(compositeKey))
             {
-                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)DefaultSettings.Values[compositeKey];
+                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
 
                 foreach (KeyValuePair<string, T> setting in values)
                 {
@@ -143,14 +149,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     composite.Add(setting.Key, _serializer.Serialize(setting.Value));
                 }
 
-                DefaultSettings.Values[compositeKey] = composite;
+                Settings.Values[compositeKey] = composite;
             }
         }
 
         /// <inheritdoc />
         public void Delete(string key)
         {
-            DefaultSettings.Values.Remove(key);
+            Settings.Values.Remove(key);
         }
 
         /// <inheritdoc />
@@ -158,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (KeyExists(compositeKey))
             {
-                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)DefaultSettings.Values[compositeKey];
+                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
                 composite.Remove(key);
             }
         }
@@ -166,37 +172,37 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public Task<bool> ItemExistsAsync(string itemName)
         {
-            return ItemExistsAsync(DefaultFolder, itemName);
+            return ItemExistsAsync(Folder, itemName);
         }
 
         /// <inheritdoc />
         public Task<T> ReadFileAsync<T>(string filePath, T @default = default)
         {
-            return ReadFileAsync<T>(DefaultFolder, filePath, @default);
+            return ReadFileAsync<T>(Folder, filePath, @default);
         }
 
         /// <inheritdoc />
         public Task<IList<Tuple<DirectoryItemType, string>>> ReadFolderAsync(string folderPath)
         {
-            return ReadFolderAsync(DefaultFolder, folderPath);
+            return ReadFolderAsync(Folder, folderPath);
         }
 
         /// <inheritdoc />
         public Task CreateFileAsync<T>(string filePath, T value)
         {
-            return SaveFileAsync<T>(DefaultFolder, filePath, value);
+            return SaveFileAsync<T>(Folder, filePath, value);
         }
 
         /// <inheritdoc />
         public Task CreateFolderAsync(string folderPath)
         {
-            return CreateFolderAsync(DefaultFolder, folderPath);
+            return CreateFolderAsync(Folder, folderPath);
         }
 
         /// <inheritdoc />
         public Task DeleteItemAsync(string itemPath)
         {
-            return DeleteItemAsync(DefaultFolder, itemPath);
+            return DeleteItemAsync(Folder, itemPath);
         }
 
         /// <summary>
@@ -208,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>A task with the result of the file query.</returns>
         public Task<bool> FileExistsAsync(string fileName, bool isRecursive = false)
         {
-            return FileExistsAsync(DefaultFolder, fileName, isRecursive);
+            return FileExistsAsync(Folder, fileName, isRecursive);
         }
 
         /// <summary>
@@ -220,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
-            return SaveFileAsync<T>(DefaultFolder, filePath, value);
+            return SaveFileAsync<T>(Folder, filePath, value);
         }
 
         private async Task<bool> ItemExistsAsync(StorageFolder folder, string itemName)
