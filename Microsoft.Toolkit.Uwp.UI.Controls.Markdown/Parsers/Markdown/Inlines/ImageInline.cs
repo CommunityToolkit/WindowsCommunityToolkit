@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
+        /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start parsing. </param>
