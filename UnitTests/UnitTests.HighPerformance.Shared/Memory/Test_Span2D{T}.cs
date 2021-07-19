@@ -803,7 +803,7 @@ namespace UnitTests.HighPerformance
             Assert.AreEqual(span.Length, 0);
         }
 
-        // See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3947
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3947
         [TestCategory("Span2DT")]
         [TestMethod]
         public void Test_Span2DT_TryGetSpan_From1DArray_4()
