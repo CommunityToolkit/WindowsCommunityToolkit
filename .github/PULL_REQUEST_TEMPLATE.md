@@ -39,8 +39,8 @@ Please check if your PR fulfills the following requirements:
 - [ ] Tested code with current [supported SDKs](../readme.md#supported)
 - [ ] Pull Request has been submitted to the documentation repository [instructions](..\contributing.md#docs). Link: <!-- docs PR link -->
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
-    - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
-- [ ] New major technical changes in the toolkit have or will be added to the [Wiki](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki) e.g. build changes, source generators, testing infrastructure, sample creation changes, etc...
+    - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/CommunityToolkit/WindowsCommunityToolkit-design-assets)
+- [ ] New major technical changes in the toolkit have or will be added to the [Wiki](https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki) e.g. build changes, source generators, testing infrastructure, sample creation changes, etc...
 - [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
 - [ ] Header has been added to all new source files (run *build/UpdateHeaders.bat*)
 - [ ] Contains **NO** breaking changes

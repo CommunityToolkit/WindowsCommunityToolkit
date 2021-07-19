@@ -6,6 +6,6 @@ namespace Microsoft.Toolkit.Parsers
 {
     internal static class Constants
     {
-        internal const string ParserObsoleteMsg = "Parsing code has been deprecated, we suggest using Markdig. See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3200 for more info.";
+        internal const string ParserObsoleteMsg = "Parsing code has been deprecated, we suggest using Markdig. See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3200 for more info.";
     }
 }
