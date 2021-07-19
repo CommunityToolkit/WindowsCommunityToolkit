@@ -15,9 +15,9 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_StorageHelper
     {
-        private ISettingsStorageHelper _localStorageHelperSystem = ApplicationDataStorageHelper.GetCurrent(new Microsoft.Toolkit.Helpers.SystemSerializer());
-        private ISettingsStorageHelper _localStorageHelperJsonCompat = ApplicationDataStorageHelper.GetCurrent(new JsonObjectSerializer());
-        private ISettingsStorageHelper _localStorageHelperJsonNew = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonSerializer());
+        private ISettingsStorageHelper _settingsStorage_System = ApplicationDataStorageHelper.GetCurrent(new Microsoft.Toolkit.Helpers.SystemSerializer());
+        private ISettingsStorageHelper _settingsStorage_JsonCompat = ApplicationDataStorageHelper.GetCurrent(new JsonObjectSerializer());
+        private ISettingsStorageHelper _settingsStorage_JsonNew = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonSerializer());
 
         /// <summary>
         /// Checks that we're running 10.0.3 version of Newtonsoft.Json package which we used in 6.1.1.
@@ -41,10 +41,10 @@ namespace UnitTests.Helpers
             int input = 42;
 
             // Use our previous Json layer to store value
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // But try and read from our new system to see if it works
-            int output = _localStorageHelperSystem.Read(key, 0);
+            int output = _settingsStorage_System.Read(key, 0);
 
             Assert.AreEqual(input, output);
         }
@@ -61,10 +61,10 @@ namespace UnitTests.Helpers
 
             DateTime input = new DateTime(2017, 12, 25);
 
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            DateTime output = _localStorageHelperSystem.Read(key, DateTime.Today);
+            DateTime output = _settingsStorage_System.Read(key, DateTime.Today);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace UnitTests.Helpers
             // as local and online platforms seem to throw different exception types :(
             try
             {
-                _localStorageHelperSystem.Save("Today", DateTime.Today);
+                _settingsStorage_System.Save("Today", DateTime.Today);
             }
             catch (Exception exception)
             {
@@ -100,10 +100,10 @@ namespace UnitTests.Helpers
             UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            UI.Person output = _localStorageHelperJsonCompat.Read<UI.Person>(key, null);
+            UI.Person output = _settingsStorage_JsonCompat.Read<UI.Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
@@ -120,10 +120,10 @@ namespace UnitTests.Helpers
             UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            Person output = _localStorageHelperJsonCompat.Read<Person>(key, null);
+            Person output = _settingsStorage_JsonCompat.Read<Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
@@ -138,10 +138,10 @@ namespace UnitTests.Helpers
 
             int input = 42;
 
-            _localStorageHelperSystem.Save<int>(key, input);
+            _settingsStorage_System.Save<int>(key, input);
 
             // now read it as int to valid that the change works
-            int output = _localStorageHelperSystem.Read<int>(key, 0);
+            int output = _settingsStorage_System.Read<int>(key, 0);
 
             Assert.AreEqual(input, output);
         }
@@ -154,10 +154,10 @@ namespace UnitTests.Helpers
 
             DateTime input = new DateTime(2017, 12, 25);
 
-            _localStorageHelperJsonNew.Save(key, input);
+            _settingsStorage_JsonNew.Save(key, input);
 
             // now read it as int to valid that the change works
-            DateTime output = _localStorageHelperJsonNew.Read(key, DateTime.Today);
+            DateTime output = _settingsStorage_JsonNew.Read(key, DateTime.Today);
 
             Assert.AreEqual(input, output);
         }
@@ -170,10 +170,10 @@ namespace UnitTests.Helpers
 
             Person input = new Person() { Name = "Joe Bloggs", Age = 42 };
 
-            _localStorageHelperJsonNew.Save(key, input);
+            _settingsStorage_JsonNew.Save(key, input);
 
             // now read it as int to valid that the change works
-            Person output = _localStorageHelperJsonNew.Read<Person>(key, null);
+            Person output = _settingsStorage_JsonNew.Read<Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);

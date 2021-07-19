@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ObjectStoragePage
     {
-        private readonly ISettingsStorageHelper localStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private readonly ISettingsStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
         public ObjectStoragePage()
         {
@@ -25,9 +25,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Read from local storage
-            if (localStorageHelper.KeyExists(KeyTextBox.Text))
+            if (_settingsStorage.KeyExists(KeyTextBox.Text))
             {
-                ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
+                ContentTextBox.Text = _settingsStorage.Read<string>(KeyTextBox.Text);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Save into local storage
-            localStorageHelper.Save(KeyTextBox.Text, ContentTextBox.Text);
+            _settingsStorage.Save(KeyTextBox.Text, ContentTextBox.Text);
         }
     }
 }

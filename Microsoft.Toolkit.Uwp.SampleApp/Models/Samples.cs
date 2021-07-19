@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -21,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static ApplicationDataStorageHelper _appDataStorageHelper = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private static ISettingsStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_recentSamples == null)
             {
                 _recentSamples = new LinkedList<Sample>();
-                var savedSamples = _appDataStorageHelper.Read<string>(_recentSamplesStorageKey);
+                var savedSamples = _settingsStorage.Read<string>(_recentSamplesStorageKey);
 
                 if (savedSamples != null)
                 {
@@ -144,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             var str = string.Join(";", _recentSamples.Take(10).Select(s => s.Name).ToArray());
-            _appDataStorageHelper.Save<string>(_recentSamplesStorageKey, str);
+            _settingsStorage.Save<string>(_recentSamplesStorageKey, str);
         }
     }
 }
