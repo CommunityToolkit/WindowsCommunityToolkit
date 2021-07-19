@@ -20,9 +20,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Get a new instance using ApplicationData.Current and the provided serializer.
         /// </summary>
-        /// <param name="objectSerializer">Serializer for converting stored values.</param>
+        /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
         /// <returns>A new instance of ApplicationDataStorageHelper.</returns>
-        public static ApplicationDataStorageHelper GetCurrent(Toolkit.Helpers.IObjectSerializer objectSerializer)
+        public static ApplicationDataStorageHelper GetCurrent(Toolkit.Helpers.IObjectSerializer objectSerializer = null)
         {
             var appData = ApplicationData.Current;
             return new ApplicationDataStorageHelper(appData, objectSerializer);
@@ -32,9 +32,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Get a new instance using the ApplicationData for the provided user and serializer.
         /// </summary>
         /// <param name="user">App data user owner.</param>
-        /// <param name="objectSerializer">Serializer for converting stored values.</param>
+        /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
         /// <returns>A new instance of ApplicationDataStorageHelper.</returns>
-        public static async Task<ApplicationDataStorageHelper> GetForUserAsync(User user, Toolkit.Helpers.IObjectSerializer objectSerializer)
+        public static async Task<ApplicationDataStorageHelper> GetForUserAsync(User user, Toolkit.Helpers.IObjectSerializer objectSerializer = null)
         {
             var appData = await ApplicationData.GetForUserAsync(user);
             return new ApplicationDataStorageHelper(appData, objectSerializer);
@@ -55,11 +55,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="ApplicationDataStorageHelper"/> class.
         /// </summary>
         /// <param name="appData">The data store to interact with.</param>
-        /// <param name="objectSerializer">Serializer for converting stored values.</param>
-        public ApplicationDataStorageHelper(ApplicationData appData, Toolkit.Helpers.IObjectSerializer objectSerializer)
+        /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
+        public ApplicationDataStorageHelper(ApplicationData appData, Toolkit.Helpers.IObjectSerializer objectSerializer = null)
         {
             AppData = appData ?? throw new ArgumentNullException(nameof(appData));
-            _serializer = objectSerializer ?? throw new ArgumentNullException(nameof(objectSerializer));
+            _serializer = objectSerializer ?? new Toolkit.Helpers.SystemSerializer();
         }
 
         /// <inheritdoc />
