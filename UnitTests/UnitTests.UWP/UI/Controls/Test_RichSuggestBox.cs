@@ -94,15 +94,29 @@ namespace UnitTests.UI.Controls
 
                 Assert.AreEqual(1, rsb.Tokens.Count, "Token count is not 1 after committing 1 token.");
 
+                var defaultFormat = rsb.TextDocument.GetDefaultCharacterFormat();
                 var token = rsb.Tokens[0];
                 var range = rsb.TextDocument.GetRange(token.RangeStart, token.RangeEnd);
                 Assert.AreEqual(expectedText, token.DisplayText, "Unexpected token text.");
                 Assert.AreEqual(range.Text, token.ToString());
-                Assert.AreEqual(Windows.UI.Colors.Beige, range.CharacterFormat.BackgroundColor, "Unexpected background color.");
-                Assert.AreEqual(Windows.UI.Colors.Azure, range.CharacterFormat.ForegroundColor, "Unexpected foreground color.");
-                Assert.AreEqual(FormatEffect.On, range.CharacterFormat.Bold, "Range is expected to be bold.");
-                Assert.AreEqual(FormatEffect.On, range.CharacterFormat.Italic, "Range is expected to be italic.");
-                Assert.AreEqual(9, range.CharacterFormat.Size, "Unexpected font size.");
+
+                var prePad = range.GetClone();
+                prePad.SetRange(range.StartPosition, range.StartPosition + 1);
+                Assert.AreEqual(defaultFormat.BackgroundColor, prePad.CharacterFormat.BackgroundColor, "Unexpected background color for pre padding.");
+                Assert.AreEqual(defaultFormat.ForegroundColor, prePad.CharacterFormat.ForegroundColor, "Unexpected foreground color for pre padding.");
+
+                var postPad = range.GetClone();
+                postPad.SetRange(range.EndPosition - 1, range.EndPosition);
+                Assert.AreEqual(defaultFormat.BackgroundColor, postPad.CharacterFormat.BackgroundColor, "Unexpected background color for post padding.");
+                Assert.AreEqual(defaultFormat.ForegroundColor, postPad.CharacterFormat.ForegroundColor, "Unexpected foreground color for post padding.");
+
+                var hiddenText = $"HYPERLINK \"{token.Id}\"\u200B";
+                range.SetRange(range.StartPosition + hiddenText.Length, range.EndPosition - 1);
+                Assert.AreEqual(Windows.UI.Colors.Beige, range.CharacterFormat.BackgroundColor, "Unexpected token background color.");
+                Assert.AreEqual(Windows.UI.Colors.Azure, range.CharacterFormat.ForegroundColor, "Unexpected token foreground color.");
+                Assert.AreEqual(FormatEffect.On, range.CharacterFormat.Bold, "Token is expected to be bold.");
+                Assert.AreEqual(FormatEffect.On, range.CharacterFormat.Italic, "Token is expected to be italic.");
+                Assert.AreEqual(9, range.CharacterFormat.Size, "Unexpected token font size.");
             });
         }
 
