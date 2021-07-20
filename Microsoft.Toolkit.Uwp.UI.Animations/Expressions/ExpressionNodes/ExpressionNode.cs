@@ -314,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 }
             }
 
-            //Generates Excel-column-like identifiers, e.g. A, B, ..., Z, AA, AB...
+            // Generates Excel-column-like identifiers, e.g. A, B, ..., Z, AA, AB...
             string UniqueParamNameFromIndex(int i)
             {
                 var alphabetLength = 'Z' - 'A' + 1;
