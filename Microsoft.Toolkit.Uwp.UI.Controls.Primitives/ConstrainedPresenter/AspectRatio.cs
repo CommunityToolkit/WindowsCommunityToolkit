@@ -50,6 +50,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Implicit conversion operator to convert an <see cref="AspectRatio"/> to a <see cref="double"/> value.
+        /// This lets you use them easily in mathmatical expressions.
+        /// </summary>
+        /// <param name="aspect"><see cref="AspectRatio"/> instance.</param>
+        public static implicit operator double(AspectRatio aspect) => aspect.Value;
+
+        /// <summary>
+        /// Implicit conversion operator to convert a <see cref="double"/> to an <see cref="AspectRatio"/> value.
+        /// This allows for x:Bind to bind to a double value.
+        /// </summary>
+        /// <param name="ratio"><see cref="double"/> value representing the <see cref="AspectRatio"/>.</param>
+        public static implicit operator AspectRatio(double ratio) => new AspectRatio(ratio);
+
+        /// <summary>
         /// Converter to take a string aspect ration like "16:9" and convert it to an <see cref="AspectRatio"/> struct.
         /// Used automatically by XAML.
         /// </summary>
