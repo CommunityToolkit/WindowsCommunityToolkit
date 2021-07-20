@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
+    <Nullable>Enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Title>Windows Community Toolkit High Performance .NET Standard</Title>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;netstandard2.1;netcoreapp2.1;netcoreapp3.1;net5.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - High Performance (.NET Standard)</Title>
     <Description>
       This package includes high performance .NET Standard helpers such as:
       - Memory2D&lt;T&gt; and Span2D&lt;T&gt;: two types providing fast and allocation-free abstraction over 2D memory areas.
@@ -22,7 +24,7 @@
       - Ref&lt;T&gt;: a stack-only struct that can store a reference to a value of a specified type.
       - NullableRef&lt;T&gt;: a stack-only struct similar to Ref&lt;T&gt;, which also supports nullable references.
   </Description>
-    <PackageTags>Windows;Community;Toolkit;WCT;UWP;core;standard;unsafe;span;memory;string;array;stream;buffer;extensions;helpers;parallel;performance</PackageTags>
+    <PackageTags>Parallel;Performance;Unsafe;Span;Memory;String;StringPool;Array;Stream;Buffer;Extensions;Helpers</PackageTags>
   </PropertyGroup>
 
   <Choose>
