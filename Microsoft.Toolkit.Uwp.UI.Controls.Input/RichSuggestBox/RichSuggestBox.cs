@@ -250,8 +250,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_SelectionChanging(RichEditBox sender, RichEditBoxSelectionChangingEventArgs args)
         {
-            TextDocument.BeginUndoGroup();
-
             var selection = TextDocument.Selection;
 
             if (selection.Type != SelectionType.InsertionPoint && selection.Type != SelectionType.Normal)
@@ -507,15 +505,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var selection = TextDocument.Selection;
             var range = selection.GetClone();
             range.Expand(TextRangeUnit.Link);
-            bool isToken;
             lock (LockObj)
             {
-                isToken = _tokens.ContainsKey(range.Link);
-            }
-
-            if (!isToken)
-            {
-                return;
+                if (!_tokens.ContainsKey(range.Link))
+                {
+                    return;
+                }
             }
 
             if (selection.StartPosition == 0 || selection.EndPosition == 0)
@@ -626,9 +621,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var displayText = prefix + text;
 
                 _ignoreChange = true;
-                TextDocument.BeginUndoGroup();
                 var committed = TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format);
                 TextDocument.EndUndoGroup();
+                TextDocument.BeginUndoGroup();
                 _ignoreChange = false;
 
                 if (committed)
@@ -646,13 +641,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             range.GetText(TextGetOptions.NoHidden, out var existingText);
             if (existingText != displayText)
             {
-                range.SetText(TextSetOptions.None, displayText);
+                range.SetText(TextSetOptions.Unhide, displayText);
             }
 
             range.CharacterFormat.SetClone(format);
             range.Link = $"\"{id}\"";
 
-            // In some rare case, setting Link can fail. Only observed when the token is at the start of the document.
+            // In some rare case, setting Link can fail. Only observed when interacting with Undo/Redo feature.
             if (range.Link != $"\"{id}\"")
             {
                 ResetFormat(range);
