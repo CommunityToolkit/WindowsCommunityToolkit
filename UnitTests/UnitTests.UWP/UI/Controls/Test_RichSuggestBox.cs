@@ -12,9 +12,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.UI.Controls
 {
     [TestClass]
-    [TestCategory(nameof(Test_RichSuggestBox))]
     public class Test_RichSuggestBox : VisualUITestBase
     {
+        [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         [DataRow("@Token1", "@Token2", "@Token3")]
         [DataRow("@Token1", "@Token2", "#Token3")]
@@ -69,6 +69,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
+        [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         public async Task Test_RichSuggestBox_CustomizeToken()
         {
@@ -120,6 +121,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
+        [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         [DataRow("@Token1", "@Token2")]
         [DataRow("@Token1", "#Token2")]
@@ -153,6 +155,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
+        [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         public async Task Test_RichSuggestBox_ReplaceToken()
         {
@@ -179,6 +182,7 @@ namespace UnitTests.UI.Controls
             });
         }
 
+        [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         public async Task Test_RichSuggestBox_FormatReset()
         {
