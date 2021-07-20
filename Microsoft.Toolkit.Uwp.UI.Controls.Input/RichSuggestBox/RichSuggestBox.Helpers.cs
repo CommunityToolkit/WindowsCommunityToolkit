@@ -49,6 +49,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return string.IsNullOrEmpty(value) ? string.Empty : string.Concat(value.Where(char.IsPunctuation));
         }
 
+        /// <summary>
+        /// Pad range with Zero-Width-Spaces.
+        /// </summary>
+        /// <param name="range">Range to pad.</param>
+        /// <param name="format">Character format to apply to the padding.</param>
+        private static void PadRange(ITextRange range, ITextCharacterFormat format)
+        {
+            var startPosition = range.StartPosition;
+            var endPosition = range.EndPosition + 1;
+            var clone = range.GetClone();
+            clone.Collapse(true);
+            clone.SetText(TextSetOptions.Unhide, "\u200B");
+            clone.CharacterFormat.SetClone(format);
+            clone.SetRange(endPosition, endPosition);
+            clone.SetText(TextSetOptions.Unhide, "\u200B");
+            clone.CharacterFormat.SetClone(format);
+            range.SetRange(startPosition, endPosition + 1);
+        }
+
         private static void ForEachLinkInDocument(ITextDocument document, Action<ITextRange> action)
         {
             var range = document.GetRange(0, 0);

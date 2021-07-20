@@ -49,7 +49,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Border _suggestionsContainer;
 
         private int _suggestionChoice;
-        private int _resetStartPosition;
         private string _currentQuery;
         private string _currentPrefix;
         private bool _ignoreChange;
@@ -64,7 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public RichSuggestBox()
         {
-            _resetStartPosition = -1;
             _tokens = new Dictionary<string, RichSuggestToken>();
             _visibleTokens = new ObservableCollection<RichSuggestToken>();
             Tokens = new ReadOnlyObservableCollection<RichSuggestToken>(_visibleTokens);
@@ -267,25 +265,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (selection.Type == SelectionType.InsertionPoint && selection.StartPosition == range.StartPosition)
-            {
-                // Reset formatting if selection is sandwiched between 2 adjacent links
-                range.MoveStart(TextRangeUnit.Link, -1);
-                if (selection.StartPosition != range.StartPosition)
-                {
-                    ResetFormat(selection);
-                }
-            }
-            else
-            {
-                ExpandSelectionOnPartialTokenSelect(selection, range);
-            }
+            ExpandSelectionOnPartialTokenSelect(selection, range);
         }
 
         private async void RichEditBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             SelectionChanged?.Invoke(this, e);
-            SetFormatResetPosition();
 
             // During text composition changing (e.g. user typing with an IME),
             // SelectionChanged event is fired multiple times with each keystroke.
@@ -368,7 +353,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _ignoreChange = true;
-            ResetFormatOnTextChanged();
             ValidateTokensInDocument();
             TextDocument.EndUndoGroup();
             TextDocument.BeginUndoGroup();
@@ -499,37 +483,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _hoveringToken = token;
         }
 
-        private void SetFormatResetPosition()
-        {
-            _resetStartPosition = -1;
-            var selection = TextDocument.Selection;
-            var range = selection.GetClone();
-            range.Expand(TextRangeUnit.Link);
-            lock (LockObj)
-            {
-                if (!_tokens.ContainsKey(range.Link))
-                {
-                    return;
-                }
-            }
-
-            if (selection.StartPosition == 0 || selection.EndPosition == 0)
-            {
-                _resetStartPosition = 0;
-            }
-
-            if (selection.Type == SelectionType.Normal)
-            {
-                var startPosition = range.StartPosition;
-                range.MoveStart(TextRangeUnit.Link, -1);
-                if (range.StartPosition != startPosition)
-                {
-                    _resetStartPosition = startPosition;
-                }
-            }
-
-        }
-
         private async Task RequestSuggestionsAsync(ITextRange range = null)
         {
             string prefix;
@@ -644,7 +597,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 range.SetText(TextSetOptions.Unhide, displayText);
             }
 
+            var formatBefore = range.CharacterFormat.GetClone();
             range.CharacterFormat.SetClone(format);
+            PadRange(range, formatBefore);
             range.Link = $"\"{id}\"";
 
             // In some rare case, setting Link can fail. Only observed when interacting with Undo/Redo feature.
@@ -706,32 +661,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (token.ToString() != range.Text)
             {
                 ResetFormat(range);
-                ResetFormat(TextDocument.Selection);
                 token.Active = false;
                 return;
             }
 
             token.UpdateTextRange(range);
             token.Active = true;
-        }
-
-        /// <summary>
-        /// Reset character format after editing text that contains a token.
-        /// In some special cases, changing the text of a range that contains a token at the start
-        /// can result in the character format of the token gets applied to the changed text.
-        /// </summary>
-        private void ResetFormatOnTextChanged()
-        {
-            var selection = TextDocument.Selection;
-
-            if (_resetStartPosition >= 0 && selection.EndPosition > _resetStartPosition)
-            {
-                var range = selection.GetClone();
-                range.SetRange(_resetStartPosition, range.EndPosition);
-                ResetFormat(range);
-                ResetFormat(selection);
-                _resetStartPosition = -1;
-            }
         }
 
         private void ResetFormat(ITextRange range)

@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"HYPERLINK \"{Id}\"{DisplayText}";
+            return $"HYPERLINK \"{Id}\"\u200B{DisplayText}\u200B";
         }
     }
 }
