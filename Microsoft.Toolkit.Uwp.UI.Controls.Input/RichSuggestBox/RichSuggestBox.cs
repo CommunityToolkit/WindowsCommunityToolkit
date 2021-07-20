@@ -605,7 +605,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // In some rare case, setting Link can fail. Only observed when interacting with Undo/Redo feature.
             if (range.Link != $"\"{id}\"")
             {
-                ResetFormat(range);
+                range.Delete(TextRangeUnit.Story, -1);
                 return false;
             }
 
@@ -660,26 +660,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (token.ToString() != range.Text)
             {
-                ResetFormat(range);
+                range.Delete(TextRangeUnit.Story, -1);
                 token.Active = false;
                 return;
             }
 
             token.UpdateTextRange(range);
             token.Active = true;
-        }
-
-        private void ResetFormat(ITextRange range)
-        {
-            var defaultFormat = TextDocument.GetDefaultCharacterFormat();
-
-            // Need to reset both Link and CharacterFormat or the token id will still persist in the RTF text.
-            if (!string.IsNullOrEmpty(range.GetClone().Link))
-            {
-                range.Link = string.Empty;
-            }
-
-            range.CharacterFormat.SetClone(defaultFormat);
         }
 
         private void ConditionallyLoadElement(object property, string elementName)
