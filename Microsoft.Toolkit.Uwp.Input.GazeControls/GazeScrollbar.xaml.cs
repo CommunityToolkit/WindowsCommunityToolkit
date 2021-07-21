@@ -29,31 +29,31 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// <summary>
         /// Identifies the HorizontalPosition dependency property
         /// </summary>
-        public static readonly DependencyProperty HorizontalPositionProperty =
+        private static readonly DependencyProperty HorizontalPositionProperty =
             DependencyProperty.Register("HorizontalPosition", typeof(string), typeof(GazeScrollbar), null);
 
         /// <summary>
-        /// Gets the percentage of the scrollable content that is to the left of the viewport
+        /// Gets or sets the percentage of the scrollable content that is to the left of the viewport
         /// </summary>
-        public string HorizontalPosition
+        private string HorizontalPosition
         {
             get { return (string)GetValue(HorizontalPositionProperty); }
-            private set { SetValue(HorizontalPositionProperty, value); }
+            set { SetValue(HorizontalPositionProperty, value); }
         }
 
         /// <summary>
         /// Identifies the VerticalPosition dependency property
         /// </summary>
-        public static readonly DependencyProperty VerticalPositionProperty =
+        private static readonly DependencyProperty VerticalPositionProperty =
             DependencyProperty.Register("VerticalPosition", typeof(string), typeof(GazeScrollbar), null);
 
         /// <summary>
         /// Gets the percentage of the scrollable content that is to the left of the viewport
         /// </summary>
-        public string VerticalPosition
+        private string VerticalPosition
         {
             get { return (string)GetValue(VerticalPositionProperty); }
-            private set { SetValue(VerticalPositionProperty, value); }
+            set { SetValue(VerticalPositionProperty, value); }
         }
 
         /// <summary>
