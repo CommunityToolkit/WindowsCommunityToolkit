@@ -124,7 +124,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         public GazeFilePicker()
         {
             this.InitializeComponent();
-
             this.Loaded += this.OnGazeFilePickerLoaded;
 
             FileTypeFilter = new List<string>();
@@ -142,6 +141,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             YesButton = YesBtn;
             NoButton = NoBtn;
             FilenameTextbox = FilenameEditBox;
+
+            CurrentFolderContents.GazeScrollbar = CurrentFolderScrollbar;
 
             GazeInput.SetMaxDwellRepeatCount(this, 2);
 
