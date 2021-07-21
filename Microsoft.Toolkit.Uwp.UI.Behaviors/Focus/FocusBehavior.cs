@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             }
 
             var focusedControlIndex = -1;
-            var listViewBaseControls = 0;
+            var hasListViewBaseControl = false;
             for (var i = 0; i < Targets.Count; i++)
             {
                 var control = Targets[i].Control;
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                         // The list may not have any item yet, we wait until the first item is rendered.
                         listViewBase.ContainerContentChanging -= OnContainerContentChanging;
                         listViewBase.ContainerContentChanging += OnContainerContentChanging;
-                        listViewBaseControls++;
+                        hasListViewBaseControl = true;
                     }
                 }
                 else
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                 }
             }
 
-            if (focusedControlIndex == 0 || (listViewBaseControls == 0 && Targets.All(t => t.Control?.IsLoaded == true)))
+            if (focusedControlIndex == 0 || (!hasListViewBaseControl && Targets.All(t => t.Control?.IsLoaded == true)))
             {
                 // The first control has received the focus or all the control are loaded and none can take the focus: we stop.
                 Stop();
