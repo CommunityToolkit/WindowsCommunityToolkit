@@ -9,71 +9,36 @@ namespace Microsoft.Toolkit.Helpers
     /// <summary>
     /// Service interface used to store data using key value pairs.
     /// </summary>
-    public interface ISettingsStorageHelper
+    /// <typeparam name="TKey">The type of keys to use for accessing values.</typeparam>
+    public interface ISettingsStorageHelper<TKey>
+        where TKey : notnull
     {
-        /// <summary>
-        /// Determines whether a setting already exists.
-        /// </summary>
-        /// <param name="key">Key of the setting (that contains object).</param>
-        /// <returns>True if a value exists.</returns>
-        bool KeyExists(string key);
-
-        /// <summary>
-        /// Determines whether a setting already exists in composite.
-        /// </summary>
-        /// <param name="compositeKey">Key of the composite (that contains settings).</param>
-        /// <param name="key">Key of the setting (that contains object).</param>
-        /// <returns>True if a value exists.</returns>
-        bool KeyExists(string compositeKey, string key);
-
         /// <summary>
         /// Retrieves a single item by its key.
         /// </summary>
-        /// <typeparam name="T">Type of object retrieved.</typeparam>
+        /// <typeparam name="TValue">Type of object retrieved.</typeparam>
         /// <param name="key">Key of the object.</param>
         /// <param name="default">Default value of the object.</param>
-        /// <returns>The T object</returns>
-        T Read<T>(string key, T? @default = default(T));
-
-        /// <summary>
-        /// Retrieves a single item by its key in composite.
-        /// </summary>
-        /// <typeparam name="T">Type of object retrieved.</typeparam>
-        /// <param name="compositeKey">Key of the composite (that contains settings).</param>
-        /// <param name="key">Key of the object.</param>
-        /// <param name="default">Default value of the object.</param>
-        /// <returns>The T object.</returns>
-        T Read<T>(string compositeKey, string key, T? @default = default(T));
+        /// <returns>The TValue object</returns>
+        TValue? Read<TValue>(TKey key, TValue? @default = default);
 
         /// <summary>
         /// Saves a single item by its key.
         /// </summary>
-        /// <typeparam name="T">Type of object saved.</typeparam>
+        /// <typeparam name="TValue">Type of object saved.</typeparam>
         /// <param name="key">Key of the value saved.</param>
         /// <param name="value">Object to save.</param>
-        void Save<T>(string key, T value);
-
-        /// <summary>
-        /// Saves a group of items by its key in a composite.
-        /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
-        /// and for groups of settings which need to be treated in an atomic way.
-        /// </summary>
-        /// <typeparam name="T">Type of object saved.</typeparam>
-        /// <param name="compositeKey">Key of the composite (that contains settings).</param>
-        /// <param name="values">Objects to save.</param>
-        void Save<T>(string compositeKey, IDictionary<string, T> values);
+        void Save<TValue>(TKey key, TValue value);
 
         /// <summary>
         /// Deletes a single item by its key.
         /// </summary>
         /// <param name="key">Key of the object.</param>
-        void Delete(string key);
+        void Delete(TKey key);
 
         /// <summary>
-        /// Deletes a single item by its key in composite.
+        /// Clear all keys and values from the settings store.
         /// </summary>
-        /// <param name="compositeKey">Key of the composite (that contains settings).</param>
-        /// <param name="key">Key of the object.</param>
-        void Delete(string compositeKey, string key);
+        void Clear();
     }
 }

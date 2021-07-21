@@ -19,13 +19,6 @@ namespace Microsoft.Toolkit.Helpers
     public interface IFileStorageHelper
     {
         /// <summary>
-        /// Determines if a directory item already exists.
-        /// </summary>
-        /// <param name="itemName">Key of the file.</param>
-        /// <returns>True if an item exists.</returns>
-        Task<bool> ItemExistsAsync(string itemName);
-
-        /// <summary>
         /// Retrieves an object from a file.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved.</typeparam>
@@ -38,8 +31,8 @@ namespace Microsoft.Toolkit.Helpers
         /// Retrieves the listings for a folder and the item types.
         /// </summary>
         /// <param name="folderPath">The path to the target folder.</param>
-        /// <returns>A list of file types and names in the target folder.</returns>
-        Task<IList<Tuple<DirectoryItemType, string>>> ReadFolderAsync(string folderPath);
+        /// <returns>A list of item types and names in the target folder.</returns>
+        Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadFolderAsync(string folderPath);
 
         /// <summary>
         /// Saves an object inside a file.

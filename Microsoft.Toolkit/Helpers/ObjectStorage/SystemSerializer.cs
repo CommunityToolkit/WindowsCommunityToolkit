@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <typeparam name="T">Type to convert value to.</typeparam>
         /// <param name="value">Value from storage to convert.</param>
         /// <returns>Deserialized value or default value.</returns>
-        public T Deserialize<T>(object value)
+        public T Deserialize<T>(string value)
         {
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
@@ -29,9 +29,7 @@ namespace Microsoft.Toolkit.Helpers
                 return (T)Convert.ChangeType(value, type);
             }
 
-            return ThrowNotSupportedException();
-
-            static T ThrowNotSupportedException() => throw new NotSupportedException("This serializer can only handle primitive types and strings. Please implement your own IObjectSerializer for more complex scenarios.");
+            throw new NotSupportedException("This serializer can only handle primitive types and strings. Please implement your own IObjectSerializer for more complex scenarios.");
         }
 
         /// <summary>
@@ -40,9 +38,9 @@ namespace Microsoft.Toolkit.Helpers
         /// <typeparam name="T">Type to serialize from.</typeparam>
         /// <param name="value">Value to serialize.</param>
         /// <returns>String representation of value.</returns>
-        public object? Serialize<T>(T value)
+        public string? Serialize<T>(T value)
         {
-            return value;
+            return value?.ToString();
         }
     }
 }

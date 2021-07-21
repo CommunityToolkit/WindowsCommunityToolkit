@@ -23,5 +23,8 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
 
 </Project>

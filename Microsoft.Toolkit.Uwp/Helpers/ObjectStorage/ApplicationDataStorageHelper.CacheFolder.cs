@@ -16,19 +16,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public partial class ApplicationDataStorageHelper
     {
         /// <summary>
-        ///  Gets the storage folder.
+        ///  Gets the local cache folder.
         /// </summary>
         public StorageFolder CacheFolder => AppData.LocalCacheFolder;
-
-        /// <summary>
-        /// Determines if a directory item already exists in the LocalCacheFolder.
-        /// </summary>
-        /// <param name="itemName">Key of the file.</param>
-        /// <returns>True if an item exists.</returns>
-        public Task<bool> CacheItemExistsAsync(string itemName)
-        {
-            return ItemExistsAsync(CacheFolder, itemName);
-        }
 
         /// <summary>
         /// Retrieves an object from a file in the LocalCacheFolder.
@@ -47,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="folderPath">The path to the target folder.</param>
         /// <returns>A list of file types and names in the target folder.</returns>
-        public Task<IList<Tuple<DirectoryItemType, string>>> ReadCacheFolderAsync(string folderPath)
+        public Task<IEnumerable<(DirectoryItemType, string)>> ReadCacheFolderAsync(string folderPath)
         {
             return ReadFolderAsync(CacheFolder, folderPath);
         }
