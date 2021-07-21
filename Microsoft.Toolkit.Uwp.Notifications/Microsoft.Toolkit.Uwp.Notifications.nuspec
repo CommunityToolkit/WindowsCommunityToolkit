@@ -8,7 +8,7 @@
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png</iconUrl>
-    <icon>images\nuget.png</icon>
+    <icon>Icon.png</icon>
     <description>The official way to send toast notifications on Windows 10 via code rather than XML, with the help of IntelliSense. Supports all C# app types, including WPF, UWP, WinForms, and Console, even without packaging your app as MSIX. Also supports C++ UWP apps.
 
       Additionally, generate notification payloads from your ASP.NET web server to send as push notifications, or generate notification payloads from class libraries.
@@ -52,7 +52,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\build\nuget.png" target="images\" />
+    <file src="..\build\nuget.png" target="Icon.png" />
     <file src="..\license.md" target="" />
     <file src="Microsoft.Toolkit.Uwp.Notifications.targets" target="build\native\Microsoft.Toolkit.Uwp.Notifications.targets" />
     <file src="$buildOutput$\net461\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\net461\Microsoft.Toolkit.Uwp.Notifications.dll" />
