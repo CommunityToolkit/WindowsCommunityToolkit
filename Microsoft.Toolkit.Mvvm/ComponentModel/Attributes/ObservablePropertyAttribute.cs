@@ -22,6 +22,9 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     /// {
     ///     [ObservableProperty]
     ///     private string name;
+    ///
+    ///     [ObservableProperty]
+    ///     private bool isEnabled;
     /// }
     /// </code>
     /// </para>
@@ -34,9 +37,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
     ///         get => name;
     ///         set => SetProperty(ref name, value);
     ///     }
+    ///
+    ///     public bool IsEnabled
+    ///     {
+    ///         get => name;
+    ///         set => SetProperty(ref isEnabled, value);
+    ///     }
     /// }
     /// </code>
     /// </summary>
+    /// <remarks>
+    /// The generated properties will automatically use the <c>UpperCamelCase</c> format for their names,
+    /// which will be derived from the field names. The generator can also recognize fields using either
+    /// the <c>_lowerCamel</c> or <c>m_lowerCamel</c> naming scheme. Otherwise, the first character in the
+    /// source field name will be converted to uppercase (eg. <c>isEnabled</c> to <c>IsEnabled</c>).
+    /// </remarks>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
     public sealed class ObservablePropertyAttribute : Attribute
     {
