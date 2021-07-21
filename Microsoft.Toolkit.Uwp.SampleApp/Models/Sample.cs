@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
@@ -118,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if !REMOTE_DOCS
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/windows-toolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/CommunityToolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;
@@ -674,8 +675,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
               // TODO Reintroduce graph controls
               // typeof(UserToPersonConverter)) // Search in Microsoft.Toolkit.Graph.Controls
+                ScrollItemPlacement.Default.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
                 EasingType.Default.GetType(), // Microsoft.Toolkit.Uwp.UI.Animations
-                ImageBlendMode.Multiply.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
+                ImageBlendMode.Multiply.GetType(), // Search in Microsoft.Toolkit.Uwp.UI.Media
                 Interaction.Enabled.GetType(), // Microsoft.Toolkit.Uwp.Input.GazeInteraction
                 DataGridGridLinesVisibility.None.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
                 GridSplitter.GridResizeDirection.Auto.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Layout
