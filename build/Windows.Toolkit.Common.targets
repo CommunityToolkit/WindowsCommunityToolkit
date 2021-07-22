@@ -1,0 +1,24 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- TODO: Dynamically generate Title if one wasn't set -->
+    <Title Condition="'$(Title)' == ''">$(Product) Asset</Title>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CommonTags Condition="$(IsCoreProject)">$(CommonTags);.NET</CommonTags>
+    <CommonTags Condition="$(IsUwpProject)">$(CommonTags);UWP</CommonTags>
+    <PackageTags Condition="'$(PackageTags)' != ''">$(CommonTags);$(PackageTags)</PackageTags>
+    <PackageTags Condition="'$(PackageTags)' == ''">$(CommonTags)</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(IsPackable)">
+    <None Include="$(BuildToolsDirectory)nuget.png" Pack="true" PackagePath="\Icon.png" />
+    <None Include="$(RepositoryDirectory)License.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(RepositoryDirectory)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+</Project>
