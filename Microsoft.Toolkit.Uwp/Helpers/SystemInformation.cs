@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// The <see cref="ApplicationDataStorageHelper"/> instance used to save and retrieve application settings.
         /// </summary>
-        private readonly ISettingsStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private readonly ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         /// <summary>
         /// The starting time of the current application session (since app launch or last move to foreground).

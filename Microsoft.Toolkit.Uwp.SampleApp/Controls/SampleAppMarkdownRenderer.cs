@@ -418,7 +418,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// <summary>
         /// The local app data storage helper for storing settings.
         /// </summary>
-        private ISettingsStorageHelper settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private readonly ApplicationDataStorageHelper settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         /// <summary>
         /// DocFX note types and styling info, keyed by identifier.

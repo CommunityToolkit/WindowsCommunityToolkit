@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static ISettingsStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private static ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {

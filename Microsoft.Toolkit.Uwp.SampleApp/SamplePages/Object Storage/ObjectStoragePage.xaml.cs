@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ObjectStoragePage
     {
-        private readonly ISettingsStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Toolkit.Helpers.SystemSerializer());
+        private readonly ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         public ObjectStoragePage()
         {

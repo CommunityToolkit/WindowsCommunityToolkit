@@ -15,9 +15,9 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_StorageHelper
     {
-        private ISettingsStorageHelper _settingsStorage_System = ApplicationDataStorageHelper.GetCurrent(new Microsoft.Toolkit.Helpers.SystemSerializer());
-        private ISettingsStorageHelper _settingsStorage_JsonCompat = ApplicationDataStorageHelper.GetCurrent(new JsonObjectSerializer());
-        private ISettingsStorageHelper _settingsStorage_JsonNew = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonSerializer());
+        private readonly ISettingsStorageHelper<string> _settingsStorage_System = ApplicationDataStorageHelper.GetCurrent();
+        private readonly ISettingsStorageHelper<string> _settingsStorage_JsonCompat = ApplicationDataStorageHelper.GetCurrent(new JsonObjectSerializer());
+        private readonly ISettingsStorageHelper<string> _settingsStorage_JsonNew = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonSerializer());
 
         /// <summary>
         /// Checks that we're running 10.0.3 version of Newtonsoft.Json package which we used in 6.1.1.

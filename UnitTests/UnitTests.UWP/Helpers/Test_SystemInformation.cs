@@ -58,7 +58,7 @@ namespace UnitTests.Helpers
             // Simulate a first app startup
             _ = (SystemInformation)Activator.CreateInstance(typeof(SystemInformation), nonPublic: true);
 
-            ISettingsStorageHelper settingsStorage = ApplicationDataStorageHelper.GetCurrent(new Microsoft.Toolkit.Helpers.SystemSerializer());
+            var settingsStorage = ApplicationDataStorageHelper.GetCurrent();
             PackageVersion previousVersion = new() { Build = 42, Major = 1111, Minor = 2222, Revision = 12345 };
 
             settingsStorage.Save("currentVersion", previousVersion.ToFormattedString());
