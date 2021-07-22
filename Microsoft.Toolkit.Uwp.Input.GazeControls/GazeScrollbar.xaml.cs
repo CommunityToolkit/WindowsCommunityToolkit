@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             DependencyProperty.Register("VerticalPosition", typeof(string), typeof(GazeScrollbar), null);
 
         /// <summary>
-        /// Gets the percentage of the scrollable content that is to the left of the viewport
+        /// Gets or sets the percentage of the scrollable content that is to the left of the viewport
         /// </summary>
         private string VerticalPosition
         {
