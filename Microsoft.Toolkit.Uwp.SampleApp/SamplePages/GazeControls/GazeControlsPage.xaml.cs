@@ -128,13 +128,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (GazeInput.IsDeviceAvailable)
             {
-                //WarningText.Visibility = Visibility.Collapsed;
+                // WarningText.Visibility = Visibility.Collapsed;
             }
             else
             {
-                //WarningText.Visibility = Visibility.Visible;
+                // WarningText.Visibility = Visibility.Visible;
             }
         }
-
     }
 }
