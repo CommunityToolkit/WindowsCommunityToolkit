@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <param name="filePath">Path to the file that contains the object.</param>
         /// <param name="default">Default value of the object.</param>
         /// <returns>Waiting task until completion with the object in the file.</returns>
-        Task<T> ReadFileAsync<T>(string filePath, T? @default = default);
+        Task<T?> ReadFileAsync<T>(string filePath, T? @default = default);
 
         /// <summary>
         /// Retrieves the listings for a folder and the item types.
