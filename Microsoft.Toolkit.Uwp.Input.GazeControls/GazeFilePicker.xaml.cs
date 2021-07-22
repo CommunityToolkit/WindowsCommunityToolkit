@@ -275,7 +275,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             foreach (var grid in viewGrids)
             {
                 grid.Visibility = Visibility.Collapsed;
-            _enterFilenameButton.Visibility = Visibility.Collapsed;
             }
 
             viewGrids[(int)filePickerView].Visibility = Visibility.Visible;
@@ -286,11 +285,8 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
                 FileListingGrid.Visibility = Visibility.Visible;
                 FileListingGrid.IsEnabled = false;
                 CommandRow.IsEnabled = false;
-            SetKeyboardInputLayout();
-            await GazeKeyboard.LoadLayout("FilenameEntry.xaml");
             }
             else if (CurrentView == FilePickerView.FileListing)
-        private async void OnNewFolderClick(object sender, RoutedEventArgs e)
             {
                 FileListingGrid.IsEnabled = true;
                 CommandRow.IsEnabled = true;
