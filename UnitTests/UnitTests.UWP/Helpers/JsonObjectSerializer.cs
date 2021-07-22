@@ -14,7 +14,7 @@ namespace UnitTests.UWP.Helpers
     /// </summary>
     internal class JsonObjectSerializer : IObjectSerializer
     {
-        public T Deserialize<T>(object value)
+        public T Deserialize<T>(string value)
         {
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
@@ -29,7 +29,7 @@ namespace UnitTests.UWP.Helpers
             return JsonConvert.DeserializeObject<T>((string)value);
         }
 
-        public object Serialize<T>(T value)
+        public string Serialize<T>(T value)
         {
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
@@ -38,7 +38,7 @@ namespace UnitTests.UWP.Helpers
             // This if/return combo is to maintain compatibility with 6.1.1
             if (typeInfo.IsPrimitive || type == typeof(string))
             {
-                return value;
+                return value.ToString();
             }
 
             return JsonConvert.SerializeObject(value);

@@ -13,8 +13,8 @@ namespace UnitTests.UWP.Helpers
     /// </summary>
     internal class SystemTextJsonSerializer : IObjectSerializer
     {
-        public T Deserialize<T>(object value) => JsonSerializer.Deserialize<T>(value as string);
+        public T Deserialize<T>(string value) => JsonSerializer.Deserialize<T>(value);
 
-        public object Serialize<T>(T value) => JsonSerializer.Serialize(value);
+        public string Serialize<T>(T value) => JsonSerializer.Serialize(value);
     }
 }
