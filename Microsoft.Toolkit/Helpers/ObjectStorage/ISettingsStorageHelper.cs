@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Helpers
         /// </summary>
         /// <typeparam name="TValue">Type of object retrieved.</typeparam>
         /// <param name="key">Key of the object.</param>
-        /// <param name="default">Default value of the object.</param>
+        /// <exception cref="KeyNotFoundException">Throws when the specified key is not found.</exception>
         /// <returns>The TValue object</returns>
-        TValue? Read<TValue>(TKey key, TValue? @default = default);
+        TValue? Read<TValue>(TKey key);
 
         /// <summary>
         /// Saves a single item by its key.
@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Helpers
         /// Deletes a single item by its key.
         /// </summary>
         /// <param name="key">Key of the object.</param>
+        /// <exception cref="KeyNotFoundException">Throws when the specified key is not found.</exception>
         void Delete(TKey key);
 
         /// <summary>

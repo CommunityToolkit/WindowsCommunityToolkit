@@ -81,7 +81,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return Settings.Values.ContainsKey(key);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Retrieves a single item by its key.
+        /// </summary>
+        /// <typeparam name="T">Type of object retrieved.</typeparam>
+        /// <param name="key">Key of the object.</param>
+        /// <param name="default">Default value of the object.</param>
+        /// <returns>The TValue object</returns>
         public T Read<T>(string key, T @default = default)
         {
             if (!Settings.Values.TryGetValue(key, out var valueObj) || valueObj == null)
@@ -93,6 +99,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
+        public T Read<T>(string key)
+        {
+            if (Settings.Values.TryGetValue(key, out var valueObj) && valueObj != null)
+            {
+                return Serializer.Deserialize<T>(valueObj as string);
+            }
+
+            throw new KeyNotFoundException(key);
+        }
+
+        /// <inheritdoc />
         public void Save<T>(string key, T value)
         {
             Settings.Values[key] = Serializer.Serialize(value);
@@ -101,7 +118,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public void Delete(string key)
         {
-            Settings.Values.Remove(key);
+            var removed = Settings.Values.Remove(key);
+            if (!removed)
+            {
+                throw new KeyNotFoundException(key);
+            }
         }
 
         /// <inheritdoc />
@@ -196,12 +217,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="compositeKey">Key of the composite (that contains settings).</param>
         /// <param name="key">Key of the object.</param>
+        /// <exception cref="KeyNotFoundException">Throws when the specified composite/settings key is not found.</exception>
         public void Delete(string compositeKey, string key)
         {
-            if (KeyExists(compositeKey))
+            if (!KeyExists(compositeKey))
             {
-                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
-                composite.Remove(key);
+                throw new KeyNotFoundException($"Composite key not found: {compositeKey}");
+            }
+
+            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
+
+            if (!composite.Remove(key))
+            {
+                throw new KeyNotFoundException($"Settings key not found: {key}");
             }
         }
 
