@@ -167,6 +167,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 CompositionBrush mask = null;
 
+                // We check for IAlphaMaskProvider first, to ensure that we use the custom
+                // alpha mask even if Content happens to extend any of the other classes
                 if (Content is IAlphaMaskProvider maskedControl)
                 {
                     mask = maskedControl.GetAlphaMask();
