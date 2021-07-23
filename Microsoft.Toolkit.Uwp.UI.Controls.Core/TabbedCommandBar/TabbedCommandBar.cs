@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TabbedCommandBar()
         {
             DefaultStyleKey = typeof(TabbedCommandBar);
+            DefaultStyleResourceUri = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/Themes/Generic.xaml");
 
             SelectionChanged += SelectedItemChanged;
         }
