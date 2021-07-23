@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .ToFullString();
 
             // Add the partial type
-            context.AddSource($"[{this.attributeTypeName}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"{classDeclarationSymbol.GetFullMetadataNameForFileName()}.cs", SourceText.From(source, Encoding.UTF8));
         }
 
         /// <summary>
