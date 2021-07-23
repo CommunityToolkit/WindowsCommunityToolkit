@@ -10,8 +10,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
-    /// <inheritdoc cref="TransitiveMembersGenerator{TAttribute}"/>
-    public abstract partial class TransitiveMembersGenerator<TAttribute>
+    /// <inheritdoc cref="TransitiveMembersGenerator"/>
+    public abstract partial class TransitiveMembersGenerator
     {
         /// <summary>
         /// An <see cref="ISyntaxContextReceiver"/> that selects candidate nodes to process.
@@ -19,9 +19,23 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         private sealed class SyntaxReceiver : ISyntaxContextReceiver
         {
             /// <summary>
+            /// The fully qualified name of the attribute type to look for.
+            /// </summary>
+            private readonly string attributeTypeFullName;
+
+            /// <summary>
             /// The list of info gathered during exploration.
             /// </summary>
             private readonly List<Item> gatheredInfo = new();
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SyntaxReceiver"/> class.
+            /// </summary>
+            /// <param name="attributeTypeFullName">The fully qualified name of the attribute type to look for.</param>
+            public SyntaxReceiver(string attributeTypeFullName)
+            {
+                this.attributeTypeFullName = attributeTypeFullName;
+            }
 
             /// <summary>
             /// Gets the collection of gathered info to process.
@@ -33,7 +47,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             {
                 if (context.Node is ClassDeclarationSyntax { AttributeLists: { Count: > 0 } } classDeclaration &&
                     context.SemanticModel.GetDeclaredSymbol(classDeclaration) is INamedTypeSymbol classSymbol &&
-                    context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(TAttribute).FullName) is INamedTypeSymbol attributeSymbol &&
+                    context.SemanticModel.Compilation.GetTypeByMetadataName(this.attributeTypeFullName) is INamedTypeSymbol attributeSymbol &&
                     classSymbol.GetAttributes().FirstOrDefault(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, attributeSymbol)) is AttributeData attributeData &&
                     attributeData.ApplicationSyntaxReference is SyntaxReference syntaxReference &&
                     syntaxReference.GetSyntax() is AttributeSyntax attributeSyntax)

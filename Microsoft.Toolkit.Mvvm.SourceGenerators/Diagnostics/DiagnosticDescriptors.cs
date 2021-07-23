@@ -4,8 +4,6 @@
 
 using System.ComponentModel;
 using Microsoft.CodeAnalysis;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
 {
@@ -71,11 +69,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
         public static readonly DiagnosticDescriptor DuplicateINotifyPropertyChangedInterfaceForINotifyPropertyChangedAttributeError = new(
             id: "MVVMTK0004",
             title: $"Duplicate {nameof(INotifyPropertyChanged)} definition",
-            messageFormat: $"Cannot apply [{nameof(INotifyPropertyChangedAttribute)}] to type {{0}}, as it already declares the {nameof(INotifyPropertyChanged)} interface",
+            messageFormat: $"Cannot apply [INotifyPropertyChanged] to type {{0}}, as it already declares the {nameof(INotifyPropertyChanged)} interface",
             category: typeof(INotifyPropertyChangedGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(INotifyPropertyChangedAttribute)}] to a type that already declares the {nameof(INotifyPropertyChanged)} interface.",
+            description: $"Cannot apply [INotifyPropertyChanged] to a type that already declares the {nameof(INotifyPropertyChanged)} interface.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
 
         /// <summary>
@@ -87,11 +85,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
         public static readonly DiagnosticDescriptor DuplicateINotifyPropertyChangedInterfaceForObservableObjectAttributeError = new(
             id: "MVVMTK0005",
             title: $"Duplicate {nameof(INotifyPropertyChanged)} definition",
-            messageFormat: $"Cannot apply [{nameof(ObservableObjectAttribute)}] to type {{0}}, as it already declares the {nameof(INotifyPropertyChanged)} interface",
+            messageFormat: $"Cannot apply [ObservableObject] to type {{0}}, as it already declares the {nameof(INotifyPropertyChanged)} interface",
             category: typeof(ObservableObjectGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(ObservableObjectAttribute)}] to a type that already declares the {nameof(INotifyPropertyChanged)} interface.",
+            description: $"Cannot apply [ObservableObject] to a type that already declares the {nameof(INotifyPropertyChanged)} interface.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
 
         /// <summary>
@@ -103,11 +101,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
         public static readonly DiagnosticDescriptor DuplicateINotifyPropertyChangingInterfaceForObservableObjectAttributeError = new(
             id: "MVVMTK0006",
             title: $"Duplicate {nameof(INotifyPropertyChanging)} definition",
-            messageFormat: $"Cannot apply [{nameof(ObservableObjectAttribute)}] to type {{0}}, as it already declares the {nameof(INotifyPropertyChanging)} interface",
+            messageFormat: $"Cannot apply [ObservableObject] to type {{0}}, as it already declares the {nameof(INotifyPropertyChanging)} interface",
             category: typeof(ObservableObjectGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(ObservableObjectAttribute)}] to a type that already declares the {nameof(INotifyPropertyChanging)} interface.",
+            description: $"Cannot apply [ObservableObject] to a type that already declares the {nameof(INotifyPropertyChanging)} interface.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
 
         /// <summary>
@@ -119,15 +117,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
         public static readonly DiagnosticDescriptor DuplicateObservableRecipientError = new(
             id: "MVVMTK0007",
             title: "Duplicate ObservableRecipient definition",
-            messageFormat: $"Cannot apply [{nameof(ObservableRecipientAttribute)}] to type {{0}}, as it already inherits from the ObservableRecipient class",
+            messageFormat: $"Cannot apply [ObservableRecipient] to type {{0}}, as it already inherits from the ObservableRecipient class",
             category: typeof(ObservableRecipientGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(ObservableRecipientAttribute)}] to a type that already inherits from the ObservableRecipient class.",
+            description: $"Cannot apply [ObservableRecipient] to a type that already inherits from the ObservableRecipient class.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
 
         /// <summary>
-        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when there is a missing base functionality to enable <see cref="ObservableRecipientAttribute"/>.
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when there is a missing base functionality to enable <c>ObservableRecipientAttribute</c>.
         /// <para>
         /// Format: <c>"Cannot apply [ObservableRecipientAttribute] to type {0}, as it lacks necessary base functionality (it should either inherit from ObservableObject, or be annotated with [ObservableObjectAttribute] or [INotifyPropertyChangedAttribute])"</c>.
         /// </para>
@@ -135,11 +133,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
         public static readonly DiagnosticDescriptor MissingBaseObservableObjectFunctionalityError = new(
             id: "MVVMTK0008",
             title: "Missing base ObservableObject functionality",
-            messageFormat: $"Cannot apply [{nameof(ObservableRecipientAttribute)}] to type {{0}}, as it lacks necessary base functionality (it should either inherit from ObservableObject, or be annotated with [{nameof(ObservableObjectAttribute)}] or [{nameof(INotifyPropertyChangedAttribute)}])",
+            messageFormat: $"Cannot apply [ObservableRecipient] to type {{0}}, as it lacks necessary base functionality (it should either inherit from ObservableObject, or be annotated with [ObservableObject] or [INotifyPropertyChanged])",
             category: typeof(ObservableRecipientGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(ObservableRecipientAttribute)}] to a type that lacks necessary base functionality (it should either inherit from ObservableObject, or be annotated with [{nameof(ObservableObjectAttribute)}] or [{nameof(INotifyPropertyChangedAttribute)}]).",
+            description: $"Cannot apply [ObservableRecipient] to a type that lacks necessary base functionality (it should either inherit from ObservableObject, or be annotated with [ObservableObject] or [INotifyPropertyChanged]).",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
 
         /// <summary>
@@ -155,7 +153,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
             category: typeof(ObservablePropertyGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(ObservablePropertyAttribute)}] to fields with validation attributes if they are declared in a type that doesn't inherit from ObservableValidator.",
+            description: $"Cannot apply [ObservableProperty] to fields with validation attributes if they are declared in a type that doesn't inherit from ObservableValidator.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
 
         /// <summary>
@@ -203,7 +201,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
             category: typeof(ICommandGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [{nameof(ICommandAttribute)}] to methods with a signature that doesn't match any of the existing relay command types.",
+            description: $"Cannot apply [ICommand] to methods with a signature that doesn't match any of the existing relay command types.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
     }
 }

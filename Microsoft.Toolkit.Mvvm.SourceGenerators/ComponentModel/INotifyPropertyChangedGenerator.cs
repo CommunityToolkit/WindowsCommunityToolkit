@@ -3,23 +3,29 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
     /// <summary>
-    /// A source generator for the <see cref="INotifyPropertyChangedAttribute"/> type.
+    /// A source generator for the <c>INotifyPropertyChangedAttribute</c> type.
     /// </summary>
     [Generator]
-    public sealed class INotifyPropertyChangedGenerator : TransitiveMembersGenerator<INotifyPropertyChangedAttribute>
+    public sealed class INotifyPropertyChangedGenerator : TransitiveMembersGenerator
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="INotifyPropertyChangedGenerator"/> class.
+        /// </summary>
+        public INotifyPropertyChangedGenerator()
+            : base("Microsoft.Toolkit.Mvvm.ComponentModel.INotifyPropertyChangedAttribute")
+        {
+        }
+
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => INotifyPropertyChangedGeneratorError;
 
@@ -31,7 +37,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             INamedTypeSymbol classDeclarationSymbol,
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
-            INamedTypeSymbol iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanged).FullName)!;
+            INamedTypeSymbol iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.INotifyPropertyChanged")!;
 
             // Check if the type already implements INotifyPropertyChanged
             if (classDeclarationSymbol.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, iNotifyPropertyChangedSymbol)))
@@ -55,7 +61,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             ClassDeclarationSyntax sourceDeclaration)
         {
             // If requested, only include the event and the basic methods to raise it, but not the additional helpers
-            if (attributeData.HasNamedArgument(nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods), false))
+            if (attributeData.HasNamedArgument("IncludeAdditionalHelperMethods", false))
             {
                 return sourceDeclaration.Members.Where(static member =>
                 {

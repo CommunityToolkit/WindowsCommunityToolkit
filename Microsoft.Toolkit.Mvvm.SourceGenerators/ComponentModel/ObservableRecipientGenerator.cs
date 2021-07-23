@@ -3,13 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
@@ -17,11 +15,19 @@ using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescr
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
     /// <summary>
-    /// A source generator for the <see cref="ObservableRecipientAttribute"/> type.
+    /// A source generator for the <c>ObservableRecipientAttribute</c> type.
     /// </summary>
     [Generator]
-    public sealed class ObservableRecipientGenerator : TransitiveMembersGenerator<ObservableRecipientAttribute>
+    public sealed class ObservableRecipientGenerator : TransitiveMembersGenerator
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableRecipientGenerator"/> class.
+        /// </summary>
+        public ObservableRecipientGenerator()
+            : base("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipientAttribute")
+        {
+        }
+
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableRecipientGeneratorError;
 
@@ -37,7 +43,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 observableRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableRecipient")!,
                 observableObjectSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject")!,
                 observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute")!,
-                iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanged).FullName)!;
+                iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.INotifyPropertyChanged")!;
 
             // Check if the type already inherits from ObservableRecipient
             if (classDeclarationSymbol.InheritsFrom(observableRecipientSymbol))
@@ -53,7 +59,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 !classDeclarationSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observableObjectAttributeSymbol)) &&
                 !classDeclarationSymbol.GetAttributes().Any(a =>
                     SymbolEqualityComparer.Default.Equals(a.AttributeClass, iNotifyPropertyChangedSymbol) &&
-                    !a.HasNamedArgument(nameof(INotifyPropertyChangedAttribute.IncludeAdditionalHelperMethods), false)))
+                    !a.HasNamedArgument("IncludeAdditionalHelperMethods", false)))
             {
                 descriptor = MissingBaseObservableObjectFunctionalityError;
 

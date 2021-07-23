@@ -14,15 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\AlsoNotifyChangeForAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\AlsoNotifyChangeForAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\INotifyPropertyChangedAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableObjectAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservablePropertyAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" Link="Microsoft.Toolkit.Mvvm\ComponentModel\Attributes\ObservableRecipientAttribute.cs" />
-    <Compile Include="..\Microsoft.Toolkit.Mvvm\Input\Attributes\ICommandAttribute.cs" Link="Microsoft.Toolkit.Mvvm\Input\Attributes\ICommandAttribute.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="EmbeddedResources\INotifyPropertyChanged.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

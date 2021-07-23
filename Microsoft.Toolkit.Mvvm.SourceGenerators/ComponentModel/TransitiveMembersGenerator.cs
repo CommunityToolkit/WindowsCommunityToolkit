@@ -14,7 +14,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -23,12 +22,30 @@ using static Microsoft.CodeAnalysis.SymbolDisplayTypeQualificationStyle;
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
     /// <summary>
-    /// A source generator for the <see cref="ObservableObjectAttribute"/> type.
+    /// A source generator for a given attribute type.
     /// </summary>
-    /// <typeparam name="TAttribute">The type of the source attribute to look for.</typeparam>
-    public abstract partial class TransitiveMembersGenerator<TAttribute> : ISourceGenerator
-        where TAttribute : Attribute
+    public abstract partial class TransitiveMembersGenerator : ISourceGenerator
     {
+        /// <summary>
+        /// The fully qualified name of the attribute type to look for.
+        /// </summary>
+        private readonly string attributeTypeFullName;
+
+        /// <summary>
+        /// The name of the attribute type to look for.
+        /// </summary>
+        private readonly string attributeTypeName;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TransitiveMembersGenerator"/> class.
+        /// </summary>
+        /// <param name="attributeTypeFullName">The fully qualified name of the attribute type to look for.</param>
+        protected TransitiveMembersGenerator(string attributeTypeFullName)
+        {
+            this.attributeTypeFullName = attributeTypeFullName;
+            this.attributeTypeName = attributeTypeFullName.Split('.').Last();
+        }
+
         /// <summary>
         /// Gets a <see cref="DiagnosticDescriptor"/> indicating when the generation failed for a given type.
         /// </summary>
@@ -37,7 +54,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <inheritdoc/>
         public void Initialize(GeneratorInitializationContext context)
         {
-            context.RegisterForSyntaxNotifications(static () => new SyntaxReceiver());
+            context.RegisterForSyntaxNotifications(() => new SyntaxReceiver(this.attributeTypeFullName));
         }
 
         /// <inheritdoc/>
@@ -78,9 +95,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// </summary>
         /// <returns>The syntax tree with the elements to emit in the generated code.</returns>
         [Pure]
-        private static SyntaxTree LoadSourceSyntaxTree()
+        private SyntaxTree LoadSourceSyntaxTree()
         {
-            string filename = $"Microsoft.Toolkit.Mvvm.SourceGenerators.EmbeddedResources.{typeof(TAttribute).Name.Replace("Attribute", string.Empty)}.cs";
+            string filename = $"Microsoft.Toolkit.Mvvm.SourceGenerators.EmbeddedResources.{this.attributeTypeName.Replace("Attribute", string.Empty)}.cs";
 
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename);
             StreamReader reader = new(stream);
@@ -166,7 +183,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .ToFullString();
 
             // Add the partial type
-            context.AddSource($"[{typeof(TAttribute).Name}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"[{this.attributeTypeName}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
         }
 
         /// <summary>

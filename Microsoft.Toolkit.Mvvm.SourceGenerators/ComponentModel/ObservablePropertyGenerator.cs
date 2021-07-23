@@ -11,7 +11,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -21,7 +20,7 @@ using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescr
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
     /// <summary>
-    /// A source generator for the <see cref="ObservablePropertyAttribute"/> type.
+    /// A source generator for the <c>ObservablePropertyAttribute</c> type.
     /// </summary>
     [Generator]
     public sealed partial class ObservablePropertyGenerator : ISourceGenerator
@@ -86,9 +85,9 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             ICollection<string> propertyChangingNames)
         {
             INamedTypeSymbol
-                iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanging).FullName)!,
+                iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.INotifyPropertyChanging")!,
                 observableObjectSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObject")!,
-                observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(ObservableObjectAttribute).FullName)!,
+                observableObjectAttributeSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute")!,
                 observableValidatorSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableValidator")!;
 
             // Check whether the current type implements INotifyPropertyChanging and whether it inherits from ObservableValidator
@@ -149,7 +148,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .ToFullString();
 
             // Add the partial type
-            context.AddSource($"[{typeof(ObservablePropertyAttribute).Name}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"[ObservablePropertyAttribute]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
         }
 
         /// <summary>
@@ -178,7 +177,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 typeName = fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 propertyName = GetGeneratedPropertyName(fieldSymbol);
 
-            INamedTypeSymbol alsoNotifyChangeForAttributeSymbol = context.Compilation.GetTypeByMetadataName(typeof(AlsoNotifyChangeForAttribute).FullName)!;
+            INamedTypeSymbol alsoNotifyChangeForAttributeSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.AlsoNotifyChangeForAttribute")!;
             INamedTypeSymbol? validationAttributeSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute");
 
             List<StatementSyntax> dependentPropertyNotificationStatements = new();
@@ -474,8 +473,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             }
 
             INamedTypeSymbol
-                propertyChangedEventArgsSymbol = context.Compilation.GetTypeByMetadataName(typeof(PropertyChangedEventArgs).FullName)!,
-                propertyChangingEventArgsSymbol = context.Compilation.GetTypeByMetadataName(typeof(PropertyChangingEventArgs).FullName)!;
+                propertyChangedEventArgsSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.PropertyChangedEventArgs")!,
+                propertyChangingEventArgsSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.PropertyChangingEventArgs")!;
 
             // Create a static method to validate all properties in a given class.
             // This code takes a class symbol and produces a compilation unit as follows:
@@ -529,7 +528,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .ToFullString();
 
             // Add the partial type
-            context.AddSource($"[{typeof(ObservablePropertyAttribute).Name}]_[__KnownINotifyPropertyChangedOrChangingArgs].cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"[ObservablePropertyAttribute]_[__KnownINotifyPropertyChangedOrChangingArgs].cs", SourceText.From(source, Encoding.UTF8));
         }
 
         /// <summary>

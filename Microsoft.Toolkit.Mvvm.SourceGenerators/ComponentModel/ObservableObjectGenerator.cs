@@ -2,22 +2,28 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
     /// <summary>
-    /// A source generator for the <see cref="ObservableObjectAttribute"/> type.
+    /// A source generator for the <c>ObservableObjectAttribute</c> type.
     /// </summary>
     [Generator]
-    public sealed class ObservableObjectGenerator : TransitiveMembersGenerator<ObservableObjectAttribute>
+    public sealed class ObservableObjectGenerator : TransitiveMembersGenerator
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableObjectGenerator"/> class.
+        /// </summary>
+        public ObservableObjectGenerator()
+            : base("Microsoft.Toolkit.Mvvm.ComponentModel.ObservableObjectAttribute")
+        {
+        }
+
         /// <inheritdoc/>
         protected override DiagnosticDescriptor TargetTypeErrorDescriptor => ObservableObjectGeneratorError;
 
@@ -30,8 +36,8 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             [NotNullWhen(false)] out DiagnosticDescriptor? descriptor)
         {
             INamedTypeSymbol
-                iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanged).FullName)!,
-                iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName(typeof(INotifyPropertyChanging).FullName)!;
+                iNotifyPropertyChangedSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.INotifyPropertyChanged")!,
+                iNotifyPropertyChangingSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.INotifyPropertyChanging")!;
 
             // Check if the type already implements INotifyPropertyChanged...
             if (classDeclarationSymbol.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, iNotifyPropertyChangedSymbol)))

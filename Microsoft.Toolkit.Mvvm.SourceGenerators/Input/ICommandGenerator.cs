@@ -13,7 +13,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics;
 using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -115,7 +114,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 .ToFullString();
 
             // Add the partial type
-            context.AddSource($"[{typeof(ICommandAttribute).Name}]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
+            context.AddSource($"[ICommandAttribute]_[{classDeclarationSymbol.GetFullMetadataNameForFileName()}].cs", SourceText.From(source, Encoding.UTF8));
         }
 
         /// <summary>

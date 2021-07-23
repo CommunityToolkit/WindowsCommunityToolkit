@@ -7,7 +7,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Toolkit.Mvvm.Input;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
@@ -34,7 +33,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
             {
                 if (context.Node is MethodDeclarationSyntax methodDeclaration &&
                     context.SemanticModel.GetDeclaredSymbol(methodDeclaration) is IMethodSymbol methodSymbol &&
-                    context.SemanticModel.Compilation.GetTypeByMetadataName(typeof(ICommandAttribute).FullName) is INamedTypeSymbol iCommandSymbol &&
+                    context.SemanticModel.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Input.ICommandAttribute") is INamedTypeSymbol iCommandSymbol &&
                     methodSymbol.GetAttributes().Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, iCommandSymbol)))
                 {
                     this.gatheredInfo.Add(new Item(methodDeclaration.GetLeadingTrivia(), methodSymbol));
