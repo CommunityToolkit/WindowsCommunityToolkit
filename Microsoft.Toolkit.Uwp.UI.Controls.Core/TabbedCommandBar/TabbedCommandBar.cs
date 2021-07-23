@@ -6,8 +6,9 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
