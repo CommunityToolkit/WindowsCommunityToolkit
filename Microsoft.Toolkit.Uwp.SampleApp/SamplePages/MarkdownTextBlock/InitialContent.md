@@ -376,7 +376,7 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+>\!\[Helpers Image](https\://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
@@ -412,7 +412,7 @@ which renders in:
 
 MarkdownTextblock supports links wrapped with Images.
 
->\[!\[image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+>\[!\[image](https\://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 will render into
 
