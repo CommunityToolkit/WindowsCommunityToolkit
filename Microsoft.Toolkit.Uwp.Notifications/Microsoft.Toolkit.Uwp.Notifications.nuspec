@@ -7,6 +7,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</projectUrl>
+    <readme>ReadMe.md</readme>
     <icon>Icon.png</icon>
     <description>The official way to send toast notifications on Windows 10 via code rather than XML, with the help of IntelliSense. Supports all C# app types, including WPF, UWP, WinForms, and Console, even without packaging your app as MSIX. Also supports C++ UWP apps.
 
@@ -51,8 +52,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\License.md" target="" />
-    <file src="..\build\Icon.png" target="" />
+    <file src="ReadMe.md" target="ReadMe.md" />
+    <file src="..\License.md" target="License.md" />
+    <file src="..\build\Icon.png" target="Icon.png" />
+    <file src="..\ThirdPartyNotices.txt" target="ThirdPartyNotices.txt" />
     <file src="Microsoft.Toolkit.Uwp.Notifications.targets" target="build\native\Microsoft.Toolkit.Uwp.Notifications.targets" />
     <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.dll" />
     <file src="$buildOutput$\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.pdb" target="lib\netstandard1.4\Microsoft.Toolkit.Uwp.Notifications.pdb" />
