@@ -33,7 +33,7 @@
           Condition="'$(NuGetPackageVersion)' == ''">
       <Output TaskParameter="ConsoleOutput" PropertyName="NuGetPackageVersion" />
     </Exec>
-    <Message Text="Got GitBank Version... $(NuGetPackageVersion)" Importance="High" />
+    <Message Text="Got NuGet Package Version... $(NuGetPackageVersion)" Importance="High" />
   </Target>
 
   <Target Name="Build"
@@ -44,7 +44,7 @@
     <Message Importance="High" Text="Building project %(ProjectsToBuild.Identity): (%(ProjectsToBuild.Configuration)|%(ProjectsToBuild.Platform))" />
 
     <MSBuild Projects="SmokeTest.csproj"
-              Targets="restore;build"
+              Targets="Restore;Build"
               Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)" />
   </Target>
 
@@ -77,10 +77,10 @@
 
   <Target Name="CheckNuGetPackages">
     <PropertyGroup>
-      <NuGetOutputPath>$(MSBuildThisFileDirectory)..\bin\nupkg</NuGetOutputPath>
+      <NuGetOutputPath>$(MSBuildThisFileDirectory)..\bin\nupkg\</NuGetOutputPath>
     </PropertyGroup>
     <ItemGroup>
-      <NuGetPackage Include="$(NuGetOutputPath)\*.nupkg" />
+      <NuGetPackage Include="$(NuGetOutputPath)*.nupkg" />
     </ItemGroup>
     <Error Condition="'@(NuGetPackage)' == ''" Text="Directory '$(NuGetOutputPath)' is empty" />
   </Target>
