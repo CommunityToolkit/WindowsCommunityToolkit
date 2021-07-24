@@ -31,4 +31,10 @@
     </ItemGroup>
   </Target>
 
+  <!--
+      Define an empty Pack target to avoid error when packing solution from command-line.
+      This gets overridden by the actual Pack target imported by the .NET SDK.
+  -->
+  <Target Name="Pack" />
+
 </Project>
