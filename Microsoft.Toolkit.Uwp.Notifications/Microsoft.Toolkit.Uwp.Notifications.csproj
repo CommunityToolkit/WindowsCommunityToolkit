@@ -42,8 +42,6 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
 
-  <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
-
   <!-- Desktop Win32 apps -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1'">
     <!-- Reference Windows SDK NuGet of correct target platform version -->

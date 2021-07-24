@@ -1,11 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <!-- TODO: Dynamically generate Title if one wasn't set -->
     <Title Condition="'$(Title)' == ''">$(Product) Asset</Title>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <CommonTags Condition="$(IsCoreProject)">$(CommonTags);.NET</CommonTags>
     <CommonTags Condition="$(IsUwpProject)">$(CommonTags);UWP</CommonTags>
     <PackageTags Condition="'$(PackageTags)' != ''">$(CommonTags);$(PackageTags)</PackageTags>

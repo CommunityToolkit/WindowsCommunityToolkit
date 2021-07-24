@@ -56,7 +56,6 @@
 
       <ToolkitProject Include="@(ToolkitPackage)">
         <Platforms>x86;x64;ARM;ARM64</Platforms>
-        <BinDir>bin</BinDir>
         <AssemblyName>%(ToolkitPackage.Identity)</AssemblyName>
       </ToolkitProject>
 
