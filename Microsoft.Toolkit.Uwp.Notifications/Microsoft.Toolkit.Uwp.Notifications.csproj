@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.17763.0'">
-    <!-- Define the WINDOWS_UWP conditional symbol, since the Windows.Data.Xml and the Windows.UI.Notification namespaces are available -->
+    <!-- Define the WINDOWS_UWP conditional symbol, since the 'Windows.Data.Xml' and the 'Windows.UI.Notification' namespaces are available -->
     <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
   </PropertyGroup>
 
@@ -42,15 +42,12 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
 
-  <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
-
-  <!-- Desktop Win32 apps -->
+  <!-- For Desktop Win32 apps' WinRT APIs support -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1'">
-    <!-- Reference Windows SDK NuGet of correct target platform version -->
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
   </ItemGroup>
 
-  <!-- The .NET Core desktop apps also need the Registry NuGet package and System.Reflection.Emit for generating COM class dynamically -->
+  <!-- The .NET Core desktop apps also need the Registry NuGet package and 'System.Reflection.Emit' for generating COM class dynamically -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.17763.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
@@ -61,12 +58,15 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(ExtrasUwpMetaPackageVersion)" PrivateAssets="All" IsImplicitlyDefined="true" />
   </ItemGroup>
 
-  <!-- Native (C++) doesn't need 'System.ValueTuple' (plus it's incompatible with this package) -->
+  <!-- Native (C++) does not need 'System.ValueTuple' (plus it is incompatible with this package) -->
   <ItemGroup Condition="'$(TargetFramework)' != 'native'">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
-  <!-- Set the nuspec properties. Dependent on version which isn't updated till after 'GetBuildVersion'. Condition ensures we only set once since this runs multiple times for each target. -->
+  <!--
+      Set the nuspec properties. Dependent on version which is not updated till after 'GetBuildVersion'.
+      Condition ensures we only set once since this runs multiple times for each target.
+  -->
   <Target Name="SetNuspecProperties" AfterTargets="GetBuildVersion">
     <PropertyGroup Condition="'$(NuspecProperties)' == ''">
       <NuspecProperties>buildOutput=bin\$(Configuration);version=$(Version)</NuspecProperties>

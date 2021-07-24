@@ -41,6 +41,10 @@ indent_size = 2
 indent_size = 2
 insert_final_newline = true
 
+# Special files
+[*.UTF-16LE.*]
+charset = utf-16le
+
 # C# files
 [*.cs]
 
