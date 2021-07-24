@@ -48,3 +48,6 @@
 .gitattributes export-ignore
 .gitignore     export-ignore
 .gitkeep       export-ignore
+
+# Ours
+*.UTF-16LE.* encoding=utf-16le

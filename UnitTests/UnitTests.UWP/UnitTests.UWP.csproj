@@ -280,7 +280,7 @@
     </PRIResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Samples\lorem.txt" />
+    <Content Include="Assets\Samples\LoremText.UTF-16LE.txt" />
     <EmbeddedResource Include="Assets\StoreLogo.embeded.png" />
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
