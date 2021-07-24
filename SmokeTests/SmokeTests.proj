@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current" DefaultTargets="Build">
+<Project>
 
   <PropertyGroup>
     <BuildPlatforms>x86</BuildPlatforms>
