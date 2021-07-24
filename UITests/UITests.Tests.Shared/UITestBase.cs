@@ -23,8 +23,6 @@ namespace UITests.Tests
 {
     public abstract class UITestBase
     {
-        private TestSetupHelper helper;
-
         internal static TestApplicationInfo WinUICSharpUWPSampleApp
         {
             get
@@ -68,42 +66,13 @@ namespace UITests.Tests
             }
         }
 
+        private TestSetupHelper helper;
+
         private static TestSetupHelper.TestSetupHelperOptions TestSetupHelperOptions
             => new()
             {
                 AutomationIdOfSafeItemToClick = string.Empty
             };
-
-        public TestContext TestContext { get; set; }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
-            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
-            // our loading.
-            helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
-
-            var pageName = GetPageForTest(TestContext);
-
-            var rez = await TestAssembly.OpenPage(pageName);
-
-            if (!rez)
-            {
-                // Error case, we didn't get confirmation of test starting.
-                throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
-            }
-
-            Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
-            Wait.ForIdle();
-            Log.Comment("[Harness] Starting Test for {0}...", pageName);
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            helper.Dispose();
-        }
 
         private static string GetPageForTest(TestContext testContext)
         {
@@ -141,6 +110,36 @@ namespace UITests.Tests
             Log.Comment($"Found {testPageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
 
             return attribute.XamlFile;
+        }
+
+        public TestContext TestContext { get; set; }
+
+        [TestInitialize]
+        public async Task TestInitialize()
+        {
+            // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
+            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete our loading.
+            helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
+
+            var pageName = GetPageForTest(TestContext);
+
+            var rez = await TestAssembly.OpenPage(pageName);
+
+            if (!rez)
+            {
+                // Error case, we didn't get confirmation of test starting.
+                throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
+            }
+
+            Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+            Wait.ForIdle();
+            Log.Comment("[Harness] Starting Test for {0}...", pageName);
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            helper.Dispose();
         }
     }
 }

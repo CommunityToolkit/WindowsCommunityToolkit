@@ -2,13 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;uap10.0.19041;net461;netcoreapp3.1;net5.0;net5.0-windows10.0.17763.0;native</TargetFrameworks>
-    <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <NuspecFile>Microsoft.Toolkit.Uwp.Notifications.nuspec</NuspecFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.19041'">
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)NETFX_CORE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0-windows10.0.17763.0'">
