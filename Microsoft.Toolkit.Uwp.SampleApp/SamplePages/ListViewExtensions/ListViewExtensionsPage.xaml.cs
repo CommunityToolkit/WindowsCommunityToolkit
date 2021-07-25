@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Load()
         {
-            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", async (sender, args) =>
             {
                 var index = int.TryParse(IndexInput.Text, out var i) ? i : 0;
                 var itemPlacement = ItemPlacementInput.SelectedItem switch
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var scrollIfVisibile = ScrollIfVisibileInput.IsChecked ?? true;
                 var additionalHorizontalOffset = int.TryParse(AdditionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
                 var additionalVerticalOffset = int.TryParse(AdditionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
-                sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+                await sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
             });
 
             if (sampleListView != null)
