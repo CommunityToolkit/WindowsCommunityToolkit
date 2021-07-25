@@ -8,6 +8,7 @@ using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -68,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     OnEventAction = async (instance, source, args) =>
                     {
-                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                         {
                             OnSurfaceBrushUpdated();
                         });
@@ -124,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     OnEventAction = async (instance, source, args) =>
                     {
-                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                         {
                             OnSurfaceBrushUpdated();
                         });
@@ -222,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     OnEventAction = async (instance, source, args) =>
                     {
-                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                         {
                             OnSurfaceBrushUpdated();
                         });
@@ -278,7 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     OnEventAction = async (instance, source, args) =>
                     {
-                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                         {
                             OnSurfaceBrushUpdated();
                         });
@@ -334,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     OnEventAction = async (instance, source, args) =>
                     {
-                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                         {
                             OnSurfaceBrushUpdated();
                         });

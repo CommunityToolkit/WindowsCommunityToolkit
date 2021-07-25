@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -161,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 {
                     OnEventAction = async (instance, source, args) =>
                     {
-                        await Window.Current.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        await DispatcherQueue.GetForCurrentThread().EnqueueAsync(() =>
                         {
                             OnSurfaceBrushUpdated();
                         });
