@@ -6,6 +6,7 @@ using System;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
@@ -364,17 +365,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             var fillBrush = (FillBrush == null) ? transparentBrush : FillBrush.CanvasBrush;
             var bgBrush = (BackgroundBrush == null) ? transparentBrush : BackgroundBrush.CanvasBrush;
             var strokeStyle = (RenderStrokeStyle == null) ? new CanvasStrokeStyle() : RenderStrokeStyle.GetCanvasStrokeStyle();
-            var canvasstroke = new CanvasStroke(strokeBrush, (float)StrokeThickness, strokeStyle);
+            var canvasStroke = new CanvasStroke(strokeBrush, (float)StrokeThickness, strokeStyle);
 
             if (createSurface || (RenderSurface == null))
             {
                 CompositionBrush?.Dispose();
-                RenderSurface = Generator.CreateGeometrySurface(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasstroke, fillBrush, bgBrush);
+                RenderSurface = Generator.CreateGeometrySurface(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasStroke, fillBrush, bgBrush);
                 CompositionBrush = Window.Current.Compositor.CreateSurfaceBrush(RenderSurface.Surface);
             }
             else
             {
-                ((IGeometrySurface)RenderSurface).Redraw(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasstroke, fillBrush, bgBrush);
+                ((IGeometrySurface)RenderSurface).Redraw(new Size(SurfaceWidth, SurfaceHeight), Geometry.Geometry, canvasStroke, fillBrush, bgBrush);
             }
 
             base.OnSurfaceBrushUpdated(createSurface);

@@ -6,7 +6,7 @@ using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Represents an Ellipse geometry object with the specified extents.

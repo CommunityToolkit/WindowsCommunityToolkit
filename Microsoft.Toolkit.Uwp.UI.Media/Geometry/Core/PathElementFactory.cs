@@ -5,7 +5,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Factory class to instantiate various PathElements.

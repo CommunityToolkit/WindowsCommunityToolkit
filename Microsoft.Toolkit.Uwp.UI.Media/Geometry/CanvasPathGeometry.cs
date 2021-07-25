@@ -12,7 +12,7 @@ using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Represents a complex vector-based shape geometry that may be composed of arcs, curves, ellipses, lines, rectangles, rounded rectangles, squircles.

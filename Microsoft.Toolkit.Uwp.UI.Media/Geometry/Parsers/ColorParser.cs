@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Windows.UI;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Parser for Color

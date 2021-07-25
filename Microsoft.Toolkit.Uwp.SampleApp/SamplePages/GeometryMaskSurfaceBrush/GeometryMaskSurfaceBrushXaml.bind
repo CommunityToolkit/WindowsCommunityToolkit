@@ -1,8 +1,9 @@
-﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+      xmlns:geometry="using:Microsoft.Toolkit.Uwp.UI.Media.Geometry"
       mc:Ignorable="d">
 
     <Grid>
@@ -18,7 +19,7 @@
                                              SurfaceWidth="899.25" />
                 </media:GeometryMaskSurfaceBrush.Target>
                 <media:GeometryMaskSurfaceBrush.Mask>
-                    <media:CanvasRoundedRectangleGeometry Width= "@[Width:DoubleSlider:400:100-600]"
+                    <geometry:CanvasRoundedRectangleGeometry Width= "@[Width:DoubleSlider:400:100-600]"
                                                           Height="@[Height:DoubleSlider:300:100-500]"
                                                           RadiusX="@[RadiusX:DoubleSlider:30:0-100]"
                                                           RadiusY="@[RadiusY:DoubleSlider:30:0-100]"/>

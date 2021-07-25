@@ -8,7 +8,7 @@ using System.Linq;
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Class which defines various properties which govern how the stroke is rendered.

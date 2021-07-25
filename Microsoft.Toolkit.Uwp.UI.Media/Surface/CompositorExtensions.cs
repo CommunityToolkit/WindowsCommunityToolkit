@@ -5,7 +5,6 @@
 using System;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Media;

@@ -5,6 +5,7 @@
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {

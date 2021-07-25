@@ -6,8 +6,9 @@ using System;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Class representing the Rectangle Figure in a Path Geometry

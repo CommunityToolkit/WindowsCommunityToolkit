@@ -5,7 +5,7 @@
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI.Composition;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Extension methods for compositor to support Win2d Path Mini Language.

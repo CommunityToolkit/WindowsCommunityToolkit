@@ -8,7 +8,7 @@ using System.Linq;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Defines extension methods for CanvasPathBuilder.

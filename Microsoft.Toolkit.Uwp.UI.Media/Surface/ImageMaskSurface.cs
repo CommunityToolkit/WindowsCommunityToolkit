@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;

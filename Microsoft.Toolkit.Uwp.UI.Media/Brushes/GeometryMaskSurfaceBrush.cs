@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Core;

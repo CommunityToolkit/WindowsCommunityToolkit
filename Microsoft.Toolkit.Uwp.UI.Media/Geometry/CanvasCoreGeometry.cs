@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Provides a base class for objects that define geometric shapes using <see cref="CanvasGeometry"/>.

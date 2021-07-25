@@ -4,7 +4,7 @@
 
 using System.Globalization;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Class which can be used to encapsulate code statement(s) so that they are executed in a specific culture.
