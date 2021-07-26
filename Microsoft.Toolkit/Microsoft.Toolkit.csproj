@@ -21,11 +21,9 @@
     <DefineConstants>NETSTANDARD2_1_OR_GREATER</DefineConstants>
   </PropertyGroup>
 
-  <!-- .NET Standard 1.4 doesn't have the [Pure] attribute -->
+  <!-- .NET Standard 1.4 doesn't have the [Pure] attribute or ValueTuple -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 

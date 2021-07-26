@@ -26,7 +26,7 @@ namespace UnitTests.UWP.Helpers
                 return (T)Convert.ChangeType(value, type);
             }
 
-            return JsonConvert.DeserializeObject<T>((string)value);
+            return JsonConvert.DeserializeObject<T>(value);
         }
 
         public string Serialize<T>(T value)

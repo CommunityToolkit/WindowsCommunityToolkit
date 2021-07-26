@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <typeparam name="TValue">Type of object retrieved.</typeparam>
         /// <param name="key">Key of the object.</param>
         /// <exception cref="KeyNotFoundException">Throws when the specified key is not found.</exception>
-        /// <returns>The TValue object</returns>
+        /// <returns>The <see typeparamref="TValue"/> object for <see typeparamref="TKey"/> key.</returns>
         TValue? Read<TValue>(TKey key);
 
         /// <summary>
