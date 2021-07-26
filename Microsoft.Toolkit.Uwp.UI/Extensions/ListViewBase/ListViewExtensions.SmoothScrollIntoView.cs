@@ -221,6 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Used as a placeholder TResult to indicate that a <![CDATA[Task<TResult>]]>  has a void TResult
         /// </summary>
         /// <see href="https://referencesource.microsoft.com/#System.Core/System/Threading/Tasks/TaskExtensions.cs,6e36a68760fb02e6,references"/>
-        private struct VoidResult { }
+        private struct VoidResult
+        {
+        }
     }
 }
