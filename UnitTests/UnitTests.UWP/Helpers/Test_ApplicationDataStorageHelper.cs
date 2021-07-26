@@ -1,22 +1,19 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using UnitTests.Helpers;
-using Windows.Storage;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace UnitTests.Helpers
 {
     [TestClass]
-    public class Test_StorageHelper
+    public class Test_ApplicationDataStorageHelper
     {
-        private readonly LocalObjectStorageHelper _localStorageHelperSystem = new LocalObjectStorageHelper(new SystemSerializer());
-        private readonly LocalObjectStorageHelper _localStorageHelperJsonCompat = new LocalObjectStorageHelper(new JsonObjectSerializer());
-        private readonly LocalObjectStorageHelper _localStorageHelperJsonNew = new LocalObjectStorageHelper(new SystemTextJsonSerializer());
+        private readonly ApplicationDataStorageHelper _settingsStorage_System = ApplicationDataStorageHelper.GetCurrent();
+        private readonly ApplicationDataStorageHelper _settingsStorage_JsonCompat = ApplicationDataStorageHelper.GetCurrent(new JsonObjectSerializer2());
+        private readonly ApplicationDataStorageHelper _settingsStorage_JsonNew = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonSerializer2());
 
         /// <summary>
         /// Checks that we're running 10.0.3 version of Newtonsoft.Json package which we used in 6.1.1.
@@ -25,7 +22,7 @@ namespace UnitTests.Helpers
         [TestMethod]
         public void Test_StorageHelper_CheckNewtonsoftVersion()
         {
-            var version = typeof(JsonSerializer).Assembly.GetName().Version;
+            var version = typeof(Newtonsoft.Json.JsonSerializer).Assembly.GetName().Version;
             Assert.AreEqual(10, version.Major);
             Assert.AreEqual(0, version.Minor);
             Assert.AreEqual(0, version.Revision); // Apparently the file revision was not updated for the updated package
@@ -40,16 +37,16 @@ namespace UnitTests.Helpers
             int input = 42;
 
             // Use our previous Json layer to store value
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // But try and read from our new system to see if it works
-            int output = _localStorageHelperSystem.Read(key, 0);
+            int output = _settingsStorage_System.Read(key, 0);
 
             Assert.AreEqual(input, output);
         }
 
         /// <summary>
-        /// If we try and deserialize a complex type with the <see cref="SystemSerializer"/>, we do a check ourselves and will throw our own exception.
+        /// If we try and deserialize a complex type with the <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/>, we do a check ourselves and will throw our own exception.
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
@@ -60,34 +57,25 @@ namespace UnitTests.Helpers
 
             DateTime input = new DateTime(2017, 12, 25);
 
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            DateTime output = _localStorageHelperSystem.Read(key, DateTime.Today);
+            _ = _settingsStorage_System.Read(key, DateTime.Today);
         }
 
         /// <summary>
-        /// The <see cref="SystemSerializer"/> doesn't support complex types, since it just passes through directly.
+        /// The <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/> doesn't support complex types, since it just passes through directly.
         /// We'll get the argument exception from the <see cref="ApplicationDataContainer"/> API.
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
         public void Test_StorageHelper_DateTestFailure()
         {
-            Exception expectedException = null;
+            string key = "Today";
 
-            // We can't use standard exception checking here like Assert.Throws or ExpectedException
-            // as local and online platforms seem to throw different exception types :(
-            try
-            {
-                _localStorageHelperSystem.Save("Today", DateTime.Today);
-            }
-            catch (Exception exception)
-            {
-                expectedException = exception;
-            }
-
-            Assert.IsNotNull(expectedException, "Was expecting an Exception.");
+            _settingsStorage_System.Save(key, DateTime.Today);
+            _settingsStorage_System.TryRead<DateTime>(key, out _);
         }
 
         [TestCategory("Helpers")]
@@ -99,10 +87,10 @@ namespace UnitTests.Helpers
             UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            UI.Person output = _localStorageHelperJsonCompat.Read<UI.Person>(key, null);
+            UI.Person output = _settingsStorage_JsonCompat.Read<UI.Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
@@ -119,10 +107,10 @@ namespace UnitTests.Helpers
             UI.Person input = new UI.Person() { Name = "Joe Bloggs", Age = 42 };
 
             // simulate previous version by generating json and manually inserting it as string
-            _localStorageHelperJsonCompat.Save(key, input);
+            _settingsStorage_JsonCompat.Save(key, input);
 
             // now read it as int to valid that the change works
-            Person output = _localStorageHelperJsonCompat.Read<Person>(key, null);
+            Person output = _settingsStorage_JsonCompat.Read<Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);
@@ -137,10 +125,10 @@ namespace UnitTests.Helpers
 
             int input = 42;
 
-            _localStorageHelperSystem.Save<int>(key, input);
+            _settingsStorage_System.Save<int>(key, input);
 
             // now read it as int to valid that the change works
-            int output = _localStorageHelperSystem.Read<int>(key, 0);
+            int output = _settingsStorage_System.Read<int>(key, 0);
 
             Assert.AreEqual(input, output);
         }
@@ -153,10 +141,10 @@ namespace UnitTests.Helpers
 
             DateTime input = new DateTime(2017, 12, 25);
 
-            _localStorageHelperJsonNew.Save(key, input);
+            _settingsStorage_JsonNew.Save(key, input);
 
             // now read it as int to valid that the change works
-            DateTime output = _localStorageHelperJsonNew.Read(key, DateTime.Today);
+            DateTime output = _settingsStorage_JsonNew.Read(key, DateTime.Today);
 
             Assert.AreEqual(input, output);
         }
@@ -169,10 +157,10 @@ namespace UnitTests.Helpers
 
             Person input = new Person() { Name = "Joe Bloggs", Age = 42 };
 
-            _localStorageHelperJsonNew.Save(key, input);
+            _settingsStorage_JsonNew.Save(key, input);
 
             // now read it as int to valid that the change works
-            Person output = _localStorageHelperJsonNew.Read<Person>(key, null);
+            Person output = _settingsStorage_JsonNew.Read<Person>(key, null);
 
             Assert.IsNotNull(output);
             Assert.AreEqual(input.Name, output.Name);

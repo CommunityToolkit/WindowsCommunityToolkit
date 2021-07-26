@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Helpers
         /// </summary>
         /// <typeparam name="TValue">Type of object retrieved.</typeparam>
         /// <param name="key">Key of the object.</param>
-        /// <exception cref="KeyNotFoundException">Throws when the specified key is not found.</exception>
-        /// <returns>The <see typeparamref="TValue"/> object for <see typeparamref="TKey"/> key.</returns>
-        TValue? Read<TValue>(TKey key);
+        /// <param name="value">The <see typeparamref="TValue"/> object for <see typeparamref="TKey"/> key.</param>
+        /// <returns>A boolean indicator of success.</returns>
+        bool TryRead<TValue>(TKey key, out TValue? value);
 
         /// <summary>
         /// Saves a single item by its key.
@@ -34,8 +34,8 @@ namespace Microsoft.Toolkit.Helpers
         /// Deletes a single item by its key.
         /// </summary>
         /// <param name="key">Key of the object.</param>
-        /// <exception cref="KeyNotFoundException">Throws when the specified key is not found.</exception>
-        void Delete(TKey key);
+        /// <returns>A boolean indicator of success.</returns>
+        bool TryDelete(TKey key);
 
         /// <summary>
         /// Clear all keys and values from the settings store.

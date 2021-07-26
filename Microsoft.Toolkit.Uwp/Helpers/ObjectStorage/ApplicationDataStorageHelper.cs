@@ -99,14 +99,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public T Read<T>(string key)
+        public bool TryRead<T>(string key, out T value)
         {
             if (Settings.Values.TryGetValue(key, out var valueObj) && valueObj != null)
             {
-                return Serializer.Deserialize<T>(valueObj as string);
+                value = Serializer.Deserialize<T>(valueObj as string);
+                return true;
             }
 
-            throw new KeyNotFoundException(key);
+            value = default;
+            return false;
         }
 
         /// <inheritdoc />
@@ -116,13 +118,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public void Delete(string key)
+        public bool TryDelete(string key)
         {
-            var removed = Settings.Values.Remove(key);
-            if (!removed)
-            {
-                throw new KeyNotFoundException(key);
-            }
+            return Settings.Values.Remove(key);
         }
 
         /// <inheritdoc />
