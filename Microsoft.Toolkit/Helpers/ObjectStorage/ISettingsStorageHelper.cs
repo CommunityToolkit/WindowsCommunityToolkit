@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Helpers
     /// Service interface used to store data using key value pairs.
     /// </summary>
     /// <typeparam name="TKey">The type of keys to use for accessing values.</typeparam>
-    public interface ISettingsStorageHelper<TKey>
+    public interface ISettingsStorageHelper<in TKey>
         where TKey : notnull
     {
         /// <summary>
