@@ -203,7 +203,15 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             var tcs = new TaskCompletionSource<VoidResult>();
 
-            void ViewChanged(object _, ScrollViewerViewChangedEventArgs __) => tcs.TrySetResult(result: default);
+            void ViewChanged(object _, ScrollViewerViewChangedEventArgs e)
+            {
+                if (e.IsIntermediate)
+                {
+                    return;
+                }
+
+                tcs.TrySetResult(result: default);
+            }
 
             try
             {
