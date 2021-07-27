@@ -361,8 +361,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            TextChanged?.Invoke(this, e);
             UpdateVisibleTokenList();
+            TextChanged?.Invoke(this, e);
         }
 
         private void RichEditBox_TextCompositionStarted(RichEditBox sender, TextCompositionStartedEventArgs args)
