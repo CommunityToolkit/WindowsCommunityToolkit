@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
@@ -137,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(ref T field, T newValue, bool validate, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>([NotNullIfNotNull("newValue")] ref T field, T newValue, bool validate, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(ref field, newValue, propertyName);
 
@@ -162,7 +163,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool validate, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>([NotNullIfNotNull("newValue")] ref T field, T newValue, IEqualityComparer<T> comparer, bool validate, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(ref field, newValue, comparer, propertyName);
 
