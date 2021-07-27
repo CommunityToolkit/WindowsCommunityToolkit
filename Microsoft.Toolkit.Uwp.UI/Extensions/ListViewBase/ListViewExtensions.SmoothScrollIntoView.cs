@@ -201,6 +201,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="disableAnimation">if set to <c>true</c> disable animation.</param>
         private static async Task ChangeViewAsync(this ScrollViewer scrollViewer, double? horizontalOffset, double? verticalOffset, float? zoomFactor, bool disableAnimation)
         {
+            horizontalOffset = horizontalOffset > scrollViewer.ScrollableWidth ? scrollViewer.ScrollableWidth : horizontalOffset;
+            verticalOffset = verticalOffset > scrollViewer.ScrollableHeight ? scrollViewer.ScrollableHeight : verticalOffset;
+
             // MUST check this and return immediately, otherwise this async task will never complete because ViewChanged event won't get triggered
             if (horizontalOffset == scrollViewer.HorizontalOffset && verticalOffset == scrollViewer.VerticalOffset)
             {
