@@ -6,9 +6,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -55,12 +57,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var scrollIfVisibile = ScrollIfVisibileInput.IsChecked ?? true;
                 var additionalHorizontalOffset = int.TryParse(AdditionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
                 var additionalVerticalOffset = int.TryParse(AdditionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
+                UpdateScrollIndicator(true);
                 await sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+                UpdateScrollIndicator(false);
             });
 
             if (sampleListView != null)
             {
                 sampleListView.ItemsSource = GetOddEvenSource(500);
+            }
+        }
+
+        private void UpdateScrollIndicator(bool isScrolling)
+        {
+            if (isScrolling)
+            {
+                ScrollIndicatorTest.Text = "Scroll started";
+                ScrollIndicator.Fill = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                ScrollIndicator.Fill = new SolidColorBrush(Colors.Red);
+                ScrollIndicatorTest.Text = "Scroll completed";
             }
         }
 
