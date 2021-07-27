@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
         private Button _inlineBackButton;
-        private object _navigationView;
+        private Microsoft.UI.Xaml.Controls.NavigationView _navigationView;
         private Frame _frame;
 
         /// <summary>
@@ -448,20 +448,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var navType = _navigationView.GetType();
-            var visibleProperty = navType.GetProperty("IsBackButtonVisible");
-            if (visibleProperty != null)
-            {
-                _previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(_navigationView);
-                visibleProperty.SetValue(_navigationView, visible);
-            }
+            _previousNavigationViewBackVisibilty = (int)_navigationView.IsBackButtonVisible;
+            _navigationView.IsBackButtonVisible = (Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible)visible;
 
-            var enabledProperty = navType.GetProperty("IsBackEnabled");
-            if (enabledProperty != null)
-            {
-                _previousNavigationViewBackEnabled = (bool)enabledProperty.GetValue(_navigationView);
-                enabledProperty.SetValue(_navigationView, enabled);
-            }
+            _previousNavigationViewBackEnabled = _navigationView.IsBackEnabled;
+            _navigationView.IsBackEnabled = enabled;
         }
 
         private void SetDetailsContent()
