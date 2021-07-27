@@ -56,15 +56,15 @@ namespace Microsoft.Toolkit.Uwp.UI
                 previousXOffset = scrollViewer.HorizontalOffset;
                 previousYOffset = scrollViewer.VerticalOffset;
 
-                var tcs = new TaskCompletionSource<VoidResult>();
+                var tcs = new TaskCompletionSource<object>();
 
-                void ViewChanged(object obj, ScrollViewerViewChangedEventArgs args) => tcs.TrySetResult(result: default);
+                void ViewChanged(object _, ScrollViewerViewChangedEventArgs __) => tcs.TrySetResult(result: default);
 
                 try
                 {
                     scrollViewer.ViewChanged += ViewChanged;
                     listViewBase.ScrollIntoView(listViewBase.Items[index], ScrollIntoViewAlignment.Leading);
-                    await tcs.Task.ConfigureAwait(true);
+                    await tcs.Task;
                 }
                 finally
                 {
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             // Scrolling back to previous position
             if (isVirtualizing)
             {
-                await scrollViewer.ChangeViewAsync(previousXOffset, previousYOffset, zoomFactor: null, disableAnimation: true).ConfigureAwait(true);
+                await scrollViewer.ChangeViewAsync(previousXOffset, previousYOffset, zoomFactor: null, disableAnimation: true);
             }
 
             var listViewBaseWidth = listViewBase.ActualWidth;
@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            await scrollViewer.ChangeViewAsync(finalXPosition, finalYPosition, zoomFactor: null, disableAnimation).ConfigureAwait(true);
+            await scrollViewer.ChangeViewAsync(finalXPosition, finalYPosition, zoomFactor: null, disableAnimation);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>Returns <see cref="Task"/> that completes after scrolling</returns>
         public static async Task SmoothScrollIntoViewWithItemAsync(this ListViewBase listViewBase, object item, ScrollItemPlacement itemPlacement = ScrollItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
-            await SmoothScrollIntoViewWithIndexAsync(listViewBase, listViewBase.Items.IndexOf(item), itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset).ConfigureAwait(true);
+            await SmoothScrollIntoViewWithIndexAsync(listViewBase, listViewBase.Items.IndexOf(item), itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="disableAnimation">if set to <c>true</c> disable animation.</param>
         private static async Task ChangeViewAsync(this ScrollViewer scrollViewer, double? horizontalOffset, double? verticalOffset, float? zoomFactor, bool disableAnimation)
         {
-            var tcs = new TaskCompletionSource<VoidResult>();
+            var tcs = new TaskCompletionSource<object>();
 
             void ViewChanged(object _, ScrollViewerViewChangedEventArgs e)
             {
@@ -217,20 +217,12 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 scrollViewer.ViewChanged += ViewChanged;
                 scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation);
-                await tcs.Task.ConfigureAwait(true);
+                await tcs.Task;
             }
             finally
             {
                 scrollViewer.ViewChanged -= ViewChanged;
             }
-        }
-
-        /// <summary>
-        /// Used as a placeholder TResult to indicate that a <![CDATA[Task<TResult>]]>  has a void TResult
-        /// </summary>
-        /// <see href="https://referencesource.microsoft.com/#System.Core/System/Threading/Tasks/TaskExtensions.cs,6e36a68760fb02e6,references"/>
-        private struct VoidResult
-        {
         }
     }
 }
