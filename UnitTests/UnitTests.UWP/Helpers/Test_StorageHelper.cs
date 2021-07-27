@@ -14,8 +14,11 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_StorageHelper
     {
+        [Obsolete]
         private readonly LocalObjectStorageHelper _localStorageHelperSystem = new LocalObjectStorageHelper(new SystemSerializer());
+        [Obsolete]
         private readonly LocalObjectStorageHelper _localStorageHelperJsonCompat = new LocalObjectStorageHelper(new JsonObjectSerializer());
+        [Obsolete]
         private readonly LocalObjectStorageHelper _localStorageHelperJsonNew = new LocalObjectStorageHelper(new SystemTextJsonSerializer());
 
         /// <summary>
@@ -33,6 +36,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_LegacyIntTest()
         {
             string key = "LifeUniverseAndEverything";
@@ -53,6 +57,7 @@ namespace UnitTests.Helpers
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         [ExpectedException(typeof(NotSupportedException))]
         public void Test_StorageHelper_LegacyDateTestFailure()
         {
@@ -72,6 +77,7 @@ namespace UnitTests.Helpers
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_DateTestFailure()
         {
             Exception expectedException = null;
@@ -92,6 +98,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_LegacyInternalClassTest()
         {
             string key = "Contact";
@@ -111,6 +118,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_LegacyPublicClassTest()
         {
             string key = "Contact";
@@ -131,6 +139,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_IntTest()
         {
             string key = "NewLifeUniverseAndEverything";
@@ -147,6 +156,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_NewDateTest()
         {
             string key = "NewChristmasDay";
@@ -163,6 +173,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_NewPersonTest()
         {
             string key = "Contact";
