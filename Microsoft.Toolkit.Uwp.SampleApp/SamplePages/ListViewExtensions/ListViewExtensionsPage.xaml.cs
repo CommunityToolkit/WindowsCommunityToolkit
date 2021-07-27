@@ -72,13 +72,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (isScrolling)
             {
-                ScrollIndicatorTest.Text = "Scroll started";
+                ScrollIndicatorTest.Text = "Scrolling";
                 ScrollIndicator.Fill = new SolidColorBrush(Colors.Green);
             }
             else
             {
                 ScrollIndicator.Fill = new SolidColorBrush(Colors.Red);
-                ScrollIndicatorTest.Text = "Scroll completed";
+                ScrollIndicatorTest.Text = "Not Scolling";
             }
         }
 
