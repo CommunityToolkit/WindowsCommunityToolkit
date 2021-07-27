@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground8Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground10Border), Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorPanelSelector),          Type = typeof(ListBox))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(ColorPickerSlider))]
@@ -78,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Color?          updatedRgbColor            = null;
         private DispatcherQueueTimer dispatcherQueueTimer            = null;
 
+        private ListBox           ColorPanelSelector;
         private ColorSpectrum     ColorSpectrumControl;
         private ColorPickerSlider ColorSpectrumAlphaSlider;
         private ColorPickerSlider ColorSpectrumThirdDimensionSlider;
@@ -177,6 +179,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We need to disconnect old events first
             this.ConnectEvents(false);
 
+            this.ColorPanelSelector = this.GetTemplateChild<ListBox>(nameof(ColorPanelSelector));
+
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumAlphaSlider));
             this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumThirdDimensionSlider));
@@ -216,6 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnApplyTemplate();
             this.UpdateVisualState(false);
+            this.ValidateSelectedPanel();
             this.isInitialized = true;
             this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
             this.UpdateColorControlValues(); // TODO: This will also connect events after, can we optimize vs. doing it twice with the ConnectEvents above?
@@ -1061,6 +1066,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void SetDefaultPalette()
         {
             this.CustomPalette = new FluentColorPalette();
+
+            return;
+        }
+
+        /// <summary>
+        /// Validates and updates the current 'tab' or 'panel' selection.
+        /// If the currently selected tab is collapsed, the next visible tab will be selected.
+        /// </summary>
+        private void ValidateSelectedPanel()
+        {
+            object selectedItem = null;
+
+            if (this.ColorPanelSelector != null)
+            {
+                if (this.ColorPanelSelector.SelectedItem == null &&
+                    this.ColorPanelSelector.Items.Count > 0)
+                {
+                    // As a failsafe, forcefully select the first item
+                    selectedItem = this.ColorPanelSelector.Items[0];
+                }
+                else
+                {
+                    selectedItem = this.ColorPanelSelector.SelectedItem;
+                }
+
+                if (selectedItem is UIElement selectedElement &&
+                    selectedElement.Visibility == Visibility.Collapsed)
+                {
+                    // Select the first visible item instead
+                    foreach (object item in this.ColorPanelSelector.Items)
+                    {
+                        if (item is UIElement element &&
+                            element.Visibility == Visibility.Visible)
+                        {
+                            selectedItem = item;
+                            break;
+                        }
+                    }
+                }
+
+                this.ColorPanelSelector.SelectedItem = selectedItem;
+            }
 
             return;
         }
