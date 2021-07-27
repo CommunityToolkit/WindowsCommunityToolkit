@@ -2,9 +2,22 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <!--  TODO: This still seems a bit dark?  -->
+            <SolidColorBrush x:Key="ContextualTabBackground"
+                             Color="{ThemeResource SystemAltMediumHighColor}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="ContextualTabBackground"
+                             Color="{ThemeResource SystemChromeMediumColor}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="ContextualTabBackground"
+                             Color="{ThemeResource SystemAltLowColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 
-    <SolidColorBrush x:Key="ContextualTabBackground"
-                     Color="{ThemeResource SystemAltMediumColor}" />
     <SolidColorBrush x:Key="NormalTabBackground"
                      Color="{ThemeResource SystemChromeLowColor}" />
     <SolidColorBrush x:Key="NormalTabAcrylicBackground"
@@ -25,7 +38,8 @@
             (See this message in the WinUI channel: https://discord.com/channels/372137812037730304/671870147354427422/771057634203402300 )
             Hardcoding the height of the CommandBar works, but it's a bit of a hack.
         -->
-        <Setter Property="Height" Value="40" />
+        <!--  TODO: Increased this for now, but if we want more compact, we have to identify the padding/margin that changed between WinUI 2.5 and 2.6  -->
+        <Setter Property="Height" Value="48" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
 
@@ -40,7 +54,7 @@
                                  Visibility="{Binding Visibility}" />
     </DataTemplate>
     <DataTemplate x:Key="ContextualTabTemplate">
-        <muxc:NavigationViewItem Background="{StaticResource ContextualTabBackground}"
+        <muxc:NavigationViewItem Background="{ThemeResource ContextualTabBackground}"
                                  Content="{Binding Header}"
                                  Visibility="{Binding Visibility}">
             <muxc:NavigationViewItem.Resources>
