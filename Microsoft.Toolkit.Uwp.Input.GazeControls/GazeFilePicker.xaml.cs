@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     /// <summary>
     /// Provides file picker dialogs optimized for gaze input
     /// </summary>
-    public partial class GazeFilePicker : ContentDialog
+    public abstract partial class GazeFilePicker : ContentDialog
     {
         private bool _dialogInitialized;
         private bool _refreshNeeded;
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             NoButton = NoBtn;
             FilenameTextbox = FilenameEditBox;
 
-            CurrentFolderContents.GazeScrollbar = CurrentFolderScrollbar;
+            CurrentFolderContents.GazeScrollBar = CurrentFolderScrollbar;
 
             GazeInput.SetMaxDwellRepeatCount(this, 2);
 

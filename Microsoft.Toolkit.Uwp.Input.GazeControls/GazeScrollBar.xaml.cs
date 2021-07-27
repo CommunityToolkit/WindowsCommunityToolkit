@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     /// <summary>
     /// Gaze optimized scrollbar
     /// </summary>
-    public sealed partial class GazeScrollbar : UserControl
+    public sealed partial class GazeScrollBar : UserControl
     {
         private ScrollViewer _scrollViewer;
 
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// Idetifies the Orientation dependency property
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register("Orientation",  typeof(Orientation), typeof(GazeScrollbar), null);
+            DependencyProperty.Register("Orientation",  typeof(Orientation), typeof(GazeScrollBar), null);
 
         /// <summary>
         /// Gets or sets the Orientation of the gaze optimized scrollbar
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// Identifies the HorizontalPosition dependency property
         /// </summary>
         private static readonly DependencyProperty HorizontalPositionProperty =
-            DependencyProperty.Register("HorizontalPosition", typeof(string), typeof(GazeScrollbar), null);
+            DependencyProperty.Register("HorizontalPosition", typeof(string), typeof(GazeScrollBar), null);
 
         /// <summary>
         /// Gets or sets the percentage of the scrollable content that is to the left of the viewport
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         /// Identifies the VerticalPosition dependency property
         /// </summary>
         private static readonly DependencyProperty VerticalPositionProperty =
-            DependencyProperty.Register("VerticalPosition", typeof(string), typeof(GazeScrollbar), null);
+            DependencyProperty.Register("VerticalPosition", typeof(string), typeof(GazeScrollBar), null);
 
         /// <summary>
         /// Gets or sets the percentage of the scrollable content that is to the left of the viewport
@@ -71,9 +71,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         public double LineWidth { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GazeScrollbar"/> class.
+        /// Initializes a new instance of the <see cref="GazeScrollBar"/> class.
         /// </summary>
-        public GazeScrollbar()
+        public GazeScrollBar()
         {
             InitializeComponent();
         }

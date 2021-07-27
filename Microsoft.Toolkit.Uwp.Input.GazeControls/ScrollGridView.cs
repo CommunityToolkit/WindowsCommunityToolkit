@@ -22,9 +22,9 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
             base.OnApplyTemplate();
             _scrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
 
-            if (GazeScrollbar != null)
+            if (GazeScrollBar != null)
             {
-                GazeScrollbar.AttachTo(_scrollViewer);
+                GazeScrollBar.AttachTo(_scrollViewer);
             }
 
             _scrollViewer.ViewChanged += this.OnScrollViewerViewChanged;
@@ -33,12 +33,12 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
         private void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             var item = this.FindDescendant<GridViewItem>();
-            GazeScrollbar.LineHeight = item != null ? item.ActualHeight : 1;
+            GazeScrollBar.LineHeight = item != null ? item.ActualHeight : 1;
         }
 
         /// <summary>
         /// Gets or sets the gaze optimized vertical scrollbar
         /// </summary>
-        public GazeScrollbar GazeScrollbar { get; set; }
+        public GazeScrollBar GazeScrollBar { get; set; }
     }
 }

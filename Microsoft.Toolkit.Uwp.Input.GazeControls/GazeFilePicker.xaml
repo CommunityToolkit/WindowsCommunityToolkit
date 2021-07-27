@@ -1,4 +1,4 @@
-﻿<ContentDialog
+<ContentDialog
     x:Class="Microsoft.Toolkit.Uwp.Input.GazeControls.GazeFilePicker"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    MinWidth="1500"
+    MinWidth="1000"
     Width="1500" Height="800" 
     FullSizeDesired="True"
   >
@@ -25,7 +25,7 @@
       <Setter Property="Height" Value="120" />
       <Setter Property="Width" Value="240" />
       <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
     <Style x:Key="PickerButtonStyles" TargetType="Button">
       <Setter Property="Height" Value="120" />
@@ -45,11 +45,11 @@
       
     <Grid Grid.Row="0" x:Name="FilenameEntryGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
       <Grid.RowDefinitions>
-        <RowDefinition Height="1*"/>
-        <RowDefinition Height="9*"/>
+        <RowDefinition Height="80"/>
+        <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <TextBox x:Name="FilenameEditBox" Grid.Row="0" TextWrapping="Wrap" FontSize="45" Margin="3,3,0,3" AcceptsReturn="True" />
-      <local:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="1" />
+      <TextBox x:Name="FilenameEditBox" Grid.Row="0" TextWrapping="Wrap" FontSize="45" Margin="3,3,0,3" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+      <local:GazeKeyboard x:Name="GazeKeyboard" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     </Grid>
     <UserControl Grid.Row="0" x:Name="FileListingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
       <Grid>
@@ -80,7 +80,7 @@
               ItemClick="OnCurrentFolderContentsItemClick"
               MinWidth="1500"
               />
-            <local:GazeScrollbar Grid.Row="0" Grid.Column="1" x:Name="CurrentFolderScrollbar" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <local:GazeScrollBar Grid.Row="0" Grid.Column="1" x:Name="CurrentFolderScrollbar" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
           </Grid>
         </Border>
 
@@ -144,8 +144,8 @@
         </Grid>
       </Grid>
     </Border>
-    <UserControl Grid.Row="1" x:Name="CommandRow">
-      <Grid>
+    <UserControl Grid.Row="1" x:Name="CommandRow" VerticalAlignment="Bottom">
+      <Grid VerticalAlignment="Bottom">
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
           <ColumnDefinition />
