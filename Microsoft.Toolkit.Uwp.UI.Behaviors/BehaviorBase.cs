@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// <typeparam name="T">The type of the associated object.</typeparam>
     /// <seealso cref="Microsoft.Xaml.Interactivity.Behavior{T}" />
     /// <remarks>
-    /// For more info, see https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/1008.
+    /// For more info, see https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/1008.
     /// </remarks>
     public abstract class BehaviorBase<T> : Behavior<T>
         where T : UIElement

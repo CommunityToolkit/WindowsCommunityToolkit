@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -78,7 +78,7 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(stream.Position, 32);
         }
 
-        // See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3536
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3536
         [TestCategory("MemoryStream")]
         [TestMethod]
         public void Test_MemoryStream_WriteToEndAndRefreshPosition()

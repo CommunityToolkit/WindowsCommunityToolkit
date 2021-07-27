@@ -99,12 +99,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             if (cancellationToken.CanBeCanceled)
             {
-                cancellationToken.Register(this.cancellationTokenSource.Cancel);
+                _ = cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
             List<T> results = new(this.responses.Count);
 
-            await foreach (var response in this.WithCancellation(cancellationToken))
+            await foreach (var response in this.WithCancellation(cancellationToken).ConfigureAwait(false))
             {
                 results.Add(response);
             }
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             if (cancellationToken.CanBeCanceled)
             {
-                cancellationToken.Register(this.cancellationTokenSource.Cancel);
+                _ = cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
             foreach (var (task, func) in this.responses)

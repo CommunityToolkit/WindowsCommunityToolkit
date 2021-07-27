@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="Current" DefaultTargets="Build">
 
   <PropertyGroup>
@@ -19,6 +18,7 @@
       Microsoft.Toolkit.Uwp.UI;
       Microsoft.Toolkit.Uwp.UI.Animations;
       Microsoft.Toolkit.Uwp.UI.Behaviors;
+      Microsoft.Toolkit.Uwp.UI.Media;
       Microsoft.Toolkit.Uwp.UI.Controls;
       Microsoft.Toolkit.Uwp.UI.Controls.Core;
       Microsoft.Toolkit.Uwp.UI.Controls.DataGrid;
@@ -27,7 +27,6 @@
       Microsoft.Toolkit.Uwp.UI.Controls.Markdown;
       Microsoft.Toolkit.Uwp.UI.Controls.Media;
       Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
-      Microsoft.Toolkit.Uwp.UI.Media;
     </ToolkitPackages>
   </PropertyGroup>
 
@@ -41,7 +40,7 @@
     <Message Text="Got GitBank Version... $(NuGetPackageVersion)" Importance="High" />
   </Target>
 
-  <Target Name="Build" 
+  <Target Name="Build"
           DependsOnTargets="ChooseProjectsToBuild;GetNuGetVersion"
           Inputs="@(ProjectsToBuild)"
           Outputs="%(Filename)">
@@ -50,10 +49,10 @@
 
     <MSBuild Projects="SmokeTest.csproj"
               Targets="restore;build"
-              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)"/>
+              Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)" />
   </Target>
 
-  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNugets">
+  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNuGetPackages">
     <ItemGroup>
       <BuildPlatform Include="$(BuildPlatforms)" />
       <BuildConfiguration Include="$(BuildConfigurations)" />
@@ -81,14 +80,14 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="CheckNugets">
+  <Target Name="CheckNuGetPackages">
     <PropertyGroup>
-      <ToolkitNugets>../bin/nupkg/*.nupkg</ToolkitNugets>
+      <NuGetOutputPath>$(MSBuildThisFileDirectory)..\bin\nupkg</NuGetOutputPath>
     </PropertyGroup>
     <ItemGroup>
-      <ToolkitNugets Include="$(ToolkitNugets)" />
+      <NuGetPackage Include="$(NuGetOutputPath)\*.nupkg" />
     </ItemGroup>
-    <Error Condition="'@(ToolkitNugets)' == ''" Text="Directory '$(ToolkitNugets)' is empty"/>
+    <Error Condition="'@(NuGetPackage)' == ''" Text="Directory '$(NuGetOutputPath)' is empty" />
   </Target>
 
 </Project>

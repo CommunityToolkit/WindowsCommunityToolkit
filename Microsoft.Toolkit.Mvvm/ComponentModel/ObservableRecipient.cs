@@ -7,6 +7,13 @@
 // This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
 // more info in ThirdPartyNotices.txt in the root of the project.
 
+// ================================= NOTE =================================
+// This file is mirrored in the ObservableRecipient annotated copy
+// (for debugging info) in the Mvvm.SourceGenerators project.
+// If any changes are made to this file, they should also be appropriately
+// ported to that file as well to keep the behavior consistent.
+// ========================================================================
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -118,7 +125,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         {
             PropertyChangedMessage<T> message = new(this, propertyName, oldValue, newValue);
 
-            Messenger.Send(message);
+            _ = Messenger.Send(message);
         }
 
         /// <summary>

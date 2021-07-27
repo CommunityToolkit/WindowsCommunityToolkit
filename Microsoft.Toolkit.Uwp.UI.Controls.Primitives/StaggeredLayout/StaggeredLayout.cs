@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -147,14 +147,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double availableWidth = availableSize.Width;
             double availableHeight = availableSize.Height;
 
-            double columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            // This ternary prevents the column width from being NaN, which would otherwise cause an exception when measuring item sizes
+            double columnWidth = double.IsNaN(DesiredColumnWidth) ? availableWidth : Math.Min(DesiredColumnWidth, availableWidth);
             if (columnWidth != state.ColumnWidth)
             {
                 // The items will need to be remeasured
                 state.Clear();
             }
 
-            state.ColumnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            // This ternary prevents the column width from being NaN, which would otherwise cause an exception when measuring item sizes
+            state.ColumnWidth = double.IsNaN(DesiredColumnWidth) ? availableWidth : Math.Min(DesiredColumnWidth, availableWidth);
             int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / state.ColumnWidth));
 
             // adjust for column spacing on all columns expect the first

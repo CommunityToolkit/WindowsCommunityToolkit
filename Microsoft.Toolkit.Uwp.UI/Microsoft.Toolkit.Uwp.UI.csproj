@@ -1,18 +1,22 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
-    <Title>Windows Community Toolkit UI</Title>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - UI</Title>
     <Description>
-      This library provides UI components, such as XAML extensions, helpers, converters and more. It is part of the Windows Community Toolkit.
+      This library provides UI components, such as XAML extensions, helpers, converters and more. It is a part of the Windows Community Toolkit.
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
-      
+
       CacheBase: Provides methods and tools to cache files in a folder.
-      
+
       Converters: Commonly used converters that allow the data to be modified as it passes through the binding engine.
-      
+
       Extensions:
       - ApplicationViewExtensions: Provides attached properties for interacting with the ApplicationView on a window (app view).
       - FrameworkElementExtensions: Provides attached dependency properties for the FrameworkElement.
@@ -39,13 +43,11 @@
       - DependencyPropertyWatcher: Used to Track Changes of a Dependency Property
       - ThemeListener: Class which listens for changes to Application Theme or High Contrast Modes and Signals an Event when they occur.
       </Description>
-    <PackageTags>Windows;Community;Toolkit;WCT;UWP;UI;Converters;XAML;extensions;helpers</PackageTags>
-    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageTags>UI;XAML;ApplicationView;FrameworkElement;SurfaceDial;Matrix;Mouse;TextBoxMask;TitleBar;VisualTree;Converters;Extensions;Helpers</PackageTags>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-  </ItemGroup>  
+  </ItemGroup>
 
 </Project>
