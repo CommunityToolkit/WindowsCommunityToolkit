@@ -71,7 +71,7 @@
                      Margin="0,10,0,0" />
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <Ellipse x:Name="ScrollIndicator" Fill="Red" Width="15" Height="15"/>
-                <TextBlock x:Name="ScrollIndicatorTest" Text="Scroll not started" Margin="10,0,0,0"/>
+                <TextBlock x:Name="ScrollIndicatorTest" Text="Not Scrolling" Margin="10,0,0,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>
