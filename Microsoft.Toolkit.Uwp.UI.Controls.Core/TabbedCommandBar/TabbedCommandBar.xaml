@@ -17,6 +17,8 @@
         <Setter Property="PaneDisplayMode" Value="Top" />
         <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}" />
         <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="IsBackButtonVisible" Value="Collapsed" />
+        <Setter Property="IsSettingsVisible" Value="False" />
         <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
         <Setter Property="Background" Value="{ThemeResource SystemChromeMediumLowColor}" />
         <Setter Property="Template">
@@ -49,6 +51,15 @@
                                     </VisualState>
                                 </VisualStateGroup>
 
+                                <VisualStateGroup x:Name="AutoSuggestGroup">
+                                    <VisualState x:Name="AutoSuggestBoxVisible" />
+                                    <VisualState x:Name="AutoSuggestBoxCollapsed">
+                                        <VisualState.Setters>
+                                            <Setter Target="AutoSuggestArea.Visibility" Value="Collapsed" />
+                                            <Setter Target="TopPaneAutoSuggestArea.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
                                 <VisualStateGroup x:Name="TitleBarVisibilityGroup">
                                     <VisualState x:Name="TitleBarVisible" />
                                     <VisualState x:Name="TitleBarCollapsed">
@@ -57,8 +68,81 @@
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
+                                <!--
+                                    Flipped this around, but it really seems like there's an issue here with the WinUI NavigationView not properly applying this state in our re-template for some reason.
+                                    Maybe a bug? If not we may need to re-work how this works for our own purposes?
+                                -->
+                                <VisualStateGroup x:Name="BackButtonGroup">
+                                    <VisualState x:Name="BackButtonVisible">
+                                        <VisualState.Setters>
+                                            <Setter Target="BackButtonPlaceholderOnTopNav.Width" Value="{ThemeResource NavigationBackButtonWidth}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="BackButtonCollapsed" />
+                                </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
+                            <!--  Button grid  -->
+                            <Grid x:Name="PaneToggleButtonGrid"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top"
+                                  Canvas.ZIndex="100">
 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid x:Name="TogglePaneTopPadding"
+                                      Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.TopPadding}" />
+
+                                <Grid x:Name="ButtonHolderGrid"
+                                      Grid.Row="1"
+                                      Margin="{ThemeResource NavigationViewButtonHolderGridMargin}">
+                                    <Button x:Name="NavigationViewBackButton"
+                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerPaneToggleButtonWidth}"
+                                            VerticalAlignment="Top"
+                                            IsEnabled="{TemplateBinding IsBackEnabled}"
+                                            Style="{StaticResource NavigationBackButtonNormalStyle}"
+                                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.BackButtonVisibility}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip x:Name="NavigationViewBackButtonToolTip" />
+                                        </ToolTipService.ToolTip>
+                                    </Button>
+                                    <Button x:Name="NavigationViewCloseButton"
+                                            VerticalAlignment="Top"
+                                            Style="{StaticResource NavigationBackButtonNormalStyle}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip x:Name="NavigationViewCloseButtonToolTip" />
+                                        </ToolTipService.ToolTip>
+                                    </Button>
+                                    <Button x:Name="TogglePaneButton"
+                                            MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SmallerPaneToggleButtonWidth}"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Top"
+                                            AutomationProperties.LandmarkType="Navigation"
+                                            FocusVisualMargin="0"
+                                            Style="{TemplateBinding PaneToggleButtonStyle}"
+                                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.PaneToggleButtonVisibility}">
+                                        <TextBlock x:Name="PaneTitleTextBlock"
+                                                   Grid.Column="0"
+                                                   Margin="0,-2,0,0"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   Style="{StaticResource NavigationViewItemHeaderTextStyle}"
+                                                   Text="{TemplateBinding PaneTitle}" />
+                                    </Button>
+
+                                    <Grid x:Name="PaneTitleHolder"
+                                          Height="40"
+                                          Visibility="Collapsed">
+                                        <ContentControl x:Name="PaneTitlePresenter"
+                                                        Margin="{ThemeResource NavigationViewPaneTitlePresenterMargin}"
+                                                        HorizontalContentAlignment="Stretch"
+                                                        VerticalContentAlignment="Stretch"
+                                                        IsTabStop="False" />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                             <!--  Content layouts  -->
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -86,7 +170,7 @@
                                           Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.TopPaneVisibility}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition x:Name="BackButtonPlaceholderOnTopNav"
-                                                              Width="{ThemeResource NavigationBackButtonWidth}" />
+                                                              Width="0" />
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
@@ -199,6 +283,18 @@
                                                         HorizontalContentAlignment="Stretch"
                                                         VerticalContentAlignment="Stretch"
                                                         IsTabStop="False" />
+
+                                        <Grid x:Name="TopPaneAutoSuggestArea"
+                                              Grid.Column="6"
+                                              Height="{ThemeResource NavigationViewTopPaneHeight}">
+
+                                            <ContentControl x:Name="TopPaneAutoSuggestBoxPresenter"
+                                                            MinWidth="216"
+                                                            Margin="{ThemeResource TopNavigationViewAutoSuggestBoxMargin}"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalContentAlignment="Center"
+                                                            IsTabStop="False" />
+                                        </Grid>
 
                                         <ContentControl x:Name="PaneFooterOnTopPane"
                                                         Grid.Column="7"
