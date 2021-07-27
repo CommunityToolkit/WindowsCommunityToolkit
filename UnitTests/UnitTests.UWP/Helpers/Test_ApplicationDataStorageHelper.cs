@@ -69,7 +69,7 @@ namespace UnitTests.Helpers
 
         /// <summary>
         /// The <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/> doesn't support complex types, since it just passes through directly.
-        /// We'll get the argument exception from the <see cref="ApplicationDataContainer"/> API.
+        /// We'll get the argument exception from the <see cref="Windows.Storage.ApplicationDataContainer"/> API.
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
