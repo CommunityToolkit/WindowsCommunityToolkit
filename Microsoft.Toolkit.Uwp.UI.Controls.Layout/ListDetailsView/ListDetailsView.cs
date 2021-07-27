@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using NavigationView = Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -42,12 +43,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
         private bool _previousNavigationViewBackEnabled;
 
-        // Int used because the underlying type is an enum, but we don't have access to the enum
-        private int _previousNavigationViewBackVisibilty;
+        private NavigationView.NavigationViewBackButtonVisible _previousNavigationViewBackVisibilty;
+        private NavigationView.NavigationView _navigationView;
+        
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
         private Button _inlineBackButton;
-        private Microsoft.UI.Xaml.Controls.NavigationView _navigationView;
         private Frame _frame;
 
         /// <summary>
@@ -199,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
-                _navigationView = this.FindAscendant<Microsoft.UI.Xaml.Controls.NavigationView>();
+                _navigationView = this.FindAscendant<NavigationView.NavigationView>();
                 _frame = this.FindAscendant<Frame>();
                 if (_frame != null)
                 {
@@ -328,8 +329,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetBackButtonVisibility(ListDetailsViewState? previousState = null)
         {
-            const int backButtonVisible = 1;
-
             if (DesignMode.DesignModeEnabled)
             {
                 return;
@@ -358,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        SetNavigationViewBackButtonState(backButtonVisible, true);
+                        SetNavigationViewBackButtonState(NavigationView.NavigationViewBackButtonVisible.Visible, true);
                     }
                 }
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
@@ -441,15 +440,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
         }
 
-        private void SetNavigationViewBackButtonState(int visible, bool enabled)
+        private void SetNavigationViewBackButtonState(NavigationView.NavigationViewBackButtonVisible visibility, bool enabled)
         {
             if (_navigationView == null)
             {
                 return;
             }
 
-            _previousNavigationViewBackVisibilty = (int)_navigationView.IsBackButtonVisible;
-            _navigationView.IsBackButtonVisible = (Microsoft.UI.Xaml.Controls.NavigationViewBackButtonVisible)visible;
+            _previousNavigationViewBackVisibilty = _navigationView.IsBackButtonVisible;
+            _navigationView.IsBackButtonVisible = visibility;
 
             _previousNavigationViewBackEnabled = _navigationView.IsBackEnabled;
             _navigationView.IsBackEnabled = enabled;
