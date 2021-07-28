@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
         /// <returns>A new instance of ApplicationDataStorageHelper.</returns>
-        public static ApplicationDataStorageHelper GetCurrent(Toolkit.Helpers.IObjectSerializer objectSerializer = null)
+        public static ApplicationDataStorageHelper GetCurrent(Toolkit.Helpers.IObjectSerializer? objectSerializer = null)
         {
             var appData = ApplicationData.Current;
             return new ApplicationDataStorageHelper(appData, objectSerializer);
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="user">App data user owner.</param>
         /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
         /// <returns>A new instance of ApplicationDataStorageHelper.</returns>
-        public static async Task<ApplicationDataStorageHelper> GetForUserAsync(User user, Toolkit.Helpers.IObjectSerializer objectSerializer = null)
+        public static async Task<ApplicationDataStorageHelper> GetForUserAsync(User user, Toolkit.Helpers.IObjectSerializer? objectSerializer = null)
         {
             var appData = await ApplicationData.GetForUserAsync(user);
             return new ApplicationDataStorageHelper(appData, objectSerializer);
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="appData">The data store to interact with.</param>
         /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
-        public ApplicationDataStorageHelper(ApplicationData appData, Toolkit.Helpers.IObjectSerializer objectSerializer = null)
+        public ApplicationDataStorageHelper(ApplicationData appData, Toolkit.Helpers.IObjectSerializer? objectSerializer = null)
         {
             AppData = appData ?? throw new ArgumentNullException(nameof(appData));
             Serializer = objectSerializer ?? new Toolkit.Helpers.SystemSerializer();
@@ -137,15 +137,35 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>True if a value exists.</returns>
         public bool KeyExists(string compositeKey, string key)
         {
-            if (KeyExists(compositeKey))
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue composite))
             {
-                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
-                if (composite != null)
+                return composite.ContainsKey(key);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Attempts to retrieve a single item by its key in composite.
+        /// </summary>
+        /// <typeparam name="T">Type of object retrieved.</typeparam>
+        /// <param name="compositeKey">Key of the composite (that contains settings).</param>
+        /// <param name="key">Key of the object.</param>
+        /// <param name="value">The value of the object retrieved.</param>
+        /// <returns>The T object.</returns>
+        public bool TryRead<T>(string compositeKey, string key, out T value)
+        {
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue composite))
+            {
+                string compositeValue = (string)composite[key];
+                if (compositeValue != null)
                 {
-                    return composite.ContainsKey(key);
+                    value = Serializer.Deserialize<T>(compositeValue);
+                    return true;
                 }
             }
 
+            value = default;
             return false;
         }
 
@@ -159,11 +179,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The T object.</returns>
         public T Read<T>(string compositeKey, string key, T @default = default)
         {
-            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
-            if (composite != null)
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue composite))
             {
-                string value = (string)composite[key];
-                if (value != null)
+                if (composite.TryGetValue(key, out object valueObj) && valueObj is string value)
                 {
                     return Serializer.Deserialize<T>(value);
                 }
@@ -182,10 +200,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="values">Objects to save.</param>
         public void Save<T>(string compositeKey, IDictionary<string, T> values)
         {
-            if (KeyExists(compositeKey))
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue composite))
             {
-                ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
-
                 foreach (KeyValuePair<string, T> setting in values)
                 {
                     if (composite.ContainsKey(setting.Key))
@@ -200,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
             else
             {
-                ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
+                composite = new ApplicationDataCompositeValue();
                 foreach (KeyValuePair<string, T> setting in values)
                 {
                     composite.Add(setting.Key, Serializer.Serialize(setting.Value));
@@ -215,20 +231,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="compositeKey">Key of the composite (that contains settings).</param>
         /// <param name="key">Key of the object.</param>
-        /// <exception cref="KeyNotFoundException">Throws when the specified composite/settings key is not found.</exception>
-        public void Delete(string compositeKey, string key)
+        /// <returns>A boolean indicator of success.</returns>
+        public bool TryDelete(string compositeKey, string key)
         {
-            if (!KeyExists(compositeKey))
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue composite))
             {
-                throw new KeyNotFoundException($"Composite key not found: {compositeKey}");
+                return composite.Remove(key);
             }
 
-            ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
-
-            if (!composite.Remove(key))
-            {
-                throw new KeyNotFoundException($"Settings key not found: {key}");
-            }
+            return false;
         }
 
         /// <inheritdoc />
@@ -238,7 +249,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<(DirectoryItemType, string)>> ReadFolderAsync(string folderPath)
+        public Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadFolderAsync(string folderPath)
         {
             return ReadFolderAsync(Folder, folderPath);
         }
@@ -290,8 +301,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     : item.IsOfType(StorageItemTypes.Folder) ? DirectoryItemType.Folder
                     : DirectoryItemType.None;
 
-                return new ValueTuple<DirectoryItemType, string>(itemType, item.Name);
-            }).ToList();
+                return (itemType, item.Name);
+            });
         }
 
         private Task<StorageFile> SaveFileAsync<T>(StorageFolder folder, string filePath, T value)

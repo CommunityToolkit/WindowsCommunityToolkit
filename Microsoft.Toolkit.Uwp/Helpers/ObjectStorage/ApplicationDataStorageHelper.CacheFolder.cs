@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="folderPath">The path to the target folder.</param>
         /// <returns>A list of file types and names in the target folder.</returns>
-        public Task<IEnumerable<(DirectoryItemType, string)>> ReadCacheFolderAsync(string folderPath)
+        public Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadCacheFolderAsync(string folderPath)
         {
             return ReadFolderAsync(CacheFolder, folderPath);
         }

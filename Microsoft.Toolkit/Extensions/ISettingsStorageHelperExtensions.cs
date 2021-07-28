@@ -22,21 +22,18 @@ namespace Microsoft.Toolkit.Extensions
         /// <typeparam name="TValue">The type of object value expected.</typeparam>
         /// <param name="storageHelper">The storage helper instance fo read from.</param>
         /// <param name="key">The key of the target object.</param>
-        /// <param name="value">The value of the target object, or the fallback value.</param>
         /// <param name="fallback">An alternative value returned if the read fails.</param>
-        /// <returns>A boolean indicator of success.</returns>
-        public static bool TryGetValueOrDefault<TKey, TValue>(this ISettingsStorageHelper<TKey> storageHelper, TKey key, out TValue? value, TValue? fallback = default)
+        /// <returns>The value of the target object, or the fallback value.</returns>
+        public static TValue GetValueOrDefault<TKey, TValue>(this ISettingsStorageHelper<TKey> storageHelper, TKey key, TValue? fallback = default)
             where TKey : notnull
         {
             if (storageHelper.TryRead<TValue>(key, out TValue? storedValue))
             {
-                value = storedValue;
-                return true;
+                return storedValue;
             }
             else
             {
-                value = fallback;
-                return false;
+                return fallback;
             }
         }
 
@@ -58,7 +55,8 @@ namespace Microsoft.Toolkit.Extensions
             }
             else
             {
-                throw new KeyNotFoundException();
+                ThrowKeyNotFoundException(key);
+                return default;
             }
         }
 
@@ -74,8 +72,13 @@ namespace Microsoft.Toolkit.Extensions
         {
             if (!storageHelper.TryDelete(key))
             {
-                throw new KeyNotFoundException();
+                ThrowKeyNotFoundException(key);
             }
+        }
+
+        private static void ThrowKeyNotFoundException<TKey>(TKey key)
+        {
+            throw new KeyNotFoundException($"The given key '{key}' was not present");
         }
     }
 }
