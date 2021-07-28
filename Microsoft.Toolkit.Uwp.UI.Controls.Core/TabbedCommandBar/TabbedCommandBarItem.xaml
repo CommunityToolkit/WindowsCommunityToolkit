@@ -27,7 +27,7 @@
            TargetType="controls:TabbedCommandBarItem" />
 
     <Style x:Key="DefaultTabbedCommandBarItemStyle"
-           BasedOn="{StaticResource CommandBarRevealStyle}"
+           BasedOn="{StaticResource DefaultCommandBarStyle}"
            TargetType="controls:TabbedCommandBarItem">
         <!--  TODO: Copy CommandBarRevealStyle instead of referencing it  -->
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -38,8 +38,6 @@
             (See this message in the WinUI channel: https://discord.com/channels/372137812037730304/671870147354427422/771057634203402300 )
             Hardcoding the height of the CommandBar works, but it's a bit of a hack.
         -->
-        <!--  TODO: Increased this for now, but if we want more compact, we have to identify the padding/margin that changed between WinUI 2.5 and 2.6  -->
-        <Setter Property="Height" Value="48" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
 
