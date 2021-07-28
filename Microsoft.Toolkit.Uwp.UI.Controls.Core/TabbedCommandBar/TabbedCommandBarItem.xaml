@@ -29,7 +29,6 @@
     <Style x:Key="DefaultTabbedCommandBarItemStyle"
            BasedOn="{StaticResource DefaultCommandBarStyle}"
            TargetType="controls:TabbedCommandBarItem">
-        <!--  TODO: Copy CommandBarRevealStyle instead of referencing it  -->
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="DefaultLabelPosition" Value="Right" />
         <Setter Property="Background" Value="{ThemeResource NormalTabBackground}" />
