@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <param name="key">The key of the target object.</param>
         /// <param name="fallback">An alternative value returned if the read fails.</param>
         /// <returns>The value of the target object, or the fallback value.</returns>
-        public static TValue GetValueOrDefault<TKey, TValue>(this ISettingsStorageHelper<TKey> storageHelper, TKey key, TValue? fallback = default)
+        public static TValue? GetValueOrDefault<TKey, TValue>(this ISettingsStorageHelper<TKey> storageHelper, TKey key, TValue? fallback = default)
             where TKey : notnull
         {
             if (storageHelper.TryRead<TValue>(key, out TValue? storedValue))
