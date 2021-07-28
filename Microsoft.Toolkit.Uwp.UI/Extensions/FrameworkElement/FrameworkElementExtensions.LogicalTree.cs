@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                     goto Start;
                 }
-            }            
+            }
             else if (element is UserControl userControl)
             {
                 // We put UserControl right before the slower reflection fallback path as
