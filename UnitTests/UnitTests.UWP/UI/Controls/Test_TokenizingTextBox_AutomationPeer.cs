@@ -1,8 +1,10 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -47,6 +49,45 @@ namespace UnitTests.UWP.UI.Controls
 
                 tokenizingTextBoxAutomationPeer.SetValue(expectedValue);
                 Assert.IsTrue(tokenizingTextBoxAutomationPeer.Value.Equals(expectedValue), "Verify that the Value contains the given Text of the TokenizingTextBox.");
+            });
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnTokensForTokenizingTextBoxAutomationPeerAsync()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var items = new ObservableCollection<TokenizingTextBoxTestItem>
+                {
+                    new() { Title = "Hello" }, new() { Title = "World" }
+                };
+
+                var tokenizingTextBox = new TokenizingTextBox { ItemsSource = items };
+
+                await SetTestContentAsync(tokenizingTextBox);
+
+                tokenizingTextBox
+                    .SelectAllTokensAndText(); // Will be 3 items due to the `AndText` that will select an empty text item.
+
+                var tokenizingTextBoxAutomationPeer =
+                    FrameworkElementAutomationPeer.CreatePeerForElement(tokenizingTextBox) as
+                        TokenizingTextBoxAutomationPeer;
+
+                Assert.IsNotNull(
+                    tokenizingTextBoxAutomationPeer,
+                    "Verify that the AutomationPeer is TokenizingTextBoxAutomationPeer.");
+
+                var selectedItems = tokenizingTextBoxAutomationPeer
+                    .GetChildren()
+                    .Cast<ListViewItemAutomationPeer>()
+                    .Select(peer => peer.Owner as TokenizingTextBoxItem)
+                    .Select(item => item?.Content as TokenizingTextBoxTestItem)
+                    .ToList();
+
+                Assert.AreEqual(3, selectedItems.Count);
+                Assert.AreEqual(items[0], selectedItems[0]);
+                Assert.AreEqual(items[1], selectedItems[1]);
+                Assert.IsNull(selectedItems[2]); // The 3rd item is the empty text item.
             });
         }
 
