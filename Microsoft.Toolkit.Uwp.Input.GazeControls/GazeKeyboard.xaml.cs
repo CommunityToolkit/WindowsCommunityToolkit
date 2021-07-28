@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.Input.GazeControls
     /// <summary>
     /// Gaze optimized soft keyboard with support for custom layouts and predictions
     /// </summary>
-    [Bindable]
     public sealed partial class GazeKeyboard : UserControl
     {
         private InputInjector _injector;
