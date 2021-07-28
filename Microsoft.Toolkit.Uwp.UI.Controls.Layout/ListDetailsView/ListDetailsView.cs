@@ -45,7 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private NavigationView.NavigationViewBackButtonVisible _previousNavigationViewBackVisibilty;
         private NavigationView.NavigationView _navigationView;
-        
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
         private Button _inlineBackButton;
