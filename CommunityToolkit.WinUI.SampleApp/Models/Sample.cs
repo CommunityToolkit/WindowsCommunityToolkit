@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 // TODO Reintroduce graph controls
 // using CommunityToolkit.Graph.Converters;
 // using CommunityToolkit.Graph.Providers;
+using CommunityToolkit.Common.Helpers;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Input.GazeInteraction;
 using CommunityToolkit.WinUI.SampleApp.Models;
@@ -44,7 +45,7 @@ namespace CommunityToolkit.WinUI.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper(new SystemSerializer());
+            var settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);

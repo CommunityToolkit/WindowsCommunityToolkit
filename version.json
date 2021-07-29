@@ -7,7 +7,7 @@
     "^refs/heads/rel/\\d+\\.\\d+\\.\\d+", // we also release branches starting with rel/N.N.N
     "^refs/heads/rel/winui/\\d+\\.\\d+\\.\\d+" // we also release branches starting with rel/winui/N.N.N
   ],
-  "nugetPackageVersion":{
+  "nugetPackageVersion": {
     "semVer": 2
   },
   "cloudBuild": {

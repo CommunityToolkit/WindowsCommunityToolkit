@@ -10,6 +10,7 @@ This is a Powershell script to bootstrap a Cake build.
 .DESCRIPTION
 This Powershell script will download NuGet if missing, restore NuGet tools (including Cake)
 and execute your Cake build script with the parameters you provide.
+
 .PARAMETER Script
 The build script to execute.
 .PARAMETER Target
@@ -85,9 +86,14 @@ function MD5HashFile([string] $filePath)
     }
     finally
     {
-        if ($file -ne $null)
+        if ($null -ne $file)
         {
             $file.Dispose()
+        }
+
+        if ($null -ne $md5)
+        {
+            $md5.Dispose()
         }
     }
 }
@@ -147,7 +153,7 @@ if (!(Test-Path $NUGET_EXE)) {
     Write-Verbose -Message "Trying to find nuget.exe in PATH..."
     $existingPaths = $Env:Path -Split ';' | Where-Object { (![string]::IsNullOrEmpty($_)) -and (Test-Path $_ -PathType Container) }
     $NUGET_EXE_IN_PATH = Get-ChildItem -Path $existingPaths -Filter "nuget.exe" | Select -First 1
-    if ($NUGET_EXE_IN_PATH -ne $null -and (Test-Path $NUGET_EXE_IN_PATH.FullName)) {
+    if ($null -ne $NUGET_EXE_IN_PATH -and (Test-Path $NUGET_EXE_IN_PATH.FullName)) {
         Write-Verbose -Message "Found in PATH at $($NUGET_EXE_IN_PATH.FullName)."
         $NUGET_EXE = $NUGET_EXE_IN_PATH.FullName
     }
@@ -165,7 +171,7 @@ if (!(Test-Path $NUGET_EXE)) {
 }
 
 # These are automatic variables in PowerShell Core, but not in Windows PowerShell 5.x
-if (-not (Test-Path variable:global:ismacos)) {
+if (-not (Test-Path variable:global:IsMacOS)) {
     $IsLinux = $false
     $IsMacOS = $false
 }
@@ -266,4 +272,12 @@ $cakeArguments += $ScriptArgs
 # Start Cake
 Write-Host "Running build script..."
 Invoke-Expression "& $CAKE_EXE_INVOCATION $($cakeArguments -join " ")"
-exit $LASTEXITCODE
+$cakeExitCode = $LASTEXITCODE
+
+# Clean up environment variables that were created earlier in this bootstrapper
+$env:CAKE_PATHS_TOOLS = $null
+$env:CAKE_PATHS_ADDINS = $null
+$env:CAKE_PATHS_MODULES = $null
+
+# Return exit code
+exit $cakeExitCode

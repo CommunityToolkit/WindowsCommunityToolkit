@@ -4,19 +4,18 @@
 
 using System;
 using System.Reflection;
-using CommunityToolkit.WinUI.Helpers;
+using Microsoft.Toolkit.Helpers;
 using Newtonsoft.Json;
 
 namespace UnitTests.Helpers
 {
     /// <summary>
     /// This is a Serializer which should mimic the previous functionality of 6.1.1 release of the Toolkit with Newtonsoft.Json.
-    /// Based on <see cref="Microsoft.Toolkit.Uwp.Helpers.IObjectSerializer"/>.
+    /// Based on <see cref="Microsoft.Toolkit.Helpers.IObjectSerializer"/>.
     /// </summary>
-    [Obsolete]
-    internal class JsonObjectSerializer : IObjectSerializer
+    internal class JsonObjectSerializer2 : IObjectSerializer
     {
-        public T Deserialize<T>(object value)
+        public T Deserialize<T>(string value)
         {
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
@@ -28,10 +27,10 @@ namespace UnitTests.Helpers
                 return (T)Convert.ChangeType(value, type);
             }
 
-            return JsonConvert.DeserializeObject<T>((string)value);
+            return JsonConvert.DeserializeObject<T>(value);
         }
 
-        public object Serialize<T>(T value)
+        public string Serialize<T>(T value)
         {
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
@@ -40,7 +39,7 @@ namespace UnitTests.Helpers
             // This if/return combo is to maintain compatibility with 6.1.1
             if (typeInfo.IsPrimitive || type == typeof(string))
             {
-                return value;
+                return value.ToString();
             }
 
             return JsonConvert.SerializeObject(value);
