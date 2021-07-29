@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -18,12 +19,15 @@
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>$(NoWarn);2008</NoWarn>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
+  <Target Name="Pack">
+  </Target>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -34,6 +38,7 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -45,6 +50,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -55,6 +61,7 @@
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -66,6 +73,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -77,6 +85,7 @@
     <OutputPath>bin\ARM64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -88,6 +97,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -98,6 +108,7 @@
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -140,13 +151,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.12</Version>
+      <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.1.2</Version>
+      <Version>1.4.0</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.1.2</Version>
+      <Version>1.4.0</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
       <Version>5.0.0</Version>
@@ -163,6 +174,11 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- No-op to avoid build error when packing solution from commandline -->
-  <Target Name="Pack" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

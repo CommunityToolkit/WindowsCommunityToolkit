@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Mvvm.Messaging.Messages;
@@ -74,8 +73,6 @@ namespace UnitTests.Mvvm
             messenger.Register<NumberRequestMessage>(recipient, Receive);
 
             int result = messenger.Send<NumberRequestMessage>();
-
-            GC.KeepAlive(recipient);
         }
 
         public class NumberRequestMessage : RequestMessage<int>
@@ -105,8 +102,6 @@ namespace UnitTests.Mvvm
             int result = await messenger.Send<AsyncNumberRequestMessage>();
 
             Assert.AreEqual(result, 42);
-
-            GC.KeepAlive(recipient);
         }
 
         [TestCategory("Mvvm")]
@@ -139,8 +134,6 @@ namespace UnitTests.Mvvm
             int result = await messenger.Send<AsyncNumberRequestMessage>();
 
             Assert.AreEqual(result, 42);
-
-            GC.KeepAlive(recipient);
         }
 
         [TestCategory("Mvvm")]
@@ -174,8 +167,6 @@ namespace UnitTests.Mvvm
             messenger.Register<AsyncNumberRequestMessage>(recipient, Receive);
 
             int result = await messenger.Send<AsyncNumberRequestMessage>();
-
-            GC.KeepAlive(recipient);
         }
 
         public class AsyncNumberRequestMessage : AsyncRequestMessage<int>
@@ -200,8 +191,6 @@ namespace UnitTests.Mvvm
             var results = messenger.Send<NumbersCollectionRequestMessage>().Responses;
 
             Assert.AreEqual(results.Count, 0);
-
-            GC.KeepAlive(recipient);
         }
 
         [TestCategory("Mvvm")]
@@ -277,8 +266,6 @@ namespace UnitTests.Mvvm
             var results = await messenger.Send<AsyncNumbersCollectionRequestMessage>().GetResponsesAsync();
 
             Assert.AreEqual(results.Count, 0);
-
-            GC.KeepAlive(recipient);
         }
 
         [TestCategory("Mvvm")]
@@ -286,46 +273,6 @@ namespace UnitTests.Mvvm
         [DataRow(typeof(StrongReferenceMessenger))]
         [DataRow(typeof(WeakReferenceMessenger))]
         public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_MultipleReplies(Type type)
-        {
-            var messenger = (IMessenger)Activator.CreateInstance(type);
-            object
-                recipient1 = new object(),
-                recipient2 = new object(),
-                recipient3 = new object(),
-                recipient4 = new object();
-
-            async Task<int> GetNumberAsync()
-            {
-                await Task.Delay(100);
-
-                return 3;
-            }
-
-            void Receive1(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(1);
-            void Receive2(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(Task.FromResult(2));
-            void Receive3(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(GetNumberAsync());
-            void Receive4(object recipient, AsyncNumbersCollectionRequestMessage m) => m.Reply(_ => GetNumberAsync());
-
-            messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient1, Receive1);
-            messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient2, Receive2);
-            messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient3, Receive3);
-            messenger.Register<AsyncNumbersCollectionRequestMessage>(recipient4, Receive4);
-
-            var responses = await messenger.Send<AsyncNumbersCollectionRequestMessage>().GetResponsesAsync();
-
-            CollectionAssert.AreEquivalent(responses.ToArray(), new[] { 1, 2, 3, 3 });
-
-            GC.KeepAlive(recipient1);
-            GC.KeepAlive(recipient2);
-            GC.KeepAlive(recipient3);
-            GC.KeepAlive(recipient4);
-        }
-
-        [TestCategory("Mvvm")]
-        [TestMethod]
-        [DataRow(typeof(StrongReferenceMessenger))]
-        [DataRow(typeof(WeakReferenceMessenger))]
-        public async Task Test_Messenger_AsyncCollectionRequestMessage_Ok_MultipleReplies_Enumerate(Type type)
         {
             var messenger = (IMessenger)Activator.CreateInstance(type);
             object
@@ -359,11 +306,6 @@ namespace UnitTests.Mvvm
             }
 
             CollectionAssert.AreEquivalent(responses, new[] { 1, 2, 3, 3 });
-
-            GC.KeepAlive(recipient1);
-            GC.KeepAlive(recipient2);
-            GC.KeepAlive(recipient3);
-            GC.KeepAlive(recipient4);
         }
 
         public class AsyncNumbersCollectionRequestMessage : AsyncCollectionRequestMessage<int>

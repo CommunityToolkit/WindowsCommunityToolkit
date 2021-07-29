@@ -1,10 +1,10 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 #nullable enable
 
-using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
@@ -18,25 +18,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public abstract class ImplicitAnimation<TValue, TKeyFrame> : Animation<TValue, TKeyFrame>, IImplicitTimeline
         where TKeyFrame : unmanaged
     {
-        /// <inheritdoc/>
-        public event EventHandler? AnimationPropertyChanged;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImplicitAnimation{TValue, TKeyFrame}"/> class.
-        /// </summary>
-        protected ImplicitAnimation()
-        {
-            RegisterPropertyChangedCallback(DelayProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(DurationProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(EasingTypeProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(EasingModeProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(RepeatProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(DelayBehaviorProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(ToProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(FromProperty, RaiseAnimationPropertyChanged);
-            RegisterPropertyChangedCallback(KeyFramesProperty, RaiseAnimationPropertyChanged);
-        }
-
         /// <summary>
         /// Gets or sets the optional implicit target for the animation. This can act as a trigger property for the animation.
         /// </summary>
@@ -49,8 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ExplicitTarget,
                 Delay ?? DefaultDelay,
                 Duration ?? DefaultDuration,
-                Repeat,
-                DelayBehavior);
+                Repeat);
 
             var (to, from) = GetParsedValues();
 
@@ -86,16 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             target = ImplicitTarget;
 
             return builder.GetAnimation(element.GetVisual(), out _);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="AnimationPropertyChanged"/> event.
-        /// </summary>
-        /// <param name="sender">The instance raising the event.</param>
-        /// <param name="property">The <see cref="DependencyProperty"/> that was changed.</param>
-        private void RaiseAnimationPropertyChanged(DependencyObject sender, DependencyProperty property)
-        {
-            AnimationPropertyChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

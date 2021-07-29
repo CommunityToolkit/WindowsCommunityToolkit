@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;

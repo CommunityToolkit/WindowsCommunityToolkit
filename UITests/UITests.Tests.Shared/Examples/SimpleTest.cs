@@ -28,6 +28,12 @@ namespace UITests.Tests
             TestEnvironment.Initialize(testContext, WinUICsUWPSampleApp);
         }
 
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            TestEnvironment.AssemblyCleanupWorker(WinUICsUWPSampleApp);
+        }
+
         [TestMethod]
         [TestPage("SimpleTestPage")]
         public void SimpleTestMethod()

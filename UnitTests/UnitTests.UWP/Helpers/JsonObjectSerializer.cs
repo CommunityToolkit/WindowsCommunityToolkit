@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -7,13 +7,11 @@ using System.Reflection;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 
-namespace UnitTests.Helpers
+namespace UnitTests.UWP.Helpers
 {
     /// <summary>
     /// This is a Serializer which should mimic the previous functionality of 6.1.1 release of the Toolkit with Newtonsoft.Json.
-    /// Based on <see cref="Microsoft.Toolkit.Uwp.Helpers.IObjectSerializer"/>.
     /// </summary>
-    [Obsolete]
     internal class JsonObjectSerializer : IObjectSerializer
     {
         public T Deserialize<T>(object value)

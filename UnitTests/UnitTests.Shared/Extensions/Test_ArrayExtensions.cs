@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Toolkit;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Extensions

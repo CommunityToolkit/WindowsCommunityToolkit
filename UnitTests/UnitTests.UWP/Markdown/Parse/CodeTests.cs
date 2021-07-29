@@ -11,7 +11,6 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class CodeTests : ParseTestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void Code_Inline()
@@ -268,6 +267,5 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "before     Code         More code     Even more code after" }));
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

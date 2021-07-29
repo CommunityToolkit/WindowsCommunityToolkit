@@ -6,8 +6,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Uwp;
-using UITests.App.Commands;
+using Microsoft.Toolkit.Uwp.Extensions;
 using UITests.App.Pages;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -34,9 +33,6 @@ namespace UITests.App
             WeakReferenceMessenger.Default.Register<RequestPageMessage>(this);
 
             _queue = DispatcherQueue.GetForCurrentThread();
-
-            // Initialize Custom Commands for AppService
-            VisualTreeHelperCommands.Initialize(_queue);
         }
 
         public void Receive(RequestPageMessage message)
@@ -117,18 +113,6 @@ namespace UITests.App
         {
             Log.Error("Failed to navigate to page {0}", e.SourcePageType.FullName);
             _loadingStateTask.SetResult(false);
-        }
-
-        private void GoBackInvokerButton_Click(object sender, RoutedEventArgs e)
-        {
-            Log.Comment("Go Back Clicked. Navigating to Page...");
-            navigationFrame.Navigate(typeof(HomePage));
-            Log.Comment("Navigated to Page.");
-        }
-
-        private void CloseAppInvokerButton_Click(object sender, RoutedEventArgs e)
-        {
-            App.Current.Exit();
         }
     }
 }

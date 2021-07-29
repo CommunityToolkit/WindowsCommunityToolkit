@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
@@ -31,9 +31,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            unformattedText = control.FindChild("UnformattedText") as TextBox;
+            unformattedText = control.FindChildByName("UnformattedText") as TextBox;
 
-            markdownText = control.FindChild("MarkdownText") as MarkdownTextBlock;
+            markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
 
             if (markdownText != null)
             {

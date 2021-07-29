@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,7 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -159,7 +158,7 @@ namespace Microsoft.Collections.Extensions
         /// <param name="key">The key to look for.</param>
         /// <param name="value">The value found, otherwise <see langword="default"/>.</param>
         /// <returns>Whether or not the key was present.</returns>
-        public bool TryGetValue(TKey key, [NotNullWhen(true)] out TValue? value)
+        public bool TryGetValue(TKey key, out TValue? value)
         {
             Entry[] entries = this.entries;
 
@@ -182,6 +181,17 @@ namespace Microsoft.Collections.Extensions
 
         /// <inheritdoc/>
         public bool TryRemove(TKey key)
+        {
+            return TryRemove(key, out _);
+        }
+
+        /// <summary>
+        /// Tries to remove a value with a specified key, if present.
+        /// </summary>
+        /// <param name="key">The key of the value to remove.</param>
+        /// <param name="result">The removed value, if it was present.</param>
+        /// <returns>Whether or not the key was present.</returns>
+        public bool TryRemove(TKey key, out TValue? result)
         {
             Entry[] entries = this.entries;
             int bucketIndex = key.GetHashCode() & (this.buckets.Length - 1);
@@ -209,12 +219,16 @@ namespace Microsoft.Collections.Extensions
                     this.freeList = entryIndex;
                     this.count--;
 
+                    result = candidate.Value;
+
                     return true;
                 }
 
                 lastIndex = entryIndex;
                 entryIndex = candidate.Next;
             }
+
+            result = null;
 
             return false;
         }
@@ -320,7 +334,7 @@ namespace Microsoft.Collections.Extensions
         /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Enumerator GetEnumerator() => new(this);
+        public Enumerator GetEnumerator() => new Enumerator(this);
 
         /// <summary>
         /// Enumerator for <see cref="DictionarySlim{TKey,TValue}"/>.

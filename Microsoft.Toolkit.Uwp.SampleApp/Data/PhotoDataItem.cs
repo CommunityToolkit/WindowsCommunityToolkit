@@ -11,10 +11,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         public string Category { get; set; }
 
         public string Thumbnail { get; set; }
-
-        public override string ToString()
-        {
-            return Title;
-        }
     }
 }

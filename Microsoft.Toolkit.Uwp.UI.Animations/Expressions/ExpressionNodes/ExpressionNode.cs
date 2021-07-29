@@ -282,10 +282,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 }
 
                 // Create a map to store the generated paramNames for each CompObj
+                uint id = 0;
                 _compObjToParamNameMap = new Dictionary<CompositionObject, string>();
                 foreach (var compObj in compObjects)
                 {
-                    string paramName = Guid.NewGuid().ToUppercaseAsciiLetters();
+                    // compObj.ToString() will return something like "Windows.UI.Composition.SpriteVisual"
+                    // Make it look like "SpriteVisual_1"
+                    string paramName = compObj.ToString();
+                    paramName = $"{paramName.Substring(paramName.LastIndexOf('.') + 1)}_{++id}";       // make sure the created param name doesn't overwrite a custom name
 
                     _compObjToParamNameMap.Add(compObj, paramName);
                 }

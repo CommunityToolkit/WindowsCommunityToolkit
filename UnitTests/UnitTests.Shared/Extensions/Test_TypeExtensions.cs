@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Diagnostics;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Extensions

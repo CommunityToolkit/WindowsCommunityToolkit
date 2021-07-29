@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -18,7 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Array.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.Comparable.Numeric.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\Test_Guard.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_EventHandlerExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TaskExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_TypeExtensions.cs" />

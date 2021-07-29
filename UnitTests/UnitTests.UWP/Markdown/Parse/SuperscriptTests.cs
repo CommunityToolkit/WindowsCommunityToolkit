@@ -11,7 +11,6 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class SuperscriptTests : ParseTestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Simple()
@@ -134,6 +133,5 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "paragraphs)" }));
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

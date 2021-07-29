@@ -22,13 +22,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         /// operations that can be executed in parallel, or <see cref="Func{T,TResult}"/> instances, which can be used so that multiple
         /// asynchronous operations are only started sequentially from <see cref="GetAsyncEnumerator"/> and do not overlap in time.
         /// </summary>
-        private readonly List<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new();
+        private readonly List<(Task<T>?, Func<CancellationToken, Task<T>>?)> responses = new List<(Task<T>?, Func<CancellationToken, Task<T>>?)>();
 
         /// <summary>
         /// The <see cref="CancellationTokenSource"/> instance used to link the token passed to
         /// <see cref="GetAsyncEnumerator"/> and the one passed to all subscribers to the message.
         /// </summary>
-        private readonly CancellationTokenSource cancellationTokenSource = new();
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         /// <summary>
         /// Gets the <see cref="System.Threading.CancellationToken"/> instance that will be linked to the
@@ -99,12 +99,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             if (cancellationToken.CanBeCanceled)
             {
-                _ = cancellationToken.Register(this.cancellationTokenSource.Cancel);
+                cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
-            List<T> results = new(this.responses.Count);
+            List<T> results = new List<T>(this.responses.Count);
 
-            await foreach (var response in this.WithCancellation(cancellationToken).ConfigureAwait(false))
+            await foreach (var response in this.WithCancellation(cancellationToken))
             {
                 results.Add(response);
             }
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
         {
             if (cancellationToken.CanBeCanceled)
             {
-                _ = cancellationToken.Register(this.cancellationTokenSource.Cancel);
+                cancellationToken.Register(this.cancellationTokenSource.Cancel);
             }
 
             foreach (var (task, func) in this.responses)
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
                     yield break;
                 }
 
-                if (task is not null)
+                if (!(task is null))
                 {
                     yield return await task.ConfigureAwait(false);
                 }

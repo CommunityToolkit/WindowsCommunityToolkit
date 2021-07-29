@@ -1,14 +1,11 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Title>Windows Community Toolkit - UI Behaviors</Title>
+    <TargetFramework>uap10.0.17763</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Title>Windows Community Toolkit UI Behaviors</Title>
     <Description>
-      This library provides UI behaviors built on the XAML behaviors SDK. It is a part of the Windows Community Toolkit.
+      This library provides UI behaviors built on the XAML behaviors SDK. It is part of the Windows Community Toolkit.
 
       Behaviors:
       - BehaviorBase: Helper for building Behaviors
@@ -17,7 +14,9 @@
       - ViewportBehavior: Listening for element to enter or exit the ScrollViewer viewport
       - FadeHeaderBehavior, QuickReturnHeaderBehavior, StickyHeaderBehavior: Helpers for ListViewBase Header Behavior
     </Description>
-    <PackageTags>UI;XAML;Behaviors;Interactivity;Interaction;Focus;Header;Viewport</PackageTags>
+    <PackageTags>UWP Toolkit Windows UI Behaviors XAML</PackageTags>
+
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,9 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
     <!-- TODO: Including Animation reference for now for initial refactor of the ScrollHeader behaviors, we may be able to remove, but may also have some Behaviors for Animations? -->
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>
-
 </Project>

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
@@ -26,7 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     /// </summary>
     internal class SampleAppMarkdownRenderer : MarkdownRenderer
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         public SampleAppMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document, linkRegister, imageResolver, codeBlockResolver)
         {
@@ -271,46 +269,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 else if (firstInline is TextRunInline textRunInline)
                 {
                     var key = textRunInline.Text.Split(' ').FirstOrDefault();
-                    if (styles.TryGetValue(key, out var style))
+                    if (styles.TryGetValue(key, out var style) && !style.Ignore)
                     {
-                        if (!style.Ignore)
+                        noteType = style;
+                        header = style.IdentifierReplacement;
+                        symbolGlyph = style.Glyph;
+
+                        // Removes the identifier from the text
+                        textRunInline.Text = textRunInline.Text.Replace(key, string.Empty);
+
+                        if (theme == ElementTheme.Light)
                         {
-                            noteType = style;
-                            header = style.IdentifierReplacement;
-                            symbolGlyph = style.Glyph;
-
-                            // Removes the identifier from the text
-                            textRunInline.Text = textRunInline.Text.Replace(key, string.Empty);
-
-                            if (theme == ElementTheme.Light)
-                            {
-                                localForeground = style.LightForeground;
-                                localBackground = style.LightBackground;
-                            }
-                            else
-                            {
-                                localForeground = new SolidColorBrush(Colors.White);
-                                localBackground = style.DarkBackground;
-                            }
-
-                            // Apply special formatting context.
-                            if (noteType != null)
-                            {
-                                if (localContext?.Clone() is UIElementCollectionRenderContext newContext)
-                                {
-                                    localContext = newContext;
-
-                                    localContext.TrimLeadingWhitespace = true;
-                                    QuoteForeground = Foreground;
-                                    LinkForeground = localForeground;
-                                }
-                            }
+                            localForeground = style.LightForeground;
+                            localBackground = style.LightBackground;
                         }
                         else
                         {
-                            // Blank entire block
-                            textRunInline.Text = string.Empty;
+                            localForeground = new SolidColorBrush(Colors.White);
+                            localBackground = style.DarkBackground;
                         }
+
+                        // Apply special formatting context.
+                        if (noteType != null)
+                        {
+                            if (localContext?.Clone() is UIElementCollectionRenderContext newContext)
+                            {
+                                localContext = newContext;
+
+                                localContext.TrimLeadingWhitespace = true;
+                                QuoteForeground = Foreground;
+                                LinkForeground = localForeground;
+                            }
+                        }
+                    }
+
+                    if (style.Ignore)
+                    {
+                        // Blank entire block
+                        textRunInline.Text = string.Empty;
                     }
                 }
             }
@@ -408,19 +404,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             get
             {
-                return settingsStorage.Read<string>(DesiredLangKey);
+                return storage.Read<string>(DesiredLangKey);
             }
 
             set
             {
-                settingsStorage.Save(DesiredLangKey, value);
+                storage.Save(DesiredLangKey, value);
             }
         }
 
         /// <summary>
-        /// The local app data storage helper for storing settings.
+        /// The Local Storage Helper.
         /// </summary>
-        private readonly ApplicationDataStorageHelper settingsStorage = ApplicationDataStorageHelper.GetCurrent();
+        private LocalObjectStorageHelper storage = new LocalObjectStorageHelper(new SystemSerializer());
 
         /// <summary>
         /// DocFX note types and styling info, keyed by identifier.
@@ -518,6 +514,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             public string CurrentLanguage { get; set; }
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -37,11 +37,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// The default <see cref="EasingMode"/> value used for animations.
         /// </summary>
         public const EasingMode DefaultEasingMode = EasingMode.EaseInOut;
-
-        /// <summary>
-        /// The default <see cref="AnimationDelayBehavior"/> value used for animations (only applies to composition animations).
-        /// </summary>
-        public const AnimationDelayBehavior DefaultDelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
         /// <summary>
         /// The reusable mapping of control points for easing curves for combinations of <see cref="EasingType"/> and <see cref="EasingMode"/> values.

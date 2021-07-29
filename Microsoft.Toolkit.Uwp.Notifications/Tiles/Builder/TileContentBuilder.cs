@@ -499,7 +499,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 GetAdaptiveTileContent(MediumTile).Children.Add(child);
             }
 
-            if (size.HasFlag(TileSize.Wide) && WideTile != null && GetAdaptiveTileContent(WideTile) != null)
+            if (size.HasFlag(TileSize.Wide) && WideTile != null && GetAdaptiveTileContent(MediumTile) != null)
             {
                 GetAdaptiveTileContent(WideTile).Children.Add(child);
             }

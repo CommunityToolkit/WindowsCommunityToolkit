@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Progression is represented by a loop filling up in a clockwise fashion.
     /// Like the traditional progress bar, it inherits from RangeBase, so Minimum, Maximum and Value properties work the same way.
     /// </summary>
-    [Obsolete("The platform ProgressRing now supports determinate mode and is part of WinUI 2.5, please upgrade to use that control: https://docs.microsoft.com/windows/apps/winui/winui2/release-notes/winui-2.5#determinate-progressring")]
     [TemplatePart(Name = OutlineFigurePartName, Type = typeof(PathFigure))]
     [TemplatePart(Name = OutlineArcPartName, Type = typeof(ArcSegment))]
     [TemplatePart(Name = BarFigurePartName, Type = typeof(PathFigure))]

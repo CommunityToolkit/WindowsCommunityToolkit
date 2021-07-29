@@ -14,6 +14,7 @@
     Using the Namespace directive to apply reflection policy to all the types in a particular namespace
     <Namespace Name="DataClasses.ViewModels" Serialize="All" />
 -->
+
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
   <Application>
     <!--
@@ -24,18 +25,17 @@
 
     <!-- Add your application specific runtime directives here. -->
     <Type Name="Windows.UI.Xaml.Controls.Page" Serialize="Required All" />
+
     <Type Name="Windows.UI.Xaml.Controls.FontIcon" Dynamic="Required All" Serialize="Required All" />
     <Type Name="Windows.UI.Xaml.Controls.BitmapIcon" Dynamic="Required All" Serialize="Required All" />
-
-    <Type Name="System.Collections.Generic.IList{Windows.UI.Xaml.Automation.Peers.AutomationPeer}" MarshalObject="Required All"/>
-
-    <Type Name="Microsoft.Toolkit.Uwp.UI.BitmapIconExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.FontIconExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.FontIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.SymbolIconExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.SymbolIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
-    <Type Name="Microsoft.Toolkit.Uwp.UI.EnumValuesExtension" Dynamic="Required All" Serialize="Required All"/>
-
     <Type Name="UnitTests.Extensions.MockSwipeItem" Dynamic="Required All" Serialize="Required All" />
+
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.BitmapIconExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.FontIconExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.FontIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.SymbolIconExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.SymbolIconSourceExtension" Dynamic="Required All" Serialize="Required All"/>
+    <Type Name="Microsoft.Toolkit.Uwp.UI.Extensions.EnumValuesExtension" Dynamic="Required All" Serialize="Required All"/>
+
   </Application>
 </Directives>

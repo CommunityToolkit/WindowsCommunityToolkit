@@ -1,11 +1,10 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Collections.Extensions;
@@ -72,7 +71,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// so that all the existing handlers can be removed without having to dynamically create
         /// the generic types for the containers of the various dictionaries mapping the handlers.
         /// </remarks>
-        private readonly DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap = new();
+        private readonly DictionarySlim<Recipient, HashSet<IMapping>> recipientsMap = new DictionarySlim<Recipient, HashSet<IMapping>>();
 
         /// <summary>
         /// The <see cref="Mapping{TMessage,TToken}"/> instance for types combination.
@@ -82,12 +81,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// Each method relies on <see cref="GetOrAddMapping{TMessage,TToken}"/> to get the type-safe instance
         /// of the <see cref="Mapping{TMessage,TToken}"/> class for each pair of generic arguments in use.
         /// </remarks>
-        private readonly DictionarySlim<Type2, IMapping> typesMap = new();
+        private readonly DictionarySlim<Type2, IMapping> typesMap = new DictionarySlim<Type2, IMapping>();
 
         /// <summary>
         /// Gets the default <see cref="StrongReferenceMessenger"/> instance.
         /// </summary>
-        public static StrongReferenceMessenger Default { get; } = new();
+        public static StrongReferenceMessenger Default { get; } = new StrongReferenceMessenger();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
@@ -101,9 +100,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return false;
                 }
 
-                Recipient key = new(recipient);
+                var key = new Recipient(recipient);
 
-                return mapping.ContainsKey(key);
+                return mapping!.ContainsKey(key);
             }
         }
 
@@ -117,7 +116,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             {
                 // Get the <TMessage, TToken> registration list for this recipient
                 Mapping<TMessage, TToken> mapping = GetOrAddMapping<TMessage, TToken>();
-                Recipient key = new(recipient);
+                var key = new Recipient(recipient);
                 ref DictionarySlim<TToken, object>? map = ref mapping.GetOrAddValueRef(key);
 
                 map ??= new DictionarySlim<TToken, object>();
@@ -125,7 +124,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Add the new registration entry
                 ref object? registeredHandler = ref map.GetOrAddValueRef(token);
 
-                if (registeredHandler is not null)
+                if (!(registeredHandler is null))
                 {
                     ThrowInvalidOperationExceptionForDuplicateRegistration();
                 }
@@ -138,7 +137,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 set ??= new HashSet<IMapping>();
 
-                _ = set.Add(mapping);
+                set.Add(mapping);
             }
         }
 
@@ -148,7 +147,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             lock (this.recipientsMap)
             {
                 // If the recipient has no registered messages at all, ignore
-                Recipient key = new(recipient);
+                var key = new Recipient(recipient);
 
                 if (!this.recipientsMap.TryGetValue(key, out HashSet<IMapping>? set))
                 {
@@ -156,7 +155,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 }
 
                 // Removes all the lists of registered handlers for the recipient
-                foreach (IMapping mapping in set)
+                foreach (IMapping mapping in set!)
                 {
                     if (mapping.TryRemove(key) &&
                         mapping.Count == 0)
@@ -169,12 +168,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // dictionary (a hashed collection) only costs O(1) in the best case, while
                         // if we had tried to iterate the whole dictionary every time we would have
                         // paid an O(n) minimum cost for each single remove operation.
-                        _ = this.typesMap.TryRemove(mapping.TypeArguments);
+                        this.typesMap.TryRemove(mapping.TypeArguments, out _);
                     }
                 }
 
                 // Remove the associated set in the recipients map
-                _ = this.recipientsMap.TryRemove(key);
+                this.recipientsMap.TryRemove(key, out _);
             }
         }
 
@@ -197,7 +196,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 Monitor.Enter(this.recipientsMap, ref lockTaken);
 
                 // Get the shared set of mappings for the recipient, if present
-                Recipient key = new(recipient);
+                var key = new Recipient(recipient);
 
                 if (!this.recipientsMap.TryGetValue(key, out HashSet<IMapping>? set))
                 {
@@ -213,7 +212,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // the opportunities to reuse existing buffers for both. When we need to reference an item
                 // stored in the buffer with the type we know it will have, we use Unsafe.As<T> to avoid the
                 // expensive type check in the cast, since we already know the assignment will be valid.
-                maps = ArrayPool<object>.Shared.Rent(set.Count);
+                maps = ArrayPool<object>.Shared.Rent(set!.Count);
 
                 foreach (IMapping item in set)
                 {
@@ -246,7 +245,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         holder.Count == 0)
                     {
                         // If the map is empty, remove the recipient entirely from its container
-                        _ = map.TryRemove(key);
+                        map.TryRemove(key);
 
                         // If no handlers are left at all for the recipient, across all
                         // message types and token types, remove the set of mappings
@@ -257,7 +256,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                             set.Remove(Unsafe.As<IMapping>(map)) &&
                             set.Count == 0)
                         {
-                            _ = this.recipientsMap.TryRemove(key);
+                            this.recipientsMap.TryRemove(key, out _);
                         }
                     }
                 }
@@ -274,7 +273,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // Remove references to avoid leaks coming from the shared memory pool.
                 // We manually create a span and clear it as a small optimization, as
                 // arrays rented from the pool can be larger than the requested size.
-                if (maps is not null)
+                if (!(maps is null))
                 {
                     maps.AsSpan(0, i).Clear();
 
@@ -296,15 +295,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     return;
                 }
 
-                Recipient key = new(recipient);
+                var key = new Recipient(recipient);
 
-                if (!mapping.TryGetValue(key, out DictionarySlim<TToken, object>? dictionary))
+                if (!mapping!.TryGetValue(key, out DictionarySlim<TToken, object>? dictionary))
                 {
                     return;
                 }
 
                 // Remove the target handler
-                if (dictionary.TryRemove(token) &&
+                if (dictionary!.TryRemove(token, out _) &&
                     dictionary.Count == 0)
                 {
                     // If the map is empty, it means that the current recipient has no remaining
@@ -312,14 +311,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                     // of the specific token value (ie. the channel used to receive messages of that type).
                     // We can remove the map entirely from this container, and remove the link to the map itself
                     // to the current mapping between existing registered recipients (or entire recipients too).
-                    _ = mapping.TryRemove(key);
+                    mapping.TryRemove(key, out _);
 
                     HashSet<IMapping> set = this.recipientsMap[key];
 
                     if (set.Remove(mapping) &&
                         set.Count == 0)
                     {
-                        _ = this.recipientsMap.TryRemove(key);
+                        this.recipientsMap.TryRemove(key, out _);
                     }
                 }
             }
@@ -380,7 +379,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                         // which will always be greater or equal than the ones matching the previous test.
                         // We're still using a checked span accesses here though to make sure an out of
                         // bounds write can never happen even if an error was present in the logic above.
-                        pairs[2 * i] = handler;
+                        pairs[2 * i] = handler!;
                         pairs[(2 * i) + 1] = mappingEnumerator.Key.Target;
                         i++;
                     }
@@ -440,11 +439,11 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <param name="mapping">The resulting <see cref="Mapping{TMessage,TToken}"/> instance, if found.</param>
         /// <returns>Whether or not the required <see cref="Mapping{TMessage,TToken}"/> instance was found.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryGetMapping<TMessage, TToken>([NotNullWhen(true)] out Mapping<TMessage, TToken>? mapping)
+        private bool TryGetMapping<TMessage, TToken>(out Mapping<TMessage, TToken>? mapping)
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            Type2 key = new(typeof(TMessage), typeof(TToken));
+            var key = new Type2(typeof(TMessage), typeof(TToken));
 
             if (this.typesMap.TryGetValue(key, out IMapping? target))
             {
@@ -473,7 +472,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             where TMessage : class
             where TToken : IEquatable<TToken>
         {
-            Type2 key = new(typeof(TMessage), typeof(TToken));
+            var key = new Type2(typeof(TMessage), typeof(TToken));
             ref IMapping? target = ref this.typesMap.GetOrAddValueRef(key);
 
             target ??= new Mapping<TMessage, TToken>();

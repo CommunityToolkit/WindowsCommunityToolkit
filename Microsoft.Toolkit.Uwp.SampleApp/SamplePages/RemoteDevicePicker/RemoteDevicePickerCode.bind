@@ -1,4 +1,4 @@
-RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
+﻿RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
 {
     Title = "Pick Remote Device",
 	SelectionMode = RemoteDevicesSelectionMode.Multiple

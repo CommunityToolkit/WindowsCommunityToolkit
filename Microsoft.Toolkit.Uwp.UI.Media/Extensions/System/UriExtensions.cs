@@ -1,16 +1,16 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Diagnostics.Contracts;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="Uri"/> type
     /// </summary>
-    internal static class UriExtensions
+    public static class UriExtensions
     {
         /// <summary>
         /// Returns an <see cref="Uri"/> that starts with the ms-appx:// prefix
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <returns>A <see cref="Uri"/> equivalent to the first but relative to ms-appx://</returns>
         /// <remarks>This is needed because the XAML converter doesn't use the ms-appx:// prefix</remarks>
         [Pure]
-        public static Uri ToAppxUri(this Uri uri)
+        internal static Uri ToAppxUri(this Uri uri)
         {
             if (uri.Scheme.Equals("ms-resource"))
             {

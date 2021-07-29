@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
     /// Helpers for working with the <see cref="SpinLock"/> type.
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe UnsafeLock Enter(SpinLock* spinLock)
         {
-            return new(spinLock);
+            return new UnsafeLock(spinLock);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Lock Enter(ref this SpinLock spinLock)
         {
-            return new(ref spinLock);
+            return new Lock(ref spinLock);
         }
 #else
         /// <summary>
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Lock Enter(object owner, ref SpinLock spinLock)
         {
-            return new(owner, ref spinLock);
+            return new Lock(owner, ref spinLock);
         }
 #endif
 

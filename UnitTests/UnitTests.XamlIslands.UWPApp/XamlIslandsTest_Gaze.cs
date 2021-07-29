@@ -1,10 +1,11 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml.Controls;
@@ -23,7 +24,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             await App.Dispatcher.EnqueueAsync(() =>
             {
-                var xamlItemsPanelTemplate = @"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'
+                var xamlItemsPanelTemplate = @"<Grid xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation' 
                                                  xmlns:x='http://schemas.microsoft.com/winfx/2006/xaml'
                                                  xmlns:g='using:Microsoft.Toolkit.Uwp.Input.GazeInteraction'>
                         <Button HorizontalAlignment='Center' BorderBrush='#7FFFFFFF'

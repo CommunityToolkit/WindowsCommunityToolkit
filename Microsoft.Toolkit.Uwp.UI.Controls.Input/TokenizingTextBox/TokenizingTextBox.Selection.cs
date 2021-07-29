@@ -1,11 +1,12 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -136,30 +137,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void SelectAllTokensAndText()
         {
-            var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            _ = dispatcherQueue.EnqueueAsync(
-                () =>
+            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                this.SelectAllSafe();
+
+                // need to synchronize the select all and the focus behavior on the text box
+                // because there is no way to identify that the focus has been set from this point
+                // to avoid instantly clearing the selection of tokens
+                PauseTokenClearOnFocus = true;
+
+                foreach (var item in Items)
                 {
-                    this.SelectAllSafe();
-
-                    // need to synchronize the select all and the focus behavior on the text box
-                    // because there is no way to identify that the focus has been set from this point
-                    // to avoid instantly clearing the selection of tokens
-                    PauseTokenClearOnFocus = true;
-
-                    foreach (var item in Items)
+                    if (item is ITokenStringContainer)
                     {
-                        if (item is ITokenStringContainer)
-                        {
-                            // grab any selected text
-                            var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
-                            pretoken._autoSuggestTextBox.SelectionStart = 0;
-                            pretoken._autoSuggestTextBox.SelectionLength = pretoken._autoSuggestTextBox.Text.Length;
-                        }
+                        // grab any selected text
+                        var pretoken = ContainerFromItem(item) as TokenizingTextBoxItem;
+                        pretoken._autoSuggestTextBox.SelectionStart = 0;
+                        pretoken._autoSuggestTextBox.SelectionLength = pretoken._autoSuggestTextBox.Text.Length;
                     }
+                }
 
-                    (ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem).Focus(FocusState.Programmatic);
-                }, DispatcherQueuePriority.Normal);
+                (ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem).Focus(FocusState.Programmatic);
+            });
         }
 
         internal void DeselectAllTokensAndText(TokenizingTextBoxItem ignoreItem = null)

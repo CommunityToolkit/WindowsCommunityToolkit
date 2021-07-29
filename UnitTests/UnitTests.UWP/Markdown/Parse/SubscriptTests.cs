@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,7 +11,6 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class SubscriptTests : ParseTestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void Superscript_Tag()
@@ -38,6 +37,5 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline { Text = "tag" })),
                     new TextRunInline { Text = " create test" }));
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

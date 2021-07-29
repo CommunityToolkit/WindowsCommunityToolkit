@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -28,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            photoList = control.FindChild("PhotoList") as ListView;
+            photoList = control.FindChildByName("PhotoList") as ListView;
         }
 
         private async void Load()

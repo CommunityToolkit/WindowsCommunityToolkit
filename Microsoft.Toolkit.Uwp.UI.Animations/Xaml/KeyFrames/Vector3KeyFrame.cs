@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 #nullable enable
 

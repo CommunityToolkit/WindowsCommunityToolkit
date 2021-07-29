@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,8 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,13 +35,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            if (control.FindChild("EffectElement") is Image effectElement)
+            if (control.FindChildByName("EffectElement") is Image effectElement)
             {
                 _effectElement = effectElement;
                 ////TODO: _effectElement.Blur(value: 10, duration: 0).Start();
             }
 
-            if (control.FindChild("EffectElementHost") is FrameworkElement effectElementHost)
+            if (control.FindChildByName("EffectElementHost") is FrameworkElement effectElementHost)
             {
                 var behaviors = Interaction.GetBehaviors(effectElementHost);
                 var viewportBehavior = behaviors.OfType<ViewportBehavior>().FirstOrDefault();
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _logs.Clear();
         }
 
-        private void EffectElementHost_EnteredViewport(object sender, EventArgs e)
+        private async void EffectElementHost_EnteredViewport(object sender, EventArgs e)
         {
             AddLog("Entered viewport");
 
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _effectElement.Source = new BitmapImage(new Uri("ms-appx:///Assets/ToolkitLogo.png"));
         }
 
-        private void EffectElementHost_ExitedViewport(object sender, EventArgs e)
+        private async void EffectElementHost_ExitedViewport(object sender, EventArgs e)
         {
             AddLog("Exited viewport");
 

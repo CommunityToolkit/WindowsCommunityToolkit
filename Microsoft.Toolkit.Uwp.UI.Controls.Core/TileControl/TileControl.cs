@@ -8,8 +8,8 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
-using Windows.System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Size _imageSize = Size.Empty;
 
-        private DispatcherQueueTimer _timerAnimation;
+        private DispatcherTimer _timerAnimation;
 
         /// <summary>
         /// A ScrollViewer used for synchronized the move of the <see cref="TileControl"/>
@@ -174,11 +174,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var loadCompletedSource = new TaskCompletionSource<bool>();
                 _brushVisual = compositor.CreateSurfaceBrush(_imageSurface);
 
-                void LoadCompleted(LoadedImageSurface sender, LoadedImageSourceLoadCompletedEventArgs args)
+                _imageSurface.LoadCompleted += (s, e) =>
                 {
-                    sender.LoadCompleted -= LoadCompleted;
-
-                    if (args.Status == LoadedImageSourceLoadStatus.Success)
+                    if (e.Status == LoadedImageSourceLoadStatus.Success)
                     {
                         loadCompletedSource.SetResult(true);
                     }
@@ -186,9 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         loadCompletedSource.SetException(new ArgumentException("Image loading failed."));
                     }
-                }
-
-                _imageSurface.LoadCompleted += LoadCompleted;
+                };
 
                 await loadCompletedSource.Task;
                 _imageSize = _imageSurface.DecodedPhysicalSize;
@@ -610,7 +606,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_timerAnimation == null)
             {
-                _timerAnimation = DispatcherQueue.GetForCurrentThread().CreateTimer();
+                _timerAnimation = new DispatcherTimer();
             }
             else
             {

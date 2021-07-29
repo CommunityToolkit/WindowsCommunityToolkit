@@ -8,7 +8,7 @@ using Point = Windows.Foundation.Point;
 using Rect = Windows.Foundation.Rect;
 using Size = Windows.Foundation.Size;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Extensions
 {
     /// <summary>
     /// Extensions for the <see cref="Point"/> type.

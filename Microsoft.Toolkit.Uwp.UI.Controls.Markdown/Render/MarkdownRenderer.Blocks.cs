@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
     /// </summary>
     public partial class MarkdownRenderer
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         /// <summary>
         /// Renders a list of block elements.
         /// </summary>
@@ -481,6 +480,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             blockUIElementCollection.Add(table);
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

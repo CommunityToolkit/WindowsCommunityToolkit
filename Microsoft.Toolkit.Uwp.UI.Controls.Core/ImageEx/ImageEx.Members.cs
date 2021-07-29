@@ -6,7 +6,6 @@ using Windows.Media.Casting;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -34,12 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         public override CompositionBrush GetAlphaMask()
         {
-            if (IsInitialized && Image is Image image)
-            {
-                return image.GetAlphaMask();
-            }
-
-            return null;
+            return IsInitialized ? (Image as Image).GetAlphaMask() : null;
         }
 
         /// <summary>
@@ -48,12 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The image as a <see cref="CastingSource"/>.</returns>
         public CastingSource GetAsCastingSource()
         {
-            if (IsInitialized && Image is Image image)
-            {
-                return image.GetAsCastingSource();
-            }
-
-            return null;
+            return IsInitialized ? (Image as Image).GetAsCastingSource() : null;
         }
     }
 }

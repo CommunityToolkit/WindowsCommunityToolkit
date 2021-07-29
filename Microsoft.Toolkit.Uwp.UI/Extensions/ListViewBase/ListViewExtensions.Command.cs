@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Provides the Command attached dependency property for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>

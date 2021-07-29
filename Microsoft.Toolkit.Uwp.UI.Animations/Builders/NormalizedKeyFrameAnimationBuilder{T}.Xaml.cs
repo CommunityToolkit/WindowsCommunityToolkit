@@ -20,10 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             /// <summary>
             /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Xaml"/> class.
             /// </summary>
-            /// <param name="property">The target property to animate.</param>
-            /// <param name="delay">The target delay for the animation.</param>
-            /// <param name="duration">The target duration for the animation.</param>
-            /// <param name="repeat">The repeat options for the animation.</param>
+            /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
             public Xaml(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeat)
                 : base(property, delay, duration, repeat)
             {

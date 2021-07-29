@@ -355,20 +355,25 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             bool? silent = default)
 #endif
         {
-            var audio = new ToastAudio();
-            audio.Src = src;
+            if (!src.IsFile)
+            {
+                throw new ArgumentException(nameof(src), "Audio Source has to be a file.");
+            }
+
+            Content.Audio = new ToastAudio();
+            Content.Audio.Src = src;
 
             if (loop != default)
             {
-                audio.Loop = loop.Value;
+                Content.Audio.Loop = loop.Value;
             }
 
             if (silent != default)
             {
-                audio.Silent = silent.Value;
+                Content.Audio.Silent = silent.Value;
             }
 
-            return AddAudio(audio);
+            return this;
         }
 
         /// <summary>
@@ -378,11 +383,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddAudio(ToastAudio audio)
         {
-            if (audio.Src != null && !audio.Src.IsFile && audio.Src.Scheme != "ms-appx" && audio.Src.Scheme != "ms-winsoundevent")
-            {
-                throw new InvalidOperationException("Audio Source must either be a ms-appx file, absolute file, or ms-winsoundevent.");
-            }
-
             Content.Audio = audio;
             return this;
         }
