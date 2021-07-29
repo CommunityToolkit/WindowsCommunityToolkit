@@ -18,8 +18,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 // TODO Reintroduce graph controls
-// using CommunityToolkit.Common.Graph.Converters;
-// using CommunityToolkit.Common.Graph.Providers;
+// using CommunityToolkit.Graph.Converters;
+// using CommunityToolkit.Graph.Providers;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Input.GazeInteraction;
 using CommunityToolkit.WinUI.SampleApp.Models;
@@ -121,7 +121,7 @@ namespace CommunityToolkit.WinUI.SampleApp
 #if !REMOTE_DOCS
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/windows-toolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/CommunityToolkit/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;
@@ -683,10 +683,11 @@ namespace CommunityToolkit.WinUI.SampleApp
                 Windows.UI.Input.RadialControllerMenuKnownIcon.InkColor.GetType(), // Windows
                 StackMode.Replace.GetType(), // CommunityToolkit.WinUI.UI.Controls.Core
 
-                // TODO Reintroduce graph controls
-                // typeof(UserToPersonConverter)) // Search in CommunityToolkit.Common.Graph.Controls
+              // TODO Reintroduce graph controls
+              // typeof(UserToPersonConverter)) // Search in CommunityToolkit.Graph.Controls
+                ScrollItemPlacement.Default.GetType(), // Search in CommunityToolkit.WinUI.UI
                 EasingType.Default.GetType(), // CommunityToolkit.WinUI.UI.Animations
-                typeof(ImageCache), // Search in CommunityToolkit.WinUI.UI
+                ImageBlendMode.Multiply.GetType(), // Search in CommunityToolkit.WinUI.UI.Media
                 Interaction.Enabled.GetType(), // CommunityToolkit.WinUI.Input.GazeInteraction
                 DataGridGridLinesVisibility.None.GetType(), // CommunityToolkit.WinUI.UI.Controls.DataGrid
                 GridSplitter.GridResizeDirection.Auto.GetType(), // CommunityToolkit.WinUI.UI.Controls.Layout

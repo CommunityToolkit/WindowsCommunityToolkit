@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Grpc.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using UITests.App.Commands;
 using UITests.App.Pages;
 using UITests.App.Protos;
 
@@ -19,8 +20,8 @@ namespace UITests.App
     /// </summary>
     public sealed partial class App
     {
-        private static readonly OpenPageReply BadResult = new() { Status = "BAD" };
-        private static readonly OpenPageReply OkResult = new() { Status = "OK" };
+        private static readonly OpenPageReply BadResult = new () { Status = "BAD" };
+        private static readonly OpenPageReply OkResult = new () { Status = "OK" };
 
         private Task _host;
 
@@ -52,6 +53,24 @@ namespace UITests.App
                 var pageResponse = await WeakReferenceMessenger.Default.Send(new RequestPageMessage(request.PageName));
 
                 return pageResponse ? OkResult : BadResult;
+            }
+
+            public override async Task<FindElementPropertyReply> FindElementProperty(FindElementPropertyRequest request, ServerCallContext context)
+            {
+                var result = await VisualTreeHelperCommands.FindElementProperty(request.ElementName, request.Property);
+
+                return new FindElementPropertyReply
+                {
+                    JsonReply = result
+                };
+            }
+
+            public override async Task<GetHostDpiReply> GetHostDpi(GetHostDpiRequest request, ServerCallContext context)
+            {
+                return new GetHostDpiReply
+                {
+                    Dpi = (int)(await VisualTreeHelperCommands.GetRasterizationScale() * 96.0)
+                };
             }
 
             public override async Task SubscribeLog(SubscribeLogRequest request, IServerStreamWriter<LogUpdate> responseStream, ServerCallContext context)

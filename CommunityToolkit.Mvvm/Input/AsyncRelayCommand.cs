@@ -146,7 +146,7 @@ namespace CommunityToolkit.Mvvm.Input
         /// <inheritdoc/>
         public void Execute(object? parameter)
         {
-            ExecuteAsync(parameter);
+            _ = ExecuteAsync(parameter);
         }
 
         /// <inheritdoc/>

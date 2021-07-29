@@ -18,6 +18,7 @@
       CommunityToolkit.WinUI.UI;
       CommunityToolkit.WinUI.UI.Animations;
       CommunityToolkit.WinUI.UI.Behaviors;
+      CommunityToolkit.WinUI.UI.Media;
       CommunityToolkit.WinUI.UI.Controls;
       CommunityToolkit.WinUI.UI.Controls.Core;
       CommunityToolkit.WinUI.UI.Controls.DataGrid;
@@ -26,7 +27,6 @@
       CommunityToolkit.WinUI.UI.Controls.Markdown;
       CommunityToolkit.WinUI.UI.Controls.Media;
       CommunityToolkit.WinUI.UI.Controls.Primitives;
-      CommunityToolkit.WinUI.UI.Media;
     </ToolkitPackages>
   </PropertyGroup>
 
@@ -52,7 +52,7 @@
               Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)" />
   </Target>
 
-  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNuGets">
+  <Target Name="ChooseProjectsToBuild" DependsOnTargets="CheckNuGetPackages">
     <ItemGroup>
       <BuildPlatform Include="$(BuildPlatforms)" />
       <BuildConfiguration Include="$(BuildConfigurations)" />
@@ -80,14 +80,14 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="CheckNuGets">
+  <Target Name="CheckNuGetPackages">
     <PropertyGroup>
-      <ToolkitNuGets>$(MSBuildThisFileDirectory)..\bin\nupkg\*.nupkg</ToolkitNuGets>
+      <NuGetOutputPath>$(MSBuildThisFileDirectory)..\bin\nupkg</NuGetOutputPath>
     </PropertyGroup>
     <ItemGroup>
-      <ToolkitNuGets Include="$(ToolkitNuGets)" />
+      <NuGetPackage Include="$(NuGetOutputPath)\*.nupkg" />
     </ItemGroup>
-    <Error Condition="'@(ToolkitNuGets)' == ''" Text="Directory '$(ToolkitNuGets)' is empty" />
+    <Error Condition="'@(NuGetPackage)' == ''" Text="Directory '$(NuGetOutputPath)' is empty" />
   </Target>
 
 </Project>

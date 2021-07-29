@@ -119,6 +119,31 @@ namespace UITests.Tests
             return Task.CompletedTask;
         }
 
+        internal static async Task<string> FindElementProperty(string elementName, string property)
+        {
+            if (_channel is null)
+            {
+                await InitalizeComService();
+            }
+
+            var request = new FindElementPropertyRequest
+            {
+                ElementName = elementName,
+                Property = property
+            };
+            return (await _communicationService.FindElementPropertyAsync(request)).JsonReply;
+        }
+
+        internal static async Task<int> GetHostDpi()
+        {
+            if (_channel is null)
+            {
+                await InitalizeComService();
+            }
+
+            return (await _communicationService.GetHostDpiAsync(new GetHostDpiRequest())).Dpi;
+        }
+
         internal static async Task<bool> OpenPage(string pageName)
         {
             Log.Comment("[Harness] Sending Host Page Request: {0}", pageName);
@@ -132,7 +157,6 @@ namespace UITests.Tests
             {
                 PageName = pageName
             });
-            string result = string.Empty;
 
             // Get the data  that the service sent to us.
             return response.Status == "OK";

@@ -78,7 +78,7 @@ namespace UnitTests.HighPerformance.Streams
             Assert.AreEqual(stream.Position, 32);
         }
 
-        // See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3536
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3536
         [TestCategory("MemoryStream")]
         [TestMethod]
         public void Test_MemoryStream_WriteToEndAndRefreshPosition()

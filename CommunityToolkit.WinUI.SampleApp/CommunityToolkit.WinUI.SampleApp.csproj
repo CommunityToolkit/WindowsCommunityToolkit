@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -14,7 +14,6 @@
     
     <ApplicationManifest>app.manifest</ApplicationManifest>
     
-    <LangVersion>8.0</LangVersion>
     <NoWarn>$(NoWarn);CS0108</NoWarn>
   </PropertyGroup>
   

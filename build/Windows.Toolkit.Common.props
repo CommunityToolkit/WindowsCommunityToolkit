@@ -1,0 +1,48 @@
+<Project>
+
+  <PropertyGroup>
+    <Company>.NET Foundation</Company>
+    <Authors>Microsoft.Toolkit</Authors>
+    <Product>Windows Community Toolkit</Product>
+    <CommonTags>Windows;Community;Toolkit;WCT</CommonTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/CommunityToolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Features>Strict</Features>
+    <Nullable>Disable</Nullable>
+    <LangVersion>Latest</LangVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetPlatformBaseVersion>10.0</TargetPlatformBaseVersion>
+    <TargetPlatformRevision>18362</TargetPlatformRevision>
+    <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
+    <MicrosoftProjectReunionVersion>0.8.1</MicrosoftProjectReunionVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
+    <IsSampleProject>$(MSBuildProjectName.Contains('.Sample'))</IsSampleProject>
+    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
+    <IsWinUIProject>$(MSBuildProjectName.Contains('.WinUI'))</IsWinUIProject>
+    <IsWinUIProject Condition="$(IsDesignProject)">False</IsWinUIProject>
+    <IsCoreProject Condition="$(IsDesignProject) or $(IsSampleProject) or $(IsTestProject)">False</IsCoreProject>
+    <IsCoreProject Condition="'$(IsCoreProject)' == ''">True</IsCoreProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <IsPublishable>true</IsPublishable>
+    <ContinuousIntegrationBuild>$(TF_BUILD)</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+</Project>
