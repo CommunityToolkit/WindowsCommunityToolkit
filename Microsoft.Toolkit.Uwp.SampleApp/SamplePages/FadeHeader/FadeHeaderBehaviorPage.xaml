@@ -7,12 +7,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <!-- Shallow Copy -->
-    <Grid>
-        <ListView>
-            <interactivity:Interaction.Behaviors>
-                <behaviors:FadeHeaderBehavior />
-            </interactivity:Interaction.Behaviors>
-        </ListView>
-    </Grid>
+    <!--  Shallow Copy  -->
+    <Grid />
 </Page>

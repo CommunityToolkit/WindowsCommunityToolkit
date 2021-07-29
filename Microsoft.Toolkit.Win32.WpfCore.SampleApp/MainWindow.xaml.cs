@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.Services.Maps;
+using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 {
@@ -27,6 +30,12 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
 
         private async void ButtonPopToast_Click(object sender, RoutedEventArgs e)
         {
+            if (ToastNotificationManagerCompat.CreateToastNotifier().Setting != NotificationSetting.Enabled)
+            {
+                MessageBox.Show("Notifications are disabled from the system settings.");
+                return;
+            }
+
             string title = "Andrew sent you a picture";
             string content = "Check this out, The Enchantments!";
             string image = "https://picsum.photos/364/202?image=883";
@@ -143,6 +152,85 @@ namespace Microsoft.Toolkit.Win32.WpfCore.SampleApp
         private void ButtonClearToasts_Click(object sender, RoutedEventArgs e)
         {
             ToastNotificationManagerCompat.History.Clear();
+        }
+
+        private async void ButtonScheduleToast_Click(object sender, RoutedEventArgs e)
+        {
+            // Schedule a toast to appear in 5 seconds
+            new ToastContentBuilder()
+
+                // Arguments that are returned when the user clicks the toast or a button
+                .AddArgument("action", MyToastActions.ViewConversation)
+                .AddArgument("conversationId", 7764)
+
+                .AddText("Scheduled toast notification")
+
+                .Schedule(DateTime.Now.AddSeconds(5));
+
+            // Inform the user
+            var tb = new TextBlock()
+            {
+                Text = "Toast scheduled to appear in 5 seconds",
+                FontWeight = FontWeights.Bold
+            };
+
+            ContentBody.Content = tb;
+
+            // And after 5 seconds, clear the informational message
+            await Task.Delay(5000);
+
+            if (ContentBody.Content == tb)
+            {
+                ContentBody.Content = null;
+            }
+        }
+
+        private async void ButtonProgressToast_Click(object sender, RoutedEventArgs e)
+        {
+            const string tag = "progressToast";
+
+            new ToastContentBuilder()
+                .AddArgument("action", MyToastActions.ViewConversation)
+                .AddArgument("conversationId", 423)
+                .AddText("Sending image to conversation...")
+                .AddVisualChild(new AdaptiveProgressBar()
+                {
+                    Value = new BindableProgressBarValue("progress"),
+                    Status = "Sending..."
+                })
+                .Show(toast =>
+                {
+                    toast.Tag = tag;
+
+                    toast.Data = new NotificationData(new Dictionary<string, string>()
+                    {
+                        { "progress", "0" }
+                    });
+                });
+
+            double progress = 0;
+
+            while (progress < 1)
+            {
+                await Task.Delay(new Random().Next(1000, 3000));
+
+                progress += (new Random().NextDouble() * 0.15) + 0.1;
+
+                ToastNotificationManagerCompat.CreateToastNotifier().Update(
+                    new NotificationData(new Dictionary<string, string>()
+                    {
+                        { "progress", progress.ToString() }
+                    }), tag);
+            }
+
+            new ToastContentBuilder()
+                .AddArgument("action", MyToastActions.ViewConversation)
+                .AddArgument("conversationId", 423)
+                .AddText("Sent image to conversation!")
+                .Show(toast =>
+                {
+                    toast.Tag = tag;
+                });
         }
     }
 }
