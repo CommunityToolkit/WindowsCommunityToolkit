@@ -10,6 +10,8 @@ using Microsoft.Toolkit.Helpers;
 using Windows.Storage;
 using Windows.System;
 
+#nullable enable
+
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
