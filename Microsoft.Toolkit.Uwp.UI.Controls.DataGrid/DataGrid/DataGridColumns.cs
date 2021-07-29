@@ -15,8 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
-using DiagnosticsDebug = System.Diagnostics.Debug;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
@@ -65,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Returns the column's width
         internal static double GetEdgedColumnWidth(DataGridColumn dataGridColumn)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
             return dataGridColumn.ActualWidth;
         }
 
@@ -102,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="desiredWidth">The new desired width of the column.</param>
         internal void AutoSizeColumn(DataGridColumn column, double desiredWidth)
         {
-            DiagnosticsDebug.Assert(
+            Debug.Assert(
                 column.Width.IsAuto || column.Width.IsSizeToCells || column.Width.IsSizeToHeader || (!this.UsesStarSizing && column.Width.IsStar),
                 "Expected column.Width.IsAuto or column.Width.IsSizeToCells or column.Width.IsSizeToHeader or (!UsesStarSizing && column.Width.IsStar).");
 
@@ -172,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal bool GetColumnReadOnlyState(DataGridColumn dataGridColumn, bool isReadOnly)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
 
             DataGridBoundColumn dataGridBoundColumn = dataGridColumn as DataGridBoundColumn;
             if (dataGridBoundColumn != null && dataGridBoundColumn.Binding != null)
@@ -287,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnColumnDisplayIndexChanged(DataGridColumn dataGridColumn)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
             DataGridColumnEventArgs e = new DataGridColumnEventArgs(dataGridColumn);
 
             // Call protected method to raise event
@@ -312,8 +310,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnColumnDisplayIndexChanging(DataGridColumn targetColumn, int newDisplayIndex)
         {
-            DiagnosticsDebug.Assert(targetColumn != null, "Expected non-null targetColumn.");
-            DiagnosticsDebug.Assert(newDisplayIndex != targetColumn.DisplayIndexWithFiller, "Expected newDisplayIndex other than targetColumn.DisplayIndexWithFiller.");
+            Debug.Assert(targetColumn != null, "Expected non-null targetColumn.");
+            Debug.Assert(newDisplayIndex != targetColumn.DisplayIndexWithFiller, "Expected newDisplayIndex other than targetColumn.DisplayIndexWithFiller.");
 
             if (InDisplayIndexAdjustments)
             {
@@ -432,7 +430,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="oldValue">The old ActualMaxWidth of the column.</param>
         internal void OnColumnMaxWidthChanged(DataGridColumn column, double oldValue)
         {
-            DiagnosticsDebug.Assert(column != null, "Expected non-null column.");
+            Debug.Assert(column != null, "Expected non-null column.");
 
             if (column.Visibility == Visibility.Visible && oldValue != column.ActualMaxWidth)
             {
@@ -462,7 +460,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="oldValue">The old ActualMinWidth of the column.</param>
         internal void OnColumnMinWidthChanged(DataGridColumn column, double oldValue)
         {
-            DiagnosticsDebug.Assert(column != null, "Expected non-null column.");
+            Debug.Assert(column != null, "Expected non-null column.");
 
             if (column.Visibility == Visibility.Visible && oldValue != column.ActualMinWidth)
             {
@@ -487,7 +485,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnColumnReadOnlyStateChanging(DataGridColumn dataGridColumn, bool isReadOnly)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
             if (isReadOnly && this.CurrentColumnIndex == dataGridColumn.Index)
             {
                 // Edited column becomes read-only. Exit editing mode.
@@ -500,7 +498,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnColumnVisibleStateChanged(DataGridColumn updatedColumn)
         {
-            DiagnosticsDebug.Assert(updatedColumn != null, "Expected non-null updatedColumn.");
+            Debug.Assert(updatedColumn != null, "Expected non-null updatedColumn.");
 
             CorrectColumnFrozenStates();
             UpdateDisplayedColumns();
@@ -511,7 +509,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (updatedColumn.IsVisible &&
                 this.ColumnsInternal.VisibleColumnCount == 1 && this.CurrentColumnIndex == -1)
             {
-                DiagnosticsDebug.Assert(this.SelectedIndex == this.DataConnection.IndexOf(this.SelectedItem), "Expected SelectedIndex equals DataConnection.IndexOf(this.SelectedItem).");
+                Debug.Assert(this.SelectedIndex == this.DataConnection.IndexOf(this.SelectedItem), "Expected SelectedIndex equals DataConnection.IndexOf(this.SelectedItem).");
                 if (this.SelectedIndex != -1)
                 {
                     SetAndSelectCurrentCell(updatedColumn.Index, this.SelectedIndex, true /*forceCurrentCellSelection*/);
@@ -535,7 +533,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnColumnVisibleStateChanging(DataGridColumn targetColumn)
         {
-            DiagnosticsDebug.Assert(targetColumn != null, "Expected non-null targetColumn.");
+            Debug.Assert(targetColumn != null, "Expected non-null targetColumn.");
 
             if (targetColumn.IsVisible && this.CurrentColumn == targetColumn)
             {
@@ -559,7 +557,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnColumnWidthChanged(DataGridColumn updatedColumn)
         {
-            DiagnosticsDebug.Assert(updatedColumn != null, "Expected non-null updatedColumn.");
+            Debug.Assert(updatedColumn != null, "Expected non-null updatedColumn.");
             if (updatedColumn.IsVisible)
             {
                 EnsureHorizontalLayout();
@@ -585,7 +583,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Update current cell if needed
             if (newCurrentCellCoordinates.ColumnIndex != -1)
             {
-                DiagnosticsDebug.Assert(this.CurrentColumnIndex == -1, "Expected CurrentColumnIndex equals -1.");
+                Debug.Assert(this.CurrentColumnIndex == -1, "Expected CurrentColumnIndex equals -1.");
                 SetAndSelectCurrentCell(
                     newCurrentCellCoordinates.ColumnIndex,
                     newCurrentCellCoordinates.Slot,
@@ -603,9 +601,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Fix the Index of all following columns
             CorrectColumnIndexesAfterInsertion(insertedColumn, 1);
 
-            DiagnosticsDebug.Assert(insertedColumn.Index >= 0, "Expected positive insertedColumn.Index.");
-            DiagnosticsDebug.Assert(insertedColumn.Index < this.ColumnsItemsInternal.Count, "insertedColumn.Index smaller than ColumnsItemsInternal.Count.");
-            DiagnosticsDebug.Assert(insertedColumn.OwningGrid == this, "Expected insertedColumn.OwningGrid equals this DataGrid.");
+            Debug.Assert(insertedColumn.Index >= 0, "Expected positive insertedColumn.Index.");
+            Debug.Assert(insertedColumn.Index < this.ColumnsItemsInternal.Count, "insertedColumn.Index smaller than ColumnsItemsInternal.Count.");
+            Debug.Assert(insertedColumn.OwningGrid == this, "Expected insertedColumn.OwningGrid equals this DataGrid.");
 
             CorrectColumnDisplayIndexesAfterInsertion(insertedColumn);
 
@@ -640,7 +638,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal DataGridCellCoordinates OnInsertingColumn(int columnIndexInserted, DataGridColumn insertColumn)
         {
             DataGridCellCoordinates newCurrentCellCoordinates;
-            DiagnosticsDebug.Assert(insertColumn != null, "Expected non-null insertColumn.");
+            Debug.Assert(insertColumn != null, "Expected non-null insertColumn.");
 
             if (insertColumn.OwningGrid != null && insertColumn != this.ColumnsInternal.RowGroupSpacerColumn)
             {
@@ -669,15 +667,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Update current cell if needed
             if (newCurrentCellCoordinates.ColumnIndex != -1)
             {
-                DiagnosticsDebug.Assert(this.CurrentColumnIndex == -1, "Expected CurrentColumnIndex equals -1.");
+                Debug.Assert(this.CurrentColumnIndex == -1, "Expected CurrentColumnIndex equals -1.");
                 SetAndSelectCurrentCell(newCurrentCellCoordinates.ColumnIndex, newCurrentCellCoordinates.Slot, false /*forceCurrentCellSelection*/);
             }
         }
 
         internal void OnRemovedColumn_PreNotification(DataGridColumn removedColumn)
         {
-            DiagnosticsDebug.Assert(removedColumn.Index >= 0, "Expected positive removedColumn.Index.");
-            DiagnosticsDebug.Assert(removedColumn.OwningGrid == null, "Expected null removedColumn.OwningGrid.");
+            Debug.Assert(removedColumn.Index >= 0, "Expected positive removedColumn.Index.");
+            Debug.Assert(removedColumn.OwningGrid == null, "Expected null removedColumn.OwningGrid.");
 
             // Intentionally keep the DisplayIndex intact after detaching the column.
             CorrectColumnIndexesAfterDeletion(removedColumn);
@@ -714,9 +712,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal DataGridCellCoordinates OnRemovingColumn(DataGridColumn dataGridColumn)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
-            DiagnosticsDebug.Assert(dataGridColumn.Index >= 0, "Expected positive dataGridColumn.Index.");
-            DiagnosticsDebug.Assert(dataGridColumn.Index < this.ColumnsItemsInternal.Count, "Expected dataGridColumn.Index smaller than ColumnsItemsInternal.Count.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn.Index >= 0, "Expected positive dataGridColumn.Index.");
+            Debug.Assert(dataGridColumn.Index < this.ColumnsItemsInternal.Count, "Expected dataGridColumn.Index smaller than ColumnsItemsInternal.Count.");
 
             DataGridCellCoordinates newCurrentCellCoordinates;
 
@@ -783,7 +781,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 bool success = this.SetCurrentCellCore(-1, -1);
-                DiagnosticsDebug.Assert(success, "Expected successful call to SetCurrentCellCore.");
+                Debug.Assert(success, "Expected successful call to SetCurrentCellCore.");
             }
             else
             {
@@ -811,7 +809,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (!this.ColumnsInternal.DisplayInOrder(this.DisplayData.FirstDisplayedScrollingCol, dataGridColumn.Index))
                 {
                     // Deleted column is displayed before first scrolling column
-                    DiagnosticsDebug.Assert(_horizontalOffset >= GetEdgedColumnWidth(dataGridColumn), "Expected _horizontalOffset greater than or equal to GetEdgedColumnWidth(dataGridColumn).");
+                    Debug.Assert(_horizontalOffset >= GetEdgedColumnWidth(dataGridColumn), "Expected _horizontalOffset greater than or equal to GetEdgedColumnWidth(dataGridColumn).");
                     _horizontalOffset -= GetEdgedColumnWidth(dataGridColumn);
                 }
 
@@ -829,13 +827,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal void RefreshColumnElements(DataGridColumn dataGridColumn, string propertyName)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
 
             // Take care of the non-displayed loaded rows
             for (int index = 0; index < _loadedRows.Count;)
             {
                 DataGridRow dataGridRow = _loadedRows[index];
-                DiagnosticsDebug.Assert(dataGridRow != null, "Expected non-null dataGridRow.");
+                Debug.Assert(dataGridRow != null, "Expected non-null dataGridRow.");
                 if (!this.IsSlotVisible(dataGridRow.Slot))
                 {
                     RefreshCellElement(dataGridColumn, dataGridRow, propertyName);
@@ -869,8 +867,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The remaining amount of adjustment.</returns>
         private static double DecreaseNonStarColumnWidth(DataGridColumn column, double targetWidth, double amount)
         {
-            DiagnosticsDebug.Assert(amount < 0, "Expected negative amount.");
-            DiagnosticsDebug.Assert(column.Width.UnitType != DataGridLengthUnitType.Star, "column.Width.UnitType other than DataGridLengthUnitType.Star.");
+            Debug.Assert(amount < 0, "Expected negative amount.");
+            Debug.Assert(column.Width.UnitType != DataGridLengthUnitType.Star, "column.Width.UnitType other than DataGridLengthUnitType.Star.");
 
             if (DoubleUtil.GreaterThanOrClose(targetWidth, column.Width.DisplayValue))
             {
@@ -899,7 +897,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static DataGridBoundColumn GetDataGridColumnFromType(Type type)
         {
-            DiagnosticsDebug.Assert(type != null, "Expected non-null type.");
+            Debug.Assert(type != null, "Expected non-null type.");
             if (type == typeof(bool))
             {
                 return new DataGridCheckBoxColumn();
@@ -925,8 +923,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The remaining amount of adjustment.</returns>
         private static double IncreaseNonStarColumnWidth(DataGridColumn column, double targetWidth, double amount)
         {
-            DiagnosticsDebug.Assert(amount > 0, "Expected strictly positive amount.");
-            DiagnosticsDebug.Assert(column.Width.UnitType != DataGridLengthUnitType.Star, "Expected column.Width.UnitType other than DataGridLengthUnitType.Star.");
+            Debug.Assert(amount > 0, "Expected strictly positive amount.");
+            Debug.Assert(column.Width.UnitType != DataGridLengthUnitType.Star, "Expected column.Width.UnitType other than DataGridLengthUnitType.Star.");
 
             if (targetWidth <= column.Width.DisplayValue)
             {
@@ -943,11 +941,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void RefreshCellElement(DataGridColumn dataGridColumn, DataGridRow dataGridRow, string propertyName)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
-            DiagnosticsDebug.Assert(dataGridRow != null, "Expected non-null dataGridRow.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridRow != null, "Expected non-null dataGridRow.");
 
             DataGridCell dataGridCell = dataGridRow.Cells[dataGridColumn.Index];
-            DiagnosticsDebug.Assert(dataGridCell != null, "Expected non-null dataGridCell.");
+            Debug.Assert(dataGridCell != null, "Expected non-null dataGridCell.");
             FrameworkElement element = dataGridCell.Content as FrameworkElement;
             if (element != null)
             {
@@ -1167,7 +1165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            DiagnosticsDebug.Assert(cx <= this.ColumnsInternal.GetVisibleFrozenEdgedColumnsWidth(), "cx smaller than or equal to ColumnsInternal.GetVisibleFrozenEdgedColumnsWidth().");
+            Debug.Assert(cx <= this.ColumnsInternal.GetVisibleFrozenEdgedColumnsWidth(), "cx smaller than or equal to ColumnsInternal.GetVisibleFrozenEdgedColumnsWidth().");
 
             if (cx < displayWidth && firstDisplayedScrollingCol >= 0)
             {
@@ -1200,7 +1198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // if we inflate the data area then we paint columns to the left of firstDisplayedScrollingCol
                 if (cx < displayWidth)
                 {
-                    DiagnosticsDebug.Assert(firstDisplayedScrollingCol >= 0, "Expected positive firstDisplayedScrollingCol.");
+                    Debug.Assert(firstDisplayedScrollingCol >= 0, "Expected positive firstDisplayedScrollingCol.");
 
                     // first minimize value of _negHorizontalOffset
                     if (_negHorizontalOffset > 0)
@@ -1234,7 +1232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // second try to scroll entire columns
                     if (cx < displayWidth && _horizontalOffset > 0)
                     {
-                        DiagnosticsDebug.Assert(_negHorizontalOffset == 0, "Expected _negHorizontalOffset equals 0.");
+                        Debug.Assert(_negHorizontalOffset == 0, "Expected _negHorizontalOffset equals 0.");
                         dataGridColumn = this.ColumnsInternal.GetPreviousVisibleScrollingColumn(this.ColumnsItemsInternal[firstDisplayedScrollingCol]);
                         while (dataGridColumn != null && cx + GetEdgedColumnWidth(dataGridColumn) <= displayWidth)
                         {
@@ -1250,21 +1248,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // third try to partially scroll in first scrolled off column
                     if (cx < displayWidth && _horizontalOffset > 0)
                     {
-                        DiagnosticsDebug.Assert(_negHorizontalOffset == 0, "Expected _negHorizontalOffset equals 0.");
+                        Debug.Assert(_negHorizontalOffset == 0, "Expected _negHorizontalOffset equals 0.");
                         dataGridColumn = this.ColumnsInternal.GetPreviousVisibleScrollingColumn(this.ColumnsItemsInternal[firstDisplayedScrollingCol]);
-                        DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
-                        DiagnosticsDebug.Assert(GetEdgedColumnWidth(dataGridColumn) > displayWidth - cx, "Expected GetEdgedColumnWidth(dataGridColumn) greater than displayWidth - cx.");
+                        Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+                        Debug.Assert(GetEdgedColumnWidth(dataGridColumn) > displayWidth - cx, "Expected GetEdgedColumnWidth(dataGridColumn) greater than displayWidth - cx.");
                         firstDisplayedScrollingCol = dataGridColumn.Index;
                         _negHorizontalOffset = GetEdgedColumnWidth(dataGridColumn) - displayWidth + cx;
                         _horizontalOffset -= displayWidth - cx;
                         visibleScrollingColumnsTmp++;
                         invalidate = true;
                         cx = displayWidth;
-                        DiagnosticsDebug.Assert(_negHorizontalOffset == GetNegHorizontalOffsetFromHorizontalOffset(_horizontalOffset), "Expected _negHorizontalOffset equals GetNegHorizontalOffsetFromHorizontalOffset(_horizontalOffset).");
+                        Debug.Assert(_negHorizontalOffset == GetNegHorizontalOffsetFromHorizontalOffset(_horizontalOffset), "Expected _negHorizontalOffset equals GetNegHorizontalOffsetFromHorizontalOffset(_horizontalOffset).");
                     }
 
                     // update the number of visible columns to the new reality
-                    DiagnosticsDebug.Assert(numVisibleScrollingCols <= visibleScrollingColumnsTmp, "Expected numVisibleScrollingCols less than or equal to visibleScrollingColumnsTmp.");
+                    Debug.Assert(numVisibleScrollingCols <= visibleScrollingColumnsTmp, "Expected numVisibleScrollingCols less than or equal to visibleScrollingColumnsTmp.");
                     numVisibleScrollingCols = visibleScrollingColumnsTmp;
                 }
 
@@ -1274,7 +1272,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     jumpFromFirstVisibleScrollingCol--;
                 }
 
-                DiagnosticsDebug.Assert(jumpFromFirstVisibleScrollingCol >= -1, "Expected jumpFromFirstVisibleScrollingCol greater than or equal to -1.");
+                Debug.Assert(jumpFromFirstVisibleScrollingCol >= -1, "Expected jumpFromFirstVisibleScrollingCol greater than or equal to -1.");
 
                 if (jumpFromFirstVisibleScrollingCol < 0)
                 {
@@ -1282,12 +1280,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    DiagnosticsDebug.Assert(firstDisplayedScrollingCol >= 0, "Expected positive firstDisplayedScrollingCol.");
+                    Debug.Assert(firstDisplayedScrollingCol >= 0, "Expected positive firstDisplayedScrollingCol.");
                     dataGridColumn = this.ColumnsItemsInternal[firstDisplayedScrollingCol];
                     for (int jump = 0; jump < jumpFromFirstVisibleScrollingCol; jump++)
                     {
                         dataGridColumn = this.ColumnsInternal.GetNextVisibleColumn(dataGridColumn);
-                        DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+                        Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
                     }
 
                     this.DisplayData.LastTotallyDisplayedScrollingCol = dataGridColumn.Index;
@@ -1334,7 +1332,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (dataGridColumn == null)
             {
-                DiagnosticsDebug.Assert(cx <= _horizontalOffset, "Expected cx less than or equal to _horizontalOffset.");
+                Debug.Assert(cx <= _horizontalOffset, "Expected cx less than or equal to _horizontalOffset.");
                 dataGridColumn = this.ColumnsInternal.FirstVisibleScrollingColumn;
                 if (dataGridColumn == null)
                 {
@@ -1362,10 +1360,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Column indexes have already been adjusted.
             // This column has already been detached and has retained its old Index and DisplayIndex
-            DiagnosticsDebug.Assert(deletedColumn != null, "Expected non-null deletedColumn.");
-            DiagnosticsDebug.Assert(deletedColumn.OwningGrid == null, "Expected null deletedColumn.OwningGrid.");
-            DiagnosticsDebug.Assert(deletedColumn.Index >= 0, "Expected positive deletedColumn.Index.");
-            DiagnosticsDebug.Assert(deletedColumn.DisplayIndexWithFiller >= 0, "Expected positive deletedColumn.DisplayIndexWithFiller.");
+            Debug.Assert(deletedColumn != null, "Expected non-null deletedColumn.");
+            Debug.Assert(deletedColumn.OwningGrid == null, "Expected null deletedColumn.OwningGrid.");
+            Debug.Assert(deletedColumn.Index >= 0, "Expected positive deletedColumn.Index.");
+            Debug.Assert(deletedColumn.DisplayIndexWithFiller >= 0, "Expected positive deletedColumn.DisplayIndexWithFiller.");
 
             try
             {
@@ -1391,7 +1389,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
 #if DEBUG
-                DiagnosticsDebug.Assert(this.ColumnsInternal.Debug_VerifyColumnDisplayIndexes(), "Expected ColumnsInternal.Debug_VerifyColumnDisplayIndexes() is true.");
+                Debug.Assert(this.ColumnsInternal.Debug_VerifyColumnDisplayIndexes(), "Expected ColumnsInternal.Debug_VerifyColumnDisplayIndexes() is true.");
 #endif
 
                 // Now raise all the OnColumnDisplayIndexChanged events
@@ -1406,8 +1404,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CorrectColumnDisplayIndexesAfterInsertion(DataGridColumn insertedColumn)
         {
-            DiagnosticsDebug.Assert(insertedColumn != null, "Expected non-null insertedColumn.");
-            DiagnosticsDebug.Assert(insertedColumn.OwningGrid == this, "Expected insertedColumn.OwningGrid equals this DataGrid.");
+            Debug.Assert(insertedColumn != null, "Expected non-null insertedColumn.");
+            Debug.Assert(insertedColumn.OwningGrid == this, "Expected insertedColumn.OwningGrid equals this DataGrid.");
             if (insertedColumn.DisplayIndexWithFiller == -1 || insertedColumn.DisplayIndexWithFiller >= this.ColumnsItemsInternal.Count)
             {
                 // Developer did not assign a DisplayIndex or picked a large number.
@@ -1440,7 +1438,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this.ColumnsInternal.DisplayIndexMap.Insert(insertedColumn.DisplayIndexWithFiller, insertedColumn.Index);
 
 #if DEBUG
-                DiagnosticsDebug.Assert(this.ColumnsInternal.Debug_VerifyColumnDisplayIndexes(), "Expected ColumnsInternal.Debug_VerifyColumnDisplayIndexes() is true.");
+                Debug.Assert(this.ColumnsInternal.Debug_VerifyColumnDisplayIndexes(), "Expected ColumnsInternal.Debug_VerifyColumnDisplayIndexes() is true.");
 #endif
 
                 // Now raise all the OnColumnDisplayIndexChanged events
@@ -1486,18 +1484,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CorrectColumnIndexesAfterDeletion(DataGridColumn deletedColumn)
         {
-            DiagnosticsDebug.Assert(deletedColumn != null, "Expected non-null deletedColumn.");
+            Debug.Assert(deletedColumn != null, "Expected non-null deletedColumn.");
             for (int columnIndex = deletedColumn.Index; columnIndex < this.ColumnsItemsInternal.Count; columnIndex++)
             {
                 this.ColumnsItemsInternal[columnIndex].Index = this.ColumnsItemsInternal[columnIndex].Index - 1;
-                DiagnosticsDebug.Assert(this.ColumnsItemsInternal[columnIndex].Index == columnIndex, "Expected ColumnsItemsInternal[columnIndex].Index equals columnIndex.");
+                Debug.Assert(this.ColumnsItemsInternal[columnIndex].Index == columnIndex, "Expected ColumnsItemsInternal[columnIndex].Index equals columnIndex.");
             }
         }
 
         private void CorrectColumnIndexesAfterInsertion(DataGridColumn insertedColumn, int insertionCount)
         {
-            DiagnosticsDebug.Assert(insertedColumn != null, "Expected non-null insertedColumn.");
-            DiagnosticsDebug.Assert(insertionCount > 0, "Expected strictly positive insertionCount.");
+            Debug.Assert(insertedColumn != null, "Expected non-null insertedColumn.");
+            Debug.Assert(insertionCount > 0, "Expected strictly positive insertionCount.");
             for (int columnIndex = insertedColumn.Index + insertionCount; columnIndex < this.ColumnsItemsInternal.Count; columnIndex++)
             {
                 this.ColumnsItemsInternal[columnIndex].Index = columnIndex;
@@ -1551,7 +1549,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     column.DisplayIndexHasChanged = false;
                     if (raiseEvent)
                     {
-                        DiagnosticsDebug.Assert(column != this.ColumnsInternal.RowGroupSpacerColumn, "Expected column other than ColumnsInternal.RowGroupSpacerColumn.");
+                        Debug.Assert(column != this.ColumnsInternal.RowGroupSpacerColumn, "Expected column other than ColumnsInternal.RowGroupSpacerColumn.");
                         OnColumnDisplayIndexChanged(column);
                     }
                 }
@@ -1632,7 +1630,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool GetColumnEffectiveReadOnlyState(DataGridColumn dataGridColumn)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
 
             return this.IsReadOnly || dataGridColumn.IsReadOnly || dataGridColumn is DataGridFillerColumn;
         }
@@ -1645,8 +1643,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Absolute coordinate of the left edge of the given column.</returns>
         private double GetColumnXFromIndex(int index)
         {
-            DiagnosticsDebug.Assert(index < this.ColumnsItemsInternal.Count, "Expected index smaller than this.ColumnsItemsInternal.Count.");
-            DiagnosticsDebug.Assert(this.ColumnsItemsInternal[index].IsVisible, "Expected ColumnsItemsInternal[index].IsVisible is true.");
+            Debug.Assert(index < this.ColumnsItemsInternal.Count, "Expected index smaller than this.ColumnsItemsInternal.Count.");
+            Debug.Assert(this.ColumnsItemsInternal[index].IsVisible, "Expected ColumnsItemsInternal[index].IsVisible is true.");
 
             double x = 0;
             foreach (DataGridColumn column in this.ColumnsInternal.GetVisibleColumns())
@@ -1717,11 +1715,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InsertDisplayedColumnHeader(DataGridColumn dataGridColumn)
         {
-            DiagnosticsDebug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
+            Debug.Assert(dataGridColumn != null, "Expected non-null dataGridColumn.");
             if (_columnHeadersPresenter != null)
             {
                 dataGridColumn.HeaderCell.Visibility = dataGridColumn.Visibility;
-                DiagnosticsDebug.Assert(!_columnHeadersPresenter.Children.Contains(dataGridColumn.HeaderCell), "Expected dataGridColumn.HeaderCell not contained in _columnHeadersPresenter.Children.");
+                Debug.Assert(!_columnHeadersPresenter.Children.Contains(dataGridColumn.HeaderCell), "Expected dataGridColumn.HeaderCell not contained in _columnHeadersPresenter.Children.");
                 _columnHeadersPresenter.Children.Insert(dataGridColumn.DisplayIndexWithFiller, dataGridColumn.HeaderCell);
             }
         }
@@ -1757,8 +1755,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool ScrollColumnIntoView(int columnIndex)
         {
-            DiagnosticsDebug.Assert(columnIndex >= 0, "Expected positive columnIndex.");
-            DiagnosticsDebug.Assert(columnIndex < this.ColumnsItemsInternal.Count, "Expected columnIndex smaller than this.ColumnsItemsInternal.Count.");
+            Debug.Assert(columnIndex >= 0, "Expected positive columnIndex.");
+            Debug.Assert(columnIndex < this.ColumnsItemsInternal.Count, "Expected columnIndex smaller than this.ColumnsItemsInternal.Count.");
 
             if (this.DisplayData.FirstDisplayedScrollingCol != -1 &&
                 !this.ColumnsItemsInternal[columnIndex].IsFrozen &&
@@ -1851,7 +1849,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                DiagnosticsDebug.Assert(this.DisplayData.FirstDisplayedScrollingCol >= 0, "Expected positive DisplayData.FirstDisplayedScrollingCol.");
+                Debug.Assert(this.DisplayData.FirstDisplayedScrollingCol >= 0, "Expected positive DisplayData.FirstDisplayedScrollingCol.");
                 dataGridColumnTmp = this.ColumnsItemsInternal[this.DisplayData.FirstDisplayedScrollingCol];
                 colCount = 0;
                 while (colCount < columns && dataGridColumnTmp != null)
@@ -1865,7 +1863,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (columns < 0)
             {
-                DiagnosticsDebug.Assert(this.DisplayData.FirstDisplayedScrollingCol >= 0, "Expected positive DisplayData.FirstDisplayedScrollingCol.");
+                Debug.Assert(this.DisplayData.FirstDisplayedScrollingCol >= 0, "Expected positive DisplayData.FirstDisplayedScrollingCol.");
                 dataGridColumnTmp = this.ColumnsItemsInternal[this.DisplayData.FirstDisplayedScrollingCol];
                 if (_negHorizontalOffset > 0)
                 {

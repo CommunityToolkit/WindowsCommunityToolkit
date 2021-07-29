@@ -5,6 +5,7 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using Microsoft.Toolkit.Diagnostics;
 using Windows.UI;
 using Color = Windows.UI.Color;
 
@@ -23,10 +24,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The created <see cref="Color"/>.</returns>
         public static Color ToColor(this string colorString)
         {
-            if (string.IsNullOrEmpty(colorString))
-            {
-                ThrowArgumentException();
-            }
+            Guard.IsNotNullOrEmpty(colorString, nameof(colorString));
 
             if (colorString[0] == '#')
             {
@@ -81,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                             return Color.FromArgb(255, r, g, b);
                         }
 
-                    default: return ThrowFormatException();
+                    default: return ThrowHelper.ThrowFormatException<Color>("The string passed in the colorString argument is not a recognized Color format.");
                 }
             }
 
@@ -108,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return Color.FromArgb(255, (byte)(scR * 255), (byte)(scG * 255), (byte)(scB * 255));
                 }
 
-                return ThrowFormatException();
+                return ThrowHelper.ThrowFormatException<Color>("The string passed in the colorString argument is not a recognized Color format (sc#[scA,]scR,scG,scB).");
             }
 
             var prop = typeof(Colors).GetTypeInfo().GetDeclaredProperty(colorString);
@@ -118,10 +116,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return (Color)prop.GetValue(null);
             }
 
-            return ThrowFormatException();
-
-            static void ThrowArgumentException() => throw new ArgumentException("The parameter \"colorString\" must not be null or empty.");
-            static Color ThrowFormatException() => throw new FormatException("The parameter \"colorString\" is not a recognized Color format.");
+            return ThrowHelper.ThrowFormatException<Color>("The string passed in the colorString argument is not a recognized Color.");
         }
 
         /// <summary>

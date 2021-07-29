@@ -4,7 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// An image effect, which displays an image loaded as a Win2D surface

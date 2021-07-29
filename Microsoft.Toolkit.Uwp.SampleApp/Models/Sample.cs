@@ -16,9 +16,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-// TODO Reintroduce graph controls
-// using Microsoft.Toolkit.Graph.Converters;
-// using Microsoft.Toolkit.Graph.Providers;
+using Microsoft.Toolkit.Graph.Converters;
+using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -42,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper(new SystemSerializer());
+            var settingsStorage = new LocalObjectStorageHelper();
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
@@ -157,8 +156,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string DeprecatedWarning { get; set; }
 
         public string ApiCheck { get; set; }
-
-        public bool HasType => !string.IsNullOrWhiteSpace(Type);
 
         public bool HasXAMLCode => !string.IsNullOrEmpty(XamlCodeFile);
 
@@ -629,30 +626,107 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static Type LookForTypeByName(string typeName)
         {
             // First search locally
-            if (System.Type.GetType(typeName) is Type systemType)
+            var result = System.Type.GetType(typeName);
+
+            if (result != null)
             {
-                return systemType;
+                return result;
             }
 
-            var targets = new Type[]
+            // Search in Windows
+            var proxyType = VerticalAlignment.Center;
+            var assembly = proxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
             {
-                VerticalAlignment.Center.GetType(), // Windows
-                StackMode.Replace.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Core
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
 
-              // TODO Reintroduce graph controls
-              // typeof(UserToPersonConverter)) // Search in Microsoft.Toolkit.Graph.Controls
-                EasingType.Default.GetType(), // Microsoft.Toolkit.Uwp.UI.Animations
-                ImageBlendMode.Multiply.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
-                Interaction.Enabled.GetType(), // Microsoft.Toolkit.Uwp.Input.GazeInteraction
-                DataGridGridLinesVisibility.None.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
-                GridSplitter.GridResizeDirection.Auto.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Layout
-                typeof(MarkdownTextBlock), // Microsoft.Toolkit.Uwp.UI.Controls.Markdown
-                BitmapFileFormat.Bmp.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Media
-                StretchChild.Last.GetType() // Microsoft.Toolkit.Uwp.UI.Controls.Primitivs
-            };
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls
+            var controlsProxyType = GridSplitter.GridResizeDirection.Auto;
+            assembly = controlsProxyType.GetType().GetTypeInfo().Assembly;
 
-            return targets.SelectMany(t => t.Assembly.ExportedTypes)
-                .FirstOrDefault(t => t.Name == typeName);
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Graph.Controls
+            var graphControlsProxyType = typeof(UserToPersonConverter);
+            assembly = graphControlsProxyType.GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Animations
+            var animationsProxyType = EasingType.Default;
+            assembly = animationsProxyType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI
+            var uiProxyType = ImageBlendMode.Multiply;
+            assembly = uiProxyType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
+            var gazeType = Interaction.Enabled;
+            assembly = gazeType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
+            var dataGridProxyType = DataGridGridLinesVisibility.None;
+            assembly = dataGridProxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Markdown
+            var markdownTextBlockType = typeof(MarkdownTextBlock);
+            assembly = markdownTextBlockType.GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            return null;
         }
 
         private static async Task<string> GetDocsSHA()

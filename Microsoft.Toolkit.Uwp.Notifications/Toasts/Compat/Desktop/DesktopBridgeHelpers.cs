@@ -20,6 +20,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
         private const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
+
         private static bool? _hasIdentity;
 
         public static bool HasIdentity()
@@ -34,10 +37,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 {
                     int length = 0;
                     var sb = new StringBuilder(0);
-                    NativeMethods.GetCurrentPackageFullName(ref length, sb);
+                    GetCurrentPackageFullName(ref length, sb);
 
                     sb = new StringBuilder(length);
-                    int error = NativeMethods.GetCurrentPackageFullName(ref length, sb);
+                    int error = GetCurrentPackageFullName(ref length, sb);
 
                     _hasIdentity = error != APPMODEL_ERROR_NO_PACKAGE;
                 }

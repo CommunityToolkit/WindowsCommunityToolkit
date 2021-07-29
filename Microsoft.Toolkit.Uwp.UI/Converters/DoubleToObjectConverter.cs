@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// Otherwise the logic looks for the value to be GreaterThan or LessThan the specified value.
     /// The ConverterParameter can be used to invert the logic.
     /// </summary>
-    public partial class DoubleToObjectConverter : DependencyObject, IValueConverter
+    public class DoubleToObjectConverter : DependencyObject, IValueConverter
     {
         /// <summary>
         /// Identifies the <see cref="TrueValue"/> property.

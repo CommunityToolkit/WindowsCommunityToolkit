@@ -10,31 +10,30 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// A custom <see cref="XamlCompositionBrushBase"/> <see langword="class"/> that's ready to be used with a custom <see cref="PipelineBuilder"/> pipeline.
+    /// A custom <see cref="XamlCompositionBrushBase"/> <see langword="class"/> that's ready to be used with a custom <see cref="PipelineBuilder"/> pipeline
     /// </summary>
     public abstract class XamlCompositionEffectBrushBase : XamlCompositionBrushBase
     {
         /// <summary>
-        /// The initialization <see cref="AsyncMutex"/> instance.
+        /// The initialization <see cref="AsyncMutex"/> instance
         /// </summary>
         private readonly AsyncMutex connectedMutex = new AsyncMutex();
 
         /// <summary>
         /// A method that builds and returns the <see cref="PipelineBuilder"/> pipeline to use in the current instance.<para/>
-        /// This method can also be used to store any needed <see cref="EffectSetter{T}"/> or <see cref="EffectAnimation{T}"/>
-        /// instances in local fields, for later use (they will need to be called upon <see cref="XamlCompositionBrushBase.CompositionBrush"/>).
+        /// This method can also be used to store any needed <see cref="EffectSetter{T}"/> or <see cref="EffectAnimation{T}"/> instances in local fields, for later use (they will need to be called upon <see cref="XamlCompositionBrushBase.CompositionBrush"/>).
         /// </summary>
-        /// <returns>A <see cref="PipelineBuilder"/> instance to create the brush to display.</returns>
-        protected abstract PipelineBuilder OnPipelineRequested();
+        /// <returns>A <see cref="PipelineBuilder"/> instance to create the brush to display</returns>
+        protected abstract PipelineBuilder OnBrushRequested();
 
-        private bool isEnabled = true;
+        private bool _isEnabled = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the current brush is using the provided pipeline, or the fallback color.
+        /// Gets or sets a value indicating whether the current brush is using the provided pipeline, or the fallback color
         /// </summary>
         public bool IsEnabled
         {
-            get => this.isEnabled;
+            get => this._isEnabled;
             set => this.OnEnabledToggled(value);
         }
 
@@ -43,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             using (await this.connectedMutex.LockAsync())
             {
-                if (CompositionBrush == null)
+                if (this.CompositionBrush == null)
                 {
                     // Abort if effects aren't supported
                     if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
@@ -51,16 +50,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                         return;
                     }
 
-                    if (this.isEnabled)
+                    if (this._isEnabled)
                     {
-                        CompositionBrush = await OnPipelineRequested().BuildAsync();
+                        this.CompositionBrush = await this.OnBrushRequested().BuildAsync();
                     }
                     else
                     {
-                        CompositionBrush = await PipelineBuilder.FromColor(FallbackColor).BuildAsync();
+                        this.CompositionBrush = await PipelineBuilder.FromColor(this.FallbackColor).BuildAsync();
                     }
-
-                    OnCompositionBrushUpdated();
                 }
             }
 
@@ -72,12 +69,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             using (await this.connectedMutex.LockAsync())
             {
-                if (CompositionBrush != null)
+                if (this.CompositionBrush != null)
                 {
-                    CompositionBrush.Dispose();
-                    CompositionBrush = null;
-
-                    OnCompositionBrushUpdated();
+                    this.CompositionBrush.Dispose();
+                    this.CompositionBrush = null;
                 }
             }
 
@@ -85,21 +80,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <summary>
-        /// Updates the <see cref="XamlCompositionBrushBase.CompositionBrush"/> property depending on the input value.
+        /// Updates the <see cref="XamlCompositionBrushBase.CompositionBrush"/> property depending on the input value
         /// </summary>
-        /// <param name="value">The new value being set to the <see cref="IsEnabled"/> property.</param>
+        /// <param name="value">The new value being set to the <see cref="IsEnabled"/> property</param>
         protected async void OnEnabledToggled(bool value)
         {
             using (await this.connectedMutex.LockAsync())
             {
-                if (this.isEnabled == value)
+                if (this._isEnabled == value)
                 {
                     return;
                 }
 
-                this.isEnabled = value;
+                this._isEnabled = value;
 
-                if (CompositionBrush != null)
+                if (this.CompositionBrush != null)
                 {
                     // Abort if effects aren't supported
                     if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
@@ -107,25 +102,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                         return;
                     }
 
-                    if (this.isEnabled)
+                    if (this._isEnabled)
                     {
-                        CompositionBrush = await OnPipelineRequested().BuildAsync();
+                        this.CompositionBrush = await this.OnBrushRequested().BuildAsync();
                     }
                     else
                     {
-                        CompositionBrush = await PipelineBuilder.FromColor(FallbackColor).BuildAsync();
+                        this.CompositionBrush = await PipelineBuilder.FromColor(this.FallbackColor).BuildAsync();
                     }
-
-                    OnCompositionBrushUpdated();
                 }
             }
-        }
-
-        /// <summary>
-        /// Invoked whenever the <see cref="XamlCompositionBrushBase.CompositionBrush"/> property is updated.
-        /// </summary>
-        protected virtual void OnCompositionBrushUpdated()
-        {
         }
     }
 }

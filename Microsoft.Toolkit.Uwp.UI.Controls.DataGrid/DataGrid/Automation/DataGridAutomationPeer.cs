@@ -15,8 +15,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
-using DiagnosticsDebug = System.Diagnostics.Debug;
-
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
     /// <summary>
@@ -288,8 +286,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                     column++;
                 }
 
-                DiagnosticsDebug.Assert(column >= 0, "Expected positive column value.");
-                DiagnosticsDebug.Assert(column < this.OwningDataGrid.ColumnsItemsInternal.Count, "Expected smaller column value.");
+                Debug.Assert(column >= 0, "Expected positive column value.");
+                Debug.Assert(column < this.OwningDataGrid.ColumnsItemsInternal.Count, "Expected smaller column value.");
                 DataGridCell cell = dgr.Cells[column];
                 AutomationPeer peer = CreatePeerForElement(cell);
                 if (peer != null)
@@ -559,8 +557,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 DataGridRow row = this.OwningDataGrid.DisplayData.GetDisplayedElement(slot) as DataGridRow;
                 if (row != null)
                 {
-                    DiagnosticsDebug.Assert(column >= 0, "Expected positive column value.");
-                    DiagnosticsDebug.Assert(column < this.OwningDataGrid.ColumnsItemsInternal.Count, "Expected smaller column value.");
+                    Debug.Assert(column >= 0, "Expected positive column value.");
+                    Debug.Assert(column < this.OwningDataGrid.ColumnsItemsInternal.Count, "Expected smaller column value.");
                     DataGridCell cell = row.Cells[column];
                     return CreatePeerForElement(cell);
                 }

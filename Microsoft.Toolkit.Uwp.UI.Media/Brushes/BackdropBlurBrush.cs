@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        protected override PipelineBuilder OnPipelineRequested()
+        protected override PipelineBuilder OnBrushRequested()
         {
             return PipelineBuilder.FromBackdrop().Blur((float)Amount, out this.amountSetter);
         }

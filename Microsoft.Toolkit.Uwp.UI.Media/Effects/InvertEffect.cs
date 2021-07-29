@@ -4,16 +4,16 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// An color inversion effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.InvertEffect"/> effect</remarks>
-    public sealed class InvertEffect : PipelineEffect
+    public sealed class InvertEffect : IPipelineEffect
     {
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Invert();
         }

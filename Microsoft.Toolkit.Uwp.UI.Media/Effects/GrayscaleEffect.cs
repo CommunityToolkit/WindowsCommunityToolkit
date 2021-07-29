@@ -4,16 +4,16 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// A grayscale effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.GrayscaleEffect"/> effect</remarks>
-    public sealed class GrayscaleEffect : PipelineEffect
+    public sealed class GrayscaleEffect : IPipelineEffect
     {
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.Grayscale();
         }

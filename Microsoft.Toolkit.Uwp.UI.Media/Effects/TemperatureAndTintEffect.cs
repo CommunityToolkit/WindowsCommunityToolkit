@@ -5,13 +5,13 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// A temperature and tint effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TemperatureAndTintEffect"/> effect</remarks>
-    public sealed class TemperatureAndTintEffect : PipelineEffect
+    public sealed class TemperatureAndTintEffect : IPipelineEffect
     {
         private double temperature;
 
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
             return builder.TemperatureAndTint((float)Temperature, (float)Tint);
         }

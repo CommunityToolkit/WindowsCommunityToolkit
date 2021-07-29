@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public class BackdropInvertBrush : XamlCompositionEffectBrushBase
     {
         /// <inheritdoc/>
-        protected override PipelineBuilder OnPipelineRequested()
+        protected override PipelineBuilder OnBrushRequested()
         {
             return PipelineBuilder.FromBackdrop().Invert();
         }

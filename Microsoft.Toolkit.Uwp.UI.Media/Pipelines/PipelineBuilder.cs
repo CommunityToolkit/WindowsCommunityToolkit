@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var visual = Window.Current.Compositor.CreateSpriteVisual();
 
-            visual.Brush = await BuildAsync();
+            visual.Brush = await this.BuildAsync();
 
             ElementCompositionPreview.SetElementChildVisual(target, visual);
 

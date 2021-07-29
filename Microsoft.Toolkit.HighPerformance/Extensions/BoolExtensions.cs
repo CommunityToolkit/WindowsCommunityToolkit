@@ -23,14 +23,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe byte ToByte(this bool flag)
         {
-            // Whenever we need to take the address of an argument, we make a local copy first.
-            // This will be removed by the JIT anyway, but it can help produce better codegen and
-            // remove unwanted stack spills if the caller is using constant arguments. This is
-            // because taking the address of an argument can interfere with some of the flow
-            // analysis executed by the JIT, which can in some cases block constant propagation.
-            bool copy = flag;
-
-            return *(byte*)&copy;
+            return *(byte*)&flag;
         }
 
         /// <summary>
@@ -65,8 +58,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe int ToBitwiseMask32(this bool flag)
         {
-            bool copy = flag;
-            byte rangeFlag = *(byte*)&copy;
+            byte rangeFlag = *(byte*)&flag;
             int
                 negativeFlag = rangeFlag - 1,
                 mask = ~negativeFlag;
@@ -85,8 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe long ToBitwiseMask64(this bool flag)
         {
-            bool copy = flag;
-            byte rangeFlag = *(byte*)&copy;
+            byte rangeFlag = *(byte*)&flag;
             long
                 negativeFlag = (long)rangeFlag - 1,
                 mask = ~negativeFlag;

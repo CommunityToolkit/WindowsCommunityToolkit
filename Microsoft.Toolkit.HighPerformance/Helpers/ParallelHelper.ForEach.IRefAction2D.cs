@@ -5,6 +5,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.HighPerformance.Memory;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
@@ -151,14 +152,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
                 for (int y = lowY; y < stopY; y++)
                 {
-                    ref TItem rStart = ref span.DangerousGetReferenceAt(y, 0);
-                    ref TItem rEnd = ref Unsafe.Add(ref rStart, width);
+                    ref TItem r0 = ref span.DangerousGetReferenceAt(y, 0);
 
-                    while (Unsafe.IsAddressLessThan(ref rStart, ref rEnd))
+                    for (int x = 0; x < width; x++)
                     {
-                        Unsafe.AsRef(this.action).Invoke(ref rStart);
+                        ref TItem ryx = ref Unsafe.Add(ref r0, (nint)(uint)x);
 
-                        rStart = ref Unsafe.Add(ref rStart, 1);
+                        Unsafe.AsRef(this.action).Invoke(ref ryx);
                     }
                 }
             }

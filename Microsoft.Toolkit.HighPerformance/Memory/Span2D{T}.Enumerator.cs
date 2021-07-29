@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 #endif
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace Microsoft.Toolkit.HighPerformance.Memory
 {
     /// <inheritdoc cref="Span2D{T}"/>
     public readonly ref partial struct Span2D<T>

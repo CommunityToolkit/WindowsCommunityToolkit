@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -21,13 +20,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseObjectStorageHelper"/> class,
         /// which can read and write data using the provided <see cref="IObjectSerializer"/>;
-        /// In 6.1 and older the default Serializer was based on Newtonsoft.Json.
-        /// To implement an <see cref="IObjectSerializer"/> based on System.Text.Json, Newtonsoft.Json, or DataContractJsonSerializer see https://aka.ms/wct/storagehelper-migration
+        /// if none is provided, a default Json serializer will be used.
         /// </summary>
         /// <param name="objectSerializer">The serializer to use.</param>
-        public BaseObjectStorageHelper(IObjectSerializer objectSerializer)
+        public BaseObjectStorageHelper(IObjectSerializer objectSerializer = null)
         {
-            serializer = objectSerializer ?? throw new ArgumentNullException(nameof(objectSerializer));
+            serializer = objectSerializer ?? new JsonObjectSerializer();
         }
 
         /// <summary>
@@ -84,7 +82,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 return @default;
             }
 
-            return serializer.Deserialize<T>(value);
+            var type = typeof(T);
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsPrimitive || type == typeof(string))
+            {
+                return (T)Convert.ChangeType(value, type);
+            }
+
+            return serializer.Deserialize<T>((string)value);
         }
 
         /// <summary>
@@ -123,7 +129,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             var type = typeof(T);
             var typeInfo = type.GetTypeInfo();
 
-            Settings.Values[key] = serializer.Serialize(value);
+            if (typeInfo.IsPrimitive || type == typeof(string))
+            {
+                Settings.Values[key] = value;
+            }
+            else
+            {
+                Settings.Values[key] = serializer.Serialize(value);
+            }
         }
 
         /// <summary>
@@ -198,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The <see cref="StorageFile"/> where the object was saved</returns>
         public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
-            return StorageFileHelper.WriteTextToFileAsync(Folder, serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
+            return StorageFileHelper.WriteTextToFileAsync(Folder, serializer.Serialize(value), filePath, CreationCollisionOption.ReplaceExisting);
         }
     }
 }

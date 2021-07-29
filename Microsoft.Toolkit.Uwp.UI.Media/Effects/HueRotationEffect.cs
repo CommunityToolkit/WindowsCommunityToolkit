@@ -4,38 +4,22 @@
 
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-#nullable enable
-
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// A hue rotation effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.HueRotationEffect"/> effect</remarks>
-    public sealed class HueRotationEffect : PipelineEffect
+    public sealed class HueRotationEffect : IPipelineEffect
     {
         /// <summary>
         /// Gets or sets the angle to rotate the hue, in radians
         /// </summary>
         public double Angle { get; set; }
 
-        /// <summary>
-        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
-        /// </summary>
-        internal string? Id { get; private set; }
-
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            if (IsAnimatable)
-            {
-                builder = builder.HueRotation((float)Angle, out string id);
-
-                Id = id;
-
-                return builder;
-            }
-
             return builder.HueRotation((float)Angle);
         }
     }

@@ -1,7 +1,7 @@
 {
   "DrawableList": [
     {
-      "$type": "Microsoft.Toolkit.Uwp.UI.Controls.InkDrawable, Microsoft.Toolkit.Uwp.UI.Controls.Media",
+      "$type": "Microsoft.Toolkit.Uwp.UI.Controls.InkDrawable, Microsoft.Toolkit.Uwp.UI.Controls",
       "SerializableStrokeList": [
         {
           "DrawingAttributes": {
@@ -15,18 +15,23 @@
             "IgnorePressure": false,
             "IgnoreTilt": true,
             "Size": {
-              "Width": 4,
-              "Height": 4,
+              "Width": 4.0,
+              "Height": 4.0,
               "IsEmpty": false
             },
             "PenTip": 0,
             "PenTipTransform": {
-              "M11": 1,
-              "M12": 0,
-              "M21": 0,
-              "M22": 1,
-              "M31": 0,
-              "M32": 0
+              "M11": 1.0,
+              "M12": 0.0,
+              "M21": 0.0,
+              "M22": 1.0,
+              "M31": 0.0,
+              "M32": 0.0,
+              "IsIdentity": true,
+              "Translation": {
+                "X": 0.0,
+                "Y": 0.0
+              }
             },
             "DrawAsHighlighter": false
           },
@@ -37,8 +42,8 @@
                 "Y": 45.995269775390625
               },
               "Pressure": 0.5,
-              "TiltX": 0,
-              "TiltY": 0,
+              "TiltX": 0.0,
+              "TiltY": 0.0,
               "Timestamp": 0
             },
             {
@@ -47,8 +52,8 @@
                 "Y": 45.995269775390625
               },
               "Pressure": 0.5,
-              "TiltX": 0,
-              "TiltY": 0,
+              "TiltX": 0.0,
+              "TiltY": 0.0,
               "Timestamp": 0
             },
             {
@@ -57,20 +62,25 @@
                 "Y": 45.995269775390625
               },
               "Pressure": 0.5,
-              "TiltX": 0,
-              "TiltY": 0,
+              "TiltX": 0.0,
+              "TiltY": 0.0,
               "Timestamp": 0
             }
           ],
           "SerializableDrawingAttributesKind": 0,
           "SerializableDrawingAttributesPencilProperties": null,
           "PointTransform": {
-            "M11": 1,
-            "M12": 0,
-            "M21": 0,
-            "M22": 1,
-            "M31": 0,
-            "M32": 0
+            "M11": 1.0,
+            "M12": 0.0,
+            "M21": 0.0,
+            "M22": 1.0,
+            "M31": 0.0,
+            "M32": 0.0,
+            "IsIdentity": true,
+            "Translation": {
+              "X": 0.0,
+              "Y": 0.0
+            }
           }
         }
       ],

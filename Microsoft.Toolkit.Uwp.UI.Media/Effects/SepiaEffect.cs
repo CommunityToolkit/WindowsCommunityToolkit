@@ -5,15 +5,13 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 
-#nullable enable
-
-namespace Microsoft.Toolkit.Uwp.UI.Media
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// A sepia effect
     /// </summary>
     /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SepiaEffect"/> effect</remarks>
-    public sealed class SepiaEffect : PipelineEffect
+    public sealed class SepiaEffect : IPipelineEffect
     {
         private double intensity = 0.5;
 
@@ -26,23 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             set => this.intensity = Math.Clamp(value, 0, 1);
         }
 
-        /// <summary>
-        /// Gets the unique id for the effect, if <see cref="PipelineEffect.IsAnimatable"/> is set.
-        /// </summary>
-        internal string? Id { get; private set; }
-
         /// <inheritdoc/>
-        public override PipelineBuilder AppendToBuilder(PipelineBuilder builder)
+        public PipelineBuilder AppendToPipeline(PipelineBuilder builder)
         {
-            if (IsAnimatable)
-            {
-                builder = builder.Sepia((float)Intensity, out string id);
-
-                Id = id;
-
-                return builder;
-            }
-
             return builder.Sepia((float)Intensity);
         }
     }

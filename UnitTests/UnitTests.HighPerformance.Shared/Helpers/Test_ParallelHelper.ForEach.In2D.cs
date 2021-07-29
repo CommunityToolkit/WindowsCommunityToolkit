@@ -4,9 +4,11 @@
 
 using System;
 using System.Diagnostics.Contracts;
-using Microsoft.Toolkit.HighPerformance;
+using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers;
+using Microsoft.Toolkit.HighPerformance.Memory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.HighPerformance.Helpers

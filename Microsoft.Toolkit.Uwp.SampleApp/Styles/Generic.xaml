@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
     xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
@@ -134,9 +135,13 @@
         <Setter Property="Transitions" Value="{x:Null}"></Setter>
         <Setter Property="animations:Implicit.ShowAnimations">
             <Setter.Value>
-                <animations:ImplicitAnimationSet>
-                    <animations:OpacityAnimation Duration="0:0:0.2" Delay="0:0:0.2" From="0" To="1"/>
-                </animations:ImplicitAnimationSet>
+                <animations:AnimationCollection>
+                    <animations:OpacityAnimation Duration="0:0:0.2"
+                                                     Delay="0:0:0.2"
+                                                     SetInitialValueBeforeDelay="True"
+                                                     From="0"
+                                                     To="1"></animations:OpacityAnimation>
+                </animations:AnimationCollection>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">

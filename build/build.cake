@@ -135,6 +135,7 @@ Task("Verify")
 
 Task("Version")
     .Description("Updates the version information in all Projects")
+    .IsDependentOn("Verify")
     .Does(() =>
 {
     Information("\nDownloading NerdBank GitVersioning...");
@@ -209,7 +210,6 @@ Task("InheritDoc")
 
 Task("Build")
     .Description("Build all projects runs InheritDoc")
-    .IsDependentOn("Verify")
     .IsDependentOn("BuildProjects")
     .IsDependentOn("InheritDoc");
 
@@ -243,7 +243,7 @@ public string getMSTestAdapterPath(){
 }
 
 Task("Test")
-	.Description("Runs all Unit Tests")
+	.Description("Runs all Tests")
     .Does(() =>
 {
     Information("\nRunning Unit Tests");
@@ -272,11 +272,7 @@ Task("Test")
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
     DotNetCoreTest(file.FullPath, testSettings);
-}).DeferOnError();
-
-Task("UITest")
-	.Description("Runs all UI Tests")
-    .DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
+}).DoesForEach(GetFiles(taefBinDir + "/**/UITests.Tests.TAEF.dll"), (file) =>
 {
     Information("\nRunning TAEF Interaction Tests");
 
@@ -289,19 +285,10 @@ Task("UITest")
 
 Task("SmokeTest")
 	.Description("Runs all Smoke Tests")
-    .IsDependentOn("Version")
     .Does(() =>
 {
-    // Need to do full NuGet restore here to grab proper UWP dependencies...
     NuGetRestore(baseDir + "/SmokeTests/SmokeTest.csproj");
-
-    var buildSettings = new MSBuildSettings()
-    {
-        Restore = true,
-    }
-    .WithProperty("NuGetPackageVersion", Version);
-
-    MSBuild(baseDir + "/SmokeTests/SmokeTests.proj", buildSettings);
+    MSBuild(baseDir + "/SmokeTests/SmokeTests.proj");
 }).DeferOnError();
 
 Task("MSTestUITest")
@@ -328,7 +315,6 @@ Task("MSTestUITest")
 Task("Default")
     .IsDependentOn("Build")
     .IsDependentOn("Test")
-    .IsDependentOn("UITest")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")

@@ -28,7 +28,8 @@
             <TextBlock HorizontalAlignment="Left"
                        VerticalAlignment="Top"
                        Foreground="OrangeRed"
-                       IsHitTestVisible="False"><Run Text="Please scroll down to see the effect." /><LineBreak /><Run Text="The default threshold for triggering lazy loading is 300 px." /></TextBlock>
+                       IsHitTestVisible="False"
+                       Text="Please scroll down to see the effect." />
             <Button Width="48"
                     Height="48"
                     HorizontalAlignment="Right"

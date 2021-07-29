@@ -209,9 +209,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // and perform an OR with the resulting value of the previous
             // operation. This will always guaranteed to work, thanks to the
             // initial code clearing that bit before setting it again.
-            bool copy = flag;
             uint
-                flag32 = *(byte*)&copy,
+                flag32 = *(byte*)&flag,
                 shift = flag32 << n,
                 or = and | shift;
 
@@ -379,9 +378,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             ulong
                 bit = 1ul << n,
                 not = ~bit,
-                and = value & not;
-            bool copy = flag;
-            ulong flag64 = *(byte*)&copy,
+                and = value & not,
+                flag64 = *(byte*)&flag,
                 shift = flag64 << n,
                 or = and | shift;
 

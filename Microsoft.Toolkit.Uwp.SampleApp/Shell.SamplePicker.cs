@@ -221,12 +221,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 var staggerDelay = TimeSpan.FromMilliseconds(relativeIndex * 30);
 
+                var animationCollection = new AnimationCollection()
+                {
+                    new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
+                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
+                };
+
                 VisualExtensions.SetNormalizedCenterPoint(itemContainer, "0.5");
 
-                AnimationBuilder.Create()
-                    .Opacity(from: 0, to: 1, delay: staggerDelay)
-                    .Scale(from: 0.9, to: 1, delay: staggerDelay)
-                    .Start(itemContainer);
+                animationCollection.StartAnimation(itemContainer);
             }
         }
 
@@ -235,8 +238,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
             if (panel != null)
             {
-                AnimationBuilder.Create().Opacity(0, duration: TimeSpan.FromMilliseconds(1200)).Start(panel);
-                AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start((UIElement)panel.Parent);
+                var animation = new OpacityAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(1200) };
+                animation.StartAnimation(panel);
+
+                var parentAnimation = new ScaleAnimation() { To = "1", Duration = TimeSpan.FromMilliseconds(1200) };
+                parentAnimation.StartAnimation(panel.Parent as UIElement);
             }
         }
 
@@ -248,9 +254,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (panel != null)
                 {
                     panel.Visibility = Visibility.Visible;
+                    var animation = new OpacityAnimation() { To = 1, Duration = TimeSpan.FromMilliseconds(600) };
+                    animation.StartAnimation(panel);
 
-                    AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
-                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start((UIElement)panel.Parent);
+                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = TimeSpan.FromMilliseconds(600) };
+                    parentAnimation.StartAnimation(panel.Parent as UIElement);
                 }
             }
         }

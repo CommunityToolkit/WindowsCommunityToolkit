@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        protected override PipelineBuilder OnPipelineRequested()
+        protected override PipelineBuilder OnBrushRequested()
         {
             if (TextureUri is Uri uri)
             {

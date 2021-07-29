@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.17763</TargetFrameworks>
+    <TargetFramework>uap10.0.17763</TargetFramework>
     <Title>Windows Community Toolkit Controls Markdown</Title>
     <Description>
       This library provides a XAML MarkdownTextBlock control, an efficient and extensible control that can parse and render markdown. It is part of the Windows Community Toolkit.
@@ -35,7 +35,7 @@
   <ItemGroup>
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
   </ItemGroup>
 
@@ -58,8 +58,8 @@
   <Target Name="RemoveUnwantedPri" AfterTargets="GetPackagingOutputs">
     <!--<Message Text="Files Before: @(PackagingOutputs)" Importance="high" />-->
     <ItemGroup>
-      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.Core.pri'" />
-      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls.Core\'))" />
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="'%(PackagingOutputs.Filename)%(PackagingOutputs.Extension)' == 'Microsoft.Toolkit.Uwp.UI.Controls.pri'" />
+      <PackagingOutputs Remove="@(PackagingOutputs)" Condition="$([System.String]::new('%(PackagingOutputs.TargetPath)').StartsWith('Microsoft.Toolkit.Uwp.UI.Controls\'))" />
     </ItemGroup>
     <!--<Message Text="Files After: @(PackagingOutputs)" Importance="high" />-->
   </Target>
