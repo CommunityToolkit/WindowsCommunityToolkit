@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="ConstrainedBox"/> is a <see cref="FrameworkElement"/> control akin to <see cref="Viewbox"/>
     /// which can modify the behavior of it's child element's layout. <see cref="ConstrainedBox"/> restricts the
-    /// available size for its content based on a scale factor and/or a specific <see cref="AspectRatio"/>.
+    /// available size for its content based on a scale factor, multiple factor, and/or a specific <see cref="AspectRatio"/>, in that order.
     /// This is performed as a layout calculation modification.
     /// </summary>
     /// <remarks>
@@ -25,69 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// with borders and not using <see cref="ContentPresenter.ContentTemplate"/> for future compatibility of your
     /// code if moving to WinUI 3 in the future.
     /// </remarks>
-    public class ConstrainedBox : ContentPresenter // TODO: Should be FrameworkElement directly, see https://github.com/microsoft/microsoft-ui-xaml/issues/5530
+    public partial class ConstrainedBox : ContentPresenter // TODO: Should be FrameworkElement directly, see https://github.com/microsoft/microsoft-ui-xaml/issues/5530
     {
-        /// <summary>
-        /// Gets or sets aspect Ratio to use for the contents of the Panel (after scaling).
-        /// </summary>
-        public AspectRatio AspectRatio
-        {
-            get { return (AspectRatio)GetValue(AspectRatioProperty); }
-            set { SetValue(AspectRatioProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="AspectRatio"/> property.
-        /// </summary>
-        public static readonly DependencyProperty AspectRatioProperty =
-            DependencyProperty.Register(nameof(AspectRatio), typeof(AspectRatio), typeof(ConstrainedBox), new PropertyMetadata(null, AspectRatioPropertyChanged));
-
-        private static void AspectRatioPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ConstrainedBox panel)
-            {
-                panel.InvalidateMeasure();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the scale for the width of the panel. Should be a value between 0-1.0. Default is 1.0.
-        /// </summary>
-        public double ScaleX
-        {
-            get { return (double)GetValue(ScaleXProperty); }
-            set { SetValue(ScaleXProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ScaleX"/> property.
-        /// </summary>
-        public static readonly DependencyProperty ScaleXProperty =
-            DependencyProperty.Register(nameof(ScaleX), typeof(double), typeof(ConstrainedBox), new PropertyMetadata(1.0, ScalePropertyChanged));
-
-        /// <summary>
-        /// Gets or sets the scale for the height of the panel. Should be a value between 0-1.0. Default is 1.0.
-        /// </summary>
-        public double ScaleY
-        {
-            get { return (double)GetValue(ScaleYProperty); }
-            set { SetValue(ScaleYProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ScaleY"/> property.
-        /// </summary>
-        public static readonly DependencyProperty ScaleYProperty =
-            DependencyProperty.Register(nameof(ScaleY), typeof(double), typeof(ConstrainedBox), new PropertyMetadata(1.0, ScalePropertyChanged));
-
-        private static void ScalePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is ConstrainedBox panel)
-            {
-                panel.InvalidateMeasure();
-            }
-        }
-
         private bool IsPositiveRealNumber(double value) => !double.IsNaN(value) && !double.IsInfinity(value) && value > 0;
 
         private Size _lastMeasuredSize;
