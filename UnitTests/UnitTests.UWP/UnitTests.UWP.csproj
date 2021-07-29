@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -175,10 +175,13 @@
     <Compile Include="Geometry\Test_Utils.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\JsonObjectSerializer.cs" />
+    <Compile Include="Helpers\JsonObjectSerializer2.cs" />
     <Compile Include="Helpers\SystemTextJsonSerializer.cs" />
+    <Compile Include="Helpers\SystemTextJsonSerializer2.cs" />
     <Compile Include="Helpers\TestCollectionCapableDeepLinkParser.cs" />
     <Compile Include="Helpers\TestDeepLinkParser.cs" />
     <Compile Include="Extensions\Test_DispatcherQueueExtensions.cs" />
+    <Compile Include="Helpers\Test_ApplicationDataStorageHelper.cs" />
     <Compile Include="Helpers\Test_DispatcherHelper.cs" />
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
     <Compile Include="Helpers\Test_BackgroundTaskHelper.cs" />
