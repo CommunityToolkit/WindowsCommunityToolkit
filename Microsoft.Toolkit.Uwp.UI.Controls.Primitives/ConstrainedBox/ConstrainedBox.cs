@@ -27,13 +27,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </remarks>
     public partial class ConstrainedBox : ContentPresenter // TODO: Should be FrameworkElement directly, see https://github.com/microsoft/microsoft-ui-xaml/issues/5530
     {
-        private bool IsPositiveRealNumber(double value) => !double.IsNaN(value) && !double.IsInfinity(value) && value > 0;
+        //// Value used to determine when we re-calculate in the arrange step or re-use a previous calculation. Within roughly a pixel seems like a good value?
+        private const double CalculationTolerance = 1.5;
 
+        private Size _originalSize;
         private Size _lastMeasuredSize;
+
+        private bool IsPositiveRealNumber(double value) => !double.IsNaN(value) && !double.IsInfinity(value) && value > 0;
 
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
+            _originalSize = availableSize;
+
             CalculateConstrainedSize(ref availableSize);
 
             _lastMeasuredSize = availableSize;
@@ -56,14 +62,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // However, if we always re-calculate even if we are provided the proper finalSize, this can trigger
             // multiple arrange passes and cause a rounding error in layout. Therefore, we only want to
             // re-calculate if we think we will have a significant impact.
-            //// TODO: Not sure what good tolerance is here
-            if (Math.Abs(finalSize.Width - _lastMeasuredSize.Width) > 1.5 ||
-                Math.Abs(finalSize.Height - _lastMeasuredSize.Height) > 1.5)
+            if (Math.Abs(finalSize.Width - _lastMeasuredSize.Width) > CalculationTolerance ||
+                Math.Abs(finalSize.Height - _lastMeasuredSize.Height) > CalculationTolerance)
             {
-                CalculateConstrainedSize(ref finalSize);
+                // Check if we can re-use our measure calculation if we're given effectively
+                // the same size as we had in the measure step.
+                if (Math.Abs(finalSize.Width - _originalSize.Width) <= CalculationTolerance &&
+                    Math.Abs(finalSize.Height - _originalSize.Height) <= CalculationTolerance)
+                {
+                    finalSize = _lastMeasuredSize;
+                }
+                else
+                {
+                    CalculateConstrainedSize(ref finalSize);
 
-                // Copy again so if Arrange is re-triggered we won't re-calculate.
-                _lastMeasuredSize = finalSize;
+                    // Copy again so if Arrange is re-triggered we won't re-re-calculate.
+                    _lastMeasuredSize = finalSize;
+                }
             }
 
             return base.ArrangeOverride(finalSize);
