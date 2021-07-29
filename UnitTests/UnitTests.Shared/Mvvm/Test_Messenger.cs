@@ -390,6 +390,8 @@ namespace UnitTests.Mvvm
             GC.Collect();
 
             Assert.AreEqual(!isWeak, weakRecipient.IsAlive);
+
+            GC.KeepAlive(messenger);
         }
 
         [TestCategory("Mvvm")]
@@ -466,6 +468,54 @@ namespace UnitTests.Mvvm
 
         [TestCategory("Mvvm")]
         [TestMethod]
+        public void Test_Messenger_AutoCleanup()
+        {
+            IMessenger messenger = new WeakReferenceMessenger();
+
+            static int GetRecipientsMapCount(IMessenger messenger)
+            {
+                object recipientsMap =
+                    typeof(WeakReferenceMessenger)
+                    .GetField("recipientsMap", BindingFlags.Instance | BindingFlags.NonPublic)
+                    .GetValue(messenger);
+
+                return (int)recipientsMap.GetType().GetProperty("Count").GetValue(recipientsMap);
+            }
+
+            WeakReference weakRecipient;
+
+            void Test()
+            {
+                var recipient = new RecipientWithSomeMessages();
+                weakRecipient = new WeakReference(recipient);
+
+                messenger.Register<MessageA>(recipient);
+
+                Assert.IsTrue(messenger.IsRegistered<MessageA>(recipient));
+
+                Assert.AreEqual(GetRecipientsMapCount(messenger), 1);
+
+                GC.KeepAlive(recipient);
+            }
+
+            Test();
+
+            GC.Collect();
+
+            Assert.IsFalse(weakRecipient.IsAlive);
+
+            // Now that the recipient is collected, trigger another full GC collection
+            // to let the automatic cleanup callback run and trim the messenger data
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            Assert.AreEqual(GetRecipientsMapCount(messenger), 0);
+
+            GC.KeepAlive(messenger);
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
         [DataRow(typeof(StrongReferenceMessenger))]
         [DataRow(typeof(WeakReferenceMessenger))]
         public void Test_Messenger_ManyRecipients(Type type)
@@ -509,6 +559,32 @@ namespace UnitTests.Mvvm
 
             // Just invoke a final cleanup to improve coverage, this is unrelated to this test in particular
             messenger.Cleanup();
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4081
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(StrongReferenceMessenger))]
+        [DataRow(typeof(WeakReferenceMessenger))]
+        public void Test_Messenger_RegisterMultiple_UnregisterSingle(Type type)
+        {
+            var messenger = (IMessenger)Activator.CreateInstance(type);
+
+            var recipient1 = new object();
+            var recipient2 = new object();
+
+            int handler1CalledCount = 0;
+            int handler2CalledCount = 0;
+
+            messenger.Register<object, MessageA>(recipient1, (r, m) => { handler1CalledCount++; });
+            messenger.Register<object, MessageA>(recipient2, (r, m) => { handler2CalledCount++; });
+
+            messenger.UnregisterAll(recipient2);
+
+            messenger.Send(new MessageA());
+
+            Assert.AreEqual(1, handler1CalledCount);
+            Assert.AreEqual(0, handler2CalledCount);
         }
 
         public sealed class RecipientWithNoMessages

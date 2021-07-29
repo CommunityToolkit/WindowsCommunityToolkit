@@ -13,6 +13,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class HeaderTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void Header_1()
@@ -58,7 +59,7 @@ namespace UnitTests.Markdown.Parse
         public void Header_2_Alt()
         {
             /***
-             * Note: This is a tricky scenario because Header 2's 
+             * Note: This is a tricky scenario because Header 2's
              * can be easily confused with thematic breaks, see specs:
              * https://spec.commonmark.org/0.29/#setext-headings
              * https://spec.commonmark.org/0.29/#thematic-breaks
@@ -77,7 +78,7 @@ namespace UnitTests.Markdown.Parse
         public void Header_2_Alt_NotHorizontalRule()
         {
             /***
-             * Note: This is a tricky scenario because Header 2's 
+             * Note: This is a tricky scenario because Header 2's
              * can be easily confused with thematic breaks, see specs:
              * https://spec.commonmark.org/0.29/#setext-headings
              * https://spec.commonmark.org/0.29/#thematic-breaks
@@ -210,5 +211,6 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "Header 1   =" }));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

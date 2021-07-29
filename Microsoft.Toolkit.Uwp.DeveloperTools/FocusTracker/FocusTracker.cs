@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -33,19 +34,19 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
 
         private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var focusTracker = d as FocusTracker;
-
-            if (e.NewValue != null && (bool)e.NewValue)
+            if (d is FocusTracker focusTracker)
             {
-                focusTracker?.Start();
-            }
-            else
-            {
-                focusTracker?.Stop();
+                if (e.NewValue != null && (bool)e.NewValue)
+                {
+                    focusTracker.Start();
+                }
+                else
+                {
+                    focusTracker.Stop();
+                }
             }
         }
 
-        private DispatcherTimer updateTimer;
         private TextBlock controlName;
         private TextBlock controlType;
         private TextBlock controlAutomationName;
@@ -68,23 +69,6 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             DefaultStyleKey = typeof(FocusTracker);
         }
 
-        private void Start()
-        {
-            if (updateTimer == null)
-            {
-                updateTimer = new DispatcherTimer();
-                updateTimer.Tick += UpdateTimer_Tick;
-            }
-
-            updateTimer.Start();
-        }
-
-        private void Stop()
-        {
-            updateTimer?.Stop();
-            ClearContent();
-        }
-
         /// <summary>
         /// Update the visual state of the control when its template is changed.
         /// </summary>
@@ -96,6 +80,33 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             controlFirstParentWithName = GetTemplateChild("ControlFirstParentWithName") as TextBlock;
         }
 
+        private void Start()
+        {
+            // Get currently focused control once when we start
+            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && XamlRoot != null)
+            {
+                FocusOnControl(FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement);
+            }
+            else
+            {
+                FocusOnControl(FocusManager.GetFocusedElement() as FrameworkElement);
+            }
+
+            // Then use FocusManager event from 1809 to listen to updates
+            FocusManager.GotFocus += FocusManager_GotFocus;
+        }
+
+        private void Stop()
+        {
+            FocusManager.GotFocus -= FocusManager_GotFocus;
+            ClearContent();
+        }
+
+        private void FocusManager_GotFocus(object sender, FocusManagerGotFocusEventArgs e)
+        {
+            FocusOnControl(e.NewFocusedElement as FrameworkElement);
+        }
+
         private void ClearContent()
         {
             controlName.Text = string.Empty;
@@ -104,19 +115,8 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             controlFirstParentWithName.Text = string.Empty;
         }
 
-        private void UpdateTimer_Tick(object sender, object e)
+        private void FocusOnControl(FrameworkElement focusedControl)
         {
-            FrameworkElement focusedControl;
-
-            if (Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "XamlRoot") && XamlRoot != null)
-            {
-                focusedControl = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-            }
-            else
-            {
-                focusedControl = FocusManager.GetFocusedElement() as FrameworkElement;
-            }
-
             if (focusedControl == null)
             {
                 ClearContent();

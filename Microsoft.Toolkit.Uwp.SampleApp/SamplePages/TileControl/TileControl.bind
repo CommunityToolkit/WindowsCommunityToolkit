@@ -46,7 +46,7 @@
                           OffsetY="@[OffsetY:Slider:0:0-150]"
                           ScrollOrientation="@[Scroll Orientation:Enum:ScrollOrientation.Both]">
       <Border Style="{StaticResource BorderStyle}">
-        <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"></TextBlock>
+        <TextBlock Style="{StaticResource TextBlockStyle}" Text="Simple Content"/>
       </Border>
     </controls:TileControl>
 
@@ -61,14 +61,14 @@
                           ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                           ParallaxSpeedRatio="@[Parallax Speed Ratio:DoubleSlider:1.2:1-3]"
                           ScrollViewerContainer="{Binding ElementName=FlipView, Mode=OneTime}">
-      <FlipView x:Name="FlipView">
+      <FlipView x:Name="FlipView" Background="Transparent">
 
         <Border Style="{StaticResource BorderStyle}">
-          <TextBlock Style="{StaticResource TextBlockStyle}" Text="Parallax with FlipView &gt;"></TextBlock>
+          <TextBlock Style="{StaticResource TextBlockStyle}" Text="Parallax with FlipView &gt;"/>
         </Border>
 
         <Border Style="{StaticResource BorderStyle}">
-          <TextBlock Style="{StaticResource TextBlockStyle}" Text="&lt; Parallax with FlipView"></TextBlock>
+          <TextBlock Style="{StaticResource TextBlockStyle}" Text="&lt; Parallax with FlipView"/>
         </Border>
       </FlipView>
     </controls:TileControl>

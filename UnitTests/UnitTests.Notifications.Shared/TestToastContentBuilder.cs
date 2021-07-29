@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -546,6 +546,72 @@ namespace UnitTests.Notifications
             Assert.AreEqual(testAudioUriSrc.OriginalString, builder.Content.Audio.Src.OriginalString);
             Assert.AreEqual(testToastAudioLoop, builder.Content.Audio.Loop);
             Assert.AreEqual(testToastAudioSilent, builder.Content.Audio.Silent);
+        }
+
+        [TestMethod]
+        public void AddAudioTest_WithMsWinSoundEvent_ReturnSelfWithCustomAudioAdded()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("ms-winsoundevent:Notification.Reminder");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddAudio(testAudioUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreEqual(testAudioUriSrc.OriginalString, builder.Content.Audio.Src.OriginalString);
+        }
+
+        [TestMethod]
+        public void AddAudioTest_WithMsAppx_ReturnSelfWithCustomAudioAdded()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("ms-appx:///Assets/Audio.mp3");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddAudio(testAudioUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreEqual(testAudioUriSrc.OriginalString, builder.Content.Audio.Src.OriginalString);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddAudioTest_WithInvalidMsUri_ThrowException()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("ms-doesntexist:Notification.Reminder");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            builder.AddAudio(testAudioUriSrc);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddAudioTest_WithInvalidAppDataUri_ThrowException()
+        {
+            // Arrange (ms-appdata isn't currently supported)
+            Uri testAudioUriSrc = new Uri("ms-appdata:///local/Sound.mp3");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            builder.AddAudio(testAudioUriSrc);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddAudioTest_WithInvalidHttpUri_ThrowException()
+        {
+            // Arrange
+            Uri testAudioUriSrc = new Uri("https://myaudio.com/song.mp3");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            builder.AddAudio(testAudioUriSrc);
         }
 
         [TestMethod]

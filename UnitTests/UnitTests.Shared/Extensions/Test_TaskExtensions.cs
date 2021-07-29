@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Extensions;
+using Microsoft.Toolkit;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Extensions
@@ -35,6 +35,13 @@ namespace UnitTests.Extensions
             tcs.SetResult(42);
 
             Assert.AreEqual(42, ((Task)tcs.Task).GetResultOrDefault());
+        }
+
+        [TestCategory("TaskExtensions")]
+        [TestMethod]
+        public void Test_TaskExtensions_ResultOrDefault_FromTaskCompleted()
+        {
+            Assert.AreEqual(null, Task.CompletedTask.GetResultOrDefault());
         }
 
         [TestCategory("TaskExtensions")]

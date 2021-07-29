@@ -7,6 +7,14 @@
 // This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
 // more info in ThirdPartyNotices.txt in the root of the project.
 
+// ================================== NOTE ==================================
+// This file is mirrored in the trimmed-down INotifyPropertyChanged file in
+// the source generator project, to be used with the [INotifyPropertyChanged],
+// attribute, along with the ObservableObject annotated copy (for debugging info).
+// If any changes are made to this file, they should also be appropriately
+// ported to that file as well to keep the behavior consistent.
+// ==========================================================================
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -340,7 +348,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // instance. This will result in no further allocations after the first time this method is called for a given
             // generic type. We only pay the cost of the virtual call to the delegate, but this is not performance critical
             // code and that overhead would still be much lower than the rest of the method anyway, so that's fine.
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier(), newValue, _ => { }, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
         }
 
         /// <summary>
@@ -362,7 +370,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier(), newValue, callback, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
         }
 
         /// <summary>
@@ -401,7 +409,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
         {
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier<T>(), newValue, _ => { }, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
         }
 
         /// <summary>
@@ -424,7 +432,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
         {
-            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new TaskNotifier<T>(), newValue, callback, propertyName);
+            return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
         }
 
         /// <summary>

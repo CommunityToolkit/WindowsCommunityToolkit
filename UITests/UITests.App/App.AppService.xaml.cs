@@ -3,7 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using UITests.App.Pages;
 using Windows.ApplicationModel.Activation;
@@ -20,6 +21,9 @@ namespace UITests.App
     /// </summary>
     public sealed partial class App
     {
+        private static readonly ValueSet BadResult = new() { { "Status", "BAD" } };
+        private static readonly ValueSet OkResult = new() { { "Status", "OK" } };
+
         private AppServiceConnection _appServiceConnection;
         private BackgroundTaskDeferral _appServiceDeferral;
 
@@ -37,67 +41,134 @@ namespace UITests.App
 
         private async void OnAppServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            AppServiceDeferral messageDeferral = args.GetDeferral();
-            ValueSet message = args.Request.Message;
-            string cmd = message["Command"] as string;
-
-            try
+            var messageDeferral = args.GetDeferral();
+            var message = args.Request.Message;
+            if(!TryGetValueAndLog(message, "Command", out var cmd))
             {
-                // Return the data to the caller.
-                if (cmd == "Start")
-                {
-                    var pageName = message["Page"] as string;
+                await args.Request.SendResponseAsync(BadResult);
+                messageDeferral.Complete();
+                return;
+            }
+
+            Log.Comment("Received Command: {0}", cmd);
+
+            switch (cmd)
+            {
+                case "OpenPage":
+                    if (!TryGetValueAndLog(message, "Page", out var pageName))
+                    {
+                        await args.Request.SendResponseAsync(BadResult);
+                        break;
+                    }
 
                     Log.Comment("Received request for Page: {0}", pageName);
 
-                    ValueSet returnMessage = new ValueSet();
-
                     // We await the OpenPage method to ensure the navigation has finished.
-                    if (await WeakReferenceMessenger.Default.Send(new RequestPageMessage(pageName)))
+                    var pageResponse = await WeakReferenceMessenger.Default.Send(new RequestPageMessage(pageName));
+
+                    await args.Request.SendResponseAsync(pageResponse ? OkResult : BadResult);
+
+                    break;
+                case "Custom":
+                    if (!TryGetValueAndLog(message, "Id", out var id) || !_customCommands.ContainsKey(id))
                     {
-                        returnMessage.Add("Status", "OK");
-                    }
-                    else
-                    {
-                        returnMessage.Add("Status", "BAD");
+                        await args.Request.SendResponseAsync(BadResult);
+                        break;
                     }
 
-                    await args.Request.SendResponseAsync(returnMessage);
-                }
+                    Log.Comment("Received request for custom command: {0}", id);
+
+                    try
+                    {
+                        ValueSet response = await _customCommands[id].Invoke(message);
+
+                        if (response != null)
+                        {
+                            response.Add("Status", "OK");
+                        }
+                        else
+                        {
+                            await args.Request.SendResponseAsync(BadResult);
+                            break;
+                        }
+
+                        await args.Request.SendResponseAsync(response);
+                    }
+                    catch (Exception e)
+                    {
+                        ValueSet errmsg = new() { { "Status", "BAD" }, { "Exception", e.Message }, { "StackTrace", e.StackTrace } };
+                        if (e.InnerException != null)
+                        {
+                            errmsg.Add("InnerException", e.InnerException.Message);
+                            errmsg.Add("InnerExceptionStackTrace", e.InnerException.StackTrace);
+                        }
+
+                        await args.Request.SendResponseAsync(errmsg);
+                    }
+
+                    break;
+                default:
+                    break;
             }
-            catch (Exception e)
-            {
-                // Your exception handling code here.
-                Log.Error("Exception processing request: {0}", e.Message);
-            }
-            finally
-            {
-                // Complete the deferral so that the platform knows that we're done responding to the app service call.
-                // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
-                messageDeferral.Complete();
-            }
+
+            // Complete the deferral so that the platform knows that we're done responding to the app service call.
+            // Note: for error handling: this must be called even if SendResponseAsync() throws an exception.
+            messageDeferral.Complete();
         }
 
         private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
+            Log.Error("Background Task Instance Canceled. Reason: {0}", reason.ToString());
+
             _appServiceDeferral.Complete();
         }
 
         private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
+            Log.Error("AppServiceConnection Service Closed. AppServicesClosedStatus: {0}", args.Status.ToString());
+
             _appServiceDeferral.Complete();
         }
 
-        public async void SendLogMessage(string level, string msg)
+        public async Task SendLogMessage(string level, string msg)
         {
-            var message = new ValueSet();
-            message.Add("Command", "Log");
-            message.Add("Level", level);
-            message.Add("Message", msg);
+            var message = new ValueSet
+            {
+                { "Command", "Log" },
+                { "Level", level },
+                { "Message", msg }
+            };
 
             await _appServiceConnection.SendMessageAsync(message);
 
             // TODO: do we care if we have a problem here?
+        }
+
+        private static bool TryGetValueAndLog(ValueSet message, string key, out string value)
+        {
+            value = null;
+            if (!message.TryGetValue(key, out var o))
+            {
+                Log.Error($"Could not find the key \"{key}\" in the message.");
+                return false;
+            }
+
+            if (o is not string s)
+            {
+                Log.Error($"{key}'s value is not a string");
+                return false;
+            }
+
+            value = s;
+
+            return true;
+        }
+
+        private Dictionary<string, Func<ValueSet, Task<ValueSet>>> _customCommands = new();
+
+        internal void RegisterCustomCommand(string id, Func<ValueSet, Task<ValueSet>> customCommandFunction)
+        {
+            _customCommands.Add(id, customCommandFunction);
         }
     }
 }

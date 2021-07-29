@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(Ref<T> reference)
         {
-            return new NullableReadOnlyRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(ReadOnlyRef<T> reference)
         {
-            return new NullableReadOnlyRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableReadOnlyRef<T>(NullableRef<T> reference)
         {
-            return new NullableReadOnlyRef<T>(reference.Span);
+            return new(reference.Span);
         }
 
         /// <summary>

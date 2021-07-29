@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="SmokeTest.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -42,7 +42,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="12">
-            <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}"></TextBlock>
+            <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             <AppBarButton Icon="Filter" Label="Filter by">
                 <AppBarButton.Flyout>
                     <MenuFlyout>

@@ -1,19 +1,20 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Buffers;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Microsoft.Collections.Extensions;
 using Microsoft.Toolkit.Mvvm.Messaging.Internals;
-#if NETSTANDARD2_1
-using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+#if NETSTANDARD2_0
+using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.Internals.ConditionalWeakTable2<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #else
-using RecipientsTable = Microsoft.Toolkit.Mvvm.Messaging.WeakReferenceMessenger.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
+using RecipientsTable = System.Runtime.CompilerServices.ConditionalWeakTable<object, Microsoft.Collections.Extensions.IDictionarySlim>;
 #endif
+
+#pragma warning disable SA1204
 
 namespace Microsoft.Toolkit.Mvvm.Messaging
 {
@@ -21,8 +22,15 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
     /// A class providing a reference implementation for the <see cref="IMessenger"/> interface.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This <see cref="IMessenger"/> implementation uses weak references to track the registered
     /// recipients, so it is not necessary to manually unregister them when they're no longer needed.
+    /// </para>
+    /// <para>
+    /// The <see cref="WeakReferenceMessenger"/> type will automatically perform internal trimming when
+    /// full GC collections are invoked, so calling <see cref="Cleanup"/> manually is not necessary to
+    /// ensure that on average the internal data structures are as trimmed and compact as possible.
+    /// </para>
     /// </remarks>
     public sealed class WeakReferenceMessenger : IMessenger
     {
@@ -46,12 +54,35 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         /// <summary>
         /// The map of currently registered recipients for all message types.
         /// </summary>
-        private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new DictionarySlim<Type2, RecipientsTable>();
+        private readonly DictionarySlim<Type2, RecipientsTable> recipientsMap = new();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeakReferenceMessenger"/> class.
+        /// </summary>
+        public WeakReferenceMessenger()
+        {
+            // Proxy function for the GC callback. This needs to be static and to take the target instance as
+            // an input parameter in order to avoid rooting it from the Gen2GcCallback object invoking it.
+            static void Gen2GcCallbackProxy(object target)
+            {
+                ((WeakReferenceMessenger)target).CleanupWithNonBlockingLock();
+            }
+
+            // Register an automatic GC callback to trigger a non-blocking cleanup. This will ensure that the
+            // current messenger instance is trimmed and without leftover recipient maps that are no longer used.
+            // This is necessary (as in, some form of cleanup, either explicit or automatic like in this case)
+            // because the ConditionalWeakTable<TKey, TValue> instances will just remove key-value pairs on their
+            // own as soon as a key (ie. a recipient) is collected, causing their own keys (ie. the Type2 instances
+            // mapping to each conditional table for a pair of message and token types) to potentially remain in the
+            // root mapping structure but without any remaining recipients actually registered there, which just
+            // adds unnecessary overhead when trying to enumerate recipients during broadcasting operations later on.
+            Gen2GcCallback.Register(Gen2GcCallbackProxy, this);
+        }
 
         /// <summary>
         /// Gets the default <see cref="WeakReferenceMessenger"/> instance.
         /// </summary>
-        public static WeakReferenceMessenger Default { get; } = new WeakReferenceMessenger();
+        public static WeakReferenceMessenger Default { get; } = new();
 
         /// <inheritdoc/>
         public bool IsRegistered<TMessage, TToken>(object recipient, TToken token)
@@ -60,13 +91,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
                 // Get the conditional table associated with the target recipient, for the current pair
                 // of token and message types. If it exists, check if there is a matching token.
                 return
                     this.recipientsMap.TryGetValue(type2, out RecipientsTable? table) &&
-                    table!.TryGetValue(recipient, out IDictionarySlim? mapping) &&
+                    table.TryGetValue(recipient, out IDictionarySlim? mapping) &&
                     Unsafe.As<DictionarySlim<TToken, object>>(mapping).ContainsKey(token);
             }
         }
@@ -79,7 +110,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
                 // Get the conditional table for the pair of type arguments, or create it if it doesn't exist
                 ref RecipientsTable? mapping = ref this.recipientsMap.GetOrAddValueRef(type2);
@@ -87,12 +118,12 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 mapping ??= new RecipientsTable();
 
                 // Get or create the handlers dictionary for the target recipient
-                var map = Unsafe.As<DictionarySlim<TToken, object>>(mapping.GetValue(recipient, _ => new DictionarySlim<TToken, object>()));
+                var map = Unsafe.As<DictionarySlim<TToken, object>>(mapping.GetValue(recipient, static _ => new DictionarySlim<TToken, object>()));
 
                 // Add the new registration entry
                 ref object? registeredHandler = ref map.GetOrAddValueRef(token);
 
-                if (!(registeredHandler is null))
+                if (registeredHandler is not null)
                 {
                     ThrowInvalidOperationExceptionForDuplicateRegistration();
                 }
@@ -111,10 +142,10 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
                 // Traverse all the existing conditional tables and remove all the ones
                 // with the target recipient as key. We don't perform a cleanup here,
-                // as that is responsability of a separate method defined below.
+                // as that is responsibility of a separate method defined below.
                 while (enumerator.MoveNext())
                 {
-                    enumerator.Value.Remove(recipient);
+                    _ = enumerator.Value.Remove(recipient);
                 }
             }
         }
@@ -133,9 +164,9 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 while (enumerator.MoveNext())
                 {
                     if (enumerator.Key.TToken == typeof(TToken) &&
-                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim mapping))
+                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim? mapping))
                     {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token, out _);
+                        _ = Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token);
                     }
                 }
             }
@@ -148,18 +179,14 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                var type2 = new Type2(typeof(TMessage), typeof(TToken));
-                var enumerator = this.recipientsMap.GetEnumerator();
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
-                // Traverse all the existing token and message pairs matching the current type
-                // arguments, and remove all the handlers with a matching token, as above.
-                while (enumerator.MoveNext())
+                // Get the target mapping table for the combination of message and token types,
+                // and remove the handler with a matching token (the entire map), if present.
+                if (this.recipientsMap.TryGetValue(type2, out RecipientsTable? value) &&
+                    value.TryGetValue(recipient, out IDictionarySlim? mapping))
                 {
-                    if (enumerator.Key.Equals(type2) &&
-                        enumerator.Value.TryGetValue(recipient, out IDictionarySlim mapping))
-                    {
-                        Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token, out _);
-                    }
+                    _ = Unsafe.As<DictionarySlim<TToken, object>>(mapping).TryRemove(token);
                 }
             }
         }
@@ -174,7 +201,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
 
             lock (this.recipientsMap)
             {
-                Type2 type2 = new Type2(typeof(TMessage), typeof(TToken));
+                Type2 type2 = new(typeof(TMessage), typeof(TToken));
 
                 // Try to get the target table
                 if (!this.recipientsMap.TryGetValue(type2, out RecipientsTable? table))
@@ -190,13 +217,13 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // to enumerate all the existing recipients for the token and message types pair
                 // corresponding to the generic arguments for this invocation, and then track the
                 // handlers with a matching token, and their corresponding recipients.
-                foreach (KeyValuePair<object, IDictionarySlim> pair in table!)
+                foreach (KeyValuePair<object, IDictionarySlim> pair in table)
                 {
                     var map = Unsafe.As<DictionarySlim<TToken, object>>(pair.Value);
 
                     if (map.TryGetValue(token, out object? handler))
                     {
-                        bufferWriter.Add(handler!);
+                        bufferWriter.Add(handler);
                         bufferWriter.Add(pair.Key);
                         i++;
                     }
@@ -230,52 +257,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
         {
             lock (this.recipientsMap)
             {
-                using ArrayPoolBufferWriter<Type2> type2s = ArrayPoolBufferWriter<Type2>.Create();
-                using ArrayPoolBufferWriter<object> emptyRecipients = ArrayPoolBufferWriter<object>.Create();
-
-                var enumerator = this.recipientsMap.GetEnumerator();
-
-                // First, we go through all the currently registered pairs of token and message types.
-                // These represents all the combinations of generic arguments with at least one registered
-                // handler, with the exception of those with recipients that have already been collected.
-                while (enumerator.MoveNext())
-                {
-                    emptyRecipients.Reset();
-
-                    bool hasAtLeastOneHandler = false;
-
-                    // Go through the currently alive recipients to look for those with no handlers left. We track
-                    // the ones we find to remove them outside of the loop (can't modify during enumeration).
-                    foreach (KeyValuePair<object, IDictionarySlim> pair in enumerator.Value)
-                    {
-                        if (pair.Value.Count == 0)
-                        {
-                            emptyRecipients.Add(pair.Key);
-                        }
-                        else
-                        {
-                            hasAtLeastOneHandler = true;
-                        }
-                    }
-
-                    // Remove the handler maps for recipients that are still alive but with no handlers
-                    foreach (object recipient in emptyRecipients.Span)
-                    {
-                        enumerator.Value.Remove(recipient);
-                    }
-
-                    // Track the type combinations with no recipients or handlers left
-                    if (!hasAtLeastOneHandler)
-                    {
-                        type2s.Add(enumerator.Key);
-                    }
-                }
-
-                // Remove all the mappings with no handlers left
-                foreach (Type2 key in type2s.Span)
-                {
-                    this.recipientsMap.TryRemove(key, out _);
-                }
+                CleanupWithoutLock();
             }
         }
 
@@ -288,189 +270,84 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             }
         }
 
-#if !NETSTANDARD2_1
         /// <summary>
-        /// A wrapper for <see cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}"/>
-        /// that backports the enumerable support to .NET Standard 2.0 through an auxiliary list.
+        /// Executes a cleanup without locking the current instance. This method has to be
+        /// invoked when a lock on <see cref="recipientsMap"/> has already been acquired.
         /// </summary>
-        /// <typeparam name="TKey">Tke key of items to store in the table.</typeparam>
-        /// <typeparam name="TValue">The values to store in the table.</typeparam>
-        internal sealed class ConditionalWeakTable<TKey, TValue>
-            where TKey : class
-            where TValue : class?
+        private void CleanupWithNonBlockingLock()
         {
-            /// <summary>
-            /// The underlying <see cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}"/> instance.
-            /// </summary>
-            private readonly System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue> table;
+            object lockObject = this.recipientsMap;
+            bool lockTaken = false;
 
-            /// <summary>
-            /// A supporting linked list to store keys in <see cref="table"/>. This is needed to expose
-            /// the ability to enumerate existing keys when there is no support for that in the BCL.
-            /// </summary>
-            private readonly LinkedList<WeakReference<TKey>> keys;
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="ConditionalWeakTable{TKey, TValue}"/> class.
-            /// </summary>
-            public ConditionalWeakTable()
+            try
             {
-                this.table = new System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue>();
-                this.keys = new LinkedList<WeakReference<TKey>>();
-            }
+                Monitor.TryEnter(lockObject, ref lockTaken);
 
-            /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.TryGetValue"/>
-            public bool TryGetValue(TKey key, out TValue value)
-            {
-                return this.table.TryGetValue(key, out value);
-            }
-
-            /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.GetValue"/>
-            public TValue GetValue(TKey key, System.Runtime.CompilerServices.ConditionalWeakTable<TKey, TValue>.CreateValueCallback createValueCallback)
-            {
-                // Get or create the value. When this method returns, the key will be present in the table
-                TValue value = this.table.GetValue(key, createValueCallback);
-
-                // Check if the list of keys contains the given key.
-                // If it does, we can just stop here and return the result.
-                foreach (WeakReference<TKey> node in this.keys)
+                if (lockTaken)
                 {
-                    if (node.TryGetTarget(out TKey? target) &&
-                        ReferenceEquals(target, key))
-                    {
-                        return value;
-                    }
+                    CleanupWithoutLock();
                 }
-
-                // Add the key to the list of weak references to track it
-                this.keys.AddFirst(new WeakReference<TKey>(key));
-
-                return value;
             }
-
-            /// <inheritdoc cref="System.Runtime.CompilerServices.ConditionalWeakTable{TKey,TValue}.Remove"/>
-            public bool Remove(TKey key)
+            finally
             {
-                return this.table.Remove(key);
-            }
-
-            /// <inheritdoc cref="IEnumerable{T}.GetEnumerator"/>
-            public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            {
-                for (LinkedListNode<WeakReference<TKey>>? node = this.keys.First; !(node is null);)
+                if (lockTaken)
                 {
-                    LinkedListNode<WeakReference<TKey>>? next = node.Next;
-
-                    // Get the key and value for the current node
-                    if (node.Value.TryGetTarget(out TKey? target) &&
-                        this.table.TryGetValue(target!, out TValue value))
-                    {
-                        yield return new KeyValuePair<TKey, TValue>(target, value);
-                    }
-                    else
-                    {
-                        // If the current key has been collected, trim the list
-                        this.keys.Remove(node);
-                    }
-
-                    node = next;
+                    Monitor.Exit(lockObject);
                 }
             }
         }
-#endif
 
         /// <summary>
-        /// A simple buffer writer implementation using pooled arrays.
+        /// Executes a cleanup without locking the current instance. This method has to be
+        /// invoked when a lock on <see cref="recipientsMap"/> has already been acquired.
         /// </summary>
-        /// <typeparam name="T">The type of items to store in the list.</typeparam>
-        /// <remarks>
-        /// This type is a <see langword="ref"/> <see langword="struct"/> to avoid the object allocation and to
-        /// enable the pattern-based <see cref="IDisposable"/> support. We aren't worried with consumers not
-        /// using this type correctly since it's private and only accessible within the parent type.
-        /// </remarks>
-        private ref struct ArrayPoolBufferWriter<T>
+        private void CleanupWithoutLock()
         {
-            /// <summary>
-            /// The default buffer size to use to expand empty arrays.
-            /// </summary>
-            private const int DefaultInitialBufferSize = 128;
+            using ArrayPoolBufferWriter<Type2> type2s = ArrayPoolBufferWriter<Type2>.Create();
+            using ArrayPoolBufferWriter<object> emptyRecipients = ArrayPoolBufferWriter<object>.Create();
 
-            /// <summary>
-            /// The underlying <typeparamref name="T"/> array.
-            /// </summary>
-            private T[] array;
+            var enumerator = this.recipientsMap.GetEnumerator();
 
-            /// <summary>
-            /// The starting offset within <see cref="array"/>.
-            /// </summary>
-            private int index;
-
-            /// <summary>
-            /// Creates a new instance of the <see cref="ArrayPoolBufferWriter{T}"/> struct.
-            /// </summary>
-            [Pure]
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static ArrayPoolBufferWriter<T> Create()
+            // First, we go through all the currently registered pairs of token and message types.
+            // These represents all the combinations of generic arguments with at least one registered
+            // handler, with the exception of those with recipients that have already been collected.
+            while (enumerator.MoveNext())
             {
-                return new ArrayPoolBufferWriter<T> { array = ArrayPool<T>.Shared.Rent(DefaultInitialBufferSize) };
-            }
+                emptyRecipients.Reset();
 
-            /// <summary>
-            /// Gets a <see cref="ReadOnlySpan{T}"/> with the current items.
-            /// </summary>
-            public ReadOnlySpan<T> Span
-            {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => this.array.AsSpan(0, this.index);
-            }
+                bool hasAtLeastOneHandler = false;
 
-            /// <summary>
-            /// Adds a new item to the current collection.
-            /// </summary>
-            /// <param name="item">The item to add.</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public void Add(T item)
-            {
-                if (this.index == this.array.Length)
+                // Go through the currently alive recipients to look for those with no handlers left. We track
+                // the ones we find to remove them outside of the loop (can't modify during enumeration).
+                foreach (KeyValuePair<object, IDictionarySlim> pair in enumerator.Value)
                 {
-                    ResizeBuffer();
+                    if (pair.Value.Count == 0)
+                    {
+                        emptyRecipients.Add(pair.Key);
+                    }
+                    else
+                    {
+                        hasAtLeastOneHandler = true;
+                    }
                 }
 
-                this.array[this.index++] = item;
+                // Remove the handler maps for recipients that are still alive but with no handlers
+                foreach (object recipient in emptyRecipients.Span)
+                {
+                    _ = enumerator.Value.Remove(recipient);
+                }
+
+                // Track the type combinations with no recipients or handlers left
+                if (!hasAtLeastOneHandler)
+                {
+                    type2s.Add(enumerator.Key);
+                }
             }
 
-            /// <summary>
-            /// Resets the underlying array and the stored items.
-            /// </summary>
-            public void Reset()
+            // Remove all the mappings with no handlers left
+            foreach (Type2 key in type2s.Span)
             {
-                Array.Clear(this.array, 0, this.index);
-
-                this.index = 0;
-            }
-
-            /// <summary>
-            /// Resizes <see cref="array"/> when there is no space left for new items.
-            /// </summary>
-            [MethodImpl(MethodImplOptions.NoInlining)]
-            private void ResizeBuffer()
-            {
-                T[] rent = ArrayPool<T>.Shared.Rent(this.index << 2);
-
-                Array.Copy(this.array, 0, rent, 0, this.index);
-                Array.Clear(this.array, 0, this.index);
-
-                ArrayPool<T>.Shared.Return(this.array);
-
-                this.array = rent;
-            }
-
-            /// <inheritdoc cref="IDisposable.Dispose"/>
-            public void Dispose()
-            {
-                Array.Clear(this.array, 0, this.index);
-
-                ArrayPool<T>.Shared.Return(this.array);
+                _ = this.recipientsMap.TryRemove(key);
             }
         }
 

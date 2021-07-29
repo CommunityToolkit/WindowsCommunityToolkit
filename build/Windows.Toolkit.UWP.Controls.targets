@@ -1,0 +1,38 @@
+<Project>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="True" PackagePath="tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.6.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);_IncludeDesignToolsInPackage</TargetsForTfmSpecificBuildOutput>
+    <IncludeDesignToolsBuildOutput Condition="'$(IncludeDesignToolsBuildOutput)' == ''">$(IncludeBuildOutput)</IncludeDesignToolsBuildOutput>
+  </PropertyGroup>
+
+  <Target Name="_IncludeDesignToolsInPackage" Condition="'$(IncludeDesignToolsBuildOutput)' != 'false'">
+    <!-- Add Build Outputs -->
+    <PropertyGroup>
+      <DesignToolsOutputPath Condition="'$(DesignToolsOutputPath)' == ''">$(OutputPath)Design</DesignToolsOutputPath>
+      <DesignToolsOutputPath Condition="!HasTrailingSlash('$(DesignToolsOutputPath)')">$(DesignToolsOutputPath)\</DesignToolsOutputPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <TfmSpecificBuildOutput Include="$(DesignToolsOutputPath)$(MSBuildProjectName).DesignTools.dll" PackagePath="Design" TargetFramework="$(TargetFramework)" />
+      <TfmSpecificBuildOutput Include="$(DesignToolsOutputPath)$(MSBuildProjectName).DesignTools.pdb" PackagePath="Design" TargetFramework="$(TargetFramework)" />
+    </ItemGroup>
+    <!-- Ensure that the files are present in the specified directory -->
+    <Error Code="WCTDEV01" Text="Design project build outputs not found in '$(DesignToolsOutputPath)' directory. Please check that you've set the output of the Design project(s) to the specified directory." Condition="!Exists('$(DesignToolsOutputPath)')" />
+    <Error Code="WCTDEV02" Text="The file '%(TfmSpecificBuildOutput.Filename)%(TfmSpecificBuildOutput.Extension)' does not exist in '%(TfmSpecificBuildOutput.RelativeDir)' directory." Condition="!Exists('%(TfmSpecificBuildOutput.FullPath)')" />
+    <!-- Set where the Build Outputs should go in the 'lib\<short-tfm>\' -->
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(TfmSpecificBuildOutput->'%(Filename)%(Extension)')">
+        <TargetPath>$([System.IO.Path]::Combine('%(PackagePath)', '%(Filename)%(Extension)'))</TargetPath>
+        <FinalOutputPath>%(FullPath)</FinalOutputPath>
+      </BuildOutputInPackage>
+    </ItemGroup>
+  </Target>
+
+</Project>

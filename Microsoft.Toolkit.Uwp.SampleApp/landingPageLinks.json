@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "TokenizingTextBox", "PipelineBrush", "WrapLayout", "IsNullOrEmptyStateTrigger", "High Performance APIs" ],
+  "new-samples": [ "MVVM Toolkit", "EffectAnimations", "TabbedCommandBar", "ColorPicker", "ColorPickerButton", "SwitchPresenter" ],
   "resources": [
     {
       "title": "Toolkit",
@@ -15,19 +15,23 @@
         },
         {
           "title": "GitHub Issues",
-          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/issues"
+          "url": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues"
         },
         {
           "title": "Roadmap",
-          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones"
+          "url": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/milestones"
         },
         {
           "title": "Contributors",
-          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/graphs/contributors"
+          "url": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/graphs/contributors"
         },
         {
           "title": "UWP Community Discord",
           "url": "https://discord.gg/zBA5aCn"
+        },
+        {
+          "title": "Contribution Wiki",
+          "url": "https://aka.ms/wct/wiki"
         }
       ]
     },
@@ -82,11 +86,11 @@
       "links": [
         {
           "title": "Version",
-          "url": "http://aka.ms/uwptoolkit"
+          "url": "http://aka.ms/windowstoolkit"
         },
         {
           "title": "ColorCode-Universal (Dependency)",
-          "url": "https://github.com/WilliamABradley/ColorCode-Universal"
+          "url": "https://github.com/CommunityToolkit/ColorCode-Universal"
         },
         {
           "title": "Monaco Editor UWP (Dependency)",

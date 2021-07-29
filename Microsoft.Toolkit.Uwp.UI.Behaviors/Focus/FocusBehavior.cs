@@ -1,10 +1,11 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// The focus will be set following the <see cref="Targets"/> order. The first control being ready
     /// and accepting the focus will receive it.
     /// The focus can be set to another control with a higher priority if it loads before <see cref="FocusEngagementTimeout"/>.
+    /// The focus can be set to another control if some controls will be loaded/unloaded later.
     /// </summary>
     [ContentProperty(Name = nameof(Targets))]
     public sealed class FocusBehavior : BehaviorBase<UIElement>
@@ -39,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             typeof(FocusBehavior),
             new PropertyMetadata(TimeSpan.FromMilliseconds(100)));
 
-        private DispatcherTimer _timer;
+        private DispatcherQueueTimer _timer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FocusBehavior"/> class.
@@ -66,10 +68,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         }
 
         /// <inheritdoc/>
-        protected override void OnAssociatedObjectLoaded() => ApplyFocus();
+        protected override void OnAssociatedObjectLoaded()
+        {
+            foreach (var target in Targets)
+            {
+                target.ControlChanged += OnTargetControlChanged;
+            }
+
+            ApplyFocus();
+        }
 
         /// <inheritdoc/>
-        protected override void OnDetaching() => Stop();
+        protected override bool Uninitialize()
+        {
+            foreach (var target in Targets)
+            {
+                target.ControlChanged -= OnTargetControlChanged;
+            }
+
+            Stop();
+            return true;
+        }
 
         private static void OnTargetsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -91,9 +110,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             }
 
             var focusedControlIndex = -1;
+            var hasListViewBaseControl = false;
             for (var i = 0; i < Targets.Count; i++)
             {
                 var control = Targets[i].Control;
+                if (control is null)
+                {
+                    continue;
+                }
+
                 if (control.IsLoaded)
                 {
                     if (control.Focus(FocusState.Programmatic))
@@ -101,14 +126,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                         focusedControlIndex = i;
                         break;
                     }
+
+                    if (control is ListViewBase listViewBase)
+                    {
+                        // The list may not have any item yet, we wait until the first item is rendered.
+                        listViewBase.ContainerContentChanging -= OnContainerContentChanging;
+                        listViewBase.ContainerContentChanging += OnContainerContentChanging;
+                        hasListViewBaseControl = true;
+                    }
                 }
                 else
                 {
+                    control.Loaded -= OnControlLoaded;
                     control.Loaded += OnControlLoaded;
                 }
             }
 
-            if (focusedControlIndex == 0 || Targets.All(t => t.Control?.IsLoaded == true))
+            if (focusedControlIndex == 0 || (!hasListViewBaseControl && Targets.All(t => t.Control?.IsLoaded == true)))
             {
                 // The first control has received the focus or all the control are loaded and none can take the focus: we stop.
                 Stop();
@@ -120,10 +154,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                 // This allows us to handle the case where the controls are not loaded in the order we expect.
                 if (_timer is null)
                 {
-                    _timer = new DispatcherTimer
-                    {
-                        Interval = FocusEngagementTimeout,
-                    };
+                    _timer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+                    _timer.Interval = FocusEngagementTimeout;
                     _timer.Tick += OnEngagementTimerTick;
                     _timer.Start();
                 }
@@ -137,6 +169,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         }
 
         private void OnControlLoaded(object sender, RoutedEventArgs e) => ApplyFocus();
+
+        private void OnTargetControlChanged(object sender, EventArgs e) => ApplyFocus();
+
+        private void OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            sender.ContainerContentChanging -= OnContainerContentChanging;
+            ApplyFocus();
+        }
 
         private void Stop(FocusTargetList targets = null)
         {
@@ -154,6 +194,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                 }
 
                 target.Control.Loaded -= OnControlLoaded;
+
+                if (target.Control is ListViewBase listViewBase)
+                {
+                    listViewBase.ContainerContentChanging -= OnContainerContentChanging;
+                }
             }
         }
     }
@@ -168,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// <summary>
     /// A target for the <see cref="FocusBehavior"/>.
     /// </summary>
-    public sealed partial class FocusTarget : DependencyObject
+    public sealed class FocusTarget : DependencyObject
     {
         /// <summary>
         /// The DP to store the <see cref="Control"/> property value.
@@ -177,7 +222,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             nameof(Control),
             typeof(Control),
             typeof(FocusTarget),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null, OnControlChanged));
+
+        /// <summary>
+        /// Raised when <see cref="Control"/> property changed.
+        /// It can change if we use x:Load on the control.
+        /// </summary>
+        public event EventHandler ControlChanged;
 
         /// <summary>
         /// Gets or sets the control that will receive the focus.
@@ -186,6 +237,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         {
             get => (Control)GetValue(ControlProperty);
             set => SetValue(ControlProperty, value);
+        }
+
+        private static void OnControlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var target = (FocusTarget)d;
+            target.ControlChanged?.Invoke(target, EventArgs.Empty);
         }
     }
 #pragma warning restore SA1402 // File may only contain a single type

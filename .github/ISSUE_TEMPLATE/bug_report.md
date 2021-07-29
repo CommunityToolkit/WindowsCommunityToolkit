@@ -7,7 +7,9 @@ assignees: ''
 
 ---
 
-<!-- 🚨 Please Do Not skip any instructions and information mentioned below as they are all required and essential to investigate the issue. Issues with missing information may be closed without investigation 🚨 -->
+<!-- 🚨 PLEASE DO NOT SKIP ANY INSTRUCTIONS AND INFORMATION MENTIONED BELOW AS THEY ARE ALL REQUIRED AND ESSENTIAL TO INVESTIGATE THE ISSUE. ISSUES WITH MISSING INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION
+...
+IF NOT CERTAIN ABOUT THE ISSUE AND REQUIRE MORE CLARITY THEN PLEASE POST ON "QUESTIONS & HELP" CATEGORY OF THE DISCUSSIONS PLATFORM [https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help] WHERE YOU CAN DISCUSS AND ENAGAGE WITH THE COMMUNITY TO GAIN FURTHER CLAIRITY REGARDING THE ISSUE  🚨 -->
 
 ## Describe the bug
 A clear and concise description of what the bug is.
@@ -36,9 +38,9 @@ If applicable, add screenshots to help explain your problem.
 ## Environment
 <!-- Check one or more of the following options with "x" -->
 ```
-NuGet Package(s): 
+NuGet Package(s):
 
-Package Version(s): 
+Package Version(s):
 
 Windows 10 Build Number:
 - [ ] Fall Creators Update (16299)
@@ -62,9 +64,9 @@ Device form factor:
 - [ ] Surface Hub
 - [ ] IoT
 
-Visual Studio 
+Visual Studio
 - [ ] 2017 (version: )
-- [ ] 2019 (version: ) 
+- [ ] 2019 (version: )
 - [ ] 2019 Preview (version: )
 
 ```
