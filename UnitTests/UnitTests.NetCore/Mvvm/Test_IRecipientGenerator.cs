@@ -5,11 +5,13 @@
 #pragma warning disable CS0618
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm
 {
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601", Justification = "Type only used for testing")]
     [TestClass]
     public partial class Test_IRecipientGenerator
     {

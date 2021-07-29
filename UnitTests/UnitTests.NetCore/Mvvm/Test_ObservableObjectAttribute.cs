@@ -3,11 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm
 {
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601", Justification = "Type only used for testing")]
     [TestClass]
     public partial class Test_ObservableObjectAttribute
     {
