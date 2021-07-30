@@ -52,7 +52,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\build\nuget.png" target="images\" />
+    <file src="..\build\nuget.png" target="Icon.png" />
     <file src="..\license.md" target="" />
     <file src="CommunityToolkit.WinUI.Notifications.targets" target="build\native\CommunityToolkit.WinUI.Notifications.targets" />
     <file src="$buildOutput$\net461\CommunityToolkit.WinUI.Notifications.dll" target="lib\net461\CommunityToolkit.WinUI.Notifications.dll" />
