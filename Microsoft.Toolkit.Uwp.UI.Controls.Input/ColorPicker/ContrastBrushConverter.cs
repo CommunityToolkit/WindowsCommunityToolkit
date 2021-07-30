@@ -4,7 +4,6 @@
 
 using System;
 using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
@@ -41,8 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             else
             {
-                // Invalid color value provided
-                return DependencyProperty.UnsetValue;
+                throw new ArgumentException("Invalid color value provided");
             }
 
             // Get the default color when transparency is high
@@ -83,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             object parameter,
             string language)
         {
-            return DependencyProperty.UnsetValue;
+            throw new NotImplementedException();
         }
 
         /// <summary>

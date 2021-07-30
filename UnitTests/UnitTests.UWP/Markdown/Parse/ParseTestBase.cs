@@ -14,7 +14,6 @@ namespace UnitTests.Markdown.Parse
     /// </summary>
     public abstract class ParseTestBase : TestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         internal void AssertEqual(string markdown, params MarkdownBlock[] expectedAst)
         {
             var expected = new StringBuilder();
@@ -34,6 +33,5 @@ namespace UnitTests.Markdown.Parse
 
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

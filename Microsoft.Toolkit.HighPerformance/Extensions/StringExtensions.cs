@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
     /// Helpers for working with the <see cref="string"/> type.
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<char> Enumerate(this string text)
         {
-            return new(text.AsSpan());
+            return new ReadOnlySpanEnumerable<char>(text.AsSpan());
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanTokenizer<char> Tokenize(this string text, char separator)
         {
-            return new(text.AsSpan(), separator);
+            return new ReadOnlySpanTokenizer<char>(text.AsSpan(), separator);
         }
 
         /// <summary>

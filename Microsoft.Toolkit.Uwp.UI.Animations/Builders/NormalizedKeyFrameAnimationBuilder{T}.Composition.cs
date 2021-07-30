@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="delay">The optional initial delay for the animation.</param>
         /// <param name="duration">The animation duration.</param>
         /// <param name="repeat">The <see cref="RepeatOption"/> value for the animation</param>
-        /// <param name="delayBehavior">The delay behavior mode to use.</param>
         /// <param name="keyFrames">The list of keyframes to use to build the animation.</param>
         /// <returns>A <see cref="CompositionAnimation"/> instance with the specified animation.</returns>
         public static CompositionAnimation GetAnimation<TKeyFrame>(
@@ -33,7 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? delay,
             TimeSpan duration,
             RepeatOption repeat,
-            AnimationDelayBehavior delayBehavior,
             ArraySegment<TKeyFrame> keyFrames)
             where TKeyFrame : struct, IKeyFrameInfo
         {
@@ -239,7 +237,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (delay.HasValue)
             {
-                animation.DelayBehavior = delayBehavior;
                 animation.DelayTime = delay!.Value;
             }
 
@@ -255,22 +252,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Composition : NormalizedKeyFrameAnimationBuilder<T>, AnimationBuilder.ICompositionAnimationFactory
         {
             /// <summary>
-            /// The target delay behavior to use.
-            /// </summary>
-            private readonly AnimationDelayBehavior delayBehavior;
-
-            /// <summary>
             /// Initializes a new instance of the <see cref="NormalizedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
-            /// <param name="property">The target property to animate.</param>
-            /// <param name="delay">The target delay for the animation.</param>
-            /// <param name="duration">The target duration for the animation.</param>
-            /// <param name="repeat">The repeat options for the animation.</param>
-            /// <param name="delayBehavior">The delay behavior mode to use.</param>
-            public Composition(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeat, AnimationDelayBehavior delayBehavior)
+            /// <inheritdoc cref="NormalizedKeyFrameAnimationBuilder{T}"/>
+            public Composition(string property, TimeSpan? delay, TimeSpan duration, RepeatOption repeat)
                 : base(property, delay, duration, repeat)
             {
-                this.delayBehavior = delayBehavior;
             }
 
             /// <inheritdoc/>
@@ -296,7 +283,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     this.duration,
                     this.repeat,
-                    this.delayBehavior,
                     this.keyFrames.GetArraySegment());
             }
         }

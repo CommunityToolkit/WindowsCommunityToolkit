@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -124,7 +126,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            if (args.InvokedItem is SampleCategory category)
+            //// Temp Workaround for WinUI Bug https://github.com/microsoft/microsoft-ui-xaml/issues/2520
+            var invokedItem = args.InvokedItem;
+            if (invokedItem is FrameworkElement fe && fe.DataContext is SampleCategory cat2)
+            {
+                invokedItem = cat2;
+            }
+            //// End Workaround - args.InvokedItem
+
+            if (invokedItem is SampleCategory category)
             {
                 if (SamplePickerGrid.Visibility != Visibility.Collapsed && _selectedCategory == category)
                 {
@@ -141,16 +151,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     dispatcherQueue.EnqueueAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
             }
-        }
-
-        private void SettingsTopNavPaneItem_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            // Can't get FooterMenuItems to work properly right now with ItemInvoked above, bug?
-            // For now just hard-code an event.
-            HideSamplePicker();
-            if (NavigationFrame.CurrentSourcePageType != typeof(About))
+            else if (args.IsSettingsInvoked)
             {
-                NavigateToSample(null);
+                HideSamplePicker();
+                if (NavigationFrame.CurrentSourcePageType != typeof(About))
+                {
+                    NavigateToSample(null);
+                }
             }
         }
 
@@ -225,29 +232,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void ItemContainer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if ((sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
+            var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
+            if (panel != null)
             {
                 AnimationBuilder.Create().Opacity(0, duration: TimeSpan.FromMilliseconds(1200)).Start(panel);
-
-                if (panel.Parent is UIElement parent)
-                {
-                    AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start(parent);
-                }
+                AnimationBuilder.Create().Scale(1, duration: TimeSpan.FromMilliseconds(1200)).Start((UIElement)panel.Parent);
             }
         }
 
         private void ItemContainer_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse &&
-                (sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
-                panel.Visibility = Visibility.Visible;
-
-                AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
-
-                if (panel.Parent is UIElement parent)
+                var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
+                if (panel != null)
                 {
-                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start(parent);
+                    panel.Visibility = Visibility.Visible;
+
+                    AnimationBuilder.Create().Opacity(1, duration: TimeSpan.FromMilliseconds(600)).Start(panel);
+                    AnimationBuilder.Create().Scale(1.1, duration: TimeSpan.FromMilliseconds(600)).Start((UIElement)panel.Parent);
                 }
             }
         }

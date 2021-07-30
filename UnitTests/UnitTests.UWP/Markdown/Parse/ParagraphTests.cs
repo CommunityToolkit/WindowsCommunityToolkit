@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 
 namespace UnitTests.Markdown.Parse
 {
-#pragma warning disable CS0618 // Type or member is obsolete
     [TestClass]
     public class ParagraphTests : ParseTestBase
     {
@@ -36,9 +35,8 @@ namespace UnitTests.Markdown.Parse
         public void Paragraph_NoLineBreak_OneSpace()
         {
             // A line break in the markup does not translate to a line break in the resulting formatted text.
-            var space = " ";
-            AssertEqual(CollapseWhitespace($@"
-                line 1{space}
+            AssertEqual(CollapseWhitespace(@"
+                line 1 
                 line 2"),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "line 1  line 2" }));
@@ -49,10 +47,9 @@ namespace UnitTests.Markdown.Parse
         public void Paragraph_LineBreak()
         {
             // Two spaces at the end of the line results in a line break.
-            var spaces = "  ";
-            AssertEqual(CollapseWhitespace($@"
-                line 1{spaces}
-                line 2 with *italic{spaces}
+            AssertEqual(CollapseWhitespace(@"
+                line 1  
+                line 2 with *italic  
                 formatting*"),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "line 1\r\nline 2 with " },
@@ -65,9 +62,8 @@ namespace UnitTests.Markdown.Parse
         public void Paragraph_LineBreak_ThreeSpaces()
         {
             // Three spaces at the end of the line also results in a line break.
-            var spaces = "   ";
-            AssertEqual(CollapseWhitespace($@"
-                line 1{spaces}
+            AssertEqual(CollapseWhitespace(@"
+                line 1   
                 line 2"),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "line 1 \r\nline 2" }));
@@ -93,10 +89,9 @@ namespace UnitTests.Markdown.Parse
         public void Paragraph_NewParagraph_Whitespace()
         {
             // A line that contains only whitespace starts a new paragraph.
-            var spaces = "      ";
-            AssertEqual(CollapseWhitespace($@"
+            AssertEqual(CollapseWhitespace(@"
                 line 1
-                {spaces}
+                      
                 line 2"),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "line 1" }),
@@ -383,15 +378,11 @@ namespace UnitTests.Markdown.Parse
                 &hearts;
                 &diams;"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline
-                    {
-                        Text = @""" & ' < >     ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ " +
+                    new TextRunInline { Text = @""" & ' < >     ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ " +
                     "¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô " +
                     "õ ö ÷ ø ù ú û ü ý þ ÿ Œ œ Š š Ÿ ƒ ˆ ˜ Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω α β γ δ ε ζ η θ ι κ λ " +
                     "μ ν ξ ο π ρ ς σ τ υ φ χ ψ ω ϑ ϒ ϖ       ‌ ‍ ‎ ‏ – — ‘ ’ ‚ “ ” „ † ‡ • … ‰ ′ ″ ‹ › ‾ ⁄ € ℑ ℘ ℜ ™ ℵ ← ↑ → ↓ ↔ ↵ ⇐ " +
-                    "⇑ ⇒ ⇓ ⇔ ∀ ∂ ∃ ∅ ∇ ∈ ∉ ∋ ∏ ∑ − ∗ √ ∝ ∞ ∠ ∧ ∨ ∩ ∪ ∫ ∴ ∼ ≅ ≈ ≠ ≡ ≤ ≥ ⊂ ⊃ ⊄ ⊆ ⊇ ⊕ ⊗ ⊥ ⋅ ⌈ ⌉ ⌊ ⌋ 〈 〉 ◊ ♠ ♣ ♥ ♦"
-                    }));
+                    "⇑ ⇒ ⇓ ⇔ ∀ ∂ ∃ ∅ ∇ ∈ ∉ ∋ ∏ ∑ − ∗ √ ∝ ∞ ∠ ∧ ∨ ∩ ∪ ∫ ∴ ∼ ≅ ≈ ≠ ≡ ≤ ≥ ⊂ ⊃ ⊄ ⊆ ⊇ ⊕ ⊗ ⊥ ⋅ ⌈ ⌉ ⌊ ⌋ 〈 〉 ◊ ♠ ♣ ♥ ♦" }));
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

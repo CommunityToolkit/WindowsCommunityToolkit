@@ -13,6 +13,7 @@ using System.Diagnostics.Contracts;
 using System.Reflection;
 #endif
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 
 namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
 {
@@ -151,7 +152,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 return (IntPtr)Unsafe.AsPointer(ref data);
             }
 
-            return ObjectMarshal.DangerousGetObjectDataByteOffset(obj, ref data);
+            return obj.DangerousGetObjectDataByteOffset(ref data);
         }
 
         /// <summary>
@@ -173,7 +174,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
                 return ref Unsafe.AsRef<T>((void*)offset);
             }
 
-            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(obj, offset);
+            return ref obj.DangerousGetObjectDataReferenceAt<T>(offset);
         }
 
         /// <summary>
@@ -273,7 +274,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 var array = new T[1];
 
-                return ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array[0]);
+                return array.DangerousGetObjectDataByteOffset(ref array[0]);
             }
 
             /// <summary>
@@ -285,7 +286,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 var array = new T[1, 1];
 
-                return ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array[0, 0]);
+                return array.DangerousGetObjectDataByteOffset(ref array[0, 0]);
             }
 
             /// <summary>
@@ -297,7 +298,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers.Internals
             {
                 var array = new T[1, 1, 1];
 
-                return ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array[0, 0, 0]);
+                return array.DangerousGetObjectDataByteOffset(ref array[0, 0, 0]);
             }
         }
     }

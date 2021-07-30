@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public Ref(object owner, ref T value)
         {
             Owner = owner;
-            Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(owner, ref value);
+            Offset = owner.DangerousGetObjectDataByteOffset(ref value);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(Owner, Offset);
+            get => ref Owner.DangerousGetObjectDataReferenceAt<T>(Offset);
         }
 #endif
 

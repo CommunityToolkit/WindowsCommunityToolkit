@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator NullableRef<T>(Ref<T> reference)
         {
-            return new(reference.Span);
+            return new NullableRef<T>(reference.Span);
         }
 
         /// <summary>

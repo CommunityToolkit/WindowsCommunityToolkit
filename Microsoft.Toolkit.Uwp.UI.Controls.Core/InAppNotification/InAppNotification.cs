@@ -5,7 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.System;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -21,13 +22,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = ContentPresenterPart, Type = typeof(ContentPresenter))]
     public partial class InAppNotification : ContentControl
     {
-        private ContentPresenter _contentProvider;
-        private DispatcherQueueTimer _dismissTimer;
-        private Button _dismissButton;
-        private DispatcherQueue _dispatcherQueue;
         private InAppNotificationDismissKind _lastDismissKind;
-        private List<NotificationOptions> _stackedNotificationOptions;
+        private DispatcherTimer _dismissTimer = new DispatcherTimer();
+        private Button _dismissButton;
         private VisualStateGroup _visualStateGroup;
+        private ContentPresenter _contentProvider;
+        private List<NotificationOptions> _stackedNotificationOptions = new List<NotificationOptions>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InAppNotification"/> class.
@@ -36,11 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(InAppNotification);
 
-            _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            _dismissTimer = _dispatcherQueue.CreateTimer();
             _dismissTimer.Tick += DismissTimer_Tick;
-
-            _stackedNotificationOptions = new List<NotificationOptions>();
         }
 
         /// <inheritdoc />
@@ -83,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VisualStateManager.GoToState(this, StateContentVisible, true);
             }
 
-            AutomationProperties.SetLabeledBy(this, this.FindDescendant<ContentPresenter>());
+            AutomationProperties.SetLabeledBy(this, VisualTree.FindDescendant<ContentPresenter>(this));
         }
 
         /// <summary>
@@ -166,17 +162,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Dismiss the notification
         /// </summary>
-        public void Dismiss(bool dismissAll = false)
+        public void Dismiss()
         {
-            Dismiss(InAppNotificationDismissKind.Programmatic, dismissAll);
+            Dismiss(InAppNotificationDismissKind.Programmatic);
         }
 
         /// <summary>
         /// Dismiss the notification
         /// </summary>
         /// <param name="dismissKind">Kind of action that triggered dismiss event</param>
-        /// <param name="dismissAll">Indicates if one or all notifications should be dismissed.</param>
-        private void Dismiss(InAppNotificationDismissKind dismissKind, bool dismissAll = false)
+        private void Dismiss(InAppNotificationDismissKind dismissKind)
         {
             if (_stackedNotificationOptions.Count == 0)
             {
@@ -186,17 +181,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _dismissTimer.Stop();
 
-            // Dismiss all if requested
-            if (dismissAll)
-            {
-                _stackedNotificationOptions.Clear();
-            }
-            else
-            {
-                _stackedNotificationOptions.RemoveAt(0);
-            }
-
             // Continue to display notification if on remaining stacked notification
+            _stackedNotificationOptions.RemoveAt(0);
             if (_stackedNotificationOptions.Any())
             {
                 var notificationOptions = _stackedNotificationOptions[0];
@@ -254,16 +240,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _contentProvider.Content = element;
                     break;
                 case DataTemplate dataTemplate:
-                    // Without this check, the dataTemplate will fail to render.
-                    // Why? Setting the ContentTemplate causes the control to re-evaluate it's Content value.
-                    // When we set the ContentTemplate to the same instance of itself, we aren't actually changing the value.
-                    // This means that the Content value won't be re-evaluated and stay null, causing the render to fail.
-                    if (_contentProvider.ContentTemplate != dataTemplate)
-                    {
-                        _contentProvider.ContentTemplate = dataTemplate;
-                        _contentProvider.Content = null;
-                    }
-
+                    _contentProvider.ContentTemplate = dataTemplate;
+                    _contentProvider.Content = null;
                     break;
                 case object content:
                     _contentProvider.ContentTemplate = ContentTemplate;

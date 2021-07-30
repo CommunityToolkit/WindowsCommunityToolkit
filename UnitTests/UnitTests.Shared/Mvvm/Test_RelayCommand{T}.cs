@@ -74,13 +74,12 @@ namespace UnitTests.Mvvm
 
             var command = new RelayCommand<int>(i => n = i);
 
-            Assert.IsFalse(command.CanExecute(null));
-            Assert.ThrowsException<NullReferenceException>(() => command.Execute(null));
+            // Special case for null value types
+            Assert.IsTrue(command.CanExecute(null));
 
             command = new RelayCommand<int>(i => n = i, i => i > 0);
 
-            Assert.IsFalse(command.CanExecute(null));
-            Assert.ThrowsException<NullReferenceException>(() => command.Execute(null));
+            Assert.ThrowsException<NullReferenceException>(() => command.CanExecute(null));
         }
     }
 }

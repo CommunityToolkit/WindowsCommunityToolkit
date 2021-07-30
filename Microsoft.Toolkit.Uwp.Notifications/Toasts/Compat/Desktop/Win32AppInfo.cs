@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -27,11 +27,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         public string Aumid { get; set; }
 
-        /// <summary>
-        /// Gets the AUMID before it was fixed up with the backslash issue
-        /// </summary>
-        public string Pre7_0_1Aumid { get; private set; }
-
         public string DisplayName { get; set; }
 
         public string IconPath { get; set; }
@@ -44,29 +39,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             IApplicationResolver appResolver = (IApplicationResolver)new CAppResolver();
             appResolver.GetAppIDForProcess(Convert.ToUInt32(process.Id), out string appId, out _, out _, out _);
 
-            string aumid;
-            string pre7_0_1Aumid = null;
-
-            // If the app ID is too long
-            if (appId.Length > AUMID_MAX_LENGTH)
-            {
-                // Hash the AUMID
-                aumid = HashAppId(appId);
-            }
-
-            // Else if it contains a backslash
-            else if (appId.Contains('\\'))
-            {
-                // For versions 19042 and older of Windows 10, we can't use backslashes - Issue #3870
-                // So we change it to not include those
-                aumid = appId.Replace('\\', '/');
-                pre7_0_1Aumid = appId;
-            }
-            else
-            {
-                // Use as-is
-                aumid = appId;
-            }
+            // Use app ID (or hashed app ID) as AUMID
+            string aumid = appId.Length > AUMID_MAX_LENGTH ? HashAppId(appId) : appId;
 
             // Then try to get the shortcut (for display name and icon)
             IShellItem shortcutItem = null;
@@ -99,11 +73,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                             if (IsAlphaBitmap(bmp, out var bmpData))
                             {
                                 var alphaBitmap = GetAlphaBitmapFromBitmapData(bmpData);
-                                iconPath = SaveIconToAppPath(alphaBitmap, aumid);
+                                iconPath = SaveIconToAppPath(alphaBitmap, appId);
                             }
                             else
                             {
-                                iconPath = SaveIconToAppPath(bmp, aumid);
+                                iconPath = SaveIconToAppPath(bmp, appId);
                             }
                         }
                         catch
@@ -129,13 +103,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             if (string.IsNullOrWhiteSpace(iconPath))
             {
                 // We use the one from the process
-                iconPath = ExtractAndObtainIconFromCurrentProcess(process, aumid);
+                iconPath = ExtractAndObtainIconFromCurrentProcess(process, appId);
             }
 
             return new Win32AppInfo()
             {
                 Aumid = aumid,
-                Pre7_0_1Aumid = pre7_0_1Aumid,
                 DisplayName = displayName,
                 IconPath = iconPath
             };
@@ -153,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         private static string GetDisplayNameFromCurrentProcess(Process process)
         {
             // If AssemblyTitle is set, use that
-            var assemblyTitleAttr = Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyTitleAttribute>();
+            var assemblyTitleAttr = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyTitleAttribute>();
             if (assemblyTitleAttr != null)
             {
                 return assemblyTitleAttr.Title;
@@ -163,12 +136,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return process.ProcessName;
         }
 
-        private static string ExtractAndObtainIconFromCurrentProcess(Process process, string aumid)
+        private static string ExtractAndObtainIconFromCurrentProcess(Process process, string appId)
         {
-            return ExtractAndObtainIconFromPath(process.MainModule.FileName, aumid);
+            return ExtractAndObtainIconFromPath(process.MainModule.FileName, appId);
         }
 
-        private static string ExtractAndObtainIconFromPath(string pathToExtract, string aumid)
+        private static string ExtractAndObtainIconFromPath(string pathToExtract, string appId)
         {
             try
             {
@@ -177,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
                 using (var bmp = icon.ToBitmap())
                 {
-                    return SaveIconToAppPath(bmp, aumid);
+                    return SaveIconToAppPath(bmp, appId);
                 }
             }
             catch
@@ -186,11 +159,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        private static string SaveIconToAppPath(Bitmap bitmap, string aumid)
+        private static string SaveIconToAppPath(Bitmap bitmap, string appId)
         {
             try
             {
-                var path = Path.Combine(GetAppDataFolderPath(aumid), "Icon.png");
+                var path = Path.Combine(GetAppDataFolderPath(appId), "Icon.png");
 
                 // Ensure the directories exist
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -209,9 +182,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Gets the app data folder path within the ToastNotificationManagerCompat folder, used for storing icon assets and any additional data.
         /// </summary>
         /// <returns>Returns a string of the absolute folder path.</returns>
-        public static string GetAppDataFolderPath(string aumid)
+        public static string GetAppDataFolderPath(string appId)
         {
-            string conciseAumid = aumid.Contains('\\') || aumid.Contains('/') ? GenerateGuid(aumid) : aumid;
+            string conciseAumid = appId.Contains("\\") ? GenerateGuid(appId) : appId;
 
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ToastNotificationManagerCompat", "Apps", conciseAumid);
         }

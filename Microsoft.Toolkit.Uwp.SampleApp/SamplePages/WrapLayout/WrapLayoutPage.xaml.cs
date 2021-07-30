@@ -1,11 +1,11 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var repeater = control.FindDescendant("WrapRepeater") as ItemsRepeater;
+            var repeater = control.FindDescendantByName("WrapRepeater") as ItemsRepeater;
 
             if (repeater != null)
             {
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _wrapLayout = repeater.Layout as WrapLayout;
             }
 
-            _wrapScrollParent = control.FindDescendant("WrapScrollParent") as ScrollViewer;
+            _wrapScrollParent = control.FindDescendantByName("WrapScrollParent") as ScrollViewer;
         }
 
         private class Item

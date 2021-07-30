@@ -4,7 +4,7 @@
 
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI
+namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
     /// Extension methods for <see cref="ScaleTransform"/>.

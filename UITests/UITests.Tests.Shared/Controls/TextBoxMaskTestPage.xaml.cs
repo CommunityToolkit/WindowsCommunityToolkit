@@ -38,11 +38,5 @@ namespace UITests.App.Pages
             Value = NEW_VALUE;
             Log.Comment("Value Changed to {0}", Value);
         }
-
-        private void SetEmptyButton_Click(object sender, RoutedEventArgs e)
-        {
-            Value = string.Empty;
-            Log.Comment("Value Changed to {0}", Value);
-        }
     }
 }

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
     /// Helpers for working with the <see cref="Span{T}"/> type.
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this Span<T> span, int height, int width)
         {
-            return new(span, height, width);
+            return new Span2D<T>(span, height, width);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span2D<T> AsSpan2D<T>(this Span<T> span, int offset, int height, int width, int pitch)
         {
-            return new(span, offset, height, width, pitch);
+            return new Span2D<T>(span, offset, height, width, pitch);
         }
 #endif
 
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SpanEnumerable<T> Enumerate<T>(this Span<T> span)
         {
-            return new(span);
+            return new SpanEnumerable<T>(span);
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static SpanTokenizer<T> Tokenize<T>(this Span<T> span, T separator)
             where T : IEquatable<T>
         {
-            return new(span, separator);
+            return new SpanTokenizer<T>(span, separator);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 #if SPAN_RUNTIME_SUPPORT
 using System.Runtime.InteropServices;
 #else
-using Microsoft.Toolkit.HighPerformance.Helpers;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 #endif
 
 namespace Microsoft.Toolkit.HighPerformance
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="pointer">The pointer to the target value.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe ReadOnlyRef(void* pointer)
-            : this(in Unsafe.AsRef<T>(pointer))
+            : this(Unsafe.AsRef<T>(pointer))
         {
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
-            return new(in reference.Value);
+            return new ReadOnlyRef<T>(reference.Value);
         }
 #else
         /// <summary>
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ReadOnlyRef(object owner, in T value)
         {
             this.owner = owner;
-            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(owner, ref Unsafe.AsRef(value));
+            this.offset = owner.DangerousGetObjectDataByteOffset(ref Unsafe.AsRef(value));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public ref readonly T Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(this.owner, this.offset);
+            get => ref this.owner.DangerousGetObjectDataReferenceAt<T>(this.offset);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator ReadOnlyRef<T>(Ref<T> reference)
         {
-            return new(reference.Owner, reference.Offset);
+            return new ReadOnlyRef<T>(reference.Owner, reference.Offset);
         }
 #endif
 

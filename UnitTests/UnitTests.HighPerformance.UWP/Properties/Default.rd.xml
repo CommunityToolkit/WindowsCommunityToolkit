@@ -14,6 +14,7 @@
     Using the Namespace directive to apply reflection policy to all the types in a particular namespace
     <Namespace Name="DataClasses.ViewModels" Serialize="All" />
 -->
+
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
   <Application>
     <!--
@@ -22,5 +23,7 @@
     -->
     <Assembly Name="*Application*" Dynamic="Required All" />
     <!-- Add your application specific runtime directives here. -->
+
+
   </Application>
 </Directives>

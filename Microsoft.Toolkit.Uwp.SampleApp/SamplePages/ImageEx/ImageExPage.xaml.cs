@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -31,9 +32,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
-            container = control.FindChild("Container") as StackPanel;
+            container = control.FindChildByName("Container") as StackPanel;
             resources = control.Resources;
-            lazyLoadingControlHost = control.FindChild("LazyLoadingControlHost") as Border;
+            lazyLoadingControlHost = control.FindChildByName("LazyLoadingControlHost") as Border;
         }
 
         private async void Load()
@@ -81,19 +82,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 if (lazyLoadingControlHost != null)
                 {
-                    // Allow this to act as a toggle.
-                    if (lazyLoadingControlHost.Child == null)
-                    {
-                        lazyLoadingControlHost.Child = imageExLazyLoadingControl;
-                    }
-                    else
-                    {
-                        lazyLoadingControlHost.Child = null;
-                    }
+                    lazyLoadingControlHost.Child = imageExLazyLoadingControl;
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Remove images", (sender, args) => container?.Children?.Clear());
+            SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
+            {
+                container?.Children?.Clear();
+                GC.Collect(); // Force GC to free file locks
+                await ImageCache.Instance.ClearAsync();
+            });
 
             await LoadDataAsync();
         }

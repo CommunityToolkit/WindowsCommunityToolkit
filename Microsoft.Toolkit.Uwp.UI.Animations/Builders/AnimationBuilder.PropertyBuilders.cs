@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -32,10 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Action<INormalizedKeyFrameAnimationBuilder<T>> build,
                 TimeSpan? delay,
                 TimeSpan? duration,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
-                return Builder.NormalizedKeyFrames(Property, build, delay, duration, repeatOption, delayBehavior, Layer);
+                return Builder.NormalizedKeyFrames(Property, build, delay, duration, repeatOption, Layer);
             }
 
             /// <inheritdoc/>
@@ -44,20 +43,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Action<INormalizedKeyFrameAnimationBuilder<T>, TState> build,
                 TimeSpan? delay,
                 TimeSpan? duration,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
-                return Builder.NormalizedKeyFrames(Property, state, build, delay, duration, repeatOption, delayBehavior, Layer);
+                return Builder.NormalizedKeyFrames(Property, state, build, delay, duration, repeatOption, Layer);
             }
 
             /// <inheritdoc/>
             public AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<T>> build,
                 TimeSpan? delay,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
-                return Builder.TimedKeyFrames(Property, build, delay, repeatOption, delayBehavior, Layer);
+                return Builder.TimedKeyFrames(Property, build, delay, repeatOption, Layer);
             }
 
             /// <inheritdoc/>
@@ -65,10 +62,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 TState state,
                 Action<ITimedKeyFrameAnimationBuilder<T>, TState> build,
                 TimeSpan? delay,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
-                return Builder.TimedKeyFrames(Property, state, build, delay, repeatOption, delayBehavior, Layer);
+                return Builder.TimedKeyFrames(Property, state, build, delay, repeatOption, Layer);
             }
         }
 
@@ -85,15 +81,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Action<INormalizedKeyFrameAnimationBuilder<double>> build,
                 TimeSpan? delay,
                 TimeSpan? duration,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
                 NormalizedKeyFrameAnimationBuilder<double>.Composition builder = new(
                     Property,
                     delay,
                     duration ?? DefaultDuration,
-                    repeatOption ?? RepeatOption.Once,
-                    delayBehavior ?? DefaultDelayBehavior);
+                    repeatOption ?? RepeatOption.Once);
 
                 build(builder);
 
@@ -108,15 +102,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Action<INormalizedKeyFrameAnimationBuilder<double>, TState> build,
                 TimeSpan? delay,
                 TimeSpan? duration,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
                 NormalizedKeyFrameAnimationBuilder<double>.Composition builder = new(
                     Property,
                     delay,
                     duration ?? DefaultDuration,
-                    repeatOption ?? RepeatOption.Once,
-                    delayBehavior ?? DefaultDelayBehavior);
+                    repeatOption ?? RepeatOption.Once);
 
                 build(builder, state);
 
@@ -129,14 +121,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<double>> build,
                 TimeSpan? delay,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
-                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(
-                    Property,
-                    delay,
-                    repeatOption ?? RepeatOption.Once,
-                    delayBehavior ?? DefaultDelayBehavior);
+                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, repeatOption ?? RepeatOption.Once);
 
                 build(builder);
 
@@ -150,14 +137,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 TState state,
                 Action<ITimedKeyFrameAnimationBuilder<double>, TState> build,
                 TimeSpan? delay,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? delayBehavior)
+                RepeatOption? repeatOption)
             {
-                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(
-                    Property,
-                    delay,
-                    repeatOption ?? RepeatOption.Once,
-                    delayBehavior ?? DefaultDelayBehavior);
+                TimedKeyFrameAnimationBuilder<double>.Composition builder = new(Property, delay, repeatOption ?? RepeatOption.Once);
 
                 build(builder, state);
 
@@ -198,8 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Action<INormalizedKeyFrameAnimationBuilder<double>> build,
                 TimeSpan? delay,
                 TimeSpan? duration,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? _)
+                RepeatOption? repeatOption)
             {
                 NormalizedKeyFrameAnimationBuilder<double>.Xaml builder = new(
                     Property,
@@ -220,8 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 Action<INormalizedKeyFrameAnimationBuilder<double>, TState> build,
                 TimeSpan? delay,
                 TimeSpan? duration,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? _)
+                RepeatOption? repeatOption)
             {
                 NormalizedKeyFrameAnimationBuilder<double>.Xaml builder = new(
                     Property,
@@ -240,8 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             public AnimationBuilder TimedKeyFrames(
                 Action<ITimedKeyFrameAnimationBuilder<double>> build,
                 TimeSpan? delay,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? _)
+                RepeatOption? repeatOption)
             {
                 TimedKeyFrameAnimationBuilder<double>.Xaml builder = new(Property, delay, repeatOption ?? RepeatOption.Once);
 
@@ -257,8 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 TState state,
                 Action<ITimedKeyFrameAnimationBuilder<double>, TState> build,
                 TimeSpan? delay,
-                RepeatOption? repeatOption,
-                AnimationDelayBehavior? _)
+                RepeatOption? repeatOption)
             {
                 TimedKeyFrameAnimationBuilder<double>.Xaml builder = new(Property, delay, repeatOption ?? RepeatOption.Once);
 

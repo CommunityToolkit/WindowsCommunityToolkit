@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 #if !NETSTANDARD1_4
 using Microsoft.Toolkit.HighPerformance.Helpers;
 #endif
@@ -136,7 +137,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// process. Since <see cref="StringPool"/> is thread-safe, the shared instance can be used
         /// concurrently by multiple threads without the need for manual synchronization.
         /// </remarks>
-        public static StringPool Shared { get; } = new();
+        public static StringPool Shared { get; } = new StringPool();
 
         /// <summary>
         /// Gets the total number of <see cref="string"/> that can be stored in the current instance.

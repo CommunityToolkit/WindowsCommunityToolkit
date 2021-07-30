@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Title>Windows Community Toolkit .NET Standard Parsers</Title>
+    <Description>
+      This .NET standard library contains various parsers
+
+      Markdown: Allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
+
+    </Description>
+    <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown</PackageTags>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
+  </ItemGroup>
+
+</Project>

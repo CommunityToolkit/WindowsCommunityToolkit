@@ -1,11 +1,10 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
@@ -35,8 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
             }
             else
             {
-                // Invalid color value provided
-                return DependencyProperty.UnsetValue;
+                throw new ArgumentException("Invalid color value provided");
             }
 
             string hexColor = color.ToHex().Replace("#", string.Empty);
@@ -60,8 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
                 }
                 catch
                 {
-                    // Invalid hex color value provided
-                    return DependencyProperty.UnsetValue;
+                    throw new ArgumentException("Invalid hex color value provided");
                 }
             }
             else
@@ -72,8 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters
                 }
                 catch
                 {
-                    // Invalid hex color value provided
-                    return DependencyProperty.UnsetValue;
+                    throw new ArgumentException("Invalid hex color value provided");
                 }
             }
         }

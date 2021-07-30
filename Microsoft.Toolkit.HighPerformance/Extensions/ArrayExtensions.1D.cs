@@ -9,13 +9,10 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 using Microsoft.Toolkit.HighPerformance.Enumerables;
-#if !NETCORE_RUNTIME && !NET5_0
-using Microsoft.Toolkit.HighPerformance.Helpers;
-#endif
 using Microsoft.Toolkit.HighPerformance.Helpers.Internals;
 using RuntimeHelpers = Microsoft.Toolkit.HighPerformance.Helpers.Internals.RuntimeHelpers;
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
     /// Helpers for working with the <see cref="Array"/> type.
@@ -43,7 +40,7 @@ namespace Microsoft.Toolkit.HighPerformance
 #else
             IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
 
-            return ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
+            return ref array.DangerousGetObjectDataReferenceAt<T>(offset);
 #endif
         }
 
@@ -72,7 +69,7 @@ namespace Microsoft.Toolkit.HighPerformance
             return ref ri;
 #else
             IntPtr offset = RuntimeHelpers.GetArrayDataByteOffset<T>();
-            ref T r0 = ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, offset);
+            ref T r0 = ref array.DangerousGetObjectDataReferenceAt<T>(offset);
             ref T ri = ref Unsafe.Add(ref r0, (nint)(uint)i);
 
             return ref ri;
@@ -149,7 +146,7 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SpanEnumerable<T> Enumerate<T>(this T[] array)
         {
-            return new(array);
+            return new SpanEnumerable<T>(array);
         }
 
         /// <summary>
@@ -175,7 +172,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static SpanTokenizer<T> Tokenize<T>(this T[] array, T separator)
             where T : IEquatable<T>
         {
-            return new(array, separator);
+            return new SpanTokenizer<T>(array, separator);
         }
 
         /// <summary>

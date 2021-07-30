@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Toolkit;
+using Microsoft.Toolkit.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Extensions

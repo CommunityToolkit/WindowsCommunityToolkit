@@ -20,21 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public sealed class Composition : TimedKeyFrameAnimationBuilder<T>, AnimationBuilder.ICompositionAnimationFactory
         {
             /// <summary>
-            /// The target delay behavior to use.
-            /// </summary>
-            private readonly AnimationDelayBehavior delayBehavior;
-
-            /// <summary>
             /// Initializes a new instance of the <see cref="TimedKeyFrameAnimationBuilder{T}.Composition"/> class.
             /// </summary>
-            /// <param name="property">The target property to animate.</param>
-            /// <param name="delay">The target delay for the animation.</param>
-            /// <param name="repeat">The repeat options for the animation.</param>
-            /// <param name="delayBehavior">The delay behavior mode to use.</param>
-            public Composition(string property, TimeSpan? delay, RepeatOption repeat, AnimationDelayBehavior delayBehavior)
+            /// <inheritdoc cref="TimedKeyFrameAnimationBuilder{T}"/>
+            public Composition(string property, TimeSpan? delay, RepeatOption repeat)
                 : base(property, delay, repeat)
             {
-                this.delayBehavior = delayBehavior;
             }
 
             /// <inheritdoc/>
@@ -65,7 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.delay,
                     duration,
                     this.repeat,
-                    this.delayBehavior,
                     keyFrames);
             }
         }

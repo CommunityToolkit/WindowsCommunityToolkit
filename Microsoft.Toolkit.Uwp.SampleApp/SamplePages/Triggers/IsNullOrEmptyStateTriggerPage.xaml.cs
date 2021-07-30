@@ -1,8 +1,8 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _addButton.Click -= this.AddButton_Click;
             }
 
-            if (control.FindDescendant("AddButton") is Button btn)
+            if (control.FindDescendantByName("AddButton") is Button btn)
             {
                 _addButton = btn;
 
@@ -44,14 +44,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _removeButton.Click -= this.RemoveButton_Click;
             }
 
-            if (control.FindDescendant("RemoveButton") is Button btn2)
+            if (control.FindDescendantByName("RemoveButton") is Button btn2)
             {
                 _removeButton = btn2;
 
                 _removeButton.Click += this.RemoveButton_Click;
             }
 
-            _listBox = control.FindDescendant("OurList") as ListBox;
+            _listBox = control.FindDescendantByName("OurList") as ListBox;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)

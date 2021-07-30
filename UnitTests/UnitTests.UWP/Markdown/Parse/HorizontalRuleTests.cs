@@ -11,7 +11,6 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class HorizontalRuleTests : ParseTestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void HorizontalRule_Simple()
@@ -121,6 +120,5 @@ namespace UnitTests.Markdown.Parse
                 new HorizontalRuleBlock(),
                 new HorizontalRuleBlock());
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

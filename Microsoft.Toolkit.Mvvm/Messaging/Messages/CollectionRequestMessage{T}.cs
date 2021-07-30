@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging.Messages
     /// <typeparam name="T">The type of request to make.</typeparam>
     public class CollectionRequestMessage<T> : IEnumerable<T>
     {
-        private readonly List<T> responses = new();
+        private readonly List<T> responses = new List<T>();
 
         /// <summary>
         /// Gets the message responses.

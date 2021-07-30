@@ -13,7 +13,6 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class ListTests : ParseTestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void BulletedList_SingleLine()
@@ -444,6 +443,5 @@ namespace UnitTests.Markdown.Parse
             AssertEqual("a. List", new ParagraphBlock().AddChildren(
                 new TextRunInline { Text = "a. List" }));
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -11,7 +11,6 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class BoldTests : ParseTestBase
     {
-#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void Bold_Simple()
@@ -87,6 +86,5 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "before ****** after" }));
         }
-#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

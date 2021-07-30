@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -8,9 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-#if !SPAN_RUNTIME_SUPPORT
-using Microsoft.Toolkit.HighPerformance.Helpers;
-#endif
+using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 #if !SPAN_RUNTIME_SUPPORT
@@ -212,7 +210,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateReadOnlySpan(ref array.DangerousGetReferenceAt(offset), height);
 #else
             this.instance = array;
-            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
             this.height = height;
 #endif
             this.width = width;
@@ -236,7 +234,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateReadOnlySpan(ref array.DangerousGetReference(), array.GetLength(0));
 #else
             this.instance = array;
-            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(0, 0));
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
             this.height = array.GetLength(0);
 #endif
             this.width = this.stride = array.GetLength(1);
@@ -296,7 +294,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateReadOnlySpan(ref array.DangerousGetReferenceAt(row, column), height);
 #else
             this.instance = array;
-            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
             this.height = height;
 #endif
             this.width = width;
@@ -320,7 +318,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateReadOnlySpan(ref array.DangerousGetReferenceAt(depth, 0, 0), array.GetLength(1));
 #else
             this.instance = array;
-            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
 #endif
             this.width = this.stride = array.GetLength(2);
@@ -371,7 +369,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateReadOnlySpan(ref array.DangerousGetReferenceAt(depth, row, column), height);
 #else
             this.instance = array;
-            this.offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
+            this.offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
 #endif
             this.width = width;
@@ -480,7 +478,7 @@ namespace Microsoft.Toolkit.HighPerformance
 
             OverflowHelper.EnsureIsInNativeIntRange(height, width, pitch);
 
-            return new ReadOnlySpan2D<T>(in value, height, width, pitch);
+            return new ReadOnlySpan2D<T>(value, height, width, pitch);
         }
 #endif
 
@@ -654,14 +652,14 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="destination">The destination <see cref="Span2D{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="destination" /> does not have the same shape as the source <see cref="ReadOnlySpan2D{T}"/> instance.
+        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </exception>
         public void CopyTo(Span2D<T> destination)
         {
             if (destination.Height != Height ||
                 destination.Width != Width)
             {
-                ThrowHelper.ThrowArgumentExceptionForDestinationWithNotSameShape();
+                ThrowHelper.ThrowArgumentException();
             }
 
             if (IsEmpty)
@@ -803,15 +801,15 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="row">The target row to map within the current instance.</param>
         /// <param name="column">The target column to map within the current instance.</param>
-        /// <param name="height">The height to map within the current instance.</param>
         /// <param name="width">The width to map within the current instance.</param>
+        /// <param name="height">The height to map within the current instance.</param>
         /// <exception cref="ArgumentException">
         /// Thrown when either <paramref name="height"/>, <paramref name="width"/> or <paramref name="height"/>
         /// are negative or not within the bounds that are valid for the current instance.
         /// </exception>
         /// <returns>A new <see cref="ReadOnlySpan2D{T}"/> instance representing a slice of the current one.</returns>
         [Pure]
-        public ReadOnlySpan2D<T> Slice(int row, int column, int height, int width)
+        public ReadOnlySpan2D<T> Slice(int row, int column, int width, int height)
         {
             if ((uint)row >= Height)
             {
@@ -823,14 +821,14 @@ namespace Microsoft.Toolkit.HighPerformance
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForColumn();
             }
 
-            if ((uint)height > (Height - row))
-            {
-                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
-            }
-
             if ((uint)width > (this.width - column))
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForWidth();
+            }
+
+            if ((uint)height > (Height - row))
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForHeight();
             }
 
             nint shift = ((nint)(uint)this.stride * (nint)(uint)row) + (nint)(uint)column;
@@ -839,7 +837,7 @@ namespace Microsoft.Toolkit.HighPerformance
 #if SPAN_RUNTIME_SUPPORT
             ref T r0 = ref this.span.DangerousGetReferenceAt(shift);
 
-            return new ReadOnlySpan2D<T>(in r0, height, width, pitch);
+            return new ReadOnlySpan2D<T>(r0, height, width, pitch);
 #else
             IntPtr offset = this.offset + (shift * (nint)(uint)Unsafe.SizeOf<T>());
 
@@ -906,10 +904,7 @@ namespace Microsoft.Toolkit.HighPerformance
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.instance.GetType() == typeof(T[]))
                 {
-                    T[] array = Unsafe.As<T[]>(this.instance)!;
-                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.offset));
-
-                    span = array.AsSpan(index, (int)Length);
+                    span = Unsafe.As<T[]>(this.instance).AsSpan((int)this.offset, (int)Length);
 
                     return true;
                 }
@@ -1017,7 +1012,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// Implicily converts a given 2D array into a <see cref="ReadOnlySpan2D{T}"/> instance.
         /// </summary>
         /// <param name="array">The input 2D array to convert.</param>
-        public static implicit operator ReadOnlySpan2D<T>(T[,]? array) => new(array);
+        public static implicit operator ReadOnlySpan2D<T>(T[,]? array) => new ReadOnlySpan2D<T>(array);
 
         /// <summary>
         /// Implicily converts a given <see cref="Span2D{T}"/> into a <see cref="ReadOnlySpan2D{T}"/> instance.
@@ -1026,7 +1021,7 @@ namespace Microsoft.Toolkit.HighPerformance
         public static implicit operator ReadOnlySpan2D<T>(Span2D<T> span)
         {
 #if SPAN_RUNTIME_SUPPORT
-            return new ReadOnlySpan2D<T>(in span.DangerousGetReference(), span.Height, span.Width, span.Stride - span.Width);
+            return new ReadOnlySpan2D<T>(span.DangerousGetReference(), span.Height, span.Width, span.Stride - span.Width);
 #else
             return new ReadOnlySpan2D<T>(span.Instance!, span.Offset, span.Height, span.Width, span.Stride - span.Width);
 #endif

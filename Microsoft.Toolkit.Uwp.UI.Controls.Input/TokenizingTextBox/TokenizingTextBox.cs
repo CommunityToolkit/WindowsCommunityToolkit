@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.UI.Core;
@@ -105,12 +107,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (key)
             {
                 case VirtualKey.Escape:
-                {
-                    // Clear any selection and place the focus back into the text box
-                    DeselectAllTokensAndText();
-                    FocusPrimaryAutoSuggestBox();
-                    break;
-                }
+                    {
+                        // Clear any selection and place the focus back into the text box
+                        DeselectAllTokensAndText();
+                        FocusPrimaryAutoSuggestBox();
+                        break;
+                    }
             }
         }
 
@@ -224,57 +226,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     await RemoveAllSelectedTokens();
 
                     // Wait for removal of old items
-                    var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-                    _ = dispatcherQueue.EnqueueAsync(
-                        () =>
+                    _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        // If we're before the last textbox and it's empty, redirect focus to that one instead
+                        if (index == _innerItemsSource.Count - 1 && string.IsNullOrWhiteSpace(_lastTextEdit.Text))
                         {
-                            // If we're before the last textbox and it's empty, redirect focus to that one instead
-                            if (index == _innerItemsSource.Count - 1 && string.IsNullOrWhiteSpace(_lastTextEdit.Text))
+                            var lastContainer = ContainerFromItem(_lastTextEdit) as TokenizingTextBoxItem;
+
+                            lastContainer.UseCharacterAsUser = true; // Make sure we trigger a refresh of suggested items.
+
+                            _lastTextEdit.Text = string.Empty + args.Character;
+
+                            UpdateCurrentTextEdit(_lastTextEdit);
+
+                            lastContainer._autoSuggestTextBox.SelectionStart = 1; // Set position to after our new character inserted
+
+                            lastContainer._autoSuggestTextBox.Focus(FocusState.Keyboard);
+                        }
+                        else
+                        {
+                            //// Otherwise, create a new textbox for this text.
+
+                            UpdateCurrentTextEdit(new PretokenStringContainer((string.Empty + args.Character).Trim())); // Trim so that 'space' isn't inserted and can be used to insert a new box.
+
+                            _innerItemsSource.Insert(index, _currentTextEdit);
+
+                            // Need to wait for containerization
+                            _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                var lastContainer = ContainerFromItem(_lastTextEdit) as TokenizingTextBoxItem;
+                                var newContainer = ContainerFromIndex(index) as TokenizingTextBoxItem; // Should be our last text box
 
-                                lastContainer.UseCharacterAsUser = true; // Make sure we trigger a refresh of suggested items.
+                                newContainer.UseCharacterAsUser = true; // Make sure we trigger a refresh of suggested items.
 
-                                _lastTextEdit.Text = string.Empty + args.Character;
-
-                                UpdateCurrentTextEdit(_lastTextEdit);
-
-                                lastContainer._autoSuggestTextBox.SelectionStart = 1; // Set position to after our new character inserted
-
-                                lastContainer._autoSuggestTextBox.Focus(FocusState.Keyboard);
-                            }
-                            else
-                            {
-                                //// Otherwise, create a new textbox for this text.
-
-                                UpdateCurrentTextEdit(new PretokenStringContainer((string.Empty + args.Character).Trim())); // Trim so that 'space' isn't inserted and can be used to insert a new box.
-
-                                _innerItemsSource.Insert(index, _currentTextEdit);
-
-                                // Need to wait for containerization
-                                _ = dispatcherQueue.EnqueueAsync(
-                                    () =>
+                                void WaitForLoad(object s, RoutedEventArgs eargs)
+                                {
+                                    if (newContainer._autoSuggestTextBox != null)
                                     {
-                                        var newContainer = ContainerFromIndex(index) as TokenizingTextBoxItem; // Should be our last text box
+                                        newContainer._autoSuggestTextBox.SelectionStart = 1; // Set position to after our new character inserted
 
-                                        newContainer.UseCharacterAsUser = true; // Make sure we trigger a refresh of suggested items.
+                                        newContainer._autoSuggestTextBox.Focus(FocusState.Keyboard);
+                                    }
 
-                                        void WaitForLoad(object s, RoutedEventArgs eargs)
-                                        {
-                                            if (newContainer._autoSuggestTextBox != null)
-                                            {
-                                                newContainer._autoSuggestTextBox.SelectionStart = 1; // Set position to after our new character inserted
+                                    newContainer.Loaded -= WaitForLoad;
+                                }
 
-                                                newContainer._autoSuggestTextBox.Focus(FocusState.Keyboard);
-                                            }
-
-                                            newContainer.Loaded -= WaitForLoad;
-                                        }
-
-                                        newContainer.AutoSuggestTextBoxLoaded += WaitForLoad;
-                                    }, DispatcherQueuePriority.Normal);
-                            }
-                        }, DispatcherQueuePriority.Normal);
+                                newContainer.AutoSuggestTextBoxLoaded += WaitForLoad;
+                            });
+                        }
+                    });
                 }
                 else
                 {
@@ -533,7 +532,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //
             // To combat this issue:
             //   We toggle the visibility of the Placeholder ContentControl in order to force it's layout to update properly
-            var placeholder = ContainerFromItem(_lastTextEdit)?.FindDescendant("PlaceholderTextContentPresenter");
+            var placeholder = ContainerFromItem(_lastTextEdit).FindDescendantByName("PlaceholderTextContentPresenter");
 
             if (placeholder?.Visibility == Visibility.Visible)
             {

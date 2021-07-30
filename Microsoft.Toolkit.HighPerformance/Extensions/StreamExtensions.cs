@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 #endif
 
-namespace Microsoft.Toolkit.HighPerformance
+namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
     /// Helpers for working with the <see cref="Stream"/> type.

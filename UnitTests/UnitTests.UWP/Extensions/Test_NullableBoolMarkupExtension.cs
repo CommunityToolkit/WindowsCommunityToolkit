@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using UnitTests.Extensions.Helpers;
@@ -22,11 +22,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool Value=True}""/>
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+        <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool Value=True}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChild("Check") as CheckBox;
+            var toggle = treeroot.FindChildByName("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -40,11 +40,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool Value=False}""/>
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+        <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool Value=False}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChild("Check") as CheckBox;
+            var toggle = treeroot.FindChildByName("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -58,11 +58,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool IsNull=True}""/>
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+        <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool IsNull=True}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChild("Check") as CheckBox;
+            var toggle = treeroot.FindChildByName("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -76,11 +76,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool IsNull=True, Value=True}""/>
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+        <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool IsNull=True, Value=True}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChild("Check") as CheckBox;
+            var toggle = treeroot.FindChildByName("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -95,11 +95,11 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI"">
-        <CheckBox x:Name=""Check"" IsChecked=""{ui:NullableBool IsNull=True, Value=False}""/>
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
+        <CheckBox x:Name=""Check"" IsChecked=""{ex:NullableBool IsNull=True, Value=False}""/>
 </Page>") as FrameworkElement;
 
-            var toggle = treeroot.FindChild("Check") as CheckBox;
+            var toggle = treeroot.FindChildByName("Check") as CheckBox;
 
             Assert.IsNotNull(toggle, "Could not find checkbox control in tree.");
 
@@ -114,6 +114,7 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
     xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
     <Page.Resources>
         <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject""/>
@@ -127,9 +128,9 @@ namespace UnitTests.Extensions
             Assert.AreEqual(null, obj.NullableBool, "Expected obj value to be null.");
         }
 
-#pragma warning disable SA1124 // Do not use regions
+        #pragma warning disable SA1124 // Do not use regions
         #region System-based Unit Tests, See Issue #3198
-#pragma warning restore SA1124 // Do not use regions
+        #pragma warning restore SA1124 // Do not use regions
         [Ignore] // This test has trouble running on CI in release mode for some reason, we should re-enable when we test WinUI 3 Issue #3106
         [TestCategory("NullableBoolMarkupExtension")]
 
@@ -141,6 +142,7 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
     xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
     <Page.Resources>
         <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""True""/>
@@ -164,6 +166,7 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
     xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
     <Page.Resources>
         <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""False""/>
@@ -186,6 +189,7 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
     xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
     <Page.Resources>
         <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{x:Null}""/>
@@ -207,13 +211,13 @@ namespace UnitTests.Extensions
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:ui=""using:Microsoft.Toolkit.Uwp.UI""
+    xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions""
     xmlns:helpers=""using:UnitTests.Extensions.Helpers"">
     <Page.Resources>
-        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{ui:NullableBool Value=True}""/>
+        <helpers:ObjectWithNullableBoolProperty x:Key=""OurObject"" NullableBool=""{ex:NullableBool Value=True}""/>
     </Page.Resources>
 </Page>") as FrameworkElement;
-
+                
             var obj = treeroot.Resources["OurObject"] as ObjectWithNullableBoolProperty;
 
             Assert.IsNotNull(obj, "Could not find object in resources.");

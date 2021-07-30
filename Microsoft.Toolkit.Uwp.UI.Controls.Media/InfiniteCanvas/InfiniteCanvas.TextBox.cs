@@ -28,20 +28,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             "Right",
             "Up",
             "Left",
-            "Down",
-            "Enter"
+            "Down"
         };
 
         private Point _lastInputPoint;
 
         private TextDrawable SelectedTextDrawable => _drawingSurfaceRenderer.GetSelectedTextDrawable();
 
-        private float _textFontSize = DefaultFontValue;
+        private int _lastValidTextFontSizeValue = DefaultFontValue;
 
-        private void SetFontSize(float newSize)
+        private int TextFontSize
         {
-            _textFontSize = newSize;
-            _canvasTextBox.UpdateFontSize(newSize);
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_canvasTextBoxFontSizeTextBox.Text) &&
+                    Regex.IsMatch(_canvasTextBoxFontSizeTextBox.Text, "^[0-9]*$"))
+                {
+                    var fontSize = int.Parse(_canvasTextBoxFontSizeTextBox.Text);
+                    _lastValidTextFontSizeValue = fontSize;
+                }
+
+                return _lastValidTextFontSizeValue;
+            }
         }
 
         private void InkScrollViewer_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -85,34 +93,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CanvasComboBoxFontSizeTextBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CanvasTextBoxFontSizeTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is ComboBox s
-                && s.SelectedItem is ComboBoxItem selectedItem
-                && selectedItem.Content is string selectedText
-                && float.TryParse(selectedText, out var sizeNumb))
+            _canvasTextBox.UpdateFontSize(TextFontSize);
+            if (SelectedTextDrawable != null)
             {
-                SetFontSize(sizeNumb);
-
-                if (SelectedTextDrawable != null)
-                {
-                    _drawingSurfaceRenderer.ExecuteUpdateTextBoxFontSize(sizeNumb);
-                    ReDrawCanvas();
-                }
-            }
-        }
-
-        private void CanvasComboBoxFontSizeTextBox_TextSubmitted(ComboBox sender, ComboBoxTextSubmittedEventArgs args)
-        {
-            if (float.TryParse(args.Text, out var size))
-            {
-                SetFontSize(size);
-
-                if (SelectedTextDrawable != null)
-                {
-                    _drawingSurfaceRenderer.ExecuteUpdateTextBoxFontSize(size);
-                    ReDrawCanvas();
-                }
+                _drawingSurfaceRenderer.ExecuteUpdateTextBoxFontSize(TextFontSize);
+                ReDrawCanvas();
             }
         }
 
@@ -160,22 +147,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ReDrawCanvas();
                 return;
             }
-            else
-            {
-                _drawingSurfaceRenderer.ExecuteCreateTextBox(
-                    _lastInputPoint.X,
-                    _lastInputPoint.Y,
-                    _canvasTextBox.GetEditZoneWidth(),
-                    _canvasTextBox.GetEditZoneHeight(),
-                    _textFontSize,
-                    text,
-                    _canvasTextBoxColorPicker.Color,
-                    _canvasTextBoxBoldButton.IsChecked ?? false,
-                    _canvasTextBoxItalicButton.IsChecked ?? false);
 
-                ReDrawCanvas();
-                _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
-            }
+            _drawingSurfaceRenderer.ExecuteCreateTextBox(
+                _lastInputPoint.X,
+                _lastInputPoint.Y,
+                _canvasTextBox.GetEditZoneWidth(),
+                _canvasTextBox.GetEditZoneHeight(),
+                TextFontSize,
+                text,
+                _canvasTextBoxColorPicker.Color,
+                _canvasTextBoxBoldButton.IsChecked ?? false,
+                _canvasTextBoxItalicButton.IsChecked ?? false);
+
+            ReDrawCanvas();
+            _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
         }
 
         private void InkScrollViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -194,17 +179,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     Canvas.SetLeft(_canvasTextBox, SelectedTextDrawable.Bounds.X);
                     Canvas.SetTop(_canvasTextBox, SelectedTextDrawable.Bounds.Y);
+                    _canvasTextBox.UpdateFontSize(SelectedTextDrawable.FontSize);
                     _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                     _canvasTextBox.UpdateFontWeight(SelectedTextDrawable.IsBold);
 
                     // Updating toolbar
                     _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
+                    _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBoxBoldButton.IsChecked = SelectedTextDrawable.IsBold;
                     _canvasTextBoxItalicButton.IsChecked = SelectedTextDrawable.IsItalic;
 
                     return;
                 }
 
+                _canvasTextBox.UpdateFontSize(TextFontSize);
                 _canvasTextBox.UpdateFontStyle(_canvasTextBoxItalicButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontWeight(_canvasTextBoxBoldButton.IsChecked ?? false);
 
@@ -222,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBox.Clear();
         }
 
-        private void CanvasComboBoxFontSizeTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private void CanvasTextBoxFontSizeTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (_allowedCommands.Contains(e.Key.ToString()))
             {

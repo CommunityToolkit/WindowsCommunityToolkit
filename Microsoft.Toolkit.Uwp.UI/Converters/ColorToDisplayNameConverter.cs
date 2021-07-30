@@ -1,10 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
 using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
@@ -34,8 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             }
             else
             {
-                // Invalid color value provided
-                return DependencyProperty.UnsetValue;
+                throw new ArgumentException("Invalid color value provided");
             }
 
             return ColorHelper.ToDisplayName(color);
@@ -48,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             object parameter,
             string language)
         {
-            return DependencyProperty.UnsetValue;
+            throw new NotImplementedException();
         }
     }
 }
