@@ -86,6 +86,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CalculateConstrainedSize(ref Size availableSize)
         {
+            // 1) We check for Infinity, in the case we have no constraint from parent
+            //    we'll request the child's measurements first, so we can use that as
+            //    a starting point to constrain it's dimensions based on the criteria
+            //    set in our properties.
             var hasWidth = IsPositiveRealNumber(availableSize.Width);
             var hasHeight = IsPositiveRealNumber(availableSize.Height);
 
@@ -106,13 +110,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            // Scale size first before we constrain aspect ratio
+            // 2) Apply Scales to constrain based on a percentage
+            // --------------------------------------------------
             availableSize.Width *= ScaleX;
             availableSize.Height *= ScaleY;
 
-            // If we don't have an Aspect Ratio, just return the scaled value.
+            // 3) Apply Multiples
+            // ------------------
+            // These floor the Width/Height values to the nearest multiple of the property (if set).
+            // For instance you may have a responsive 4x4 repeated checkerboard pattern for transparency and
+            // want to snap to the nearest interval of 4 so the checkerboard is consistency across the layout.
+            if (hasWidth &&
+                ReadLocalValue(MultipleXProperty) != DependencyProperty.UnsetValue &&
+                MultipleX > 0)
+            {
+                availableSize.Width -= availableSize.Width % MultipleX;
+            }
+
+            if (hasHeight &&
+                ReadLocalValue(MultipleYProperty) != DependencyProperty.UnsetValue &&
+                MultipleY > 0)
+            {
+                availableSize.Height -= availableSize.Height % MultipleY;
+            }
+
+            // 4) Apply AspectRatio
+            // --------------------
+            // Finally, we apply the AspectRatio property after we've determined the general
+            // area we have to work with based on the other constraints.
+            // Devs should be careful if they use both a MultipleX&Y that the AspectRatio is also
+            // within that same ratio. The Ratio will take preference here as the last step.
             if (ReadLocalValue(AspectRatioProperty) == DependencyProperty.UnsetValue)
             {
+                // Skip as last constraint if we have nothing to do.
                 return;
             }
 
