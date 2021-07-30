@@ -41,6 +41,15 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 args.Cancel = true;
             }
+            else
+            {
+                // workaround for the valid charcaters after initial invalid input
+                // where the next valid input was set on wrong position
+                if (valid && textBox.Text.Length == 0 && args.NewText.Length == 1)
+                {
+                    textBox.SelectionStart = 1;
+                }
+            }
         }
 
         private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
