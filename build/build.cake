@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("target", "Default");
+var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
 // VERSIONS
@@ -35,7 +36,7 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
-var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/net5.0-windows10.0.19041/win10-x86";
+var taefBinDir = baseDir + $"/UITests/UITests.Tests.TAEF/bin/{configuration}/net5.0-windows10.0.19041/win10-x86";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -167,7 +168,7 @@ Task("BuildProjects")
     {
         MaxCpuCount = 0
     }
-    .SetConfiguration("Release")
+    .SetConfiguration(configuration)
     .WithTarget("Restore");
 	
     UpdateToolsPath(buildSettings);
@@ -181,7 +182,7 @@ Task("BuildProjects")
     {
         MaxCpuCount = 0
     }
-    .SetConfiguration("Release")
+    .SetConfiguration(configuration)
     .EnableBinaryLogger()
     .WithTarget("Build");
 
@@ -235,7 +236,7 @@ Task("Package")
     {
         MaxCpuCount = 0
     }
-    .SetConfiguration("Release")
+    .SetConfiguration(configuration)
     .WithTarget("Pack")
     .WithProperty("PackageOutputPath", nupkgDir);
 
@@ -274,13 +275,13 @@ Task("Test")
         ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10"),
     };
 
-    VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
+    VSTest(baseDir + $"/**/{configuration}/**/UnitTests.*.appxrecipe", testSettings);
 }).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*NetCore.csproj"), (file) =>
 {
     Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings
     {
-        Configuration = "Release",
+        Configuration = configuration,
         NoBuild = true,
         Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
@@ -329,7 +330,7 @@ Task("MSTestUITest")
 
     var testSettings = new DotNetCoreTestSettings
     {
-        Configuration = "Release",
+        Configuration = configuration,
         NoBuild = true,
         Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal

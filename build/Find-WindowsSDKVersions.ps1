@@ -82,6 +82,16 @@ function Test-RegistryPathAndValue {
     catch {
     }
 
+    try {
+        $path = $path -replace "HKLM:\\SOFTWARE\\", "HKLM:\\SOFTWARE\\WOW6432Node\\"
+        if (Test-Path $path) {
+            Get-ItemProperty -Path $path | Select-Object -ExpandProperty $value -ErrorAction Stop | Out-Null
+            return $true
+        }
+    }
+    catch {
+    }
+
     return $false
 }
 
@@ -100,6 +110,11 @@ function Test-InstallWindowsSdk([string] $WindowsSDKVersion) {
         if (Test-RegistryPathAndValue -Path $WindowsSDKInstalledRegPath -Value "$WindowsSDKOptions") {
             # It appears we have what we need. Double check the disk
             $sdkRoot = Get-ItemProperty -Path $WindowsSDKRegPath | Select-Object -ExpandProperty $WindowsSDKRegRootKey
+            if (!$sdkRoot) {
+                $WindowsSDKRegPath = $WindowsSDKRegPath -replace "HKLM:\\SOFTWARE\\", "HKLM:\\SOFTWARE\\WOW6432Node\\"
+                $sdkRoot = Get-ItemProperty -Path $WindowsSDKRegPath | Select-Object -ExpandProperty $WindowsSDKRegRootKey
+            }
+            
             if ($sdkRoot) {
                 if (Test-Path $sdkRoot) {
                     $refPath = Join-Path $sdkRoot "References\$WindowsSDKVersion"
