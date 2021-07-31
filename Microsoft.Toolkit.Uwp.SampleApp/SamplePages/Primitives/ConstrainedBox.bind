@@ -15,7 +15,10 @@
                              AspectRatio="1:1"
                              MinWidth="64" MaxWidth="512">
         <controls:ConstrainedBox.Background>
-            <!-- TODO: Should I make a DPI aware image? As otherwise scaling doesn't quite work at 150%? -->
+            <!-- TODO: TilesBrush doesn't support Dpi image loading for this scenario
+                 This example is configured for 100% DPI at the moment.
+                 See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4150
+                 -->
             <brushes:TilesBrush TextureUri="ms-appx:///Assets/checker.png"/>
         </controls:ConstrainedBox.Background>
     </controls:ConstrainedBox>

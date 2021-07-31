@@ -16,49 +16,11 @@ using Windows.UI.Xaml.Markup;
 
 namespace UnitTests.UWP.UI.Controls
 {
-    [TestClass]
-    public class Test_ConstrainedBox : VisualUITestBase
+    public partial class Test_ConstrainedBox : VisualUITestBase
     {
         [TestCategory("ConstrainedBox")]
         [TestMethod]
-        public async Task Test_ConstrainedBox_Normal_Horizontal()
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-      <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""2:1"" Width=""200"">
-        <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
-      </controls:ConstrainedBox>
-</Page>") as FrameworkElement;
-
-                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                var panel = treeRoot.FindChild("ConstrainedBox") as ConstrainedBox;
-
-                Assert.IsNotNull(panel, "Could not find ConstrainedBox in tree.");
-
-                // Force Layout calculations
-                panel.UpdateLayout();
-
-                var child = panel.Content as Border;
-
-                Assert.IsNotNull(child, "Could not find inner Border");
-
-                // Check Size
-                Assert.AreEqual(child.ActualWidth, 200, "Width unexpected");
-                Assert.AreEqual(child.ActualHeight, 100, "Height unexpected");
-            });
-        }
-
-        [TestCategory("ConstrainedBox")]
-        [TestMethod]
-        public async Task Test_ConstrainedBox_Normal_ScaleX()
+        public async Task Test_ConstrainedBox_Normal_MultipleX()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
@@ -67,7 +29,7 @@ namespace UnitTests.UWP.UI.Controls
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
     <Grid x:Name=""ParentGrid"" Width=""200"" Height=""200"">
-      <controls:ConstrainedBox x:Name=""ConstrainedBox"" ScaleX=""0.5""
+      <controls:ConstrainedBox x:Name=""ConstrainedBox"" MultipleX=""32""
                                HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"">
         <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
       </controls:ConstrainedBox>
@@ -93,15 +55,64 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsNotNull(child, "Could not find inner Border");
 
                 // Check Size
-                Assert.AreEqual(child.ActualWidth, 100);
+                Assert.AreEqual(child.ActualWidth, 192);
                 Assert.AreEqual(child.ActualHeight, 200);
 
                 // Check inner Positioning, we do this from the Grid as the ConstainedBox also modifies its own size
                 // and is hugging the child.
                 var position = grid.CoordinatesTo(child);
 
-                Assert.AreEqual(position.X, 50);
+                Assert.AreEqual(position.X, 4);
                 Assert.AreEqual(position.Y, 0);
+            });
+        }
+
+        [TestCategory("ConstrainedBox")]
+        [TestMethod]
+        public async Task Test_ConstrainedBox_Normal_MultipleY()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <Grid x:Name=""ParentGrid"" Width=""200"" Height=""200"">
+      <controls:ConstrainedBox x:Name=""ConstrainedBox"" MultipleY=""32""
+                               HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"">
+        <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
+      </controls:ConstrainedBox>
+    </Grid>
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                // Initialize Visual Tree
+                await SetTestContentAsync(treeRoot);
+
+                var grid = treeRoot.FindChild("ParentGrid") as Grid;
+
+                var panel = treeRoot.FindChild("ConstrainedBox") as ConstrainedBox;
+
+                Assert.IsNotNull(panel, "Could not find ConstrainedBox in tree.");
+
+                // Force Layout calculations
+                panel.UpdateLayout();
+
+                var child = panel.Content as Border;
+
+                Assert.IsNotNull(child, "Could not find inner Border");
+
+                // Check Size
+                Assert.AreEqual(child.ActualWidth, 200);
+                Assert.AreEqual(child.ActualHeight, 192);
+
+                // Check inner Positioning, we do this from the Grid as the ConstainedBox also modifies its own size
+                // and is hugging the child.
+                var position = grid.CoordinatesTo(child);
+
+                Assert.AreEqual(position.X, 0);
+                Assert.AreEqual(position.Y, 4);
             });
         }
     }
