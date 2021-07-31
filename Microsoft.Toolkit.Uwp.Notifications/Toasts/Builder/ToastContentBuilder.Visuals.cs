@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
 using Windows.UI.Notifications;
 #endif
 
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
 #if !WINRT
         /// <summary>
         /// Create an instance of NotificationData that can be used to update toast that has a progress bar.

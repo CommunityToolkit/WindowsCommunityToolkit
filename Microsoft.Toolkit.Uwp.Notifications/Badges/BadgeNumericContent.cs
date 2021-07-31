@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
 using Windows.Data.Xml.Dom;
 #endif
 
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return GetContent();
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
         /// <summary>
         /// Retrieves the notification Xml content as a WinRT Xml document.
         /// </summary>

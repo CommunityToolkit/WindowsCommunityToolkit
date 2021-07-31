@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _binding.Converter = new DataGridValueConverter();
                         }
 
-#if !WINDOWS_UWP
+#if !WINDOWS_UAP
                         // Setup the binding for validation
                         _binding.ValidatesOnDataErrors = true;
                         _binding.ValidatesOnExceptions = true;

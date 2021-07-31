@@ -6,7 +6,7 @@ Welcome to the Notifications section of the toolkit! This contains the Notificat
 
 Any code for generating notifications should be written in the `Microsoft.Toolkit.Uwp.Notifications` project.
 
-If there's UWP-specific code, use the appropriate `#ifdef`, `WINDOWS_UWP` or `WINRT`.
+If there's UWP-specific code, use the appropriate `#ifdef`, `WINDOWS_UAP` or `WINRT`.
 
 ## What are all the projects for?
 

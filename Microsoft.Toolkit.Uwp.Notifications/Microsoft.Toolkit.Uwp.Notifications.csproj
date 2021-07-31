@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="MSBuild.NET.Extras.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;uap10.0.16299;net461;netcoreapp3.1;net5.0;net5.0-windows10.0.17763;native</TargetFrameworks>
@@ -14,8 +14,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1' or $(TargetFramework.Contains('windows10.0'))">
-    <!-- Define the WINDOWS_UWP conditional symbol, since the 'Windows.Data.Xml' and the 'Windows.UI.Notification' namespaces are available -->
-    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WIN32</DefineConstants>
+    <!-- Define the WINDOWS_UAP conditional symbol, since the 'Windows.Data.Xml' and the 'Windows.UI.Notification' namespaces are available -->
+    <DefineConstants>$(DefineConstants);WINDOWS_UAP;WIN32</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
@@ -30,7 +30,7 @@
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <!-- Misc -->
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
-    <DefineConstants>$(DefineConstants);WINDOWS_UWP;WINRT</DefineConstants>
+    <DefineConstants>$(DefineConstants);WINDOWS_UAP;WINRT</DefineConstants>
     <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
     <!-- Workaround for issue NuGet/Home#8388; Restore conflict in VS IDE 2019 during DesignTime vs BuildTime. -->
     <NuGetTargetMoniker Condition="'$(DesignTimeBuild)' != 'true'">UAP,Version=v10.0</NuGetTargetMoniker>
@@ -51,10 +51,6 @@
     <PackageReference Include="Microsoft.Win32.Registry" />
     <PackageReference Include="System.Reflection.Emit" />
     <PackageReference Include="System.Drawing.Common" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'native'">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" PrivateAssets="All" />
   </ItemGroup>
 
   <!-- Native (C++) does not need 'System.ValueTuple' (plus it is incompatible with this package) -->

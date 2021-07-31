@@ -31,8 +31,8 @@
       <PropertyGroup>
         <!-- Code CS8002 is a warning for strong named -> non-strong-named reference. This is valid for platforms other than .NET Framework (and is needed for the UWP targets. -->
         <NoWarn>$(NoWarn);CS8002</NoWarn>
-        <!-- For including default @(Page) and @(Resource) items via 'MSBuild.Sdk.Extras' Sdk package. Also provides up to date check and file nesting -->
-        <ExtrasEnableDefaultXamlItems>true</ExtrasEnableDefaultXamlItems>
+        <!-- For including default @(Page) and @(Resource) items via 'MSBuild.NET.Extras.Sdk' Sdk package. Also provides up to date check and file nesting -->
+        <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
       </PropertyGroup>
     </When>
   </Choose>

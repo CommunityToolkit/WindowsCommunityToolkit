@@ -2,7 +2,6 @@
 
   <PropertyGroup Label="Core">
     <NETStandardImplicitPackageVersion>2.0.3</NETStandardImplicitPackageVersion>
-    <ExtrasUwpMetaPackageVersion>6.2.13</ExtrasUwpMetaPackageVersion>
   </PropertyGroup>
 
   <ItemGroup Label="Core">
@@ -12,8 +11,8 @@
     <PackageVersion Include="Microsoft.UI.Xaml" Version="2.7.1" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1" />
     <PackageVersion Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
-    <!-- MSBuild SDK Extras refernces the following package implicitly -->
-    <PackageVersion Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.13" Condition="'$(_SdkShortFrameworkIdentifier)' != 'uap'" />
+    <!-- MSBuild .NET Extras SDK refernces the following package implicitly -->
+    <PackageVersion Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.13" Condition="'$(UsingMSBuildNETExtrasSdk)' != 'true'" />
     <!-- C# Compiler SDK -->
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />

@@ -396,7 +396,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return Content;
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
         /// <summary>
         /// Retrieves the notification XML content as a WinRT XmlDocument, so that it can be used with a local Toast notification's constructor on either <see cref="Windows.UI.Notifications.ToastNotification"/> or <see cref="Windows.UI.Notifications.ScheduledToastNotification"/>.
         /// </summary>

@@ -5,7 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-#if WINDOWS_UWP
+#if WINDOWS_UAP
 
 #endif
 
