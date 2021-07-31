@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <BuildPlatforms>x86</BuildPlatforms>
+    <BuildPlatforms>x64</BuildPlatforms>
     <BuildConfigurations>Release</BuildConfigurations>
     <ToolkitPackages>
       UWPBaseline;

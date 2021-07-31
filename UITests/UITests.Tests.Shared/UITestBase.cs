@@ -27,21 +27,33 @@ namespace UITests.Tests
         {
             get
             {
-                string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
+                string assemblyDir = Path.GetDirectoryName(typeof(TestApplicationInfo).Assembly.Location);
+                DirectoryInfo baseDir = Directory.GetParent(assemblyDir);
 
-                Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
-
-                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
-                var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
-
-                if (files.Count() == 0)
+                for (int i = 0; i < 10; i++)
                 {
-                    throw new Exception(string.Format("Failed to find '*.msix' in {0}'!", baseDirectory));
+                    if (baseDir.EnumerateDirectories().Any(d => d.Name.Equals("bin", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        break;
+                    }
+
+                    baseDir = baseDir.Parent;
                 }
 
-                string mostRecentlyBuiltPackage = string.Empty;
-                DateTime timeMostRecentlyBuilt = DateTime.MinValue;
+                string publishDir = Path.Combine(baseDir.FullName, "AppPackages", "UITests.App");
+
+                Log.Comment($"Base Package Search Directory = \"{publishDir}\"");
+
+                var excludes = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
+                var files = Directory.EnumerateFiles(publishDir, "*.msix", SearchOption.AllDirectories).Where(f => !excludes.Any(Path.GetFileNameWithoutExtension(f).Contains));
+
+                if (!files.Any())
+                {
+                    throw new Exception($"Failed to find '*.msix' in '{publishDir}'!");
+                }
+
+                var mostRecentlyBuiltPackage = string.Empty;
+                var timeMostRecentlyBuilt = DateTime.MinValue;
 
                 foreach (string file in files)
                 {
@@ -62,7 +74,7 @@ namespace UITests.Tests
                     processName: "UITests.App.exe",
                     installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
                     certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
-                    baseAppxDir: baseDirectory);
+                    baseAppxDir: publishDir);
             }
         }
 
