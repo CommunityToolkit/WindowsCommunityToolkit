@@ -6,8 +6,9 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewSelectionChangedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -36,8 +37,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TabbedCommandBar()
         {
             DefaultStyleKey = typeof(TabbedCommandBar);
+            DefaultStyleResourceUri = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Core/Themes/Generic.xaml");
 
             SelectionChanged += SelectedItemChanged;
+            Loaded += TabbedCommandBar_Loaded;
         }
 
         /// <inheritdoc/>
@@ -55,6 +58,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tabbedCommandBarContentBorder = GetTemplateChild("PART_TabbedCommandBarContentBorder") as Border;
             _tabChangedStoryboard = GetTemplateChild("TabChangedStoryboard") as Storyboard;
 
+            // TODO: We could maybe optimize and use a lower-level Loaded event for what's hosting the MenuItems
+            // to set SelectedItem, but then we may have to pull in another template part, so think we're OK
+            // to do the Loaded event at the top level.
+        }
+
+        private void TabbedCommandBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            // We need to select the item after the template is realized, otherwise the SelectedItem's
+            // DataTemplate bindings don't properly navigate the visual tree.
             SelectedItem = MenuItems.FirstOrDefault();
         }
 
