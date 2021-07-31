@@ -9,7 +9,9 @@
 
   <Grid>
     <controls:ConstrainedBox AspectRatio="16:3" VerticalAlignment="Top">
-      <Image Source="/Assets/Photos/WestSeattleView.jpg" Stretch="UniformToFill"/>
+      <Image Source="/Assets/Photos/WestSeattleView.jpg"
+             Stretch="UniformToFill"
+             VerticalAlignment="Center"/> <!-- Center on the City -->
     </controls:ConstrainedBox>
     <controls:ConstrainedBox MultipleX="64"
                              AspectRatio="1:1"
