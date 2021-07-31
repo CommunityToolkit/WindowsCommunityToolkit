@@ -110,7 +110,7 @@
     </PackageReference>
     <!-- TODO Reintroduce graph controls
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
-      <Version>6.1.0-build.6</Version>
+      <Version>7.0.0-preview2</Version>
     </PackageReference>
     -->
     <PackageReference Include="Microsoft.UI.Xaml">
