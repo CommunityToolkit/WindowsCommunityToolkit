@@ -43,23 +43,23 @@
 
   <!-- For Desktop Win32 apps' WinRT APIs support -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" />
   </ItemGroup>
 
   <!-- The .NET Core desktop apps also need the Registry NuGet package and 'System.Reflection.Emit' for generating COM class dynamically -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or $(TargetFramework.Contains('windows10.0'))">
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Win32.Registry" />
+    <PackageReference Include="System.Reflection.Emit" />
+    <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'native'">
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(ExtrasUwpMetaPackageVersion)" PrivateAssets="All" IsImplicitlyDefined="true" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" PrivateAssets="All" />
   </ItemGroup>
 
   <!-- Native (C++) does not need 'System.ValueTuple' (plus it is incompatible with this package) -->
   <ItemGroup Condition="'$(TargetFramework)' != 'native'">
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.ValueTuple" />
   </ItemGroup>
 
   <!--

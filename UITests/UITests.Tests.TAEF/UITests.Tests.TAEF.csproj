@@ -54,13 +54,13 @@
 
   <ItemGroup>
     <!-- System packages -->
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="System.Text.Json" />
     <!-- Microsoft.UI.Xaml TAEF Extensions -->
-    <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
-    <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />
-    <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
+    <PackageReference Include="MUXTestInfra.TAEF" />
+    <PackageReference Include="MUXCustomBuildTasks" GeneratePathProperty="true" />
+    <PackageReference Include="TAEF.Redist.Wlk" GeneratePathProperty="true" />
     <!-- Windows SDK package -->
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" />
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />

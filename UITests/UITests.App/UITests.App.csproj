@@ -157,24 +157,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.12</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Diagnostics">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="MUXAppTestHelpers">
-      <Version>0.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Json">
-      <Version>5.0.2</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" />
+    <PackageReference Include="Microsoft.Toolkit" />
+    <PackageReference Include="Microsoft.Toolkit.Diagnostics" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" />
+    <PackageReference Include="MUXAppTestHelpers" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="UITests.App.pfx" />

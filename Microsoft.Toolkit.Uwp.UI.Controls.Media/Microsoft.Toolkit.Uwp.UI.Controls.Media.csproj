@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="Win2D.uwp" Version="1.25.0" />
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="Win2D.uwp" />
   </ItemGroup>
 
   <Import Project="$(BuildToolsDirectory)Windows.Toolkit.UWP.Controls.targets" />

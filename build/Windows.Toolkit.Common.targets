@@ -27,4 +27,15 @@
     <AdditionalFiles Include="$(RepositoryDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!--
+      HACK: Remove this once we update the Desktop Toolkit and publish new packages containing the following fix!
+
+      Mark the following package as implicit to workaround CPVM complaining about having 'Version' attribute defined.
+      This package reference comes from the 'Microsoft.WinRT.Win32.targets' file in the 'Microsoft.Toolkit.Win32.UI.SDK' package.
+      Update the version to latest, as the forwarder assemblies are now signed, which should help with the App certification process!
+    -->
+    <PackageReference Update="Microsoft.VCRTForwarders.140" Version="1.0.7" IsImplicitlyDefined="true" />
+  </ItemGroup>
+
 </Project>

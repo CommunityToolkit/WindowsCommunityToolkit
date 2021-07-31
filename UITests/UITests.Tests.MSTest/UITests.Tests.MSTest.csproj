@@ -13,20 +13,20 @@
 
   <ItemGroup>
     <!-- MSTest -->
-    <PackageReference Include="Microsoft.Toolkit" Version="7.1.2" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Microsoft.Toolkit" />
+    <PackageReference Include="MSTest.TestAdapter" />
+    <PackageReference Include="MSTest.TestFramework" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <!-- Microsoft.UI.Xaml MSTest Extension -->
-    <PackageReference Include="MUXTestInfra.MSTest" Version="0.0.4" />
+    <PackageReference Include="MUXTestInfra.MSTest" />
     <!-- System packages -->
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.5.1" />
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="System.Drawing.Primitives" />
+    <PackageReference Include="System.Diagnostics.Process" />
+    <PackageReference Include="System.Reflection.TypeExtensions" />
     <!-- Windows SDK packages -->
-    <PackageReference Include="Microsoft.Windows.Apps.Test" Version="1.0.181205002" />
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+    <PackageReference Include="Microsoft.Windows.Apps.Test" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" />
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
