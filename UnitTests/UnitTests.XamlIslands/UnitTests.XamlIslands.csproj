@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssetTargetFallback>uap10.0.19041</AssetTargetFallback>
+    <AssetTargetFallback>uap10.0.18362</AssetTargetFallback>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <StartupObject>UnitTests.XamlIslands.Program</StartupObject>
   </PropertyGroup>

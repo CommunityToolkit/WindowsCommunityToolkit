@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <AppDesigner Include="Properties\"/>
-      <!-- The 'LogicalName' metadata changes the default manifest naming scheme -->
+    <!-- The 'LogicalName' metadata changes the default manifest naming scheme -->
     <EmbeddedResource Include="Icons\*.icon.png" LogicalName="$(ParentProjectRootNamespace).%(Filename)%(Extension)"/>
     <EmbeddedResource Include="$(ParentProjectOutputPath)$(ParentProjectName).xml" LinkBase="Properties\" LogicalName="%(Filename)%(Extension)"/>
   </ItemGroup>
