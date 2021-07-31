@@ -37,8 +37,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(CurrentProject)' != ''">
     <AppxPackageName>SmokeTest_$(CurrentProject)</AppxPackageName>
-    <IntermediateOutputPath>obj\$(CurrentProject)\</IntermediateOutputPath>
-    <OutputPath>bin\$(CurrentProject)\$(Platform)\$(Configuration)\</OutputPath>
+    <BaseOutputPath>bin\$(CurrentProject)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>obj\$(CurrentProject)\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

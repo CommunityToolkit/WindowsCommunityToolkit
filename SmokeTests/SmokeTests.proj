@@ -82,7 +82,7 @@
     <ItemGroup>
       <NuGetPackage Include="$(NuGetOutputPath)*.nupkg" />
     </ItemGroup>
-    <Error Condition="'@(NuGetPackage)' == ''" Text="Directory '$(NuGetOutputPath)' is empty" />
+    <Error Condition="@(NuGetPackage->Count()) == 0" Text="Directory '$(NuGetOutputPath)' is empty" />
   </Target>
 
 </Project>

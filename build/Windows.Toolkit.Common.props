@@ -43,4 +43,8 @@
     <ContinuousIntegrationBuild>$(TF_BUILD)</ContinuousIntegrationBuild>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <BaseOutputPath>bin\</BaseOutputPath>
+  </PropertyGroup>
+
 </Project>
