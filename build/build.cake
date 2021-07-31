@@ -33,10 +33,10 @@ var buildDir = baseDir + "/build";
 var Solution = baseDir + "/Windows Community Toolkit.sln";
 var toolsDir = buildDir + "/tools";
 
-var binDir = baseDir + "/bin";
-var nupkgDir = binDir + "/nupkg";
+var packagesDir = baseDir + "/~packages";
+var pkgBinDir = packagesDir + "/bin";
 
-var taefBinDir = baseDir + $"/UITests/UITests.Tests.TAEF/bin/{configuration}/netcoreapp3.1/win10-x86";
+var taefBinDir = baseDir + $"/UITests/UITests.Tests.TAEF/~build/bin/{configuration}/netcoreapp3.1/win10-x86";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -114,14 +114,14 @@ Task("Clean")
     .Description("Clean the output folder")
     .Does(() =>
 {
-    if(DirectoryExists(binDir))
+    if(DirectoryExists(packagesDir))
     {
         Information("\nCleaning Working Directory");
-        CleanDirectory(binDir);
+        CleanDirectory(packagesDir);
     }
     else
     {
-        CreateDirectory(binDir);
+        CreateDirectory(packagesDir);
     }
 });
 
@@ -158,7 +158,7 @@ Task("BuildProjects")
 
     MSBuild(Solution, buildSettings);
 
-    EnsureDirectoryExists(nupkgDir);
+    EnsureDirectoryExists(pkgBinDir);
 
     // Build once with normal dependency ordering
     buildSettings = new MSBuildSettings
@@ -222,7 +222,7 @@ Task("Package")
     .SetConfiguration(configuration)
     .WithTarget("Pack")
     .WithProperty("GenerateLibraryLayout", "true")
-    .WithProperty("PackageOutputPath", nupkgDir);
+    .WithProperty("PackageOutputPath", pkgBinDir);
 
     MSBuild(Solution, buildSettings);
 });

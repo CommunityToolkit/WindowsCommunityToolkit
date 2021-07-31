@@ -9,7 +9,6 @@
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>False</AppendRuntimeIdentifierToOutputPath>
-    <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
     <ParentTargetFramework>uap$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision)</ParentTargetFramework>
     <ParentProjectName>$(MSBuildProjectName.Remove($(MSBuildProjectName.LastIndexOf('.'))))</ParentProjectName>
   </PropertyGroup>

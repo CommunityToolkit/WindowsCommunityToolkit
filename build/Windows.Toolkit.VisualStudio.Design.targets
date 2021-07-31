@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <ParentProjectRootNamespace>$(RootNamespace.Remove($(RootNamespace.LastIndexOf('.'))))</ParentProjectRootNamespace>
-    <ParentProjectOutputPath>..\$(ParentProjectName)\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
+    <ParentProjectOutputPath>..\$(ParentProjectName)\~build\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
     <OutputPath>$(ParentProjectOutputPath)Design\</OutputPath>
   </PropertyGroup>
 

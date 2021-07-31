@@ -37,8 +37,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(CurrentProject)' != ''">
     <AppxPackageName>SmokeTest_$(CurrentProject)</AppxPackageName>
-    <IntermediateOutputPath>obj\$(CurrentProject)\</IntermediateOutputPath>
-    <OutputPath>bin\$(CurrentProject)\$(Platform)\$(Configuration)\</OutputPath>
+    <BuildDir Condition="'$(BuildDir)' == ''">~build\</BuildDir>
+    <BaseIntermediateOutputPath>$(BuildDir)$(CurrentProject)\obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(BuildDir)$(CurrentProject)\bin\</BaseOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -123,7 +124,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <Target Name="BeforeBuild">
     <ItemGroup Condition="$(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'">
-      <NuGetPackage Include="$(RepositoryDirectory)bin\nupkg\$(CurrentProject).*.nupkg" />
+      <NuGetPackage Include="$(RepositoryDirectory)~packages\bin\$(CurrentProject).*.nupkg" />
       <NuGetPackageFiltered Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Identity)', `$(CurrentProject).([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?.nupkg`))" Include="@(NuGetPackage)" />
     </ItemGroup>
     <Error Condition="'@(NuGetPackageFiltered)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet '$(CurrentProject).[SEMVER].nupkg' doesn't exist!" />

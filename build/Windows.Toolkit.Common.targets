@@ -12,6 +12,11 @@
     <PackageTags Condition="'$(PackageTags)' == ''">$(CommonTags)</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Exclude files and folders from build and publish across all projects -->
+    <DefaultItemExcludes>$(BuildDir)**;$(PublishDir)**;$(DefaultItemExcludes)</DefaultItemExcludes>
+  </PropertyGroup>
+
   <ItemGroup Condition="$(IsPackable)">
     <None Include="$(BuildToolsDirectory)nuget.png" Pack="true" PackagePath="\Icon.png" />
     <None Include="$(RepositoryDirectory)License.md" Pack="true" PackagePath="\" />
