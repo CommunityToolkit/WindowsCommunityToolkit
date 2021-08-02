@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 // TODO Reintroduce graph controls
 // using Microsoft.Toolkit.Graph.Converters;
 // using Microsoft.Toolkit.Graph.Providers;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper(new SystemSerializer());
+            var settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
