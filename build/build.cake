@@ -267,7 +267,7 @@ Task("Test")
         NoBuild = true,
         Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
-        ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings /p:platform=\"AnyCpu\""),
+        ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings /p:Platform=AnyCPU"),
     };
     DotNetCoreTest(file.FullPath, testSettings);
 }).DeferOnError();
