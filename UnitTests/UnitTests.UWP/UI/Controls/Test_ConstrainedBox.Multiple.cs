@@ -55,15 +55,15 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsNotNull(child, "Could not find inner Border");
 
                 // Check Size
-            Assert.AreEqual(192, child.ActualWidth, 1, "Actual width does not meet expected value of 192");
-            Assert.AreEqual(200, child.ActualHeight, 1, "Actual height does not meet expected value of 200");
+                Assert.AreEqual(192, child.ActualWidth, 0.01, "Actual width does not meet expected value of 192");
+                Assert.AreEqual(200, child.ActualHeight, 0.01, "Actual height does not meet expected value of 200");
 
                 // Check inner Positioning, we do this from the Grid as the ConstainedBox also modifies its own size
                 // and is hugging the child.
                 var position = grid.CoordinatesTo(child);
 
-                Assert.AreEqual(4, position.X);
-                Assert.AreEqual(0, position.Y);
+                Assert.AreEqual(4, position.X, 0.01, "X position does not meet expected value of 4");
+                Assert.AreEqual(0, position.Y, 0.01, "Y position does not meet expected value of 0");
             });
         }
 
@@ -104,15 +104,15 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsNotNull(child, "Could not find inner Border");
 
                 // Check Size
-                Assert.AreEqual(200, child.ActualWidth, "Actual width does not meet expected value of 200");
-                Assert.AreEqual(192, child.ActualHeight, "Actual height does not meet expected value of 192");
+                Assert.AreEqual(200, child.ActualWidth, 0.01, "Actual width does not meet expected value of 200");
+                Assert.AreEqual(192, child.ActualHeight, 0.01, "Actual height does not meet expected value of 192");
 
                 // Check inner Positioning, we do this from the Grid as the ConstainedBox also modifies its own size
                 // and is hugging the child.
                 var position = grid.CoordinatesTo(child);
 
-                Assert.AreEqual(0, position.X);
-                Assert.AreEqual(4, position.Y);
+                Assert.AreEqual(0, position.X, 0.01, "X position does not meet expected value of 0");
+                Assert.AreEqual(4, position.Y, 0.01, "Y position does not meet expected value of 4");
             });
         }
     }
