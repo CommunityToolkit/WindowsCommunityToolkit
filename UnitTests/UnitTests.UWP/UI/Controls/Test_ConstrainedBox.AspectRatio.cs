@@ -51,8 +51,8 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsNotNull(child, "Could not find inner Border");
 
                 // Check Size
-                Assert.AreEqual(child.ActualWidth, 200, "Width unexpected");
-                Assert.AreEqual(child.ActualHeight, 100, "Height unexpected");
+            Assert.AreEqual(200, child.ActualWidth, 1, "Actual width does not meet expected value of 200");
+            Assert.AreEqual(100, child.ActualHeight, 1, "Actual height does not meet expected value of 100");
             });
         }
 
@@ -88,8 +88,8 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsNotNull(child, "Could not find inner Border");
 
                 // Check Size
-                Assert.AreEqual(child.ActualWidth, 100, "Width unexpected");
-                Assert.AreEqual(child.ActualHeight, 200, "Height unexpected");
+            Assert.AreEqual(100, child.ActualWidth, 1, "Actual width does not meet expected value of 100");
+            Assert.AreEqual(200, child.ActualHeight, 1, "Actual height does not meet expected value of 200");
             });
         }
     }
