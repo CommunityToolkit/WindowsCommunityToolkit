@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Common.Helpers;
 using CommunityToolkit.WinUI.Helpers;
+using Windows.ApplicationModel;
 
 namespace CommunityToolkit.WinUI.SampleApp
 {
