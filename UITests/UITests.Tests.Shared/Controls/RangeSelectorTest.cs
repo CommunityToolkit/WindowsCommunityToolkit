@@ -16,7 +16,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UITests.Tests
 {
-
     [TestClass]
     public class RangeSelectorTest : UITestBase
     {

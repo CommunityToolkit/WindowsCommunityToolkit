@@ -1,18 +1,19 @@
-﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 
-    <TargetFramework>net5.0-windows10.0.18362</TargetFramework>
+    
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
-    <LangVersion>9.0</LangVersion>
+    <TargetFrameworks>net5.0-windows10.0.18362</TargetFrameworks>
+  </PropertyGroup>
 
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  <PropertyGroup>
     <PlatformTarget>x86</PlatformTarget>
     <OutputType>Exe</OutputType>
     <IsPackable>false</IsPackable>
     <ProjectReunionCopyXamlToolingLibs>false</ProjectReunionCopyXamlToolingLibs>
-
     <IsTestHarness>true</IsTestHarness>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,4 +38,5 @@
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
+
 </Project>

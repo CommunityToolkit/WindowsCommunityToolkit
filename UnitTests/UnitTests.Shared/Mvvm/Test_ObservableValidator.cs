@@ -468,7 +468,7 @@ namespace UnitTests.Mvvm
 
         /// <summary>
         /// Test model for linked properties, to test <see cref="ObservableValidator.ValidateProperty(object?, string?)"/> instance.
-        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3665 for the original request for this feature.
+        /// See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3665 for the original request for this feature.
         /// </summary>
         public class ComparableModel : ObservableValidator
         {
@@ -522,7 +522,7 @@ namespace UnitTests.Mvvm
 
         /// <summary>
         /// Test model for custom validation properties.
-        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3729 for the original request for this feature.
+        /// See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3729 for the original request for this feature.
         /// </summary>
         public class CustomValidationModel : ObservableValidator
         {
@@ -568,7 +568,7 @@ namespace UnitTests.Mvvm
 
         /// <summary>
         /// Test model for custom validation with an injected service.
-        /// See https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3750 for the original request for this feature.
+        /// See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3750 for the original request for this feature.
         /// </summary>
         public class ValidationWithServiceModel : ObservableValidator
         {
@@ -604,7 +604,7 @@ namespace UnitTests.Mvvm
 
         /// <summary>
         /// Test model for validation with a formatted display name string on each property.
-        /// This is issue #1 from https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3763.
+        /// This is issue #1 from https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3763.
         /// </summary>
         public class ValidationWithDisplayName : ObservableValidator
         {

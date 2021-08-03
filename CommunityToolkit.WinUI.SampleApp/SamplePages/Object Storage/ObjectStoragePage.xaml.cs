@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.Common.Helpers;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 
@@ -9,7 +10,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class ObjectStoragePage
     {
-        private readonly IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
+        private readonly ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         public ObjectStoragePage()
         {
@@ -24,9 +25,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
             }
 
             // Read from local storage
-            if (localStorageHelper.KeyExists(KeyTextBox.Text))
+            if (_settingsStorage.KeyExists(KeyTextBox.Text))
             {
-                ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
+                ContentTextBox.Text = _settingsStorage.Read<string>(KeyTextBox.Text);
             }
         }
 
@@ -43,7 +44,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
             }
 
             // Save into local storage
-            localStorageHelper.Save(KeyTextBox.Text, ContentTextBox.Text);
+            _settingsStorage.Save(KeyTextBox.Text, ContentTextBox.Text);
         }
     }
 }

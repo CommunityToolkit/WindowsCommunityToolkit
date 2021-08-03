@@ -6,11 +6,13 @@ using System;
 using System.Text.Json;
 using CommunityToolkit.WinUI.Helpers;
 
-namespace UnitTests.WinUI.Helpers
+namespace UnitTests.Helpers
 {
     /// <summary>
     /// Example class of writing a new <see cref="IObjectSerializer"/> that uses System.Text.Json.
+    /// Based on <see cref="Microsoft.Toolkit.Uwp.Helpers.IObjectSerializer"/>.
     /// </summary>
+    [Obsolete]
     internal class SystemTextJsonSerializer : IObjectSerializer
     {
         public T Deserialize<T>(object value) => JsonSerializer.Deserialize<T>(value as string);

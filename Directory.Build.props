@@ -1,78 +1,75 @@
 <Project>
   
   <PropertyGroup>
-    <Authors>Microsoft.Toolkit</Authors>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
-    <PackageIcon>images\nuget.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReleaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
-    <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
-    <Company>.NET Foundation</Company>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <IsDesignProject>$(MSBuildProjectName.Contains('.DesignTools'))</IsDesignProject>
-    <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-    <IsWinUIProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('WinUI'))</IsWinUIProject>
-    <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
-    <ShouldAddWinUI>False</ShouldAddWinUI>
-    <UseWinUI Condition="'$(IsWinUIProject)'== 'true' or '$(IsDesignProject)' == 'true' or '$(IsSampleProject)' == 'true' or '$(IsTestProject)' == 'true'">true</UseWinUI>
-    <TargetPlatformRevision>18362</TargetPlatformRevision>
-    <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
-    <SupportedOSPlatformVersion>10.0.$(TargetPlatformMinRevision).0</SupportedOSPlatformVersion>
-    <MicrosoftProjectReunionVersion>0.8.1</MicrosoftProjectReunionVersion>
-    <MicrosoftCsWinRTVersion>1.3.0</MicrosoftCsWinRTVersion>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
+    <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
+    <BuildToolsDirectory>$(RepositoryDirectory)build\</BuildToolsDirectory>
+  </PropertyGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Common.props" />
+
+  <PropertyGroup>
     <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
-    <NoWarn>SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
+    <NoWarn>$(NoWarn);SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
     <!-- TODO: WinUI3 - Need to fix -->
     <NoWarn>$(NoWarn);CA1033;CA1065;CA1001;CS0252;CS8073;CA1063;CA2213;CA2214;CS8600;CS8604</NoWarn>
     <!-- TODO: WinUI3 - Remove when XAMLBehaviors is strong signed -->
     <NoWarn>$(NoWarn);CS8002</NoWarn>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
   
-  <PropertyGroup Condition="'$(Configuration)' == 'Release' and '$(IsSampleProject)' != 'true' and '$(IsTestProject)' != 'true'">
-    <!--<TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
-  </PropertyGroup>
-
   <Choose>
-    <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="$(IsCoreProject)">
       <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageOutputPath>$(RepositoryDirectory)bin\nupkg</PackageOutputPath>
+        <GenerateLibraryLayout Condition="$(IsWinUIProject)">true</GenerateLibraryLayout>
+        <!-- Turned off until 16.11 (https://github.com/dotnet/msbuild/pull/6676) -->
+        <!--<TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>-->
       </PropertyGroup>
     </When>
     <Otherwise>
       <PropertyGroup>
         <IsPackable>false</IsPackable>
+        <IsPublishable>false</IsPublishable>
+        <NoWarn>$(NoWarn);CS8002;SA0001</NoWarn>
       </PropertyGroup>
     </Otherwise>
   </Choose>
 
   <Choose>
-    <When Condition="('$(IsWinUIProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="$(IsWinUIProject)">
       <PropertyGroup>
-        <GenerateLibraryLayout>true</GenerateLibraryLayout>
+        <!-- Code CS8002 is a warning for strong named -> non-strong-named reference. This is valid for platforms other than .NET Framework (and is needed for the UWP targets. -->
+        <NoWarn>$(NoWarn);CS8002</NoWarn>
+        <!-- For including default @(Page) and @(Resource) items via 'MSBuild.Sdk.Extras' Sdk package. Also provides up to date check and file nesting -->
+        <ExtrasEnableDefaultXamlItems>true</ExtrasEnableDefaultXamlItems>
       </PropertyGroup>
     </When>
   </Choose>
 
   <Choose>
-    <When Condition="'$(Configuration)' == 'Debug' and '$(IsDesignProject)' != 'true'">
-      <!-- Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios -->
-      <PropertyGroup>
+    <When Condition="!$(IsDesignProject)">
+      <!--
+          Debug builds have this turned on by default, but it breaks our Xaml Islands Scenarios.
+          ARM64 builds for managed apps use .NET Native. We can't use the Reflection Provider for that.
+      -->
+      <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <EnableXBindDiagnostics>false</EnableXBindDiagnostics>
         <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
       </PropertyGroup>
+      <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
+      </ItemGroup>
     </When>
   </Choose>
 
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.VisualStudio.Design.props" Condition="$(IsDesignProject)" />
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="All" />
+  </ItemGroup>
+
   <Choose>
-    <When Condition="'$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true'">
+    <When Condition="!$(IsSampleProject) and '$(SourceLinkEnabled)' != 'false'">
       <PropertyGroup>
         <!-- Declare that the Repository URL can be published to NuSpec -->
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -82,32 +79,9 @@
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
       </ItemGroup>
     </When>
   </Choose>
-  
-  <Choose>
-    <When Condition="'$(IsDesignProject)' != 'true'">
-      <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-      </ItemGroup>
-    </When>
-  </Choose>
-  
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.190" PrivateAssets="all" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
-      <Link>stylecop.json</Link>
-    </AdditionalFiles>
-    <None Include="$(MSBuildThisFileDirectory)License.md" Pack="true" PackagePath="\" />
-    <None Include="$(MSBuildThisFileDirectory)build\nuget.png" Pack="true" PackagePath="images\" />
-  </ItemGroup>
-
-  <Import Project="$(MSBuildThisFileDirectory)build\Windows.Toolkit.VisualStudio.Design.props" Condition="'$(IsDesignProject)' == 'true'" />
 
 </Project>

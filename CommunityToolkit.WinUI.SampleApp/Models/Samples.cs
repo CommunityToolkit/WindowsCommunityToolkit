@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Common.Helpers;
 using CommunityToolkit.WinUI.Helpers;
 using Windows.ApplicationModel;
 
@@ -23,7 +24,7 @@ namespace CommunityToolkit.WinUI.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
+        private static ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
@@ -129,7 +130,7 @@ namespace CommunityToolkit.WinUI.SampleApp
             if (_recentSamples == null)
             {
                 _recentSamples = new LinkedList<Sample>();
-                var savedSamples = _localObjectStorageHelper.Read<string>(_recentSamplesStorageKey);
+                var savedSamples = _settingsStorage.Read<string>(_recentSamplesStorageKey);
 
                 if (savedSamples != null)
                 {
@@ -175,7 +176,7 @@ namespace CommunityToolkit.WinUI.SampleApp
             }
 
             var str = string.Join(";", _recentSamples.Take(10).Select(s => s.Name).ToArray());
-            _localObjectStorageHelper.Save<string>(_recentSamplesStorageKey, str);
+            _settingsStorage.Save<string>(_recentSamplesStorageKey, str);
         }
     }
 }

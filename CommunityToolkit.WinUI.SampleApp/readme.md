@@ -1,4 +1,4 @@
-For the latest info, [visit the wiki article here](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki/Sample-Development).
+For the latest info, [visit the wiki article here](https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki/Sample-Development).
 
 # How to add new samples
 
@@ -92,7 +92,7 @@ Therefore, for any new control/extension, you should still have a simplified sni
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
-This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
+This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
 ```csharp
 var markdownText = control.FindChild("MarkdownText") as MarkdownTextBlock;
@@ -148,9 +148,9 @@ Select the category where you want your page to be listed and add the following 
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/main/docs/controls/AdaptiveGridView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/docs/controls/AdaptiveGridView.md"
       }
     ]
   }
@@ -159,7 +159,7 @@ Select the category where you want your page to be listed and add the following 
 
 ## Thumbnail Images
 
-> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/CommunityToolkit/WindowsCommunityToolkit-design-assets)
 
 ## Restricting Samples to Specific API Sets
 

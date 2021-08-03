@@ -1,8 +1,8 @@
 #module nuget:?package=Cake.LongPath.Module&version=1.0.1
 
 #addin nuget:?package=Cake.FileHelpers&version=4.0.1
-#addin nuget:?package=Cake.Powershell&version=1.0.0
-#addin nuget:?package=Cake.GitVersioning&version=3.4.190
+#addin nuget:?package=Cake.Powershell&version=1.0.1
+#addin nuget:?package=Cake.GitVersioning&version=3.4.220
 
 #tool nuget:?package=MSTest.TestAdapter&version=2.2.5
 #tool nuget:?package=vswhere&version=2.8.4
@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 //////////////////////////////////////////////////////////////////////
 
 var target = Argument("target", "Default");
+var configuration = Argument("configuration", "Release");
 
 //////////////////////////////////////////////////////////////////////
 // VERSIONS
@@ -35,7 +36,7 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
-var taefBinDir = baseDir + "/UITests/UITests.Tests.TAEF/bin/Release/net5.0-windows10.0.19041/win10-x86";
+var taefBinDir = baseDir + $"/UITests/UITests.Tests.TAEF/bin/{configuration}/net5.0-windows10.0.19041/win10-x86";
 
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
@@ -94,7 +95,7 @@ void VerifyHeaders(bool Replace)
 
     if(!Replace && hasMissing)
     {
-        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 --target=UpdateHeaders' and commit the changes.");
+        throw new Exception("Please run UpdateHeaders.bat or '.\\build.ps1 -Target UpdateHeaders' and commit the changes.");
     }
 }
 
@@ -167,7 +168,7 @@ Task("BuildProjects")
     {
         MaxCpuCount = 0
     }
-    .SetConfiguration("Release")
+    .SetConfiguration(configuration)
     .WithTarget("Restore");
 	
     UpdateToolsPath(buildSettings);
@@ -181,7 +182,7 @@ Task("BuildProjects")
     {
         MaxCpuCount = 0
     }
-    .SetConfiguration("Release")
+    .SetConfiguration(configuration)
     .EnableBinaryLogger()
     .WithTarget("Build");
 
@@ -196,14 +197,15 @@ Task("InheritDoc")
     .Does(() =>
 {
     Information("\nDownloading InheritDoc...");
-    var installSettings = new NuGetInstallSettings {
+    var installSettings = new NuGetInstallSettings
+    {
         ExcludeVersion = true,
         Version = inheritDocVersion,
         OutputDirectory = toolsDir
     };
 
-    NuGetInstall(new []{"InheritDoc"}, installSettings);
-    
+    NuGetInstall(new[] {"InheritDoc"}, installSettings);
+
     var args = new ProcessArgumentBuilder()
                 .AppendSwitchQuoted("-b", baseDir)
                 .AppendSwitch("-o", "")
@@ -230,10 +232,11 @@ Task("Package")
     .Does(() =>
 {
     // Invoke the pack target in the end
-    var buildSettings = new MSBuildSettings {
+    var buildSettings = new MSBuildSettings
+    {
         MaxCpuCount = 0
     }
-    .SetConfiguration("Release")
+    .SetConfiguration(configuration)
     .WithTarget("Pack")
     .WithProperty("PackageOutputPath", nupkgDir);
 
@@ -272,15 +275,15 @@ Task("Test")
         ArgumentCustomization = arg => arg.Append("/logger:trx;LogFileName=VsTestResultsUwp.trx /framework:FrameworkUap10 --diag:diag.log"),
     };
 
-    VSTest(baseDir + "/**/Release/**/UnitTests.*.appxrecipe", testSettings);
+    VSTest(baseDir + $"/**/{configuration}/**/UnitTests.*.appxrecipe", testSettings);
 }).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*NetCore.csproj"), (file) =>
 {
     Information("\nRunning NetCore Unit Tests");
     var testSettings = new DotNetCoreTestSettings
     {
-        Configuration = "Release",
+        Configuration = configuration,
         NoBuild = true,
-        Loggers = new [] { "trx;LogFilePrefix=VsTestResults" },
+        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal,
         ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings"),
     };
@@ -327,14 +330,13 @@ Task("MSTestUITest")
 
     var testSettings = new DotNetCoreTestSettings
     {
-        Configuration = "Release",
+        Configuration = configuration,
         NoBuild = true,
-        Loggers = new [] { "trx;LogFilePrefix=VsTestResults" },
+        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
         Verbosity = DotNetCoreVerbosity.Normal
     };
     DotNetCoreTest(file.FullPath, testSettings);
 });
-
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
@@ -358,12 +360,13 @@ Task("StyleXaml")
     .Does(() =>
 {
     Information("\nDownloading XamlStyler...");
-    var installSettings = new NuGetInstallSettings {
+    var installSettings = new NuGetInstallSettings
+    {
         ExcludeVersion  = true,
         OutputDirectory = toolsDir
     };
 
-    NuGetInstall(new []{"xamlstyler.console"}, installSettings);
+    NuGetInstall(new[] {"xamlstyler.console"}, installSettings);
 
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
@@ -375,8 +378,6 @@ Task("StyleXaml")
         StartProcess(styler, "-f \"" + file + "\" -c \"" + stylerFile + "\"");
     }
 });
-
-
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

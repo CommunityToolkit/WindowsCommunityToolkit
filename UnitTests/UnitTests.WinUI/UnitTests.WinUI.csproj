@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -14,9 +14,6 @@
     <ProjectReunionCopyXamlToolingLibs>false</ProjectReunionCopyXamlToolingLibs>
 
     <ApplicationManifest>app.manifest</ApplicationManifest>
-
-    <LangVersion>9.0</LangVersion>
-    
   </PropertyGroup>
 
   <ItemGroup>

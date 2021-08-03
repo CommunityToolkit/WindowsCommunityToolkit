@@ -7,9 +7,11 @@ using System.Reflection;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using UITests.App.Commands;
 using UITests.App.Pages;
 
 namespace UITests.App
@@ -28,6 +30,17 @@ namespace UITests.App
             InitializeComponent();
 
             WeakReferenceMessenger.Default.Register<RequestPageMessage>(this);
+
+            // Initialize Custom Commands for AppService
+            VisualTreeHelperCommands.Initialize(DispatcherQueue, async () =>
+            {
+                var dpi = 0.0;
+                await DispatcherQueue.EnqueueAsync(() =>
+                {
+                    dpi = XamlRoot.RasterizationScale;
+                });
+                return dpi;
+            });
         }
 
         public void Receive(RequestPageMessage message)

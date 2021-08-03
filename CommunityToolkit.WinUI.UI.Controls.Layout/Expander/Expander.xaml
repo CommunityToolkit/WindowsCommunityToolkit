@@ -11,9 +11,8 @@
 
     <Style x:Key="HeaderToggleButtonStyle"
            TargetType="ToggleButton">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
+        <Setter Property="Background" Value="{ThemeResource ExpanderHeaderBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ExpanderHeaderBorderBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="2,0,0,0" />
         <Setter Property="Height" Value="40" />

@@ -2,11 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace CommunityToolkit.WinUI.Helpers
 {
     /// <summary>
     /// A basic serialization service.
     /// </summary>
+    [Obsolete("IObjectSerializer has been migrated to the Microsoft.Toolkit (CommunityToolkit.Common) package.")]
     public interface IObjectSerializer
     {
         /// <summary>
