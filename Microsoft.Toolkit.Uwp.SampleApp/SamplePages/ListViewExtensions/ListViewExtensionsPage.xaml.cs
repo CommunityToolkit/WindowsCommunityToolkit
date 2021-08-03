@@ -6,9 +6,11 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -37,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void Load()
         {
-            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", async (sender, args) =>
             {
                 var index = int.TryParse(IndexInput.Text, out var i) ? i : 0;
                 var itemPlacement = ItemPlacementInput.SelectedItem switch
@@ -55,12 +57,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var scrollIfVisibile = ScrollIfVisibileInput.IsChecked ?? true;
                 var additionalHorizontalOffset = int.TryParse(AdditionalHorizontalOffsetInput.Text, out var ho) ? ho : 0;
                 var additionalVerticalOffset = int.TryParse(AdditionalVerticalOffsetInput.Text, out var vo) ? vo : 0;
-                sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+                UpdateScrollIndicator(true);
+                await sampleListView.SmoothScrollIntoViewWithIndexAsync(index, itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+                UpdateScrollIndicator(false);
             });
 
             if (sampleListView != null)
             {
                 sampleListView.ItemsSource = GetOddEvenSource(500);
+            }
+        }
+
+        private void UpdateScrollIndicator(bool isScrolling)
+        {
+            if (isScrolling)
+            {
+                ScrollIndicatorTest.Text = "Scrolling";
+                ScrollIndicator.Fill = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                ScrollIndicator.Fill = new SolidColorBrush(Colors.Red);
+                ScrollIndicatorTest.Text = "Not Scolling";
             }
         }
 
