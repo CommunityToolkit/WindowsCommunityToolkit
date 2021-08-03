@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using System;
 using UnitTests.Extensions;
 using Windows.ApplicationModel;
@@ -88,6 +89,17 @@ namespace UnitTests
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     // TODO: Load state from previously suspended application
+                }
+
+                Logger.LogMessage("Looking for DefaultRichEditBoxStyle...");
+                if (!Resources.TryGetValue("DefaultRichEditBoxStyle", out var value))
+                {
+                    Logger.LogMessage("ERROR: Couldn't find DefaultRichEditBoxStyle in WinUI!");
+                    throw new ApplicationException("Couldn't find DefaultRichEditBoxStyle resource.");
+                }
+                else
+                {
+                    Logger.LogMessage("FOUND!");
                 }
 
                 // Place the frame in the current Window
