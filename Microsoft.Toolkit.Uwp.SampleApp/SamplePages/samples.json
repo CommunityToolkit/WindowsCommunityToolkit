@@ -475,6 +475,15 @@
         "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
         "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
+      },
+      {
+        "Name": "ConstrainedBox",
+        "Subcategory": "Layout",
+        "About": "The ConstrainedBox is a FrameworkElement which can allow a developer to constrain the scale, multiple of, or aspect ratio of its content.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/ConstrainedBox",
+        "XamlCodeFile": "/SamplePages/Primitives/ConstrainedBox.bind",
+        "Icon": "/SamplePages/Primitives/ConstrainedBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ConstrainedBox.md"
       }
     ]
   },

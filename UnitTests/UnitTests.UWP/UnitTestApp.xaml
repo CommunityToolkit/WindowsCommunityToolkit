@@ -11,7 +11,7 @@
     <Application.Resources>
 
         <!--  Workarounds for .NET Native issue in unit tests  -->
-        <ui:EnumValuesExtension x:Key="DummyExtension"/>
+        <ui:EnumValuesExtension x:Key="DummyExtension" />
 
         <unitTestExtensions:Animal x:Key="Animal">Cat</unitTestExtensions:Animal>
 
@@ -43,7 +43,9 @@
             </interactivity:Interaction.Behaviors>
         </TextBox>
 
-        <Style TargetType="controls:UniformGrid" />
+        <controls:ConstrainedBox x:Key="TestConstrainedBox" />
+        <controls:UniformGrid x:Key="TestUniformGrid" />
+        <controls:WrapPanel x:Key="TestWrapPanel" />
         <ui:NullableBoolExtension x:Key="nullableBool" />
 
         <helpers:ObjectWithNullableBoolProperty x:Key="objectWithNullableBoolProperty" />
