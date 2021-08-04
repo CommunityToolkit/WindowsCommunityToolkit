@@ -448,6 +448,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            if (TokenSelectionMode == TokenSelectionMode.Single)
+            {
+                // Remove any existing tokens.
+                for (var i = _innerItemsSource.Count - 1; i >= 0; --i)
+                {
+                    var item = _innerItemsSource[i];
+                    if (item is not ITokenStringContainer)
+                    {
+                        _innerItemsSource.Remove(item);
+                    }
+                }
+            }
+
             // If we've been typing in the last box, just add this to the end of our collection
             if (atEnd == true || _currentTextEdit == _lastTextEdit)
             {

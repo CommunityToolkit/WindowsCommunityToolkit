@@ -158,6 +158,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false));
 
         /// <summary>
+        /// Identifies the <see cref="TokenSelectionMode"/> property.
+        /// </summary>
+        public static readonly DependencyProperty TokenSelectionModeProperty = DependencyProperty.Register(
+            nameof(TokenSelectionMode),
+            typeof(TokenSelectionMode),
+            typeof(TokenizingTextBox),
+            new PropertyMetadata(TokenSelectionMode.Multiple, OnTokenSelectionModeChanged));
+
+        private static void OnTokenSelectionModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TokenizingTextBox ttb && e.NewValue is TokenSelectionMode newTokenSelectionMode && newTokenSelectionMode == TokenSelectionMode.Single)
+            {
+                while (ttb.Items.Count > 1)
+                {
+                    ttb.Items.RemoveAt(ttb.Items.Count - 1);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the Style for the contained AutoSuggestBox template part.
         /// </summary>
         public Style AutoSuggestBoxStyle
@@ -302,6 +322,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return PrepareSelectionForClipboard();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets how the control should display tokens.
+        /// <see cref="TokenSelectionMode.Multiple"/> is the default. Multiple tokens can be selected at a time.
+        /// <see cref="TokenSelectionMode.Single"/> indicates that only one token can be present in the control at a time.
+        /// </summary>
+        public TokenSelectionMode TokenSelectionMode
+        {
+            get => (TokenSelectionMode)GetValue(TokenSelectionModeProperty);
+            set => SetValue(TokenSelectionModeProperty, value);
         }
     }
 }
