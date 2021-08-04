@@ -47,6 +47,7 @@
                 <controls:Case IsDefault="True" />
             </controls:CaseCollection>
         </controls:SwitchPresenter>
+        <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
     </Page.Resources>
 
     <Grid>
