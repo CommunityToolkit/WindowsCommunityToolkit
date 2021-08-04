@@ -35,14 +35,16 @@
         </Grid>
 
         <StackPanel Grid.Column="1" Margin="5,10,10,0" Width="200">
-            <TextBlock Text="Smooth Scroll Settings" FontSize="{StaticResource TextStyleLargeFontSize}" Margin="0,0,0,10"/>
+            <TextBlock Text="Smooth Scroll Settings" FontSize="{StaticResource TextStyleLargeFontSize}"/>
             <TextBox x:Name="IndexInput"
                      Header="Index"
                      InputScope="Number"
-                     Text="100" />
+                     Text="100"
+                     Margin="0,10,0,0" />
             <ComboBox x:Name="ItemPlacementInput"
                       Header="Item Placement"
-                      SelectedIndex="0">
+                      SelectedIndex="0"
+                      Margin="0,10,0,0" >
                 <x:String>Default</x:String>
                 <x:String>Left</x:String>
                 <x:String>Top</x:String>
@@ -52,18 +54,25 @@
             </ComboBox>
             <CheckBox x:Name="DisableAnimationInput"
                       Content="Disable Animation"
-                      IsChecked="False" />
+                      IsChecked="False"
+                      Margin="0,10,0,0" />
             <CheckBox x:Name="ScrollIfVisibileInput"
                       Content="Scroll If Visible"
                       IsChecked="True" />
             <TextBox x:Name="AdditionalHorizontalOffsetInput"
                      Header="Horizontal Offset"
                      InputScope="Number"
-                     Text="0" />
+                     Text="0"
+                     Margin="0,10,0,0" />
             <TextBox x:Name="AdditionalVerticalOffsetInput"
                      Header="Vertical Offset"
                      InputScope="Number"
-                     Text="0" />
+                     Text="0"
+                     Margin="0,10,0,0" />
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Ellipse x:Name="ScrollIndicator" Fill="Red" Width="15" Height="15"/>
+                <TextBlock x:Name="ScrollIndicatorTest" Text="Not Scrolling" Margin="10,0,0,0"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

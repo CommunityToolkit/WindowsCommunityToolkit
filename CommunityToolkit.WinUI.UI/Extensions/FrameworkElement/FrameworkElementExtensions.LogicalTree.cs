@@ -196,6 +196,20 @@ namespace CommunityToolkit.WinUI.UI
                     goto Start;
                 }
             }
+            else if (element is Viewbox viewbox)
+            {
+                if (viewbox.Child is FrameworkElement child)
+                {
+                    if (child is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
+                    element = child;
+
+                    goto Start;
+                }
+            }
             else if (element is UserControl userControl)
             {
                 // We put UserControl right before the slower reflection fallback path as
@@ -394,6 +408,17 @@ namespace CommunityToolkit.WinUI.UI
                     yield return content;
 
                     element = content;
+
+                    goto Start;
+                }
+            }
+            else if (element is Viewbox viewbox)
+            {
+                if (viewbox.Child is FrameworkElement child)
+                {
+                    yield return child;
+
+                    element = child;
 
                     goto Start;
                 }

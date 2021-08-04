@@ -126,6 +126,9 @@
     <Compile Include="UI\Collection\Test_IncrementalLoadingCollection.cs" />
     <Compile Include="UI\Controls\Test_Carousel.cs" />
     <Compile Include="UI\Controls\Test_BladeView.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.AspectRatio.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Multiple.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Combined.cs" />
     <Compile Include="UI\Controls\Test_ImageEx.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
     <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
@@ -138,6 +141,7 @@
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_Dimensions.cs" />
     <Compile Include="UI\Controls\Test_RangeSelector.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Scale.cs" />
     <Compile Include="UI\Controls\Test_WrapPanel_Visibility.cs" />
     <Compile Include="UI\Controls\Test_WrapPanel_BasicLayout.cs" />
     <Compile Include="UI\Extensions\Test_VisualExtensions.cs" />
