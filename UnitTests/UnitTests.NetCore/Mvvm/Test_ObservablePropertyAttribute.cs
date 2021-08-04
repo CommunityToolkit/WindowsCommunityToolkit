@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm
 {
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601", Justification = "Type only used for testing")]
     [TestClass]
     public partial class Test_ObservablePropertyAttribute
     {
@@ -105,9 +107,10 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(testAttribute.D, 6.28);
             CollectionAssert.AreEqual(testAttribute.Names, new[] { "Bob", "Ross" });
 
-            object[] nestedArray = (object[])testAttribute.NestedArray;
+            object[]? nestedArray = (object[]?)testAttribute.NestedArray;
 
-            Assert.AreEqual(nestedArray.Length, 3);
+            Assert.IsNotNull(nestedArray);
+            Assert.AreEqual(nestedArray!.Length, 3);
             Assert.AreEqual(nestedArray[0], 1);
             Assert.AreEqual(nestedArray[1], "Hello");
             Assert.IsTrue(nestedArray[2] is int[]);
@@ -181,7 +184,7 @@ namespace UnitTests.Mvvm
 
             public string[] Names { get; }
 
-            public object NestedArray { get; set; }
+            public object? NestedArray { get; set; }
 
             public Animal Animal { get; set; }
         }
