@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+roject Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Nullable>Enable</Nullable>
