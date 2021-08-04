@@ -450,13 +450,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (TokenSelectionMode == TokenSelectionMode.Single)
             {
-                // Remove any existing tokens.
+                // Start at the end, remove any existing tokens.
                 for (var i = _innerItemsSource.Count - 1; i >= 0; --i)
                 {
                     var item = _innerItemsSource[i];
                     if (item is not ITokenStringContainer)
                     {
+                        // Force remove the items. No warning and no option to cancel.
                         _innerItemsSource.Remove(item);
+                        TokenItemRemoved?.Invoke(this, item);
                     }
                 }
             }

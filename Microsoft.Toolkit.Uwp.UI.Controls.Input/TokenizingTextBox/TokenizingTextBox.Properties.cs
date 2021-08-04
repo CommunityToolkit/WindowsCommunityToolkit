@@ -170,9 +170,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (d is TokenizingTextBox ttb && e.NewValue is TokenSelectionMode newTokenSelectionMode && newTokenSelectionMode == TokenSelectionMode.Single)
             {
-                while (ttb.Items.Count > 1)
+                // Start at the end, remove all but the first token.
+                for (var i = ttb._innerItemsSource.Count - 1; i >= 1; --i)
                 {
-                    ttb.Items.RemoveAt(ttb.Items.Count - 1);
+                    var item = ttb._innerItemsSource[i];
+                    if (item is not ITokenStringContainer)
+                    {
+                        // Force remove the items. No warning and no option to cancel.
+                        ttb._innerItemsSource.Remove(item);
+                        ttb.TokenItemRemoved?.Invoke(ttb, item);
+                    }
                 }
             }
         }
