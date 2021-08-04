@@ -503,6 +503,9 @@
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorPage.xaml.cs">
+      <DependentUpon>KeyDownTriggerBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
@@ -626,6 +629,7 @@
     <Content Include="SamplePages\Primitives\ConstrainedBox.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -974,6 +978,10 @@
     <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1475,6 +1483,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
