@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// Identifies the <see cref="Key"/> property.
         /// </summary>
         public static readonly DependencyProperty KeyProperty = DependencyProperty.Register(
-            "Key",
+            nameof(Key),
             typeof(VirtualKey),
             typeof(KeyDownTriggerBehavior),
             new PropertyMetadata(null));
