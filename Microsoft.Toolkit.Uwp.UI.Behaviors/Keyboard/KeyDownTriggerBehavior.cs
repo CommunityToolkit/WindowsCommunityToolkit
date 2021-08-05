@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     {
 
         /// <summary>
-        /// The DP to store the <see cref="Key"/> property value.
+        /// Identifies the <see cref="Key"/> property.
         /// </summary>
         public static readonly DependencyProperty KeyProperty = DependencyProperty.Register(
             "Key",
