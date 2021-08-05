@@ -77,6 +77,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ItemsSource != null && ItemsSource.GetType() != typeof(InterspersedObservableCollection))
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
+
+                if (MaxTokens.HasValue && _innerItemsSource.ItemsSource.Count > MaxTokens)
+                {
+                    // Reduce down to the max as necessary.
+                    for (var i = _innerItemsSource.ItemsSource.Count; i > MaxTokens; --i)
+                    {
+                        _innerItemsSource.Remove(_innerItemsSource[i]);
+                    }
+                }
+
                 _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
                 _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
                 ItemsSource = _innerItemsSource;
@@ -278,18 +288,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    // TODO: It looks like we're setting selection and focus together on items? Not sure if that's what we want...
-                    // If that's the case, don't think this code will ever be called?
-
-                    //// TODO: Behavior question: if no items selected (just focus) does it just go to our last active textbox?
-                    //// Community voted that typing in the end box made sense
-
+                    // If no items are selected, send input to the last active string container.
+                    // This code is only fires during an edgecase where an item is in the process of being deleted and the user inputs a character before the focus has been redirected to a string container.
                     if (_innerItemsSource[_innerItemsSource.Count - 1] is ITokenStringContainer textToken)
                     {
                         var last = ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem; // Should be our last text box
-                        var position = last._autoSuggestTextBox.SelectionStart;
-                        textToken.Text = last._autoSuggestTextBox.Text.Substring(0, position) + args.Character +
-                                         last._autoSuggestTextBox.Text.Substring(position);
+                        var text = last._autoSuggestTextBox.Text;
+                        var selectionStart = last._autoSuggestTextBox.SelectionStart;
+                        var position = selectionStart > text.Length ? text.Length : selectionStart;
+                        textToken.Text = text.Substring(0, position) + args.Character +
+                                         text.Substring(position);
 
                         last._autoSuggestTextBox.SelectionStart = position + 1; // Set position to after our new character inserted
 
@@ -432,6 +440,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
+            if (MaxTokens == 0)
+            {
+                // No tokens for you
+                return;
+            }
+
             if (data is string str && TokenItemAdding != null)
             {
                 var tiaea = new TokenItemAddingEventArgs(str);
@@ -448,24 +462,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if (TokenSelectionMode == TokenSelectionMode.Single)
-            {
-                // Start at the end, remove any existing tokens.
-                for (var i = _innerItemsSource.Count - 1; i >= 0; --i)
-                {
-                    var item = _innerItemsSource[i];
-                    if (item is not ITokenStringContainer)
-                    {
-                        // Force remove the items. No warning and no option to cancel.
-                        _innerItemsSource.Remove(item);
-                        TokenItemRemoved?.Invoke(this, item);
-                    }
-                }
-            }
-
             // If we've been typing in the last box, just add this to the end of our collection
             if (atEnd == true || _currentTextEdit == _lastTextEdit)
             {
+                if (MaxTokens != null && _innerItemsSource.ItemsSource.Count >= MaxTokens)
+                {
+                    // Remove tokens from the end until below the max number.
+                    for (var i = _innerItemsSource.Count - 2; i >= 0; --i)
+                    {
+                        var item = _innerItemsSource[i];
+                        if (item is not ITokenStringContainer)
+                        {
+                            _innerItemsSource.Remove(item);
+                            TokenItemRemoved?.Invoke(this, item);
+
+                            // Keep going until we are below the max.
+                            if (_innerItemsSource.ItemsSource.Count < MaxTokens)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 _innerItemsSource.InsertAt(_innerItemsSource.Count - 1, data);
             }
             else
@@ -473,6 +492,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Otherwise, we'll insert before our current box
                 var edit = _currentTextEdit;
                 var index = _innerItemsSource.IndexOf(edit);
+
+                if (MaxTokens != null && _innerItemsSource.ItemsSource.Count >= MaxTokens)
+                {
+                    // Find the next token and remove it, until below the max number of tokens.
+                    for (var i = index; i < _innerItemsSource.Count;  i++)
+                    {
+                        var item = _innerItemsSource[i];
+                        if (item is not ITokenStringContainer)
+                        {
+                            _innerItemsSource.Remove(item);
+                            TokenItemRemoved?.Invoke(this, item);
+
+                            // Keep going until we are below the max.
+                            if (_innerItemsSource.ItemsSource.Count < MaxTokens)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
 
                 // Insert our new data item at the location of our textbox
                 _innerItemsSource.InsertAt(index, data);

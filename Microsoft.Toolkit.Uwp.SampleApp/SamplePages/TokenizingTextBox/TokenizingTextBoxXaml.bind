@@ -30,7 +30,7 @@
       <RowDefinition/>
     </Grid.RowDefinitions>
     <StackPanel>
-      <TextBlock FontSize="32" Text="Select Actions"
+      <TextBlock FontSize="32" Text="Select up to 3 Actions"
                  Margin="0,0,0,4"/>
       <controls:TokenizingTextBox
           x:Name="TokenBox"
@@ -40,7 +40,7 @@
           HorizontalAlignment="Stretch"
           TextMemberPath="Text"
           TokenDelimiter=","
-          TokenSelectionMode="Single">
+          MaxTokens="3">
         <controls:TokenizingTextBox.SuggestedItemTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
@@ -76,7 +76,6 @@
             QueryIcon="{ui:SymbolIconSource Symbol=Find}"
             TextMemberPath="Text"
             TokenDelimiter=","
-            TokenSelectionMode="Multiple"
             IsItemClickEnabled="True"
             TokenItemTemplate="{StaticResource EmailTokenTemplate}">
       </controls:TokenizingTextBox>

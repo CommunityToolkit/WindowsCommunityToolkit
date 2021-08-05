@@ -158,27 +158,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false));
 
         /// <summary>
-        /// Identifies the <see cref="TokenSelectionMode"/> property.
+        /// Identifies the <see cref="MaxTokens"/> property.
         /// </summary>
-        public static readonly DependencyProperty TokenSelectionModeProperty = DependencyProperty.Register(
-            nameof(TokenSelectionMode),
-            typeof(TokenSelectionMode),
+        public static readonly DependencyProperty MaxTokensProperty = DependencyProperty.Register(
+            nameof(MaxTokens),
+            typeof(int?),
             typeof(TokenizingTextBox),
-            new PropertyMetadata(TokenSelectionMode.Multiple, OnTokenSelectionModeChanged));
+            new PropertyMetadata(null, OnMaxTokensChanged));
 
-        private static void OnTokenSelectionModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnMaxTokensChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TokenizingTextBox ttb && e.NewValue is TokenSelectionMode newTokenSelectionMode && newTokenSelectionMode == TokenSelectionMode.Single)
+            if (d is TokenizingTextBox ttb && e.NewValue is int newMaxTokens)
             {
-                // Start at the end, remove all but the first token.
-                for (var i = ttb._innerItemsSource.Count - 1; i >= 1; --i)
+                var tokenCount = ttb.Items.Count;
+                if (tokenCount > newMaxTokens)
                 {
-                    var item = ttb._innerItemsSource[i];
-                    if (item is not ITokenStringContainer)
+                    int tokensToRemove = newMaxTokens - tokenCount;
+                    var tokensRemoved = 0;
+
+                    // Start at the end, remove any extra tokens.
+                    for (var i = ttb._innerItemsSource.Count - 1; i >= 0; --i)
                     {
-                        // Force remove the items. No warning and no option to cancel.
-                        ttb._innerItemsSource.Remove(item);
-                        ttb.TokenItemRemoved?.Invoke(ttb, item);
+                        var item = ttb._innerItemsSource[i];
+                        if (item is not ITokenStringContainer)
+                        {
+                            // Force remove the items. No warning and no option to cancel.
+                            ttb._innerItemsSource.Remove(item);
+                            ttb.TokenItemRemoved?.Invoke(ttb, item);
+
+                            tokensRemoved++;
+                            if (tokensRemoved == tokensToRemove)
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -332,14 +345,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets how the control should display tokens.
-        /// <see cref="TokenSelectionMode.Multiple"/> is the default. Multiple tokens can be selected at a time.
-        /// <see cref="TokenSelectionMode.Single"/> indicates that only one token can be present in the control at a time.
+        /// Gets or sets the maximum number of token results allowed at a time.
         /// </summary>
-        public TokenSelectionMode TokenSelectionMode
+        public int? MaxTokens
         {
-            get => (TokenSelectionMode)GetValue(TokenSelectionModeProperty);
-            set => SetValue(TokenSelectionModeProperty, value);
+            get => (int?)GetValue(MaxTokensProperty);
+            set => SetValue(MaxTokensProperty, value);
         }
     }
 }
