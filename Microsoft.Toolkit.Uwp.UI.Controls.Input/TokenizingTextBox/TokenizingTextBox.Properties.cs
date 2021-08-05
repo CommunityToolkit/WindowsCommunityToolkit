@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var tokenCount = ttb.Items.Count;
                 if (tokenCount > newMaxTokens)
                 {
-                    int tokensToRemove = newMaxTokens - tokenCount;
+                    int tokensToRemove = tokenCount - Math.Max(newMaxTokens, 0);
                     var tokensRemoved = 0;
 
                     // Start at the end, remove any extra tokens.

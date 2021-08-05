@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (MaxTokens.HasValue && _innerItemsSource.ItemsSource.Count > MaxTokens)
                 {
                     // Reduce down to the max as necessary.
-                    for (var i = _innerItemsSource.ItemsSource.Count; i > MaxTokens; --i)
+                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= Math.Max(MaxTokens.Value, 0); --i)
                     {
                         _innerItemsSource.Remove(_innerItemsSource[i]);
                     }
@@ -440,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
-            if (MaxTokens == 0)
+            if (MaxTokens <= 0)
             {
                 // No tokens for you
                 return;
