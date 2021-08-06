@@ -78,10 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
 
-                if (MaxTokens.HasValue && _innerItemsSource.ItemsSource.Count > MaxTokens)
+                if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count > MaxTokens)
                 {
                     // Reduce down to the max as necessary.
-                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= Math.Max(MaxTokens.Value, 0); --i)
+                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= Math.Max(MaxTokens, 0); --i)
                     {
                         _innerItemsSource.Remove(_innerItemsSource[i]);
                     }
@@ -440,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
-            if (MaxTokens <= 0)
+            if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && MaxTokens <= 0)
             {
                 // No tokens for you
                 return;
@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // If we've been typing in the last box, just add this to the end of our collection
             if (atEnd == true || _currentTextEdit == _lastTextEdit)
             {
-                if (MaxTokens != null && _innerItemsSource.ItemsSource.Count >= MaxTokens)
+                if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count >= MaxTokens)
                 {
                     // Remove tokens from the end until below the max number.
                     for (var i = _innerItemsSource.Count - 2; i >= 0; --i)
@@ -493,7 +493,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var edit = _currentTextEdit;
                 var index = _innerItemsSource.IndexOf(edit);
 
-                if (MaxTokens != null && _innerItemsSource.ItemsSource.Count >= MaxTokens)
+                if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count >= MaxTokens)
                 {
                     // Find the next token and remove it, until below the max number of tokens.
                     for (var i = index; i < _innerItemsSource.Count;  i++)
