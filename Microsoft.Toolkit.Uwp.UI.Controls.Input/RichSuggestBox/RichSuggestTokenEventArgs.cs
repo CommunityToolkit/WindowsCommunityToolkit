@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.Foundation;
 using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -17,11 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the selected token.
         /// </summary>
         public RichSuggestToken Token { get; set; }
-
-        /// <summary>
-        /// Gets or sets the position and size of the selected rectangle measured from the top left of the <see cref="RichSuggestBox"/> control.
-        /// </summary>
-        public Rect Rect { get; set; }
 
         /// <summary>
         /// Gets or sets the range associated with the token.

@@ -55,7 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _popupOpenDown;
         private bool _textCompositionActive;
         private ITextRange _currentRange;
-        private RichSuggestToken _hoveringToken;
         private CancellationTokenSource _suggestionRequestedCancellationSource;
 
         /// <summary>
@@ -120,6 +119,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
+        /// <summary>
+        /// Retrieves the bounding rectangle that encompasses the text range
+        /// with position measured from the top left of the <see cref="RichSuggestBox"/> control.
+        /// </summary>
+        /// <param name="range">Text range to retrieve the bounding box from.</param>
+        /// <returns>The bounding rectangle.</returns>
+        public Rect GetRectFromRange(ITextRange range)
+        {
+            var padding = _richEditBox.Padding;
+            range.GetRect(PointOptions.None, out var rect, out var hit);
+            rect.X += padding.Left - HorizontalOffset;
+            rect.Y += padding.Top - VerticalOffset;
+            var transform = _richEditBox.TransformToVisual(this);
+            return transform.TransformBounds(rect);
+        }
+
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
@@ -134,43 +149,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ConditionallyLoadElement(Header, PartHeaderContentPresenter);
             ConditionallyLoadElement(Description, PartDescriptionPresenter);
 
-            _richEditBox.SizeChanged -= RichEditBox_SizeChanged;
-            _richEditBox.TextChanging -= RichEditBox_TextChanging;
-            _richEditBox.TextChanged -= RichEditBox_TextChanged;
-            _richEditBox.TextCompositionStarted -= RichEditBox_TextCompositionStarted;
-            _richEditBox.TextCompositionChanged -= RichEditBox_TextCompositionChanged;
-            _richEditBox.TextCompositionEnded -= RichEditBox_TextCompositionEnded;
-            _richEditBox.SelectionChanging -= RichEditBox_SelectionChanging;
-            _richEditBox.SelectionChanged -= RichEditBox_SelectionChanged;
-            _richEditBox.Paste -= RichEditBox_Paste;
-            _richEditBox.PreviewKeyDown -= RichEditBox_PreviewKeyDown;
-            _richEditBox.PointerExited -= RichEditBox_OnPointerExited;
-            _richEditBox.RemoveHandler(PointerMovedEvent, pointerMovedHandler);
-            _richEditBox.RemoveHandler(PointerPressedEvent, pointerPressedHandler);
-            _richEditBox.ProcessKeyboardAccelerators -= RichEditBox_ProcessKeyboardAccelerators;
+            if (_richEditBox != null)
+            {
+                _richEditBox.SizeChanged -= RichEditBox_SizeChanged;
+                _richEditBox.TextChanging -= RichEditBox_TextChanging;
+                _richEditBox.TextChanged -= RichEditBox_TextChanged;
+                _richEditBox.TextCompositionStarted -= RichEditBox_TextCompositionStarted;
+                _richEditBox.TextCompositionChanged -= RichEditBox_TextCompositionChanged;
+                _richEditBox.TextCompositionEnded -= RichEditBox_TextCompositionEnded;
+                _richEditBox.SelectionChanging -= RichEditBox_SelectionChanging;
+                _richEditBox.SelectionChanged -= RichEditBox_SelectionChanged;
+                _richEditBox.Paste -= RichEditBox_Paste;
+                _richEditBox.PreviewKeyDown -= RichEditBox_PreviewKeyDown;
+                _richEditBox.RemoveHandler(PointerMovedEvent, pointerMovedHandler);
+                _richEditBox.RemoveHandler(PointerPressedEvent, pointerPressedHandler);
+                _richEditBox.ProcessKeyboardAccelerators -= RichEditBox_ProcessKeyboardAccelerators;
 
-            _richEditBox.SizeChanged += RichEditBox_SizeChanged;
-            _richEditBox.TextChanging += RichEditBox_TextChanging;
-            _richEditBox.TextChanged += RichEditBox_TextChanged;
-            _richEditBox.TextCompositionStarted += RichEditBox_TextCompositionStarted;
-            _richEditBox.TextCompositionChanged += RichEditBox_TextCompositionChanged;
-            _richEditBox.TextCompositionEnded += RichEditBox_TextCompositionEnded;
-            _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
-            _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
-            _richEditBox.Paste += RichEditBox_Paste;
-            _richEditBox.PreviewKeyDown += RichEditBox_PreviewKeyDown;
-            _richEditBox.PointerExited += RichEditBox_OnPointerExited;
-            _richEditBox.AddHandler(PointerMovedEvent, pointerMovedHandler, true);
-            _richEditBox.AddHandler(PointerPressedEvent, pointerPressedHandler, true);
-            _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
+                _richEditBox.SizeChanged += RichEditBox_SizeChanged;
+                _richEditBox.TextChanging += RichEditBox_TextChanging;
+                _richEditBox.TextChanged += RichEditBox_TextChanged;
+                _richEditBox.TextCompositionStarted += RichEditBox_TextCompositionStarted;
+                _richEditBox.TextCompositionChanged += RichEditBox_TextCompositionChanged;
+                _richEditBox.TextCompositionEnded += RichEditBox_TextCompositionEnded;
+                _richEditBox.SelectionChanging += RichEditBox_SelectionChanging;
+                _richEditBox.SelectionChanged += RichEditBox_SelectionChanged;
+                _richEditBox.Paste += RichEditBox_Paste;
+                _richEditBox.PreviewKeyDown += RichEditBox_PreviewKeyDown;
+                _richEditBox.AddHandler(PointerMovedEvent, pointerMovedHandler, true);
+                _richEditBox.AddHandler(PointerPressedEvent, pointerPressedHandler, true);
+                _richEditBox.ProcessKeyboardAccelerators += RichEditBox_ProcessKeyboardAccelerators;
+            }
 
-            _suggestionsList.ItemClick -= SuggestionsList_ItemClick;
-            _suggestionsList.SizeChanged -= SuggestionsList_SizeChanged;
-            _suggestionsList.GotFocus -= SuggestionList_GotFocus;
+            if (_suggestionsList != null)
+            {
+                _suggestionsList.ItemClick -= SuggestionsList_ItemClick;
+                _suggestionsList.SizeChanged -= SuggestionsList_SizeChanged;
+                _suggestionsList.GotFocus -= SuggestionList_GotFocus;
 
-            _suggestionsList.ItemClick += SuggestionsList_ItemClick;
-            _suggestionsList.SizeChanged += SuggestionsList_SizeChanged;
-            _suggestionsList.GotFocus += SuggestionList_GotFocus;
+                _suggestionsList.ItemClick += SuggestionsList_ItemClick;
+                _suggestionsList.SizeChanged += SuggestionsList_SizeChanged;
+                _suggestionsList.GotFocus += SuggestionList_GotFocus;
+            }
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -235,15 +254,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void RichEditBox_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            this._hoveringToken = null;
-        }
-
         private void RichEditBox_OnPointerMoved(object sender, PointerRoutedEventArgs e)
         {
             var pointer = e.GetCurrentPoint((UIElement)sender);
-            InvokeTokenHovered(pointer.Position);
+            this.InvokeTokenHovering(pointer.Position);
         }
 
         private void RichEditBox_SelectionChanging(RichEditBox sender, RichEditBoxSelectionChangingEventArgs args)
@@ -448,18 +462,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            var tokenRect = GetTokenRect(selection);
             TokenSelected.Invoke(this, new RichSuggestTokenEventArgs
             {
                 Token = token,
-                Rect = tokenRect,
                 Range = selection.GetClone()
             });
         }
 
-        private void InvokeTokenHovered(Point pointerPosition)
+        private void InvokeTokenHovering(Point pointerPosition)
         {
-            if (TokenHovered == null)
+            if (this.TokenHovering == null)
             {
                 return;
             }
@@ -468,19 +480,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             pointerPosition.X += HorizontalOffset - padding.Left;
             pointerPosition.Y += VerticalOffset - padding.Top;
             var range = TextDocument.GetRangeFromPoint(pointerPosition, PointOptions.ClientCoordinates);
-            RichSuggestToken token = null;
-            if (range.Expand(TextRangeUnit.Link) > 0 && TryGetTokenFromRange(range, out token) &&
-                token != _hoveringToken)
+            var linkRange = range.GetClone();
+            range.Expand(TextRangeUnit.Word);
+            range.GetRect(PointOptions.None, out var rect, out _);
+            if (rect.Contains(pointerPosition) && linkRange.Expand(TextRangeUnit.Link) > 0 &&
+                TryGetTokenFromRange(linkRange, out var token))
             {
-                TokenHovered.Invoke(this, new RichSuggestTokenEventArgs
-                {
-                    Token = token,
-                    Rect = GetTokenRect(range),
-                    Range = range,
-                });
+                this.TokenHovering.Invoke(this, new RichSuggestTokenEventArgs { Token = token, Range = linkRange });
             }
-
-            _hoveringToken = token;
         }
 
         private async Task RequestSuggestionsAsync(ITextRange range = null)
@@ -898,16 +905,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return format;
-        }
-
-        private Rect GetTokenRect(ITextRange tokenRange)
-        {
-            var padding = _richEditBox.Padding;
-            tokenRange.GetRect(PointOptions.ClientCoordinates, out var rect, out var hit);
-            rect.X += padding.Left - HorizontalOffset;
-            rect.Y += padding.Top - VerticalOffset;
-            var transform = _richEditBox.TransformToVisual(this);
-            return transform.TransformBounds(rect);
         }
 
         private void UpdateVisibleTokenList()

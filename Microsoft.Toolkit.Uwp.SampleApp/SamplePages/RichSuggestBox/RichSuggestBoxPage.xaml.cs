@@ -16,8 +16,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
@@ -91,13 +89,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private RichSuggestBox _rsb;
         private RichSuggestBox _tsb;
-        private DispatcherQueueTimer _hoveringTimer;
+        private DispatcherQueue _dispatcherQueue;
         private PointerPoint _pointerPoint;
 
         public RichSuggestBoxPage()
         {
             this.InitializeComponent();
-            this._hoveringTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            DispatcherQueue.GetForCurrentThread().CreateTimer();
+            this._dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             Loaded += (sender, e) => { this.OnXamlRendered(this); };
         }
 
@@ -115,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 this._tsb.SuggestionChosen -= this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested -= this.SuggestingBox_OnSuggestionsRequested;
-                this._tsb.TokenHovered -= SuggestingBox_OnTokenHovered;
+                this._tsb.TokenHovering -= this.SuggestingBox_OnTokenHovering;
                 this._tsb.RemoveHandler(PointerMovedEvent, pointerMovedHandler);
             }
 
@@ -131,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 this._tsb = tsb;
                 this._tsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
-                this._tsb.TokenHovered += this.SuggestingBox_OnTokenHovered;
+                this._tsb.TokenHovering += this.SuggestingBox_OnTokenHovering;
                 this._tsb.AddHandler(PointerMovedEvent, pointerMovedHandler, true);
             }
 
@@ -151,24 +150,25 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this._pointerPoint = e.GetCurrentPoint((UIElement)sender);
         }
 
-        private void SuggestingBox_OnTokenHovered(RichSuggestBox sender, RichSuggestTokenEventArgs args)
+        private void SuggestingBox_OnTokenHovering(RichSuggestBox sender, RichSuggestTokenEventArgs args)
         {
-            this._hoveringTimer.Debounce(
-                () =>
+            var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
+            var pointerPosition = this._pointerPoint.Position;
+
+            if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
+                (!flyout.IsOpen || cp.Content != args.Token.Item))
             {
-                var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
-                if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
-                    (!flyout.IsOpen || cp.Content != args.Token.Item))
+                this._dispatcherQueue.TryEnqueue(() =>
                 {
                     cp.Content = args.Token.Item;
                     flyout.ShowAt(sender, new FlyoutShowOptions
-                    {
-                        Position = this._pointerPoint.Position,
-                        ExclusionRect = args.Rect,
-                        ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway
-                    });
-                }
-            }, TimeSpan.FromMilliseconds(200));
+                        {
+                            Position = pointerPosition,
+                            ExclusionRect = sender.GetRectFromRange(args.Range),
+                            ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway,
+                        });
+                });
+            }
         }
 
         private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
