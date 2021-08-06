@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using Microsoft.Xaml.Interactivity;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -10,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// This behavior listens to a key down event on the associated <see cref="UIElement"/> when it is loaded and executes an action.
     /// </summary>
     [TypeConstraint(typeof(FrameworkElement))]
-    public class KeyDownTriggerBehavior : Trigger<UIElement>
+    public class KeyDownTriggerBehavior : Trigger<FrameworkElement>
     {
 
         /// <summary>
@@ -30,12 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             get => (VirtualKey)GetValue(KeyProperty);
             set => SetValue(KeyProperty, value);
         }
-
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
-            "Command",
-            typeof(ICommand),
-            typeof(KeyDownTriggerBehavior),
-            new PropertyMetadata(null));
 
         /// <inheritdoc/>
         protected override void OnAttached()

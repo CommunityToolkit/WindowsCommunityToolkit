@@ -503,9 +503,6 @@
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorPage.xaml.cs">
-      <DependentUpon>KeyDownTriggerBehaviorPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
@@ -978,10 +975,6 @@
     <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
       <SubType>Designer</SubType>
     </Content>
-    <Page Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
