@@ -841,11 +841,10 @@
       },
       {
         "Name": "KeyDownTriggerBehavior",
-        "Type": "KeyDownTriggerBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior to listen to a key press on a control and executes actions",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Keyboard/KeyDownTriggerBehavior.cs",
-        "XamlCodeFile": "KeyDownTriggerBehaviorXaml.bind",
+        "XamlCodeFile": "/SamplePages/KeyDownTriggerBehavior/KeyDownTriggerBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/KeyboardBehaviors.md"
       },
