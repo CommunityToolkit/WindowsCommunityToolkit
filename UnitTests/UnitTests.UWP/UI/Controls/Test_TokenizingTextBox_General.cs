@@ -63,5 +63,44 @@ namespace UnitTests.UWP.UI.Controls
 
             Assert.AreEqual(tokenBox.Items.Count, 5, "Cancelled Clear Failed ");
         }
+
+        [TestCategory("Test_TokenizingTextBox_General")]
+        [UITestMethod]
+        public void Test_MaxTokens()
+        {
+            var maxTokens = 2;
+
+            var treeRoot = XamlReader.Load(
+$@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+
+    <controls:TokenizingTextBox x:Name=""tokenboxname"" MaxTokens=""{maxTokens}"">
+    </controls:TokenizingTextBox>
+
+</Page>") as FrameworkElement;
+
+            Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+            var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
+
+            Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
+
+            var startingItemsCount = tokenBox.Items.Count;
+
+            tokenBox.AddTokenItem("TokenItem1");
+            tokenBox.AddTokenItem("TokenItem2");
+
+            Assert.AreEqual(startingItemsCount + maxTokens, tokenBox.Items.Count, "Token Add failed");
+            Assert.AreEqual("TokenItem1", tokenBox.Items[0]);
+            Assert.AreEqual("TokenItem2", tokenBox.Items[1]);
+
+            tokenBox.AddTokenItem("TokenItem3");
+
+            Assert.AreEqual(startingItemsCount + maxTokens, tokenBox.Items.Count, "Token Replace failed");
+            Assert.AreEqual("TokenItem1", tokenBox.Items[0]);
+            Assert.AreEqual("TokenItem3", tokenBox.Items[1]);
+        }
     }
 }
