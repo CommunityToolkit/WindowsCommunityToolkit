@@ -15,7 +15,6 @@ namespace UnitTests.UWP.UI.Controls
     public class Test_RichSuggestBox : VisualUITestBase
     {
         [TestCategory(nameof(RichSuggestBox))]
-        [TestMethod]
         [DataRow("@Token1", "@Token2", "@Token3")]
         [DataRow("@Token1", "@Token2", "#Token3")]
         [DataRow("#Token1", "@Token2", "@Token3")]
@@ -70,7 +69,6 @@ namespace UnitTests.UWP.UI.Controls
         }
 
         [TestCategory(nameof(RichSuggestBox))]
-        [TestMethod]
         public async Task Test_RichSuggestBox_CustomizeToken()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
@@ -122,7 +120,6 @@ namespace UnitTests.UWP.UI.Controls
         }
 
         [TestCategory(nameof(RichSuggestBox))]
-        [TestMethod]
         [DataRow("@Token1", "@Token2")]
         [DataRow("@Token1", "#Token2")]
         [DataRow("#Token1", "@Token2")]
@@ -156,7 +153,6 @@ namespace UnitTests.UWP.UI.Controls
         }
 
         [TestCategory(nameof(RichSuggestBox))]
-        [TestMethod]
         public async Task Test_RichSuggestBox_ReplaceToken()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
@@ -183,7 +179,6 @@ namespace UnitTests.UWP.UI.Controls
         }
 
         [TestCategory(nameof(RichSuggestBox))]
-        [TestMethod]
         public async Task Test_RichSuggestBox_FormatReset()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
