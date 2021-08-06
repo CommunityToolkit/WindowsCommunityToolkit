@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(MaxTokens),
             typeof(int),
             typeof(TokenizingTextBox),
-            new PropertyMetadata(DependencyProperty.UnsetValue, OnMaxTokensChanged));
+            new PropertyMetadata(null, OnMaxTokensChanged));
 
         private static void OnMaxTokensChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
