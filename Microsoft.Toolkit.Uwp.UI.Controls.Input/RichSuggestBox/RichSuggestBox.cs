@@ -13,6 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.System;
+using Windows.UI.Input;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -256,8 +257,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RichEditBox_OnPointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var pointer = e.GetCurrentPoint((UIElement)sender);
-            this.InvokeTokenHovering(pointer.Position);
+            var pointer = e.GetCurrentPoint(this);
+            if (TokenHovering != null)
+            {
+                this.InvokeTokenHovering(pointer);
+            }
         }
 
         private void RichEditBox_SelectionChanging(RichEditBox sender, RichEditBoxSelectionChangingEventArgs args)
@@ -421,7 +425,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (dataPackageView.Contains(StandardDataFormats.Text))
             {
                 var text = await dataPackageView.GetTextAsync();
-                TextDocument.Selection.SetText(TextSetOptions.None, text);
+                TextDocument.Selection.SetText(TextSetOptions.Unhide, text);
                 TextDocument.Selection.Collapse(false);
             }
         }
@@ -462,20 +466,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            TokenSelected.Invoke(this, new RichSuggestTokenEventArgs
+            TokenSelected.Invoke(this, new RichSuggestTokenSelectedEventArgs
             {
                 Token = token,
                 Range = selection.GetClone()
             });
         }
 
-        private void InvokeTokenHovering(Point pointerPosition)
+        private void InvokeTokenHovering(PointerPoint pointer)
         {
-            if (this.TokenHovering == null)
-            {
-                return;
-            }
-
+            var pointerPosition = TransformToVisual(_richEditBox).TransformPoint(pointer.Position);
             var padding = _richEditBox.Padding;
             pointerPosition.X += HorizontalOffset - padding.Left;
             pointerPosition.Y += VerticalOffset - padding.Top;
@@ -488,7 +488,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (hitTestRect.Contains(pointerPosition) && linkRange.Expand(TextRangeUnit.Link) > 0 &&
                 TryGetTokenFromRange(linkRange, out var token))
             {
-                this.TokenHovering.Invoke(this, new RichSuggestTokenEventArgs { Token = token, Range = linkRange });
+                this.TokenHovering.Invoke(this, new RichSuggestTokenHoveringEventArgs
+                {
+                    Token = token,
+                    Range = linkRange,
+                    CurrentPoint = pointer
+                });
             }
         }
 

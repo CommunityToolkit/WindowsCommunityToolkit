@@ -9,12 +9,10 @@ using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.Input;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -90,19 +88,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private RichSuggestBox _rsb;
         private RichSuggestBox _tsb;
         private DispatcherQueue _dispatcherQueue;
-        private PointerPoint _pointerPoint;
 
         public RichSuggestBoxPage()
         {
             this.InitializeComponent();
-            DispatcherQueue.GetForCurrentThread().CreateTimer();
             this._dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             Loaded += (sender, e) => { this.OnXamlRendered(this); };
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            PointerEventHandler pointerMovedHandler = SuggestingBox_OnPointerMoved;
 
             if (this._rsb != null)
             {
@@ -115,7 +110,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 this._tsb.SuggestionChosen -= this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested -= this.SuggestingBox_OnSuggestionsRequested;
                 this._tsb.TokenHovering -= this.SuggestingBox_OnTokenHovering;
-                this._tsb.RemoveHandler(PointerMovedEvent, pointerMovedHandler);
             }
 
             if (control.FindChild("SuggestingBox") is RichSuggestBox rsb)
@@ -131,7 +125,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 this._tsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
                 this._tsb.TokenHovering += this.SuggestingBox_OnTokenHovering;
-                this._tsb.AddHandler(PointerMovedEvent, pointerMovedHandler, true);
             }
 
             if (control.FindChild("TokenListView1") is ListView tls1)
@@ -145,15 +138,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void SuggestingBox_OnPointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            this._pointerPoint = e.GetCurrentPoint((UIElement)sender);
-        }
-
-        private void SuggestingBox_OnTokenHovering(RichSuggestBox sender, RichSuggestTokenEventArgs args)
+        private void SuggestingBox_OnTokenHovering(RichSuggestBox sender, RichSuggestTokenHoveringEventArgs args)
         {
             var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
-            var pointerPosition = this._pointerPoint.Position;
+            var pointerPosition = args.CurrentPoint.Position;
 
             if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
                 (!flyout.IsOpen || cp.Content != args.Token.Item))
