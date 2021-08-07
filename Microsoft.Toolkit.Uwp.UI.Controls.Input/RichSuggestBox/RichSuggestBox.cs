@@ -481,9 +481,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             pointerPosition.Y += VerticalOffset - padding.Top;
             var range = TextDocument.GetRangeFromPoint(pointerPosition, PointOptions.ClientCoordinates);
             var linkRange = range.GetClone();
-            range.Expand(TextRangeUnit.Word);
-            range.GetRect(PointOptions.None, out var rect, out _);
-            if (rect.Contains(pointerPosition) && linkRange.Expand(TextRangeUnit.Link) > 0 &&
+            range.Expand(TextRangeUnit.Character);
+            range.GetRect(PointOptions.None, out var hitTestRect, out _);
+            hitTestRect.X -= hitTestRect.Width;
+            hitTestRect.Width *= 2;
+            if (hitTestRect.Contains(pointerPosition) && linkRange.Expand(TextRangeUnit.Link) > 0 &&
                 TryGetTokenFromRange(linkRange, out var token))
             {
                 this.TokenHovering.Invoke(this, new RichSuggestTokenEventArgs { Token = token, Range = linkRange });
