@@ -259,7 +259,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public Task CreateFileAsync<T>(string filePath, T value)
         {
-            return this.SaveFileAsync<T>(this.Folder, filePath, value);
+            return this.CreateFileAsync<T>(this.Folder, filePath, value);
         }
 
         /// <inheritdoc />
@@ -269,21 +269,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <inheritdoc />
-        public Task DeleteItemAsync(string itemPath)
+        public Task<bool> TryDeleteItemAsync(string itemPath)
         {
-            return this.DeleteItemAsync(this.Folder, itemPath);
+            return TryDeleteItemAsync(this.Folder, itemPath);
         }
 
-        /// <summary>
-        /// Saves an object inside a file.
-        /// </summary>
-        /// <typeparam name="T">Type of object saved.</typeparam>
-        /// <param name="filePath">Path to the file that will contain the object.</param>
-        /// <param name="value">Object to save.</param>
-        /// <returns>Waiting task until completion.</returns>
-        public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
+        /// <inheritdoc />
+        public Task<bool> TryRenameItemAsync(string itemPath, string newName)
         {
-            return this.SaveFileAsync(this.Folder, filePath, value);
+            return TryRenameItemAsync(this.Folder, itemPath, newName);
         }
 
         private async Task<T?> ReadFileAsync<T>(StorageFolder folder, string filePath, T? @default = default)
@@ -307,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             });
         }
 
-        private Task<StorageFile> SaveFileAsync<T>(StorageFolder folder, string filePath, T value)
+        private Task<StorageFile> CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
         {
             return StorageFileHelper.WriteTextToFileAsync(folder, this.Serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
         }
@@ -317,10 +311,32 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             await folder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
         }
 
-        private async Task DeleteItemAsync(StorageFolder folder, string itemPath)
+        private async Task<bool> TryDeleteItemAsync(StorageFolder folder, string itemPath)
         {
-            var item = await folder.GetItemAsync(itemPath);
-            await item.DeleteAsync();
+            try
+            {
+                var item = await folder.GetItemAsync(itemPath);
+                await item.DeleteAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> TryRenameItemAsync(StorageFolder folder, string itemPath, string newName)
+        {
+            try
+            {
+                var item = await folder.GetItemAsync(itemPath);
+                await item.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

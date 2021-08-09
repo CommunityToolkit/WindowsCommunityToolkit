@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion with the object in the file.</returns>
         public Task<T> ReadCacheFileAsync<T>(string filePath, T @default = default)
         {
-            return ReadFileAsync<T>(CacheFolder, filePath, @default);
+            return ReadFileAsync<T>(this.CacheFolder, filePath, @default);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>A list of file types and names in the target folder.</returns>
         public Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadCacheFolderAsync(string folderPath)
         {
-            return ReadFolderAsync(CacheFolder, folderPath);
+            return ReadFolderAsync(this.CacheFolder, folderPath);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task CreateCacheFileAsync<T>(string filePath, T value)
         {
-            return SaveFileAsync<T>(CacheFolder, filePath, value);
+            return CreateFileAsync<T>(this.CacheFolder, filePath, value);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task CreateCacheFolderAsync(string folderPath)
         {
-            return CreateFolderAsync(CacheFolder, folderPath);
+            return CreateFolderAsync(this.CacheFolder, folderPath);
         }
 
         /// <summary>
@@ -69,9 +69,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="itemPath">The path to the item for deletion.</param>
         /// <returns>Waiting task until completion.</returns>
-        public Task DeleteCacheItemAsync(string itemPath)
+        public Task<bool> TryDeleteCacheItemAsync(string itemPath)
         {
-            return DeleteItemAsync(CacheFolder, itemPath);
+            return TryDeleteItemAsync(CacheFolder, itemPath);
+        }
+
+        /// <summary>
+        /// Rename an item in the LocalCacheFolder.
+        /// </summary>
+        /// <param name="itemPath">The path to the target item.</param>
+        /// <param name="newName">The new nam for the target item.</param>
+        /// <returns>Waiting task until completion.</returns>
+        public Task<bool> TryRenameCacheItemAsync(string itemPath, string newName)
+        {
+            return TryRenameItemAsync(this.CacheFolder, itemPath, newName);
         }
     }
 }
