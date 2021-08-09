@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MultipleX"/> property.
         /// </summary>
         public static readonly DependencyProperty MultipleXProperty =
-            DependencyProperty.Register(nameof(MultipleX), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(MultipleX), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null, ConstraintPropertyChanged));
 
         /// <summary>
         /// Gets or sets the integer multiple that the height of the panel should be floored to. Default is null (no snap).
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="MultipleY"/> property.
         /// </summary>
         public static readonly DependencyProperty MultipleYProperty =
-            DependencyProperty.Register(nameof(MultipleY), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(MultipleY), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null, ConstraintPropertyChanged));
 
         /// <summary>
         /// Gets or sets aspect Ratio to use for the contents of the Panel (after scaling).
