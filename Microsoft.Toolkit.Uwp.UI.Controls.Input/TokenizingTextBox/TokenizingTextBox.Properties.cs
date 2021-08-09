@@ -170,28 +170,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (d is TokenizingTextBox ttb && ttb.ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && e.NewValue is int newMaxTokens)
             {
-                var tokenCount = ttb.Items.Count;
-                if (tokenCount > newMaxTokens)
+                var tokenCount = ttb._innerItemsSource.ItemsSource.Count;
+                if (tokenCount > 0 && tokenCount > newMaxTokens)
                 {
                     int tokensToRemove = tokenCount - Math.Max(newMaxTokens, 0);
-                    var tokensRemoved = 0;
 
                     // Start at the end, remove any extra tokens.
-                    for (var i = ttb._innerItemsSource.Count - 1; i >= 0; --i)
+                    for (var i = tokenCount; i >= tokenCount - tokensToRemove; --i)
                     {
-                        var item = ttb._innerItemsSource[i];
-                        if (item is not ITokenStringContainer)
-                        {
-                            // Force remove the items. No warning and no option to cancel.
-                            ttb._innerItemsSource.Remove(item);
-                            ttb.TokenItemRemoved?.Invoke(ttb, item);
+                        var token = ttb._innerItemsSource.ItemsSource[i - 1];
 
-                            tokensRemoved++;
-                            if (tokensRemoved == tokensToRemove)
-                            {
-                                break;
-                            }
-                        }
+                        // Force remove the items. No warning and no option to cancel.
+                        ttb._innerItemsSource.Remove(token);
+                        ttb.TokenItemRemoved?.Invoke(ttb, token);
                     }
                 }
             }

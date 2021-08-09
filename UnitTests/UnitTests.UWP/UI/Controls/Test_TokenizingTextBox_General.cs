@@ -101,6 +101,10 @@ $@"<Page
             Assert.AreEqual(startingItemsCount + maxTokens, tokenBox.Items.Count, "Token Replace failed");
             Assert.AreEqual("TokenItem1", tokenBox.Items[0]);
             Assert.AreEqual("TokenItem3", tokenBox.Items[1]);
+
+            tokenBox.MaxTokens = 1;
+
+            Assert.AreEqual(1, tokenBox.Items.Count);
         }
     }
 }
