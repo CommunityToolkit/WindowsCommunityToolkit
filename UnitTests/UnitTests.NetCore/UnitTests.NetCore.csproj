@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj" />
     <ProjectReference Include="..\..\Microsoft.Toolkit.Diagnostics\Microsoft.Toolkit.Diagnostics.csproj" />
     <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm.SourceGenerators\Microsoft.Toolkit.Mvvm.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="contentfiles;build" />
+    <ProjectReference Include="..\UnitTests.NetStandard\UnitTests.NetStandard.csproj" />
   </ItemGroup>
 
   <ItemGroup>

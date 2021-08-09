@@ -107,5 +107,25 @@ namespace UnitTests.Mvvm
             [ObservableProperty]
             private int y;
         }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_INotifyPropertyChanged_WithGeneratedProperties_ExternalNetStandard20Assembly()
+        {
+            Assert.IsTrue(typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(NetStandard.SampleModelWithINPCAndObservableProperties)));
+            Assert.IsFalse(typeof(INotifyPropertyChanging).IsAssignableFrom(typeof(NetStandard.SampleModelWithINPCAndObservableProperties)));
+
+            NetStandard.SampleModelWithINPCAndObservableProperties model = new();
+            List<PropertyChangedEventArgs> eventArgs = new();
+
+            model.PropertyChanged += (s, e) => eventArgs.Add(e);
+
+            model.X = 42;
+            model.Y = 66;
+
+            Assert.AreEqual(eventArgs.Count, 2);
+            Assert.AreEqual(eventArgs[0].PropertyName, nameof(NetStandard.SampleModelWithINPCAndObservableProperties.X));
+            Assert.AreEqual(eventArgs[1].PropertyName, nameof(NetStandard.SampleModelWithINPCAndObservableProperties.Y));
+        }
     }
 }
