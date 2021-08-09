@@ -11,7 +11,7 @@
     <PackageProjectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/CommunityToolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <PackageIcon>Icon.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup>
