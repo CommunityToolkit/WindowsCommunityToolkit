@@ -93,11 +93,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AspectRatioProperty =
             DependencyProperty.Register(nameof(AspectRatio), typeof(AspectRatio), typeof(ConstrainedBox), new PropertyMetadata(null, ConstraintPropertyChanged));
 
+        private bool _propertyUpdating;
+
         private static void ConstraintPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ConstrainedBox panel)
+            if (d is ConstrainedBox panel && !panel._propertyUpdating)
             {
+                panel._propertyUpdating = true;
+
+                panel.CoerceValues();
+
                 panel.InvalidateMeasure();
+
+                panel._propertyUpdating = false;
+            }
+        }
+
+        private void CoerceValues()
+        {
+            // Check if scale properties are in range
+            if (!double.IsNaN(ScaleX))
+            {
+                if (ScaleX < 0)
+                {
+                    ScaleX = 0;
+                }
+                else if (ScaleX > 1.0)
+                {
+                    ScaleX = 1.0;
+                }
+            }
+            else
+            {
+                ScaleX = 1.0;
+            }
+
+            if (!double.IsNaN(ScaleY))
+            {
+                if (ScaleY < 0)
+                {
+                    ScaleY = 0;
+                }
+                else if (ScaleY > 1.0)
+                {
+                    ScaleY = 1.0;
+                }
+            }
+            else
+            {
+                ScaleY = 1.0;
+            }
+
+            // Clear invalid values less than 0 for other properties
+            if (ReadLocalValue(MultipleXProperty) is int value && value <= 0)
+            {
+                ClearValue(MultipleXProperty);
+            }
+
+            if (ReadLocalValue(MultipleYProperty) is int value2 && value2 <= 0)
+            {
+                ClearValue(MultipleYProperty);
+            }
+
+            if (ReadLocalValue(AspectRatioProperty) is AspectRatio ratio && ratio <= 0)
+            {
+                ClearValue(AspectRatioProperty);
             }
         }
     }
