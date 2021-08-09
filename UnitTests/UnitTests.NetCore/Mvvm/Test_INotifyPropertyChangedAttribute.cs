@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -74,6 +75,37 @@ namespace UnitTests.Mvvm
         [INotifyPropertyChanged(IncludeAdditionalHelperMethods = false)]
         public partial class SampleModelWithoutHelpers
         {
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_INotifyPropertyChanged_WithGeneratedProperties()
+        {
+            Assert.IsTrue(typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(SampleModelWithINPCAndObservableProperties)));
+            Assert.IsFalse(typeof(INotifyPropertyChanging).IsAssignableFrom(typeof(SampleModelWithINPCAndObservableProperties)));
+
+            SampleModelWithINPCAndObservableProperties model = new();
+            List<PropertyChangedEventArgs> eventArgs = new();
+
+            model.PropertyChanged += (s, e) => eventArgs.Add(e);
+
+            model.X = 42;
+            model.Y = 66;
+
+            Assert.AreEqual(eventArgs.Count, 2);
+            Assert.AreEqual(eventArgs[0].PropertyName, nameof(SampleModelWithINPCAndObservableProperties.X));
+            Assert.AreEqual(eventArgs[1].PropertyName, nameof(SampleModelWithINPCAndObservableProperties.Y));
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3665
+        [INotifyPropertyChanged]
+        public partial class SampleModelWithINPCAndObservableProperties
+        {
+            [ObservableProperty]
+            private int x;
+
+            [ObservableProperty]
+            private int y;
         }
     }
 }
