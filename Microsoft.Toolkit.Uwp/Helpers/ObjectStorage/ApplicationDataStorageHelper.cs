@@ -282,12 +282,26 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async Task<T?> ReadFileAsync<T>(StorageFolder folder, string filePath, T? @default = default)
         {
+            var dirName = System.IO.Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrEmpty(dirName))
+            {
+                folder = await folder.GetFolderAsync(dirName);
+                filePath = System.IO.Path.GetFileName(filePath);
+            }
+
             string value = await StorageFileHelper.ReadTextFromFileAsync(folder, filePath);
             return (value != null) ? this.Serializer.Deserialize<T>(value) : @default;
         }
 
         private async Task<IEnumerable<(DirectoryItemType, string)>> ReadFolderAsync(StorageFolder folder, string folderPath)
         {
+            var dirName = System.IO.Path.GetDirectoryName(folderPath);
+            if (!string.IsNullOrEmpty(dirName))
+            {
+                folder = await folder.GetFolderAsync(dirName);
+                folderPath = System.IO.Path.GetFileName(folderPath);
+            }
+
             var targetFolder = await folder.GetFolderAsync(folderPath);
             var items = await targetFolder.GetItemsAsync();
 
@@ -301,13 +315,27 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             });
         }
 
-        private Task<StorageFile> CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
+        private async Task<StorageFile> CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
         {
-            return StorageFileHelper.WriteTextToFileAsync(folder, this.Serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
+            var dirName = System.IO.Path.GetDirectoryName(filePath);
+            if (!string.IsNullOrEmpty(dirName))
+            {
+                folder = await folder.GetFolderAsync(dirName);
+                filePath = System.IO.Path.GetFileName(filePath);
+            }
+
+            return await StorageFileHelper.WriteTextToFileAsync(folder, this.Serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
         }
 
         private async Task CreateFolderAsync(StorageFolder folder, string folderPath)
         {
+            var dirName = System.IO.Path.GetDirectoryName(folderPath);
+            if (!string.IsNullOrEmpty(dirName))
+            {
+                folder = await folder.GetFolderAsync(dirName);
+                folderPath = System.IO.Path.GetFileName(folderPath);
+            }
+
             await folder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
         }
 
