@@ -206,19 +206,21 @@ namespace UnitTests.Helpers
         [TestMethod]
         public async Task Test_StorageHelper_SubFolderCRUDTest()
         {
-            var folderName = "TestFolder";
+            var folderName = "TestFolder1";
             var subFolderName = "TestSubFolder";
             var subFolderName2 = "TestSubFolder2";
             var subFolderPath = $"{folderName}/{subFolderName}";
             var subFolderPath2 = $"{folderName}/{subFolderName2}";
             var fileName = "TestFile.txt";
+            var fileName2 = "TestFile2.txt";
             var filePath = $"{subFolderPath}/{fileName}";
-
+            var filePath2 = $"{subFolderPath2}/{fileName2}";
             var fileContents = "this is a test";
+
             var storageHelper = ApplicationDataStorageHelper.GetCurrent();
 
-            // Create a folder
-            await storageHelper.CreateFolderAsync(folderName);
+            // Attempt to delete the folder to clean up from any previously failed test runs.
+            await storageHelper.TryDeleteItemAsync(folderName);
 
             // Create a subfolder
             await storageHelper.CreateFolderAsync(subFolderPath);
@@ -237,13 +239,25 @@ namespace UnitTests.Helpers
             Assert.AreEqual(fileName, folderItemsList[0].Name);
             Assert.AreEqual(Microsoft.Toolkit.Helpers.DirectoryItemType.File, folderItemsList[0].ItemType);
 
-            // Rename a subfolder
-            var itemRenamed = await storageHelper.TryRenameItemAsync(subFolderPath, subFolderName2);
+            // Rename a file in a subfolder
+            var itemRenamed = await storageHelper.TryRenameItemAsync(filePath, fileName2);
             Assert.IsTrue(itemRenamed);
 
+            // Rename a subfolder
+            var folderRenamed = await storageHelper.TryRenameItemAsync(subFolderPath, subFolderName2);
+            Assert.IsTrue(folderRenamed);
+
+            // Delete a file in a subfolder
+            var fileDeleted = await storageHelper.TryDeleteItemAsync(filePath2);
+            Assert.IsTrue(fileDeleted);
+
             // Delete a subfolder
-            var itemDeleted = await storageHelper.TryDeleteItemAsync(subFolderPath2);
-            Assert.IsTrue(itemDeleted);
+            var subFolderDeleted = await storageHelper.TryDeleteItemAsync(subFolderPath2);
+            Assert.IsTrue(subFolderDeleted);
+
+            // Delete the folder to clean up.
+            var folderDeleted = await storageHelper.TryDeleteItemAsync(folderName);
+            Assert.IsTrue(folderDeleted);
         }
 
         public class Person

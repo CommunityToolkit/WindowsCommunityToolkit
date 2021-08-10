@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Helpers;
@@ -282,27 +283,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async Task<T?> ReadFileAsync<T>(StorageFolder folder, string filePath, T? @default = default)
         {
-            var dirName = System.IO.Path.GetDirectoryName(filePath);
-            if (!string.IsNullOrEmpty(dirName))
-            {
-                folder = await folder.GetFolderAsync(dirName);
-                filePath = System.IO.Path.GetFileName(filePath);
-            }
-
-            string value = await StorageFileHelper.ReadTextFromFileAsync(folder, filePath);
+            string value = await StorageFileHelper.ReadTextFromFileAsync(folder, NormalizePath(filePath));
             return (value != null) ? this.Serializer.Deserialize<T>(value) : @default;
         }
 
         private async Task<IEnumerable<(DirectoryItemType, string)>> ReadFolderAsync(StorageFolder folder, string folderPath)
         {
-            var dirName = System.IO.Path.GetDirectoryName(folderPath);
-            if (!string.IsNullOrEmpty(dirName))
-            {
-                folder = await folder.GetFolderAsync(dirName);
-                folderPath = System.IO.Path.GetFileName(folderPath);
-            }
-
-            var targetFolder = await folder.GetFolderAsync(folderPath);
+            var targetFolder = await folder.GetFolderAsync(NormalizePath(folderPath));
             var items = await targetFolder.GetItemsAsync();
 
             return items.Select((item) =>
@@ -317,33 +304,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async Task<StorageFile> CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
         {
-            var dirName = System.IO.Path.GetDirectoryName(filePath);
-            if (!string.IsNullOrEmpty(dirName))
-            {
-                folder = await folder.GetFolderAsync(dirName);
-                filePath = System.IO.Path.GetFileName(filePath);
-            }
-
-            return await StorageFileHelper.WriteTextToFileAsync(folder, this.Serializer.Serialize(value)?.ToString(), filePath, CreationCollisionOption.ReplaceExisting);
+            return await StorageFileHelper.WriteTextToFileAsync(folder, this.Serializer.Serialize(value)?.ToString(), NormalizePath(filePath), CreationCollisionOption.ReplaceExisting);
         }
 
         private async Task CreateFolderAsync(StorageFolder folder, string folderPath)
         {
-            var dirName = System.IO.Path.GetDirectoryName(folderPath);
-            if (!string.IsNullOrEmpty(dirName))
-            {
-                folder = await folder.GetFolderAsync(dirName);
-                folderPath = System.IO.Path.GetFileName(folderPath);
-            }
-
-            await folder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
+            await folder.CreateFolderAsync(NormalizePath(folderPath), CreationCollisionOption.OpenIfExists);
         }
 
         private async Task<bool> TryDeleteItemAsync(StorageFolder folder, string itemPath)
         {
             try
             {
-                var item = await folder.GetItemAsync(itemPath);
+                var item = await folder.GetItemAsync(NormalizePath(itemPath));
                 await item.DeleteAsync();
                 return true;
             }
@@ -357,7 +330,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             try
             {
-                var item = await folder.GetItemAsync(itemPath);
+                var item = await folder.GetItemAsync(NormalizePath(itemPath));
                 await item.RenameAsync(newName, NameCollisionOption.FailIfExists);
                 return true;
             }
@@ -365,6 +338,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 return false;
             }
+        }
+
+        private string NormalizePath(string path)
+        {
+            return Path.Combine(Path.GetDirectoryName(path), Path.GetFileName(path));
         }
     }
 }
