@@ -30,8 +30,11 @@
       <RowDefinition/>
     </Grid.RowDefinitions>
     <StackPanel>
-      <TextBlock FontSize="32" Text="Select up to 3 Actions"
-                 Margin="0,0,0,4"/>
+      <TextBlock FontSize="32" Margin="0,0,0,4">
+        <Run Text="Select up to" />
+        <Run Text="{Binding MaxTokens, ElementName=TokenBox, Mode=OneWay}" />
+        <Run Text="actions" />
+      </TextBlock>
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
