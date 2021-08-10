@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     [TypeConstraint(typeof(FrameworkElement))]
     public class KeyDownTriggerBehavior : Trigger<FrameworkElement>
     {
-
         /// <summary>
         /// Identifies the <see cref="Key"/> property.
         /// </summary>
