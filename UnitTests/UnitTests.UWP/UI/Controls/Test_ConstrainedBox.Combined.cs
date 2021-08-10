@@ -17,6 +17,9 @@ using Windows.UI.Xaml.Markup;
 
 namespace UnitTests.UWP.UI.Controls
 {
+    /// <summary>
+    /// These tests check multiple constraints are applied together in the correct order.
+    /// </summary>
     public partial class Test_ConstrainedBox : VisualUITestBase
     {
         [TestCategory("ConstrainedBox")]

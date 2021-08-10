@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Markup;
 
 namespace UnitTests.UWP.UI.Controls
 {
+    /// <summary>
+    /// These tests check for the various values which can be coerced and changed if out of bounds for each property.
+    /// </summary>
     public partial class Test_ConstrainedBox : VisualUITestBase
     {
         [TestCategory("ConstrainedBox")]
