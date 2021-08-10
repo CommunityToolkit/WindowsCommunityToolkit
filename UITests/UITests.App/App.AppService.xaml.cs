@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.Messaging;
+using UITests.App.Commands;
 using UITests.App.Pages;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
@@ -67,6 +68,27 @@ namespace UITests.App
                     var pageResponse = await WeakReferenceMessenger.Default.Send(new RequestPageMessage(pageName));
 
                     await args.Request.SendResponseAsync(pageResponse ? OkResult : BadResult);
+
+                    break;
+                case "Get":
+                    if(!TryGetValueAndLog(message, "Key", out var key))
+                    {
+                        await args.Request.SendResponseAsync(BadResult);
+                        messageDeferral.Complete();
+                        return;
+                    }
+
+                    switch (key)
+                    {
+                        case "Dpi":
+                            Log.Comment("Received request for Dpi.");
+                            var dpi = (int)(await VisualTreeHelperCommands.GetRasterizationScale() * 96.0);
+                            Log.Comment("Dpi is {0}", dpi);
+                            await args.Request.SendResponseAsync(new() { { "Status", "OK" }, { "Dpi", dpi } });
+                            break;
+                        default:
+                            break;
+                    }
 
                     break;
                 case "Custom":

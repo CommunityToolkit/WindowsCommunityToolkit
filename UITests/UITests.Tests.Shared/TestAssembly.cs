@@ -80,6 +80,20 @@ namespace UITests.Tests
             });
         }
 
+        internal static async Task<int?> TryGetHostDpi()
+        {
+            Log.Comment("[Harness] Requesting Dpi form host...");
+            var response = await SendCustomMessageToApp(new() { { "Command", "Get" }, { "Key", "Dpi" } });
+
+            Log.Comment("[Harness] Response AppServiceResponseStatus({0})", response.Status.ToString());
+
+            return response.Status == AppServiceResponseStatus.Success
+                && TryGetValueAndLog(response.Message, "Status", out string status) && status == "OK"
+                && TryGetValueAndLog(response.Message, "Dpi", out int val)
+                ? val
+                : null;
+        }
+
         internal static async Task<AppServiceResponse> SendCustomMessageToApp(ValueSet message)
         {
             if (CommunicationService is null)
@@ -104,15 +118,32 @@ namespace UITests.Tests
 
         internal static bool CheckResponseStatusOK(AppServiceResponse response)
         {
-            object message = null;
-            var hasMessage = response?.Message?.TryGetValue("Status", out message) is true;
-
-            Log.Comment("[Harness] Checking Response AppServiceResponseStatus({0}), Message Status: {1}", response.Status.ToString(), message?.ToString());
+            Log.Comment("[Harness] Response AppServiceResponseStatus({0})", response.Status.ToString());
 
             return response.Status == AppServiceResponseStatus.Success
-                    && hasMessage
-                    && message is string status
-                    && status == "OK";
+                && TryGetValueAndLog(response.Message, "Status", out string val)
+                && val == "OK";
+        }
+
+        private static bool TryGetValueAndLog<T>(ValueSet message, string key, out T value)
+        {
+            value = default;
+
+            if(!message.TryGetValue(key, out var oVal))
+            {
+                Log.Comment("[Harness] Reponse Message did not contain key {0}", key);
+                return false;
+            }
+
+            if(oVal is not T tVal)
+            {
+                Log.Comment("[Harness] Reponse Message contained key {0}, but the value was not of expected type {1}. Value : ", key, nameof(T));
+                return false;
+            }
+
+            value = tVal;
+            Log.Comment("[Harness] Reponse Message contained key {0} with value {1}", key, tVal.ToString());
+            return true;
         }
 
         private static void CommunicationService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)

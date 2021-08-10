@@ -39,6 +39,11 @@ namespace UITests.Tests
         [TestPage("GridSplitterTestPage")]
         public async Task TestGridSplitterDragHorizontalAsync()
         {
+            if(await TestAssembly.TryGetHostDpi() is not int dpi)
+            {
+                Verify.Fail("Could not get host dpi");
+            }
+
             var amount = 50;
             var tolerance = 10;
 

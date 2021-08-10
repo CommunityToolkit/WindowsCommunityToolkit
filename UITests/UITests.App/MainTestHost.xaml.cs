@@ -36,7 +36,13 @@ namespace UITests.App
             _queue = DispatcherQueue.GetForCurrentThread();
 
             // Initialize Custom Commands for AppService
-            VisualTreeHelperCommands.Initialize(_queue);
+            VisualTreeHelperCommands.Initialize(_queue, async () =>
+            {
+                var dpi = 0.0;
+                await _queue.EnqueueAsync(() => dpi = XamlRoot.RasterizationScale);
+
+                return dpi;
+            });
         }
 
         public void Receive(RequestPageMessage message)

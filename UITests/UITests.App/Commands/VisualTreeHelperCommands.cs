@@ -23,14 +23,17 @@ namespace UITests.App.Commands
     {
         private static DispatcherQueue Queue { get; set; }
 
+        public static Func<Task<double>> GetRasterizationScale { get; private set; }
+
         private static JsonSerializerOptions SerializerOptions { get; } = new JsonSerializerOptions(JsonSerializerDefaults.General)
         {
             NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
         };
 
-        public static void Initialize(DispatcherQueue uiThread)
+        public static void Initialize(DispatcherQueue uiThread, Func<Task<double>> getRasterizationScale)
         {
             Queue = uiThread;
+            GetRasterizationScale = getRasterizationScale;
 
             (App.Current as App).RegisterCustomCommand("VisualTreeHelper.FindElementProperty", FindElementProperty);
         }
