@@ -29,10 +29,6 @@ namespace UnitTests.UWP.UI.Controls
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
-                // Even though we constrain the size of the ScrollViewer, it initially reports infinite measure
-                // which is what we want to test. We constrain the dimension so that we have a specific value
-                // that we can measure against. If we instead restrained the inner Border, it'd just set
-                // it's side within the constrained space of the parent layout...
                 var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
