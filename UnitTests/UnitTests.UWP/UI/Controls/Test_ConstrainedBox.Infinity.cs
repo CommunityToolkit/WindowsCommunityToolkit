@@ -106,5 +106,52 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.AreEqual(200, child.ActualHeight, 0.01, "Actual height does not meet expected value of 200");
             });
         }
+
+        [TestCategory("ConstrainedBox")]
+        [TestMethod]
+        public async Task Test_ConstrainedBox_AllInfinite_AspectBothFallback()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+    <ScrollViewer x:Name=""ScrollArea""
+                  HorizontalScrollMode=""Enabled"" HorizontalScrollBarVisibility=""Visible""
+                  VerticalScrollMode=""Enabled"" VerticalScrollBarVisibility=""Visible"">
+      <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""1:2"">
+        <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
+      </controls:ConstrainedBox>
+    </ScrollViewer>
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                // Initialize Visual Tree
+                await SetTestContentAsync(treeRoot);
+
+                var scroll = treeRoot.FindChild("ScrollArea") as ScrollViewer;
+
+                Assert.IsNotNull(scroll, "Could not find ScrollViewer in tree.");
+
+                var panel = treeRoot.FindChild("ConstrainedBox") as ConstrainedBox;
+
+                Assert.IsNotNull(panel, "Could not find ConstrainedBox in tree.");
+
+                // Force Layout calculations
+                panel.UpdateLayout();
+
+                var child = panel.Content as Border;
+
+                Assert.IsNotNull(child, "Could not find inner Border");
+
+                var width = scroll.ActualHeight / 2;
+
+                // Check Size
+                Assert.AreEqual(width, child.ActualWidth, 0.01, "Actual width does not meet expected value of " + width);
+                Assert.AreEqual(scroll.ActualHeight, child.ActualHeight, 0.01, "Actual height does not meet expected value of " + scroll.ActualHeight);
+            });
+        }
     }
 }
