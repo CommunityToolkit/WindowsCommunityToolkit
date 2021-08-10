@@ -11,7 +11,7 @@ namespace UnitTests.Helpers
 {
     /// <summary>
     /// This is a Serializer which should mimic the previous functionality of 6.1.1 release of the Toolkit with Newtonsoft.Json.
-    /// Based on <see cref="Microsoft.Toolkit.Helpers.IObjectSerializer"/>.
+    /// Based on <see cref="CommunityToolkit.Common.Helpers.IObjectSerializer"/>.
     /// </summary>
     internal class JsonObjectSerializer2 : IObjectSerializer
     {

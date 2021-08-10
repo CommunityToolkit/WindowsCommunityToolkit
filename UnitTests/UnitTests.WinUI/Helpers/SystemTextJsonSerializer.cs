@@ -10,7 +10,7 @@ namespace UnitTests.Helpers
 {
     /// <summary>
     /// Example class of writing a new <see cref="IObjectSerializer"/> that uses System.Text.Json.
-    /// Based on <see cref="Microsoft.Toolkit.Uwp.Helpers.IObjectSerializer"/>.
+    /// Based on <see cref="CommunityToolkit.WinUI.Helpers.IObjectSerializer"/>.
     /// </summary>
     [Obsolete]
     internal class SystemTextJsonSerializer : IObjectSerializer

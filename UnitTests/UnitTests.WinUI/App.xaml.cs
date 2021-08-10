@@ -7,6 +7,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using UnitTests.WinUI;
 
 namespace UnitTests
@@ -72,6 +73,17 @@ namespace UnitTests
 
             // Ensure the current window is active
             _window.Activate();
+
+            Logger.LogMessage("Looking for DefaultRichEditBoxStyle...");
+            if (!Resources.TryGetValue("DefaultRichEditBoxStyle", out var value))
+            {
+                Logger.LogMessage("ERROR: Couldn't find DefaultRichEditBoxStyle in WinUI!");
+                throw new ApplicationException("Couldn't find DefaultRichEditBoxStyle resource.");
+            }
+            else
+            {
+                Logger.LogMessage("FOUND!");
+            }
 
             UITestMethodAttribute.DispatcherQueue = _window.DispatcherQueue;
 

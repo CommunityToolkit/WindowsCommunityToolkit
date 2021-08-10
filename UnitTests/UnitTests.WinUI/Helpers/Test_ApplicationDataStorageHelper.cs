@@ -50,7 +50,7 @@ namespace UnitTests.Helpers
         }
 
         /// <summary>
-        /// If we try and deserialize a complex type with the <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/>, we do a check ourselves and will throw our own exception.
+        /// If we try and deserialize a complex type with the <see cref="CommunityToolkit.Common.Helpers.SystemSerializer"/>, we do a check ourselves and will throw our own exception.
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
@@ -68,7 +68,7 @@ namespace UnitTests.Helpers
         }
 
         /// <summary>
-        /// The <see cref="Microsoft.Toolkit.Helpers.SystemSerializer"/> doesn't support complex types, since it just passes through directly.
+        /// The <see cref="CommunityToolkit.Common.Helpers.SystemSerializer"/> doesn't support complex types, since it just passes through directly.
         /// We'll get the argument exception from the <see cref="Windows.Storage.ApplicationDataContainer"/> API.
         /// </summary>
         [TestCategory("Helpers")]

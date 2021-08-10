@@ -23,18 +23,23 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
-    <PackageReference Include="Microsoft.Internal.MUXTestInfra.MSTest" Version="3.0.0-zmain.210615.2-CI" />
+    <!-- MSTest -->
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.5" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.5" />
-    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <!-- Microsoft.UI.Xaml MSTest Extension -->
+    <PackageReference Include="Microsoft.Internal.MUXTestInfra.MSTest" Version="3.0.0-zmain.210615.2-CI" />
+    <!-- System packages -->
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+    <!-- Windows SDK packages -->
     <PackageReference Include="Microsoft.Windows.Apps.Test" Version="1.0.181205002" />
-    <PackageReference Include="Grpc.Tools" Version="2.36.4" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.36.0" />
-    <PackageReference Include="Grpc.Core" Version="2.36.4" />
+    <!-- GRPC packages -->
     <PackageReference Include="Google.Protobuf" Version="3.15.7" />
+    <PackageReference Include="Grpc.Core" Version="2.36.4" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.36.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.36.4" />
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
