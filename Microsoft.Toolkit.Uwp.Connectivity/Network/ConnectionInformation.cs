@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <summary>
         /// Gets the network names associated with the current Internet Connection Profile.
         /// </summary>
-        /// <returns>value of <see cref="IReadOnlyList<string>"/></returns>
+        /// <returns>value of <see cref="IReadOnlyList{string}"/></returns>
         public IReadOnlyList<string> NetworkNames
         {
             get
