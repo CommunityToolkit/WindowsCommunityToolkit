@@ -104,7 +104,8 @@ $@"<Page
 
             tokenBox.MaxTokens = 1;
 
-            Assert.AreEqual(1, tokenBox.Items.Count);
+            Assert.AreEqual(startingItemsCount + 1, tokenBox.Items.Count);
+            Assert.AreEqual("TokenItem1", tokenBox.Items[0]);
         }
     }
 }

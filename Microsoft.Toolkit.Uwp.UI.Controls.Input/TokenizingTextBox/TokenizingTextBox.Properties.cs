@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     int tokensToRemove = tokenCount - Math.Max(newMaxTokens, 0);
 
                     // Start at the end, remove any extra tokens.
-                    for (var i = tokenCount; i >= tokenCount - tokensToRemove; --i)
+                    for (var i = tokenCount; i > tokenCount - tokensToRemove; --i)
                     {
                         var token = ttb._innerItemsSource.ItemsSource[i - 1];
 
