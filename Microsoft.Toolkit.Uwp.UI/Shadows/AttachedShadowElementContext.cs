@@ -1,6 +1,6 @@
-// ------------------------------------------------------
-// Copyright (C) Microsoft. All rights reserved.
-// ------------------------------------------------------
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         private Dictionary<string, object> _resources;
 
         /// <summary>
-        /// Gets whether or not this <see cref="AttachedShadowElementContext"/> has been initialized.
+        /// Gets a value indicating whether or not this <see cref="AttachedShadowElementContext"/> has been initialized.
         /// </summary>
         public bool IsInitialized { get; private set; }
 
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public AttachedShadowBase Parent { get; private set; }
 
         /// <summary>
-        /// Get the <see cref="FrameworkElement"/> this instance is attached to
+        /// Gets the <see cref="FrameworkElement"/> this instance is attached to
         /// </summary>
         public FrameworkElement Element { get; private set; }
 
@@ -43,12 +43,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         public Compositor Compositor { get; private set; }
 
         /// <summary>
-        /// Get the <see cref="SpriteVisual"/> that contains the <see cref="DropShadow">shadow</see> for this instance
+        /// Gets the <see cref="SpriteVisual"/> that contains the <see cref="DropShadow">shadow</see> for this instance
         /// </summary>
         public SpriteVisual SpriteVisual { get; private set; }
 
         /// <summary>
-        /// Get the <see cref="DropShadow"/> that is rendered on this instance's <see cref="Element"/>
+        /// Gets the <see cref="DropShadow"/> that is rendered on this instance's <see cref="Element"/>
         /// </summary>
         public DropShadow Shadow { get; private set; }
 

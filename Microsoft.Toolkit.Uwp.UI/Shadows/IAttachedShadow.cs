@@ -1,6 +1,6 @@
-// ------------------------------------------------------
-// Copyright (C) Microsoft. All rights reserved.
-// ------------------------------------------------------
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Numerics;
 using Windows.Foundation;
@@ -12,15 +12,25 @@ namespace Microsoft.Toolkit.Uwp.UI
     public interface IAttachedShadow
     {
         double BlurRadius { get; set; }
+
         double Opacity { get; set; }
+
         Vector3 Offset { get; set; }
+
         Color Color { get; set; }
+
         bool SupportsOnSizeChangedEvent { get; }
+
         void ConnectElement(FrameworkElement element);
+
         void DisconnectElement(FrameworkElement element);
+
         void OnElementContextInitialized(AttachedShadowElementContext context);
+
         void OnElementContextUninitialized(AttachedShadowElementContext context);
+
         void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize);
+
         AttachedShadowElementContext GetElementContext(FrameworkElement element);
     }
 }
