@@ -1,14 +1,13 @@
-using Microsoft.Graphics.Canvas.Effects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Shadows
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// A base class for attached shadows that use an opacity mask to clip content from the shadow.

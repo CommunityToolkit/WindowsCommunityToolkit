@@ -1,16 +1,16 @@
-// ------------------------------------------------------
-// Copyright (C) Microsoft. All rights reserved.
-// ------------------------------------------------------
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas.Geometry;
 using System.Numerics;
+using Microsoft.Graphics.Canvas.Geometry;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Shadows
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     public class AttachedCardShadow : AttachedShadowBase
     {
