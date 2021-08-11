@@ -126,6 +126,8 @@
       {
         "Name": "RadialProgressBar",
         "Type": "RadialProgressBarPage",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the ProgressRing control from WinUI with IsIndeterminate set to false, this control will be removed in a future release. https://aka.ms/winui",
         "Subcategory": "Status and Info",
         "About": "The radial progress bar displays progress as a circle getting filled.",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Core/RadialProgressBar",
@@ -357,7 +359,6 @@
         "XamlCodeFile": "InfiniteCanvas.bind",
         "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
-        "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
       },
       {
@@ -557,7 +558,6 @@
         "CodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Animations/Behaviors/BlurBehavior.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineVisualFactory.md"
       },
       {
@@ -568,7 +568,6 @@
         "CodeFile": "/SamplePages/Animations/Behaviors/SaturationBehaviorCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Behaviors/SaturationBehaviorXaml.bind",
         "Icon": "/SamplePages/Animations/Behaviors/SaturationBehavior.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineVisualFactory.md"
       },
       {
@@ -598,7 +597,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ItemsReorderAnimation.bind",
         "Icon": "/SamplePages/ItemsReorderAnimation/ItemsReorderAnimation.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ItemsReorderAnimation.md"
       },
       {
@@ -618,7 +616,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Animations",
         "Icon": "/SamplePages/Implicit Animations/ImplicitAnimations.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ImplicitAnimationSet.md"
       },
       {
@@ -630,7 +627,6 @@
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
         "DisableXamlEditorRendering": true,
         "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
       }
     ]
@@ -713,8 +709,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper",
         "CodeFile": "BluetoothLEHelperCode.bind",
         "Icon": "/SamplePages/BluetoothLEHelper/BluetoothLEHelper.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BluetoothLEHelper.md",
-        "BadgeUpdateVersionRequired": "Creators Update required"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BluetoothLEHelper.md"
       },
       {
         "Name": "SystemInformation",
@@ -1168,7 +1163,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBox/TextBoxExtensions.SurfaceDial.cs",
         "XamlCodeFile": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextboxCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/SurfaceDialTextboxHelper.md"
       },
       {
@@ -1178,7 +1172,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/VisualExtensions.cs",
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/VisualExtensions.md"
       },
       {
