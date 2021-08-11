@@ -88,7 +88,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                     IsMasked="@[Is Masked]">
-            <Image Width="200" Source="/SamplePages/DropShadowPanel/Unicorn.png" Stretch="Uniform" />
+            <Image Width="200" Source="/SamplePages/Shadows/Unicorn.png" Stretch="Uniform" />
           </controls:DropShadowPanel>
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
                                     ShadowOpacity="@[Opacity]"
@@ -98,7 +98,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
                                     IsMasked="@[Is Masked]">
-            <Image Width="200" Source="/SamplePages/DropShadowPanel/Trex.png" Stretch="Uniform" />
+            <Image Width="200" Source="/SamplePages/Shadows/Trex.png" Stretch="Uniform" />
           </controls:DropShadowPanel>
         </StackPanel>
       </StackPanel>

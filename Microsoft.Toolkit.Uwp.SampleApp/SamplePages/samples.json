@@ -185,13 +185,11 @@
       },
       {
         "Name": "DropShadowPanel",
-        "Type": "DropShadowPanelPage",
         "Subcategory": "Media",
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Core/DropShadowPanel",
-        "XamlCodeFile": "DropShadowPanelXaml.bind",
-        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "XamlCodeFile": "/SamplePages/Shadows/DropShadowPanelXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
       },
       {

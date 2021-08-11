@@ -49,6 +49,7 @@
             </controls:CaseCollection>
         </controls:SwitchPresenter>
         <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
+        <controls:DropShadowPanel x:Key="DropShadowPanel" />
     </Page.Resources>
 
     <Grid>
