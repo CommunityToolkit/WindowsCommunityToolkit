@@ -97,7 +97,7 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(eventArgs[1].PropertyName, nameof(SampleModelWithINPCAndObservableProperties.Y));
         }
 
-        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3665
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4167
         [INotifyPropertyChanged]
         public partial class SampleModelWithINPCAndObservableProperties
         {

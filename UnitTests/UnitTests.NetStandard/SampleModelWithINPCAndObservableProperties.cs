@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 namespace UnitTests.NetStandard
 {
     /// <summary>
-    /// See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3665.
+    /// See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4167.
     /// This model in particular is loaded from an external .NET Standard 2.0 assembly.
     /// </summary>
     [INotifyPropertyChanged]
