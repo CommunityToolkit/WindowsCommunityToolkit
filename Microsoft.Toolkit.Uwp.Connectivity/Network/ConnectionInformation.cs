@@ -135,9 +135,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         public byte? SignalStrength { get; private set; }
 
         /// <summary>
-        /// Gets signal strength for the current Internet Connection Profile.
+        /// Gets the network names associated with the current Internet Connection Profile.
         /// </summary>
-        /// <returns>value of <see cref="NetworkConnectivityLevel"/></returns>
+        /// <returns>value of <see cref="IReadOnlyList{String}"/></returns>
         public IReadOnlyList<string> NetworkNames
         {
             get
