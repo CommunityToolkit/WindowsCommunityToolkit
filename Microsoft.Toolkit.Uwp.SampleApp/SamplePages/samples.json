@@ -170,7 +170,7 @@
         "Type": "ScrollHeaderPage",
         "Subcategory": "Layout",
         "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Headers",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Headers",
         "XamlCodeFile": "ScrollHeaderCode.bind",
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/HeaderBehaviors.md"
@@ -184,6 +184,15 @@
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md"
+      },
+      {
+        "Name": "AttachedDropShadow (Win2D)",
+        "Subcategory": "Media",
+        "About": "An AttachedDropShadow allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Shadows",
+        "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowWin2DXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
       },
       {
         "Name": "DropShadowPanel",

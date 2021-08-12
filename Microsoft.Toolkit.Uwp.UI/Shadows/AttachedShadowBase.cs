@@ -18,50 +18,6 @@ namespace Microsoft.Toolkit.Uwp.UI
     public abstract class AttachedShadowBase : DependencyObject
     {
         /// <summary>
-        /// Gets the shadow attached to a <see cref="FrameworkElement"/> by getting the value of the <see cref="ShadowProperty"/> property.
-        /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> the <see cref="AttachedShadowBase"/> is attached to.</param>
-        /// <returns>The <see cref="AttachedShadowBase"/> that is attached to the <paramref name="obj">FrameworkElement.</paramref></returns>
-        public static AttachedShadowBase GetShadow(FrameworkElement obj)
-        {
-            return (AttachedShadowBase)obj.GetValue(ShadowProperty);
-        }
-
-        /// <summary>
-        /// Attaches a shadow to an element by setting the <see cref="ShadowProperty"/> property.
-        /// </summary>
-        /// <param name="obj">The <see cref="FrameworkElement"/> to attach the shadow to.</param>
-        /// <param name="value">The <see cref="AttachedShadowBase"/> that will be attached to the element</param>
-        public static void SetShadow(FrameworkElement obj, AttachedShadowBase value)
-        {
-            obj.SetValue(ShadowProperty, value);
-        }
-
-        /// <summary>
-        /// Backing dependency property used to attach shadows to UI elements.
-        /// </summary>
-        public static readonly DependencyProperty ShadowProperty =
-            DependencyProperty.RegisterAttached("Shadow", typeof(AttachedShadowBase), typeof(AttachedShadowBase), new PropertyMetadata(null, OnShadowChanged));
-
-        private static void OnShadowChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(d is FrameworkElement element))
-            {
-                return;
-            }
-
-            if (e.OldValue is AttachedShadowBase oldShadow)
-            {
-                oldShadow.DisconnectElement(element);
-            }
-
-            if (e.NewValue is AttachedShadowBase newShadow)
-            {
-                newShadow.ConnectElement(element);
-            }
-        }
-
-        /// <summary>
         /// The <see cref="DependencyProperty"/> for <see cref="BlurRadius"/>.
         /// </summary>
         public static readonly DependencyProperty BlurRadiusProperty =
@@ -79,9 +35,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static readonly DependencyProperty OffsetProperty =
             DependencyProperty.Register(
                 nameof(Offset),
-                typeof(Vector3),
+                typeof(string), // Needs to be string as we can't convert in XAML natively from Vector3, see https://github.com/microsoft/microsoft-ui-xaml/issues/3896
                 typeof(AttachedShadowBase),
-                new PropertyMetadata(Vector3.Zero, OnDependencyPropertyChanged));
+                new PropertyMetadata(string.Empty, OnDependencyPropertyChanged));
 
         /// <summary>
         /// The <see cref="DependencyProperty"/> for <see cref="Opacity"/>
@@ -118,11 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Gets or sets the offset of the shadow.
+        /// Gets or sets the offset of the shadow as a string representation of a <see cref="Vector3"/>.
         /// </summary>
-        public Vector3 Offset
+        public string Offset
         {
-            get => (Vector3)GetValue(OffsetProperty);
+            get => (string)GetValue(OffsetProperty);
             set => SetValue(OffsetProperty, value);
         }
 
@@ -140,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         protected internal abstract bool SupportsOnSizeChangedEvent { get; }
 
-        private void ConnectElement(FrameworkElement element)
+        internal void ConnectElement(FrameworkElement element)
         {
             if (!IsSupported)
             {
@@ -158,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             ShadowElementContextTable.Add(element, context);
         }
 
-        private void DisconnectElement(FrameworkElement element)
+        internal void DisconnectElement(FrameworkElement element)
         {
             if (ShadowElementContextTable == null)
             {
@@ -308,7 +264,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else if (property == OffsetProperty)
             {
-                context.Shadow.Offset = (Vector3)newValue;
+                context.Shadow.Offset = (Vector3)(newValue as string)?.ToVector3();
             }
         }
 

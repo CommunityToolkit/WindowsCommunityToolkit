@@ -1,0 +1,24 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+  xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+  mc:Ignorable="d">
+  
+  <!-- TODO: Show using as Resource as well... -->
+
+  <Grid>
+    <Button Content="Hello Shadows!" HorizontalAlignment="Center" VerticalAlignment="Center"
+            CornerRadius="8">
+      <ui:Shadows.Attached>
+        <media:AttachedCardShadow BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                  CornerRadius="8"
+                                  Color="@[Color:Brush:Black]"
+                                  Offset="@[Offset:Vector3:16,16]"
+                                  Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"/>
+      </ui:Shadows.Attached>
+    </Button>
+  </Grid>
+</Page>

@@ -49,7 +49,9 @@
             </controls:CaseCollection>
         </controls:SwitchPresenter>
         <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
-        <controls:DropShadowPanel x:Key="DropShadowPanel" />
+        <media:AttachedCardShadow x:Key="AttachedShadow" />
+        <controls:DropShadowPanel x:Key="DropShadowPanel"
+                                  ui:Shadows.Attached="{StaticResource AttachedShadow}" />
     </Page.Resources>
 
     <Grid>

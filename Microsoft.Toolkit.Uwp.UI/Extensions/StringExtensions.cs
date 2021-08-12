@@ -26,7 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         [Pure]
         public static Vector2 ToVector2(this string text)
         {
-            if (text.Length > 0)
+            if (text.Length == 0)
+            {
+                return Vector2.Zero;
+            }
+            else
             {
                 // The format <x> or <x, y> is supported
                 text = Unbracket(text);
@@ -71,7 +75,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         [Pure]
         public static Vector3 ToVector3(this string text)
         {
-            if (text.Length > 0)
+            if (text.Length == 0)
+            {
+                return Vector3.Zero;
+            }
+            else
             {
                 text = Unbracket(text);
 
@@ -119,7 +127,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         [Pure]
         public static Vector4 ToVector4(this string text)
         {
-            if (text.Length > 0)
+            if (text.Length == 0)
+            {
+                return Vector4.Zero;
+            }
+            else
             {
                 text = Unbracket(text);
 
@@ -171,7 +183,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         [Pure]
         public static Quaternion ToQuaternion(this string text)
         {
-            if (text.Length > 0)
+            if (text.Length == 0)
+            {
+                return new();
+            }
+            else
             {
                 text = Unbracket(text);
 
