@@ -33,6 +33,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         /// <summary>
         /// Gets or sets the max width at which to trigger.
+        /// This value is exclusive, meaning this trigger
+        /// could be active if the value is < MaxWidth.
         /// </summary>
         public double MaxWidth
         {
@@ -51,6 +53,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         /// <summary>
         /// Gets or sets the min width at which to trigger.
+        /// This value is inclusive, meaning this trigger
+        /// could be active if the value is >= MinWidth.
         /// </summary>
         public double MinWidth
         {
@@ -69,6 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         /// <summary>
         /// Gets or sets the max height at which to trigger.
+        /// This value is exclusive, meaning this trigger
+        /// could be active if the value is < MaxHeight.
         /// </summary>
         public double MaxHeight
         {
@@ -87,6 +93,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 
         /// <summary>
         /// Gets or sets the min height at which to trigger.
+        /// This value is inclusive, meaning this trigger
+        /// could be active if the value is >= MinHeight.
         /// </summary>
         public double MinHeight
         {
