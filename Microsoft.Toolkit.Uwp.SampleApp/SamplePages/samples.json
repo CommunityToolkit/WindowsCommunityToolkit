@@ -785,7 +785,7 @@
         "Type": "ThemeListenerPage",
         "Subcategory": "Systems",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
       },
@@ -844,7 +844,7 @@
         "Type": "CanvasPathGeometryPage",
         "Subcategory": "Parser",
         "About": "CanvasPathGeometry class allows you to convert Win2d Path Mini Language string to CanvasGeometry, Brushes, CanvasStrokes or CanvasStrokeStyles.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Geometry",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Geometry",
         "Icon": "/SamplePages/CanvasPathGeometry/CanvasPathGeometry.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/CanvasPathGeometry.md"
       },
@@ -882,7 +882,7 @@
         "Name": "Guard APIs",
         "Subcategory": "Developer",
         "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Diagnostics",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Diagnostics",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
       },
@@ -890,7 +890,7 @@
         "Name": "High Performance APIs",
         "Subcategory": "Developer",
         "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.HighPerformance",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.HighPerformance",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
       },
@@ -908,6 +908,15 @@
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/CompareStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/CompareStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "ControlSizeTrigger",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the target control meets the specified size.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/ControlSizeTrigger.cs",
+        "XamlCodeFile": "/SamplePages/Triggers/ControlSizeTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },

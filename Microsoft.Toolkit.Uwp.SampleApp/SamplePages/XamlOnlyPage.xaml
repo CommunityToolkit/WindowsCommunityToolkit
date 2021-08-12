@@ -31,6 +31,7 @@
         <triggers:RegexStateTrigger x:Key="RegexStateTrigger" />
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
+        <triggers:ControlSizeTrigger x:Key="ControlSizeTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
         <behaviors:AutoSelectBehavior x:Key="AutoSelectBehavior" />
         <controls:ColorPicker x:Key="ColorPicker" />
