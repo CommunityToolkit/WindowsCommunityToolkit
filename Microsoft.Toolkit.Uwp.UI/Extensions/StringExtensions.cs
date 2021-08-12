@@ -95,6 +95,10 @@ namespace Microsoft.Toolkit.Uwp.UI
                             return new(x, y, z);
                         }
                     }
+                    else if (values.Length == 2)
+                    {
+                        return new(text.ToVector2(), 0);
+                    }
                 }
             }
 
@@ -139,6 +143,14 @@ namespace Microsoft.Toolkit.Uwp.UI
                         {
                             return new(x, y, z, w);
                         }
+                    }
+                    else if (values.Length == 3)
+                    {
+                        return new(text.ToVector3(), 0);
+                    }
+                    else if (values.Length == 2)
+                    {
+                        return new(text.ToVector2(), 0, 0);
                     }
                 }
             }
