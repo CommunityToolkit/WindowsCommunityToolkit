@@ -6,7 +6,7 @@ using System;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using UnitTests.UWP.Helpers;
+using UnitTests.Helpers;
 using Windows.Storage;
 
 namespace UnitTests.Helpers
@@ -14,10 +14,12 @@ namespace UnitTests.Helpers
     [TestClass]
     public class Test_StorageHelper
     {
-        private LocalObjectStorageHelper _localStorageHelperSystem = new LocalObjectStorageHelper(new SystemSerializer());
-        private LocalObjectStorageHelper _localStorageHelperJsonCompat = new LocalObjectStorageHelper(new JsonObjectSerializer());
-
-        private LocalObjectStorageHelper _localStorageHelperJsonNew = new LocalObjectStorageHelper(new SystemTextJsonSerializer());
+        [Obsolete]
+        private readonly LocalObjectStorageHelper _localStorageHelperSystem = new LocalObjectStorageHelper(new SystemSerializer());
+        [Obsolete]
+        private readonly LocalObjectStorageHelper _localStorageHelperJsonCompat = new LocalObjectStorageHelper(new JsonObjectSerializer());
+        [Obsolete]
+        private readonly LocalObjectStorageHelper _localStorageHelperJsonNew = new LocalObjectStorageHelper(new SystemTextJsonSerializer());
 
         /// <summary>
         /// Checks that we're running 10.0.3 version of Newtonsoft.Json package which we used in 6.1.1.
@@ -34,6 +36,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_LegacyIntTest()
         {
             string key = "LifeUniverseAndEverything";
@@ -54,6 +57,7 @@ namespace UnitTests.Helpers
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         [ExpectedException(typeof(NotSupportedException))]
         public void Test_StorageHelper_LegacyDateTestFailure()
         {
@@ -73,6 +77,7 @@ namespace UnitTests.Helpers
         /// </summary>
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_DateTestFailure()
         {
             Exception expectedException = null;
@@ -93,6 +98,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_LegacyInternalClassTest()
         {
             string key = "Contact";
@@ -112,6 +118,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_LegacyPublicClassTest()
         {
             string key = "Contact";
@@ -132,6 +139,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_IntTest()
         {
             string key = "NewLifeUniverseAndEverything";
@@ -148,6 +156,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_NewDateTest()
         {
             string key = "NewChristmasDay";
@@ -164,6 +173,7 @@ namespace UnitTests.Helpers
 
         [TestCategory("Helpers")]
         [TestMethod]
+        [Obsolete]
         public void Test_StorageHelper_NewPersonTest()
         {
             string key = "Contact";

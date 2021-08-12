@@ -1122,40 +1122,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 DiagnosticsDebug.Assert(this.Index != -1, "Expected Index other than -1.");
 
-                PropertyMetadata metadataInfo = DataGridRow.ForegroundProperty.GetMetadata(typeof(DataGridRow));
-                Brush defaultForeground = metadataInfo == null ? null : metadataInfo.DefaultValue as Brush;
-                Brush newForeground = null;
+                var newForeground = this.Index % 2 == 0 || this.OwningGrid.AlternatingRowForeground == null
+                    ? this.OwningGrid.RowForeground
+                    : this.OwningGrid.AlternatingRowForeground;
 
-                if (this.Foreground.Equals(defaultForeground))
-                {
-                    if (this.Index % 2 == 0 || this.OwningGrid.AlternatingRowForeground == null)
-                    {
-                        // Use OwningGrid.RowForeground if the index is even or if the OwningGrid.AlternatingRowForeground is null
-                        if (this.OwningGrid.RowForeground != null)
-                        {
-                            newForeground = this.OwningGrid.RowForeground;
-                        }
-                    }
-                    else
-                    {
-                        // Alternate row
-                        if (this.OwningGrid.AlternatingRowForeground != null)
-                        {
-                            newForeground = this.OwningGrid.AlternatingRowForeground;
-                        }
-                    }
-
-                    if (newForeground == null)
-                    {
-                        newForeground = this.Foreground;
-                    }
-                }
-                else
-                {
-                    newForeground = this.Foreground;
-                }
-
-                this.ComputedForeground = newForeground;
+                this.ComputedForeground = newForeground ?? this.Foreground;
             }
             else
             {

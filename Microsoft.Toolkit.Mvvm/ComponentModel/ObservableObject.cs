@@ -7,9 +7,18 @@
 // This file is inspired from the MvvmLight library (lbugnion/MvvmLight),
 // more info in ThirdPartyNotices.txt in the root of the project.
 
+// ================================== NOTE ==================================
+// This file is mirrored in the trimmed-down INotifyPropertyChanged file in
+// the source generator project, to be used with the [INotifyPropertyChanged],
+// attribute, along with the ObservableObject annotated copy (for debugging info).
+// If any changes are made to this file, they should also be appropriately
+// ported to that file as well to keep the behavior consistent.
+// ==========================================================================
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -76,7 +85,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>([NotNullIfNotNull("newValue")] ref T field, T newValue, [CallerMemberName] string? propertyName = null)
         {
             // We duplicate the code here instead of calling the overload because we can't
             // guarantee that the invoked SetProperty<T> will be inlined, and we need the JIT
@@ -112,7 +121,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="comparer">The <see cref="IEqualityComparer{T}"/> instance to use to compare the input values.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>([NotNullIfNotNull("newValue")] ref T field, T newValue, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
             if (comparer.Equals(field, newValue))
             {
@@ -332,7 +341,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// indicates that the new value being assigned to <paramref name="taskNotifier"/> is different than the previous one,
         /// and it does not mean the new <see cref="Task"/> instance passed as argument is in any particular state.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion([NotNull] ref TaskNotifier? taskNotifier, Task? newValue, [CallerMemberName] string? propertyName = null)
         {
             // We invoke the overload with a callback here to avoid code duplication, and simply pass an empty callback.
             // The lambda expression here is transformed by the C# compiler into an empty closure class with a
@@ -360,7 +369,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion(ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion([NotNull] ref TaskNotifier? taskNotifier, Task? newValue, Action<Task?> callback, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
         }
@@ -399,7 +408,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// indicates that the new value being assigned to <paramref name="taskNotifier"/> is different than the previous one,
         /// and it does not mean the new <see cref="Task{TResult}"/> instance passed as argument is in any particular state.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion<T>([NotNull] ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, static _ => { }, propertyName);
         }
@@ -422,7 +431,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// The <see cref="PropertyChanging"/> and <see cref="PropertyChanged"/> events are not raised
         /// if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetPropertyAndNotifyOnCompletion<T>(ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
+        protected bool SetPropertyAndNotifyOnCompletion<T>([NotNull] ref TaskNotifier<T>? taskNotifier, Task<T>? newValue, Action<Task<T>?> callback, [CallerMemberName] string? propertyName = null)
         {
             return SetPropertyAndNotifyOnCompletion(taskNotifier ??= new(), newValue, callback, propertyName);
         }

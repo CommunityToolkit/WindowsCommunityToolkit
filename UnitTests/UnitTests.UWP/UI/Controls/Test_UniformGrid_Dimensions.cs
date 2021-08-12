@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
-namespace UnitTests.UI.Controls
+namespace UnitTests.UWP.UI.Controls
 {
     [TestClass]
     public class Test_UniformGrid_Dimensions
@@ -74,7 +74,7 @@ namespace UnitTests.UI.Controls
             Assert.AreEqual(8, grid.Children.Count());
 
             var (rows, columns) = UniformGrid.GetDimensions(children, 0, 0, 0);
-            
+
             Assert.AreEqual(3, rows);
             Assert.AreEqual(3, columns);
         }
@@ -220,7 +220,7 @@ namespace UnitTests.UI.Controls
             var children = grid.Children.Select(item => item as FrameworkElement).ToArray();
 
             Assert.AreEqual(7, grid.Children.Count());
-            
+
             // columns == first column
             // In WPF, First Column is ignored and we have a 1x7 layout.
             var (rows, columns) = UniformGrid.GetDimensions(children, 0, 7, 7);

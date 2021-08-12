@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
 
-namespace UnitTests.UI.Controls
+namespace UnitTests.UWP.UI.Controls
 {
     [TestClass]
     public class Test_UniformGrid_AutoLayout
@@ -94,7 +94,7 @@ namespace UnitTests.UI.Controls
         <Border/>
         <Border/>
         <Border/>
-        <!-- Since Grid Row/Columns are 0 by default, we need to also add 
+        <!-- Since Grid Row/Columns are 0 by default, we need to also add
              AutoLayout False here as well to get the desired behavior,
              Otherwise we can't tell it apart from the other items. -->
         <Border Grid.Row=""0"" Grid.Column=""0"" controls:UniformGrid.AutoLayout=""{ui:NullableBool Value=False}""/>

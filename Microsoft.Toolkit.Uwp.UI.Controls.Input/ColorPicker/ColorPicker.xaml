@@ -1,10 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
                     xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
                     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
-                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
+                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+                    xmlns:winuiprimitives="using:Microsoft.UI.Xaml.Controls.Primitives">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
         <SolidColorBrush.Color>
@@ -120,23 +121,23 @@
                                                       Orientation="Vertical" />
                         <!--  Keep in mind the spectrum is always HSV  -->
                         <!--  This must also not be named 'ColorSpectrum' to differentiate from the base class  -->
-                        <ColorSpectrum x:Name="ColorSpectrumControl"
-                                       Grid.Row="0"
-                                       Grid.RowSpan="2"
-                                       Grid.Column="1"
-                                       MinWidth="256"
-                                       MinHeight="256"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch"
-                                       AutomationProperties.Name="Third Dimension"
-                                       Components="{TemplateBinding ColorSpectrumComponents}"
-                                       MaxHue="{TemplateBinding MaxHue}"
-                                       MaxSaturation="{TemplateBinding MaxSaturation}"
-                                       MaxValue="{TemplateBinding MaxValue}"
-                                       MinHue="{TemplateBinding MinHue}"
-                                       MinSaturation="{TemplateBinding MinSaturation}"
-                                       MinValue="{TemplateBinding MinValue}"
-                                       Shape="{TemplateBinding ColorSpectrumShape}" />
+                        <winuiprimitives:ColorSpectrum x:Name="ColorSpectrumControl"
+                                                       Grid.Row="0"
+                                                       Grid.RowSpan="2"
+                                                       Grid.Column="1"
+                                                       MinWidth="256"
+                                                       MinHeight="256"
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Stretch"
+                                                       AutomationProperties.Name="Third Dimension"
+                                                       Components="{TemplateBinding ColorSpectrumComponents}"
+                                                       MaxHue="{TemplateBinding MaxHue}"
+                                                       MaxSaturation="{TemplateBinding MaxSaturation}"
+                                                       MaxValue="{TemplateBinding MaxValue}"
+                                                       MinHue="{TemplateBinding MinHue}"
+                                                       MinSaturation="{TemplateBinding MinSaturation}"
+                                                       MinValue="{TemplateBinding MinValue}"
+                                                       Shape="{TemplateBinding ColorSpectrumShape}" />
                         <primitives:ColorPickerSlider x:Name="ColorSpectrumAlphaSlider"
                                                       Grid.Row="1"
                                                       Grid.RowSpan="2"

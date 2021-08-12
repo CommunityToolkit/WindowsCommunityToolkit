@@ -4,8 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -14,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// Shared implementation of ObjectStorageHelper.
     /// </summary>
+    [Obsolete("BaseObjectStorageHelper is deprecated and has been superceded by ApplicationDataStorageHelper.")]
     public abstract class BaseObjectStorageHelper : IObjectStorageHelper
     {
         private readonly IObjectSerializer serializer;
@@ -77,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="key">Key of the object</param>
         /// <param name="default">Default value of the object</param>
         /// <returns>The T object</returns>
-        public T Read<T>(string key, T @default = default(T))
+        public T Read<T>(string key, T @default = default)
         {
             if (!Settings.Values.TryGetValue(key, out var value) || value == null)
             {
@@ -95,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="key">Key of the object</param>
         /// <param name="default">Default value of the object</param>
         /// <returns>The T object</returns>
-        public T Read<T>(string compositeKey, string key, T @default = default(T))
+        public T Read<T>(string compositeKey, string key, T @default = default)
         {
             ApplicationDataCompositeValue composite = (ApplicationDataCompositeValue)Settings.Values[compositeKey];
             if (composite != null)
@@ -120,9 +119,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="value">Object to save</param>
         public void Save<T>(string key, T value)
         {
-            var type = typeof(T);
-            var typeInfo = type.GetTypeInfo();
-
             Settings.Values[key] = serializer.Serialize(value);
         }
 
@@ -182,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="filePath">Path to the file that contains the object</param>
         /// <param name="default">Default value of the object</param>
         /// <returns>Waiting task until completion with the object in the file</returns>
-        public async Task<T> ReadFileAsync<T>(string filePath, T @default = default(T))
+        public async Task<T> ReadFileAsync<T>(string filePath, T @default = default)
         {
             string value = await StorageFileHelper.ReadTextFromFileAsync(Folder, filePath);
             return (value != null) ? serializer.Deserialize<T>(value) : @default;

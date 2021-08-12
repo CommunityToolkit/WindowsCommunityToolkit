@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
@@ -65,8 +65,8 @@
                                         </Grid.ColumnDefinitions>
                                         <Button x:Name="ListDetailsBackButton"
                                                 Background="Transparent"
-                                                Height="44" 
-                                                Width="48" 
+                                                Height="44"
+                                                Width="48"
                                                 Visibility="Collapsed">
                                             <SymbolIcon Symbol="Back"/>
                                         </Button>

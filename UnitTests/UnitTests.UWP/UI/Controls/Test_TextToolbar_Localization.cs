@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -15,7 +15,7 @@ using Windows.Globalization;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
-namespace UnitTests.UI.Controls
+namespace UnitTests.UWP.UI.Controls
 {
     [TestClass]
     public class Test_TextToolbar_Localization

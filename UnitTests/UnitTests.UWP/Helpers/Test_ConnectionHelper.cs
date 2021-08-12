@@ -7,10 +7,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Helpers
 {
-    //// TODO: Need Mock to WinRT Issue #3196 - https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/3196
+    //// TODO: Need Mock to WinRT Issue #3196 - https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/3196
     [TestClass]
     public class Test_ConnectionHelper
-    {        
+    {
         [Ignore]
         [TestCategory("Helpers")]
         [TestMethod]

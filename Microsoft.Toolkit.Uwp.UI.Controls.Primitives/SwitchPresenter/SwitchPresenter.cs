@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="CurrentCase"/> property.
+        /// Identifies the <see cref="CurrentCase"/> property.
         /// </summary>
         public static readonly DependencyProperty CurrentCaseProperty =
             DependencyProperty.Register(nameof(CurrentCase), typeof(Case), typeof(SwitchPresenter), new PropertyMetadata(null));
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="SwitchCases"/> property.
+        /// Identifies the <see cref="SwitchCases"/> property.
         /// </summary>
         public static readonly DependencyProperty SwitchCasesProperty =
             DependencyProperty.Register(nameof(SwitchCases), typeof(CaseCollection), typeof(SwitchPresenter), new PropertyMetadata(null, OnSwitchCasesPropertyChanged));
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="Value"/> property.
+        /// Identifies the <see cref="Value"/> property.
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register(nameof(Value), typeof(object), typeof(SwitchPresenter), new PropertyMetadata(null, OnValuePropertyChanged));
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Indicates the <see cref="TargetType"/> property.
+        /// Identifies the <see cref="TargetType"/> property.
         /// </summary>
         public static readonly DependencyProperty TargetTypeProperty =
             DependencyProperty.Register(nameof(TargetType), typeof(Type), typeof(SwitchPresenter), new PropertyMetadata(null));
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (compare.GetType() == TargetType)
             {
-                // If we have a TargetType and the first value is ther right type
+                // If we have a TargetType and the first value is the right type
                 // Then our 2nd value isn't, so convert to string and coerce.
                 var valueBase2 = ConvertValue(TargetType, value);
 

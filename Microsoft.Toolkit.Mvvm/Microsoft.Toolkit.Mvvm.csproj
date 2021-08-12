@@ -1,11 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
-    <Nullable>enable</Nullable>
+    <Nullable>Enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Title>Windows Community Toolkit MVVM Toolkit</Title>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - MVVM (.NET Standard)</Title>
     <Description>
       This package includes a .NET Standard MVVM library with helpers such as:
       - ObservableObject: a base class for objects implementing the INotifyPropertyChanged interface.
@@ -17,20 +19,38 @@
       - StrongReferenceMessenger: a high-performance messaging system that trades weak references for speed.
       - Ioc: a helper class to configure dependency injection service containers.
     </Description>
-    <PackageTags>UWP Toolkit Windows MVVM MVVMToolkit observable Ioc dependency injection services extensions helpers</PackageTags>
+    <PackageTags>MVVM;Toolkit;MVVMToolkit;INotifyPropertyChanged;Observable;IOC;DI;Dependency Injection;Object Messaging;Extensions;Helpers</PackageTags>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);CopyAnalyzerProjectReferencesToPackage</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> and IAsyncEnumerable<T> types -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
   <!-- .NET Standard 2.1 doesn't have the Unsafe type -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
   </ItemGroup>
+    
+  <!-- Source generator project reference for packing -->
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Mvvm.SourceGenerators\Microsoft.Toolkit.Mvvm.SourceGenerators.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Target to pack the source generator into the "analyzers\dotnet\cs" package folder.
+       The condition is set to .NET Standard 2.0 so that the analyzer is only added to the package
+       when that target is being built, instead of once for all three targets, which would fail.
+       It will still be available for all targets anyway though, as analyzers don't have a target. -->
+  <Target Name="CopyAnalyzerProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences" Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))">
+        <PackagePath>analyzers\dotnet\cs</PackagePath>
+      </TfmSpecificPackageFile>
+    </ItemGroup>
+  </Target>
 
 </Project>

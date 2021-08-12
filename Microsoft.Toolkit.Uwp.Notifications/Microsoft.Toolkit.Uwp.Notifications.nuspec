@@ -1,4 +1,3 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.Toolkit.Uwp.Notifications</id>
@@ -7,18 +6,18 @@
     <authors>Microsoft.Toolkit,dotnetfoundation</authors>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</iconUrl>
-    <icon>images\nuget.png</icon>
+    <projectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png</iconUrl>
+    <icon>Icon.png</icon>
     <description>The official way to send toast notifications on Windows 10 via code rather than XML, with the help of IntelliSense. Supports all C# app types, including WPF, UWP, WinForms, and Console, even without packaging your app as MSIX. Also supports C++ UWP apps.
-    
+
       Additionally, generate notification payloads from your ASP.NET web server to send as push notifications, or generate notification payloads from class libraries.
-    
+
       For UWP/MSIX apps, you can also generate tile and badge notifications.</description>
-    <releaseNotes>https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</releaseNotes>
+    <releaseNotes>https://github.com/CommunityToolkit/WindowsCommunityToolkit/releases</releaseNotes>
     <copyright>(c) .NET Foundation and Contributors.  All rights reserved.</copyright>
     <tags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++ wpf winforms</tags>
-    <repository type="git" url="https://github.com/windows-toolkit/WindowsCommunityToolkit.git" commit="72205c9add7c3fc1ed63bb77e6fc101e39f1ac33" />
+    <repository type="git" url="https://github.com/CommunityToolkit/WindowsCommunityToolkit.git" commit="72205c9add7c3fc1ed63bb77e6fc101e39f1ac33" />
     <dependencies>
       <group targetFramework=".NETStandard1.4">
         <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
@@ -53,7 +52,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\build\nuget.png" target="images\" />
+    <file src="..\build\nuget.png" target="Icon.png" />
     <file src="..\license.md" target="" />
     <file src="Microsoft.Toolkit.Uwp.Notifications.targets" target="build\native\Microsoft.Toolkit.Uwp.Notifications.targets" />
     <file src="$buildOutput$\net461\Microsoft.Toolkit.Uwp.Notifications.dll" target="lib\net461\Microsoft.Toolkit.Uwp.Notifications.dll" />
