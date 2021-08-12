@@ -78,10 +78,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
 
-                if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count > MaxTokens)
+                if (ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count > MaximumTokens)
                 {
                     // Reduce down to the max as necessary.
-                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= Math.Max(MaxTokens, 0); --i)
+                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= Math.Max(MaximumTokens, 0); --i)
                     {
                         _innerItemsSource.Remove(_innerItemsSource[i]);
                     }
@@ -440,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
-            if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && MaxTokens <= 0)
+            if (ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && (MaximumTokens <= 0 || MaximumTokens <= _innerItemsSource.ItemsSource.Count))
             {
                 // No tokens for you
                 return;
@@ -465,26 +465,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // If we've been typing in the last box, just add this to the end of our collection
             if (atEnd == true || _currentTextEdit == _lastTextEdit)
             {
-                if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count >= MaxTokens)
-                {
-                    // Remove tokens from the end until below the max number.
-                    for (var i = _innerItemsSource.Count - 2; i >= 0; --i)
-                    {
-                        var item = _innerItemsSource[i];
-                        if (item is not ITokenStringContainer)
-                        {
-                            _innerItemsSource.Remove(item);
-                            TokenItemRemoved?.Invoke(this, item);
-
-                            // Keep going until we are below the max.
-                            if (_innerItemsSource.ItemsSource.Count < MaxTokens)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-
                 _innerItemsSource.InsertAt(_innerItemsSource.Count - 1, data);
             }
             else
@@ -492,26 +472,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Otherwise, we'll insert before our current box
                 var edit = _currentTextEdit;
                 var index = _innerItemsSource.IndexOf(edit);
-
-                if (ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count >= MaxTokens)
-                {
-                    // Find the next token and remove it, until below the max number of tokens.
-                    for (var i = index; i < _innerItemsSource.Count;  i++)
-                    {
-                        var item = _innerItemsSource[i];
-                        if (item is not ITokenStringContainer)
-                        {
-                            _innerItemsSource.Remove(item);
-                            TokenItemRemoved?.Invoke(this, item);
-
-                            // Keep going until we are below the max.
-                            if (_innerItemsSource.ItemsSource.Count < MaxTokens)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
 
                 // Insert our new data item at the location of our textbox
                 _innerItemsSource.InsertAt(index, data);

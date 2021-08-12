@@ -4,10 +4,12 @@
 
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -16,9 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:Do not use regions", Justification = "Organization")]
     [TemplatePart(Name = PART_AutoSuggestBox, Type = typeof(AutoSuggestBox))] //// String case
+    [TemplatePart(Name = PART_TokensCounter, Type = typeof(TextBlock))]
     public partial class TokenizingTextBoxItem
     {
         private const string PART_AutoSuggestBox = "PART_AutoSuggestBox";
+        private const string PART_TokensCounter = "PART_TokensCounter";
 
         private AutoSuggestBox _autoSuggestBox;
 
@@ -231,6 +235,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         #region Inner TextBox
         private void OnASBLoaded(object sender, RoutedEventArgs e)
         {
+            UpdateTokensCounter(this);
+
             // Local function for Selection changed
             void AutoSuggestTextBox_SelectionChanged(object box, RoutedEventArgs args)
             {
@@ -327,6 +333,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
                 Owner.SelectAllTokensAndText();
+            }
+        }
+
+        private void UpdateTokensCounter(TokenizingTextBoxItem ttbi)
+        {
+            var maxTokensCounter = (TextBlock)_autoSuggestBox?.FindDescendant(PART_TokensCounter);
+            if (maxTokensCounter == null)
+            {
+                return;
+            }
+
+            void OnTokenCountChanged(TokenizingTextBox ttb, object value = null)
+            {
+                var itemsSource = ttb.ItemsSource as InterspersedObservableCollection;
+                var currentTokens = itemsSource.ItemsSource.Count;
+                var maxTokens = ttb.MaximumTokens;
+
+                maxTokensCounter.Text = $"{currentTokens}/{maxTokens}";
+                maxTokensCounter.Visibility = Visibility.Visible;
+
+                maxTokensCounter.Foreground = (currentTokens == maxTokens)
+                    ? new SolidColorBrush(Colors.Red)
+                    : _autoSuggestBox.Foreground;
+            }
+
+            ttbi.Owner.TokenItemAdded -= OnTokenCountChanged;
+            ttbi.Owner.TokenItemRemoved -= OnTokenCountChanged;
+
+            // I would have like to compared to DependencyProperty.UnsetValue, but MaximumTokensProperty value is returning 0 even though we didn't set it!
+            // This means that the token counter will not show up for a specified maximum value of 0. However, it's a pretty uncommon scenario to offer a picker
+            // with no ability to add items. If the case does arrive where the ttb should be unusable by design, developers should disable the control instead or setting the maximum to 0.
+            if (Content is ITokenStringContainer str && str.IsLast && ttbi?.Owner != null && (int)ttbi.Owner.GetValue(TokenizingTextBox.MaximumTokensProperty) > 0)
+            {
+                ttbi.Owner.TokenItemAdded += OnTokenCountChanged;
+                ttbi.Owner.TokenItemRemoved += OnTokenCountChanged;
+                OnTokenCountChanged(ttbi.Owner);
+            }
+            else
+            {
+                maxTokensCounter.Visibility = Visibility.Collapsed;
+                maxTokensCounter.Text = string.Empty;
             }
         }
         #endregion

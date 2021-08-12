@@ -158,17 +158,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false));
 
         /// <summary>
-        /// Identifies the <see cref="MaxTokens"/> property.
+        /// Identifies the <see cref="MaximumTokens"/> property.
         /// </summary>
-        public static readonly DependencyProperty MaxTokensProperty = DependencyProperty.Register(
-            nameof(MaxTokens),
+        public static readonly DependencyProperty MaximumTokensProperty = DependencyProperty.Register(
+            nameof(MaximumTokens),
             typeof(int),
             typeof(TokenizingTextBox),
-            new PropertyMetadata(null, OnMaxTokensChanged));
+            new PropertyMetadata(null, OnMaximumTokensChanged));
 
-        private static void OnMaxTokensChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnMaximumTokensChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TokenizingTextBox ttb && ttb.ReadLocalValue(MaxTokensProperty) != DependencyProperty.UnsetValue && e.NewValue is int newMaxTokens)
+            if (d is TokenizingTextBox ttb && ttb.ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && e.NewValue is int newMaxTokens)
             {
                 var tokenCount = ttb._innerItemsSource.ItemsSource.Count;
                 if (tokenCount > 0 && tokenCount > newMaxTokens)
@@ -338,10 +338,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the maximum number of token results allowed at a time.
         /// </summary>
-        public int MaxTokens
+        public int MaximumTokens
         {
-            get => (int)GetValue(MaxTokensProperty);
-            set => SetValue(MaxTokensProperty, value);
+            get => (int)GetValue(MaximumTokensProperty);
+            set => SetValue(MaximumTokensProperty, value);
         }
     }
 }
