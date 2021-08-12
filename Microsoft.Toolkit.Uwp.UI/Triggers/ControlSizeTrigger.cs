@@ -8,9 +8,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
 {
     /// <summary>
     /// A conditional state trigger that functions
-    /// based on the target control's width.
+    /// based on the target control's width or height.
     /// </summary>
-    public class ControlWidthTrigger : StateTriggerBase
+    public class ControlSizeTrigger : StateTriggerBase
     {
         /// <summary>
         /// Gets or sets a value indicating
@@ -28,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty CanTriggerProperty = DependencyProperty.Register(
             nameof(CanTrigger),
             typeof(bool),
-            typeof(ControlWidthTrigger),
-            new PropertyMetadata(true, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
+            typeof(ControlSizeTrigger),
+            new PropertyMetadata(true, (d, e) => ((ControlSizeTrigger)d).UpdateTrigger()));
 
         /// <summary>
         /// Gets or sets the max width at which to trigger.
@@ -46,8 +46,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty MaxWidthProperty = DependencyProperty.Register(
             nameof(MaxWidth),
             typeof(double),
-            typeof(ControlWidthTrigger),
-            new PropertyMetadata(double.PositiveInfinity, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
+            typeof(ControlSizeTrigger),
+            new PropertyMetadata(double.PositiveInfinity, (d, e) => ((ControlSizeTrigger)d).UpdateTrigger()));
 
         /// <summary>
         /// Gets or sets the min width at which to trigger.
@@ -64,8 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty MinWidthProperty = DependencyProperty.Register(
             nameof(MinWidth),
             typeof(double),
-            typeof(ControlWidthTrigger),
-            new PropertyMetadata(0.0, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
+            typeof(ControlSizeTrigger),
+            new PropertyMetadata(0.0, (d, e) => ((ControlSizeTrigger)d).UpdateTrigger()));
 
         /// <summary>
         /// Gets or sets the max height at which to trigger.
@@ -82,8 +82,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty MaxHeightProperty = DependencyProperty.Register(
             nameof(MaxHeight),
             typeof(double),
-            typeof(ControlWidthTrigger),
-            new PropertyMetadata(double.PositiveInfinity, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
+            typeof(ControlSizeTrigger),
+            new PropertyMetadata(double.PositiveInfinity, (d, e) => ((ControlSizeTrigger)d).UpdateTrigger()));
 
         /// <summary>
         /// Gets or sets the min height at which to trigger.
@@ -100,8 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty MinHeightProperty = DependencyProperty.Register(
             nameof(MinHeight),
             typeof(double),
-            typeof(ControlWidthTrigger),
-            new PropertyMetadata(0.0, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
+            typeof(ControlSizeTrigger),
+            new PropertyMetadata(0.0, (d, e) => ((ControlSizeTrigger)d).UpdateTrigger()));
 
         /// <summary>
         /// Gets or sets the element whose width will observed
@@ -122,12 +122,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty TargetElementProperty = DependencyProperty.Register(
             nameof(TargetElement),
             typeof(FrameworkElement),
-            typeof(ControlWidthTrigger),
+            typeof(ControlSizeTrigger),
             new PropertyMetadata(null, OnTargetElementPropertyChanged));
 
         private static void OnTargetElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((ControlWidthTrigger)d).UpdateTargetElement((FrameworkElement)e.OldValue, (FrameworkElement)e.NewValue);
+            ((ControlSizeTrigger)d).UpdateTargetElement((FrameworkElement)e.OldValue, (FrameworkElement)e.NewValue);
         }
 
         // Handle event to get current values
