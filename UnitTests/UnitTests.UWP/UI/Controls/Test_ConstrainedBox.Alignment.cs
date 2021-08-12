@@ -45,6 +45,7 @@ namespace UnitTests.UWP.UI.Controls
     <Grid x:Name=""ParentGrid""
           Width=""200"" Height=""200"">
       <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""1:2"" MaxHeight=""100""
+                               UseLayoutRounding=""False""
                                HorizontalAlignment=""{horizontalAlignment}""
                                VerticalAlignment=""{verticalAlignment}"">
         <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
