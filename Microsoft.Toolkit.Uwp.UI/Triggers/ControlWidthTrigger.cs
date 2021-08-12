@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -29,15 +29,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             nameof(CanTrigger),
             typeof(bool),
             typeof(ControlWidthTrigger),
-            new PropertyMetadata(true, OnCanTriggerProperty));
-
-        private static void OnCanTriggerProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((ControlWidthTrigger)d).UpdateTrigger();
-        }
+            new PropertyMetadata(true, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
 
         /// <summary>
-        /// Gets or sets the max size at which to trigger.
+        /// Gets or sets the max width at which to trigger.
         /// </summary>
         public double MaxWidth
         {
@@ -52,15 +47,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             nameof(MaxWidth),
             typeof(double),
             typeof(ControlWidthTrigger),
-            new PropertyMetadata(double.PositiveInfinity, OnMaxWidthPropertyChanged));
-
-        private static void OnMaxWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((ControlWidthTrigger)d).UpdateTrigger();
-        }
+            new PropertyMetadata(double.PositiveInfinity, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
 
         /// <summary>
-        /// Gets or sets the min size at which to trigger.
+        /// Gets or sets the min width at which to trigger.
         /// </summary>
         public double MinWidth
         {
@@ -75,12 +65,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             nameof(MinWidth),
             typeof(double),
             typeof(ControlWidthTrigger),
-            new PropertyMetadata(0.0, OnMinWidthPropertyChanged));
+            new PropertyMetadata(0.0, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
 
-        private static void OnMinWidthPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets or sets the max height at which to trigger.
+        /// </summary>
+        public double MaxHeight
         {
-            ((ControlWidthTrigger)d).UpdateTrigger();
+            get => (double)GetValue(MaxHeightProperty);
+            set => SetValue(MaxHeightProperty, value);
         }
+
+        /// <summary>
+        /// Identifies the <see cref="MaxHeight"/> DependencyProperty.
+        /// </summary>
+        public static readonly DependencyProperty MaxHeightProperty = DependencyProperty.Register(
+            nameof(MaxHeight),
+            typeof(double),
+            typeof(ControlWidthTrigger),
+            new PropertyMetadata(double.PositiveInfinity, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
+
+        /// <summary>
+        /// Gets or sets the min height at which to trigger.
+        /// </summary>
+        public double MinHeight
+        {
+            get => (double)GetValue(MinHeightProperty);
+            set => SetValue(MinHeightProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="MinHeight"/> DependencyProperty.
+        /// </summary>
+        public static readonly DependencyProperty MinHeightProperty = DependencyProperty.Register(
+            nameof(MinHeight),
+            typeof(double),
+            typeof(ControlWidthTrigger),
+            new PropertyMetadata(0.0, (d, e) => ((ControlWidthTrigger)d).UpdateTrigger()));
 
         /// <summary>
         /// Gets or sets the element whose width will observed
@@ -139,7 +160,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                 return;
             }
 
-            SetActive(MinWidth <= TargetElement.ActualWidth && TargetElement.ActualWidth < MaxWidth);
+            SetActive(
+                MinWidth <= TargetElement.ActualWidth &&
+                TargetElement.ActualWidth < MaxWidth &&
+                MinHeight <= TargetElement.ActualHeight &&
+                TargetElement.ActualHeight < MaxHeight);
         }
     }
 }
