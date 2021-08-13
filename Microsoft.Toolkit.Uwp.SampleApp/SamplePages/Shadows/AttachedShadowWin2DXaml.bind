@@ -41,13 +41,18 @@
                                     Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"/>
         </ui:Effects.Shadow>
       </Rectangle>
-      <Border CornerRadius="32"
-              Height="100" Width="100"
-              BorderBrush="White" BorderThickness="1">
-        <Border.Background>
-          <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
-        </Border.Background>
-        <!-- TODO: Doesn't work? -->
+      <!-- If you want to apply a shadow directly in your visual tree to an untemplated element
+           You need to at least have a layer of depth as seen in this next example. -->
+      <Border Height="100" Width="100">
+        <Border CornerRadius="32"
+                BorderBrush="White" BorderThickness="1">
+          <Border.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
+          </Border.Background>
+        </Border>
+        <!-- We need to put the Shadow on a parent element here as otherwise the
+             rounding of the border of the image above clips the shadow itself -->
+        <!-- TODO: This specific scenario should be simpler in the Composition based one? -->
         <ui:Effects.Shadow>
           <media:AttachedCardShadow CornerRadius="32"
                                     Offset="4,4"/>
