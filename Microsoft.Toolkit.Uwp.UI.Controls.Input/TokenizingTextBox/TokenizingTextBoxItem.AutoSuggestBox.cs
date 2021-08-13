@@ -353,7 +353,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 maxTokensCounter.Text = $"{currentTokens}/{maxTokens}";
                 maxTokensCounter.Visibility = Visibility.Visible;
 
-                maxTokensCounter.Foreground = (currentTokens == maxTokens)
+                maxTokensCounter.Foreground = (currentTokens >= maxTokens)
                     ? new SolidColorBrush(Colors.Red)
                     : _autoSuggestBox.Foreground;
             }
@@ -361,10 +361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ttbi.Owner.TokenItemAdded -= OnTokenCountChanged;
             ttbi.Owner.TokenItemRemoved -= OnTokenCountChanged;
 
-            // I would have like to compared to DependencyProperty.UnsetValue, but MaximumTokensProperty value is returning 0 even though we didn't set it!
-            // This means that the token counter will not show up for a specified maximum value of 0. However, it's a pretty uncommon scenario to offer a picker
-            // with no ability to add items. If the case does arrive where the ttb should be unusable by design, developers should disable the control instead or setting the maximum to 0.
-            if (Content is ITokenStringContainer str && str.IsLast && ttbi?.Owner != null && (int)ttbi.Owner.GetValue(TokenizingTextBox.MaximumTokensProperty) > 0)
+            if (Content is ITokenStringContainer str && str.IsLast && ttbi?.Owner != null && ttbi.Owner.ReadLocalValue(TokenizingTextBox.MaximumTokensProperty) != DependencyProperty.UnsetValue)
             {
                 ttbi.Owner.TokenItemAdded += OnTokenCountChanged;
                 ttbi.Owner.TokenItemRemoved += OnTokenCountChanged;
