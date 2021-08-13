@@ -846,7 +846,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Keyboard/KeyDownTriggerBehavior.cs",
         "XamlCodeFile": "/SamplePages/KeyDownTriggerBehavior/KeyDownTriggerBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/KeyboardBehaviors.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/KeyDownTriggerBehavior.md"
       },
       {
         "Name": "Win2d Path Mini Language Parser",
