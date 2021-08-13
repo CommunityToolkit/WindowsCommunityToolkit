@@ -78,10 +78,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
 
-                if (ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count > MaximumTokens)
+                if (ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count >= MaximumTokens)
                 {
-                    // Reduce down to the max as necessary.
-                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= Math.Max(MaximumTokens, 0); --i)
+                    // Reduce down to below the max as necessary.
+                    var endCount = MaximumTokens > 0 ? MaximumTokens : 0;
+                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= endCount; --i)
                     {
                         _innerItemsSource.Remove(_innerItemsSource[i]);
                     }
