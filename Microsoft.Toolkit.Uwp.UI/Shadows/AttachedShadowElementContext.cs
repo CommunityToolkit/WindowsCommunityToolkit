@@ -279,6 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 (kvp.Value as IDisposable)?.Dispose();
             }
+
             _resources.Clear();
         }
     }

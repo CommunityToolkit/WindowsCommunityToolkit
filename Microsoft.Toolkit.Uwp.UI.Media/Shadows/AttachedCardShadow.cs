@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         private const float MaxBlurRadius = 72;
         private static readonly TypedResourceKey<CompositionGeometricClip> ClipResourceKey = "Clip";
         private static readonly bool SupportsCompositionVisualSurface;
-        private static readonly bool SupportsCompositionGeometricClip;
 
         private static readonly TypedResourceKey<CompositionPathGeometry> PathGeometryResourceKey = "PathGeometry";
         private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> RoundedRectangleGeometryResourceKey = "RoundedGeometry";
@@ -34,12 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 nameof(CornerRadius),
                 typeof(double),
                 typeof(AttachedCardShadow),
-                new PropertyMetadata(8d, OnDependencyPropertyChanged));
+                new PropertyMetadata(4d, OnDependencyPropertyChanged)); // Default WinUI ControlCornerRadius is 4
 
         static AttachedCardShadow()
         {
-            SupportsCompositionGeometricClip = ApiInformation.IsTypePresent(typeof(CompositionGeometricClip).FullName);
-            SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName); ;
+            SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName); // Note: This is 1903 (18362) min
         }
 
         /// <summary>
@@ -51,15 +49,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             set => SetValue(CornerRadiusProperty, value);
         }
 
+        /// <inheritdoc/>
         public override bool IsSupported => SupportsCompositionVisualSurface;
+
+        /// <inheritdoc/>
         protected override bool SupportsOnSizeChangedEvent => true;
 
+        /// <inheritdoc/>
         protected override void OnElementContextUninitialized(AttachedShadowElementContext context)
         {
             context.ClearAndDisposeResources();
             base.OnElementContextUninitialized(context);
         }
 
+        /// <inheritdoc/>
         protected override void OnPropertyChanged(AttachedShadowElementContext context, DependencyProperty property, object oldValue, object newValue)
         {
             if (property == CornerRadiusProperty)
@@ -78,6 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
+        /// <inheritdoc/>
         protected override CompositionBrush GetShadowMask(AttachedShadowElementContext context)
         {
             if (!SupportsCompositionVisualSurface)
@@ -115,6 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return surfaceBrush;
         }
 
+        /// <inheritdoc/>
         protected override CompositionClip GetShadowClip(AttachedShadowElementContext context)
         {
             var pathGeom = context.GetResource(PathGeometryResourceKey) ??
@@ -141,6 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return clip;
         }
 
+        /// <inheritdoc/>
         protected override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
             var sizeAsVec2 = newSize.ToVector2();

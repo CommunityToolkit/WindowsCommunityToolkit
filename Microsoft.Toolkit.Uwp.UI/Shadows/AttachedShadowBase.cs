@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             DependencyProperty.Register(nameof(Opacity), typeof(double), typeof(AttachedShadowBase), new PropertyMetadata(1d, OnDependencyPropertyChanged));
 
         /// <summary>
-        /// Returns whether or not this <see cref="AttachedShadowBase"/> implementation is supported on the current platform.
+        /// Gets a value indicating whether or not this <see cref="AttachedShadowBase"/> implementation is supported on the current platform.
         /// </summary>
         public abstract bool IsSupported { get; }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         private ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; set; }
 
         /// <summary>
-        /// Gets or set the blur radius of the shadow.
+        /// Gets or sets the blur radius of the shadow.
         /// </summary>
         public double BlurRadius
         {
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
-        /// Returns whether or not OnSizeChanged should be called when <see cref="FrameworkElement.SizeChanged"/> is fired.
+        /// Gets a value indicating whether or not OnSizeChanged should be called when <see cref="FrameworkElement.SizeChanged"/> is fired.
         /// </summary>
         protected internal abstract bool SupportsOnSizeChangedEvent { get; }
 
@@ -155,6 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Get the associated <see cref="AttachedShadowElementContext"/> for the specified <see cref="FrameworkElement"/>.
         /// </summary>
+        /// <returns>The <see cref="AttachedShadowElementContext"/> for the element.</returns>
         public AttachedShadowElementContext GetElementContext(FrameworkElement element)
         {
             if (ShadowElementContextTable != null && ShadowElementContextTable.TryGetValue(element, out var context))

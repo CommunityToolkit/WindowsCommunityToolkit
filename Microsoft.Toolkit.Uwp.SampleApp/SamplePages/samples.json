@@ -192,7 +192,9 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Shadows",
         "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowWin2DXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md",
+        "BadgeUpdateVersionRequired": "May 2019 update required",
+        "ApiCheck": "Windows.UI.Composition.CompositionVisualSurface"
       },
       {
         "Name": "DropShadowPanel",
