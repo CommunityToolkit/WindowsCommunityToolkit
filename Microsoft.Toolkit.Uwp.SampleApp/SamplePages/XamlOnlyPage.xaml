@@ -51,7 +51,7 @@
         <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
         <media:AttachedCardShadow x:Key="AttachedShadow" />
         <controls:DropShadowPanel x:Key="DropShadowPanel"
-                                  ui:Shadows.Attached="{StaticResource AttachedShadow}" />
+                                  ui:Effects.Shadow="{StaticResource AttachedShadow}" />
     </Page.Resources>
 
     <Grid>

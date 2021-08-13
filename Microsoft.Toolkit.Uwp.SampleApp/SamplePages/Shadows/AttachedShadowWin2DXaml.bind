@@ -12,13 +12,13 @@
   <Grid>
     <Button Content="Hello Shadows!" HorizontalAlignment="Center" VerticalAlignment="Center"
             CornerRadius="8">
-      <ui:Shadows.Attached>
+      <ui:Effects.Shadow>
         <media:AttachedCardShadow BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
                                   CornerRadius="8"
                                   Color="@[Color:Brush:Black]"
                                   Offset="@[Offset:Vector3:16,16]"
                                   Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"/>
-      </ui:Shadows.Attached>
+      </ui:Effects.Shadow>
     </Button>
   </Grid>
 </Page>
