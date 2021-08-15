@@ -34,7 +34,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// </summary>
         private void AddSourceCodeIfTypeIsNotPresent(GeneratorExecutionContext context, string typeFullName)
         {
-            if (context.Compilation.GetTypeByMetadataName(typeFullName) is not null)
+            // Check that the target attributes are not available in the consuming project. To ensure that
+            // this works fine both in .NET (Core) and .NET Standard implementations, we also need to check
+            // that the target types are declared as public (we assume that in this case those types are from the BCL).
+            // This avoids issues on .NET Standard with Roslyn also seeing internal types from referenced assemblies.
+            if (context.Compilation.GetTypeByMetadataName(typeFullName) is { DeclaredAccessibility: Accessibility.Public })
             {
                 return;
             }

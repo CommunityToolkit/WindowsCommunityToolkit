@@ -33,6 +33,7 @@
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <triggers:ControlSizeTrigger x:Key="ControlSizeTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <behaviors:KeyDownTriggerBehavior x:Key="KeyDownTriggerBehavior" />
         <behaviors:AutoSelectBehavior x:Key="AutoSelectBehavior" />
         <controls:ColorPicker x:Key="ColorPicker" />
         <controls:ColorPickerButton x:Key="ColorPickerButton" />

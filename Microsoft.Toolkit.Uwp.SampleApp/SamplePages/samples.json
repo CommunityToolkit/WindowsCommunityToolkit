@@ -840,6 +840,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoSelectBehavior.md"
       },
       {
+        "Name": "KeyDownTriggerBehavior",
+        "Subcategory": "Systems",
+        "About": "Behavior to listen to a key press on a control and executes actions",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Keyboard/KeyDownTriggerBehavior.cs",
+        "XamlCodeFile": "/SamplePages/KeyDownTriggerBehavior/KeyDownTriggerBehaviorXaml.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/KeyDownTriggerBehavior.md"
+      },
+      {
         "Name": "Win2d Path Mini Language Parser",
         "Type": "CanvasPathGeometryPage",
         "Subcategory": "Parser",

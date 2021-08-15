@@ -158,6 +158,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(false));
 
         /// <summary>
+        /// Identifies the <see cref="MaximumTokens"/> property.
+        /// </summary>
+        public static readonly DependencyProperty MaximumTokensProperty = DependencyProperty.Register(
+            nameof(MaximumTokens),
+            typeof(int),
+            typeof(TokenizingTextBox),
+            new PropertyMetadata(null, OnMaximumTokensChanged));
+
+        private static void OnMaximumTokensChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TokenizingTextBox ttb && ttb.ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && e.NewValue is int newMaxTokens)
+            {
+                var tokenCount = ttb._innerItemsSource.ItemsSource.Count;
+                if (tokenCount > 0 && tokenCount > newMaxTokens)
+                {
+                    int tokensToRemove = tokenCount - Math.Max(newMaxTokens, 0);
+
+                    // Start at the end, remove any extra tokens.
+                    for (var i = tokenCount; i > tokenCount - tokensToRemove; --i)
+                    {
+                        var token = ttb._innerItemsSource.ItemsSource[i - 1];
+
+                        // Force remove the items. No warning and no option to cancel.
+                        ttb._innerItemsSource.Remove(token);
+                        ttb.TokenItemRemoved?.Invoke(ttb, token);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the Style for the contained AutoSuggestBox template part.
         /// </summary>
         public Style AutoSuggestBoxStyle
@@ -302,6 +333,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return PrepareSelectionForClipboard();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum number of token results allowed at a time.
+        /// </summary>
+        public int MaximumTokens
+        {
+            get => (int)GetValue(MaximumTokensProperty);
+            set => SetValue(MaximumTokensProperty, value);
         }
     }
 }
