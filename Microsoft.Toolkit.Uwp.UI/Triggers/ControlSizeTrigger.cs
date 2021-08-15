@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// <summary>
         /// Gets or sets the max width at which to trigger.
         /// This value is exclusive, meaning this trigger
-        /// could be active if the value is < MaxWidth.
+        /// could be active if the value is less than MaxWidth.
         /// </summary>
         public double MaxWidth
         {
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// <summary>
         /// Gets or sets the max height at which to trigger.
         /// This value is exclusive, meaning this trigger
-        /// could be active if the value is < MaxHeight.
+        /// could be active if the value is less than MaxHeight.
         /// </summary>
         public double MaxHeight
         {
@@ -133,6 +133,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             typeof(ControlSizeTrigger),
             new PropertyMetadata(null, OnTargetElementPropertyChanged));
 
+        /// <summary>
+        /// Gets a value indicating whether the trigger is active.
+        /// </summary>
+        public bool IsActive { get; private set; }
+
         private static void OnTargetElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((ControlSizeTrigger)d).UpdateTargetElement((FrameworkElement)e.OldValue, (FrameworkElement)e.NewValue);
@@ -168,11 +173,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                 return;
             }
 
-            SetActive(
-                MinWidth <= TargetElement.ActualWidth &&
-                TargetElement.ActualWidth < MaxWidth &&
-                MinHeight <= TargetElement.ActualHeight &&
-                TargetElement.ActualHeight < MaxHeight);
+            bool activate = MinWidth <= TargetElement.ActualWidth &&
+                            TargetElement.ActualWidth < MaxWidth &&
+                            MinHeight <= TargetElement.ActualHeight &&
+                            TargetElement.ActualHeight < MaxHeight;
+
+            IsActive = activate;
+            SetActive(activate);
         }
     }
 }
