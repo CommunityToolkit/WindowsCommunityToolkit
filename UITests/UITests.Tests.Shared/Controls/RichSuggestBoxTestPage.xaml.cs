@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Controls;
 
@@ -14,7 +13,7 @@ namespace UITests.App.Pages
     /// </summary>
     public sealed partial class RichSuggestBoxTestPage : Page
     {
-        private static readonly List<string> _suggestions = new List<string> { "Token1", "Token2", "Token3" };
+        private static readonly List<string> _suggestions = new() { "Token1", "Token2", "Token3" };
 
         public RichSuggestBoxTestPage()
         {
@@ -23,12 +22,12 @@ namespace UITests.App.Pages
 
         private void RichSuggestBox_OnSuggestionsRequested(RichSuggestBox sender, SuggestionsRequestedEventArgs args)
         {
-            sender.ItemsSource = _suggestions.Select(x => args.Query + x);
+            sender.ItemsSource = _suggestions;
         }
 
         private void RichSuggestBox_OnSuggestionsChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
         {
-            args.Text = (string)args.SelectedItem;
+            args.Text = args.Query + (string)args.SelectedItem;
         }
     }
 }

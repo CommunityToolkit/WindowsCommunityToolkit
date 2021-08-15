@@ -52,7 +52,7 @@ namespace UITests.Tests
             var actualText = richEditBox.GetText(false);
             Verify.AreEqual(text, actualText);
             Verify.AreEqual("1", tokenCounter.GetText());
-            Verify.AreEqual("Test1Token1", tokenInfo1.Children[0].GetText());
+            Verify.AreEqual("Token1", tokenInfo1.Children[0].GetText());
             Verify.AreEqual("5", tokenInfo1.Children[1].GetText());
 
             richEditBox.SendKeys("@Test2");
@@ -64,7 +64,7 @@ namespace UITests.Tests
             actualText = richEditBox.GetText(false);
             Verify.AreEqual(text, actualText);
             Verify.AreEqual("2", tokenCounter.GetText());
-            Verify.AreEqual("Test2Token2", tokenInfo2.Children[0].GetText());
+            Verify.AreEqual("Token2", tokenInfo2.Children[0].GetText());
             Verify.AreEqual("68", tokenInfo2.Children[1].GetText());
         }
     }
