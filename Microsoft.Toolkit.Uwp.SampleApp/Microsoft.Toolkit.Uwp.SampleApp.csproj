@@ -642,7 +642,7 @@
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
     <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
-    <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind" />
+   <Content Include="SamplePages\GeometrySurfaceBrush\GeometrySurfaceBrushXaml.bind" />
     <Content Include="SamplePages\GeometryMaskSurfaceBrush\GeometryMaskSurfaceBrushXaml.bind" />
     <Content Include="SamplePages\ImageSurfaceBrush\ImageSurfaceBrushXaml.bind" />
     <Content Include="SamplePages\ImageMaskSurfaceBrush\ImageMaskSurfaceBrushXaml.bind" />
