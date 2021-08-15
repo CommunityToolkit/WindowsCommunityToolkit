@@ -454,7 +454,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Updates the <see cref="TwoPaneView.Pane1Length"/> since it is of type <see cref="GridLength"/>,
+        /// Updates the <see cref="TwoPaneView.Pane1Length"/> since it is of type 'GridLength',
         /// but <see cref="ListPaneWidth"/> is of type <see cref="double"/>.
         /// This should be changed in a further release.
         /// </summary>
