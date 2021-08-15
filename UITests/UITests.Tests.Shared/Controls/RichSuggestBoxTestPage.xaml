@@ -23,7 +23,7 @@
                 <DataTemplate x:DataType="controls:RichSuggestToken">
                     <StackPanel>
                         <TextBlock Text="{x:Bind Item}" />
-                        <TextBlock Text="{x:Bind Position}" />
+                        <TextBlock Text="{x:Bind Position, Mode=OneWay}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

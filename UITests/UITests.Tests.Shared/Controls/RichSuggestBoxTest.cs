@@ -6,6 +6,7 @@ using Microsoft.Windows.Apps.Test.Foundation;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
 using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using Microsoft.Windows.Apps.Test.Automation;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -66,6 +67,11 @@ namespace UITests.Tests
             Verify.AreEqual("2", tokenCounter.GetText());
             Verify.AreEqual("Token2", tokenInfo2.Children[0].GetText());
             Verify.AreEqual("68", tokenInfo2.Children[1].GetText());
+
+            KeyboardHelper.PressKey(Key.Home);
+            richEditBox.SendKeys(" ");
+            Verify.AreEqual("6", tokenInfo1.Children[1].GetText());
+            Verify.AreEqual("69", tokenInfo2.Children[1].GetText());
         }
     }
 }
