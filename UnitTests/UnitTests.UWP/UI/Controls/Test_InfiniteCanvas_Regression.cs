@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 
-namespace UnitTests.UI.Controls
+namespace UnitTests.UWP.UI.Controls
 {
     [TestClass]
     public class Test_InfiniteCanvas_Regression

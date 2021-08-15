@@ -32,6 +32,7 @@
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <behaviors:KeyDownTriggerBehavior x:Key="KeyDownTriggerBehavior" />
         <behaviors:AutoSelectBehavior x:Key="AutoSelectBehavior" />
         <controls:ColorPicker x:Key="ColorPicker" />
         <controls:ColorPickerButton x:Key="ColorPickerButton" />
@@ -47,6 +48,7 @@
                 <controls:Case IsDefault="True" />
             </controls:CaseCollection>
         </controls:SwitchPresenter>
+        <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
     </Page.Resources>
 
     <Grid>

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Windows.UI;
 using Windows.UI.Composition;
 
@@ -283,9 +284,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
                 // Create a map to store the generated paramNames for each CompObj
                 _compObjToParamNameMap = new Dictionary<CompositionObject, string>();
+                var paramCount = 0u;
                 foreach (var compObj in compObjects)
                 {
-                    string paramName = Guid.NewGuid().ToUppercaseAsciiLetters();
+                    string paramName = CreateUniqueParamNameFromIndex(paramCount++);
 
                     _compObjToParamNameMap.Add(compObj, paramName);
                 }
@@ -311,6 +313,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     _objRefList.Add(new ReferenceInfo(paramName, refNode.Reference));
                     refNode.ParamName = paramName;
                 }
+            }
+
+            // Generates Excel-column-like identifiers, e.g. A, B, ..., Z, AA, BA...
+            // This implementation aggregates characters in reverse order to avoid having to
+            // precompute the exact number of characters in the resulting string. This is not
+            // important in this context as the only critical property to maintain is to have
+            // a unique mapping to each input value to the resulting sequence of letters.
+            [SkipLocalsInit]
+            static unsafe string CreateUniqueParamNameFromIndex(uint i)
+            {
+                const int alphabetLength = 'Z' - 'A' + 1;
+
+                // The total length of the resulting sequence is guaranteed to always
+                // be less than 8, given that log26(4294967295) ≈ 6.8. In this case we
+                // are just allocating the immediate next power of two following that.
+                // Note: this is using a char* buffer instead of Span<char> as the latter
+                // is not referenced here, and we don't want to pull in an extra package.
+                char* characters = stackalloc char[8];
+
+                characters[0] = (char)('A' + (i % alphabetLength));
+
+                int totalCharacters = 1;
+
+                while ((i /= alphabetLength) > 0)
+                {
+                    i--;
+
+                    characters[totalCharacters++] = (char)('A' + (i % alphabetLength));
+                }
+
+                return new string(characters, 0, totalCharacters);
             }
         }
 

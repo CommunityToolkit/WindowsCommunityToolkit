@@ -2,15 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Deferred;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -77,6 +78,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ItemsSource != null && ItemsSource.GetType() != typeof(InterspersedObservableCollection))
             {
                 _innerItemsSource = new InterspersedObservableCollection(ItemsSource);
+
+                if (ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && _innerItemsSource.ItemsSource.Count >= MaximumTokens)
+                {
+                    // Reduce down to below the max as necessary.
+                    var endCount = MaximumTokens > 0 ? MaximumTokens : 0;
+                    for (var i = _innerItemsSource.ItemsSource.Count - 1; i >= endCount; --i)
+                    {
+                        _innerItemsSource.Remove(_innerItemsSource[i]);
+                    }
+                }
+
                 _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
                 _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
                 ItemsSource = _innerItemsSource;
@@ -278,18 +290,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    // TODO: It looks like we're setting selection and focus together on items? Not sure if that's what we want...
-                    // If that's the case, don't think this code will ever be called?
-
-                    //// TODO: Behavior question: if no items selected (just focus) does it just go to our last active textbox?
-                    //// Community voted that typing in the end box made sense
-
+                    // If no items are selected, send input to the last active string container.
+                    // This code is only fires during an edgecase where an item is in the process of being deleted and the user inputs a character before the focus has been redirected to a string container.
                     if (_innerItemsSource[_innerItemsSource.Count - 1] is ITokenStringContainer textToken)
                     {
                         var last = ContainerFromIndex(Items.Count - 1) as TokenizingTextBoxItem; // Should be our last text box
-                        var position = last._autoSuggestTextBox.SelectionStart;
-                        textToken.Text = last._autoSuggestTextBox.Text.Substring(0, position) + args.Character +
-                                         last._autoSuggestTextBox.Text.Substring(position);
+                        var text = last._autoSuggestTextBox.Text;
+                        var selectionStart = last._autoSuggestTextBox.SelectionStart;
+                        var position = selectionStart > text.Length ? text.Length : selectionStart;
+                        textToken.Text = text.Substring(0, position) + args.Character +
+                                         text.Substring(position);
 
                         last._autoSuggestTextBox.SelectionStart = position + 1; // Set position to after our new character inserted
 
@@ -432,6 +442,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task AddTokenAsync(object data, bool? atEnd = null)
         {
+            if (ReadLocalValue(MaximumTokensProperty) != DependencyProperty.UnsetValue && (MaximumTokens <= 0 || MaximumTokens <= _innerItemsSource.ItemsSource.Count))
+            {
+                // No tokens for you
+                return;
+            }
+
             if (data is string str && TokenItemAdding != null)
             {
                 var tiaea = new TokenItemAddingEventArgs(str);
@@ -484,6 +500,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _currentTextEdit = edit;
 
             Text = edit.Text; // Update our text property.
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="TokenizingTextBox"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new TokenizingTextBoxAutomationPeer(this);
         }
 
         /// <summary>

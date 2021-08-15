@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="scrollIfVisible">Set false to disable scrolling when the corresponding item is in view</param>
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
-        /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
+        /// <returns>Returns <see cref="Task"/> that completes after scrolling</returns>
         public static async Task SmoothScrollIntoViewWithIndexAsync(this ListViewBase listViewBase, int index, ScrollItemPlacement itemPlacement = ScrollItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisible = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
             if (index > (listViewBase.Items.Count - 1))
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 var tcs = new TaskCompletionSource<object>();
 
-                void ViewChanged(object obj, ScrollViewerViewChangedEventArgs args) => tcs.TrySetResult(result: null);
+                void ViewChanged(object _, ScrollViewerViewChangedEventArgs __) => tcs.TrySetResult(result: default);
 
                 try
                 {
@@ -80,20 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             // Scrolling back to previous position
             if (isVirtualizing)
             {
-                var tcs = new TaskCompletionSource<object>();
-
-                void ViewChanged(object obj, ScrollViewerViewChangedEventArgs args) => tcs.TrySetResult(result: null);
-
-                try
-                {
-                    scrollViewer.ViewChanged += ViewChanged;
-                    scrollViewer.ChangeView(previousXOffset, previousYOffset, zoomFactor: null, disableAnimation: true);
-                    await tcs.Task;
-                }
-                finally
-                {
-                    scrollViewer.ViewChanged -= ViewChanged;
-                }
+                await scrollViewer.ChangeViewAsync(previousXOffset, previousYOffset, zoomFactor: null, disableAnimation: true);
             }
 
             var listViewBaseWidth = listViewBase.ActualWidth;
@@ -185,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
 
-            scrollViewer.ChangeView(finalXPosition, finalYPosition, zoomFactor: null, disableAnimation);
+            await scrollViewer.ChangeViewAsync(finalXPosition, finalYPosition, zoomFactor: null, disableAnimation);
         }
 
         /// <summary>
@@ -198,10 +185,68 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="scrollIfVisibile">Set true to disable scrolling when the corresponding item is in view</param>
         /// <param name="additionalHorizontalOffset">Adds additional horizontal offset</param>
         /// <param name="additionalVerticalOffset">Adds additional vertical offset</param>
-        /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
+        /// <returns>Returns <see cref="Task"/> that completes after scrolling</returns>
         public static async Task SmoothScrollIntoViewWithItemAsync(this ListViewBase listViewBase, object item, ScrollItemPlacement itemPlacement = ScrollItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
             await SmoothScrollIntoViewWithIndexAsync(listViewBase, listViewBase.Items.IndexOf(item), itemPlacement, disableAnimation, scrollIfVisibile, additionalHorizontalOffset, additionalVerticalOffset);
+        }
+
+        /// <summary>
+        /// Changes the view of <see cref="ScrollViewer"/> asynchronous.
+        /// </summary>
+        /// <param name="scrollViewer">The scroll viewer.</param>
+        /// <param name="horizontalOffset">The horizontal offset.</param>
+        /// <param name="verticalOffset">The vertical offset.</param>
+        /// <param name="zoomFactor">The zoom factor.</param>
+        /// <param name="disableAnimation">if set to <c>true</c> disable animation.</param>
+        private static async Task ChangeViewAsync(this ScrollViewer scrollViewer, double? horizontalOffset, double? verticalOffset, float? zoomFactor, bool disableAnimation)
+        {
+            if (horizontalOffset > scrollViewer.ScrollableWidth)
+            {
+                horizontalOffset = scrollViewer.ScrollableWidth;
+            }
+            else if (horizontalOffset < 0)
+            {
+                horizontalOffset = 0;
+            }
+
+            if (verticalOffset > scrollViewer.ScrollableHeight)
+            {
+                verticalOffset = scrollViewer.ScrollableHeight;
+            }
+            else if (verticalOffset < 0)
+            {
+                verticalOffset = 0;
+            }
+
+            // MUST check this and return immediately, otherwise this async task will never complete because ViewChanged event won't get triggered
+            if (horizontalOffset == scrollViewer.HorizontalOffset && verticalOffset == scrollViewer.VerticalOffset)
+            {
+                return;
+            }
+
+            var tcs = new TaskCompletionSource<object>();
+
+            void ViewChanged(object _, ScrollViewerViewChangedEventArgs e)
+            {
+                if (e.IsIntermediate)
+                {
+                    return;
+                }
+
+                tcs.TrySetResult(result: default);
+            }
+
+            try
+            {
+                scrollViewer.ViewChanged += ViewChanged;
+                scrollViewer.ChangeView(horizontalOffset, verticalOffset, zoomFactor, disableAnimation);
+                await tcs.Task;
+            }
+            finally
+            {
+                scrollViewer.ViewChanged -= ViewChanged;
+            }
         }
     }
 }
