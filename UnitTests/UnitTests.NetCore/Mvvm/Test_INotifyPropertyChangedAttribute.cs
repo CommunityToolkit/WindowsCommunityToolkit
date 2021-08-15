@@ -2,13 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Mvvm
 {
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601", Justification = "Type only used for testing")]
     [TestClass]
     public partial class Test_INotifyPropertyChangedAttribute
     {
@@ -72,6 +75,57 @@ namespace UnitTests.Mvvm
         [INotifyPropertyChanged(IncludeAdditionalHelperMethods = false)]
         public partial class SampleModelWithoutHelpers
         {
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_INotifyPropertyChanged_WithGeneratedProperties()
+        {
+            Assert.IsTrue(typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(SampleModelWithINPCAndObservableProperties)));
+            Assert.IsFalse(typeof(INotifyPropertyChanging).IsAssignableFrom(typeof(SampleModelWithINPCAndObservableProperties)));
+
+            SampleModelWithINPCAndObservableProperties model = new();
+            List<PropertyChangedEventArgs> eventArgs = new();
+
+            model.PropertyChanged += (s, e) => eventArgs.Add(e);
+
+            model.X = 42;
+            model.Y = 66;
+
+            Assert.AreEqual(eventArgs.Count, 2);
+            Assert.AreEqual(eventArgs[0].PropertyName, nameof(SampleModelWithINPCAndObservableProperties.X));
+            Assert.AreEqual(eventArgs[1].PropertyName, nameof(SampleModelWithINPCAndObservableProperties.Y));
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4167
+        [INotifyPropertyChanged]
+        public partial class SampleModelWithINPCAndObservableProperties
+        {
+            [ObservableProperty]
+            private int x;
+
+            [ObservableProperty]
+            private int y;
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_INotifyPropertyChanged_WithGeneratedProperties_ExternalNetStandard20Assembly()
+        {
+            Assert.IsTrue(typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(NetStandard.SampleModelWithINPCAndObservableProperties)));
+            Assert.IsFalse(typeof(INotifyPropertyChanging).IsAssignableFrom(typeof(NetStandard.SampleModelWithINPCAndObservableProperties)));
+
+            NetStandard.SampleModelWithINPCAndObservableProperties model = new();
+            List<PropertyChangedEventArgs> eventArgs = new();
+
+            model.PropertyChanged += (s, e) => eventArgs.Add(e);
+
+            model.X = 42;
+            model.Y = 66;
+
+            Assert.AreEqual(eventArgs.Count, 2);
+            Assert.AreEqual(eventArgs[0].PropertyName, nameof(NetStandard.SampleModelWithINPCAndObservableProperties.X));
+            Assert.AreEqual(eventArgs[1].PropertyName, nameof(NetStandard.SampleModelWithINPCAndObservableProperties.Y));
         }
     }
 }

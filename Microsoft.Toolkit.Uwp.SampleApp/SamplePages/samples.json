@@ -475,6 +475,15 @@
         "XamlCodeFile": "/SamplePages/Primitives/SwitchPresenter.bind",
         "Icon": "/SamplePages/Primitives/SwitchPresenter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SwitchPresenter.md"
+      },
+      {
+        "Name": "ConstrainedBox",
+        "Subcategory": "Layout",
+        "About": "The ConstrainedBox is a FrameworkElement which can allow a developer to constrain the scale, multiple of, or aspect ratio of its content.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Primitives/ConstrainedBox",
+        "XamlCodeFile": "/SamplePages/Primitives/ConstrainedBox.bind",
+        "Icon": "/SamplePages/Primitives/ConstrainedBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ConstrainedBox.md"
       }
     ]
   },
@@ -776,7 +785,7 @@
         "Type": "ThemeListenerPage",
         "Subcategory": "Systems",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
       },
@@ -831,11 +840,20 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoSelectBehavior.md"
       },
       {
+        "Name": "KeyDownTriggerBehavior",
+        "Subcategory": "Systems",
+        "About": "Behavior to listen to a key press on a control and executes actions",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Keyboard/KeyDownTriggerBehavior.cs",
+        "XamlCodeFile": "/SamplePages/KeyDownTriggerBehavior/KeyDownTriggerBehaviorXaml.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/KeyDownTriggerBehavior.md"
+      },
+      {
         "Name": "Win2d Path Mini Language Parser",
         "Type": "CanvasPathGeometryPage",
         "Subcategory": "Parser",
         "About": "CanvasPathGeometry class allows you to convert Win2d Path Mini Language string to CanvasGeometry, Brushes, CanvasStrokes or CanvasStrokeStyles.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Geometry",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Geometry",
         "Icon": "/SamplePages/CanvasPathGeometry/CanvasPathGeometry.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/CanvasPathGeometry.md"
       },
@@ -873,7 +891,7 @@
         "Name": "Guard APIs",
         "Subcategory": "Developer",
         "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Diagnostics",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Diagnostics",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
       },
@@ -881,7 +899,7 @@
         "Name": "High Performance APIs",
         "Subcategory": "Developer",
         "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.HighPerformance",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.HighPerformance",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
       },
