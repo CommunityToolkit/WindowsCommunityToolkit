@@ -229,7 +229,11 @@
     <Compile Include="UI\Collection\Test_IncrementalLoadingCollection.cs" />
     <Compile Include="UI\Controls\Test_Carousel.cs" />
     <Compile Include="UI\Controls\Test_BladeView.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Alignment.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Constrict.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Infinity.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.AspectRatio.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Coerce.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.Multiple.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.Combined.cs" />
     <Compile Include="UI\Controls\Test_ImageEx.cs" />
