@@ -723,20 +723,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdatePopupWidth()
         {
-            if (this._suggestionsList == null)
+            if (this._suggestionsContainer == null)
             {
                 return;
             }
 
             if (this.PopupPlacement == SuggestionPopupPlacementMode.Attached)
             {
-                this._suggestionsList.MaxWidth = double.PositiveInfinity;
-                this._suggestionsList.Width = this._richEditBox.ActualWidth;
+                this._suggestionsContainer.MaxWidth = double.PositiveInfinity;
+                this._suggestionsContainer.Width = this._richEditBox.ActualWidth;
             }
             else
             {
-                this._suggestionsList.MaxWidth = this._richEditBox.ActualWidth;
-                this._suggestionsList.Width = double.NaN;
+                this._suggestionsContainer.MaxWidth = this._richEditBox.ActualWidth;
+                this._suggestionsContainer.Width = double.NaN;
             }
         }
 
@@ -745,6 +745,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdatePopupOffset()
         {
+            if (this._suggestionsContainer == null || this._suggestionPopup == null || this._richEditBox == null)
+            {
+                return;
+            }
+
             this._richEditBox.TextDocument.Selection.GetRect(PointOptions.None, out var selectionRect, out _);
             Thickness padding = this._richEditBox.Padding;
             selectionRect.X -= HorizontalOffset;
@@ -762,7 +767,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var normalizedX = selectionRect.X / editBoxWidth;
                     this._suggestionPopup.HorizontalOffset =
-                        (this._richEditBox.ActualWidth - this._suggestionsList.ActualWidth) * normalizedX;
+                        (this._richEditBox.ActualWidth - this._suggestionsContainer.ActualWidth) * normalizedX;
                 }
             }
 
@@ -777,10 +782,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (this._suggestionPopup.VerticalOffset == 0)
             {
-                if (IsElementOnScreen(this._suggestionsList, offsetY: downOffset) &&
-                    (IsElementInsideWindow(this._suggestionsList, offsetY: downOffset) ||
-                     !IsElementInsideWindow(this._suggestionsList, offsetY: upOffset) ||
-                     !IsElementOnScreen(this._suggestionsList, offsetY: upOffset)))
+                if (IsElementOnScreen(this._suggestionsContainer, offsetY: downOffset) &&
+                    (IsElementInsideWindow(this._suggestionsContainer, offsetY: downOffset) ||
+                     !IsElementInsideWindow(this._suggestionsContainer, offsetY: upOffset) ||
+                     !IsElementOnScreen(this._suggestionsContainer, offsetY: upOffset)))
                 {
                     this._suggestionPopup.VerticalOffset = downOffset;
                     this._popupOpenDown = true;
