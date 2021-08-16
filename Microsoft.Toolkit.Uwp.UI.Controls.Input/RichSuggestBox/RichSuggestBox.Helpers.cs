@@ -19,11 +19,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RichSuggestBox
     {
-        private static bool IsElementOnScreen(UIElement element, double offsetX = 0, double offsetY = 0)
+        private static bool IsElementOnScreen(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
             var toWindow = element.TransformToVisual(Window.Current.Content);
             var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            var elementBounds = new Rect(offsetX, offsetY, element.ActualSize.X, element.ActualSize.Y);
+            var elementBounds = new Rect(offsetX, offsetY, element.ActualWidth, element.ActualHeight);
             elementBounds = toWindow.TransformBounds(elementBounds);
             elementBounds.X += windowBounds.X;
             elementBounds.Y += windowBounds.Y;
@@ -33,15 +33,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return elementBounds.Top * scaleFactor >= 0 && elementBounds.Bottom * scaleFactor <= displayHeight;
         }
 
-        private static bool IsElementInsideWindow(UIElement element, double offsetX = 0, double offsetY = 0)
+        private static bool IsElementInsideWindow(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
             var toWindow = element.TransformToVisual(Window.Current.Content);
             var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
             windowBounds = new Rect(0, 0, windowBounds.Width, windowBounds.Height);
-            var elementBounds = new Rect(offsetX, offsetY, element.ActualSize.X, element.ActualSize.Y);
+            var elementBounds = new Rect(offsetX, offsetY, element.ActualWidth, element.ActualHeight);
             elementBounds = toWindow.TransformBounds(elementBounds);
             elementBounds.Intersect(windowBounds);
-            return elementBounds.Height >= element.ActualSize.Y;
+            return elementBounds.Height >= element.ActualHeight;
         }
 
         private static string EnforcePrefixesRequirements(string value)
