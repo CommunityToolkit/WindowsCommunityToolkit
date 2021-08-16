@@ -14,7 +14,6 @@ namespace UnitTests.UWP.UI.Controls
     [TestClass]
     public class Test_RichSuggestBox : VisualUITestBase
     {
-        [Ignore("Ignore due to CI problem")]
         [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         [DataRow("@Token1", "@Token2", "@Token3")]
@@ -70,7 +69,6 @@ namespace UnitTests.UWP.UI.Controls
             });
         }
 
-        [Ignore("Ignore due to CI problem")]
         [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         public async Task Test_RichSuggestBox_CustomizeToken()
@@ -123,7 +121,6 @@ namespace UnitTests.UWP.UI.Controls
             });
         }
 
-        [Ignore("Ignore due to CI problem")]
         [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         [DataRow("@Token1", "@Token2")]
@@ -158,7 +155,6 @@ namespace UnitTests.UWP.UI.Controls
             });
         }
 
-        [Ignore("Ignore due to CI problem")]
         [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         public async Task Test_RichSuggestBox_ReplaceToken()
@@ -186,7 +182,6 @@ namespace UnitTests.UWP.UI.Controls
             });
         }
 
-        [Ignore("Ignore due to CI problem")]
         [TestCategory(nameof(RichSuggestBox))]
         [TestMethod]
         public async Task Test_RichSuggestBox_FormatReset()
