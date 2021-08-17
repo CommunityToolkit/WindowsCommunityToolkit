@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -168,7 +167,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 CompositionBrush mask = null;
 
-                if (Content is Image)
+                // We check for IAlphaMaskProvider first, to ensure that we use the custom
+                // alpha mask even if Content happens to extend any of the other classes
+                if (Content is IAlphaMaskProvider maskedControl)
+                {
+                    mask = maskedControl.GetAlphaMask();
+                }
+                else if (Content is Image)
                 {
                     mask = ((Image)Content).GetAlphaMask();
                 }

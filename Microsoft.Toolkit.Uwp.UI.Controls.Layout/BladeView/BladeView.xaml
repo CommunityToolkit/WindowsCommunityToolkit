@@ -89,7 +89,7 @@
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="TitleBarBackground" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
@@ -99,7 +99,7 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="IsExpanded" Value="True"/>
@@ -156,8 +156,7 @@
                                     Background="{TemplateBinding CloseButtonBackground}"
                                     Style="{StaticResource ButtonRevealStyle}"
                                     BorderThickness="1"
-                                    Width="32"
-                                    Height="32"
+                                    VerticalAlignment="Stretch"
                                     Content="&#xE73F;"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="14"
@@ -169,8 +168,7 @@
                                     Background="{TemplateBinding CloseButtonBackground}"
                                     Style="{StaticResource ButtonRevealStyle}"
                                     BorderThickness="1"
-                                    Width="32"
-                                    Height="32"
+                                    VerticalAlignment="Stretch"
                                     Content="&#xE711;"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="14"

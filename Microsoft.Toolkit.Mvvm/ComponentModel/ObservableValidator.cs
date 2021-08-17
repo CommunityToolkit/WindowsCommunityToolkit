@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
@@ -137,7 +138,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// the <see cref="ObservableObject.PropertyChanging"/> and <see cref="ObservableObject.PropertyChanged"/> events
         /// are not raised if the current and new value for the target property are the same.
         /// </remarks>
-        protected bool SetProperty<T>(ref T field, T newValue, bool validate, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>([NotNullIfNotNull("newValue")] ref T field, T newValue, bool validate, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(ref field, newValue, propertyName);
 
@@ -162,7 +163,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="validate">If <see langword="true"/>, <paramref name="newValue"/> will also be validated.</param>
         /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns><see langword="true"/> if the property was changed, <see langword="false"/> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, IEqualityComparer<T> comparer, bool validate, [CallerMemberName] string? propertyName = null)
+        protected bool SetProperty<T>([NotNullIfNotNull("newValue")] ref T field, T newValue, IEqualityComparer<T> comparer, bool validate, [CallerMemberName] string? propertyName = null)
         {
             bool propertyChanged = SetProperty(ref field, newValue, comparer, propertyName);
 
@@ -471,7 +472,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// </remarks>
         protected void ValidateAllProperties()
         {
+            // Fast path that tries to create a delegate from a generated type-specific method. This
+            // is used to make this method more AOT-friendly and faster, as there is no dynamic code.
             static Action<object> GetValidationAction(Type type)
+            {
+                if (type.Assembly.GetType("Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__ObservableValidatorExtensions") is Type extensionsType &&
+                    extensionsType.GetMethod("CreateAllPropertiesValidator", new[] { type }) is MethodInfo methodInfo)
+                {
+                    return (Action<object>)methodInfo.Invoke(null, new object?[] { null })!;
+                }
+
+                return GetValidationActionFallback(type);
+            }
+
+            // Fallback method to create the delegate with a compiled LINQ expression
+            static Action<object> GetValidationActionFallback(Type type)
             {
                 // MyViewModel inst0 = (MyViewModel)arg0;
                 ParameterExpression arg0 = Expression.Parameter(typeof(object));
@@ -489,6 +504,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 //     inst0.ValidateProperty(inst0.Property0, nameof(MyViewModel.Property0));
                 //     inst0.ValidateProperty(inst0.Property1, nameof(MyViewModel.Property1));
                 //     ...
+                //     inst0.ValidateProperty(inst0.PropertyN, nameof(MyViewModel.PropertyN));
                 // }
                 // ===============================================================================
                 // We also add an explicit object conversion to represent boxing, if a given property
@@ -523,7 +539,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
         /// <param name="value">The value to test for the specified property.</param>
         /// <param name="propertyName">The name of the property to validate.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
-        protected void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
+        protected internal void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
         {
             if (propertyName is null)
             {
@@ -727,7 +743,7 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
 
             // This method replicates the logic of DisplayName and GetDisplayName from the
             // ValidationContext class. See the original source in the BCL for more details.
-            DisplayNamesMap.GetValue(GetType(), static t => GetDisplayNames(t)).TryGetValue(propertyName, out string? displayName);
+            _ = DisplayNamesMap.GetValue(GetType(), static t => GetDisplayNames(t)).TryGetValue(propertyName, out string? displayName);
 
             return displayName ?? propertyName;
         }

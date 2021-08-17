@@ -30,8 +30,11 @@
       <RowDefinition/>
     </Grid.RowDefinitions>
     <StackPanel>
-      <TextBlock FontSize="32" Text="Select Actions"
-                 Margin="0,0,0,4"/>
+      <TextBlock FontSize="32" Margin="0,0,0,4">
+        <Run Text="Select up to" />
+        <Run Text="{Binding MaximumTokens, ElementName=TokenBox, Mode=OneWay}" />
+        <Run Text="actions" />
+      </TextBlock>
       <controls:TokenizingTextBox
           x:Name="TokenBox"
           PlaceholderText="Add Actions"
@@ -39,7 +42,8 @@
           MaxHeight="104"
           HorizontalAlignment="Stretch"
           TextMemberPath="Text"
-          TokenDelimiter=",">
+          TokenDelimiter=","
+          MaximumTokens="3">
         <controls:TokenizingTextBox.SuggestedItemTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
