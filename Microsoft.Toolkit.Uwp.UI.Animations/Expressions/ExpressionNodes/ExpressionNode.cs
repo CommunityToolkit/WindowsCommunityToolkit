@@ -261,6 +261,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         /// <summary>
+        /// Clears the reference information.
+        /// </summary>
+        /// <exception cref="System.Exception">Reference and paramName can't both be null</exception>
+        internal void ClearReferenceInfo()
+        {
+            _objRefList = null;
+            ParamName = null;
+            foreach (var child in Children)
+            {
+               child.ClearReferenceInfo();
+            }
+        }
+
+        /// <summary>
         /// Ensures the reference information.
         /// </summary>
         /// <exception cref="System.Exception">Reference and paramName can't both be null</exception>
