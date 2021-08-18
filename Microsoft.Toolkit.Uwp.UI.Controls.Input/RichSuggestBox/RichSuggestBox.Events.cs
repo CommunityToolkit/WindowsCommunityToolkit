@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when a pointer is hovering over a token.
         /// </summary>
-        public event TypedEventHandler<RichSuggestBox, RichSuggestTokenHoveringEventArgs> TokenHovering;
+        public event TypedEventHandler<RichSuggestBox, RichSuggestTokenPointerOverEventArgs> TokenPointerOver;
 
         /// <summary>
         /// Event raised when text is changed, either by user or by internal formatting.

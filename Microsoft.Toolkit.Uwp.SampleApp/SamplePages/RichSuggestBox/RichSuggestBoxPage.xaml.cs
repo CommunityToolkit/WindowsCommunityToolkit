@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 this._tsb.SuggestionChosen -= this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested -= this.SuggestingBox_OnSuggestionsRequested;
-                this._tsb.TokenHovering -= this.SuggestingBox_OnTokenHovering;
+                this._tsb.TokenPointerOver -= this.SuggestingBox_OnTokenPointerOver;
             }
 
             if (control.FindChild("SuggestingBox") is RichSuggestBox rsb)
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 this._tsb = tsb;
                 this._tsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
                 this._tsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
-                this._tsb.TokenHovering += this.SuggestingBox_OnTokenHovering;
+                this._tsb.TokenPointerOver += this.SuggestingBox_OnTokenPointerOver;
             }
 
             if (control.FindChild("TokenListView1") is ListView tls1)
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void SuggestingBox_OnTokenHovering(RichSuggestBox sender, RichSuggestTokenHoveringEventArgs args)
+        private void SuggestingBox_OnTokenPointerOver(RichSuggestBox sender, RichSuggestTokenPointerOverEventArgs args)
         {
             var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
             var pointerPosition = args.CurrentPoint.Position;

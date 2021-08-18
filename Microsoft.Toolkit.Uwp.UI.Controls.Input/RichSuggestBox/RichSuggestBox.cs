@@ -258,9 +258,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RichEditBox_OnPointerMoved(object sender, PointerRoutedEventArgs e)
         {
             var pointer = e.GetCurrentPoint(this);
-            if (TokenHovering != null)
+            if (this.TokenPointerOver != null)
             {
-                this.InvokeTokenHovering(pointer);
+                this.InvokeTokenPointerOver(pointer);
             }
         }
 
@@ -473,7 +473,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             });
         }
 
-        private void InvokeTokenHovering(PointerPoint pointer)
+        private void InvokeTokenPointerOver(PointerPoint pointer)
         {
             var pointerPosition = TransformToVisual(_richEditBox).TransformPoint(pointer.Position);
             var padding = _richEditBox.Padding;
@@ -488,7 +488,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (hitTestRect.Contains(pointerPosition) && linkRange.Expand(TextRangeUnit.Link) > 0 &&
                 TryGetTokenFromRange(linkRange, out var token))
             {
-                this.TokenHovering.Invoke(this, new RichSuggestTokenHoveringEventArgs
+                this.TokenPointerOver.Invoke(this, new RichSuggestTokenPointerOverEventArgs
                 {
                     Token = token,
                     Range = linkRange,

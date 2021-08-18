@@ -9,9 +9,9 @@ using Windows.UI.Text;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Provides data for <see cref="RichSuggestBox.TokenHovering"/> event.
+    /// Provides data for <see cref="RichSuggestBox.TokenPointerOver"/> event.
     /// </summary>
-    public class RichSuggestTokenHoveringEventArgs : EventArgs
+    public class RichSuggestTokenPointerOverEventArgs : EventArgs
     {
         /// <summary>
         /// Gets or sets the selected token.
