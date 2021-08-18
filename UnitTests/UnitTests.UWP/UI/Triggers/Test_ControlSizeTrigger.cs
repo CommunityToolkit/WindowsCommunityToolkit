@@ -37,6 +37,74 @@ namespace UnitTests.UWP.UI.Triggers
             });
         }
 
+        [DataTestMethod]
+        [DataRow(400, 400, true)]
+        [DataRow(400, 399, false)]
+        public async Task ControlSizeMinHeightTriggerTest(double width, double height, bool expectedResult)
+        {
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                Grid grid = CreateGrid(width, height);
+                var trigger = new ControlSizeTrigger();
+
+                trigger.TargetElement = grid;
+                trigger.MinHeight = 400;
+
+                Assert.AreEqual(expectedResult, trigger.IsActive);
+            });
+        }
+
+        [DataTestMethod]
+        [DataRow(399, 400, false)]
+        [DataRow(400, 400, true)]
+        public async Task ControlSizeMinWidthTriggerTest(double width, double height, bool expectedResult)
+        {
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                Grid grid = CreateGrid(width, height);
+                var trigger = new ControlSizeTrigger();
+
+                trigger.TargetElement = grid;
+                trigger.MinWidth = 400;
+
+                Assert.AreEqual(expectedResult, trigger.IsActive);
+            });
+        }
+
+        [DataTestMethod]
+        [DataRow(450, 450, false)]
+        [DataRow(450, 449, true)]
+        public async Task ControlSizeMaxHeightTriggerTest(double width, double height, bool expectedResult)
+        {
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                Grid grid = CreateGrid(width, height);
+                var trigger = new ControlSizeTrigger();
+
+                trigger.TargetElement = grid;
+                trigger.MaxHeight = 450;
+
+                Assert.AreEqual(expectedResult, trigger.IsActive);
+            });
+        }
+
+        [DataTestMethod]
+        [DataRow(450, 450, false)]
+        [DataRow(449, 450, true)]
+        public async Task ControlSizeMaxWidthTriggerTest(double width, double height, bool expectedResult)
+        {
+            await App.DispatcherQueue.EnqueueAsync(() =>
+            {
+                Grid grid = CreateGrid(width, height);
+                var trigger = new ControlSizeTrigger();
+
+                trigger.TargetElement = grid;
+                trigger.MaxWidth = 450;
+
+                Assert.AreEqual(expectedResult, trigger.IsActive);
+            });
+        }
+
         private Grid CreateGrid(double width, double height)
         {
             var grid = new Grid()
