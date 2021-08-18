@@ -350,7 +350,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void RichEditBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Tab && _suggestionsList.SelectedItem != null)
+            if (e.Key == VirtualKey.Tab && _suggestionPopup.IsOpen && _suggestionsList.SelectedItem != null)
             {
                 e.Handled = true;
                 await CommitSuggestionAsync(_suggestionsList.SelectedItem);
@@ -716,6 +716,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this._suggestionChoice = 0;
                 this._suggestionPopup.VerticalOffset = 0;
                 this._suggestionPopup.HorizontalOffset = 0;
+                this._suggestionsList.SelectedItem = null;
                 this._suggestionsList.ScrollIntoView(this._suggestionsList.Items?.FirstOrDefault());
                 UpdateCornerRadii();
             }
