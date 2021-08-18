@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.Foundation;
@@ -18,27 +17,37 @@ using Windows.UI.Xaml.Markup;
 namespace UnitTests.UWP.UI.Controls
 {
     /// <summary>
-    /// These tests check multiple constraints are applied together in the correct order.
+    /// These tests check whether the inner alignment of the box within it's parent works as expected.
     /// </summary>
     public partial class Test_ConstrainedBox : VisualUITestBase
     {
+        // For this test we're testing within the confines of a 200x200 box to position a contrained
+        // 50x100 element in all the different alignment combinations.
         [TestCategory("ConstrainedBox")]
         [TestMethod]
-        public async Task Test_ConstrainedBox_Combined_All()
+        [DataRow("Left", 0, "Center", 50, DisplayName = "LeftCenter")]
+        [DataRow("Left", 0, "Top", 0, DisplayName = "LeftTop")]
+        [DataRow("Center", 75, "Top", 0, DisplayName = "CenterTop")]
+        [DataRow("Right", 150, "Top", 0, DisplayName = "RightTop")]
+        [DataRow("Right", 150, "Center", 50, DisplayName = "RightCenter")]
+        [DataRow("Right", 150, "Bottom", 100, DisplayName = "RightBottom")]
+        [DataRow("Center", 75, "Bottom", 100, DisplayName = "CenterBottom")]
+        [DataRow("Left", 0, "Bottom", 100, DisplayName = "LeftBottom")]
+        [DataRow("Center", 75, "Center", 50, DisplayName = "CenterCenter")]
+        public async Task Test_ConstrainedBox_Alignment_Aspect(string horizontalAlignment, int expectedLeft, string verticalAlignment, int expectedTop)
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
-                // We turn LayoutRounding off as we're doing between pixel calculation here to test.
-                var treeRoot = XamlReader.Load(@"<Page
+                var treeRoot = XamlReader.Load(@$"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <Grid x:Name=""ParentGrid"" Width=""100"" Height=""100"">
-      <controls:ConstrainedBox x:Name=""ConstrainedBox"" ScaleX=""0.9"" ScaleY=""0.9""
-                               MultipleX=""32"" MultipleY=""32""
-                               AspectRatio=""3:1""
+    <Grid x:Name=""ParentGrid""
+          Width=""200"" Height=""200"">
+      <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""1:2"" MaxHeight=""100""
                                UseLayoutRounding=""False""
-                               HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"">
+                               HorizontalAlignment=""{horizontalAlignment}""
+                               VerticalAlignment=""{verticalAlignment}"">
         <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
       </controls:ConstrainedBox>
     </Grid>
@@ -50,6 +59,8 @@ namespace UnitTests.UWP.UI.Controls
                 await SetTestContentAsync(treeRoot);
 
                 var grid = treeRoot.FindChild("ParentGrid") as Grid;
+
+                Assert.IsNotNull(grid, "Could not find the ParentGrid in tree.");
 
                 var panel = treeRoot.FindChild("ConstrainedBox") as ConstrainedBox;
 
@@ -63,33 +74,15 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.IsNotNull(child, "Could not find inner Border");
 
                 // Check Size
-                Assert.AreEqual(64, child.ActualWidth, 0.01, "Actual width does not meet expected value of 64");
-                Assert.AreEqual(21.333, child.ActualHeight, 0.01, "Actual height does not meet expected value of 21.33");
+                Assert.AreEqual(50, child.ActualWidth, 0.01, "Actual width does not meet expected value of 50");
+                Assert.AreEqual(100, child.ActualHeight, 0.01, "Actual height does not meet expected value of 100");
 
                 // Check inner Positioning, we do this from the Grid as the ConstainedBox also modifies its own size
                 // and is hugging the child.
                 var position = grid.CoordinatesTo(child);
 
-                Assert.AreEqual(18, position.X, 0.01, "X position does not meet expected value of 18");
-                Assert.AreEqual(39.333, position.Y, 0.01, "Y position does not meet expected value of 39.33");
-
-                // Update Aspect Ratio and Re-check
-                panel.AspectRatio = new AspectRatio(1, 3);
-
-                // Wait to ensure we've redone layout
-                await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
-                {
-                    // Check Size
-                    Assert.AreEqual(21.333, child.ActualWidth, 0.01, "Actual width does not meet expected value of 21.33");
-                    Assert.AreEqual(64, child.ActualHeight, 0.01, "Actual height does not meet expected value of 64");
-
-                    // Check inner Positioning, we do this from the Grid as the ConstainedBox also modifies its own size
-                    // and is hugging the child.
-                    position = grid.CoordinatesTo(child);
-
-                    Assert.AreEqual(39.333, position.X, 0.01, "X position does not meet expected value of 39.33");
-                    Assert.AreEqual(18, position.Y, 0.01, "Y position does not meet expected value of 18");
-                });
+                Assert.AreEqual(expectedLeft, position.X, 0.01, "X position does not meet expected value of 0");
+                Assert.AreEqual(expectedTop, position.Y, 0.01, "Y position does not meet expected value of 50");
             });
         }
     }

@@ -137,6 +137,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -176,7 +177,7 @@
                                       ZoomMode="Disabled" />
                         <ContentControl x:Name="PlaceholderTextContentPresenter"
                                         Grid.Row="1"
-                                        Grid.ColumnSpan="3"
+                                        Grid.ColumnSpan="2"
                                         Margin="{TemplateBinding BorderThickness}"
                                         Padding="{TemplateBinding Padding}"
                                         Content="{TemplateBinding PlaceholderText}"
@@ -194,9 +195,15 @@
                                 IsTabStop="False"
                                 Style="{StaticResource TokenizingTextBoxDeleteButtonStyle}"
                                 Visibility="Collapsed" />
+
+                        <TextBlock Name="PART_TokensCounter"
+                                   Grid.Row="1"
+                                   Grid.Column="2" 
+                                   Margin="0,4,0,0" />
+
                         <Button x:Name="QueryButton"
                                 Grid.Row="1"
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 Width="{TemplateBinding Height}"
                                 MinWidth="30"
                                 VerticalAlignment="Stretch"
