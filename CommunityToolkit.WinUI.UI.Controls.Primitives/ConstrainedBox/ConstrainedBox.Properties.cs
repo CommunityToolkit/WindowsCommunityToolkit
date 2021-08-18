@@ -61,7 +61,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// Identifies the <see cref="MultipleX"/> property.
         /// </summary>
         public static readonly DependencyProperty MultipleXProperty =
-            DependencyProperty.Register(nameof(MultipleX), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(MultipleX), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null, ConstraintPropertyChanged));
 
         /// <summary>
         /// Gets or sets the integer multiple that the height of the panel should be floored to. Default is null (no snap).
@@ -76,7 +76,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// Identifies the <see cref="MultipleY"/> property.
         /// </summary>
         public static readonly DependencyProperty MultipleYProperty =
-            DependencyProperty.Register(nameof(MultipleY), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(MultipleY), typeof(int), typeof(ConstrainedBox), new PropertyMetadata(null, ConstraintPropertyChanged));
 
         /// <summary>
         /// Gets or sets aspect Ratio to use for the contents of the Panel (after scaling).
@@ -93,11 +93,71 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public static readonly DependencyProperty AspectRatioProperty =
             DependencyProperty.Register(nameof(AspectRatio), typeof(AspectRatio), typeof(ConstrainedBox), new PropertyMetadata(null, ConstraintPropertyChanged));
 
+        private bool _propertyUpdating;
+
         private static void ConstraintPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is ConstrainedBox panel)
+            if (d is ConstrainedBox panel && !panel._propertyUpdating)
             {
+                panel._propertyUpdating = true;
+
+                panel.CoerceValues();
+
                 panel.InvalidateMeasure();
+
+                panel._propertyUpdating = false;
+            }
+        }
+
+        private void CoerceValues()
+        {
+            // Check if scale properties are in range
+            if (!double.IsNaN(ScaleX))
+            {
+                if (ScaleX < 0)
+                {
+                    ScaleX = 0;
+                }
+                else if (ScaleX > 1.0)
+                {
+                    ScaleX = 1.0;
+                }
+            }
+            else
+            {
+                ScaleX = 1.0;
+            }
+
+            if (!double.IsNaN(ScaleY))
+            {
+                if (ScaleY < 0)
+                {
+                    ScaleY = 0;
+                }
+                else if (ScaleY > 1.0)
+                {
+                    ScaleY = 1.0;
+                }
+            }
+            else
+            {
+                ScaleY = 1.0;
+            }
+
+            // Clear invalid values less than 0 for other properties
+            if (ReadLocalValue(MultipleXProperty) is int value && value <= 0)
+            {
+                ClearValue(MultipleXProperty);
+            }
+
+            if (ReadLocalValue(MultipleYProperty) is int value2 && value2 <= 0)
+            {
+                ClearValue(MultipleYProperty);
+            }
+
+            if (ReadLocalValue(AspectRatioProperty) is AspectRatio ratio && ratio <= 0)
+            {
+                ClearValue(AspectRatioProperty);
             }
         }
     }

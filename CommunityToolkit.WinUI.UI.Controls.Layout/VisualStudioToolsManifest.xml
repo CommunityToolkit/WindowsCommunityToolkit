@@ -1,9 +1,12 @@
 <FileList>
   <File Reference="CommunityToolkit.WinUI.UI.Controls.Layout.dll">
-    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Community Toolkit"
+        BlendCategory="Windows Community Toolkit">
       <Item Type="CommunityToolkit.WinUI.UI.Controls.BladeItem" />
       <Item Type="CommunityToolkit.WinUI.UI.Controls.BladeView" />
       <Item Type="CommunityToolkit.WinUI.UI.Controls.Carousel" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.CarouselItem" />
       <Item Type="CommunityToolkit.WinUI.UI.Controls.CarouselPanel" />
       <Item Type="CommunityToolkit.WinUI.UI.Controls.Expander" />
       <Item Type="CommunityToolkit.WinUI.UI.Controls.GridSplitter" />

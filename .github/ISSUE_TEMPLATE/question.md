@@ -4,7 +4,6 @@ about: I have a question about how to use something in the toolkit.
 title: "[Question]"
 labels: "question :grey_question:"
 assignees: ''
-
 ---
 
 <!--
