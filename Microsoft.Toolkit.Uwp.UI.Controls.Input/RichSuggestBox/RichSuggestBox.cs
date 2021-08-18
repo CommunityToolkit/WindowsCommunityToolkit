@@ -532,7 +532,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (OperationCanceledException)
                     {
-                        eventArgs.Cancel = true;
+                        // pass
                     }
                 }
             }
