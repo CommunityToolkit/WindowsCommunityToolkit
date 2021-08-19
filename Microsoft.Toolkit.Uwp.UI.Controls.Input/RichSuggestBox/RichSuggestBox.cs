@@ -50,12 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Border _suggestionsContainer;
 
         private int _suggestionChoice;
-        private string _currentQuery;
-        private string _currentPrefix;
         private bool _ignoreChange;
         private bool _popupOpenDown;
         private bool _textCompositionActive;
-        private ITextRange _currentRange;
+        private RichSuggestQuery _currentQuery;
         private CancellationTokenSource _suggestionRequestedCancellationSource;
 
         /// <summary>
@@ -70,7 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             DefaultStyleKey = typeof(RichSuggestBox);
 
-            RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
             RegisterPropertyChangedCallback(CornerRadiusProperty, OnCornerRadiusChanged);
             RegisterPropertyChangedCallback(PopupCornerRadiusProperty, OnCornerRadiusChanged);
             LostFocus += OnLostFocus;
@@ -405,12 +402,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.UpdatePopupOffset();
         }
 
-        private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
-        {
-            _suggestionChoice = 0;
-            ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
-        }
-
         private async void RichEditBox_Paste(object sender, TextControlPasteEventArgs e)
         {
             Paste?.Invoke(this, e);
@@ -501,12 +492,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             string prefix;
             string query;
+            var currentQuery = _currentQuery;
             var queryFound = range == null
                 ? TryExtractQueryFromSelection(out prefix, out query, out range)
                 : TryExtractQueryFromRange(range, out prefix, out query);
 
-            if (queryFound && prefix == _currentPrefix && query == _currentQuery &&
-                range.EndPosition == _currentRange?.EndPosition && _suggestionPopup.IsOpen)
+            if (queryFound && prefix == currentQuery?.Prefix && query == currentQuery?.QueryText &&
+                range.EndPosition == currentQuery?.Range.EndPosition && _suggestionPopup.IsOpen)
             {
                 return;
             }
@@ -516,9 +508,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (queryFound)
             {
-                _currentPrefix = prefix;
-                _currentQuery = query;
-                _currentRange = range;
+                _currentQuery = new RichSuggestQuery { Prefix = prefix, QueryText = query, Range = range };
 
                 if (SuggestionsRequested != null)
                 {
@@ -532,7 +522,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     catch (OperationCanceledException)
                     {
-                        // pass
+                        return;
+                    }
+
+                    if (!eventArgs.Cancel)
+                    {
+                        _suggestionChoice = 0;
+                        ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
                     }
                 }
             }
@@ -544,10 +540,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal async Task CommitSuggestionAsync(object selectedItem)
         {
-            var range = _currentRange?.GetClone();
+            var currentQuery = _currentQuery;
+            var range = currentQuery?.Range.GetClone();
             var id = Guid.NewGuid();
-            var prefix = _currentPrefix;
-            var query = _currentQuery;
+            var prefix = currentQuery?.Prefix;
+            var query = currentQuery?.QueryText;
 
             // range has length of 0 at the end of the commit.
             // Checking length == 0 to avoid committing twice.

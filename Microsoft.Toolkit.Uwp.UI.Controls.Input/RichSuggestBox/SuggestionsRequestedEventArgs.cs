@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Provide data for <see cref="RichSuggestBox.SuggestionsRequested"/> event.
     /// </summary>
-    public class SuggestionsRequestedEventArgs : DeferredEventArgs
+    public class SuggestionsRequestedEventArgs : DeferredCancelEventArgs
     {
         /// <summary>
         /// Gets or sets the prefix character used for the query.
