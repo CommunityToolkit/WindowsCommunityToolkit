@@ -27,19 +27,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="objectSerializer">Serializer for converting stored values. Defaults to <see cref="Toolkit.Helpers.SystemSerializer"/>.</param>
         public ApplicationDataStorageHelper(ApplicationData appData, Toolkit.Helpers.IObjectSerializer? objectSerializer = null)
         {
-            this.AppData = appData ?? throw new ArgumentNullException(nameof(appData));
-            this.Serializer = objectSerializer ?? new Toolkit.Helpers.SystemSerializer();
+            AppData = appData ?? throw new ArgumentNullException(nameof(appData));
+            Serializer = objectSerializer ?? new Toolkit.Helpers.SystemSerializer();
         }
 
         /// <summary>
         /// Gets the settings container.
         /// </summary>
-        public ApplicationDataContainer Settings => this.AppData.LocalSettings;
+        public ApplicationDataContainer Settings => AppData.LocalSettings;
 
         /// <summary>
         ///  Gets the storage folder.
         /// </summary>
-        public StorageFolder Folder => this.AppData.LocalFolder;
+        public StorageFolder Folder => AppData.LocalFolder;
 
         /// <summary>
         /// Gets the storage host.
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>True if a value exists.</returns>
         public bool KeyExists(string key)
         {
-            return this.Settings.Values.ContainsKey(key);
+            return Settings.Values.ContainsKey(key);
         }
 
         /// <summary>
@@ -93,9 +93,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The TValue object.</returns>
         public T? Read<T>(string key, T? @default = default)
         {
-            if (this.Settings.Values.TryGetValue(key, out var valueObj) && valueObj is string valueString)
+            if (Settings.Values.TryGetValue(key, out var valueObj) && valueObj is string valueString)
             {
-                return this.Serializer.Deserialize<T>(valueString);
+                return Serializer.Deserialize<T>(valueString);
             }
 
             return @default;
@@ -104,9 +104,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public bool TryRead<T>(string key, out T? value)
         {
-            if (this.Settings.Values.TryGetValue(key, out var valueObj) && valueObj is string valueString)
+            if (Settings.Values.TryGetValue(key, out var valueObj) && valueObj is string valueString)
             {
-                value = this.Serializer.Deserialize<T>(valueString);
+                value = Serializer.Deserialize<T>(valueString);
                 return true;
             }
 
@@ -117,19 +117,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public void Save<T>(string key, T value)
         {
-            this.Settings.Values[key] = this.Serializer.Serialize(value);
+            Settings.Values[key] = Serializer.Serialize(value);
         }
 
         /// <inheritdoc />
         public bool TryDelete(string key)
         {
-            return this.Settings.Values.Remove(key);
+            return Settings.Values.Remove(key);
         }
 
         /// <inheritdoc />
         public void Clear()
         {
-            this.Settings.Values.Clear();
+            Settings.Values.Clear();
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>True if a value exists.</returns>
         public bool KeyExists(string compositeKey, string key)
         {
-            if (this.TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
             {
                 return composite.ContainsKey(key);
             }
@@ -158,12 +158,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The T object.</returns>
         public bool TryRead<T>(string compositeKey, string key, out T? value)
         {
-            if (this.TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
             {
                 string compositeValue = (string)composite[key];
                 if (compositeValue != null)
                 {
-                    value = this.Serializer.Deserialize<T>(compositeValue);
+                    value = Serializer.Deserialize<T>(compositeValue);
                     return true;
                 }
             }
@@ -182,11 +182,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>The T object.</returns>
         public T? Read<T>(string compositeKey, string key, T? @default = default)
         {
-            if (this.TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
             {
                 if (composite.TryGetValue(key, out object valueObj) && valueObj is string value)
                 {
-                    return this.Serializer.Deserialize<T>(value);
+                    return Serializer.Deserialize<T>(value);
                 }
             }
 
@@ -203,17 +203,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="values">Objects to save.</param>
         public void Save<T>(string compositeKey, IDictionary<string, T> values)
         {
-            if (this.TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
             {
                 foreach (KeyValuePair<string, T> setting in values)
                 {
                     if (composite.ContainsKey(setting.Key))
                     {
-                        composite[setting.Key] = this.Serializer.Serialize(setting.Value);
+                        composite[setting.Key] = Serializer.Serialize(setting.Value);
                     }
                     else
                     {
-                        composite.Add(setting.Key, this.Serializer.Serialize(setting.Value));
+                        composite.Add(setting.Key, Serializer.Serialize(setting.Value));
                     }
                 }
             }
@@ -222,10 +222,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 composite = new ApplicationDataCompositeValue();
                 foreach (KeyValuePair<string, T> setting in values)
                 {
-                    composite.Add(setting.Key, this.Serializer.Serialize(setting.Value));
+                    composite.Add(setting.Key, Serializer.Serialize(setting.Value));
                 }
 
-                this.Settings.Values[compositeKey] = composite;
+                Settings.Values[compositeKey] = composite;
             }
         }
 
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>A boolean indicator of success.</returns>
         public bool TryDelete(string compositeKey, string key)
         {
-            if (this.TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
+            if (TryRead(compositeKey, out ApplicationDataCompositeValue? composite) && composite != null)
             {
                 return composite.Remove(key);
             }
@@ -248,43 +248,43 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <inheritdoc />
         public Task<T?> ReadFileAsync<T>(string filePath, T? @default = default)
         {
-            return this.ReadFileAsync<T>(this.Folder, filePath, @default);
+            return ReadFileAsync<T>(Folder, filePath, @default);
         }
 
         /// <inheritdoc />
         public Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadFolderAsync(string folderPath)
         {
-            return this.ReadFolderAsync(this.Folder, folderPath);
+            return ReadFolderAsync(Folder, folderPath);
         }
 
         /// <inheritdoc />
         public Task CreateFileAsync<T>(string filePath, T value)
         {
-            return this.CreateFileAsync<T>(this.Folder, filePath, value);
+            return CreateFileAsync<T>(Folder, filePath, value);
         }
 
         /// <inheritdoc />
         public Task CreateFolderAsync(string folderPath)
         {
-            return this.CreateFolderAsync(this.Folder, folderPath);
+            return CreateFolderAsync(Folder, folderPath);
         }
 
         /// <inheritdoc />
         public Task<bool> TryDeleteItemAsync(string itemPath)
         {
-            return TryDeleteItemAsync(this.Folder, itemPath);
+            return TryDeleteItemAsync(Folder, itemPath);
         }
 
         /// <inheritdoc />
         public Task<bool> TryRenameItemAsync(string itemPath, string newName)
         {
-            return TryRenameItemAsync(this.Folder, itemPath, newName);
+            return TryRenameItemAsync(Folder, itemPath, newName);
         }
 
         private async Task<T?> ReadFileAsync<T>(StorageFolder folder, string filePath, T? @default = default)
         {
             string value = await StorageFileHelper.ReadTextFromFileAsync(folder, NormalizePath(filePath));
-            return (value != null) ? this.Serializer.Deserialize<T>(value) : @default;
+            return (value != null) ? Serializer.Deserialize<T>(value) : @default;
         }
 
         private async Task<IEnumerable<(DirectoryItemType, string)>> ReadFolderAsync(StorageFolder folder, string folderPath)
@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private async Task<StorageFile> CreateFileAsync<T>(StorageFolder folder, string filePath, T value)
         {
-            return await StorageFileHelper.WriteTextToFileAsync(folder, this.Serializer.Serialize(value)?.ToString(), NormalizePath(filePath), CreationCollisionOption.ReplaceExisting);
+            return await StorageFileHelper.WriteTextToFileAsync(folder, Serializer.Serialize(value)?.ToString(), NormalizePath(filePath), CreationCollisionOption.ReplaceExisting);
         }
 
         private async Task CreateFolderAsync(StorageFolder folder, string folderPath)

@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion with the object in the file.</returns>
         public Task<T> ReadCacheFileAsync<T>(string filePath, T @default = default)
         {
-            return ReadFileAsync<T>(this.CacheFolder, filePath, @default);
+            return ReadFileAsync<T>(CacheFolder, filePath, @default);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>A list of file types and names in the target folder.</returns>
         public Task<IEnumerable<(DirectoryItemType ItemType, string Name)>> ReadCacheFolderAsync(string folderPath)
         {
-            return ReadFolderAsync(this.CacheFolder, folderPath);
+            return ReadFolderAsync(CacheFolder, folderPath);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task CreateCacheFileAsync<T>(string filePath, T value)
         {
-            return CreateFileAsync<T>(this.CacheFolder, filePath, value);
+            return CreateFileAsync<T>(CacheFolder, filePath, value);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task CreateCacheFolderAsync(string folderPath)
         {
-            return CreateFolderAsync(this.CacheFolder, folderPath);
+            return CreateFolderAsync(CacheFolder, folderPath);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task<bool> TryRenameCacheItemAsync(string itemPath, string newName)
         {
-            return TryRenameItemAsync(this.CacheFolder, itemPath, newName);
+            return TryRenameItemAsync(CacheFolder, itemPath, newName);
         }
     }
 }
