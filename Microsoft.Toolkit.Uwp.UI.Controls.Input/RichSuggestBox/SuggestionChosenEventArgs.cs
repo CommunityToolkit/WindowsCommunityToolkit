@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the display text.
         /// </summary>
-        public string Text { get; set; }
+        public string DisplayText { get; set; }
 
         /// <summary>
         /// Gets the suggestion item associated with this token.
@@ -39,8 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public Guid Id { get; internal set; }
 
         /// <summary>
-        /// Gets the formatting construct to override this token formatting.
+        /// Gets or sets the <see cref="ITextCharacterFormat"/> object used to format the display text for this token.
         /// </summary>
-        public ITextCharacterFormat Format { get; internal set; }
+        public ITextCharacterFormat Format { get; set; }
     }
 }

@@ -167,11 +167,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 args.Format.ForegroundColor = Colors.OrangeRed;
                 args.Format.Bold = FormatEffect.On;
                 args.Format.Italic = FormatEffect.On;
-                args.Text = ((SampleDataType)args.SelectedItem).Text;
+                args.DisplayText = ((SampleDataType)args.SelectedItem).Text;
             }
             else
             {
-                args.Text = ((SampleEmailDataType)args.SelectedItem).DisplayName;
+                args.DisplayText = ((SampleEmailDataType)args.SelectedItem).DisplayName;
             }
         }
 

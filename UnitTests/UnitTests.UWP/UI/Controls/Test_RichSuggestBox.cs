@@ -82,7 +82,7 @@ namespace UnitTests.UWP.UI.Controls
 
                 rsb.SuggestionChosen += (rsb, e) =>
                 {
-                    e.Text = expectedText.Substring(1);
+                    e.DisplayText = expectedText.Substring(1);
                     var format = e.Format;
                     format.BackgroundColor = Windows.UI.Colors.Beige;
                     format.ForegroundColor = Windows.UI.Colors.Azure;
@@ -244,7 +244,7 @@ namespace UnitTests.UWP.UI.Controls
                 suggestionChosenCalled = true;
                 Assert.AreEqual(tokenText[0].ToString(), args.Prefix, $"Unexpected prefix in {nameof(RichSuggestBox.SuggestionChosen)}.");
                 Assert.AreEqual(tokenText.Substring(1), args.QueryText, $"Unexpected query in {nameof(RichSuggestBox.SuggestionChosen)}.");
-                Assert.AreEqual(args.QueryText, args.Text, $"Unexpected display text in {nameof(RichSuggestBox.SuggestionChosen)}.");
+                Assert.AreEqual(args.QueryText, args.DisplayText, $"Unexpected display text in {nameof(RichSuggestBox.SuggestionChosen)}.");
                 Assert.AreSame(tokenText, args.SelectedItem, $"Selected item has unknown object {args.SelectedItem} in {nameof(RichSuggestBox.SuggestionChosen)}.");
             }
 

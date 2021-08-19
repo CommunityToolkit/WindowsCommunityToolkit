@@ -555,14 +555,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var textBefore = range.Text;
+            var format = CreateTokenFormat(range);
             var eventArgs = new SuggestionChosenEventArgs
             {
                 Id = id,
                 Prefix = prefix,
                 QueryText = query,
                 SelectedItem = selectedItem,
-                Text = query,
-                Format = CreateTokenFormat(range)
+                DisplayText = query,
+                Format = format
             };
 
             if (SuggestionChosen != null)
@@ -570,7 +571,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 await SuggestionChosen.InvokeAsync(this, eventArgs);
             }
 
-            var text = eventArgs.Text;
+            var text = eventArgs.DisplayText;
 
             // Since this operation is async, the document may have changed at this point.
             // Double check if the range still has the expected query.
@@ -586,7 +587,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var displayText = prefix + text;
 
                 _ignoreChange = true;
-                var committed = TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format);
+                var committed = TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format ?? format);
                 TextDocument.EndUndoGroup();
                 TextDocument.BeginUndoGroup();
                 _ignoreChange = false;
