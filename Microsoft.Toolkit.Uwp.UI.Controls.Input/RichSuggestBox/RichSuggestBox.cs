@@ -98,6 +98,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Clear the document and token list. This will also clear the undo/redo history.
+        /// </summary>
+        public void Clear()
+        {
+            lock (_tokensLock)
+            {
+                _tokens.Clear();
+                _visibleTokens.Clear();
+                TextDocument.Selection.Expand(TextRangeUnit.Story);
+                TextDocument.Selection.Delete(TextRangeUnit.Story, 0);
+                TextDocument.ClearUndoRedoHistory();
+            }
+        }
+
+        /// <summary>
+        /// Add tokens to be tracked against the document. Duplicate tokens will not be updated.
+        /// </summary>
+        /// <param name="tokens">The collection of tokens to be tracked.</param>
+        public void AddTokens(IEnumerable<RichSuggestToken> tokens)
+        {
+            lock (_tokensLock)
+            {
+                foreach (var token in tokens)
+                {
+                    _tokens.TryAdd($"\"{token.Id}\"", token);
+                }
+            }
+        }
+
+        /// <summary>
         /// Try getting the token associated with a text range.
         /// </summary>
         /// <param name="range">The range of the token to get.</param>
@@ -673,7 +703,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (token.ToString() != range.Text)
             {
-                range.Delete(TextRangeUnit.Story, -1);
+                range.Delete(TextRangeUnit.Story, 0);
                 token.Active = false;
                 return;
             }
@@ -923,7 +953,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             lock (_tokensLock)
             {
-                var toBeRemoved = _visibleTokens.Where(x => !x.Active).ToArray();
+                var toBeRemoved = _visibleTokens.Where(x => !x.Active || !_tokens.ContainsKey($"\"{x.Id}\"")).ToArray();
 
                 foreach (var elem in toBeRemoved)
                 {
