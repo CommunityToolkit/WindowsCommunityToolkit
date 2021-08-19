@@ -180,12 +180,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (args.Prefix == "#")
             {
                 sender.ItemsSource =
-                    this._samples.Where(x => x.Text.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
+                    this._samples.Where(x => x.Text.Contains(args.QueryText, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
                 sender.ItemsSource =
-                    this._emailSamples.Where(x => x.DisplayName.Contains(args.Query, StringComparison.OrdinalIgnoreCase));
+                    this._emailSamples.Where(x => x.DisplayName.Contains(args.QueryText, StringComparison.OrdinalIgnoreCase));
             }
         }
     }

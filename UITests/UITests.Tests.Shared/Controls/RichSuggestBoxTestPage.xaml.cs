@@ -27,7 +27,7 @@ namespace UITests.App.Pages
 
         private void RichSuggestBox_OnSuggestionsChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
         {
-            args.Text = args.Query + (string)args.SelectedItem;
+            args.Text = args.QueryText + (string)args.SelectedItem;
         }
     }
 }

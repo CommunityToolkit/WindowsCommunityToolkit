@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the query used for this token.
         /// </summary>
-        public string Query { get; internal set; }
+        public string QueryText { get; internal set; }
 
         /// <summary>
         /// Gets the prefix character used for this token.

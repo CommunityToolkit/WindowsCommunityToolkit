@@ -19,6 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the query for suggestions.
         /// </summary>
-        public string Query { get; set; }
+        public string QueryText { get; set; }
     }
 }

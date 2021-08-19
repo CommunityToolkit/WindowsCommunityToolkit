@@ -236,15 +236,15 @@ namespace UnitTests.UWP.UI.Controls
             {
                 suggestionsRequestedCalled = true;
                 Assert.AreEqual(tokenText[0].ToString(), args.Prefix, $"Unexpected prefix in {nameof(RichSuggestBox.SuggestionsRequested)}.");
-                Assert.AreEqual(tokenText.Substring(1), args.Query, $"Unexpected query in {nameof(RichSuggestBox.SuggestionsRequested)}.");
+                Assert.AreEqual(tokenText.Substring(1), args.QueryText, $"Unexpected query in {nameof(RichSuggestBox.SuggestionsRequested)}.");
             }
 
             void SuggestionChosenHandler(RichSuggestBox sender, SuggestionChosenEventArgs args)
             {
                 suggestionChosenCalled = true;
                 Assert.AreEqual(tokenText[0].ToString(), args.Prefix, $"Unexpected prefix in {nameof(RichSuggestBox.SuggestionChosen)}.");
-                Assert.AreEqual(tokenText.Substring(1), args.Query, $"Unexpected query in {nameof(RichSuggestBox.SuggestionChosen)}.");
-                Assert.AreEqual(args.Query, args.Text, $"Unexpected display text in {nameof(RichSuggestBox.SuggestionChosen)}.");
+                Assert.AreEqual(tokenText.Substring(1), args.QueryText, $"Unexpected query in {nameof(RichSuggestBox.SuggestionChosen)}.");
+                Assert.AreEqual(args.QueryText, args.Text, $"Unexpected display text in {nameof(RichSuggestBox.SuggestionChosen)}.");
                 Assert.AreSame(tokenText, args.SelectedItem, $"Selected item has unknown object {args.SelectedItem} in {nameof(RichSuggestBox.SuggestionChosen)}.");
             }
 

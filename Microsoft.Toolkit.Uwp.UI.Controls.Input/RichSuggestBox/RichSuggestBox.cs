@@ -516,7 +516,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     using var tokenSource = new CancellationTokenSource();
                     _suggestionRequestedCancellationSource = tokenSource;
                     var cancellationToken = tokenSource.Token;
-                    var eventArgs = new SuggestionsRequestedEventArgs { Query = query, Prefix = prefix };
+                    var eventArgs = new SuggestionsRequestedEventArgs { QueryText = query, Prefix = prefix };
                     try
                     {
                         await SuggestionsRequested.InvokeAsync(this, eventArgs, cancellationToken);
@@ -559,7 +559,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Id = id,
                 Prefix = prefix,
-                Query = query,
+                QueryText = query,
                 SelectedItem = selectedItem,
                 Text = query,
                 Format = CreateTokenFormat(range)
