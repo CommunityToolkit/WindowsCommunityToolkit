@@ -64,10 +64,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (obj is FrameworkElement fe)
             {
                 fe.Loaded -= FrameworkElement_Loaded;
+                fe.Unloaded -= FrameworkElement_Unloaded;
 
                 if (args.NewValue != null)
                 {
                     fe.Loaded += FrameworkElement_Loaded;
+                    fe.Unloaded += FrameworkElement_Unloaded;
+
                     if (fe.Parent != null)
                     {
                         FrameworkElement_Loaded(fe, null);
@@ -81,6 +84,14 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (sender is FrameworkElement fe)
             {
                 SetAncestor(fe, fe.FindAscendant(GetAncestorType(fe)));
+            }
+        }
+
+        private static void FrameworkElement_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if(sender is FrameworkElement fe)
+            {
+                SetAncestor(fe, null);
             }
         }
     }
