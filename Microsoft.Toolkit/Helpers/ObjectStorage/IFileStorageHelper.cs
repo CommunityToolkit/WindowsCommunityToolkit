@@ -55,6 +55,14 @@ namespace Microsoft.Toolkit.Helpers
         /// </summary>
         /// <param name="itemPath">The path to the item for deletion.</param>
         /// <returns>Waiting task until completion.</returns>
-        Task DeleteItemAsync(string itemPath);
+        Task<bool> TryDeleteItemAsync(string itemPath);
+
+        /// <summary>
+        /// Rename an item.
+        /// </summary>
+        /// <param name="itemPath">The path to the target item.</param>
+        /// <param name="newName">The new nam for the target item.</param>
+        /// <returns>Waiting task until completion.</returns>
+        Task<bool> TryRenameItemAsync(string itemPath, string newName);
     }
 }
