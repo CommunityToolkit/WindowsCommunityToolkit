@@ -507,6 +507,9 @@
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Shadows\AttachedDropShadowPage.xaml.cs">
+      <DependentUpon>AttachedDropShadowPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
     </Compile>
@@ -628,6 +631,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Shadows\AttachedShadowWin2DXaml.bind" />
+    <Content Include="SamplePages\Shadows\AttachedShadowCompositionXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
@@ -984,6 +988,10 @@
     <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\Shadows\AttachedDropShadowPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

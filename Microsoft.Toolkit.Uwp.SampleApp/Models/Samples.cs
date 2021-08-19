@@ -60,7 +60,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream.AsStream(), new JsonSerializerOptions
                     {
-                        ReadCommentHandling = JsonCommentHandling.Skip
+                        ReadCommentHandling = JsonCommentHandling.Skip,
+                        AllowTrailingCommas = true,
                     });
                 }
 

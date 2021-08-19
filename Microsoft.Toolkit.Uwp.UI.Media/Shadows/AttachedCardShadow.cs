@@ -16,7 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     {
         private const float MaxBlurRadius = 72;
         private static readonly TypedResourceKey<CompositionGeometricClip> ClipResourceKey = "Clip";
-        private static readonly bool SupportsCompositionVisualSurface;
 
         private static readonly TypedResourceKey<CompositionPathGeometry> PathGeometryResourceKey = "PathGeometry";
         private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> RoundedRectangleGeometryResourceKey = "RoundedGeometry";
@@ -35,11 +34,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 typeof(AttachedCardShadow),
                 new PropertyMetadata(4d, OnDependencyPropertyChanged)); // Default WinUI ControlCornerRadius is 4
 
-        static AttachedCardShadow()
-        {
-            SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName); // Note: This is 1903 (18362) min
-        }
-
         /// <summary>
         /// Gets or sets the roundness of the shadow's corners.
         /// </summary>
@@ -54,13 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
         /// <inheritdoc/>
         protected override bool SupportsOnSizeChangedEvent => true;
-
-        /// <inheritdoc/>
-        protected override void OnElementContextUninitialized(AttachedShadowElementContext context)
-        {
-            context.ClearAndDisposeResources();
-            base.OnElementContextUninitialized(context);
-        }
 
         /// <inheritdoc/>
         protected override void OnPropertyChanged(AttachedShadowElementContext context, DependencyProperty property, object oldValue, object newValue)

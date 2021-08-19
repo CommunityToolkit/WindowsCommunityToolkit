@@ -171,7 +171,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // alpha mask even if Content happens to extend any of the other classes
                 if (Content is IAlphaMaskProvider maskedControl)
                 {
-                    mask = maskedControl.GetAlphaMask();
+                    if (maskedControl.WaitUntilLoaded && maskedControl is FrameworkElement element && !element.IsLoaded)
+                    {
+                        element.Loaded += CustomMaskedElement_Loaded;
+                    }
+                    else
+                    {
+                        mask = maskedControl.GetAlphaMask();
+                    }
                 }
                 else if (Content is Image)
                 {
@@ -185,17 +192,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
                 }
-                else if (Content is ImageExBase imageExBase)
-                {
-                    imageExBase.ImageExInitialized += ImageExInitialized;
-
-                    if (imageExBase.IsInitialized)
-                    {
-                        imageExBase.ImageExInitialized -= ImageExInitialized;
-
-                        mask = ((ImageExBase)Content).GetAlphaMask();
-                    }
-                }
 
                 _dropShadow.Mask = mask;
             }
@@ -205,15 +201,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ImageExInitialized(object sender, EventArgs e)
+        private void CustomMaskedElement_Loaded(object sender, RoutedEventArgs e)
         {
-            var imageExBase = (ImageExBase)Content;
+            if (sender is FrameworkElement element)
+            {
+                element.Loaded -= CustomMaskedElement_Loaded;
 
-            imageExBase.ImageExInitialized -= ImageExInitialized;
-
-            CompositionBrush mask = ((ImageExBase)Content).GetAlphaMask();
-
-            _dropShadow.Mask = mask;
+                _dropShadow.Mask = ((IAlphaMaskProvider)element).GetAlphaMask();
+            }
         }
 
         private void UpdateShadowOffset(float x, float y, float z)

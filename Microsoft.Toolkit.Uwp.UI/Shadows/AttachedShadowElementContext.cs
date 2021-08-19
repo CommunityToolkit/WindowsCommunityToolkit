@@ -275,12 +275,15 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public void ClearAndDisposeResources()
         {
-            foreach (var kvp in _resources)
+            if (_resources != null)
             {
-                (kvp.Value as IDisposable)?.Dispose();
-            }
+                foreach (var kvp in _resources)
+                {
+                    (kvp.Value as IDisposable)?.Dispose();
+                }
 
-            _resources.Clear();
+                _resources.Clear();
+            }
         }
     }
 }

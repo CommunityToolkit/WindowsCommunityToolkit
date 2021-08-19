@@ -51,8 +51,9 @@
           </Border.Background>
         </Border>
         <!-- We need to put the Shadow on a parent element here as otherwise the
-             rounding of the border of the image above clips the shadow itself -->
-        <!-- TODO: This specific scenario should be simpler in the Composition based one? -->
+             rounding of the border of the image above clips the shadow itself.
+             This is easier to perform with the Composition only based shadow as the
+             Shadow is projected to another element. -->
         <ui:Effects.Shadow>
           <media:AttachedCardShadow CornerRadius="32"
                                     Offset="4,4"/>

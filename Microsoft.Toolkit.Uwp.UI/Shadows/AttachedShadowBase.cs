@@ -5,6 +5,7 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -17,6 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// </summary>
     public abstract class AttachedShadowBase : DependencyObject
     {
+        /// <summary>
+        /// Gets a value indicating whether or not Composition's VisualSurface is supported.
+        /// </summary>
+        protected static readonly bool SupportsCompositionVisualSurface;
+
+        static AttachedShadowBase()
+        {
+            SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName); // Note: This is 1903 (18362) min
+        }
+
         /// <summary>
         /// The <see cref="DependencyProperty"/> for <see cref="BlurRadius"/>.
         /// </summary>
@@ -53,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets or sets the collection of <see cref="AttachedShadowElementContext"/> for each element this <see cref="AttachedShadowBase"/> is connected to.
         /// </summary>
-        private ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; set; }
+        protected ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; set; }
 
         /// <summary>
         /// Gets or sets the blur radius of the shadow.
@@ -149,6 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="context">The <see cref="AttachedShadowElementContext"/> that is being uninitialized.</param>
         protected internal virtual void OnElementContextUninitialized(AttachedShadowElementContext context)
         {
+            context.ClearAndDisposeResources();
             ElementCompositionPreview.SetElementChildVisual(context.Element, null);
         }
 

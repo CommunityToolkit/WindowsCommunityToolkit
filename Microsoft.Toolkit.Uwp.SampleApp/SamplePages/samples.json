@@ -186,9 +186,19 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md"
       },
       {
-        "Name": "AttachedDropShadow (Win2D)",
+        "Name": "AttachedDropShadow (Composition)",
+        "Type": "AttachedDropShadowPage",
         "Subcategory": "Media",
         "About": "An AttachedDropShadow allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI/Shadows",
+        "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowCompositionXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
+      },
+      {
+        "Name": "AttachedCardShadow (Win2D)",
+        "Subcategory": "Media",
+        "About": "An AttachedCardShadow allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Shadows",
         "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowWin2DXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
@@ -200,6 +210,8 @@
         "Name": "DropShadowPanel",
         "Subcategory": "Media",
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "This control will be removed in a future major release. Please use the AttachedDropShadow or AttachedCardShadow extensions instead.",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Core/DropShadowPanel",
         "XamlCodeFile": "/SamplePages/Shadows/DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",

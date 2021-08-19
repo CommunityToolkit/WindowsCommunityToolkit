@@ -50,6 +50,7 @@
         </controls:SwitchPresenter>
         <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
         <media:AttachedCardShadow x:Key="AttachedShadow" />
+        <ui:AttachedDropShadow x:Key="AttachedDropShadow" />
         <controls:DropShadowPanel x:Key="DropShadowPanel"
                                   ui:Effects.Shadow="{StaticResource AttachedShadow}" />
     </Page.Resources>
