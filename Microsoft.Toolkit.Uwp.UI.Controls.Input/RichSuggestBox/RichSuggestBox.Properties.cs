@@ -347,11 +347,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets object used for lock
-        /// </summary>
-        protected object LockObj { get; }
-
-        /// <summary>
         /// Gets an object that enables access to the text object model for the text contained in a <see cref="RichEditBox"/>.
         /// </summary>
         public RichEditTextDocument TextDocument => _richEditBox?.TextDocument;

@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
         private const string PartDescriptionPresenter = "DescriptionPresenter";
 
+        private readonly object _tokensLock;
         private readonly Dictionary<string, RichSuggestToken> _tokens;
         private readonly ObservableCollection<RichSuggestToken> _visibleTokens;
 
@@ -61,10 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public RichSuggestBox()
         {
+            _tokensLock = new object();
             _tokens = new Dictionary<string, RichSuggestToken>();
             _visibleTokens = new ObservableCollection<RichSuggestToken>();
             Tokens = new ReadOnlyObservableCollection<RichSuggestToken>(_visibleTokens);
-            LockObj = new object();
 
             DefaultStyleKey = typeof(RichSuggestBox);
 
@@ -81,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void ClearUndoRedoSuggestionHistory()
         {
             TextDocument.ClearUndoRedoHistory();
-            lock (LockObj)
+            lock (_tokensLock)
             {
                 if (_tokens.Count == 0)
                 {
@@ -108,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             range = range.GetClone();
             if (range != null && !string.IsNullOrEmpty(range.Link))
             {
-                lock (LockObj)
+                lock (_tokensLock)
                 {
                     return _tokens.TryGetValue(range.Link, out token);
                 }
@@ -272,7 +273,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var range = selection.GetClone();
             range.Expand(TextRangeUnit.Link);
-            lock (LockObj)
+            lock (_tokensLock)
             {
                 if (!_tokens.ContainsKey(range.Link))
                 {
@@ -580,7 +581,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            lock (LockObj)
+            lock (_tokensLock)
             {
                 var displayText = prefix + text;
 
@@ -634,7 +635,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ValidateTokensInDocument()
         {
-            lock (LockObj)
+            lock (_tokensLock)
             {
                 foreach (var (_, token) in _tokens)
                 {
@@ -655,7 +656,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Check for duplicate tokens. This can happen if the user copies and pastes the token multiple times.
             if (token.Active && token.RangeStart != range.StartPosition && token.RangeEnd != range.EndPosition)
             {
-                lock (LockObj)
+                lock (_tokensLock)
                 {
                     var guid = Guid.NewGuid();
                     if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateTokenFormat(range), false))
@@ -919,7 +920,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateVisibleTokenList()
         {
-            lock (LockObj)
+            lock (_tokensLock)
             {
                 var toBeRemoved = _visibleTokens.Where(x => !x.Active).ToArray();
 
