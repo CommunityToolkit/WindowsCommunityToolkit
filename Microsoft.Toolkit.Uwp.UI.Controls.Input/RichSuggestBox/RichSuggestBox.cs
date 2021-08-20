@@ -127,6 +127,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Populate the <see cref="RichSuggestBox"/> with an existing Rich Text Format (RTF) document and a collection of tokens.
+        /// </summary>
+        /// <param name="rtf">The Rich Text Format (RTF) text to be imported.</param>
+        /// <param name="tokens">The collection of tokens embedded in the document.</param>
+        public void Load(string rtf, IEnumerable<RichSuggestToken> tokens)
+        {
+            Clear();
+            AddTokens(tokens);
+            TextDocument.SetText(TextSetOptions.FormatRtf, rtf);
+        }
+
+        /// <summary>
         /// Try getting the token associated with a text range.
         /// </summary>
         /// <param name="range">The range of the token to get.</param>
