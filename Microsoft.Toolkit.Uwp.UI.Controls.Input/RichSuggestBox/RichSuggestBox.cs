@@ -55,7 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _popupOpenDown;
         private bool _textCompositionActive;
         private RichSuggestQuery _currentQuery;
-        private CancellationTokenSource _suggestionRequestedCancellationSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RichSuggestBox"/> class.
@@ -534,17 +533,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            CancelIfNotDisposed(this._suggestionRequestedCancellationSource);
-            this._suggestionRequestedCancellationSource = null;
+            var previousTokenSource = currentQuery?.CancellationTokenSource;
+            if (!(previousTokenSource?.IsCancellationRequested ?? true))
+            {
+                previousTokenSource.Cancel();
+            }
 
             if (queryFound)
             {
-                _currentQuery = new RichSuggestQuery { Prefix = prefix, QueryText = query, Range = range };
+                using var tokenSource = new CancellationTokenSource();
+                _currentQuery = new RichSuggestQuery
+                {
+                    Prefix = prefix,
+                    QueryText = query,
+                    Range = range,
+                    CancellationTokenSource = tokenSource
+                };
 
                 if (SuggestionsRequested != null)
                 {
-                    using var tokenSource = new CancellationTokenSource();
-                    _suggestionRequestedCancellationSource = tokenSource;
                     var cancellationToken = tokenSource.Token;
                     var eventArgs = new SuggestionsRequestedEventArgs { QueryText = query, Prefix = prefix };
                     try
@@ -562,6 +569,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
                     }
                 }
+
+                tokenSource.Cancel();
             }
             else
             {

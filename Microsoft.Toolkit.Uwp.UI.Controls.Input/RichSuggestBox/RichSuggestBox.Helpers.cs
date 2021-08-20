@@ -104,22 +104,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nextIndex = range.GetIndex(TextRangeUnit.Link);
             }
         }
-
-        private static void CancelIfNotDisposed(CancellationTokenSource cancellationSource)
-        {
-            if (cancellationSource == null || cancellationSource.IsCancellationRequested)
-            {
-                return;
-            }
-
-            try
-            {
-                cancellationSource.Cancel();
-            }
-            catch (ObjectDisposedException)
-            {
-                // pass
-            }
-        }
     }
 }
