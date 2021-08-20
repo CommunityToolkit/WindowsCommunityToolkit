@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Text;
@@ -34,7 +35,7 @@ namespace UnitTests.UWP.UI.Controls
 
                 var token1 = rsb.Tokens.Last();
 
-                AssertToken(rsb, token1, tokenText1);
+                AssertToken(rsb, token1);
                 var expectedStory = $"{token1} \r";
                 document.GetText(TextGetOptions.None, out var actualStory);
                 Assert.AreEqual(expectedStory, actualStory);
@@ -46,7 +47,7 @@ namespace UnitTests.UWP.UI.Controls
 
                 var token2 = rsb.Tokens.Last();
 
-                AssertToken(rsb, token2, tokenText2);
+                AssertToken(rsb, token2);
                 expectedStory = $"{token1} {token2} \r";
                 document.GetText(TextGetOptions.None, out actualStory);
                 Assert.AreEqual(expectedStory, actualStory);
@@ -59,7 +60,7 @@ namespace UnitTests.UWP.UI.Controls
 
                 var token3 = rsb.Tokens.Last();
 
-                AssertToken(rsb, token3, tokenText3);
+                AssertToken(rsb, token3);
                 expectedStory = $"{token1} {token2}{token3} \r";
                 document.GetText(TextGetOptions.None, out actualStory);
                 Assert.AreEqual(expectedStory, actualStory);
@@ -168,14 +169,14 @@ namespace UnitTests.UWP.UI.Controls
 
                 await AddTokenAsync(rsb, "@Before");
                 var tokenBefore = rsb.Tokens[0];
-                AssertToken(rsb, tokenBefore, "@Before");
+                AssertToken(rsb, tokenBefore);
 
                 selection.Delete(TextRangeUnit.Character, -2);
                 await Task.Delay(10);
 
                 await AddTokenAsync(rsb, "@After");
                 var tokenAfter = rsb.Tokens[0];
-                AssertToken(rsb, tokenAfter, "@After");
+                AssertToken(rsb, tokenAfter);
 
                 Assert.AreNotSame(tokenBefore, tokenAfter, "Token before and token after are the same.");
                 Assert.AreNotEqual(tokenBefore.Id, tokenAfter.Id, "Token ID before and token ID after are the same.");
@@ -217,11 +218,102 @@ namespace UnitTests.UWP.UI.Controls
             });
         }
 
-        private static void AssertToken(RichSuggestBox rsb, RichSuggestToken token, string displayText)
+        [TestCategory(nameof(RichSuggestBox))]
+        [TestMethod]
+        public async Task Test_RichSuggestBox_Clear()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var rsb = new RichSuggestBox();
+                await SetTestContentAsync(rsb);
+
+                var document = rsb.TextDocument;
+                var selection = document.Selection;
+                selection.TypeText("before ");
+                await AddTokenAsync(rsb, "@Token");
+                selection.TypeText("after");
+                document.GetText(TextGetOptions.NoHidden, out var text);
+
+                Assert.AreEqual(1, rsb.Tokens.Count, "Unexpected tokens count before clear.");
+                Assert.IsTrue(document.CanUndo(), "Document cannot undo before clear.");
+                Assert.AreEqual("before \u200B@Token\u200B after", text);
+
+                rsb.Clear();
+                document.GetText(TextGetOptions.NoHidden, out text);
+
+                Assert.AreEqual(0, rsb.Tokens.Count, "Unexpected tokens count after clear.");
+                Assert.IsFalse(document.CanUndo(), "Document can undo after clear.");
+                Assert.AreEqual(string.Empty, text);
+            });
+        }
+
+        [TestCategory(nameof(RichSuggestBox))]
+        [TestMethod]
+        public async Task Test_RichSuggestBox_ClearUndoRedoHistory()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var rsb = new RichSuggestBox();
+                await SetTestContentAsync(rsb);
+
+                var document = rsb.TextDocument;
+                var selection = document.Selection;
+                selection.TypeText("before ");
+                await AddTokenAsync(rsb, "@Token");
+                selection.TypeText("after");
+                document.GetText(TextGetOptions.NoHidden, out var text);
+
+                Assert.AreEqual(1, rsb.Tokens.Count, "Unexpected tokens count before clear.");
+                Assert.IsTrue(document.CanUndo(), "Document cannot undo before clear.");
+                Assert.AreEqual("before \u200B@Token\u200B after", text);
+
+                rsb.ClearUndoRedoSuggestionHistory();
+                document.GetText(TextGetOptions.NoHidden, out text);
+
+                Assert.AreEqual(1, rsb.Tokens.Count, "Unexpected tokens count after clear.");
+                Assert.IsFalse(document.CanUndo(), "Document can undo after clear.");
+                Assert.AreEqual("before \u200B@Token\u200B after", text);
+            });
+        }
+
+        [TestCategory(nameof(RichSuggestBox))]
+        [TestMethod]
+        public async Task Test_RichSuggestBox_Load()
+        {
+            const string rtf = @"{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Segoe UI;}{\f1\fnil Segoe UI;}}
+{\colortbl ;\red255\green255\blue255;\red0\green0\blue255;\red41\green150\blue204;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\tx720\cf1\f0\fs21\lang4105 Hello {{\field{\*\fldinst{HYPERLINK ""c3b58ee9-df54-4686-b295-f203a5d8809a""}}{\fldrslt{\ul\cf2\u8203?\cf3\highlight1 @Michael Hawker\cf1\highlight0\u8203?}}}}\f1\fs21  \f0 from {{\field{\*\fldinst{HYPERLINK ""1c6a71c3-f81f-4a27-8f17-50d64acd5b61""}}{\fldrslt{\ul\cf2\u8203?\cf3\highlight1 @Tung Huynh\cf1\highlight0\u8203?}}}}\f1\fs21\par
+}
+";
+            var token1 = new RichSuggestToken(Guid.Parse("c3b58ee9-df54-4686-b295-f203a5d8809a"), "@Michael Hawker");
+            var token2 = new RichSuggestToken(Guid.Parse("1c6a71c3-f81f-4a27-8f17-50d64acd5b61"), "@Tung Huynh");
+
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var rsb = new RichSuggestBox();
+                await SetTestContentAsync(rsb);
+
+                var document = rsb.TextDocument;
+                var selection = document.Selection;
+                selection.TypeText("before ");
+                await AddTokenAsync(rsb, "@Token");
+                selection.TypeText("after");
+
+                rsb.Load(rtf, new[] { token1, token2 });
+                await Task.Delay(10);
+                document.GetText(TextGetOptions.NoHidden, out var text);
+
+                Assert.AreEqual("Hello \u200b@Michael Hawker\u200b from \u200b@Tung Huynh\u200b\r", text, "Unexpected document text.");
+                AssertToken(rsb, token1);
+                AssertToken(rsb, token2);
+            });
+        }
+
+        private static void AssertToken(RichSuggestBox rsb, RichSuggestToken token)
         {
             var document = rsb.TextDocument;
             var tokenRange = document.GetRange(token.RangeStart, token.RangeEnd);
-            Assert.AreSame(displayText, token.Item, $"Token item has unknown object {token.Item}.");
             Assert.AreEqual(token.ToString(), tokenRange.Text);
             Assert.AreEqual($"\"{token.Id}\"", tokenRange.Link, "Unexpected link value.");
             Assert.AreEqual(LinkType.FriendlyLinkAddress, tokenRange.CharacterFormat.LinkType, "Unexpected link type.");
