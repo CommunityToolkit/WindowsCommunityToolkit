@@ -304,6 +304,7 @@ namespace UnitTests.UWP.UI.Controls
                 await Task.Delay(10);
                 document.GetText(TextGetOptions.NoHidden, out var text);
 
+                Assert.AreEqual(2, rsb.Tokens.Count, "Unexpected tokens count after load.");
                 Assert.AreEqual("Hello \u200b@Michael Hawker\u200b from \u200b@Tung Huynh\u200b\r", text, "Unexpected document text.");
                 AssertToken(rsb, token1);
                 AssertToken(rsb, token2);
