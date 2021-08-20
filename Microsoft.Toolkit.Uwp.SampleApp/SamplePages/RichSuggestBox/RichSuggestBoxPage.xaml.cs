@@ -102,13 +102,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (this._rsb != null)
             {
                 this._rsb.SuggestionChosen -= this.SuggestingBox_OnSuggestionChosen;
-                this._rsb.SuggestionsRequested -= this.SuggestingBox_OnSuggestionsRequested;
+                this._rsb.SuggestionRequested -= this.SuggestingBox_OnSuggestionRequested;
             }
 
             if (this._tsb != null)
             {
                 this._tsb.SuggestionChosen -= this.SuggestingBox_OnSuggestionChosen;
-                this._tsb.SuggestionsRequested -= this.SuggestingBox_OnSuggestionsRequested;
+                this._tsb.SuggestionRequested -= this.SuggestingBox_OnSuggestionRequested;
                 this._tsb.TokenPointerOver -= this.SuggestingBox_OnTokenPointerOver;
             }
 
@@ -116,14 +116,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 this._rsb = rsb;
                 this._rsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
-                this._rsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
+                this._rsb.SuggestionRequested += this.SuggestingBox_OnSuggestionRequested;
             }
 
             if (control.FindChild("PlainTextSuggestingBox") is RichSuggestBox tsb)
             {
                 this._tsb = tsb;
                 this._tsb.SuggestionChosen += this.SuggestingBox_OnSuggestionChosen;
-                this._tsb.SuggestionsRequested += this.SuggestingBox_OnSuggestionsRequested;
+                this._tsb.SuggestionRequested += this.SuggestingBox_OnSuggestionRequested;
                 this._tsb.TokenPointerOver += this.SuggestingBox_OnTokenPointerOver;
             }
 
@@ -150,11 +150,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     cp.Content = args.Token.Item;
                     flyout.ShowAt(sender, new FlyoutShowOptions
-                        {
-                            Position = pointerPosition,
-                            ExclusionRect = sender.GetRectFromRange(args.Range),
-                            ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway,
-                        });
+                    {
+                        Position = pointerPosition,
+                        ExclusionRect = sender.GetRectFromRange(args.Range),
+                        ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway,
+                    });
                 });
             }
         }
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void SuggestingBox_OnSuggestionsRequested(RichSuggestBox sender, SuggestionsRequestedEventArgs args)
+        private void SuggestingBox_OnSuggestionRequested(RichSuggestBox sender, SuggestionRequestedEventArgs args)
         {
             if (args.Prefix == "#")
             {

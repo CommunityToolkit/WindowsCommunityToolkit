@@ -7,9 +7,9 @@ using Microsoft.Toolkit.Deferred;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Provide data for <see cref="RichSuggestBox.SuggestionsRequested"/> event.
+    /// Provide data for <see cref="RichSuggestBox.SuggestionRequested"/> event.
     /// </summary>
-    public class SuggestionsRequestedEventArgs : DeferredCancelEventArgs
+    public class SuggestionRequestedEventArgs : DeferredCancelEventArgs
     {
         /// <summary>
         /// Gets or sets the prefix character used for the query.

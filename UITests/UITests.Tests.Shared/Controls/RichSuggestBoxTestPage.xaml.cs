@@ -20,12 +20,12 @@ namespace UITests.App.Pages
             this.InitializeComponent();
         }
 
-        private void RichSuggestBox_OnSuggestionsRequested(RichSuggestBox sender, SuggestionsRequestedEventArgs args)
+        private void RichSuggestBox_OnSuggestionRequested(RichSuggestBox sender, SuggestionRequestedEventArgs args)
         {
             sender.ItemsSource = _suggestions;
         }
 
-        private void RichSuggestBox_OnSuggestionsChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
+        private void RichSuggestBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
         {
             args.DisplayText = args.QueryText + (string)args.SelectedItem;
         }

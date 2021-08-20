@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when the control needs to show suggestions.
         /// </summary>
-        public event TypedEventHandler<RichSuggestBox, SuggestionsRequestedEventArgs> SuggestionsRequested;
+        public event TypedEventHandler<RichSuggestBox, SuggestionRequestedEventArgs> SuggestionRequested;
 
         /// <summary>
         /// Event raised when user click on a suggestion.

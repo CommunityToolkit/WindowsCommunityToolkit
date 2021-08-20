@@ -325,11 +325,11 @@ namespace UnitTests.UWP.UI.Controls
             bool suggestionsRequestedCalled = false;
             bool suggestionChosenCalled = false;
 
-            void SuggestionsRequestedHandler(RichSuggestBox sender, SuggestionsRequestedEventArgs args)
+            void SuggestionsRequestedHandler(RichSuggestBox sender, SuggestionRequestedEventArgs args)
             {
                 suggestionsRequestedCalled = true;
-                Assert.AreEqual(tokenText[0].ToString(), args.Prefix, $"Unexpected prefix in {nameof(RichSuggestBox.SuggestionsRequested)}.");
-                Assert.AreEqual(tokenText.Substring(1), args.QueryText, $"Unexpected query in {nameof(RichSuggestBox.SuggestionsRequested)}.");
+                Assert.AreEqual(tokenText[0].ToString(), args.Prefix, $"Unexpected prefix in {nameof(RichSuggestBox.SuggestionRequested)}.");
+                Assert.AreEqual(tokenText.Substring(1), args.QueryText, $"Unexpected query in {nameof(RichSuggestBox.SuggestionRequested)}.");
             }
 
             void SuggestionChosenHandler(RichSuggestBox sender, SuggestionChosenEventArgs args)
@@ -341,16 +341,16 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.AreSame(tokenText, args.SelectedItem, $"Selected item has unknown object {args.SelectedItem} in {nameof(RichSuggestBox.SuggestionChosen)}.");
             }
 
-            rsb.SuggestionsRequested += SuggestionsRequestedHandler;
+            rsb.SuggestionRequested += SuggestionsRequestedHandler;
             rsb.SuggestionChosen += SuggestionChosenHandler;
 
             await AddTokenAsync(rsb, tokenText);
 
-            rsb.SuggestionsRequested -= SuggestionsRequestedHandler;
+            rsb.SuggestionRequested -= SuggestionsRequestedHandler;
             rsb.SuggestionChosen -= SuggestionChosenHandler;
 
-            Assert.IsTrue(suggestionsRequestedCalled, "SuggestionsRequested was not invoked.");
-            Assert.IsTrue(suggestionChosenCalled, "SuggestionChosen was not invoked.");
+            Assert.IsTrue(suggestionsRequestedCalled, $"{nameof(RichSuggestBox.SuggestionRequested)} was not invoked.");
+            Assert.IsTrue(suggestionChosenCalled, $"{nameof(RichSuggestBox.SuggestionChosen)} was not invoked.");
         }
 
         private static async Task AddTokenAsync(RichSuggestBox rsb, string tokenText)

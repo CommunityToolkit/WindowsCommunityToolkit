@@ -11,8 +11,8 @@
         <controls:RichSuggestBox x:Name="richSuggestBox"
                                  Width="300"
                                  AutomationProperties.Name="richSuggestBox"
-                                 SuggestionChosen="RichSuggestBox_OnSuggestionsChosen"
-                                 SuggestionsRequested="RichSuggestBox_OnSuggestionsRequested" />
+                                 SuggestionChosen="RichSuggestBox_OnSuggestionChosen"
+                                 SuggestionRequested="RichSuggestBox_OnSuggestionRequested" />
 
         <TextBlock x:Name="tokenCounter"
                    Text="{x:Bind richSuggestBox.Tokens.Count, Mode=OneWay}" />

@@ -562,13 +562,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     CancellationTokenSource = tokenSource
                 };
 
-                if (SuggestionsRequested != null)
+                if (SuggestionRequested != null)
                 {
                     var cancellationToken = tokenSource.Token;
-                    var eventArgs = new SuggestionsRequestedEventArgs { QueryText = query, Prefix = prefix };
+                    var eventArgs = new SuggestionRequestedEventArgs { QueryText = query, Prefix = prefix };
                     try
                     {
-                        await SuggestionsRequested.InvokeAsync(this, eventArgs, cancellationToken);
+                        await SuggestionRequested.InvokeAsync(this, eventArgs, cancellationToken);
                     }
                     catch (OperationCanceledException)
                     {
