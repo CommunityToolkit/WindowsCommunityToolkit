@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Triggers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,9 +23,10 @@ namespace UnitTests.UWP.UI.Triggers
         [DataRow(400, 399, false)]
         public async Task ControlSizeTriggerTest(double width, double height, bool expectedResult)
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 Grid grid = CreateGrid(width, height);
+                await SetTestContentAsync(grid);
                 var trigger = new ControlSizeTrigger();
 
                 trigger.TargetElement = grid;
@@ -42,9 +44,10 @@ namespace UnitTests.UWP.UI.Triggers
         [DataRow(400, 399, false)]
         public async Task ControlSizeMinHeightTriggerTest(double width, double height, bool expectedResult)
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 Grid grid = CreateGrid(width, height);
+                await SetTestContentAsync(grid);
                 var trigger = new ControlSizeTrigger();
 
                 trigger.TargetElement = grid;
@@ -59,9 +62,10 @@ namespace UnitTests.UWP.UI.Triggers
         [DataRow(400, 400, true)]
         public async Task ControlSizeMinWidthTriggerTest(double width, double height, bool expectedResult)
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 Grid grid = CreateGrid(width, height);
+                await SetTestContentAsync(grid);
                 var trigger = new ControlSizeTrigger();
 
                 trigger.TargetElement = grid;
@@ -76,9 +80,10 @@ namespace UnitTests.UWP.UI.Triggers
         [DataRow(450, 449, true)]
         public async Task ControlSizeMaxHeightTriggerTest(double width, double height, bool expectedResult)
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 Grid grid = CreateGrid(width, height);
+                await SetTestContentAsync(grid);
                 var trigger = new ControlSizeTrigger();
 
                 trigger.TargetElement = grid;
@@ -93,9 +98,10 @@ namespace UnitTests.UWP.UI.Triggers
         [DataRow(449, 450, true)]
         public async Task ControlSizeMaxWidthTriggerTest(double width, double height, bool expectedResult)
         {
-            await App.DispatcherQueue.EnqueueAsync(() =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 Grid grid = CreateGrid(width, height);
+                await SetTestContentAsync(grid);
                 var trigger = new ControlSizeTrigger();
 
                 trigger.TargetElement = grid;
@@ -112,9 +118,6 @@ namespace UnitTests.UWP.UI.Triggers
                 Height = height,
                 Width = width
             };
-            grid.Measure(new Windows.Foundation.Size(1000, 1000));
-            grid.Arrange(new Windows.Foundation.Rect(0, 0, 1000, 1000));
-            grid.UpdateLayout();
 
             return grid;
         }
