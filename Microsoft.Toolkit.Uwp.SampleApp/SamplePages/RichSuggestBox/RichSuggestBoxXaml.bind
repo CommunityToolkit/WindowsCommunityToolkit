@@ -1,4 +1,4 @@
-﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -83,7 +83,7 @@
                                  ClipboardCopyFormat="PlainText"
                                  ClipboardPasteFormat="PlainText"
                                  DisabledFormattingAccelerators="All"
-                                 Header="Plain text suggest box with on token selected flyout"
+                                 Header="Plain text suggest box with on token pointer over flyout"
                                  ItemTemplate="{StaticResource EmailTemplate}"
                                  Prefixes="@"
                                  FlyoutBase.AttachedFlyout="{StaticResource TokenSelectedFlyout}" />
