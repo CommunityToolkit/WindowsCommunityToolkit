@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Returns a <see cref="string"/> representation of a <see cref="float"/> that avoids scientific notation, which is not compatible with the composition expression animations API
         /// </summary>
         /// <param name="number">The input <see cref="float"/> to process</param>
-        /// <returns>A <see cref="string"/> representation of <paramref name="number"/> that can be used in a expression animation/returns>
+        /// <returns>A <see cref="string"/> representation of <paramref name="number"/> that can be used in a expression animation</returns>
         [Pure]
         public static string ToCompositionString(this float number)
         {
