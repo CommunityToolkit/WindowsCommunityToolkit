@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             // Otherwise, we need to print it with the right number of decimals
             var decimalPlaces = -exponent // The number of decimal places is the exponent of 10
-                + eIndex // Plus each number in the mantissa
+                + eIndex // Plus each character in the mantissa
                 + (number < 0 ?
                     -3 : // Minus the sign, dot and first number of the mantissa if negative
                     -2); // Minus the dot and first number of the mantissa otherwise
