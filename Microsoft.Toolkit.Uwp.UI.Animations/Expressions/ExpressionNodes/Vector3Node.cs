@@ -320,7 +320,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
-            return $"Vector3({_value.X},{_value.Y},{_value.Z})";
+            return $"Vector3({_value.X.ToCompositionString()},{_value.Y.ToCompositionString()},{_value.Z.ToCompositionString()})";
         }
 
         private Vector3 _value;
