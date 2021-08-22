@@ -313,6 +313,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets prefix characters to start a query.
         /// </summary>
+        /// <remarks>
+        /// Prefix characters must be punctuations (must satisfy <see cref="char.IsPunctuation(char)"/> method).
+        /// </remarks>
         public string Prefixes
         {
             get => (string)GetValue(PrefixesProperty);

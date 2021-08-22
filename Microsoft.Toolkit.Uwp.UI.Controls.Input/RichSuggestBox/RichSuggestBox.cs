@@ -75,8 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Clear unused tokens and undo/redo history. <see cref="RichSuggestBox"/> saves all of previously committed tokens
-        /// even when they are removed from the text. They have to be manually removed using this method.
+        /// Clear unused tokens and undo/redo history.
         /// </summary>
         public void ClearUndoRedoSuggestionHistory()
         {
