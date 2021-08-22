@@ -561,10 +561,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     CancellationTokenSource = tokenSource
                 };
 
+                var cancellationToken = tokenSource.Token;
+                var eventArgs = new SuggestionRequestedEventArgs { QueryText = query, Prefix = prefix };
                 if (SuggestionRequested != null)
                 {
-                    var cancellationToken = tokenSource.Token;
-                    var eventArgs = new SuggestionRequestedEventArgs { QueryText = query, Prefix = prefix };
                     try
                     {
                         await SuggestionRequested.InvokeAsync(this, eventArgs, cancellationToken);
@@ -573,12 +573,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         return;
                     }
+                }
 
-                    if (!eventArgs.Cancel)
-                    {
-                        _suggestionChoice = 0;
-                        ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
-                    }
+                if (!eventArgs.Cancel)
+                {
+                    _suggestionChoice = 0;
+                    ShowSuggestionsPopup(_suggestionsList?.Items?.Count > 0);
                 }
 
                 tokenSource.Cancel();
