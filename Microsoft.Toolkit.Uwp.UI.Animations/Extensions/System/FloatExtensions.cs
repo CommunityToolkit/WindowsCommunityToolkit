@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         [Pure]
         public static string ToCompositionString(this float number)
         {
-            var defaultString = number.ToString();
+            var defaultString = number.ToString(System.Globalization.CultureInfo.InvariantCulture);
             var eIndex = defaultString.IndexOf('E');
 
             // If the default string representation is not in scientific notation, we can use it
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var exponent = int.Parse(defaultString.Substring(eIndex + 1));
             if (exponent >= 0)
             {
-                return number.ToString($"F0");
+                return number.ToString($"F0", System.Globalization.CultureInfo.InvariantCulture);
             }
 
             // Otherwise, we need to print it with the right number of decimals
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     -3 : // Minus the sign, dot and first number of the mantissa if negative
                     -2); // Minus the dot and first number of the mantissa otherwise
 
-            return number.ToString($"F{decimalPlaces}");
+            return number.ToString($"F{decimalPlaces}", System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }
