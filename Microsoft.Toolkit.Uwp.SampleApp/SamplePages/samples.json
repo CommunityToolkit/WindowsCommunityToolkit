@@ -494,7 +494,7 @@
         "CodeFile": "RichSuggestBoxCode.bind",
         "XamlCodeFile": "RichSuggestBoxXaml.bind",
         "Icon": "/SamplePages/RichSuggestBox/RichSuggestBox.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/huynhsontung/WindowsCommunityToolkitDocs/RichSuggestBox/docs/controls/RichSuggestBox.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RichSuggestBox.md"
       }
     ]
   },
