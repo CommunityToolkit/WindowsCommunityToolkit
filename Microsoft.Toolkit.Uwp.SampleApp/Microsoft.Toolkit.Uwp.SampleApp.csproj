@@ -274,6 +274,7 @@
     <Content Include="SamplePages\Graph\PersonView.png" />
     <Content Include="SamplePages\Primitives\ConstrainedBox.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
