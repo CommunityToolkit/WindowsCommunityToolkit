@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Markup;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     public class Test_WrapPanel_BasicLayout : VisualUITestBase

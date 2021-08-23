@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.Foundation;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     /// <summary>
     /// These tests check whether the inner alignment of the box within it's parent works as expected.

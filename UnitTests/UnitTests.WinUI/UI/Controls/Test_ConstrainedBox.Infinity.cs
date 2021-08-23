@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.Foundation;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     /// <summary>
     /// These tests check for cases where one of the bounds provided by the parent panel is infinite.

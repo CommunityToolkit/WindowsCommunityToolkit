@@ -7,7 +7,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     public class Test_RangeSelector : VisualUITestBase

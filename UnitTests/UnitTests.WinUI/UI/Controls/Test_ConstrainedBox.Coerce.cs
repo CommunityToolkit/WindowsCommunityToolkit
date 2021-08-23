@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.Foundation;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     /// <summary>
     /// These tests check for the various values which can be coerced and changed if out of bounds for each property.

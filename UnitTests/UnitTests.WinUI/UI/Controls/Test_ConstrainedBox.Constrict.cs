@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.Foundation;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     /// <summary>
     /// These tests check for cases where we want to constrain the size of the ConstrainedBox with other

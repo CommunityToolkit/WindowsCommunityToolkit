@@ -8,7 +8,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     public class Test_UniformGrid_FreeSpots

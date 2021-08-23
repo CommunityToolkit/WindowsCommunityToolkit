@@ -13,7 +13,7 @@ using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     [TestCategory("Test_TokenizingTextBox")]
