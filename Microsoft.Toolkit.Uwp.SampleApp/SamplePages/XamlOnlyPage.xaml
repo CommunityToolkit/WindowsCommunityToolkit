@@ -67,6 +67,7 @@
                 <ani:SaturationEffectAnimation />
                 <ani:AnimationScope />
                 <ani:ExposureEffectAnimation />
+                <ani:OffsetDropShadowAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>

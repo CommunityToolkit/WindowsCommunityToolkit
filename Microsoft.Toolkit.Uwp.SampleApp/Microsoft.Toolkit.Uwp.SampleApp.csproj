@@ -632,6 +632,7 @@
     </Content>
     <Content Include="SamplePages\Shadows\AttachedShadowWin2DXaml.bind" />
     <Content Include="SamplePages\Shadows\AttachedShadowCompositionXaml.bind" />
+    <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>

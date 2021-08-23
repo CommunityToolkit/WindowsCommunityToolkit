@@ -1,0 +1,42 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+  xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+  xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+  xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+  xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
+  xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+  mc:Ignorable="d">
+
+  <Page.Resources>
+    <media:AttachedCardShadow x:Key="CommonShadow" Offset="4" CornerRadius="0"/>
+  </Page.Resources>
+
+  <Grid>
+    <Image x:Name="ImageWithShadow"
+           ui:Effects.Shadow="{StaticResource CommonShadow}"
+           Height="100" Width="100"
+           Source="ms-appx:///Assets/Photos/Owl.jpg">
+      <interactivity:Interaction.Behaviors>
+        <interactions:EventTriggerBehavior EventName="PointerEntered">
+          <behaviors:StartAnimationAction Animation="{Binding ElementName=ShadowEnterAnimation}"/>
+        </interactions:EventTriggerBehavior>
+        <interactions:EventTriggerBehavior EventName="PointerExited">
+          <behaviors:StartAnimationAction Animation="{Binding ElementName=ShadowExitAnimation}"/>
+        </interactions:EventTriggerBehavior>
+      </interactivity:Interaction.Behaviors>
+      <ani:Explicit.Animations>
+        <ani:AnimationSet x:Name="ShadowEnterAnimation">
+          <ani:OffsetDropShadowAnimation From="4" To="12" Target="{Binding ElementName=ImageWithShadow}"/>
+        </ani:AnimationSet>
+
+        <ani:AnimationSet x:Name="ShadowExitAnimation">
+          <ani:OffsetDropShadowAnimation From="12" To="4" Target="{Binding ElementName=ImageWithShadow}"/>
+        </ani:AnimationSet>
+      </ani:Explicit.Animations>
+    </Image>
+  </Grid>
+</Page>

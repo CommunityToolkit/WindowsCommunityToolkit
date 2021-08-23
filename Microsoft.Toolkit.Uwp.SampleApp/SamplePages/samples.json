@@ -651,6 +651,15 @@
         "DisableXamlEditorRendering": true,
         "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
+      },
+      {
+        "Name": "Shadow Animations",
+        "Subcategory": "Effect",
+        "About": "Example of animating an Attached Shadow",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Animations/Xaml/Shadows",
+        "XamlCodeFile": "/SamplePages/Animations/Shadows/AnimatedCardShadowXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
       }
     ]
   },
