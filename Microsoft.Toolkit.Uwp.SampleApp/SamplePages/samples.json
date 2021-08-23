@@ -490,7 +490,7 @@
         "Type": "RichSuggestBoxPage",
         "Subcategory": "Input",
         "About": "A text input control that makes suggestions and keeps track of data token items in a rich document.",
-        "CodeUrl": "https://github.com/huynhsontung/WindowsCommunityToolkit/tree/RichSuggestBox/Microsoft.Toolkit.Uwp.UI.Controls.Input/RichSuggestBox",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Input/RichSuggestBox",
         "CodeFile": "RichSuggestBoxCode.bind",
         "XamlCodeFile": "RichSuggestBoxXaml.bind",
         "Icon": "/SamplePages/RichSuggestBox/RichSuggestBox.png",
