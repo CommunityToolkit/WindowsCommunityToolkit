@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
-    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.8.0.21" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="0.8.2.23" />
   </ItemGroup>
 
 </Project>
