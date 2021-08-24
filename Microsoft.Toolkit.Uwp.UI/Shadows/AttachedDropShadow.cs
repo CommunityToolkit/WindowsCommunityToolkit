@@ -123,22 +123,22 @@ namespace Microsoft.Toolkit.Uwp.UI
                     // Need to remove all old children from previous container if it's changed
                     if (prevContainer != null && prevContainer != shadow._container)
                     {
-                        foreach (var context in shadow.ShadowElementContextTable)
+                        foreach (var context in shadow.GetElementContextEnumerable())
                         {
-                            if (context.Value.IsInitialized &&
-                                prevContainer.Children.Contains(context.Value.SpriteVisual))
+                            if (context.IsInitialized &&
+                                prevContainer.Children.Contains(context.SpriteVisual))
                             {
-                                prevContainer.Children.Remove(context.Value.SpriteVisual);
+                                prevContainer.Children.Remove(context.SpriteVisual);
                             }
                         }
                     }
 
                     // Make sure all child shadows are hooked into container
-                    foreach (var context in shadow.ShadowElementContextTable)
+                    foreach (var context in shadow.GetElementContextEnumerable())
                     {
-                        if (context.Value.IsInitialized)
+                        if (context.IsInitialized)
                         {
-                            shadow.SetElementChildVisual(context.Value);
+                            shadow.SetElementChildVisual(context);
                         }
                     }
 
@@ -154,12 +154,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             // Don't use sender or 'e' here as related to container element not
             // element for shadow, grab values off context. (Also may be null from internal call.)
-            foreach (var context in ShadowElementContextTable)
+            foreach (var context in GetElementContextEnumerable())
             {
-                if (context.Value.IsInitialized)
+                if (context.IsInitialized)
                 {
                     // TODO: Should we use ActualWidth/Height instead of RenderSize?
-                    OnSizeChanged(context.Value, context.Value.Element.RenderSize, context.Value.Element.RenderSize);
+                    OnSizeChanged(context, context.Element.RenderSize, context.Element.RenderSize);
                 }
             }
         }

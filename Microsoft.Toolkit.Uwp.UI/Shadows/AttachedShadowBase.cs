@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Foundation;
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets or sets the collection of <see cref="AttachedShadowElementContext"/> for each element this <see cref="AttachedShadowBase"/> is connected to.
         /// </summary>
-        protected ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; set; }
+        private ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext> ShadowElementContextTable { get; set; }
 
         /// <summary>
         /// Gets or sets the blur radius of the shadow.
@@ -176,6 +177,18 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Gets an enumerator over the current list of <see cref="AttachedShadowElementContext"/> of elements using this shared shadow definition.
+        /// </summary>
+        /// <returns>Enumeration of <see cref="AttachedShadowElementContext"/> objects.</returns>
+        public IEnumerable<AttachedShadowElementContext> GetElementContextEnumerable()
+        {
+            foreach (var kvp in ShadowElementContextTable)
+            {
+                yield return kvp.Value;
+            }
         }
 
         /// <summary>

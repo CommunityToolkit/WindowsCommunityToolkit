@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// properties. This can differ from <typeparamref name="TKeyFrame"/> to facilitate XAML parsing.
     /// </typeparam>
     /// <typeparam name="TKeyFrame">The actual type of keyframe values in use.</typeparam>
-    public abstract class ShadowAnimation<TShadow, TValue, TKeyFrame> : Animation<TValue, TKeyFrame>
-        where TShadow : FrameworkElement
+    public abstract class ShadowAnimation<TShadow, TValue, TKeyFrame> : Animation<TValue, TKeyFrame>, IAttachedTimeline
+        where TShadow : AttachedShadowBase
         where TKeyFrame : unmanaged
     {
         /// <summary>
@@ -46,21 +46,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <inheritdoc/>
         public override AnimationBuilder AppendToBuilder(AnimationBuilder builder, TimeSpan? delayHint, TimeSpan? durationHint, EasingType? easingTypeHint, EasingMode? easingModeHint)
         {
-            if (Target is not TShadow target)
-            {
-                static AnimationBuilder ThrowTargetNullException() => throw new ArgumentNullException("The target element is null, make sure to set the Target property");
+            throw new NotSupportedException();
+        }
 
-                return ThrowTargetNullException();
-            }
-
-            var shadowBase = Effects.GetShadow(Target);
-            if (shadowBase == null)
-            {
-                static AnimationBuilder ThrowArgumentNullException() => throw new ArgumentNullException("The target's shadow is null, make sure to set the Target property to an element with a Shadow");
-
-                return ThrowArgumentNullException();
-            }
-
+        /// <inheritdoc/>
+        public AnimationBuilder AppendToBuilder(AnimationBuilder builder, UIElement parent, TimeSpan? delayHint = null, TimeSpan? durationHint = null, EasingType? easingTypeHint = null, EasingMode? easingModeHint = null)
+        {
             if (ExplicitTarget is not string explicitTarget)
             {
                 static AnimationBuilder ThrowArgumentNullException()
@@ -72,20 +63,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return ThrowArgumentNullException();
             }
 
-            var shadow = shadowBase.GetElementContext(Target).Shadow;
+            if (Target is TShadow allShadows)
+            {
+                // in this case we'll animate all the shadows being used.
+                foreach (var context in allShadows.GetElementContextEnumerable()) //// TODO: Find better way!!!
+                {
+                    NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
+                        explicitTarget,
+                        Delay ?? delayHint ?? DefaultDelay,
+                        Duration ?? durationHint ?? DefaultDuration,
+                        Repeat,
+                        DelayBehavior);
 
-            NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
-                explicitTarget,
-                Delay ?? delayHint ?? DefaultDelay,
-                Duration ?? durationHint ?? DefaultDuration,
-                Repeat,
-                DelayBehavior);
+                    AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
 
-            AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
+                    CompositionAnimation animation = keyFrameBuilder.GetAnimation(context.Shadow, out _);
 
-            CompositionAnimation animation = keyFrameBuilder.GetAnimation(shadow, out _);
+                    builder.ExternalAnimation(context.Shadow, animation);
+                }
 
-            return builder.ExternalAnimation(shadow, animation);
+                return builder;
+            }
+            else
+            {
+                var shadowBase = Effects.GetShadow(parent as FrameworkElement);
+                if (shadowBase == null)
+                {
+                    static AnimationBuilder ThrowArgumentNullException() => throw new ArgumentNullException("The target's shadow is null, make sure to set the Target property to an element with a Shadow");
+
+                    return ThrowArgumentNullException();
+                }
+
+                var shadow = shadowBase.GetElementContext((FrameworkElement)parent).Shadow;
+
+                NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
+                    explicitTarget,
+                    Delay ?? delayHint ?? DefaultDelay,
+                    Duration ?? durationHint ?? DefaultDuration,
+                    Repeat,
+                    DelayBehavior);
+
+                AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
+
+                CompositionAnimation animation = keyFrameBuilder.GetAnimation(shadow, out _);
+
+                return builder.ExternalAnimation(shadow, animation);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// An offset animation working on the composition layer.
     /// </summary>
-    public sealed class OffsetDropShadowAnimation : ShadowAnimation<FrameworkElement, string, Vector3>
+    public sealed class OffsetDropShadowAnimation : ShadowAnimation<AttachedShadowBase, string, Vector3>
     {
         /// <inheritdoc/>
         protected override string ExplicitTarget => nameof(DropShadow.Offset);

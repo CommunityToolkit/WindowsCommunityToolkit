@@ -119,7 +119,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 foreach (object node in this)
                 {
-                    if (node is ITimeline timeline)
+                    if (node is IAttachedTimeline attachedTimeline)
+                    {
+                        var builder = AnimationBuilder.Create();
+
+                        attachedTimeline.AppendToBuilder(builder, element);
+
+                        await builder.StartAsync(element, token);
+                    }
+                    else if (node is ITimeline timeline)
                     {
                         var builder = AnimationBuilder.Create();
 
@@ -166,6 +174,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     switch (node)
                     {
+                        case IAttachedTimeline attachedTimeline:
+                            builder = attachedTimeline.AppendToBuilder(builder, element);
+                            break;
                         case ITimeline timeline:
                             builder = timeline.AppendToBuilder(builder);
                             break;

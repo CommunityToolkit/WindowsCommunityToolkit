@@ -13,30 +13,63 @@
 
   <Page.Resources>
     <media:AttachedCardShadow x:Key="CommonShadow" Offset="4" CornerRadius="0"/>
+
+    <ani:AnimationSet x:Key="ShadowEnterAnimation">
+      <ani:OffsetDropShadowAnimation To="12"/>
+    </ani:AnimationSet>
+
+    <ani:AnimationSet x:Key="ShadowExitAnimation">
+      <ani:OffsetDropShadowAnimation To="4"/>
+    </ani:AnimationSet>
+
+    <ani:AnimationSet x:Key="ShadowPopAnimation" IsSequential="True">
+      <ani:TranslationAnimation To="-8" Duration="0:0:1"/>
+      <ani:OffsetDropShadowAnimation To="16" Duration="0:0:2" Target="{StaticResource CommonShadow}"/>
+      <ani:OffsetDropShadowAnimation To="4" Delay="0:0:0.5" Duration="0:0:2" Target="{StaticResource CommonShadow}"/>
+      <ani:TranslationAnimation To="0" Duration="0:0:1"/>
+    </ani:AnimationSet>
   </Page.Resources>
 
   <Grid>
-    <Image x:Name="ImageWithShadow"
-           ui:Effects.Shadow="{StaticResource CommonShadow}"
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
            Height="100" Width="100"
            Source="ms-appx:///Assets/Photos/Owl.jpg">
       <interactivity:Interaction.Behaviors>
         <interactions:EventTriggerBehavior EventName="PointerEntered">
-          <behaviors:StartAnimationAction Animation="{Binding ElementName=ShadowEnterAnimation}"/>
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowEnterAnimation}"/>
         </interactions:EventTriggerBehavior>
         <interactions:EventTriggerBehavior EventName="PointerExited">
-          <behaviors:StartAnimationAction Animation="{Binding ElementName=ShadowExitAnimation}"/>
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowExitAnimation}"/>
         </interactions:EventTriggerBehavior>
       </interactivity:Interaction.Behaviors>
-      <ani:Explicit.Animations>
-        <ani:AnimationSet x:Name="ShadowEnterAnimation">
-          <ani:OffsetDropShadowAnimation From="4" To="12" Target="{Binding ElementName=ImageWithShadow}"/>
-        </ani:AnimationSet>
-
-        <ani:AnimationSet x:Name="ShadowExitAnimation">
-          <ani:OffsetDropShadowAnimation From="12" To="4" Target="{Binding ElementName=ImageWithShadow}"/>
-        </ani:AnimationSet>
-      </ani:Explicit.Animations>
     </Image>
+    <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
+           Height="100" Width="100"
+           Grid.Column="1"
+           Source="ms-appx:///Assets/Photos/Owl.jpg">
+      <interactivity:Interaction.Behaviors>
+        <interactions:EventTriggerBehavior EventName="PointerEntered">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowEnterAnimation}"/>
+        </interactions:EventTriggerBehavior>
+        <interactions:EventTriggerBehavior EventName="PointerExited">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowExitAnimation}"/>
+        </interactions:EventTriggerBehavior>
+      </interactivity:Interaction.Behaviors>
+    </Image>
+    <Button Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Click Me">
+      <interactivity:Interaction.Behaviors>
+        <interactions:EventTriggerBehavior EventName="Click">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowPopAnimation}"/>
+        </interactions:EventTriggerBehavior>
+      </interactivity:Interaction.Behaviors>
+    </Button>
   </Grid>
 </Page>

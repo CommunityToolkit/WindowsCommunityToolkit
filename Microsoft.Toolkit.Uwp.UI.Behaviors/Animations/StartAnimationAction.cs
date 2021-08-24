@@ -58,13 +58,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
                 ThrowArgumentNullException();
             }
 
+            UIElement parent = null;
+
             if (TargetObject is not null)
             {
                 Animation.Start(TargetObject);
             }
+            else if (Animation.ParentReference?.TryGetTarget(out parent) == true) //// TODO: Tidy... apply same pattern to Activities?
+            {
+                Animation.Start(parent);
+            }
             else
             {
-                Animation.Start();
+                Animation.Start(sender as UIElement);
             }
 
             return null!;
