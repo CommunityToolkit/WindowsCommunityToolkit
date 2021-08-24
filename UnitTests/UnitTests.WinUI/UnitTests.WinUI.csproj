@@ -56,13 +56,8 @@
       <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
     </PackageReference>
     <PackageReference Include="Microsoft.Graphics.Win2D">
-      <Version>0.8.0.21</Version>
+      <Version>0.8.2.23</Version>
     </PackageReference>
-    
-    <!-- Temporary workaround for our tests until there is a Reunion version that uses a newer version of CSWinRT(1.2.6+). -->
-    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" RuntimeFrameworkVersion="10.0.$(TargetPlatformRevision).18" />
-    <FrameworkReference Update="Microsoft.Windows.SDK.NET.Ref" TargetingPackVersion="10.0.$(TargetPlatformRevision).18" />
-    
   </ItemGroup>
   <ItemGroup>
     <None Remove="MainWindow.xaml" />
