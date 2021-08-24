@@ -120,7 +120,7 @@ namespace UnitTests.WinUI.UI.Controls
     <ScrollViewer x:Name=""ScrollArea""
                   HorizontalScrollMode=""Enabled"" HorizontalScrollBarVisibility=""Visible""
                   VerticalScrollMode=""Enabled"" VerticalScrollBarVisibility=""Visible"">
-      <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""1:2"">
+      <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""1:2"" UseLayoutRounding=""False"">
         <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
       </controls:ConstrainedBox>
     </ScrollViewer>
