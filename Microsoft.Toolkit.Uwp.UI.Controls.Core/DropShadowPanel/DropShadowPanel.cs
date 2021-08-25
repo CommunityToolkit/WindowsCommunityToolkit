@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The <see cref="DropShadowPanel"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
     /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
     /// </summary>
+    [Obsolete("DropShadowPanel will be removed in a future release, please use the AttachedDropShadow or AttachedCardShadow implementations instead.")]
     [TemplatePart(Name = PartShadow, Type = typeof(Border))]
     public partial class DropShadowPanel : ContentControl
     {
