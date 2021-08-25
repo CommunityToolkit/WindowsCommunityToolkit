@@ -13,24 +13,22 @@ using static Microsoft.Toolkit.Uwp.UI.Animations.AnimationExtensions;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// A custom animation targeting a property on an <see cref="AttachedShadowBase"/> instance.
+    /// A custom animation targeting a property on an <see cref="IAttachedShadow"/> instance.
     /// </summary>
-    /// <typeparam name="TShadow">The <see cref="FrameworkElement"/> containing the shadow to animate.</typeparam>
     /// <typeparam name="TValue">
     /// The type to use for the public <see cref="Animation{TValue,TKeyFrame}.To"/> and <see cref="Animation{TValue,TKeyFrame}.From"/>
     /// properties. This can differ from <typeparamref name="TKeyFrame"/> to facilitate XAML parsing.
     /// </typeparam>
     /// <typeparam name="TKeyFrame">The actual type of keyframe values in use.</typeparam>
-    public abstract class ShadowAnimation<TShadow, TValue, TKeyFrame> : Animation<TValue, TKeyFrame>, IAttachedTimeline
-        where TShadow : AttachedShadowBase
+    public abstract class ShadowAnimation<TValue, TKeyFrame> : Animation<TValue, TKeyFrame>, IAttachedTimeline
         where TKeyFrame : unmanaged
     {
         /// <summary>
-        /// Gets or sets the linked <typeparamref name="TShadow"/> instance to animate.
+        /// Gets or sets the linked <see cref="IAttachedShadow"/> instance to animate.
         /// </summary>
-        public TShadow? Target
+        public IAttachedShadow? Target
         {
-            get => (TShadow?)GetValue(TargetProperty);
+            get => (IAttachedShadow?)GetValue(TargetProperty);
             set => SetValue(TargetProperty, value);
         }
 
@@ -39,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(
             nameof(Target),
-            typeof(TShadow),
-            typeof(ShadowAnimation<TShadow, TValue, TKeyFrame>),
+            typeof(IAttachedShadow),
+            typeof(ShadowAnimation<TValue, TKeyFrame>),
             new PropertyMetadata(null));
 
         /// <inheritdoc/>
@@ -63,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return ThrowArgumentNullException();
             }
 
-            if (Target is TShadow allShadows)
+            if (Target is IAttachedShadow allShadows)
             {
                 // in this case we'll animate all the shadows being used.
                 foreach (var context in allShadows.GetElementContextEnumerable()) //// TODO: Find better way!!!

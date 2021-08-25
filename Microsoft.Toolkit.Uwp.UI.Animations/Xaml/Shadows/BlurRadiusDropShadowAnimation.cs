@@ -2,23 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Numerics;
 using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// An offset animation working on the composition layer.
+    /// A blur radius animation working on the composition layer.
     /// </summary>
-    public sealed class OffsetDropShadowAnimation : ShadowAnimation<string, Vector3>
+    public sealed class BlurRadiusDropShadowAnimation : ShadowAnimation<double?, double>
     {
         /// <inheritdoc/>
-        protected override string ExplicitTarget => nameof(DropShadow.Offset);
+        protected override string ExplicitTarget => nameof(DropShadow.BlurRadius);
 
         /// <inheritdoc/>
-        protected override (Vector3?, Vector3?) GetParsedValues()
+        protected override (double?, double?) GetParsedValues()
         {
-            return (To?.ToVector3(), From?.ToVector3());
+            return (To, From);
         }
     }
 }

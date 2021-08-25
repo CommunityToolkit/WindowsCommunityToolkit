@@ -2,23 +2,25 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using Windows.UI;
 using Windows.UI.Composition;
+
+#pragma warning disable CS0419
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// An offset animation working on the composition layer.
+    /// A custom <see cref="Color"/> animation on a <see cref="DropShadow"/>.
     /// </summary>
-    public sealed class OffsetDropShadowAnimation : ShadowAnimation<string, Vector3>
+    public sealed class ColorDropShadowAnimation : ShadowAnimation<Color?, Color>
     {
         /// <inheritdoc/>
-        protected override string ExplicitTarget => nameof(DropShadow.Offset);
+        protected override string ExplicitTarget => nameof(DropShadow.Color);
 
         /// <inheritdoc/>
-        protected override (Vector3?, Vector3?) GetParsedValues()
+        protected override (Color?, Color?) GetParsedValues()
         {
-            return (To?.ToVector3(), From?.ToVector3());
+            return (To, From);
         }
     }
 }
