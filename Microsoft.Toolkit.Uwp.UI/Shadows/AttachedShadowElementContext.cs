@@ -11,6 +11,9 @@ using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
+    /// <summary>
+    /// Class which maintains the context of a <see cref="DropShadow"/> for a particular <see cref="UIElement"/> linked to the definition of that shadow provided by the <see cref="AttachedShadowBase"/> implementation being used.
+    /// </summary>
     public sealed class AttachedShadowElementContext
     {
         private bool _isConnected;
@@ -52,7 +55,12 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public DropShadow Shadow { get; private set; }
 
-        public void ConnectToElement(AttachedShadowBase parent, FrameworkElement element)
+        /// <summary>
+        /// Connects a <see cref="FrameworkElement"/> to its parent <see cref="AttachedShadowBase"/> definition.
+        /// </summary>
+        /// <param name="parent">The <see cref="AttachedShadowBase"/> that is using this context.</param>
+        /// <param name="element">The <see cref="FrameworkElement"/> that a shadow is being attached to.</param>
+        internal void ConnectToElement(AttachedShadowBase parent, FrameworkElement element)
         {
             if (_isConnected)
             {
@@ -159,7 +167,10 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Adds a resource to this instance's resource dictionary with the specified key
         /// </summary>
-        /// <returns>The resource that was added</returns>
+        /// <typeparam name="T">The type of the resource being added.</typeparam>
+        /// <param name="key">Key to use to lookup the resource later.</param>
+        /// <param name="resource">Object to store within the resource dictionary.</param>
+        /// <returns>The added resource</returns>
         public T AddResource<T>(string key, T resource)
         {
             _resources = _resources ?? new Dictionary<string, object>();
@@ -178,6 +189,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Retrieves a resource with the specified key and type if it exists
         /// </summary>
+        /// <typeparam name="T">The type of the resource being retrieved.</typeparam>
+        /// <param name="key">Key to use to lookup the resource.</param>
+        /// <param name="resource">Object to retrieved from the resource dictionary or default value.</param>
         /// <returns>True if the resource exists, false otherwise</returns>
         public bool TryGetResource<T>(string key, out T resource)
         {
@@ -194,6 +208,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Retries a resource with the specified key and type
         /// </summary>
+        /// <typeparam name="T">The type of the resource being retrieved.</typeparam>
+        /// <param name="key">Key to use to lookup the resource.</param>
+        /// <returns>The resource if available, otherwise default value.</returns>
         public T GetResource<T>(string key)
         {
             if (TryGetResource(key, out T resource))
@@ -207,6 +224,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Removes an existing resource with the specified key and type
         /// </summary>
+        /// <typeparam name="T">The type of the resource being removed.</typeparam>
+        /// <param name="key">Key to use to lookup the resource.</param>
         /// <returns>The resource that was removed, if any</returns>
         public T RemoveResource<T>(string key)
         {
@@ -225,8 +244,11 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Removes an existing resource with the specified key and type, and <see cref="IDisposable.Dispose">disposes</see> it
         /// </summary>
+        /// <typeparam name="T">The type of the resource being removed.</typeparam>
+        /// <param name="key">Key to use to lookup the resource.</param>
         /// <returns>The resource that was removed, if any</returns>
-        public T RemoveAndDisposeResource<T>(string key) where T : IDisposable
+        public T RemoveAndDisposeResource<T>(string key)
+            where T : IDisposable
         {
             if (_resources.TryGetValue(key, out var objResource))
             {
@@ -244,31 +266,38 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Adds a resource to this instance's collection with the specified key
         /// </summary>
+        /// <typeparam name="T">The type of the resource being added.</typeparam>
         /// <returns>The resource that was added</returns>
         public T AddResource<T>(TypedResourceKey<T> key, T resource) => AddResource(key.Key, resource);
 
         /// <summary>
         /// Retrieves a resource with the specified key and type if it exists
         /// </summary>
+        /// <typeparam name="T">The type of the resource being retrieved.</typeparam>
         /// <returns>True if the resource exists, false otherwise</returns>
         public bool TryGetResource<T>(TypedResourceKey<T> key, out T resource) => TryGetResource(key.Key, out resource);
 
         /// <summary>
         /// Retries a resource with the specified key and type
         /// </summary>
+        /// <typeparam name="T">The type of the resource being retrieved.</typeparam>
+        /// <returns>The resource if it exists or a default value.</returns>
         public T GetResource<T>(TypedResourceKey<T> key) => GetResource<T>(key.Key);
 
         /// <summary>
         /// Removes an existing resource with the specified key and type
         /// </summary>
+        /// <typeparam name="T">The type of the resource being removed.</typeparam>
         /// <returns>The resource that was removed, if any</returns>
         public T RemoveResource<T>(TypedResourceKey<T> key) => RemoveResource<T>(key.Key);
 
         /// <summary>
         /// Removes an existing resource with the specified key and type, and <see cref="IDisposable.Dispose">disposes</see> it
         /// </summary>
+        /// <typeparam name="T">The type of the resource being removed.</typeparam>
         /// <returns>The resource that was removed, if any</returns>
-        public T RemoveAndDisposeResource<T>(TypedResourceKey<T> key) where T : IDisposable => RemoveAndDisposeResource<T>(key.Key);
+        public T RemoveAndDisposeResource<T>(TypedResourceKey<T> key)
+            where T : IDisposable => RemoveAndDisposeResource<T>(key.Key);
 
         /// <summary>
         /// Disposes of any resources that implement <see cref="IDisposable"/> and then clears all resources

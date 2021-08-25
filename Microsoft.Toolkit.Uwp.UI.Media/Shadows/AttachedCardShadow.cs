@@ -5,13 +5,18 @@
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
+    /// <summary>
+    /// A performant rectangular <see cref="DropShadow"/> which can be attached to any <see cref="FrameworkElement"/>. It uses Win2D to create a clipped area of the outline of the element such that transparent elements don't see the shadow below them, and the shadow can be attached without having to project to another surface. It is animatable, can be shared via a resource, and used in a <see cref="Style"/>.
+    /// </summary>
+    /// <remarks>
+    /// This shadow will not work on <see cref="FrameworkElement"/> which is directly clipping to its bounds (e.g. a <see cref="Windows.UI.Xaml.Controls.Border"/> using a <see cref="Windows.UI.Xaml.Controls.Control.CornerRadius"/>). An extra <see cref="Windows.UI.Xaml.Controls.Border"/> can instead be applied around the clipped border with the Shadow to create the desired effect. Most existing controls due to how they're templated will not encounter this behavior or require this workaround.
+    /// </remarks>
     public class AttachedCardShadow : AttachedShadowBase
     {
         private const float MaxBlurRadius = 72;
@@ -109,6 +114,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <inheritdoc/>
         protected override CompositionClip GetShadowClip(AttachedShadowElementContext context)
         {
+            // The way this shadow works without the need to project on another element is because
+            // we're clipping the inner part of the shadow which would be cast on the element
+            // itself away. This method is creating an outline so that we are only showing the
+            // parts of the shadow that are outside the element's context.
+            // Note: This does cause an issue if the element does clip itself to its bounds, as then
+            // the shadowed area is clipped as well.
             var pathGeom = context.GetResource(PathGeometryResourceKey) ??
                            context.AddResource(PathGeometryResourceKey, context.Compositor.CreatePathGeometry());
             var clip = context.GetResource(ClipResourceKey) ?? context.AddResource(ClipResourceKey, context.Compositor.CreateGeometricClip(pathGeom));

@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         /// <inheritdoc/>
         protected internal override bool SupportsOnSizeChangedEvent => true;
-
-        private static readonly TypedResourceKey<ContainerVisual> ShadowContainerResourceKey = "ShadowContainer";
-
-        private static readonly TypedResourceKey<CompositionPathGeometry> PathGeometryResourceKey = "PathGeometry";
-        private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> RectangleGeometryResourceKey = "RectGeometry";
-        private static readonly TypedResourceKey<CompositionGeometricClip> ClipResourceKey = "Clip";
 
         private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> RoundedRectangleGeometryResourceKey = "RoundedGeometry";
         private static readonly TypedResourceKey<CompositionSpriteShape> ShapeResourceKey = "Shape";
@@ -278,43 +276,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <inheritdoc/>
-        /*protected override CompositionClip GetShadowClip(AttachedShadowElementContext context)
-        {
-            var rectGeom = context.GetResource(RectangleGeometryResourceKey) ??
-               context.AddResource(RectangleGeometryResourceKey, context.Compositor.CreateRoundedRectangleGeometry());
-
-            rectGeom.Offset = Offset.ToVector2();
-            rectGeom.Size = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight);
-            rectGeom.CornerRadius = new Vector2((float)CornerRadius, (float)CornerRadius);
-
-            var clip = context.GetResource(ClipResourceKey) ?? context.AddResource(ClipResourceKey, context.Compositor.CreateGeometricClip(rectGeom));
-
-            return clip;*/
-
-            /*var pathGeom = context.GetResource(PathGeometryResourceKey) ??
-               context.AddResource(PathGeometryResourceKey, context.Compositor.CreatePathGeometry());
-
-            // Create rounded rectangle geometry at a larger size that compensates for the size of the stroke,
-            // as we want the inside edge of the stroke to match the edges of the element.
-            // Additionally, the inside edge of the stroke will have a smaller radius than the radius we specified.
-            // Using "(StrokeThickness / 2) + Radius" as our rectangle's radius will give us an inside stroke radius that matches the radius we want.
-            var radius = (MaxBlurRadius / 2) + (float)CornerRadius;
-            var canvasRectangle = context.Compositor.CreateRoundedRectangleGeometry();
-            canvasRectangle.Offset = new Vector2(-MaxBlurRadius / 2, -MaxBlurRadius / 2);
-            canvasRectangle.Size = new Vector2((float)context.Element.ActualWidth + MaxBlurRadius, (float)context.Element.ActualHeight + MaxBlurRadius);
-            canvasRectangle.CornerRadius = new Vector2(radius, radius);
-
-            var rectangleShape = context.Compositor.CreateSpriteShape(canvasRectangle);
-            rectangleShape.StrokeThickness = MaxBlurRadius;
-
-            var clip = context.GetResource(ClipResourceKey) ?? context.AddResource(ClipResourceKey, context.Compositor.CreateGeometricClip(rectangleShape.Geometry));
-
-            return clip;*/
-
-////            return null;
-        ////}
-
-        /// <inheritdoc/>
         protected internal override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
             var sizeAsVec2 = newSize.ToVector2();
@@ -336,13 +297,13 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else if (property == CornerRadiusProperty)
             {
-                //var geometry = context.GetResource(RectangleGeometryResourceKey);
-                //if (geometry != null)
-                //{
-                //    geometry.CornerRadius = new Vector2((float)(double)newValue);
-                //}
+                var geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
+                if (geometry != null)
+                {
+                    geometry.CornerRadius = new Vector2((float)(double)newValue);
+                }
 
-                UpdateShadowClip(context);
+                UpdateShadowMask(context);
             }
             else
             {
