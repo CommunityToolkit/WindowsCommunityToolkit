@@ -25,16 +25,22 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">Parent object</param>
         /// <param name="value">FrameworkElement</param>
+        //public static void SetAncestor(DependencyObject obj, WeakReference<object> value)
         public static void SetAncestor(DependencyObject obj, object value)
         {
-            obj.SetValue(AncestorProperty, value);
+            //obj.SetValue(AncestorProperty, value);
+            obj.SetValue(AncestorProperty, new WeakReference<object>(value));
         }
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for retrieving a parent <see cref="object"/> for the <see cref="AncestorProperty"/>
         /// </summary>
         public static readonly DependencyProperty AncestorProperty =
-            DependencyProperty.RegisterAttached("Ancestor", typeof(object), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("Ancestor",
+                typeof(WeakReference<object>), 
+                //typeof(object),
+                typeof(FrameworkElementExtensions), 
+                new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the Type of Ancestor to look for from this element.
@@ -57,19 +63,22 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Attached <see cref="DependencyProperty"/> for retrieving a parent <see cref="object"/> for the <see cref="AncestorProperty"/> based on the provided <see cref="Type"/> in the <see cref="AncestorTypeProperty"/>.
         /// </summary>
         public static readonly DependencyProperty AncestorTypeProperty =
-            DependencyProperty.RegisterAttached("AncestorType", typeof(Type), typeof(FrameworkElementExtensions), new PropertyMetadata(null, AncestorType_PropertyChanged));
+            DependencyProperty.RegisterAttached("AncestorType", 
+                typeof(Type), 
+                typeof(FrameworkElementExtensions), 
+                new PropertyMetadata(null, AncestorType_PropertyChanged));
 
         private static void AncestorType_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             if (obj is FrameworkElement fe)
             {
                 fe.Loaded -= FrameworkElement_Loaded;
-                fe.Unloaded -= FrameworkElement_Unloaded;
+                //fe.Unloaded -= FrameworkElement_Unloaded;
 
                 if (args.NewValue != null)
                 {
                     fe.Loaded += FrameworkElement_Loaded;
-                    fe.Unloaded += FrameworkElement_Unloaded;
+                    //fe.Unloaded += FrameworkElement_Unloaded;
 
                     if (fe.Parent != null)
                     {
@@ -83,6 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (sender is FrameworkElement fe)
             {
+                //SetAncestor(fe, new WeakReference<object>(fe.FindAscendant(GetAncestorType(fe))));
                 SetAncestor(fe, fe.FindAscendant(GetAncestorType(fe)));
             }
         }
