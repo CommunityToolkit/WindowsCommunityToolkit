@@ -1079,6 +1079,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
+    <Content Include="SamplePages\Triggers\ControlSizeTrigger.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
     <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

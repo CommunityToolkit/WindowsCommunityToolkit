@@ -921,6 +921,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },
       {
+        "Name": "ControlSizeTrigger",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the target control meets the specified size",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/ControlSizeTrigger.cs",
+        "XamlCodeFile": "/SamplePages/Triggers/ControlSizeTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
         "Name": "IsEqualStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to another value",
