@@ -132,10 +132,10 @@
       <Version>2.6.2</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.1.2</Version>
+      <Version>2.2.5</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.1.2</Version>
+      <Version>2.2.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="Newtonsoft.Json">
@@ -238,6 +238,7 @@
     <Compile Include="UI\Controls\Test_ConstrainedBox.Combined.cs" />
     <Compile Include="UI\Controls\Test_ImageEx.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
+    <Compile Include="UI\Controls\Test_RichSuggestBox.cs" />
     <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
     <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_AutomationPeer.cs" />
