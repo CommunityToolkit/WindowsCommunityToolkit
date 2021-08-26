@@ -20,6 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private static bool IsElementOnScreen(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
+            // DisplayInformation only works in UWP. No alternative to get DisplayInformation.ScreenHeightInRawPixels
+            // Tracking issues:
+            // https://github.com/microsoft/WindowsAppSDK/issues/114
+            // https://github.com/microsoft/microsoft-ui-xaml/issues/4228
+            // TODO: Remove when DisplayInformation.ScreenHeightInRawPixels alternative is available
+            return true;
+
+#pragma warning disable CS0162 // Unreachable code detected
             if (Window.Current == null)
             {
                 return !ControlHelpers.IsXamlRootAvailable || element.XamlRoot.IsHostVisible;
@@ -35,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var scaleFactor = displayInfo.RawPixelsPerViewPixel;
             var displayHeight = displayInfo.ScreenHeightInRawPixels;
             return elementBounds.Top * scaleFactor >= 0 && elementBounds.Bottom * scaleFactor <= displayHeight;
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         private static bool IsElementInsideWindow(FrameworkElement element, double offsetX = 0, double offsetY = 0)
