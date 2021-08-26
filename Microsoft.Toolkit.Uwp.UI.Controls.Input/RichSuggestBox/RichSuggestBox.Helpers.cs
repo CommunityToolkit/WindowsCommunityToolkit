@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Windows.Foundation;
 using Windows.Graphics.Display;
+using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -26,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // https://github.com/microsoft/WindowsAppSDK/issues/114
             // https://github.com/microsoft/microsoft-ui-xaml/issues/4228
             // TODO: Remove when DisplayInformation.ScreenHeightInRawPixels alternative is available
-            if (Window.Current == null)
+            if (CoreWindow.GetForCurrentThread() == null)
             {
                 return true;
             }
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             elementBounds.Y += offsetY;
 
             // Get size of window itself
-            var windowBounds = ControlHelpers.IsXamlRootAvailable
+            var windowBounds = ControlHelpers.IsXamlRootAvailable && element.XamlRoot != null
                 ? element.XamlRoot.Size.ToRect()
                 : ApplicationView.GetForCurrentView().VisibleBounds.ToSize().ToRect(); // Normalize
 
