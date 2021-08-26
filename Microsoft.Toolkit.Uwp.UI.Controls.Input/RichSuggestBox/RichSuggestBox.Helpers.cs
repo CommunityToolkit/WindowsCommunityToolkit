@@ -21,41 +21,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static bool IsElementOnScreen(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
             // DisplayInformation only works in UWP. No alternative to get DisplayInformation.ScreenHeightInRawPixels
+            // Or Window position in Window.Current.Bounds
             // Tracking issues:
             // https://github.com/microsoft/WindowsAppSDK/issues/114
             // https://github.com/microsoft/microsoft-ui-xaml/issues/4228
             // TODO: Remove when DisplayInformation.ScreenHeightInRawPixels alternative is available
-            return true;
-
-#pragma warning disable CS0162 // Unreachable code detected
             if (Window.Current == null)
             {
-                return !ControlHelpers.IsXamlRootAvailable || element.XamlRoot.IsHostVisible;
+                return true;
             }
 
-            var toWindow = element.TransformToVisual(null);
+            // Get bounds of element from root of tree
+            var elementBounds = element.CoordinatesFrom(null).ToRect(element.ActualWidth, element.ActualHeight);
+
+            // Apply offset
+            elementBounds.X += offsetX;
+            elementBounds.Y += offsetY;
+
+            // Get Window position
             var windowBounds = Window.Current.Bounds;
-            var elementBounds = new Rect(offsetX, offsetY, element.ActualWidth, element.ActualHeight);
-            elementBounds = toWindow.TransformBounds(elementBounds);
+
+            // Offset Element within Window on Screen
             elementBounds.X += windowBounds.X;
             elementBounds.Y += windowBounds.Y;
+
+            // Get Screen DPI info
             var displayInfo = DisplayInformation.GetForCurrentView();
             var scaleFactor = displayInfo.RawPixelsPerViewPixel;
             var displayHeight = displayInfo.ScreenHeightInRawPixels;
+
+            // Check if top/bottom are within confines of screen
             return elementBounds.Top * scaleFactor >= 0 && elementBounds.Bottom * scaleFactor <= displayHeight;
-#pragma warning restore CS0162 // Unreachable code detected
         }
 
         private static bool IsElementInsideWindow(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
-            var toWindow = element.TransformToVisual(null);
+            // Get bounds of element from root of tree
+            var elementBounds = element.CoordinatesFrom(null).ToRect(element.ActualWidth, element.ActualHeight);
+
+            // Apply offset
+            elementBounds.X += offsetX;
+            elementBounds.Y += offsetY;
+
+            // Get size of window itself
             var windowBounds = ControlHelpers.IsXamlRootAvailable
                 ? element.XamlRoot.Size.ToRect()
-                : ApplicationView.GetForCurrentView().VisibleBounds;
-            windowBounds = new Rect(0, 0, windowBounds.Width, windowBounds.Height);
-            var elementBounds = new Rect(offsetX, offsetY, element.ActualWidth, element.ActualHeight);
-            elementBounds = toWindow.TransformBounds(elementBounds);
+                : ApplicationView.GetForCurrentView().VisibleBounds.ToSize().ToRect(); // Normalize
+
+            // Calculate if there's an intersection
             elementBounds.Intersect(windowBounds);
+
+            // See if we are still fully visible within the Window
             return elementBounds.Height >= element.ActualHeight;
         }
 
