@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Threading;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI.Text;
@@ -21,8 +20,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private static bool IsElementOnScreen(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
-            var toWindow = element.TransformToVisual(Window.Current.Content);
-            var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            if (Window.Current == null)
+            {
+                return !ControlHelpers.IsXamlRootAvailable || element.XamlRoot.IsHostVisible;
+            }
+
+            var toWindow = element.TransformToVisual(null);
+            var windowBounds = Window.Current.Bounds;
             var elementBounds = new Rect(offsetX, offsetY, element.ActualWidth, element.ActualHeight);
             elementBounds = toWindow.TransformBounds(elementBounds);
             elementBounds.X += windowBounds.X;
@@ -35,8 +39,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static bool IsElementInsideWindow(FrameworkElement element, double offsetX = 0, double offsetY = 0)
         {
-            var toWindow = element.TransformToVisual(Window.Current.Content);
-            var windowBounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            var toWindow = element.TransformToVisual(null);
+            var windowBounds = ControlHelpers.IsXamlRootAvailable
+                ? element.XamlRoot.Size.ToRect()
+                : ApplicationView.GetForCurrentView().VisibleBounds;
             windowBounds = new Rect(0, 0, windowBounds.Width, windowBounds.Height);
             var elementBounds = new Rect(offsetX, offsetY, element.ActualWidth, element.ActualHeight);
             elementBounds = toWindow.TransformBounds(elementBounds);

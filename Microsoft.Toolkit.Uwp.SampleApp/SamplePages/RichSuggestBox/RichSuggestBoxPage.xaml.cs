@@ -98,7 +98,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-
             if (this._rsb != null)
             {
                 this._rsb.SuggestionChosen -= this.SuggestingBox_OnSuggestionChosen;
