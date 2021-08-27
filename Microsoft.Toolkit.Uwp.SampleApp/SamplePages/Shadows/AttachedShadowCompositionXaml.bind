@@ -6,7 +6,6 @@
   xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
   mc:Ignorable="d">
 
-  <!-- TODO: Animation-->
   <Page.Resources>
     <ui:AttachedDropShadow x:Key="CommonShadow" Offset="4"/><!-- CastTo="{x:Bind ShadowTarget}"/>-->
 
