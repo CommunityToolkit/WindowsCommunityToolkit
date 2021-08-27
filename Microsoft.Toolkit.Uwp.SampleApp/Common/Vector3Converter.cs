@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
                 {
                     case 1:
                         var vectorValue = float.Parse(vectorString);
-                        return new Vector3(vectorValue, vectorValue, vectorValue);
+                        return new Vector3(vectorValue);
                     case 2:
                         var xValue = float.Parse(vectorTokens[0]);
                         var yValue = float.Parse(vectorTokens[1]);
