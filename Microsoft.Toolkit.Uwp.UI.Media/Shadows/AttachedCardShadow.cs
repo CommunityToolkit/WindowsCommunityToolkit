@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// <remarks>
     /// This shadow will not work on <see cref="FrameworkElement"/> which is directly clipping to its bounds (e.g. a <see cref="Windows.UI.Xaml.Controls.Border"/> using a <see cref="Windows.UI.Xaml.Controls.Control.CornerRadius"/>). An extra <see cref="Windows.UI.Xaml.Controls.Border"/> can instead be applied around the clipped border with the Shadow to create the desired effect. Most existing controls due to how they're templated will not encounter this behavior or require this workaround.
     /// </remarks>
-    public class AttachedCardShadow : AttachedShadowBase
+    public sealed class AttachedCardShadow : AttachedShadowBase
     {
         private const float MaxBlurRadius = 72;
         private static readonly TypedResourceKey<CompositionGeometricClip> ClipResourceKey = "Clip";
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         public override bool IsSupported => SupportsCompositionVisualSurface;
 
         /// <inheritdoc/>
-        protected override bool SupportsOnSizeChangedEvent => true;
+        protected internal override bool SupportsOnSizeChangedEvent => true;
 
         /// <inheritdoc/>
         protected override void OnPropertyChanged(AttachedShadowElementContext context, DependencyProperty property, object oldValue, object newValue)
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        protected override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
+        protected internal override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
             var sizeAsVec2 = newSize.ToVector2();
 

@@ -2,12 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -21,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <summary>
     /// A helper to add a composition based drop shadow to a <see cref="FrameworkElement"/>.
     /// </summary>
-    public class AttachedDropShadow : AttachedShadowBase
+    public sealed class AttachedDropShadow : AttachedShadowBase
     {
         private const float MaxBlurRadius = 72;
 
@@ -121,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     // Need to remove all old children from previous container if it's changed
                     if (prevContainer != null && prevContainer != shadow._container)
                     {
-                        foreach (var context in shadow.GetElementContextEnumerable())
+                        foreach (var context in shadow.EnumerateElementContexts())
                         {
                             if (context.IsInitialized &&
                                 prevContainer.Children.Contains(context.SpriteVisual))
@@ -132,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     }
 
                     // Make sure all child shadows are hooked into container
-                    foreach (var context in shadow.GetElementContextEnumerable())
+                    foreach (var context in shadow.EnumerateElementContexts())
                     {
                         if (context.IsInitialized)
                         {
@@ -152,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             // Don't use sender or 'e' here as related to container element not
             // element for shadow, grab values off context. (Also may be null from internal call.)
-            foreach (var context in GetElementContextEnumerable())
+            foreach (var context in EnumerateElementContexts())
             {
                 if (context.IsInitialized)
                 {

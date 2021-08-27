@@ -45,6 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Gets an enumeration over the current list of <see cref="AttachedShadowElementContext"/> of elements using this shared shadow definition.
         /// </summary>
         /// <returns>Enumeration of <see cref="AttachedShadowElementContext"/> objects.</returns>
-        IEnumerable<AttachedShadowElementContext> GetElementContextEnumerable();
+        IEnumerable<AttachedShadowElementContext> EnumerateElementContexts();
     }
 }

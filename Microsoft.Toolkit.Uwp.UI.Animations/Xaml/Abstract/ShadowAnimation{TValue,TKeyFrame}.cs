@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (Target is IAttachedShadow allShadows)
             {
                 // in this case we'll animate all the shadows being used.
-                foreach (var context in allShadows.GetElementContextEnumerable()) //// TODO: Find better way!!!
+                foreach (var context in allShadows.EnumerateElementContexts()) //// TODO: Find better way!!!
                 {
                     NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
                         explicitTarget,

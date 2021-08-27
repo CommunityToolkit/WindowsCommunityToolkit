@@ -268,35 +268,35 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of the resource being added.</typeparam>
         /// <returns>The resource that was added</returns>
-        public T AddResource<T>(TypedResourceKey<T> key, T resource) => AddResource(key.Key, resource);
+        internal T AddResource<T>(TypedResourceKey<T> key, T resource) => AddResource(key.Key, resource);
 
         /// <summary>
         /// Retrieves a resource with the specified key and type if it exists
         /// </summary>
         /// <typeparam name="T">The type of the resource being retrieved.</typeparam>
         /// <returns>True if the resource exists, false otherwise</returns>
-        public bool TryGetResource<T>(TypedResourceKey<T> key, out T resource) => TryGetResource(key.Key, out resource);
+        internal bool TryGetResource<T>(TypedResourceKey<T> key, out T resource) => TryGetResource(key.Key, out resource);
 
         /// <summary>
         /// Retries a resource with the specified key and type
         /// </summary>
         /// <typeparam name="T">The type of the resource being retrieved.</typeparam>
         /// <returns>The resource if it exists or a default value.</returns>
-        public T GetResource<T>(TypedResourceKey<T> key) => GetResource<T>(key.Key);
+        internal T GetResource<T>(TypedResourceKey<T> key) => GetResource<T>(key.Key);
 
         /// <summary>
         /// Removes an existing resource with the specified key and type
         /// </summary>
         /// <typeparam name="T">The type of the resource being removed.</typeparam>
         /// <returns>The resource that was removed, if any</returns>
-        public T RemoveResource<T>(TypedResourceKey<T> key) => RemoveResource<T>(key.Key);
+        internal T RemoveResource<T>(TypedResourceKey<T> key) => RemoveResource<T>(key.Key);
 
         /// <summary>
         /// Removes an existing resource with the specified key and type, and <see cref="IDisposable.Dispose">disposes</see> it
         /// </summary>
         /// <typeparam name="T">The type of the resource being removed.</typeparam>
         /// <returns>The resource that was removed, if any</returns>
-        public T RemoveAndDisposeResource<T>(TypedResourceKey<T> key)
+        internal T RemoveAndDisposeResource<T>(TypedResourceKey<T> key)
             where T : IDisposable => RemoveAndDisposeResource<T>(key.Key);
 
         /// <summary>

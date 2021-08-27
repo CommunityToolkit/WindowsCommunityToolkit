@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <inheritdoc/>
-        public IEnumerable<AttachedShadowElementContext> GetElementContextEnumerable()
+        public IEnumerable<AttachedShadowElementContext> EnumerateElementContexts()
         {
             foreach (var kvp in ShadowElementContextTable)
             {
