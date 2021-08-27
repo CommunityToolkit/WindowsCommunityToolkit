@@ -59,7 +59,15 @@ namespace UnitTests.Extensions
 
         [TestCategory("StringExtensions")]
         [TestMethod]
-        [DataRow("")]
+        public void Test_StringExtensions_ToVector2_Zero()
+        {
+            var value = string.Empty.ToVector2();
+
+            Assert.AreEqual(Vector2.Zero, value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
         [DataRow("Hello")]
         [DataRow("1, 2, 3")]
         [DataRow("<1, 2, 3")]
@@ -117,11 +125,28 @@ namespace UnitTests.Extensions
 
         [TestCategory("StringExtensions")]
         [TestMethod]
-        [DataRow("")]
+        public void Test_StringExtensions_ToVector3_Zero()
+        {
+            var value = string.Empty.ToVector3();
+
+            Assert.AreEqual(Vector3.Zero, value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
+        public void Test_StringExtensions_ToVector3_FromTwoValues()
+        {
+            var value = "4, 3".ToVector3();
+
+            Assert.AreEqual(new Vector3(new Vector2(4, 3), 0), value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
         [DataRow("Hello")]
-        [DataRow("1, 2")]
+        [DataRow("1, ")]
         [DataRow("1, 2, 3, 99")]
-        [DataRow("<1, 2>")]
+        [DataRow("1, 2>")]
         [DataRow("<1, 2, 3")]
         [DataRow("<1, 2, 3, 4>")]
         [ExpectedException(typeof(FormatException))]
@@ -179,12 +204,38 @@ namespace UnitTests.Extensions
 
         [TestCategory("StringExtensions")]
         [TestMethod]
-        [DataRow("")]
+        public void Test_StringExtensions_ToVector4_Zero()
+        {
+            var value = string.Empty.ToVector4();
+
+            Assert.AreEqual(Vector4.Zero, value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
+        public void Test_StringExtensions_ToVector4_FromTwoValues()
+        {
+            var value = "4, 3".ToVector4();
+
+            Assert.AreEqual(new Vector4(new Vector2(4, 3), 0, 0), value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
+        public void Test_StringExtensions_ToVector4_FromThreeValues()
+        {
+            var value = "4, 3, -2".ToVector4();
+
+            Assert.AreEqual(new Vector4(new Vector3(4, 3, -2), 0), value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
         [DataRow("Hello")]
-        [DataRow("1, 2")]
-        [DataRow("1, 2, 3")]
+        [DataRow("1, 2, ")]
+        [DataRow("1, 2, 3, ")]
         [DataRow("1, 2, 3, 99, 100")]
-        [DataRow("<1, 2, 3>")]
+        [DataRow("<1, 2, 3")]
         [DataRow("<1, 2, 3, 4")]
         [DataRow("<1, 2, 3, 4, 5>")]
         [ExpectedException(typeof(FormatException))]
@@ -223,7 +274,15 @@ namespace UnitTests.Extensions
 
         [TestCategory("StringExtensions")]
         [TestMethod]
-        [DataRow("")]
+        public void Test_StringExtensions_ToQuaternion_Zero()
+        {
+            var value = string.Empty.ToQuaternion();
+
+            Assert.AreEqual(default(Quaternion), value);
+        }
+
+        [TestCategory("StringExtensions")]
+        [TestMethod]
         [DataRow("Hello")]
         [DataRow("1, 2")]
         [DataRow("1, 2, 3")]

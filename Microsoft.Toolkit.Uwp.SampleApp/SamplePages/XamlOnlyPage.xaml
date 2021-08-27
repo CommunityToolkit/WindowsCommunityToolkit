@@ -50,6 +50,10 @@
             </controls:CaseCollection>
         </controls:SwitchPresenter>
         <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
+        <media:AttachedCardShadow x:Key="AttachedShadow" />
+        <ui:AttachedDropShadow x:Key="AttachedDropShadow" />
+        <controls:DropShadowPanel x:Key="DropShadowPanel"
+                                  ui:Effects.Shadow="{StaticResource AttachedShadow}" />
     </Page.Resources>
 
     <Grid>
@@ -64,6 +68,10 @@
                 <ani:SaturationEffectAnimation />
                 <ani:AnimationScope />
                 <ani:ExposureEffectAnimation />
+                <ani:BlurRadiusDropShadowAnimation />
+                <ani:ColorDropShadowAnimation />
+                <ani:OffsetDropShadowAnimation />
+                <ani:OpacityDropShadowAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>

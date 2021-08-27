@@ -316,10 +316,10 @@
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Carousel\Carousel.png" />
-    <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
+    <Content Include="SamplePages\Shadows\DropShadowPanel.png" />
     <Content Include="SamplePages\Expander\Expander.png" />
-    <Content Include="SamplePages\DropShadowPanel\Trex.png" />
-    <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
+    <Content Include="SamplePages\Shadows\Trex.png" />
+    <Content Include="SamplePages\Shadows\Unicorn.png" />
     <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
     <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
@@ -398,7 +398,7 @@
     <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
-    <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
+    <Content Include="SamplePages\Shadows\DropShadowPanelXaml.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\ListDetailsView\ListDetailsView.bind" />
@@ -489,6 +489,7 @@
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
+    <Compile Include="Common\Vector3Converter.cs" />
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -506,6 +507,9 @@
     </Compile>
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Shadows\AttachedDropShadowPage.xaml.cs">
+      <DependentUpon>AttachedDropShadowPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RichSuggestBox\RichSuggestBoxPage.xaml.cs">
       <DependentUpon>RichSuggestBoxPage.xaml</DependentUpon>
@@ -631,6 +635,9 @@
     <Content Include="SamplePages\Primitives\ConstrainedBox.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="SamplePages\Shadows\AttachedShadowWin2DXaml.bind" />
+    <Content Include="SamplePages\Shadows\AttachedShadowCompositionXaml.bind" />
+    <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
   </ItemGroup>
@@ -669,7 +676,6 @@
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="Models\ThemeChangedArgs.cs" />
     <Compile Include="Pages\SampleController.xaml.cs">
       <DependentUpon>SampleController.xaml</DependentUpon>
@@ -814,9 +820,6 @@
     </Compile>
     <Compile Include="SamplePages\DispatcherQueueHelper\DispatcherQueueHelperPage.xaml.cs">
       <DependentUpon>DispatcherQueueHelperPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
-      <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
       <DependentUpon>ExpanderPage.xaml</DependentUpon>
@@ -992,6 +995,10 @@
     <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\Shadows\AttachedDropShadowPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxXaml.bind">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1286,10 +1293,6 @@
     <Page Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\GridSplitter\GridSplitterPage.xaml">
       <SubType>Designer</SubType>
