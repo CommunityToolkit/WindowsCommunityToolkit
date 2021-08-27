@@ -22,12 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets a value indicating whether or not Composition's VisualSurface is supported.
         /// </summary>
-        protected static readonly bool SupportsCompositionVisualSurface;
-
-        static AttachedShadowBase()
-        {
-            SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName); // Note: This is 1903 (18362) min
-        }
+        protected static readonly bool SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName);
 
         /// <summary>
         /// The <see cref="DependencyProperty"/> for <see cref="BlurRadius"/>.
