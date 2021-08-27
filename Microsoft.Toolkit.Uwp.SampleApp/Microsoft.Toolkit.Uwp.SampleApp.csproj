@@ -111,7 +111,7 @@
     </PackageReference>
     -->
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.1</Version>
+      <Version>2.6.2</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
@@ -274,6 +274,7 @@
     <Content Include="SamplePages\Graph\PersonView.png" />
     <Content Include="SamplePages\Primitives\ConstrainedBox.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -510,6 +511,10 @@
     <Compile Include="SamplePages\Shadows\AttachedDropShadowPage.xaml.cs">
       <DependentUpon>AttachedDropShadowPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\RichSuggestBox\RichSuggestBoxPage.xaml.cs">
+      <DependentUpon>RichSuggestBoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RichSuggestBox\SuggestionTemplateSelector.cs" />
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
     </Compile>
@@ -634,6 +639,7 @@
     <Content Include="SamplePages\Shadows\AttachedShadowCompositionXaml.bind" />
     <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -993,6 +999,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxXaml.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
+    <Page Include="SamplePages\RichSuggestBox\RichSuggestBoxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1083,6 +1097,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxXaml.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
+    <Content Include="SamplePages\Triggers\ControlSizeTrigger.bind">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
