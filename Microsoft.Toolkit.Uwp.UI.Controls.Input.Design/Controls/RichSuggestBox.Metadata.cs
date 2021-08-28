@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                         new CategoryAttribute(Resources.CategoryAppearance),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
-                    b.AddCustomAttributes(nameof(RichSuggestBox.PlaceholderText), new CategoryAttribute(Resources.CategoryCommon));
+                    b.AddCustomAttributes(nameof(RichSuggestBox.PlaceholderText), new CategoryAttribute(Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(RichSuggestBox.PopupCornerRadius), new CategoryAttribute(Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(RichSuggestBox.PopupFooter), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(RichSuggestBox.PopupFooterTemplate),
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                         new CategoryAttribute(Resources.CategoryAppearance),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
-                    b.AddCustomAttributes(nameof(RichSuggestBox.PopupPlacement), new CategoryAttribute(Resources.CategoryAppearance));
+                    b.AddCustomAttributes(nameof(RichSuggestBox.PopupPlacement), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(RichSuggestBox.Prefixes), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(RichSuggestBox.RichEditBoxStyle), new CategoryAttribute(Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(RichSuggestBox.TokenBackground), new CategoryAttribute(Resources.CategoryBrush));
