@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartRootPanel = "RootPanel";
         private const string PartDetailsPresenter = "DetailsPresenter";
         private const string PartDetailsPanel = "DetailsPanel";
-        private const string PartMasterList = "MasterList";
+        private const string PartMainList = "MainList";
         private const string PartBackButton = "ListDetailsBackButton";
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
         private const string PartListPaneCommandBarPanel = "ListPaneCommandBarPanel";
@@ -405,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusItemList()
         {
-            if (GetTemplateChild("PartMasterList") is Control list)
+            if (GetTemplateChild("PartMainList") is Control list)
             {
                 list.Focus(FocusState.Programmatic);
             }

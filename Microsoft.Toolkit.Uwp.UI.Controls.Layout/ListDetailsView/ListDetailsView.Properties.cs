@@ -106,21 +106,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="ListPaneNoItemsContent"/> dependency property.
+        /// Identifies the <see cref="ListPaneEmptyContent"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="ListPaneNoItemsContent"/> dependency property.</returns>
-        public static readonly DependencyProperty ListPaneNoItemsContentProperty = DependencyProperty.Register(
-            nameof(ListPaneNoItemsContent),
+        /// <returns>The identifier for the <see cref="ListPaneEmptyContent"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneEmptyContentProperty = DependencyProperty.Register(
+            nameof(ListPaneEmptyContent),
             typeof(object),
             typeof(ListDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="ListPaneNoItemsContentTemplate"/> dependency property.
+        /// Identifies the <see cref="ListPaneEmptyContentTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="ListPaneNoItemsContentTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty ListPaneNoItemsContentTemplateProperty = DependencyProperty.Register(
-            nameof(ListPaneNoItemsContentTemplate),
+        /// <returns>The identifier for the <see cref="ListPaneEmptyContentTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty ListPaneEmptyContentTemplateProperty = DependencyProperty.Register(
+            nameof(ListPaneEmptyContentTemplate),
             typeof(DataTemplate),
             typeof(ListDetailsView),
             new PropertyMetadata(null));
@@ -321,10 +321,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>
         /// The content of the list pane's header. The default is null.
         /// </returns>
-        public object ListPaneNoItemsContent
+        public object ListPaneEmptyContent
         {
-            get { return GetValue(ListPaneNoItemsContentProperty); }
-            set { SetValue(ListPaneNoItemsContentProperty, value); }
+            get { return GetValue(ListPaneEmptyContentProperty); }
+            set { SetValue(ListPaneEmptyContentProperty, value); }
         }
 
         /// <summary>
@@ -333,10 +333,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>
         /// The template that specifies the visualization of the list pane no items object. The default is null.
         /// </returns>
-        public DataTemplate ListPaneNoItemsContentTemplate
+        public DataTemplate ListPaneEmptyContentTemplate
         {
-            get { return (DataTemplate)GetValue(ListPaneNoItemsContentTemplateProperty); }
-            set { SetValue(ListPaneNoItemsContentTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(ListPaneEmptyContentTemplateProperty); }
+            set { SetValue(ListPaneEmptyContentTemplateProperty, value); }
         }
 
         /// <summary>

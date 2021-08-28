@@ -91,7 +91,7 @@
                                                       To="NoSelectionNarrow">
                                         <Storyboard>
                                             <DoubleAnimation BeginTime="0:0:0"
-                                                             Storyboard.TargetName="MasterPresenterTransform"
+                                                             Storyboard.TargetName="ListPresenterTransform"
                                                              Storyboard.TargetProperty="X"
                                                              From="-200"
                                                              To="0"
@@ -118,14 +118,14 @@
                             <VisualStateGroup x:Name="HasItemsStates">
                                 <VisualState x:Name="HasItemsState">
                                     <VisualState.Setters>
-                                        <Setter Target="MasterList.Visibility" Value="Visible" />
-                                        <Setter Target="MasterNoItemsPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MainList.Visibility" Value="Visible" />
+                                        <Setter Target="MainListEmptyItemsPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="HasNoItemsState">
                                     <VisualState.Setters>
-                                        <Setter Target="MasterList.Visibility" Value="Collapsed" />
-                                        <Setter Target="MasterNoItemsPresenter.Visibility" Value="Visible" />
+                                        <Setter Target="MainList.Visibility" Value="Collapsed" />
+                                        <Setter Target="MainListEmptyItemsPresenter.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -149,11 +149,11 @@
                                                       Content="{TemplateBinding ListHeader}"
                                                       ContentTemplate="{TemplateBinding ListHeaderTemplate}"
                                                       Visibility="Collapsed" />
-                                    <ContentPresenter x:Name="MasterNoItemsPresenter"
+                                    <ContentPresenter x:Name="MainListEmptyItemsPresenter"
                                                       Grid.Row="1"
-                                                      Content="{TemplateBinding ListPaneNoItemsContent}"
-                                                      ContentTemplate="{TemplateBinding ListPaneNoItemsContentTemplate}" />
-                                    <ListView x:Name="MasterList"
+                                                      Content="{TemplateBinding ListPaneEmptyContent}"
+                                                      ContentTemplate="{TemplateBinding ListPaneEmptyContentTemplate}" />
+                                    <ListView x:Name="MainList"
                                               Grid.Row="1"
                                               IsTabStop="False"
                                               ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
@@ -166,7 +166,7 @@
                                     <Grid x:Name="ListCommandBar"
                                           Grid.Row="2" />
                                     <Grid.RenderTransform>
-                                        <TranslateTransform x:Name="MasterPresenterTransform" />
+                                        <TranslateTransform x:Name="ListPresenterTransform" />
                                     </Grid.RenderTransform>
                                 </Grid>
                             </muxc:TwoPaneView.Pane1>
