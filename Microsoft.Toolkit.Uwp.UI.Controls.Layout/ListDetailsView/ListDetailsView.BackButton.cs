@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ViewState == ListDetailsViewState.Details)
             {
-                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
+                if (BackButtonBehavior == BackButtonBehavior.Inline && _inlineBackButton != null)
                 {
                     _inlineBackButton.Visibility = Visibility.Visible;
                 }
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // Setting this indicates that the system back button is being used
                         _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
                     }
-                    else if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
+                    else if (_inlineBackButton != null && (_navigationView == null || _frame == null))
                     {
                         // We can only use the new NavigationView if we also have a Frame
                         // If there is no frame we have to use the inline button
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (previousState == ListDetailsViewState.Details)
             {
-                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
+                if (BackButtonBehavior == BackButtonBehavior.Inline && _inlineBackButton != null)
                 {
                     _inlineBackButton.Visibility = Visibility.Collapsed;
                 }
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (!_previousSystemBackButtonVisibility.HasValue)
                     {
-                        if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
+                        if (_inlineBackButton != null && (_navigationView == null || _frame == null))
                         {
                             _inlineBackButton.Visibility = Visibility.Collapsed;
                         }
@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="args">The event args</param>
         private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
-            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == ListDetailsViewState.Details))
+            if (args.NavigationMode == NavigationMode.Back && ViewState == ListDetailsViewState.Details)
             {
                 ClearSelectedItem();
                 args.Cancel = true;
