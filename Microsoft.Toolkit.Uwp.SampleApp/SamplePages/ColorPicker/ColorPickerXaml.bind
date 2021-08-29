@@ -84,27 +84,27 @@
                             ColorSpectrumComponents="SaturationValue"
                             IsAlphaEnabled="True"
                             IsHexInputVisible="True"/>
-        <!-- Example 5 -->
-        <Border Background="{ThemeResource SystemChromeMediumColor}"
-                CornerRadius="4"
-                Height="100"
-                Width="300"
-                Padding="10">
-            <TextBlock TextAlignment="Center"
-                       VerticalAlignment="Center">
-                Ring-shaped spectrum <LineBreak />
-                Alpha channel enabled <LineBreak />
-                Only Color Palette Shown
-            </TextBlock>
-        </Border>
-        <controls:ColorPicker x:Name="ColorPicker5"
-                              Color="Teal"
-                              ColorSpectrumShape="Ring"
-                              IsAlphaEnabled="True"
-                              IsHexInputVisible="True"
-                              IsColorSpectrumVisible="False"
-                              IsColorPaletteVisible="True"
-                              IsColorChannelTextInputVisible="False"/>
+      <!-- Example 5 -->
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                   VerticalAlignment="Center">
+          Ring-shaped spectrum <LineBreak />
+          Alpha channel enabled <LineBreak />
+          Only Color Palette Shown
+        </TextBlock>
+      </Border>
+      <controls:ColorPicker x:Name="ColorPicker5"
+                            Color="Teal"
+                            ColorSpectrumShape="Ring"
+                            IsAlphaEnabled="True"
+                            IsHexInputVisible="True"
+                            IsColorSpectrumVisible="False"
+                            IsColorPaletteVisible="True"
+                            IsColorChannelTextInputVisible="False"/>
     </StackPanel>
   </ScrollViewer>
 </Page>
