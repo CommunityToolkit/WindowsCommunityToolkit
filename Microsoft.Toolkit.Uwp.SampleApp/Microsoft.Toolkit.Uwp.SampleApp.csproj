@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -111,7 +111,7 @@
     </PackageReference>
     -->
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.1</Version>
+      <Version>2.6.2</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
@@ -130,6 +130,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="Assets\BrushAssets\TileTexture.png" />
     <Content Include="Assets\BrushAssets\NoiseTexture.png" />
+    <Content Include="Assets\checker.png" />
     <Content Include="Assets\Llama.mp3" />
     <Content Include="Assets\mslogo.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
@@ -271,7 +272,9 @@
     <Content Include="SamplePages\Graph\LoginButton.png" />
     <Content Include="SamplePages\Graph\PeoplePicker.png" />
     <Content Include="SamplePages\Graph\PersonView.png" />
+    <Content Include="SamplePages\Primitives\ConstrainedBox.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -313,10 +316,10 @@
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Carousel\Carousel.png" />
-    <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
+    <Content Include="SamplePages\Shadows\DropShadowPanel.png" />
     <Content Include="SamplePages\Expander\Expander.png" />
-    <Content Include="SamplePages\DropShadowPanel\Trex.png" />
-    <Content Include="SamplePages\DropShadowPanel\Unicorn.png" />
+    <Content Include="SamplePages\Shadows\Trex.png" />
+    <Content Include="SamplePages\Shadows\Unicorn.png" />
     <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
     <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
@@ -395,7 +398,7 @@
     <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
     <Content Include="SamplePages\Incremental Loading Collection\IncrementalLoadingCollectionCode.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheCode.bind" />
-    <Content Include="SamplePages\DropShadowPanel\DropShadowPanelXaml.bind" />
+    <Content Include="SamplePages\Shadows\DropShadowPanelXaml.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\ListDetailsView\ListDetailsView.bind" />
@@ -486,6 +489,7 @@
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
+    <Compile Include="Common\Vector3Converter.cs" />
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -504,6 +508,13 @@
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\Shadows\AttachedDropShadowPage.xaml.cs">
+      <DependentUpon>AttachedDropShadowPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RichSuggestBox\RichSuggestBoxPage.xaml.cs">
+      <DependentUpon>RichSuggestBoxPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RichSuggestBox\SuggestionTemplateSelector.cs" />
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
     </Compile>
@@ -621,6 +632,14 @@
     <Content Include="SamplePages\Graph\PeoplePickerXaml.bind" />
     <Content Include="SamplePages\Graph\PersonViewXaml.bind" />
     <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
+    <Content Include="SamplePages\Primitives\ConstrainedBox.bind">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SamplePages\Shadows\AttachedShadowWin2DXaml.bind" />
+    <Content Include="SamplePages\Shadows\AttachedShadowCompositionXaml.bind" />
+    <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
+    <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -657,7 +676,6 @@
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\PropertyDescriptor\ThicknessPropertyOptions.cs" />
     <Compile Include="Models\ThemeChangedArgs.cs" />
     <Compile Include="Pages\SampleController.xaml.cs">
       <DependentUpon>SampleController.xaml</DependentUpon>
@@ -802,9 +820,6 @@
     </Compile>
     <Compile Include="SamplePages\DispatcherQueueHelper\DispatcherQueueHelperPage.xaml.cs">
       <DependentUpon>DispatcherQueueHelperPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml.cs">
-      <DependentUpon>DropShadowPanelPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Expander\ExpanderPage.xaml.cs">
       <DependentUpon>ExpanderPage.xaml</DependentUpon>
@@ -980,6 +995,18 @@
     <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\Shadows\AttachedDropShadowPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxXaml.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
+    <Page Include="SamplePages\RichSuggestBox\RichSuggestBoxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\TilesBrush\TilesBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1070,6 +1097,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxXaml.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
+    <Content Include="SamplePages\Triggers\ControlSizeTrigger.bind">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
@@ -1262,10 +1293,6 @@
     <Page Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\DropShadowPanel\DropShadowPanelPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\GridSplitter\GridSplitterPage.xaml">
       <SubType>Designer</SubType>
@@ -1470,6 +1497,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

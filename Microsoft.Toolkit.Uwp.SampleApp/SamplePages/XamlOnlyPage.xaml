@@ -31,7 +31,9 @@
         <triggers:RegexStateTrigger x:Key="RegexStateTrigger" />
         <triggers:UserHandPreferenceStateTrigger x:Key="UserHandPreferenceStateTrigger" />
         <triggers:UserInteractionModeStateTrigger x:Key="UserInteractionModeStateTrigger" />
+        <triggers:ControlSizeTrigger x:Key="ControlSizeTrigger" />
         <behaviors:StartAnimationAction x:Key="StartAnimationAction" />
+        <behaviors:KeyDownTriggerBehavior x:Key="KeyDownTriggerBehavior" />
         <behaviors:AutoSelectBehavior x:Key="AutoSelectBehavior" />
         <controls:ColorPicker x:Key="ColorPicker" />
         <controls:ColorPickerButton x:Key="ColorPickerButton" />
@@ -47,6 +49,11 @@
                 <controls:Case IsDefault="True" />
             </controls:CaseCollection>
         </controls:SwitchPresenter>
+        <controls:ConstrainedBox x:Key="ConstrainedBoxControl" />
+        <media:AttachedCardShadow x:Key="AttachedShadow" />
+        <ui:AttachedDropShadow x:Key="AttachedDropShadow" />
+        <controls:DropShadowPanel x:Key="DropShadowPanel"
+                                  ui:Effects.Shadow="{StaticResource AttachedShadow}" />
     </Page.Resources>
 
     <Grid>
@@ -61,6 +68,10 @@
                 <ani:SaturationEffectAnimation />
                 <ani:AnimationScope />
                 <ani:ExposureEffectAnimation />
+                <ani:BlurRadiusDropShadowAnimation />
+                <ani:ColorDropShadowAnimation />
+                <ani:OffsetDropShadowAnimation />
+                <ani:OpacityDropShadowAnimation />
             </ani:AnimationSet>
         </ani:Explicit.Animations>
         <media:UIElementExtensions.VisualFactory>

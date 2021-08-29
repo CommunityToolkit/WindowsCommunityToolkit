@@ -1,0 +1,43 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    mc:Ignorable="d">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:ControlSizeTrigger 
+                            TargetElement="{Binding ElementName=ParentGrid}" 
+                            MinWidth="400" 
+                            MaxWidth="500"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ResizingText.FontSize" Value="20"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel VerticalAlignment="Center" Width="500">
+            <Grid 
+                x:Name="ParentGrid"
+                Width="{Binding Value, ElementName=Slider, Mode=OneWay}"
+                Height="50"
+                Background="Blue"/>
+            <TextBlock 
+                x:Name="ResizingText" 
+                FontSize="12" 
+                Text="Windows Community Toolkit" 
+                HorizontalAlignment="Center"/>
+            <Slider 
+                x:Name="Slider" 
+                Minimum="0" 
+                Maximum="500" />
+        </StackPanel>
+    </Grid>
+</Page>

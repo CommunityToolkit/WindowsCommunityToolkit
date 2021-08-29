@@ -14,7 +14,10 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <controls:TabbedCommandBar>
+        <controls:TabbedCommandBar> <!-- IsBackButtonVisible="Visible" -->
+            <controls:TabbedCommandBar.AutoSuggestBox>
+                <AutoSuggestBox QueryIcon="Find" AutomationProperties.Name="Search" />
+            </controls:TabbedCommandBar.AutoSuggestBox>
             <controls:TabbedCommandBar.PaneFooter>
                 <CommandBar Background="Transparent" DefaultLabelPosition="Right">
                     <AppBarButton Label="Share" Icon="Share"/>

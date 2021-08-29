@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 // TODO Reintroduce graph controls
 // using Microsoft.Toolkit.Graph.Converters;
 // using Microsoft.Toolkit.Graph.Providers;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper(new SystemSerializer());
+            var settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
@@ -417,8 +418,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     if (proxy[option.Name] is ValueHolder value)
                     {
-                        var newString = value.Value is Windows.UI.Xaml.Media.SolidColorBrush brush ?
-                                            brush.Color.ToString() : value.Value.ToString();
+                        var newString = value.Value switch
+                        {
+                            Windows.UI.Xaml.Media.SolidColorBrush brush => brush.Color.ToString(),
+                            System.Numerics.Vector3 vector => vector.ToString().TrimStart('<').Replace(" ", string.Empty).TrimEnd('>'),
+                            _ => value.Value.ToString()
+                        };
 
                         result = result.Replace(option.OriginalString, newString);
                         result = result.Replace("@[" + option.Label + "]@", newString);
@@ -629,12 +634,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.Thickness:
                                     try
                                     {
-                                        var thicknessOptions = new ThicknessPropertyOptions { DefaultValue = value };
+                                        var thicknessOptions = new PropertyOptions { DefaultValue = value };
                                         options = thicknessOptions;
                                     }
                                     catch (Exception ex)
                                     {
-                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                        Debug.WriteLine($"Unable to extract thickness info from {value}({ex.Message})");
+                                        TrackingManager.TrackException(ex);
+                                        continue;
+                                    }
+
+                                    break;
+
+                                case PropertyKind.Vector3:
+                                    try
+                                    {
+                                        var vector3Options = new PropertyOptions { DefaultValue = value };
+                                        options = vector3Options;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Unable to extract vector3 info from {value}({ex.Message})");
                                         TrackingManager.TrackException(ex);
                                         continue;
                                     }

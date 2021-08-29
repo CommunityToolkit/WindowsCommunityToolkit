@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
@@ -407,19 +408,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             get
             {
-                return storage.Read<string>(DesiredLangKey);
+                return settingsStorage.Read<string>(DesiredLangKey);
             }
 
             set
             {
-                storage.Save(DesiredLangKey, value);
+                settingsStorage.Save(DesiredLangKey, value);
             }
         }
 
         /// <summary>
-        /// The Local Storage Helper.
+        /// The local app data storage helper for storing settings.
         /// </summary>
-        private LocalObjectStorageHelper storage = new LocalObjectStorageHelper(new SystemSerializer());
+        private readonly ApplicationDataStorageHelper settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         /// <summary>
         /// DocFX note types and styling info, keyed by identifier.

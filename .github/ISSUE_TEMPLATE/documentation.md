@@ -4,7 +4,6 @@ about: I have a documentation suggestion or question
 title: "[Docs]"
 labels: documentation
 assignees: ''
-
 ---
 
 <!--
