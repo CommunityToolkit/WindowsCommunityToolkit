@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Panel that allows for a List/Details pattern.
     /// </summary>
-    /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
+    /// <seealso cref="ItemsControl" />
     public partial class ListDetailsView
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
-        /// Occurs when the view state changes
+        /// Occurs when the view state changes.
         /// </summary>
         public event EventHandler<ListDetailsViewState> ViewStateChanged;
 
