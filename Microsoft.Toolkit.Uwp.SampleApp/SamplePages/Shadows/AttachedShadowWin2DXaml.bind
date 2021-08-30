@@ -7,7 +7,6 @@
   xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
   mc:Ignorable="d">
 
-  <!-- TODO: Animation-->
   <Page.Resources>
     <media:AttachedCardShadow x:Key="CommonShadow" Offset="4"/>
 
