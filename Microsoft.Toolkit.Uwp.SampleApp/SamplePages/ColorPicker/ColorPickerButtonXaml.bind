@@ -10,19 +10,11 @@
     <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
   </Page.Resources>
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="*" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <!-- Example 1 -->
-    <StackPanel Grid.Row="0"
-                Orientation="Vertical"
+  <ScrollViewer>
+    <StackPanel Orientation="Vertical"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
                 Spacing="20">
+      <!-- Example 1 -->
       <Border Background="{ThemeResource SystemChromeMediumColor}"
               CornerRadius="4"
               Height="100"
@@ -44,13 +36,7 @@
           </Style>
         </controls:ColorPickerButton.ColorPickerStyle>
       </controls:ColorPickerButton>
-    </StackPanel>
-    <!-- Example 2 -->
-    <StackPanel Grid.Row="1"
-                Orientation="Vertical"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="20">
+      <!-- Example 2 -->
       <Border Background="{ThemeResource SystemChromeMediumColor}"
               CornerRadius="4"
               Height="100"
@@ -72,13 +58,7 @@
           </Style>
         </controls:ColorPickerButton.ColorPickerStyle>
       </controls:ColorPickerButton>
-    </StackPanel>
-    <!-- Example 3 -->
-    <StackPanel Grid.Row="2"
-                Orientation="Vertical"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="20">
+      <!-- Example 3 -->
       <Border Background="{ThemeResource SystemChromeMediumColor}"
               CornerRadius="4"
               Height="100"
@@ -100,13 +80,7 @@
           </Style>
         </controls:ColorPickerButton.ColorPickerStyle>
       </controls:ColorPickerButton>
-    </StackPanel>
-    <!-- Example 4 -->
-    <StackPanel Grid.Row="3"
-                Orientation="Vertical"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="20">
+      <!-- Example 4 -->
       <Border Background="{ThemeResource SystemChromeMediumColor}"
               CornerRadius="4"
               Height="100"
@@ -130,6 +104,32 @@
           </Style>
         </controls:ColorPickerButton.ColorPickerStyle>
       </controls:ColorPickerButton>
+      <!-- Example 5 -->
+      <Border Background="{ThemeResource SystemChromeMediumColor}"
+              CornerRadius="4"
+              Height="100"
+              Width="300"
+              Padding="10">
+        <TextBlock TextAlignment="Center"
+                   VerticalAlignment="Center">
+          Ring-shaped spectrum <LineBreak />
+          Alpha channel enabled <LineBreak />
+          Only Color Palette Shown
+        </TextBlock>
+      </Border>
+      <controls:ColorPickerButton x:Name="ColorPickerButton5"
+                                  SelectedColor="Teal">
+        <controls:ColorPickerButton.ColorPickerStyle>
+          <Style TargetType="controls:ColorPicker">
+            <Setter Property="ColorSpectrumShape" Value="Ring"/>
+            <Setter Property="IsAlphaEnabled" Value="True"/>
+            <Setter Property="IsHexInputVisible" Value="True"/>
+            <Setter Property="IsColorSpectrumVisible" Value="False"/>
+            <Setter Property="IsColorPaletteVisible" Value="True"/>
+            <Setter Property="IsColorChannelTextInputVisible" Value="False"/>
+          </Style>
+        </controls:ColorPickerButton.ColorPickerStyle>
+      </controls:ColorPickerButton>
     </StackPanel>
-  </Grid>
+  </ScrollViewer>
 </Page>
