@@ -119,22 +119,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            lock (_tokensLock)
+            var displayText = prefix + text;
+
+            void RealizeToken()
             {
-                var displayText = prefix + text;
-
-                _ignoreChange = true;
-                var committed = TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format ?? format);
-                TextDocument.EndUndoGroup();
-                TextDocument.BeginUndoGroup();
-                _ignoreChange = false;
-
-                if (committed)
+                if (TryCommitSuggestionIntoDocument(range, displayText, id, eventArgs.Format ?? format, true))
                 {
                     var token = new RichSuggestToken(id, displayText) { Active = true, Item = selectedItem };
                     token.UpdateTextRange(range);
-                    _tokens.TryAdd(range.Link, token);
+                    _tokens.Add(range.Link, token);
                 }
+            }
+
+            lock (_tokensLock)
+            {
+                this.CreateSingleEdit(RealizeToken);
             }
         }
 

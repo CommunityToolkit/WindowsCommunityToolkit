@@ -400,11 +400,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            _ignoreChange = true;
-            ValidateTokensInDocument();
-            TextDocument.EndUndoGroup();
-            TextDocument.BeginUndoGroup();
-            _ignoreChange = false;
+            lock (_tokensLock)
+            {
+                this.CreateSingleEdit(ValidateTokensInDocument);
+            }
         }
 
         private void RichEditBox_TextChanged(object sender, RoutedEventArgs e)

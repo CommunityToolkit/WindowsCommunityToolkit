@@ -15,6 +15,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class RichSuggestBox
     {
+        private void CreateSingleEdit(Action editAction)
+        {
+            _ignoreChange = true;
+            editAction.Invoke();
+            TextDocument.EndUndoGroup();
+            TextDocument.BeginUndoGroup();
+            _ignoreChange = false;
+        }
+
         private void ExpandSelectionOnPartialTokenSelect(ITextSelection selection, ITextRange tokenRange)
         {
             switch (selection.Type)
@@ -82,7 +91,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, ITextCharacterFormat format, bool addTrailingSpace = true)
+        private void ValidateTokensInDocument()
+        {
+            foreach (var (_, token) in _tokens)
+            {
+                token.Active = false;
+            }
+
+            ForEachLinkInDocument(TextDocument, ValidateTokenFromRange);
+        }
+
+        private void ValidateTokenFromRange(ITextRange range)
+        {
+            if (range.Length == 0 || !TryGetTokenFromRange(range, out var token))
+            {
+                return;
+            }
+
+            // Check for duplicate tokens. This can happen if the user copies and pastes the token multiple times.
+            if (token.Active && token.RangeStart != range.StartPosition && token.RangeEnd != range.EndPosition)
+            {
+                var guid = Guid.NewGuid();
+                if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateTokenFormat(range), false))
+                {
+                    token = new RichSuggestToken(guid, token.DisplayText) { Active = true, Item = token.Item };
+                    token.UpdateTextRange(range);
+                    _tokens.Add(range.Link, token);
+                }
+
+                return;
+            }
+
+            if (token.ToString() != range.Text)
+            {
+                range.Delete(TextRangeUnit.Story, 0);
+                token.Active = false;
+                return;
+            }
+
+            token.UpdateTextRange(range);
+            token.Active = true;
+        }
+
+        private bool TryCommitSuggestionIntoDocument(ITextRange range, string displayText, Guid id, ITextCharacterFormat format, bool addTrailingSpace)
         {
             // We don't want to set text when the display text doesn't change since it may lead to unexpected caret move.
             range.GetText(TextGetOptions.NoHidden, out var existingText);
@@ -113,54 +164,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return true;
-        }
-
-        private void ValidateTokensInDocument()
-        {
-            lock (_tokensLock)
-            {
-                foreach (var (_, token) in _tokens)
-                {
-                    token.Active = false;
-                }
-            }
-
-            ForEachLinkInDocument(TextDocument, ValidateTokenFromRange);
-        }
-
-        private void ValidateTokenFromRange(ITextRange range)
-        {
-            if (range.Length == 0 || !TryGetTokenFromRange(range, out var token))
-            {
-                return;
-            }
-
-            // Check for duplicate tokens. This can happen if the user copies and pastes the token multiple times.
-            if (token.Active && token.RangeStart != range.StartPosition && token.RangeEnd != range.EndPosition)
-            {
-                lock (_tokensLock)
-                {
-                    var guid = Guid.NewGuid();
-                    if (TryCommitSuggestionIntoDocument(range, token.DisplayText, guid, CreateTokenFormat(range), false))
-                    {
-                        token = new RichSuggestToken(guid, token.DisplayText) { Active = true, Item = token.Item };
-                        token.UpdateTextRange(range);
-                        _tokens.Add(range.Link, token);
-                    }
-
-                    return;
-                }
-            }
-
-            if (token.ToString() != range.Text)
-            {
-                range.Delete(TextRangeUnit.Story, 0);
-                token.Active = false;
-                return;
-            }
-
-            token.UpdateTextRange(range);
-            token.Active = true;
         }
 
         private bool TryExtractQueryFromSelection(out string prefix, out string query, out ITextRange range)
