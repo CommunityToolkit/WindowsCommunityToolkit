@@ -25,10 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <param name="obj">Parent object</param>
         /// <param name="value">FrameworkElement</param>
-        //public static void SetAncestor(DependencyObject obj, WeakReference<object> value)
         public static void SetAncestor(DependencyObject obj, object value)
         {
-            //obj.SetValue(AncestorProperty, value);
             obj.SetValue(AncestorProperty, new WeakReference<object>(value));
         }
 
@@ -38,7 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         public static readonly DependencyProperty AncestorProperty =
             DependencyProperty.RegisterAttached("Ancestor",
                 typeof(WeakReference<object>), 
-                //typeof(object),
                 typeof(FrameworkElementExtensions), 
                 new PropertyMetadata(null));
 
@@ -73,13 +70,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             if (obj is FrameworkElement fe)
             {
                 fe.Loaded -= FrameworkElement_Loaded;
-                //fe.Unloaded -= FrameworkElement_Unloaded;
 
                 if (args.NewValue != null)
                 {
                     fe.Loaded += FrameworkElement_Loaded;
-                    //fe.Unloaded += FrameworkElement_Unloaded;
-
+                    
                     if (fe.Parent != null)
                     {
                         FrameworkElement_Loaded(fe, null);
@@ -92,16 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (sender is FrameworkElement fe)
             {
-                //SetAncestor(fe, new WeakReference<object>(fe.FindAscendant(GetAncestorType(fe))));
                 SetAncestor(fe, fe.FindAscendant(GetAncestorType(fe)));
-            }
-        }
-
-        private static void FrameworkElement_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if(sender is FrameworkElement fe)
-            {
-                SetAncestor(fe, null);
             }
         }
     }

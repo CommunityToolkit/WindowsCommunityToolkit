@@ -39,6 +39,8 @@ namespace UnitTests.Extensions
 
                 var btn = treeRoot.FindChild("InnerButton") as Button;
 
+                Assert.IsNull(btn.Parent);
+
                 btn.SetValue(FrameworkElementExtensions.AncestorProperty, new object());
 
                 Assert.IsNull(btn.Parent);
