@@ -383,7 +383,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The unedited value. </returns>
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
         {
-            return (editingElement as ComboBox)?.SelectedItem;
+            var comboBox = editingElement as ComboBox;
+            if (comboBox != null)
+            {
+                comboBox.IsDropDownOpen = true;
+            }
+
+            return comboBox?.SelectedItem;
         }
 
         /// <summary>
