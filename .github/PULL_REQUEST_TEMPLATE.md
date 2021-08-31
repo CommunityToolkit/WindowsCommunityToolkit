@@ -38,7 +38,10 @@ What kind of change does this PR introduce?
 Please check if your PR fulfills the following requirements: <!-- and remove the ones that are not applicable to the current PR -->
 
 - [ ] Tested code with current [supported SDKs](../#supported)
-- [ ] Pull Request has been submitted to the documentation repository [instructions](../blob/main/Contributing.md#docs). Link: <!-- docs PR link -->
+- [ ] New component
+  - [ ] Pull Request has been submitted to the documentation repository [instructions](../blob/main/Contributing.md#docs). Link: <!-- docs PR link -->
+  - [ ] Added description of major feature to project description for NuGet package (4000 total character limit, so don't push entire description over that)
+  - [ ] If control, added to Visual Studio Design project
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
   - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/CommunityToolkit/WindowsCommunityToolkit-design-assets)
 - [ ] New major technical changes in the toolkit have or will be added to the [Wiki](https://github.com/CommunityToolkit/WindowsCommunityToolkit/wiki) e.g. build changes, source generators, testing infrastructure, sample creation changes, etc...
