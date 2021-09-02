@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -155,6 +156,33 @@ namespace UnitTests.Mvvm
             CollectionAssert.AreEqual(new[] { nameof(model.Value) }, propertyNames);
         }
 
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4184
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_GeneratedPropertiesWithValidationAttributesOverFields()
+        {
+            var model = new ViewModelWithValidatableGeneratedProperties();
+
+            List<string?> propertyNames = new();
+
+            model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
+
+            // Assign these fields directly to bypass the validation that is executed in the generated setters.
+            // We only need those generated properties to be there to check whether they are correctly detected.
+            model.first = "A";
+            model.last = "This is a very long name that exceeds the maximum length of 60 for this property";
+
+            Assert.IsFalse(model.HasErrors);
+
+            model.RunValidation();
+
+            Assert.IsTrue(model.HasErrors);
+
+            ValidationResult[] validationErrors = model.GetErrors().ToArray();
+
+            Assert.AreEqual(validationErrors.Length, 2);
+        }
+
         public partial class SampleModel : ObservableObject
         {
             /// <summary>
@@ -244,6 +272,25 @@ namespace UnitTests.Mvvm
             [Required]
             [MinLength(5)]
             private string value;
+        }
+  
+        public partial class ViewModelWithValidatableGeneratedProperties : ObservableValidator
+        {
+            [Required]
+            [MinLength(2)]
+            [MaxLength(60)]
+            [Display(Name = "FirstName")]
+            [ObservableProperty]
+            public string first = "Bob";
+
+            [Display(Name = "LastName")]
+            [Required]
+            [MinLength(2)]
+            [MaxLength(60)]
+            [ObservableProperty]
+            public string last = "Jones";
+
+            public void RunValidation() => ValidateAllProperties();
         }
     }
 }

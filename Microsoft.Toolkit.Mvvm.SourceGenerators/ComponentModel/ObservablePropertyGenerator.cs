@@ -459,7 +459,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <returns>The generated property name for <paramref name="fieldSymbol"/>.</returns>
         [Pure]
-        private static string GetGeneratedPropertyName(IFieldSymbol fieldSymbol)
+        public static string GetGeneratedPropertyName(IFieldSymbol fieldSymbol)
         {
             string propertyName = fieldSymbol.Name;
 
