@@ -240,6 +240,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 }
             }
 
+            // In case the backing field is exactly named "value", we need to add the "this." prefix to ensure that comparisons and assignments
+            // with it in the generated setter body are executed correctly and without conflicts with the implicit value parameter.
+            ExpressionSyntax fieldExpression = fieldSymbol.Name switch
+            {
+                "value" => MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, ThisExpression(), IdentifierName("value")),
+                string name => IdentifierName(name)
+            };
+
             BlockSyntax setterBlock;
 
             if (validationAttributes.Count > 0)
@@ -263,10 +271,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 
                     // Generate the inner setter block as follows:
                     //
-                    // if (!global::System.Collections.Generic.EqualityComparer<<FIELD_TYPE>>.Default.Equals(<FIELD_NAME>, value))
+                    // if (!global::System.Collections.Generic.EqualityComparer<<FIELD_TYPE>>.Default.Equals(this.<FIELD_NAME>, value))
                     // {
                     //     OnPropertyChanging(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.PropertyNamePropertyChangingEventArgs); // Optional
-                    //     <FIELD_NAME> = value;
+                    //     this.<FIELD_NAME> = value;
                     //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.PropertyNamePropertyChangedEventArgs);
                     //     ValidateProperty(value, <PROPERTY_NAME>);
                     //     OnPropertyChanged(global::Microsoft.Toolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedOrChangingArgs.Property1PropertyChangedEventArgs); // Optional
@@ -291,7 +299,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                             IdentifierName("Default")),
                                         IdentifierName("Equals")))
                                 .AddArgumentListArguments(
-                                    Argument(IdentifierName(fieldSymbol.Name)),
+                                    Argument(fieldExpression),
                                     Argument(IdentifierName("value")))),
                             Block(
                                 ExpressionStatement(
@@ -303,7 +311,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                 ExpressionStatement(
                                     AssignmentExpression(
                                         SyntaxKind.SimpleAssignmentExpression,
-                                        IdentifierName(fieldSymbol.Name),
+                                        fieldExpression,
                                         IdentifierName("value"))),
                                 ExpressionStatement(
                                     InvocationExpression(IdentifierName("OnPropertyChanged"))
@@ -346,7 +354,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     ExpressionStatement(
                         AssignmentExpression(
                             SyntaxKind.SimpleAssignmentExpression,
-                            IdentifierName(fieldSymbol.Name),
+                            fieldExpression,
                             IdentifierName("value"))),
                     ExpressionStatement(
                         InvocationExpression(IdentifierName("OnPropertyChanged"))
@@ -384,7 +392,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                         IdentifierName("Default")),
                                     IdentifierName("Equals")))
                             .AddArgumentListArguments(
-                                    Argument(IdentifierName(fieldSymbol.Name)),
+                                    Argument(fieldExpression),
                                     Argument(IdentifierName("value")))),
                         updateAndNotificationBlock));
             }
