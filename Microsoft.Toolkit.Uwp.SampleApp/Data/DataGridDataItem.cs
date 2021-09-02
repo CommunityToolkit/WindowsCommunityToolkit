@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 
         public uint Prominence { get; set; }
 
-        public uint First_ascent { get; set; }
+        public DateTimeOffset First_ascent { get; set; }
 
         public string Ascents { get; set; }
 

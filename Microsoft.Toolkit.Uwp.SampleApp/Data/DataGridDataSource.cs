@@ -48,8 +48,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                             Coordinates = values[4],
                             Prominence = uint.Parse(values[5]),
                             Parent_mountain = values[6],
-                            First_ascent = uint.Parse(values[7]),
-                            Ascents = values[8]
+                            First_ascent = DateTimeOffset.Parse(values[7]),
+                            Ascents = values[8],
                         });
                 }
             }

@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
                 dataGrid.ItemsSource = await viewModel.GetDataAsync();
 
-                var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag.Equals("Mountain")) as DataGridComboBoxColumn;
+                var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag?.Equals("Mountain") == true) as DataGridComboBoxColumn;
                 if (comboBoxColumn != null)
                 {
                     comboBoxColumn.ItemsSource = await viewModel.GetMountains();
