@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 dataGrid.Sorting += DataGrid_Sorting;
                 dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
                 dataGrid.ItemsSource = await viewModel.GetDataAsync();
+                dataGrid.PreparingCellForEdit += DataGrid_PreparingCellForEdit;
 
                 var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag?.Equals("Mountain") == true) as DataGridComboBoxColumn;
                 if (comboBoxColumn != null)
@@ -108,6 +109,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (clearFilter != null)
             {
                 clearFilter.Click += this.ClearFilter_Click;
+            }
+        }
+
+        private void DataGrid_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            if (e.Column is DataGridTemplateColumn column && (string)column?.Tag == "First_ascent" &&
+                e.EditingElement is CalendarDatePicker calendar)
+            {
+                calendar.IsCalendarOpen = true;
             }
         }
 
