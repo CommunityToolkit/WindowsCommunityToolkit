@@ -126,6 +126,8 @@
       {
         "Name": "RadialProgressBar",
         "Type": "RadialProgressBarPage",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please migrate to the ProgressRing control from WinUI with IsIndeterminate set to false, this control will be removed in a future release. https://aka.ms/winui",
         "Subcategory": "Status and Info",
         "About": "The radial progress bar displays progress as a circle getting filled.",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Controls.Core/RadialProgressBar",
@@ -168,7 +170,7 @@
         "Type": "ScrollHeaderPage",
         "Subcategory": "Layout",
         "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Behaviors/Headers",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Behaviors/Headers",
         "XamlCodeFile": "ScrollHeaderCode.bind",
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/HeaderBehaviors.md"
@@ -184,14 +186,35 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md"
       },
       {
+        "Name": "AttachedDropShadow (Composition)",
+        "Type": "AttachedDropShadowPage",
+        "Subcategory": "Media",
+        "About": "An AttachedDropShadow allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI/Shadows",
+        "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowCompositionXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
+      },
+      {
+        "Name": "AttachedCardShadow (Win2D)",
+        "Subcategory": "Media",
+        "About": "An AttachedCardShadow allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Media/Shadows",
+        "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowWin2DXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md",
+        "BadgeUpdateVersionRequired": "May 2019 update required",
+        "ApiCheck": "Microsoft.UI.Composition.CompositionVisualSurface"
+      },
+      {
         "Name": "DropShadowPanel",
-        "Type": "DropShadowPanelPage",
         "Subcategory": "Media",
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "This control will be removed in a future major release. Please use the AttachedDropShadow or AttachedCardShadow extensions instead.",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Controls.Core/DropShadowPanel",
-        "XamlCodeFile": "DropShadowPanelXaml.bind",
-        "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
+        "XamlCodeFile": "/SamplePages/Shadows/DropShadowPanelXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
       },
       {
@@ -358,7 +381,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Controls.Media/InfiniteCanvas",
         "XamlCodeFile": "InfiniteCanvas.bind",
         "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
-        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        "ApiCheck": "Microsoft.UI.Xaml.Controls.ColorPicker",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
       },
       {
@@ -483,6 +506,17 @@
         "XamlCodeFile": "/SamplePages/Primitives/ConstrainedBox.bind",
         "Icon": "/SamplePages/Primitives/ConstrainedBox.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ConstrainedBox.md"
+      },
+      {
+        "Name": "RichSuggestBox",
+        "Type": "RichSuggestBoxPage",
+        "Subcategory": "Input",
+        "About": "A text input control that makes suggestions and keeps track of data token items in a rich document.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Controls.Input/RichSuggestBox",
+        "CodeFile": "RichSuggestBoxCode.bind",
+        "XamlCodeFile": "RichSuggestBoxXaml.bind",
+        "Icon": "/SamplePages/RichSuggestBox/RichSuggestBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RichSuggestBox.md"
       }
     ]
   },
@@ -558,7 +592,6 @@
         "CodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Behaviors/BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Animations/Behaviors/BlurBehavior.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineVisualFactory.md"
       },
       {
@@ -569,7 +602,6 @@
         "CodeFile": "/SamplePages/Animations/Behaviors/SaturationBehaviorCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Behaviors/SaturationBehaviorXaml.bind",
         "Icon": "/SamplePages/Animations/Behaviors/SaturationBehavior.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/PipelineVisualFactory.md"
       },
       {
@@ -599,7 +631,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Animations",
         "XamlCodeFile": "ItemsReorderAnimation.bind",
         "Icon": "/SamplePages/ItemsReorderAnimation/ItemsReorderAnimation.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ItemsReorderAnimation.md"
       },
       {
@@ -619,7 +650,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Animations",
         "Icon": "/SamplePages/Implicit Animations/ImplicitAnimations.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ImplicitAnimationSet.md"
       },
       {
@@ -631,7 +661,15 @@
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
         "DisableXamlEditorRendering": true,
         "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
+      },
+      {
+        "Name": "Shadow Animations",
+        "Subcategory": "Effect",
+        "About": "Example of animating an Attached Shadow",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Animations/Xaml/Shadows",
+        "XamlCodeFile": "/SamplePages/Animations/Shadows/AnimatedCardShadowXaml.bind",
+        "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
       }
     ]
@@ -714,8 +752,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.Connectivity/BluetoothLEHelper",
         "CodeFile": "BluetoothLEHelperCode.bind",
         "Icon": "/SamplePages/BluetoothLEHelper/BluetoothLEHelper.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BluetoothLEHelper.md",
-        "BadgeUpdateVersionRequired": "Creators Update required"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BluetoothLEHelper.md"
       },
       {
         "Name": "SystemInformation",
@@ -916,6 +953,15 @@
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/CommunityToolkit.WinUI.UI/Triggers/CompareStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/CompareStateTrigger.bind",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
+      },
+      {
+        "Name": "ControlSizeTrigger",
+        "Subcategory": "State Triggers",
+        "About": "Enables a state if the target control meets the specified size",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/CommunityToolkit.WinUI.UI/Triggers/ControlSizeTrigger.cs",
+        "XamlCodeFile": "/SamplePages/Triggers/ControlSizeTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
       },
@@ -1158,7 +1204,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/CommunityToolkit.WinUI.UI/Extensions/TextBox/TextBoxExtensions.SurfaceDial.cs",
         "XamlCodeFile": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextboxCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/SurfaceDialTextboxHelper.md"
       },
       {
@@ -1168,7 +1213,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/CommunityToolkit.WinUI.UI/Extensions/VisualExtensions.cs",
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
-        "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/VisualExtensions.md"
       },
       {

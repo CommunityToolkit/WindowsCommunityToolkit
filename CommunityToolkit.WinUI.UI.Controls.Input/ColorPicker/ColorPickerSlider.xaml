@@ -9,6 +9,7 @@
            TargetType="controls:ColorPickerSlider">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="IsThumbToolTipEnabled" Value="False" />
+        <Setter Property="DefaultForeground" Value="Gray" />
         <Setter Property="Template">
             <Setter.Value>
                 <!--  Based on WinUI version 2.4.2  -->

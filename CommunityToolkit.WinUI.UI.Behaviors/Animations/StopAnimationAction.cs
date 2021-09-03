@@ -58,13 +58,19 @@ namespace CommunityToolkit.WinUI.UI.Behaviors
                 ThrowArgumentNullException();
             }
 
+            UIElement parent = null;
+
             if (TargetObject is not null)
             {
                 Animation.Stop(TargetObject);
             }
+            else if (Animation.ParentReference?.TryGetTarget(out parent) == true) //// TODO: Tidy...
+            {
+                Animation.Stop(parent);
+            }
             else
             {
-                Animation.Stop();
+                Animation.Stop(sender as UIElement);
             }
 
             return null!;

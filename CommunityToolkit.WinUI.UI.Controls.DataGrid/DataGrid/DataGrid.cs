@@ -5729,6 +5729,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             {
                 bool focusLeftDataGrid = true;
                 bool dataGridWillReceiveRoutedEvent = true;
+                DataGridColumn editingColumn = null;
 
                 // Walk up the visual tree of the newly focused element
                 // to determine if focus is still within DataGrid.
@@ -5768,7 +5769,17 @@ namespace CommunityToolkit.WinUI.UI.Controls
                     focusedDependencyObject = parent;
                 }
 
-                if (focusLeftDataGrid)
+                if (this.EditingRow != null && this.EditingColumnIndex != -1)
+                {
+                    editingColumn = this.ColumnsItemsInternal[this.EditingColumnIndex];
+
+                    if (focusLeftDataGrid && editingColumn is DataGridTemplateColumn)
+                    {
+                        dataGridWillReceiveRoutedEvent = false;
+                    }
+                }
+
+                if (focusLeftDataGrid && !(editingColumn is DataGridTemplateColumn))
                 {
                     this.ContainsFocus = false;
                     if (this.EditingRow != null)

@@ -1,0 +1,50 @@
+private void SuggestingBox_OnTokenPointerOver(RichSuggestBox sender, RichSuggestTokenPointerOverEventArgs args)
+{
+  var flyout = (Flyout)FlyoutBase.GetAttachedFlyout(sender);
+  var pointerPosition = args.CurrentPoint.Position;
+
+  if (flyout?.Content is ContentPresenter cp && sender.TextDocument.Selection.Type != SelectionType.Normal &&
+    (!flyout.IsOpen || cp.Content != args.Token.Item))
+  {
+    this._dispatcherQueue.TryEnqueue(() =>
+    {
+      cp.Content = args.Token.Item;
+      flyout.ShowAt(sender, new FlyoutShowOptions
+      {
+        Position = pointerPosition,
+        ExclusionRect = sender.GetRectFromRange(args.Range),
+        ShowMode = FlyoutShowMode.TransientWithDismissOnPointerMoveAway,
+      });
+    });
+  }
+}
+
+private void SuggestingBox_OnSuggestionChosen(RichSuggestBox sender, SuggestionChosenEventArgs args)
+{
+  if (args.Prefix == "#")
+  {
+    args.Format.BackgroundColor = Colors.DarkOrange;
+    args.Format.ForegroundColor = Colors.OrangeRed;
+    args.Format.Bold = FormatEffect.On;
+    args.Format.Italic = FormatEffect.On;
+    args.DisplayText = ((SampleDataType)args.SelectedItem).Text;
+  }
+  else
+  {
+    args.DisplayText = ((SampleEmailDataType)args.SelectedItem).DisplayName;
+  }
+}
+
+private void SuggestingBox_OnSuggestionRequested(RichSuggestBox sender, SuggestionRequestedEventArgs args)
+{
+  if (args.Prefix == "#")
+  {
+    sender.ItemsSource =
+      this._samples.Where(x => x.Text.Contains(args.QueryText, StringComparison.OrdinalIgnoreCase));
+  }
+  else
+  {
+    sender.ItemsSource =
+      this._emailSamples.Where(x => x.DisplayName.Contains(args.QueryText, StringComparison.OrdinalIgnoreCase));
+  }
+}
