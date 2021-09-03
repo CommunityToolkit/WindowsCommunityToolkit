@@ -34,10 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Attached <see cref="DependencyProperty"/> for retrieving a parent <see cref="object"/> for the <see cref="AncestorProperty"/>
         /// </summary>
         public static readonly DependencyProperty AncestorProperty =
-            DependencyProperty.RegisterAttached("Ancestor",
-                typeof(WeakReference<object>), 
-                typeof(FrameworkElementExtensions), 
-                new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("Ancestor", typeof(WeakReference<object>), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the Type of Ancestor to look for from this element.
@@ -60,10 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Attached <see cref="DependencyProperty"/> for retrieving a parent <see cref="object"/> for the <see cref="AncestorProperty"/> based on the provided <see cref="Type"/> in the <see cref="AncestorTypeProperty"/>.
         /// </summary>
         public static readonly DependencyProperty AncestorTypeProperty =
-            DependencyProperty.RegisterAttached("AncestorType", 
-                typeof(Type), 
-                typeof(FrameworkElementExtensions), 
-                new PropertyMetadata(null, AncestorType_PropertyChanged));
+            DependencyProperty.RegisterAttached("AncestorType", typeof(Type), typeof(FrameworkElementExtensions), new PropertyMetadata(null, AncestorType_PropertyChanged));
 
         private static void AncestorType_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
