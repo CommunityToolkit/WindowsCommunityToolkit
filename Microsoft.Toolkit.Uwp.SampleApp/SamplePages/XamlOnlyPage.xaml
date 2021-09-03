@@ -54,6 +54,14 @@
         <ui:AttachedDropShadow x:Key="AttachedDropShadow" />
         <controls:DropShadowPanel x:Key="DropShadowPanel"
                                   ui:Effects.Shadow="{StaticResource AttachedShadow}" />
+        <controls:DataGrid x:Key="DataGrid">
+            <controls:DataGrid.Columns>
+                <controls:DataGridCheckBoxColumn />
+                <controls:DataGridComboBoxColumn />
+                <controls:DataGridTemplateColumn />
+                <controls:DataGridTextColumn />
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
     </Page.Resources>
 
     <Grid>
