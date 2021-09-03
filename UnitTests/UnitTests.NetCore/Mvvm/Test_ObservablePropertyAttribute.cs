@@ -181,6 +181,9 @@ namespace UnitTests.Mvvm
             ValidationResult[] validationErrors = model.GetErrors().ToArray();
 
             Assert.AreEqual(validationErrors.Length, 2);
+
+            CollectionAssert.AreEqual(new[] { nameof(ViewModelWithValidatableGeneratedProperties.First) }, validationErrors[0].MemberNames.ToArray());
+            CollectionAssert.AreEqual(new[] { nameof(ViewModelWithValidatableGeneratedProperties.Last) }, validationErrors[1].MemberNames.ToArray());
         }
 
         public partial class SampleModel : ObservableObject
