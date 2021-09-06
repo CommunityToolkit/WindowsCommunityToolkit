@@ -171,6 +171,95 @@ namespace UnitTests.Helpers
             Assert.AreEqual(input.Age, output.Age);
         }
 
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageHelper_FileCRUDTest()
+        {
+            var fileName = "TestFile.txt";
+            var fileName2 = "TestFile2.txt";
+            var fileContents = "this is a test";
+            var fileContents2 = "this is also a test";
+            var storageHelper = ApplicationDataStorageHelper.GetCurrent();
+
+            // Create a file
+            await storageHelper.CreateFileAsync(fileName, fileContents);
+
+            // Read a file
+            var readContents = await storageHelper.ReadFileAsync<string>(fileName);
+            Assert.AreEqual(fileContents, readContents);
+
+            // Update a file
+            await storageHelper.CreateFileAsync(fileName, fileContents2);
+            var readContents2 = await storageHelper.ReadFileAsync<string>(fileName);
+            Assert.AreEqual(fileContents2, readContents2);
+
+            // Rename a file
+            var itemRenamed = await storageHelper.TryRenameItemAsync(fileName, fileName2);
+            Assert.IsTrue(itemRenamed);
+
+            // Delete a file
+            var itemDeleted = await storageHelper.TryDeleteItemAsync(fileName2);
+            Assert.IsTrue(itemDeleted);
+        }
+
+        [TestCategory("Helpers")]
+        [TestMethod]
+        public async Task Test_StorageHelper_SubFolderCRUDTest()
+        {
+            var folderName = "TestFolder1";
+            var subFolderName = "TestSubFolder";
+            var subFolderName2 = "TestSubFolder2";
+            var subFolderPath = $"{folderName}/{subFolderName}";
+            var subFolderPath2 = $"{folderName}/{subFolderName2}";
+            var fileName = "TestFile.txt";
+            var fileName2 = "TestFile2.txt";
+            var filePath = $"{subFolderPath}/{fileName}";
+            var filePath2 = $"{subFolderPath2}/{fileName2}";
+            var fileContents = "this is a test";
+
+            var storageHelper = ApplicationDataStorageHelper.GetCurrent();
+
+            // Attempt to delete the folder to clean up from any previously failed test runs.
+            await storageHelper.TryDeleteItemAsync(folderName);
+
+            // Create a subfolder
+            await storageHelper.CreateFolderAsync(subFolderPath);
+
+            // Create a file in the subfolder
+            await storageHelper.CreateFileAsync(filePath, fileContents);
+
+            // Read a file from the subfolder
+            var readContents = await storageHelper.ReadFileAsync<string>(filePath);
+            Assert.AreEqual(fileContents, readContents);
+
+            // List subfolder contents
+            var folderItems = await storageHelper.ReadFolderAsync(subFolderPath);
+            var folderItemsList = folderItems.ToList();
+            Assert.AreEqual(1, folderItemsList.Count());
+            Assert.AreEqual(fileName, folderItemsList[0].Name);
+            Assert.AreEqual(Microsoft.Toolkit.Helpers.DirectoryItemType.File, folderItemsList[0].ItemType);
+
+            // Rename a file in a subfolder
+            var itemRenamed = await storageHelper.TryRenameItemAsync(filePath, fileName2);
+            Assert.IsTrue(itemRenamed);
+
+            // Rename a subfolder
+            var folderRenamed = await storageHelper.TryRenameItemAsync(subFolderPath, subFolderName2);
+            Assert.IsTrue(folderRenamed);
+
+            // Delete a file in a subfolder
+            var fileDeleted = await storageHelper.TryDeleteItemAsync(filePath2);
+            Assert.IsTrue(fileDeleted);
+
+            // Delete a subfolder
+            var subFolderDeleted = await storageHelper.TryDeleteItemAsync(subFolderPath2);
+            Assert.IsTrue(subFolderDeleted);
+
+            // Delete the folder to clean up.
+            var folderDeleted = await storageHelper.TryDeleteItemAsync(folderName);
+            Assert.IsTrue(folderDeleted);
+        }
+
         public class Person
         {
             public string Name { get; set; }

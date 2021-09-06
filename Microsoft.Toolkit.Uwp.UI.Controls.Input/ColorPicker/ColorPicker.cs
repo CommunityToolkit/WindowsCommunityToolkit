@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground8Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground10Border), Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorPanelSelector),          Type = typeof(ListBox))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(ColorPickerSlider))]
@@ -65,8 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const int ColorUpdateInterval = 30; // Milliseconds
 
         private long tokenColor;
-        private long tokenCustomPalette;
-        private long tokenIsColorPaletteVisible;
 
         private bool callbacksConnected = false;
         private bool eventsConnected    = false;
@@ -78,6 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Color?          updatedRgbColor            = null;
         private DispatcherQueueTimer dispatcherQueueTimer            = null;
 
+        private ListBox           ColorPanelSelector;
         private ColorSpectrum     ColorSpectrumControl;
         private ColorPickerSlider ColorSpectrumAlphaSlider;
         private ColorPickerSlider ColorSpectrumThirdDimensionSlider;
@@ -177,6 +177,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // We need to disconnect old events first
             this.ConnectEvents(false);
 
+            this.ColorPanelSelector = this.GetTemplateChild<ListBox>(nameof(ColorPanelSelector));
+
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumAlphaSlider));
             this.ColorSpectrumThirdDimensionSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumThirdDimensionSlider));
@@ -216,6 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnApplyTemplate();
             this.UpdateVisualState(false);
+            this.ValidateSelectedPanel();
             this.isInitialized = true;
             this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
             this.UpdateColorControlValues(); // TODO: This will also connect events after, can we optimize vs. doing it twice with the ConnectEvents above?
@@ -247,23 +250,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="connected">True to connect callbacks, otherwise false.</param>
         private void ConnectCallbacks(bool connected)
         {
-            if ((connected == true) &&
-                (this.callbacksConnected == false))
+            if (connected == true &&
+                this.callbacksConnected == false)
             {
                 // Add callbacks for dependency properties
-                this.tokenColor                 = this.RegisterPropertyChangedCallback(ColorProperty,                 OnColorChanged);
-                this.tokenCustomPalette         = this.RegisterPropertyChangedCallback(CustomPaletteProperty,         OnCustomPaletteChanged);
-                this.tokenIsColorPaletteVisible = this.RegisterPropertyChangedCallback(IsColorPaletteVisibleProperty, OnIsColorPaletteVisibleChanged);
+                this.tokenColor = this.RegisterPropertyChangedCallback(ColorProperty, OnColorChanged);
 
                 this.callbacksConnected = true;
             }
-            else if ((connected == false) &&
-                     (this.callbacksConnected == true))
+            else if (connected == false &&
+                     this.callbacksConnected == true)
             {
                 // Remove callbacks for dependency properties
-                this.UnregisterPropertyChangedCallback(ColorProperty,                 this.tokenColor);
-                this.UnregisterPropertyChangedCallback(CustomPaletteProperty,         this.tokenCustomPalette);
-                this.UnregisterPropertyChangedCallback(IsColorPaletteVisibleProperty, this.tokenIsColorPaletteVisible);
+                this.UnregisterPropertyChangedCallback(ColorProperty, this.tokenColor);
 
                 this.callbacksConnected = false;
             }
@@ -277,8 +276,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="connected">True to connect event handlers, otherwise false.</param>
         private void ConnectEvents(bool connected)
         {
-            if ((connected == true) &&
-                (this.eventsConnected == false))
+            if (connected == true &&
+                this.eventsConnected == false)
             {
                 // Add all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged += ColorSpectrum_ColorChanged; }
@@ -331,8 +330,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 this.eventsConnected = true;
             }
-            else if ((connected == false) &&
-                     (this.eventsConnected == true))
+            else if (connected == false &&
+                     this.eventsConnected == true)
             {
                 // Remove all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged -= ColorSpectrum_ColorChanged; }
@@ -1065,6 +1064,83 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return;
         }
 
+        /// <summary>
+        /// Validates and updates the current 'tab' or 'panel' selection.
+        /// If the currently selected tab is collapsed, the next visible tab will be selected.
+        /// </summary>
+        private void ValidateSelectedPanel()
+        {
+            object selectedItem = null;
+
+            if (this.ColorPanelSelector != null)
+            {
+                if (this.ColorPanelSelector.SelectedItem == null &&
+                    this.ColorPanelSelector.Items.Count > 0)
+                {
+                    // As a failsafe, forcefully select the first item
+                    selectedItem = this.ColorPanelSelector.Items[0];
+                }
+                else
+                {
+                    selectedItem = this.ColorPanelSelector.SelectedItem;
+                }
+
+                if (selectedItem is UIElement selectedElement &&
+                    selectedElement.Visibility == Visibility.Collapsed)
+                {
+                    // Select the first visible item instead
+                    foreach (object item in this.ColorPanelSelector.Items)
+                    {
+                        if (item is UIElement element &&
+                            element.Visibility == Visibility.Visible)
+                        {
+                            selectedItem = item;
+                            break;
+                        }
+                    }
+                }
+
+                this.ColorPanelSelector.SelectedItem = selectedItem;
+            }
+
+            return;
+        }
+
+        private void OnDependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            DependencyObject senderControl = sender as DependencyObject;
+
+            /* Note: ColorProperty is defined in the base class and cannot be used here
+             * See the OnColorChanged callback below
+             */
+
+            if (object.ReferenceEquals(args.Property, CustomPaletteProperty))
+            {
+                IColorPalette palette = this.CustomPalette;
+
+                if (palette != null)
+                {
+                    this.CustomPaletteColumnCount = palette.ColorCount;
+                    this.CustomPaletteColors.Clear();
+
+                    for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
+                    {
+                        for (int colorIndex = 0; colorIndex < palette.ColorCount; colorIndex++)
+                        {
+                            this.CustomPaletteColors.Add(palette.GetColor(colorIndex, shadeIndex));
+                        }
+                    }
+                }
+            }
+            else if (object.ReferenceEquals(args.Property, IsColorPaletteVisibleProperty))
+            {
+                this.UpdateVisualState(false);
+                this.ValidateSelectedPanel();
+            }
+
+            return;
+        }
+
         /***************************************************************************************
          *
          * Color Update Timer
@@ -1144,39 +1220,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.UpdateColorControlValues();
             this.UpdateChannelSliderBackgrounds();
 
-            return;
-        }
-
-        /// <summary>
-        /// Callback for when the <see cref="CustomPalette"/> dependency property value changes.
-        /// </summary>
-        private void OnCustomPaletteChanged(DependencyObject d, DependencyProperty e)
-        {
-            IColorPalette palette = this.CustomPalette;
-
-            if (palette != null)
-            {
-                this.CustomPaletteColumnCount = palette.ColorCount;
-                this.CustomPaletteColors.Clear();
-
-                for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
-                {
-                    for (int colorIndex = 0; colorIndex < palette.ColorCount; colorIndex++)
-                    {
-                        this.CustomPaletteColors.Add(palette.GetColor(colorIndex, shadeIndex));
-                    }
-                }
-            }
-
-            return;
-        }
-
-        /// <summary>
-        /// Callback for when the <see cref="IsColorPaletteVisible"/> dependency property value changes.
-        /// </summary>
-        private void OnIsColorPaletteVisibleChanged(DependencyObject d, DependencyProperty e)
-        {
-            this.UpdateVisualState(false);
             return;
         }
 

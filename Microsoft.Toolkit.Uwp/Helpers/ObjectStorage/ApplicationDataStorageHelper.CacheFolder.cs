@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Waiting task until completion.</returns>
         public Task CreateCacheFileAsync<T>(string filePath, T value)
         {
-            return SaveFileAsync<T>(CacheFolder, filePath, value);
+            return CreateFileAsync<T>(CacheFolder, filePath, value);
         }
 
         /// <summary>
@@ -69,9 +69,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="itemPath">The path to the item for deletion.</param>
         /// <returns>Waiting task until completion.</returns>
-        public Task DeleteCacheItemAsync(string itemPath)
+        public Task<bool> TryDeleteCacheItemAsync(string itemPath)
         {
-            return DeleteItemAsync(CacheFolder, itemPath);
+            return TryDeleteItemAsync(CacheFolder, itemPath);
+        }
+
+        /// <summary>
+        /// Rename an item in the LocalCacheFolder.
+        /// </summary>
+        /// <param name="itemPath">The path to the target item.</param>
+        /// <param name="newName">The new nam for the target item.</param>
+        /// <returns>Waiting task until completion.</returns>
+        public Task<bool> TryRenameCacheItemAsync(string itemPath, string newName)
+        {
+            return TryRenameItemAsync(CacheFolder, itemPath, newName);
         }
     }
 }

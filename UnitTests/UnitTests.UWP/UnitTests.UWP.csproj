@@ -129,13 +129,13 @@
       <Version>6.2.12</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.6.1</Version>
+      <Version>2.6.2</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.1.2</Version>
+      <Version>2.2.5</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.1.2</Version>
+      <Version>2.2.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="Newtonsoft.Json">
@@ -229,11 +229,16 @@
     <Compile Include="UI\Collection\Test_IncrementalLoadingCollection.cs" />
     <Compile Include="UI\Controls\Test_Carousel.cs" />
     <Compile Include="UI\Controls\Test_BladeView.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Alignment.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Constrict.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Infinity.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.AspectRatio.cs" />
+    <Compile Include="UI\Controls\Test_ConstrainedBox.Coerce.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.Multiple.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.Combined.cs" />
     <Compile Include="UI\Controls\Test_ImageEx.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
+    <Compile Include="UI\Controls\Test_RichSuggestBox.cs" />
     <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
     <Compile Include="UI\Controls\Test_InfiniteCanvas_Regression.cs" />
     <Compile Include="UI\Controls\Test_TokenizingTextBox_AutomationPeer.cs" />
@@ -251,6 +256,7 @@
     <Compile Include="UI\Extensions\Test_VisualExtensions.cs" />
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
+    <Compile Include="UI\Triggers\Test_ControlSizeTrigger.cs" />
     <Compile Include="VisualUITestBase.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,85 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+  mc:Ignorable="d">
+
+  <Page.Resources>
+    <ui:AttachedDropShadow x:Key="CommonShadow" Offset="4"/><!-- CastTo="{x:Bind ShadowTarget}"/>-->
+
+    <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+      <Setter Property="ui:Effects.Shadow" Value="{StaticResource CommonShadow}"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <!-- We set a solid color for the background button otherwise the shadow bleeds through as 
+         the new style is transparent. See AttachedCardShadow for proper element clipping. -->
+      <Setter Property="Background" Value="Red"/>
+    </Style>
+  </Page.Resources>
+
+  <ScrollViewer>
+    <Grid>
+      <!-- The ShadowTarget Grid here is a *sibling* element behind where our elements which will cast
+           shadows are located, this is important as otherwise if we used a parent element the
+           shadows would appear on top of our elements instead!
+           It is also placed within the ScrollViewer here so shadows move with their elements. -->
+      <Grid x:Name="ShadowTarget"/>
+      <StackPanel Spacing="32" VerticalAlignment="Center">
+        <!-- All buttons on this page have the shadow from the common style!
+             The Shadow definition is Shared! -->
+        <Button Content="I Have a Shadow!"/>
+        <!-- Can apply the same shadow to any type of element! -->
+        <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
+               Height="100" Width="100"
+               Source="ms-appx:///Assets/Photos/Owl.jpg"/>
+        <!-- You can still apply a Shadow directly and even use binding with it to manipulate at runtime! -->
+        <Rectangle RadiusX="32" RadiusY="32"
+                   Height="100" Width="100"
+                   Stroke="Blue" StrokeThickness="1">
+          <Rectangle.Fill>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
+          </Rectangle.Fill>
+          <ui:Effects.Shadow>
+            <ui:AttachedDropShadow BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                   CornerRadius="32"
+                                   Color="@[Color:Brush:Black]"
+                                   Offset="@[Offset:Vector3:4,4]"
+                                   Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"
+                                   CastTo="{Binding ElementName=ShadowTarget}"/>
+          </ui:Effects.Shadow>
+        </Rectangle>
+        <!-- This particular scenario of attaching directly to a raw element is easier than the Win2D equivelent. -->
+        <Border Height="100" Width="100"
+                CornerRadius="32"
+                BorderBrush="White" BorderThickness="1">
+          <Border.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
+          </Border.Background>
+          <ui:Effects.Shadow>
+            <ui:AttachedDropShadow CornerRadius="32"
+                                   Offset="4,4" 
+                                   CastTo="{Binding ElementName=ShadowTarget}"/>
+          </ui:Effects.Shadow>
+        </Border>
+        <!-- Note how even though this element is transparent, the shadow still shows through,
+             to have this not occur use the AttachedCardShadow. -->
+        <Rectangle ui:Effects.Shadow="{StaticResource CommonShadow}"
+                   Fill="#80FF0000"
+                   RadiusX="4" RadiusY="4"
+                   Width="200" Height="100"/>
+        <!-- This is the same behavior as the old DropShadowPanel where the shadow bleeds through and
+             the Shadow opacity is tied to the Rectangle itself -->
+        <controls:DropShadowPanel xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                                  OffsetX="4" OffsetY="4"
+                                  BlurRadius="12"
+                                  HorizontalAlignment="Center">
+          <Rectangle Fill="#80FF0000"
+                     RadiusX="4" RadiusY="4"
+                     Width="200" Height="100"/>
+        </controls:DropShadowPanel>
+        <Button Content="I Also have a Shadow!"/>
+      </StackPanel>
+    </Grid>
+  </ScrollViewer>
+</Page>

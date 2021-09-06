@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
     internal static partial class ControlTypes
@@ -15,6 +13,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         internal const string DetailsCommandBar = nameof(DetailsCommandBar);
         internal const string DetailsTemplate = nameof(DetailsTemplate);
+        internal const string DetailsPaneBackground = nameof(DetailsPaneBackground);
+        internal const string DetailsContentTemplateSelector = nameof(DetailsContentTemplateSelector);
+        internal const string ListPaneItemTemplateSelector = nameof(ListPaneItemTemplateSelector);
+        internal const string ListPaneNoItemsContentTemplate = nameof(ListPaneNoItemsContentTemplate);
+        internal const string ListPaneNoItemsContent = nameof(ListPaneNoItemsContent);
         internal const string ListCommandBar = nameof(ListCommandBar);
         internal const string ListHeader = nameof(ListHeader);
         internal const string ListHeaderTemplate = nameof(ListHeaderTemplate);

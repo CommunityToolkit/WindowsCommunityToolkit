@@ -119,6 +119,42 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(testAttribute.Animal, Animal.Llama);
         }
 
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4216
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservablePropertyWithValueNamedField()
+        {
+            var model = new ModelWithValueProperty();
+
+            List<string?> propertyNames = new();
+
+            model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
+
+            model.Value = "Hello world";
+
+            Assert.AreEqual(model.Value, "Hello world");
+
+            CollectionAssert.AreEqual(new[] { nameof(model.Value) }, propertyNames);
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4216
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservablePropertyWithValueNamedField_WithValidationAttributes()
+        {
+            var model = new ModelWithValuePropertyWithValidation();
+
+            List<string?> propertyNames = new();
+
+            model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
+
+            model.Value = "Hello world";
+
+            Assert.AreEqual(model.Value, "Hello world");
+
+            CollectionAssert.AreEqual(new[] { nameof(model.Value) }, propertyNames);
+        }
+
         public partial class SampleModel : ObservableObject
         {
             /// <summary>
@@ -194,6 +230,20 @@ namespace UnitTests.Mvvm
             Cat,
             Dog,
             Llama
+        }
+
+        public partial class ModelWithValueProperty : ObservableObject
+        {
+            [ObservableProperty]
+            private string value;
+        }
+
+        public partial class ModelWithValuePropertyWithValidation : ObservableValidator
+        {
+            [ObservableProperty]
+            [Required]
+            [MinLength(5)]
+            private string value;
         }
     }
 }

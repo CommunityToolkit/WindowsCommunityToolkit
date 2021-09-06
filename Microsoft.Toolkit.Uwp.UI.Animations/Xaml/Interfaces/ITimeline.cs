@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public interface ITimeline
     {
         /// <summary>
-        /// Appens the current animation to a target <see cref="AnimationBuilder"/> instance.
+        /// Appends the current animation to a target <see cref="AnimationBuilder"/> instance.
         /// This method is used when the current <see cref="ITimeline"/> instance is explicitly triggered.
         /// </summary>
         /// <param name="builder">The target <see cref="AnimationBuilder"/> instance to schedule the animation on.</param>
