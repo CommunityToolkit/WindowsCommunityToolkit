@@ -10,7 +10,6 @@ using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
@@ -36,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(null, OnGeometryChanged));
 
         /// <summary>
-        /// Gets or sets the <see cref="CanvasCoreGeometry"/> that is used to create the mask.
+        /// Gets or sets the <see cref="CanvasCoreGeometry"/> that is used to paint the surface of the brush.
         /// </summary>
         public CanvasCoreGeometry Geometry
         {

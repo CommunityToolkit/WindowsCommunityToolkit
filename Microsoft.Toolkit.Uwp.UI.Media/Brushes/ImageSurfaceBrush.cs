@@ -7,7 +7,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
@@ -68,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(null, OnSourceChanged));
 
         /// <summary>
-        /// Gets or sets the the .
+        /// Gets or sets the object representing the image source.
         /// </summary>
         public object Source
         {
