@@ -9,8 +9,8 @@ using CommunityToolkit.WinUI.UI.Controls;
 using CommunityToolkit.WinUI.UI.Controls.TextToolbarButtons.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Globalization;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Markup;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Markup;
 
 namespace UnitTests.XamlIslands.UWPApp
 {

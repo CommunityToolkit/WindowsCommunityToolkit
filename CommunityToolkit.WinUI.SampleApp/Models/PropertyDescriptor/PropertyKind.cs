@@ -13,6 +13,7 @@ namespace CommunityToolkit.WinUI.SampleApp.Models
         Bool,
         Brush,
         TimeSpan,
-        Thickness
+        Thickness,
+        Vector3,
     }
 }

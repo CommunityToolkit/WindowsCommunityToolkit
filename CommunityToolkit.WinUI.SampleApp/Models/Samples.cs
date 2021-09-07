@@ -91,7 +91,8 @@ namespace CommunityToolkit.WinUI.SampleApp
                 {
                     allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream, new JsonSerializerOptions
                     {
-                        ReadCommentHandling = JsonCommentHandling.Skip
+                        ReadCommentHandling = JsonCommentHandling.Skip,
+                        AllowTrailingCommas = true,
                     });
                 }
 

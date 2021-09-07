@@ -1,0 +1,75 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="using:CommunityToolkit.WinUI.UI"
+  xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
+  xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+  xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+  xmlns:ani="using:CommunityToolkit.WinUI.UI.Animations"
+  xmlns:behaviors="using:CommunityToolkit.WinUI.UI.Behaviors"
+  mc:Ignorable="d">
+
+  <Page.Resources>
+    <media:AttachedCardShadow x:Key="CommonShadow" Offset="4" CornerRadius="0"/>
+
+    <ani:AnimationSet x:Key="ShadowEnterAnimation">
+      <ani:OffsetDropShadowAnimation To="12"/>
+    </ani:AnimationSet>
+
+    <ani:AnimationSet x:Key="ShadowExitAnimation">
+      <ani:OffsetDropShadowAnimation To="4"/>
+    </ani:AnimationSet>
+
+    <ani:AnimationSet x:Key="ShadowPopAnimation" IsSequential="True">
+      <ani:TranslationAnimation To="-8" Duration="0:0:1"/>
+      <ani:OffsetDropShadowAnimation To="16" Duration="0:0:2" Target="{StaticResource CommonShadow}"/>
+      <ani:OffsetDropShadowAnimation To="4" Delay="0:0:0.5" Duration="0:0:2" Target="{StaticResource CommonShadow}"/>
+      <ani:TranslationAnimation To="0" Duration="0:0:1"/>
+    </ani:AnimationSet>
+  </Page.Resources>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
+           Height="100" Width="100"
+           Source="ms-appx:///Assets/Photos/Owl.jpg">
+      <interactivity:Interaction.Behaviors>
+        <interactions:EventTriggerBehavior EventName="PointerEntered">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowEnterAnimation}"/>
+        </interactions:EventTriggerBehavior>
+        <interactions:EventTriggerBehavior EventName="PointerExited">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowExitAnimation}"/>
+        </interactions:EventTriggerBehavior>
+      </interactivity:Interaction.Behaviors>
+    </Image>
+    <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
+           Height="100" Width="100"
+           Grid.Column="1"
+           Source="ms-appx:///Assets/Photos/Owl.jpg">
+      <interactivity:Interaction.Behaviors>
+        <interactions:EventTriggerBehavior EventName="PointerEntered">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowEnterAnimation}"/>
+        </interactions:EventTriggerBehavior>
+        <interactions:EventTriggerBehavior EventName="PointerExited">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowExitAnimation}"/>
+        </interactions:EventTriggerBehavior>
+      </interactivity:Interaction.Behaviors>
+    </Image>
+    <Button Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Click Me">
+      <interactivity:Interaction.Behaviors>
+        <interactions:EventTriggerBehavior EventName="Click">
+          <behaviors:StartAnimationAction Animation="{StaticResource ShadowPopAnimation}"/>
+        </interactions:EventTriggerBehavior>
+      </interactivity:Interaction.Behaviors>
+    </Button>
+  </Grid>
+</Page>

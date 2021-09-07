@@ -147,7 +147,8 @@ namespace CommunityToolkit.WinUI.SampleApp.Data
 
         public uint Prominence { get; set; }
 
-        public uint First_ascent { get; set; }
+        // You need to use DateTimeOffset to get proper binding to the CalendarDatePicker control, DateTime won't work.
+        public DateTimeOffset First_ascent { get; set; }
 
         public string Ascents { get; set; }
 

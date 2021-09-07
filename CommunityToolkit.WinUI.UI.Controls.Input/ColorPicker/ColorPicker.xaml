@@ -69,12 +69,13 @@
                     CornerRadius="4" />
             <ListBox x:Name="ColorPanelSelector"
                      Grid.Row="0"
-                     HorizontalAlignment="Center"
+                     HorizontalAlignment="Stretch"
                      Background="Transparent"
+                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                      ItemContainerStyle="{StaticResource UnderlineListBoxItemStyle}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
+                        <controls:UniformGrid Rows="1" />
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBoxItem x:Name="SpectrumListBoxItem"
@@ -1180,9 +1181,6 @@
         <Setter Property="Padding" Value="{StaticResource ListBoxItemPadding}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Margin" Value="8,0,8,0" />
-        <Setter Property="Padding" Value="24,0,24,0" />
-        <Setter Property="MinWidth" Value="100" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="Template" Value="{StaticResource UnderlineListBoxItemTemplate}" />
     </Style>

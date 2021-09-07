@@ -45,7 +45,7 @@ namespace CommunityToolkit.WinUI.UI.Automation.Peers
 
         /// <summary>Sets the value of a control.</summary>
         /// <param name="value">The value to set. The provider is responsible for converting the value to the appropriate data type.</param>
-        /// <exception cref="T:Windows.UI.Xaml.Automation.ElementNotEnabledException">Thrown if the control is in a read-only state.</exception>
+        /// <exception cref="T:Microsoft.UI.Xaml.Automation.ElementNotEnabledException">Thrown if the control is in a read-only state.</exception>
         public void SetValue(string value)
         {
             if (IsReadOnly)
@@ -88,9 +88,9 @@ namespace CommunityToolkit.WinUI.UI.Automation.Peers
         }
 
         /// <summary>
-        /// Gets the control pattern that is associated with the specified Windows.UI.Xaml.Automation.Peers.PatternInterface.
+        /// Gets the control pattern that is associated with the specified Microsoft.UI.Xaml.Automation.Peers.PatternInterface.
         /// </summary>
-        /// <param name="patternInterface">A value from the Windows.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
+        /// <param name="patternInterface">A value from the Microsoft.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
         /// <returns>The object that supports the specified pattern, or null if unsupported.</returns>
         protected override object GetPatternCore(PatternInterface patternInterface)
         {

@@ -179,6 +179,14 @@ namespace CommunityToolkit.WinUI.SampleApp.Controls
                             converter = new ThicknessConverter();
                             break;
 
+                        case PropertyKind.Vector3:
+                            var vectorTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+
+                            controlToAdd = vectorTextBox;
+                            dependencyProperty = TextBox.TextProperty;
+                            converter = new Vector3Converter();
+                            break;
+
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 

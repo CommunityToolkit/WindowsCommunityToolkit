@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -39,8 +40,8 @@ namespace CommunityToolkit.WinUI.SampleApp.Data
                         Coordinates = values[4],
                         Prominence = uint.Parse(values[5]),
                         Parent_mountain = values[6],
-                        First_ascent = uint.Parse(values[7]),
-                        Ascents = values[8]
+                        First_ascent = DateTimeOffset.Parse(values[7]),
+                        Ascents = values[8],
                     });
             }
 

@@ -105,7 +105,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
                 typeof(Brush),
                 typeof(ColorPickerSlider),
                 new PropertyMetadata(
-                    new SolidColorBrush(Colors.Gray),
+                    null,
                     (s, e) => (s as ColorPickerSlider)?.OnDependencyPropertyChanged(s, e)));
 
         /// <summary>
