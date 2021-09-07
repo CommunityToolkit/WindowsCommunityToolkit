@@ -68,7 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI
                 if (args.NewValue != null)
                 {
                     fe.Loaded += FrameworkElement_Loaded;
-                    
                     if (fe.Parent != null)
                     {
                         FrameworkElement_Loaded(fe, null);
