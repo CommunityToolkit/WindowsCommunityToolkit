@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.SourceGenerators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -249,6 +250,7 @@ namespace UnitTests.Mvvm
         private void VerifyGeneratedDiagnostics<TGenerator>(string source, params string[] diagnosticsIds)
             where TGenerator : class, ISourceGenerator, new()
         {
+            Type observableObjectType = typeof(ObservableObject);
             Type validationAttributeType = typeof(ValidationAttribute);
 
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(source);
@@ -271,6 +273,7 @@ namespace UnitTests.Mvvm
 
             Assert.IsTrue(resultingIds.SetEquals(diagnosticsIds));
 
+            GC.KeepAlive(observableObjectType);
             GC.KeepAlive(validationAttributeType);
         }
     }
