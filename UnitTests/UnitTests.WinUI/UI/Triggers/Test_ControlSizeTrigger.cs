@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 
-namespace UnitTests.UWP.UI.Triggers
+namespace UnitTests.WinUI.UI.Triggers
 {
     [TestClass]
     [TestCategory("Test_ControlSizeTrigger")]

@@ -10,7 +10,7 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.UWP.UI.Controls
+namespace UnitTests.WinUI.UI.Controls
 {
     [TestClass]
     public class Test_RichSuggestBox : VisualUITestBase
