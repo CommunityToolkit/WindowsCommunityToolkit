@@ -41,6 +41,15 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
+            // Validate the language version. Note that we're emitting this diagnostic in each generator (excluding the one
+            // only emitting the nullability annotation attributes if missing) so that the diagnostic is emitted only when
+            // users are using one of these generators, and not by default as soon as they add a reference to the MVVM Toolkit.
+            // This ensures that users not using any of the source generators won't be broken when upgrading to this new version.
+            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp9 })
+            {
+                context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
+            }
+
             // Sets of discovered property names
             HashSet<string>
                 propertyChangedNames = new(),

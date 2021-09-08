@@ -4,6 +4,7 @@
 
 using System.ComponentModel;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
 {
@@ -201,7 +202,23 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics
             category: typeof(ICommandGenerator).FullName,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true,
-            description: $"Cannot apply [ICommand] to methods with a signature that doesn't match any of the existing relay command types.",
+            description: "Cannot apply [ICommand] to methods with a signature that doesn't match any of the existing relay command types.",
+            helpLinkUri: "https://aka.ms/mvvmtoolkit");
+
+        /// <summary>
+        /// Gets a <see cref="DiagnosticDescriptor"/> indicating when an unsupported C# language version is being used.
+        /// <para>
+        /// Format: <c>"The method {0}.{1} cannot be used to generate a command property, as its signature isn't compatible with any of the existing relay command types"</c>.
+        /// </para>
+        /// </summary>
+        public static readonly DiagnosticDescriptor UnsupportedCSharpLanguageVersionError = new(
+            id: "MVVMTK0013",
+            title: "Unsupported C# language version",
+            messageFormat: "The source generator features from the MVVM Toolkit require consuming projects to set the C# language version to at least C# 9.0",
+            category: typeof(CSharpParseOptions).FullName,
+            defaultSeverity: DiagnosticSeverity.Error,
+            isEnabledByDefault: true,
+            description: "The source generator features from the MVVM Toolkit require consuming projects to set the C# language version to at least C# 9.0. Make sure to add <LangVersion>9.0</LangVersion> (or above) to your .csproj file.",
             helpLinkUri: "https://aka.ms/mvvmtoolkit");
     }
 }
