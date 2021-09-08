@@ -19,7 +19,7 @@ namespace UnitTests.Extensions
         public async Task Test_Ancestor_WeakReference()
         {
             // Need to sim loading the control, and not just load the XAML via XamlReader
-            var view = App.DispatcherQueue.EnqueueAsync(async () =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 var treeRoot = XamlReader.Load(
            @"<Page
@@ -57,7 +57,7 @@ namespace UnitTests.Extensions
         public async Task Test_Ancestor_WeakRef_UnloadGrid()
         {
             // Need to sim loading the control, and not just load the XAML via XamlReader
-            var view = App.DispatcherQueue.EnqueueAsync(async () =>
+            await App.DispatcherQueue.EnqueueAsync(async () =>
             {
                 var treeRoot = XamlReader.Load(
            @"<Page
