@@ -43,6 +43,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
+            // Validate the language version
+            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp9 })
+            {
+                context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
+            }
+
             foreach (var items in syntaxReceiver.GatheredInfo.GroupBy<SyntaxReceiver.Item, INamedTypeSymbol>(static item => item.MethodSymbol.ContainingType, SymbolEqualityComparer.Default))
             {
                 if (items.Key.DeclaringSyntaxReferences.Length > 0 &&

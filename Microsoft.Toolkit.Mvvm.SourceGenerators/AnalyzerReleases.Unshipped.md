@@ -17,3 +17,4 @@ MVVMTK0009 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator
 MVVMTK0010 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator | Error | See https://aka.ms/mvvmtoolkit/error
 MVVMTK0011 | Microsoft.Toolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator | Error | See https://aka.ms/mvvmtoolkit/error
 MVVMTK0012 | Microsoft.Toolkit.Mvvm.SourceGenerators.ICommandGenerator | Error | See https://aka.ms/mvvmtoolkit/error
+MVVMTK0013 | Microsoft.CodeAnalysis.CSharp.CSharpParseOptions | Error | See https://aka.ms/mvvmtoolkit/error
