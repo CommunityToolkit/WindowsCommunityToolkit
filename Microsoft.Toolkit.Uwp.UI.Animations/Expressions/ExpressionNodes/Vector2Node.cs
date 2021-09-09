@@ -297,7 +297,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
-            return $"Vector2({_value.X},{_value.Y})";
+            return $"Vector2({_value.X.ToCompositionString()},{_value.Y.ToCompositionString()})";
         }
 
         private Vector2 _value;

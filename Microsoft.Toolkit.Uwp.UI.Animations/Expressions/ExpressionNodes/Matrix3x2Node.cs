@@ -332,7 +332,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
-            return $"Matrix3x2({_value.M11},{_value.M12},{_value.M21},{_value.M22},{_value.M31},{_value.M32})";
+            return $"Matrix3x2({_value.M11.ToCompositionString()},{_value.M12.ToCompositionString()},{_value.M21.ToCompositionString()},{_value.M22.ToCompositionString()},{_value.M31.ToCompositionString()},{_value.M32.ToCompositionString()})";
         }
 
         private Matrix3x2 _value;
