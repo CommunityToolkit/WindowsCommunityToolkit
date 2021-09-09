@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Linq;
 using System.Numerics;
 using Windows.Foundation;
@@ -166,6 +167,16 @@ namespace Microsoft.Toolkit.Uwp.UI
                 _container.Children.Remove(context.SpriteVisual);
             }
 
+            context.SpriteVisual?.StopAnimation("Size");
+
+            context.Element.LayoutUpdated -= Element_LayoutUpdated;
+
+            if (context.VisibilityToken != null)
+            {
+                context.Element.UnregisterPropertyChangedCallback(UIElement.VisibilityProperty, context.VisibilityToken.Value);
+                context.VisibilityToken = null;
+            }
+
             base.OnElementContextUninitialized(context);
         }
 
@@ -176,6 +187,50 @@ namespace Microsoft.Toolkit.Uwp.UI
             {
                 _container.Children.InsertAtTop(context.SpriteVisual);
             }
+
+            // Handles size changing and other elements around it updating.
+            context.Element.LayoutUpdated -= Element_LayoutUpdated;
+            context.Element.LayoutUpdated += Element_LayoutUpdated;
+
+            if (context.VisibilityToken != null)
+            {
+                context.Element.UnregisterPropertyChangedCallback(UIElement.VisibilityProperty, context.VisibilityToken.Value);
+                context.VisibilityToken = null;
+            }
+
+            context.VisibilityToken = context.Element.RegisterPropertyChangedCallback(UIElement.VisibilityProperty, Element_VisibilityChanged);
+        }
+
+        private void Element_LayoutUpdated(object sender, object e)
+        {
+            // Update other shadows to account for layout changes
+            CastToElement_SizeChanged(null, null);
+        }
+
+        private void Element_VisibilityChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            if (sender is FrameworkElement element)
+            {
+                var context = GetElementContext(element);
+
+                if (element.Visibility == Visibility.Collapsed)
+                {
+                    if (_container != null && _container.Children.Contains(context.SpriteVisual))
+                    {
+                        _container.Children.Remove(context.SpriteVisual);
+                    }
+                }
+                else
+                {
+                    if (_container != null && !_container.Children.Contains(context.SpriteVisual))
+                    {
+                        _container.Children.InsertAtTop(context.SpriteVisual);
+                    }
+                }
+            }
+
+            // Update other shadows to account for layout changes
+            CastToElement_SizeChanged(null, null);
         }
 
         /// <inheritdoc/>
@@ -255,10 +310,22 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             // Position our shadow in the correct spot to match the corresponding element.
-            context.SpriteVisual.Size = context.Element.RenderSize.ToVector2();
             context.SpriteVisual.Offset = context.Element.CoordinatesFrom(CastTo).ToVector3();
 
+            BindSizeAndScale(context.SpriteVisual, context.Element);
+
             return mask;
+        }
+
+        private static void BindSizeAndScale(CompositionObject source, UIElement target)
+        {
+            var visual = ElementCompositionPreview.GetElementVisual(target);
+            var bindSizeAnimation = source.Compositor.CreateExpressionAnimation($"{nameof(visual)}.Size * {nameof(visual)}.Scale.XY");
+
+            bindSizeAnimation.SetReferenceParameter(nameof(visual), visual);
+
+            // Start the animation
+            source.StartAnimation("Size", bindSizeAnimation);
         }
 
         private void CustomMaskedElement_Loaded(object sender, RoutedEventArgs e)
@@ -274,9 +341,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <inheritdoc/>
         protected internal override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
-            var sizeAsVec2 = newSize.ToVector2();
-
-            context.SpriteVisual.Size = sizeAsVec2;
             context.SpriteVisual.Offset = context.Element.CoordinatesFrom(CastTo).ToVector3();
 
             UpdateShadowClip(context);
