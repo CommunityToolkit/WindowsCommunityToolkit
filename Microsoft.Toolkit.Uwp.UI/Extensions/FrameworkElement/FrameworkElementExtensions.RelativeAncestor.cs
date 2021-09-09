@@ -27,14 +27,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="value">FrameworkElement</param>
         public static void SetAncestor(DependencyObject obj, object value)
         {
-            obj.SetValue(AncestorProperty, value);
+            obj.SetValue(AncestorProperty, new WeakReference<object>(value));
         }
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for retrieving a parent <see cref="object"/> for the <see cref="AncestorProperty"/>
         /// </summary>
         public static readonly DependencyProperty AncestorProperty =
-            DependencyProperty.RegisterAttached("Ancestor", typeof(object), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("Ancestor", typeof(WeakReference<object>), typeof(FrameworkElementExtensions), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the Type of Ancestor to look for from this element.
