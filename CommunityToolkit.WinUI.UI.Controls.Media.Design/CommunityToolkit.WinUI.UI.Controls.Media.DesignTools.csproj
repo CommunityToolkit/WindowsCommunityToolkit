@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyTitle>Windows Community Toolkit - Layout Controls (Design)</AssemblyTitle>
-    <Description>Design time support for Windows Community Toolkit Layout Controls</Description>
+    <AssemblyTitle>Windows Community Toolkit - Media Controls (Design)</AssemblyTitle>
+    <Description>Design time support for Windows Community Toolkit Media Controls</Description>
   </PropertyGroup>
 
   <ItemGroup>

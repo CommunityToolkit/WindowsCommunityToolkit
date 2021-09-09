@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using static CommunityToolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace CommunityToolkit.Mvvm.SourceGenerators
@@ -36,6 +37,12 @@ namespace CommunityToolkit.Mvvm.SourceGenerators
                 syntaxReceiver.GatheredInfo.Count == 0)
             {
                 return;
+            }
+
+            // Validate the language version
+            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp9 })
+            {
+                context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
             }
 
             // Get the symbol for the IRecipient<T> interface type
