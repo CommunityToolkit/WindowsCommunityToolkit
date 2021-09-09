@@ -89,6 +89,9 @@ namespace UnitTests.Extensions
                 {
                     Assert.AreEqual(grid, null);
                 };
+
+                // Allow treeRoot to Unload, before test ends
+                await SetTestContentAsync(null);
             });
         }
     }
