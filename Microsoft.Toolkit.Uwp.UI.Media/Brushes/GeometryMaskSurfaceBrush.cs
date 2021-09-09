@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0d, OnPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the radius of Gaussian Blur to be applied on the brush.
+        /// Gets or sets the radius of Gaussian Blur to be applied on the mask.
         /// </summary>
         public double BlurRadius
         {

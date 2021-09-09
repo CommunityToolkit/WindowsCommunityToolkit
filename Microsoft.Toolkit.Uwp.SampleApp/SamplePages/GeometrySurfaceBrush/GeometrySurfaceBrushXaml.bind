@@ -13,7 +13,7 @@
                                       SurfaceHeight="800"
                                       SurfaceWidth="800">
               <media:GeometrySurfaceBrush.RenderStrokeStyle>
-                  <media:StrokeStyle />
+                  <geometry:StrokeStyle />
               </media:GeometrySurfaceBrush.RenderStrokeStyle>
               <media:GeometrySurfaceBrush.Stroke>
                   <media:SolidColorCanvasBrush Color="Blue" />
