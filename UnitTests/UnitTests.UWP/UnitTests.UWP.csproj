@@ -237,6 +237,7 @@
     <Compile Include="UI\Controls\Test_ConstrainedBox.Multiple.cs" />
     <Compile Include="UI\Controls\Test_ConstrainedBox.Combined.cs" />
     <Compile Include="UI\Controls\Test_ImageEx.cs" />
+    <Compile Include="UI\Controls\Test_ListDetailsView_UI.cs" />
     <Compile Include="UI\Controls\Test_RadialGauge.cs" />
     <Compile Include="UI\Controls\Test_RichSuggestBox.cs" />
     <Compile Include="UI\Controls\Test_TextToolbar_Localization.cs" />
