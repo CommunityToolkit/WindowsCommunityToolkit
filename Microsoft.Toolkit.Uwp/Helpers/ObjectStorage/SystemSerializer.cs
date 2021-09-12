@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// A bare-bones serializer which knows how to deal with primitive types and strings only. It will store them directly based on the <see cref="ApplicationDataContainer"/> API.
     /// It is recommended for more complex scenarios to implement your own <see cref="IObjectSerializer"/> based on System.Text.Json, Newtonsoft.Json, or DataContractJsonSerializer see https://aka.ms/wct/storagehelper-migration
     /// </summary>
+    [Obsolete("SystemSerializer has been migrated to the Microsoft.Toolkit (CommunityToolkit.Common) package.")]
     public class SystemSerializer : IObjectSerializer
     {
         /// <summary>

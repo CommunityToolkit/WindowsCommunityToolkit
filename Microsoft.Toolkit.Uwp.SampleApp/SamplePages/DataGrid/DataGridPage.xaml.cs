@@ -4,8 +4,8 @@
 
 using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -35,14 +35,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 dataGrid.LoadingRowGroup -= DataGrid_LoadingRowGroup;
             }
 
-            dataGrid = control.FindDescendantByName("dataGrid") as DataGrid;
+            dataGrid = control.FindDescendant("dataGrid") as DataGrid;
             if (dataGrid != null)
             {
                 dataGrid.Sorting += DataGrid_Sorting;
                 dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
                 dataGrid.ItemsSource = await viewModel.GetDataAsync();
+                dataGrid.PreparingCellForEdit += DataGrid_PreparingCellForEdit;
 
-                var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag.Equals("Mountain")) as DataGridComboBoxColumn;
+                var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag?.Equals("Mountain") == true) as DataGridComboBoxColumn;
                 if (comboBoxColumn != null)
                 {
                     comboBoxColumn.ItemsSource = await viewModel.GetMountains();
@@ -54,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 groupButton.Click -= GroupButton_Click;
             }
 
-            groupButton = control.FindDescendantByName("groupButton") as AppBarButton;
+            groupButton = control.FindDescendant("groupButton") as AppBarButton;
             if (groupButton != null)
             {
                 groupButton.Click += GroupButton_Click;
@@ -108,6 +109,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (clearFilter != null)
             {
                 clearFilter.Click += this.ClearFilter_Click;
+            }
+        }
+
+        private void DataGrid_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            if (e.Column is DataGridTemplateColumn column && (string)column?.Tag == "First_ascent" &&
+                e.EditingElement is CalendarDatePicker calendar)
+            {
+                calendar.IsCalendarOpen = true;
             }
         }
 

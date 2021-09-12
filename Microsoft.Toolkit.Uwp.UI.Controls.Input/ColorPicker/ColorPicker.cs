@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -8,12 +8,14 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using ColorPickerSlider = Microsoft.Toolkit.Uwp.UI.Controls.Primitives.ColorPickerSlider;
+using ColorSpectrum = Microsoft.UI.Xaml.Controls.Primitives.ColorSpectrum;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -38,6 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground8Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground9Border),  Type = typeof(Border))]
     [TemplatePart(Name = nameof(ColorPicker.CheckeredBackground10Border), Type = typeof(Border))]
+    [TemplatePart(Name = nameof(ColorPicker.ColorPanelSelector),          Type = typeof(ListBox))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumControl),        Type = typeof(ColorSpectrum))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumAlphaSlider),    Type = typeof(ColorPickerSlider))]
     [TemplatePart(Name = nameof(ColorPicker.ColorSpectrumThirdDimensionSlider), Type = typeof(ColorPickerSlider))]
@@ -51,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "Inline brackets are used to improve code readability with repeated null checks.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:Code should not contain multiple whitespace in a row", Justification = "Whitespace is used to align code in columns for readability.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
-    public partial class ColorPicker : Windows.UI.Xaml.Controls.ColorPicker
+    public partial class ColorPicker : Microsoft.UI.Xaml.Controls.ColorPicker
     {
         internal Color CheckerBackgroundColor { get; set; } = Color.FromArgb(0x19, 0x80, 0x80, 0x80); // Overridden later
 
@@ -63,8 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const int ColorUpdateInterval = 30; // Milliseconds
 
         private long tokenColor;
-        private long tokenCustomPalette;
-        private long tokenIsColorPaletteVisible;
 
         private bool callbacksConnected = false;
         private bool eventsConnected    = false;
@@ -74,8 +75,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private HsvColor?       savedHsvColor              = null;
         private Color?          savedHsvColorRgbEquivalent = null;
         private Color?          updatedRgbColor            = null;
-        private DispatcherTimer dispatcherTimer            = null;
+        private DispatcherQueueTimer dispatcherQueueTimer            = null;
 
+        private ListBox           ColorPanelSelector;
         private ColorSpectrum     ColorSpectrumControl;
         private ColorPickerSlider ColorSpectrumAlphaSlider;
         private ColorPickerSlider ColorSpectrumThirdDimensionSlider;
@@ -121,6 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ColorPicker()
         {
             this.DefaultStyleKey = typeof(ColorPicker);
+            this.DefaultStyleResourceUri = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Input/Themes/Generic.xaml");
 
             // Setup collections
             this.SetValue(CustomPaletteColorsProperty, new ObservableCollection<Color>());
@@ -134,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.ConnectCallbacks(true);
             this.SetDefaultPalette();
-            this.StartDispatcherTimer();
+            this.StartDispatcherQueueTimer();
         }
 
         /// <summary>
@@ -142,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         ~ColorPicker()
         {
-            this.StopDispatcherTimer();
+            this.StopDispatcherQueueTimer();
             this.CustomPaletteColors.CollectionChanged -= CustomPaletteColors_CollectionChanged;
         }
 
@@ -173,6 +176,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // We need to disconnect old events first
             this.ConnectEvents(false);
+
+            this.ColorPanelSelector = this.GetTemplateChild<ListBox>(nameof(ColorPanelSelector));
 
             this.ColorSpectrumControl              = this.GetTemplateChild<ColorSpectrum>(nameof(ColorSpectrumControl));
             this.ColorSpectrumAlphaSlider          = this.GetTemplateChild<ColorPickerSlider>(nameof(ColorSpectrumAlphaSlider));
@@ -213,6 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnApplyTemplate();
             this.UpdateVisualState(false);
+            this.ValidateSelectedPanel();
             this.isInitialized = true;
             this.SetActiveColorRepresentation(ColorRepresentation.Rgba);
             this.UpdateColorControlValues(); // TODO: This will also connect events after, can we optimize vs. doing it twice with the ConnectEvents above?
@@ -244,23 +250,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="connected">True to connect callbacks, otherwise false.</param>
         private void ConnectCallbacks(bool connected)
         {
-            if ((connected == true) &&
-                (this.callbacksConnected == false))
+            if (connected == true &&
+                this.callbacksConnected == false)
             {
                 // Add callbacks for dependency properties
-                this.tokenColor                 = this.RegisterPropertyChangedCallback(ColorProperty,                 OnColorChanged);
-                this.tokenCustomPalette         = this.RegisterPropertyChangedCallback(CustomPaletteProperty,         OnCustomPaletteChanged);
-                this.tokenIsColorPaletteVisible = this.RegisterPropertyChangedCallback(IsColorPaletteVisibleProperty, OnIsColorPaletteVisibleChanged);
+                this.tokenColor = this.RegisterPropertyChangedCallback(ColorProperty, OnColorChanged);
 
                 this.callbacksConnected = true;
             }
-            else if ((connected == false) &&
-                     (this.callbacksConnected == true))
+            else if (connected == false &&
+                     this.callbacksConnected == true)
             {
                 // Remove callbacks for dependency properties
-                this.UnregisterPropertyChangedCallback(ColorProperty,                 this.tokenColor);
-                this.UnregisterPropertyChangedCallback(CustomPaletteProperty,         this.tokenCustomPalette);
-                this.UnregisterPropertyChangedCallback(IsColorPaletteVisibleProperty, this.tokenIsColorPaletteVisible);
+                this.UnregisterPropertyChangedCallback(ColorProperty, this.tokenColor);
 
                 this.callbacksConnected = false;
             }
@@ -274,8 +276,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="connected">True to connect event handlers, otherwise false.</param>
         private void ConnectEvents(bool connected)
         {
-            if ((connected == true) &&
-                (this.eventsConnected == false))
+            if (connected == true &&
+                this.eventsConnected == false)
             {
                 // Add all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged += ColorSpectrum_ColorChanged; }
@@ -328,8 +330,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 this.eventsConnected = true;
             }
-            else if ((connected == false) &&
-                     (this.eventsConnected == true))
+            else if (connected == false &&
+                     this.eventsConnected == true)
             {
                 // Remove all events
                 if (this.ColorSpectrumControl != null) { this.ColorSpectrumControl.ColorChanged -= ColorSpectrum_ColorChanged; }
@@ -485,26 +487,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             switch (this.ColorSpectrumComponents)
             {
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationValue:
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueSaturation:
-                    {
-                        // Hue
-                        return ColorChannel.Channel1;
-                    }
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.SaturationValue:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.ValueSaturation:
+                {
+                    // Hue
+                    return ColorChannel.Channel1;
+                }
 
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueValue:
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue:
-                    {
-                        // Saturation
-                        return ColorChannel.Channel2;
-                    }
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.HueValue:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.ValueHue:
+                {
+                    // Saturation
+                    return ColorChannel.Channel2;
+                }
 
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation:
-                case Windows.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue:
-                    {
-                        // Value
-                        return ColorChannel.Channel3;
-                    }
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.HueSaturation:
+                case Microsoft.UI.Xaml.Controls.ColorSpectrumComponents.SaturationHue:
+                {
+                    // Value
+                    return ColorChannel.Channel3;
+                }
             }
 
             return ColorChannel.Alpha; // Error, should never get here
@@ -670,31 +672,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     switch (this.GetActiveColorSpectrumThirdDimension())
                     {
                         case ColorChannel.Channel1:
-                            {
-                                // Hue
-                                this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
-                                this.ColorSpectrumThirdDimensionSlider.Maximum = 360;
-                                this.ColorSpectrumThirdDimensionSlider.Value   = hue;
-                                break;
-                            }
+                        {
+                            // Hue
+                            this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
+                            this.ColorSpectrumThirdDimensionSlider.Maximum = 360;
+                            this.ColorSpectrumThirdDimensionSlider.Value   = hue;
+                            break;
+                        }
 
                         case ColorChannel.Channel2:
-                            {
-                                // Saturation
-                                this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
-                                this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
-                                this.ColorSpectrumThirdDimensionSlider.Value   = staturation;
-                                break;
-                            }
+                        {
+                            // Saturation
+                            this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
+                            this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
+                            this.ColorSpectrumThirdDimensionSlider.Value   = staturation;
+                            break;
+                        }
 
                         case ColorChannel.Channel3:
-                            {
-                                // Value
-                                this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
-                                this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
-                                this.ColorSpectrumThirdDimensionSlider.Value   = value;
-                                break;
-                            }
+                        {
+                            // Value
+                            this.ColorSpectrumThirdDimensionSlider.Minimum = 0;
+                            this.ColorSpectrumThirdDimensionSlider.Maximum = 100;
+                            this.ColorSpectrumThirdDimensionSlider.Value   = value;
+                            break;
+                        }
                     }
                 }
 
@@ -884,29 +886,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 switch (channel)
                 {
                     case ColorChannel.Channel1:
-                        {
-                            hue = Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 360);
-                            break;
-                        }
+                    {
+                        hue = Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 360);
+                        break;
+                    }
 
                     case ColorChannel.Channel2:
-                        {
-                            saturation = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
-                            break;
-                        }
+                    {
+                        saturation = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
+                        break;
+                    }
 
                     case ColorChannel.Channel3:
-                        {
-                            value = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
-                            break;
-                        }
+                    {
+                        value = Math.Clamp((double.IsNaN(newValue) ? 0 : newValue) / 100, 0, 1);
+                        break;
+                    }
 
                     case ColorChannel.Alpha:
-                        {
-                            // Unlike color channels, default to no transparency
-                            alpha = Math.Clamp((double.IsNaN(newValue) ? 100 : newValue) / 100, 0, 1);
-                            break;
-                        }
+                    {
+                        // Unlike color channels, default to no transparency
+                        alpha = Math.Clamp((double.IsNaN(newValue) ? 100 : newValue) / 100, 0, 1);
+                        break;
+                    }
                 }
 
                 newRgbColor = Uwp.Helpers.ColorHelper.FromHsv(
@@ -935,29 +937,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 switch (channel)
                 {
                     case ColorChannel.Channel1:
-                        {
-                            red = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        red = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
+                        break;
+                    }
 
                     case ColorChannel.Channel2:
-                        {
-                            green = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        green = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
+                        break;
+                    }
 
                     case ColorChannel.Channel3:
-                        {
-                            blue = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        blue = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 0 : newValue, 0, 255));
+                        break;
+                    }
 
                     case ColorChannel.Alpha:
-                        {
-                            // Unlike color channels, default to no transparency
-                            alpha = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 255 : newValue, 0, 255));
-                            break;
-                        }
+                    {
+                        // Unlike color channels, default to no transparency
+                        alpha = Convert.ToByte(Math.Clamp(double.IsNaN(newValue) ? 255 : newValue, 0, 255));
+                        break;
+                    }
                 }
 
                 newRgbColor = new Color()
@@ -1062,35 +1064,110 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return;
         }
 
+        /// <summary>
+        /// Validates and updates the current 'tab' or 'panel' selection.
+        /// If the currently selected tab is collapsed, the next visible tab will be selected.
+        /// </summary>
+        private void ValidateSelectedPanel()
+        {
+            object selectedItem = null;
+
+            if (this.ColorPanelSelector != null)
+            {
+                if (this.ColorPanelSelector.SelectedItem == null &&
+                    this.ColorPanelSelector.Items.Count > 0)
+                {
+                    // As a failsafe, forcefully select the first item
+                    selectedItem = this.ColorPanelSelector.Items[0];
+                }
+                else
+                {
+                    selectedItem = this.ColorPanelSelector.SelectedItem;
+                }
+
+                if (selectedItem is UIElement selectedElement &&
+                    selectedElement.Visibility == Visibility.Collapsed)
+                {
+                    // Select the first visible item instead
+                    foreach (object item in this.ColorPanelSelector.Items)
+                    {
+                        if (item is UIElement element &&
+                            element.Visibility == Visibility.Visible)
+                        {
+                            selectedItem = item;
+                            break;
+                        }
+                    }
+                }
+
+                this.ColorPanelSelector.SelectedItem = selectedItem;
+            }
+
+            return;
+        }
+
+        private void OnDependencyPropertyChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            DependencyObject senderControl = sender as DependencyObject;
+
+            /* Note: ColorProperty is defined in the base class and cannot be used here
+             * See the OnColorChanged callback below
+             */
+
+            if (object.ReferenceEquals(args.Property, CustomPaletteProperty))
+            {
+                IColorPalette palette = this.CustomPalette;
+
+                if (palette != null)
+                {
+                    this.CustomPaletteColumnCount = palette.ColorCount;
+                    this.CustomPaletteColors.Clear();
+
+                    for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
+                    {
+                        for (int colorIndex = 0; colorIndex < palette.ColorCount; colorIndex++)
+                        {
+                            this.CustomPaletteColors.Add(palette.GetColor(colorIndex, shadeIndex));
+                        }
+                    }
+                }
+            }
+            else if (object.ReferenceEquals(args.Property, IsColorPaletteVisibleProperty))
+            {
+                this.UpdateVisualState(false);
+                this.ValidateSelectedPanel();
+            }
+
+            return;
+        }
+
         /***************************************************************************************
          *
          * Color Update Timer
          *
          ***************************************************************************************/
 
-        private void StartDispatcherTimer()
+        private void StartDispatcherQueueTimer()
         {
-            this.dispatcherTimer = new DispatcherTimer()
-            {
-                Interval = new TimeSpan(0, 0, 0, 0, ColorUpdateInterval)
-            };
-            this.dispatcherTimer.Tick += DispatcherTimer_Tick;
-            this.dispatcherTimer.Start();
+            this.dispatcherQueueTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
+            this.dispatcherQueueTimer.Interval = new TimeSpan(0, 0, 0, 0, ColorUpdateInterval);
+            this.dispatcherQueueTimer.Tick += DispatcherQueueTimer_Tick;
+            this.dispatcherQueueTimer.Start();
 
             return;
         }
 
-        private void StopDispatcherTimer()
+        private void StopDispatcherQueueTimer()
         {
-            if (this.dispatcherTimer != null)
+            if (this.dispatcherQueueTimer != null)
             {
-                this.dispatcherTimer.Stop();
+                this.dispatcherQueueTimer.Stop();
             }
 
             return;
         }
 
-        private void DispatcherTimer_Tick(object sender, object e)
+        private void DispatcherQueueTimer_Tick(object sender, object e)
         {
             if (this.updatedRgbColor != null)
             {
@@ -1126,7 +1203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
          ***************************************************************************************/
 
         /// <summary>
-        /// Callback for when the <see cref="Windows.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
+        /// Callback for when the <see cref="Microsoft.UI.Xaml.Controls.ColorPicker.Color"/> dependency property value changes.
         /// </summary>
         private void OnColorChanged(DependencyObject d, DependencyProperty e)
         {
@@ -1143,39 +1220,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.UpdateColorControlValues();
             this.UpdateChannelSliderBackgrounds();
 
-            return;
-        }
-
-        /// <summary>
-        /// Callback for when the <see cref="CustomPalette"/> dependency property value changes.
-        /// </summary>
-        private void OnCustomPaletteChanged(DependencyObject d, DependencyProperty e)
-        {
-            IColorPalette palette = this.CustomPalette;
-
-            if (palette != null)
-            {
-                this.CustomPaletteColumnCount = palette.ColorCount;
-                this.CustomPaletteColors.Clear();
-
-                for (int shadeIndex = 0; shadeIndex < palette.ShadeCount; shadeIndex++)
-                {
-                    for (int colorIndex = 0; colorIndex < palette.ColorCount; colorIndex++)
-                {
-                        this.CustomPaletteColors.Add(palette.GetColor(colorIndex, shadeIndex));
-                    }
-                }
-            }
-
-            return;
-        }
-
-        /// <summary>
-        /// Callback for when the <see cref="IsColorPaletteVisible"/> dependency property value changes.
-        /// </summary>
-        private void OnIsColorPaletteVisibleChanged(DependencyObject d, DependencyProperty e)
-        {
-            this.UpdateVisualState(false);
             return;
         }
 
@@ -1227,7 +1271,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Event handler for when the color spectrum color is changed.
         /// This occurs when the user presses on the spectrum to select a new color.
         /// </summary>
-        private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Windows.UI.Xaml.Controls.ColorChangedEventArgs args)
+        private void ColorSpectrum_ColorChanged(ColorSpectrum sender, Microsoft.UI.Xaml.Controls.ColorChangedEventArgs args)
         {
             // It is OK in this case to use the RGB representation
             this.ScheduleColorUpdate(this.ColorSpectrumControl.Color);

@@ -13,6 +13,7 @@ namespace UnitTests.Markdown.Parse
     [TestClass]
     public class QuoteTests : ParseTestBase
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_SingleLine()
@@ -28,10 +29,11 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - block")]
         public void Quote_MultiLine_1()
         {
-            AssertEqual(CollapseWhitespace(@"
+            var spaces = "  ";
+            AssertEqual(CollapseWhitespace($@"
                 > Single line
 
-                >Quote  
+                >Quote{spaces}
                 with line break
 
 
@@ -95,11 +97,12 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - block")]
         public void Quote_Nested()
         {
-            AssertEqual(CollapseWhitespace(@"
+            var empty = string.Empty;
+            AssertEqual(CollapseWhitespace($@"
                 >Quoted
                 >>Nested quote
                 >Still nested
-                
+                {empty}
                 >Not nested"),
                 new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
@@ -177,10 +180,11 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - block")]
         public void Quote_WithCode()
         {
-            AssertEqual(CollapseWhitespace(@"
+            var empty = string.Empty;
+            AssertEqual(CollapseWhitespace($@"
                 >     code, line 1
                 >
-                
+                {empty}
                 >     code, line 4"),
 
                 new QuoteBlock().AddChildren(
@@ -191,10 +195,11 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - block")]
         public void Quote_WithList()
         {
-            AssertEqual(CollapseWhitespace(@"
+            var empty = string.Empty;
+            AssertEqual(CollapseWhitespace($@"
                 >     code, line 1
                 >
-                
+                {empty}
                 >     code, line 4"),
 
                 new QuoteBlock().AddChildren(
@@ -210,5 +215,6 @@ namespace UnitTests.Markdown.Parse
                     new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
                     new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" })))));
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

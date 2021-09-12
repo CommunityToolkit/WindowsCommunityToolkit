@@ -1,0 +1,79 @@
+<Page
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+  xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+  mc:Ignorable="d">
+
+  <Page.Resources>
+    <media:AttachedCardShadow x:Key="CommonShadow" Offset="4"/>
+
+    <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+      <Setter Property="ui:Effects.Shadow" Value="{StaticResource CommonShadow}"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+  </Page.Resources>
+
+  <ScrollViewer>
+    <StackPanel Spacing="32" VerticalAlignment="Center">
+      <!-- All buttons on this page have the shadow from the common style!
+           The Shadow definition is Shared! -->
+      <Button Content="I Have a Shadow!"/>
+      <!-- Can apply the same shadow to any type of element! -->
+      <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
+             Height="100" Width="100"
+             Source="ms-appx:///Assets/Photos/Owl.jpg"/>
+      <!-- You can still apply a Shadow directly and even use binding with it to manipulate at runtime! -->
+      <Rectangle RadiusX="32" RadiusY="32"
+                 Height="100" Width="100"
+                 Stroke="Blue" StrokeThickness="1">
+        <Rectangle.Fill>
+          <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
+        </Rectangle.Fill>
+        <ui:Effects.Shadow>
+          <media:AttachedCardShadow BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
+                                    CornerRadius="32"
+                                    Color="@[Color:Brush:Black]"
+                                    Offset="@[Offset:Vector3:4,4]"
+                                    Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"/>
+        </ui:Effects.Shadow>
+      </Rectangle>
+      <!-- If you want to apply a shadow directly in your visual tree to an untemplated element
+           You need to at least have a layer of depth as seen in this next example. -->
+      <Border Height="100" Width="100">
+        <Border CornerRadius="32"
+                BorderBrush="White" BorderThickness="1">
+          <Border.Background>
+            <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
+          </Border.Background>
+        </Border>
+        <!-- We need to put the Shadow on a parent element here as otherwise the
+             rounding of the border of the image above clips the shadow itself.
+             This is easier to perform with the Composition only based shadow as the
+             Shadow is projected to another element. -->
+        <ui:Effects.Shadow>
+          <media:AttachedCardShadow CornerRadius="32"
+                                    Offset="4,4"/>
+        </ui:Effects.Shadow>
+      </Border>
+      <!-- Note how even though this element is transparent, the shadow only shows on its edges still! -->
+      <Rectangle ui:Effects.Shadow="{StaticResource CommonShadow}"
+                 Fill="#80FF0000"
+                 RadiusX="4" RadiusY="4"
+                 Width="200" Height="100"/>
+      <!-- Compared to the old DropShadowPanel where the shadow bleeds through and
+       the Shadow opacity is tied to the Rectangle itself -->
+      <controls:DropShadowPanel xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                                OffsetX="4" OffsetY="4"
+                                BlurRadius="12"
+                                HorizontalAlignment="Center">
+        <Rectangle Fill="#80FF0000"
+                   RadiusX="4" RadiusY="4"
+                   Width="200" Height="100"/>
+      </controls:DropShadowPanel>
+      <Button Content="I Also have a Shadow!"/>
+    </StackPanel>
+  </ScrollViewer>
+</Page>

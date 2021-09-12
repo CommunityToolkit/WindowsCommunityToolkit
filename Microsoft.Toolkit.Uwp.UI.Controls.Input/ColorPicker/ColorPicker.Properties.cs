@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -20,7 +20,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(CustomPaletteColors),
                 typeof(ObservableCollection<Windows.UI.Color>),
                 typeof(ColorPicker),
-                new PropertyMetadata(Windows.UI.Color.FromArgb(0x00, 0x00, 0x00, 0x00)));
+                new PropertyMetadata(
+                    null,
+                    (s, e) => (s as ColorPicker)?.OnDependencyPropertyChanged(s, e)));
 
         /// <summary>
         /// Gets the list of custom palette colors.
@@ -38,7 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(CustomPaletteColumnCount),
                 typeof(int),
                 typeof(ColorPicker),
-                new PropertyMetadata(4));
+                new PropertyMetadata(
+                    4,
+                    (s, e) => (s as ColorPicker)?.OnDependencyPropertyChanged(s, e)));
 
         /// <summary>
         /// Gets or sets the number of colors in each row (section) of the custom color palette.
@@ -64,7 +68,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(CustomPalette),
                 typeof(IColorPalette),
                 typeof(ColorPicker),
-                new PropertyMetadata(DependencyProperty.UnsetValue));
+                new PropertyMetadata(
+                    null,
+                    (s, e) => (s as ColorPicker)?.OnDependencyPropertyChanged(s, e)));
 
         /// <summary>
         /// Gets or sets the custom color palette.
@@ -91,7 +97,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(IsColorPaletteVisible),
                 typeof(bool),
                 typeof(ColorPicker),
-                new PropertyMetadata(true));
+                new PropertyMetadata(
+                    true,
+                    (s, e) => (s as ColorPicker)?.OnDependencyPropertyChanged(s, e)));
 
         /// <summary>
         /// Gets or sets a value indicating whether the color palette is visible.

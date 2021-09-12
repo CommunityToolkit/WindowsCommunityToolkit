@@ -1,16 +1,15 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI.Core;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -19,9 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1124:Do not use regions", Justification = "Organization")]
     [TemplatePart(Name = PART_AutoSuggestBox, Type = typeof(AutoSuggestBox))] //// String case
+    [TemplatePart(Name = PART_TokensCounter, Type = typeof(TextBlock))]
     public partial class TokenizingTextBoxItem
     {
         private const string PART_AutoSuggestBox = "PART_AutoSuggestBox";
+        private const string PART_TokensCounter = "PART_TokensCounter";
 
         private AutoSuggestBox _autoSuggestBox;
 
@@ -234,6 +235,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         #region Inner TextBox
         private void OnASBLoaded(object sender, RoutedEventArgs e)
         {
+            UpdateTokensCounter(this);
+
             // Local function for Selection changed
             void AutoSuggestTextBox_SelectionChanged(object box, RoutedEventArgs args)
             {
@@ -330,6 +333,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
                 Owner.SelectAllTokensAndText();
+            }
+        }
+
+        private void UpdateTokensCounter(TokenizingTextBoxItem ttbi)
+        {
+            var maxTokensCounter = (TextBlock)_autoSuggestBox?.FindDescendant(PART_TokensCounter);
+            if (maxTokensCounter == null)
+            {
+                return;
+            }
+
+            void OnTokenCountChanged(TokenizingTextBox ttb, object value = null)
+            {
+                var itemsSource = ttb.ItemsSource as InterspersedObservableCollection;
+                var currentTokens = itemsSource.ItemsSource.Count;
+                var maxTokens = ttb.MaximumTokens;
+
+                maxTokensCounter.Text = $"{currentTokens}/{maxTokens}";
+                maxTokensCounter.Visibility = Visibility.Visible;
+
+                maxTokensCounter.Foreground = (currentTokens >= maxTokens)
+                    ? new SolidColorBrush(Colors.Red)
+                    : _autoSuggestBox.Foreground;
+            }
+
+            ttbi.Owner.TokenItemAdded -= OnTokenCountChanged;
+            ttbi.Owner.TokenItemRemoved -= OnTokenCountChanged;
+
+            if (Content is ITokenStringContainer str && str.IsLast && ttbi?.Owner != null && ttbi.Owner.ReadLocalValue(TokenizingTextBox.MaximumTokensProperty) != DependencyProperty.UnsetValue)
+            {
+                ttbi.Owner.TokenItemAdded += OnTokenCountChanged;
+                ttbi.Owner.TokenItemRemoved += OnTokenCountChanged;
+                OnTokenCountChanged(ttbi.Owner);
+            }
+            else
+            {
+                maxTokensCounter.Visibility = Visibility.Collapsed;
+                maxTokensCounter.Text = string.Empty;
             }
         }
         #endregion

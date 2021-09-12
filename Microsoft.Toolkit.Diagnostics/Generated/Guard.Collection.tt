@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 <#@include file="TypeInfo.ttinclude" #>
@@ -266,7 +266,7 @@ GenerateTextForItems(EnumerableTypes, item =>
     // in 2-complement to perform the bounds check with a single compare operation.
     // This is the same trick used throughout CoreCLR as well.
     // For more info and code sample, see the original conversation here:
-    // https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3131#discussion_r390682835
+    // https://github.com/CommunityToolkit/WindowsCommunityToolkit/pull/3131#discussion_r390682835
 #>
             if ((uint)index < (uint)<#=item.Name#>.<#=item.Size#>)
             {

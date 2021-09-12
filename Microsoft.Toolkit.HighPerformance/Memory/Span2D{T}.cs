@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -8,7 +8,9 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Microsoft.Toolkit.HighPerformance.Extensions;
+#if !SPAN_RUNTIME_SUPPORT
+using Microsoft.Toolkit.HighPerformance.Helpers;
+#endif
 using Microsoft.Toolkit.HighPerformance.Memory.Internals;
 using Microsoft.Toolkit.HighPerformance.Memory.Views;
 #if !SPAN_RUNTIME_SUPPORT
@@ -249,7 +251,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(offset), height);
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(offset));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(offset));
             this.height = height;
 #endif
             this.width = width;
@@ -281,7 +283,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReference(), array.GetLength(0));
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(0, 0));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(0, 0));
             this.height = array.GetLength(0);
 #endif
             this.width = this.Stride = array.GetLength(1);
@@ -349,7 +351,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(row, column), height);
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(row, column));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(row, column));
             this.height = height;
 #endif
             this.width = width;
@@ -381,7 +383,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, 0, 0), array.GetLength(1));
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, 0, 0));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, 0, 0));
             this.height = array.GetLength(1);
 #endif
             this.width = this.Stride = array.GetLength(2);
@@ -440,7 +442,7 @@ namespace Microsoft.Toolkit.HighPerformance
             this.span = MemoryMarshal.CreateSpan(ref array.DangerousGetReferenceAt(depth, row, column), height);
 #else
             this.Instance = array;
-            this.Offset = array.DangerousGetObjectDataByteOffset(ref array.DangerousGetReferenceAt(depth, row, column));
+            this.Offset = ObjectMarshal.DangerousGetObjectDataByteOffset(array, ref array.DangerousGetReferenceAt(depth, row, column));
             this.height = height;
 #endif
             this.width = width;
@@ -765,14 +767,14 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </summary>
         /// <param name="destination">The destination <see cref="Span2D{T}"/> instance.</param>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="destination" /> is shorter than the source <see cref="Span2D{T}"/> instance.
+        /// Thrown when <paramref name="destination" /> does not have the same shape as the source <see cref="Span2D{T}"/> instance.
         /// </exception>
         public void CopyTo(Span2D<T> destination)
         {
             if (destination.Height != Height ||
                 destination.width != this.width)
             {
-                ThrowHelper.ThrowArgumentException();
+                ThrowHelper.ThrowArgumentExceptionForDestinationWithNotSameShape();
             }
 
             if (IsEmpty)
@@ -1060,7 +1062,10 @@ namespace Microsoft.Toolkit.HighPerformance
                 // Without Span<T> runtime support, we can only get a Span<T> from a T[] instance
                 if (this.Instance.GetType() == typeof(T[]))
                 {
-                    span = Unsafe.As<T[]>(this.Instance).AsSpan((int)this.Offset, (int)Length);
+                    T[] array = Unsafe.As<T[]>(this.Instance)!;
+                    int index = array.AsSpan().IndexOf(ref ObjectMarshal.DangerousGetObjectDataReferenceAt<T>(array, this.Offset));
+
+                    span = array.AsSpan(index, (int)Length);
 
                     return true;
                 }
@@ -1168,6 +1173,6 @@ namespace Microsoft.Toolkit.HighPerformance
         /// Implicily converts a given 2D array into a <see cref="Span2D{T}"/> instance.
         /// </summary>
         /// <param name="array">The input 2D array to convert.</param>
-        public static implicit operator Span2D<T>(T[,]? array) => new Span2D<T>(array);
+        public static implicit operator Span2D<T>(T[,]? array) => new(array);
     }
 }

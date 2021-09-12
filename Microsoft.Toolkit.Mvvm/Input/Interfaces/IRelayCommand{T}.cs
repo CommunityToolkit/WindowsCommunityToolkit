@@ -18,13 +18,13 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// <param name="parameter">The input parameter.</param>
         /// <returns>Whether or not the current command can be executed.</returns>
         /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
-        bool CanExecute(T parameter);
+        bool CanExecute(T? parameter);
 
         /// <summary>
         /// Provides a strongly-typed variant of <see cref="ICommand.Execute(object)"/>.
         /// </summary>
         /// <param name="parameter">The input parameter.</param>
         /// <remarks>Use this overload to avoid boxing, if <typeparamref name="T"/> is a value type.</remarks>
-        void Execute(T parameter);
+        void Execute(T? parameter);
     }
 }

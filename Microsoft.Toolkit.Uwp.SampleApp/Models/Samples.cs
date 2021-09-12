@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -21,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private static LinkedList<Sample> _recentSamples;
-        private static LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
+        private static ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
@@ -59,7 +60,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     allCategories = await JsonSerializer.DeserializeAsync<List<SampleCategory>>(jsonStream.AsStream(), new JsonSerializerOptions
                     {
-                        ReadCommentHandling = JsonCommentHandling.Skip
+                        ReadCommentHandling = JsonCommentHandling.Skip,
+                        AllowTrailingCommas = true,
                     });
                 }
 
@@ -98,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (_recentSamples == null)
             {
                 _recentSamples = new LinkedList<Sample>();
-                var savedSamples = _localObjectStorageHelper.Read<string>(_recentSamplesStorageKey);
+                var savedSamples = _settingsStorage.Read<string>(_recentSamplesStorageKey);
 
                 if (savedSamples != null)
                 {
@@ -144,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             var str = string.Join(";", _recentSamples.Take(10).Select(s => s.Name).ToArray());
-            _localObjectStorageHelper.Save<string>(_recentSamplesStorageKey, str);
+            _settingsStorage.Save<string>(_recentSamplesStorageKey, str);
         }
     }
 }

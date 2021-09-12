@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -383,7 +383,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The unedited value. </returns>
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
         {
-            return (editingElement as ComboBox)?.SelectedItem;
+            if(editingElement is ComboBox comboBox)
+            {
+                comboBox.IsDropDownOpen = true;
+                return comboBox.SelectedItem;
+            }
+
+            return null;
         }
 
         /// <summary>

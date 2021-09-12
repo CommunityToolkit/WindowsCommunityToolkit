@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap mp rescap">
 
   <Identity
     Name="3568ebdf-5b6b-4ddd-bb17-462d614ba50f"
@@ -50,5 +49,7 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <!-- Our AppService Background Connection will Timeout after a period of time otherwise. -->
+    <rescap:Capability Name="extendedBackgroundTaskTime"/>
   </Capabilities>
 </Package>

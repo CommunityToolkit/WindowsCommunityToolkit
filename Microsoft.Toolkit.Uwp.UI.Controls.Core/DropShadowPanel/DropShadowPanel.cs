@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -18,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The <see cref="DropShadowPanel"/> control allows the creation of a DropShadow for any Xaml FrameworkElement in markup
     /// making it easier to add shadows to Xaml without having to directly drop down to Windows.UI.Composition APIs.
     /// </summary>
+    [Obsolete("DropShadowPanel will be removed in a future release, please use the AttachedDropShadow or AttachedCardShadow implementations instead.")]
     [TemplatePart(Name = PartShadow, Type = typeof(Border))]
     public partial class DropShadowPanel : ContentControl
     {
@@ -168,7 +168,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 CompositionBrush mask = null;
 
-                if (Content is Image)
+                // We check for IAlphaMaskProvider first, to ensure that we use the custom
+                // alpha mask even if Content happens to extend any of the other classes
+                if (Content is IAlphaMaskProvider maskedControl)
+                {
+                    if (maskedControl.WaitUntilLoaded && maskedControl is FrameworkElement element && !element.IsLoaded)
+                    {
+                        element.Loaded += CustomMaskedElement_Loaded;
+                    }
+                    else
+                    {
+                        mask = maskedControl.GetAlphaMask();
+                    }
+                }
+                else if (Content is Image)
                 {
                     mask = ((Image)Content).GetAlphaMask();
                 }
@@ -180,17 +193,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     mask = ((TextBlock)Content).GetAlphaMask();
                 }
-                else if (Content is ImageExBase imageExBase)
-                {
-                    imageExBase.ImageExInitialized += ImageExInitialized;
-
-                    if (imageExBase.IsInitialized)
-                    {
-                        imageExBase.ImageExInitialized -= ImageExInitialized;
-
-                        mask = ((ImageExBase)Content).GetAlphaMask();
-                    }
-                }
 
                 _dropShadow.Mask = mask;
             }
@@ -200,15 +202,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ImageExInitialized(object sender, EventArgs e)
+        private void CustomMaskedElement_Loaded(object sender, RoutedEventArgs e)
         {
-            var imageExBase = (ImageExBase)Content;
+            if (sender is FrameworkElement element)
+            {
+                element.Loaded -= CustomMaskedElement_Loaded;
 
-            imageExBase.ImageExInitialized -= ImageExInitialized;
-
-            CompositionBrush mask = ((ImageExBase)Content).GetAlphaMask();
-
-            _dropShadow.Mask = mask;
+                _dropShadow.Mask = ((IAlphaMaskProvider)element).GetAlphaMask();
+            }
         }
 
         private void UpdateShadowOffset(float x, float y, float z)

@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
-            return $"Quaternion({_value.X},{_value.Y},{_value.Z},{_value.W})";
+            return $"Quaternion({_value.X.ToCompositionString()},{_value.Y.ToCompositionString()},{_value.Z.ToCompositionString()},{_value.W.ToCompositionString()})";
         }
 
         private Quaternion _value;

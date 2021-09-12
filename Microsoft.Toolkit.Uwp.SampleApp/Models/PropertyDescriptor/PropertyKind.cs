@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Models
         Bool,
         Brush,
         TimeSpan,
-        Thickness
+        Thickness,
+        Vector3,
     }
 }

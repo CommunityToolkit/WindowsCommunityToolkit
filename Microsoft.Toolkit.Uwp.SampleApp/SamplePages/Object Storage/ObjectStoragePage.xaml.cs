@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.UI.Xaml;
 
@@ -9,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ObjectStoragePage
     {
-        private readonly IObjectStorageHelper localStorageHelper = new LocalObjectStorageHelper(new SystemSerializer());
+        private readonly ApplicationDataStorageHelper _settingsStorage = ApplicationDataStorageHelper.GetCurrent();
 
         public ObjectStoragePage()
         {
@@ -24,9 +25,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Read from local storage
-            if (localStorageHelper.KeyExists(KeyTextBox.Text))
+            if (_settingsStorage.KeyExists(KeyTextBox.Text))
             {
-                ContentTextBox.Text = localStorageHelper.Read<string>(KeyTextBox.Text);
+                ContentTextBox.Text = _settingsStorage.Read<string>(KeyTextBox.Text);
             }
         }
 
@@ -43,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             // Save into local storage
-            localStorageHelper.Save(KeyTextBox.Text, ContentTextBox.Text);
+            _settingsStorage.Save(KeyTextBox.Text, ContentTextBox.Text);
         }
     }
 }

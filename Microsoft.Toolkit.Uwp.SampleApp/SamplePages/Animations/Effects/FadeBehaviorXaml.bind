@@ -7,7 +7,6 @@
     xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
     xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
   <Button Background="Gray" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">

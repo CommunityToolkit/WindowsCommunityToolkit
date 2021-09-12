@@ -18,6 +18,6 @@ namespace Microsoft.Toolkit.Mvvm.Input
         /// </summary>
         /// <param name="parameter">The input parameter.</param>
         /// <returns>The <see cref="Task"/> representing the async operation being executed.</returns>
-        Task ExecuteAsync(T parameter);
+        Task ExecuteAsync(T? parameter);
     }
 }

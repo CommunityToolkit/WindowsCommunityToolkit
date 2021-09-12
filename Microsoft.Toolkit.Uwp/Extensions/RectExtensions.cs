@@ -1,12 +1,14 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Windows.Foundation;
 using Rect = Windows.Foundation.Rect;
+using Size = Windows.Foundation.Size;
 
-namespace Microsoft.Toolkit.Uwp.Extensions
+namespace Microsoft.Toolkit.Uwp
 {
     /// <summary>
     /// Extensions for the <see cref="Rect"/> type.
@@ -32,6 +34,18 @@ namespace Microsoft.Toolkit.Uwp.Extensions
                    (rect1.Right >= rect2.Left) &&
                    (rect1.Top <= rect2.Bottom) &&
                    (rect1.Bottom >= rect2.Top);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Size"/> of the specified <see cref="Rect"/>'s width and height.
+        /// </summary>
+        /// <param name="rect">Rectangle to size.</param>
+        /// <returns>Size of rectangle.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Size ToSize(this Rect rect)
+        {
+            return new Size(rect.Width, rect.Height);
         }
     }
 }

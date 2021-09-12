@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <remarks>
         /// If the back button controlled by <see cref="Windows.UI.Core.SystemNavigationManager"/> is already visible, the <see cref="ListDetailsView"/> will hook into that button.
-        /// If the new NavigationView provided by the Windows UI nuget package is used, the <see cref="ListDetailsView"/> will enable and show that button.
+        /// If the new NavigationView provided by the Windows UI NuGet package is used, the <see cref="ListDetailsView"/> will enable and show that button.
         /// Otherwise the inline button is used.
         /// </remarks>
         Automatic,
