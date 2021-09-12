@@ -58,10 +58,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <summary>
         /// Creates a custom shaped Effect Brush using BackdropBrush and an <see cref="IGeometryMaskSurface"/> or an <see cref="IGaussianMaskSurface"/>.
         /// </summary>
-        /// <param name="compositor">Compositor</param>
-        /// <param name="mask">IGeometryMaskSurface or IGaussianMaskSurface</param>
-        /// <param name="blendColor">Color to blend in the BackdropBrush</param>
-        /// <param name="blurAmount">Blur Amount of the Backdrop Brush</param>
+        /// <param name="compositor">Compositor.</param>
+        /// <param name="mask"><see cref="IGeometryMaskSurface"/> or <see cref="IGaussianMaskSurface"/>.</param>
+        /// <param name="blendColor">Color to blend in the BackdropBrush.</param>
+        /// <param name="blurAmount">Blur Amount of the Backdrop Brush.</param>
         /// <param name="backdropBrush">Backdrop Brush (optional). If not provided, then compositor creates it.</param>
         /// <returns>CompositionEffectBrush</returns>
         internal static CompositionEffectBrush CreateBackdropBrush(Compositor compositor, IRenderSurface mask, Color blendColor, float blurAmount, CompositionBackdropBrush backdropBrush = null)
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             };
 
             // Create Effect Factory
-            var factory = compositor.CreateEffectFactory(effect, new[] { "Blur.BlurAmount", "Color.Color" });
+            var factory = compositor.CreateEffectFactory(effect, new[] { $"Blur.{nameof(GaussianBlurEffect.BlurAmount)}", $"Color.{nameof(ColorSourceEffect.Color)}" });
 
             // Create Effect Brush
             var brush = factory.CreateBrush();
@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             };
 
             // Create Effect Factory
-            var factory = compositor.CreateEffectFactory(effect, new[] { "Blur.BlurAmount", "BlendColor.Color" });
+            var factory = compositor.CreateEffectFactory(effect, new[] { $"Blur.{nameof(GaussianBlurEffect.BlurAmount)}", $"BlendColor.{nameof(ColorSourceEffect.Color)}" });
 
             // Create Effect Brush
             var brush = factory.CreateBrush();
