@@ -63,6 +63,11 @@ namespace CommunityToolkit.WinUI.Interop
         private GCHandle stateHandle;
 
         /// <summary>
+        /// The generic stub to invoke the current callback with the right generic context.
+        /// </summary>
+        private delegate*<DispatcherQueueProxyHandler1*, int> stub;
+
+        /// <summary>
         /// The current reference count for the object (from <c>IUnknown</c>).
         /// </summary>
         private volatile uint referenceCount;
@@ -70,16 +75,19 @@ namespace CommunityToolkit.WinUI.Interop
         /// <summary>
         /// Creates a new <see cref="DispatcherQueueProxyHandler1"/> instance for the input callback and state.
         /// </summary>
+        /// <typeparam name="T">The type of state currently being used.</typeparam>
         /// <param name="handler">The input <see cref="DispatcherQueueHandler{TState}"/> callback to enqueue.</param>
         /// <param name="state">The input state to capture and pass to the callback.</param>
         /// <returns>A pointer to the newly initialized <see cref="DispatcherQueueProxyHandler1"/> instance.</returns>
-        public static DispatcherQueueProxyHandler1* Create(object handler, object state)
+        public static DispatcherQueueProxyHandler1* Create<T>(DispatcherQueueHandler<T> handler, T state)
+            where T : class
         {
             DispatcherQueueProxyHandler1* @this = (DispatcherQueueProxyHandler1*)Marshal.AllocHGlobal(sizeof(DispatcherQueueProxyHandler1));
 
             @this->lpVtbl = Vtbl;
             @this->callbackHandle = GCHandle.Alloc(handler);
             @this->stateHandle = GCHandle.Alloc(state);
+            @this->stub = &Impl.Invoke<T>;
             @this->referenceCount = 1;
 
             return @this;
@@ -175,18 +183,21 @@ namespace CommunityToolkit.WinUI.Interop
             [UnmanagedCallersOnly]
             public static int Invoke(DispatcherQueueProxyHandler1* @this)
             {
+                return @this->stub(@this);
+            }
+
+            /// <summary>
+            /// Implements <c>IDispatcherQueueHandler.Invoke()</c> from within a generic context.
+            /// </summary>
+            public static int Invoke<T>(DispatcherQueueProxyHandler1* @this)
+                where T : class
+            {
                 object callback = @this->callbackHandle.Target!;
                 object state = @this->stateHandle.Target!;
 
                 try
                 {
-                    // We do an unsafe cast here to treat the captured delegate as if the contravariant
-                    // input type was actually declared as covariant. This is valid because the type
-                    // parameter is constrained to be a reference type, and due to how the proxy handler
-                    // is constructed we know that the captured state will always match the actual type
-                    // of the captured handler at this point. This lets this whole method work without the
-                    // need to make the proxy type itself generic, so without knowing the actual type argument.
-                    Unsafe.As<DispatcherQueueHandler<object>>(callback)(state);
+                    Unsafe.As<DispatcherQueueHandler<T>>(callback)(Unsafe.As<T>(state));
                 }
                 catch (Exception e)
                 {

@@ -68,6 +68,11 @@ namespace CommunityToolkit.WinUI.Interop
         private GCHandle state2Handle;
 
         /// <summary>
+        /// The generic stub to invoke the current callback with the right generic context.
+        /// </summary>
+        private delegate*<DispatcherQueueProxyHandler2*, int> stub;
+
+        /// <summary>
         /// The current reference count for the object (from <c>IUnknown</c>).
         /// </summary>
         private volatile uint referenceCount;
@@ -75,11 +80,15 @@ namespace CommunityToolkit.WinUI.Interop
         /// <summary>
         /// Creates a new <see cref="DispatcherQueueProxyHandler2"/> instance for the input callback and state.
         /// </summary>
+        /// <typeparam name="T1">The type of the first state to capture.</typeparam>
+        /// <typeparam name="T2">The type of the second state to capture.</typeparam>
         /// <param name="handler">The input <see cref="DispatcherQueueHandler{T1,T2}"/> callback to enqueue.</param>
         /// <param name="state1">The first input state to capture and pass to the callback.</param>
         /// <param name="state2">The second input state to capture and pass to the callback.</param>
         /// <returns>A pointer to the newly initialized <see cref="DispatcherQueueProxyHandler2"/> instance.</returns>
-        public static DispatcherQueueProxyHandler2* Create(object handler, object state1, object state2)
+        public static DispatcherQueueProxyHandler2* Create<T1, T2>(DispatcherQueueHandler<T1, T2> handler, T1 state1, T2 state2)
+            where T1 : class
+            where T2 : class
         {
             DispatcherQueueProxyHandler2* @this = (DispatcherQueueProxyHandler2*)Marshal.AllocHGlobal(sizeof(DispatcherQueueProxyHandler2));
 
@@ -87,6 +96,7 @@ namespace CommunityToolkit.WinUI.Interop
             @this->callbackHandle = GCHandle.Alloc(handler);
             @this->state1Handle = GCHandle.Alloc(state1);
             @this->state2Handle = GCHandle.Alloc(state2);
+            @this->stub = &Impl.Invoke<T1, T2>;
             @this->referenceCount = 1;
 
             return @this;
@@ -184,14 +194,25 @@ namespace CommunityToolkit.WinUI.Interop
             [UnmanagedCallersOnly]
             public static int Invoke(DispatcherQueueProxyHandler2* @this)
             {
+                return @this->stub(@this);
+            }
+
+            /// <summary>
+            /// Implements <c>IDispatcherQueueHandler.Invoke()</c> from within a generic context.
+            /// </summary>
+            public static int Invoke<T1, T2>(DispatcherQueueProxyHandler2* @this)
+                where T1 : class
+                where T2 : class
+            {
                 object callback = @this->callbackHandle.Target!;
                 object state1 = @this->state1Handle.Target!;
                 object state2 = @this->state2Handle.Target!;
 
                 try
                 {
-                    // Same optimization as in DispatcherQueueProxyHandler1
-                    Unsafe.As<DispatcherQueueHandler<object, object>>(callback)(state1, state2);
+                    Unsafe.As<DispatcherQueueHandler<object, object>>(callback)(
+                        Unsafe.As<T1>(state1),
+                        Unsafe.As<T2>(state2));
                 }
                 catch (Exception e)
                 {
