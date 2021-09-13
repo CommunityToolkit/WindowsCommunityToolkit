@@ -405,7 +405,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusItemList()
         {
-            if (GetTemplateChild("PartMainList") is Control list)
+            if (GetTemplateChild(PartMainList) is Control list)
             {
                 list.Focus(FocusState.Programmatic);
             }
