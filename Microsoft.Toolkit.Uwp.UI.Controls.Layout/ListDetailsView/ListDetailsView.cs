@@ -163,6 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
             UpdateView(true);
+            SetFocus(ViewState);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
