@@ -14,6 +14,7 @@ namespace UnitTests.Extensions
     [TestClass]
     public class Test_FrameworkElementExtensions : VisualUITestBase
     {
+        [Ignore]
         [TestCategory("FrameworkElementExtensions")]
         [TestMethod]
         public async Task Test_Ancestor_WeakReference()
@@ -52,6 +53,7 @@ namespace UnitTests.Extensions
             });
         }
 
+        [Ignore]
         [TestCategory("FrameworkElementExtensions")]
         [TestMethod]
         public async Task Test_Ancestor_WeakRef_UnloadGrid()
