@@ -61,6 +61,8 @@ namespace UnitTests.Extensions
             // Need to sim loading the control, and not just load the XAML via XamlReader
             await App.DispatcherQueue.EnqueueAsync(async () =>
             {
+                var placeholder = new object();
+                
                 var treeRoot = XamlReader.Load(
            @"<Page
                     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
@@ -94,6 +96,8 @@ namespace UnitTests.Extensions
 
                 // Allow treeRoot to Unload, before test ends
                 await SetTestContentAsync(null);
+
+                Assert.IsNotNull(placeholder);
             });
         }
     }
