@@ -43,6 +43,7 @@
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
         <Setter Property="Width" Value="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}" />
         <Setter Property="Height" Value="{StaticResource SystemControlMSEdgeNotificationDismissButtonSize}" />
+        <Setter Property="Padding" Value="4" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="HighContrastAdjustment" Value="None" />
         <Setter Property="Template">
@@ -150,9 +151,10 @@
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="12"
                         VerticalAlignment="Top"
+                        Padding="4"
                         Style="{StaticResource DismissTextBlockButtonStyle}">
                     <Button.RenderTransform>
-                        <TranslateTransform x:Name="DismissButtonTransform" X="25" Y="-5"/>
+                        <TranslateTransform x:Name="DismissButtonTransform" X="20" Y="2"/>
                     </Button.RenderTransform>
                 </Button>
             </Grid>
