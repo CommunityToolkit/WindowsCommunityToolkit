@@ -71,7 +71,7 @@ namespace UnitTests.Mvvm
             model.Name = "Bob";
             model.Surname = "Ross";
 
-            CollectionAssert.AreEqual(new[] { nameof(model.Name), nameof(model.FullName), nameof(model.Surname), nameof(model.FullName) }, propertyNames);
+            CollectionAssert.AreEqual(new[] { nameof(model.Name), nameof(model.FullName), nameof(model.Alias), nameof(model.Surname), nameof(model.FullName), nameof(model.Alias) }, propertyNames);
         }
 
         [TestCategory("Mvvm")]
@@ -169,13 +169,16 @@ namespace UnitTests.Mvvm
         {
             [ObservableProperty]
             [AlsoNotifyChangeFor(nameof(FullName))]
+            [AlsoNotifyChangeFor(nameof(Alias))]
             private string? name;
 
             [ObservableProperty]
-            [AlsoNotifyChangeFor(nameof(FullName))]
+            [AlsoNotifyChangeFor(nameof(FullName), nameof(Alias))]
             private string? surname;
 
             public string FullName => $"{Name} {Surname}";
+
+            public string Alias => $"{Name?.ToLower()}{Surname?.ToLower()}";
         }
 
         public partial class MyFormViewModel : ObservableValidator
