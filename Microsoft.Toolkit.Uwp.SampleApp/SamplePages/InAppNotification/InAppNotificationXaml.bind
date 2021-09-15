@@ -265,7 +265,7 @@
                         VerticalAlignment="Center"
                         Visibility="{Binding ShowDismissButton, ElementName=ExampleCustomInAppNotification}">
                       <Button.RenderTransform>
-                          <TranslateTransform x:Name="DismissButtonTransform" X="20" Y="1"/>
+                        <TranslateTransform x:Name="DismissButtonTransform" X="20" Y="1"/>
                       </Button.RenderTransform>
                     </Button>
                   </Grid>
