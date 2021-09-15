@@ -16,6 +16,7 @@
         - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
         - InAppNotification: Show local notifications in your application.
         - Loading: Helps to show content with animation to the user while the app is doing some calculation.
+        - MetadataControl: Control for organizing text based categories with a separator, supports commands.
         - RadialProgressBar: Displays progress as a circle getting filled.
         - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
         - TabbedCommandBar: A command bar that organizes features of an application into a series of tabs.
@@ -29,6 +30,7 @@
         Image;Ex           ;ImageEx          ;
         In;App;Notification;InAppNotification;InApp       ;
         Loading            ;
+        Metadata;Tags;
         Radial;Progress;Bar;RadialProgressBar;ProgressBar ;
         Rotator;Tile       ;RotatorTile      ;
         Tabbed;Command;Bar ;TabbedCommandBar ;CommandBar  ;
