@@ -16,6 +16,8 @@ using Microsoft.Toolkit.Mvvm.SourceGenerators.Extensions;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using static Microsoft.Toolkit.Mvvm.SourceGenerators.Diagnostics.DiagnosticDescriptors;
 
+#pragma warning disable SA1008
+
 namespace Microsoft.Toolkit.Mvvm.SourceGenerators
 {
     /// <summary>
@@ -46,8 +48,10 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
             }
 
-            // Get the symbol for the ValidationAttribute type
-            INamedTypeSymbol validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!;
+            // Get the symbol for the required attributes
+            INamedTypeSymbol
+                validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!,
+                observablePropertySymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservablePropertyAttribute")!;
 
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
@@ -145,14 +149,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                 Parameter(Identifier("obj")).WithType(PredefinedType(Token(SyntaxKind.ObjectKeyword))))
                             .WithBody(Block(
                                 LocalDeclarationStatement(
-                                    VariableDeclaration(IdentifierName("var")) // Cannot Token(SyntaxKind.VarKeyword) here (throws an ArgumentException)
+                                    VariableDeclaration(IdentifierName("var")) // Cannot use Token(SyntaxKind.VarKeyword) here (throws an ArgumentException)
                                     .AddVariables(
                                         VariableDeclarator(Identifier("instance"))
                                         .WithInitializer(EqualsValueClause(
                                             CastExpression(
                                                 IdentifierName(classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
                                                 IdentifierName("obj")))))))
-                                .AddStatements(EnumerateValidationStatements(classSymbol, validationSymbol).ToArray())),
+                                .AddStatements(EnumerateValidationStatements(classSymbol, validationSymbol, observablePropertySymbol).ToArray())),
                             ReturnStatement(IdentifierName("ValidateAllProperties")))))))
                     .NormalizeWhitespace()
                     .ToFullString();
@@ -166,27 +170,46 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
         }
 
         /// <summary>
-        /// Gets a sequence of statements to validate declared properties.
+        /// Gets a sequence of statements to validate declared properties (including generated ones).
         /// </summary>
         /// <param name="classSymbol">The input <see cref="INamedTypeSymbol"/> instance to process.</param>
         /// <param name="validationSymbol">The type symbol for the <c>ValidationAttribute</c> type.</param>
+        /// <param name="observablePropertySymbol">The type symbol for the <c>ObservablePropertyAttribute</c> type.</param>
         /// <returns>The sequence of <see cref="StatementSyntax"/> instances to validate declared properties.</returns>
         [Pure]
-        private static IEnumerable<StatementSyntax> EnumerateValidationStatements(INamedTypeSymbol classSymbol, INamedTypeSymbol validationSymbol)
+        private static IEnumerable<StatementSyntax> EnumerateValidationStatements(INamedTypeSymbol classSymbol, INamedTypeSymbol validationSymbol, INamedTypeSymbol observablePropertySymbol)
         {
-            foreach (var propertySymbol in classSymbol.GetMembers().OfType<IPropertySymbol>())
+            foreach (var memberSymbol in classSymbol.GetMembers())
             {
-                if (propertySymbol.IsIndexer)
+                if (memberSymbol is not (IPropertySymbol { IsIndexer: false } or IFieldSymbol))
                 {
                     continue;
                 }
 
-                ImmutableArray<AttributeData> attributes = propertySymbol.GetAttributes();
+                ImmutableArray<AttributeData> attributes = memberSymbol.GetAttributes();
 
+                // Also include fields that are annotated with [ObservableProperty]. This is necessary because
+                // all generators run in an undefined order and looking at the same original compilation, so the
+                // current one wouldn't be able to see generated properties from other generators directly.
+                if (memberSymbol is IFieldSymbol &&
+                    !attributes.Any(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, observablePropertySymbol)))
+                {
+                    continue;
+                }
+
+                // Skip the current member if there are no validation attributes applied to it
                 if (!attributes.Any(a => a.AttributeClass?.InheritsFrom(validationSymbol) == true))
                 {
                     continue;
                 }
+
+                // Get the target property name either directly or matching the generated one
+                string propertyName = memberSymbol switch
+                {
+                    IPropertySymbol propertySymbol => propertySymbol.Name,
+                    IFieldSymbol fieldSymbol => ObservablePropertyGenerator.GetGeneratedPropertyName(fieldSymbol),
+                    _ => throw new InvalidOperationException("Invalid symbol type")
+                };
 
                 // This enumerator produces a sequence of statements as follows:
                 //
@@ -207,14 +230,14 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                                 MemberAccessExpression(
                                     SyntaxKind.SimpleMemberAccessExpression,
                                     IdentifierName("instance"),
-                                    IdentifierName(propertySymbol.Name))),
+                                    IdentifierName(propertyName))),
                             Argument(
                                 InvocationExpression(IdentifierName("nameof"))
                                 .AddArgumentListArguments(Argument(
                                     MemberAccessExpression(
                                         SyntaxKind.SimpleMemberAccessExpression,
                                         IdentifierName("instance"),
-                                        IdentifierName(propertySymbol.Name)))))));
+                                        IdentifierName(propertyName)))))));
             }
         }
     }
