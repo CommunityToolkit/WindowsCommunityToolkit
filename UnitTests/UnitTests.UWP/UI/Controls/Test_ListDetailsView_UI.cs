@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 
 namespace UnitTests.UWP.UI.Controls
@@ -52,23 +53,22 @@ namespace UnitTests.UWP.UI.Controls
                 
                 await SetTestContentAsync(listDetailsView);
 
-                await Task.Delay(1000);
-
                 var firsttb = listDetailsView.FindDescendant<TextBox>();
 
-                firsttb.Focus(FocusState.Programmatic);
+                await App.DispatcherQueue.EnqueueAsync(() => firsttb.Focus(FocusState.Programmatic));
 
-                await Task.Delay(1000);
+                Assert.AreEqual(firsttb, FocusManager.GetFocusedElement(), "TextBox didn't get focus");
 
-                var firstLostFocus = false;
+                var tcs = new TaskCompletionSource<bool>();
 
-                firsttb.LostFocus += (s, e) => firstLostFocus = true;
+                firsttb.LostFocus += (s, e) => tcs.SetResult(true);
 
                 listDetailsView.SelectedIndex = -1;
 
-                await Task.Delay(1000);
+                await Task.WhenAny(tcs.Task, Task.Delay(2000));
 
-                Assert.IsTrue(firstLostFocus, "TextBox in the first item should have lost focus.");
+                Assert.IsTrue(tcs.Task.IsCompleted);
+                Assert.IsTrue(tcs.Task.Result, "TextBox in the first item should have lost focus.");
             });
         }
 
@@ -90,23 +90,22 @@ namespace UnitTests.UWP.UI.Controls
 
                 await SetTestContentAsync(listDetailsView);
 
-                await Task.Delay(1000);
-
                 var firsttb = listDetailsView.FindDescendant<TextBox>();
 
-                firsttb.Focus(FocusState.Programmatic);
+                await App.DispatcherQueue.EnqueueAsync(() => firsttb.Focus(FocusState.Programmatic));
 
-                await Task.Delay(1000);
+                Assert.AreEqual(firsttb, FocusManager.GetFocusedElement(), "TextBox didn't get focus");
 
-                var firstLostFocus = false;
+                var tcs = new TaskCompletionSource<bool>();
 
-                firsttb.LostFocus += (s, e) => firstLostFocus = true;
+                firsttb.LostFocus += (s, e) => tcs.SetResult(true);
 
                 listDetailsView.SelectedIndex = 1;
 
-                await Task.Delay(1000);
+                await Task.WhenAny(tcs.Task, Task.Delay(2000));
 
-                Assert.IsTrue(firstLostFocus, "TextBox in the first item should have lost focus.");
+                Assert.IsTrue(tcs.Task.IsCompleted);
+                Assert.IsTrue(tcs.Task.Result, "TextBox in the first item should have lost focus.");
             });
         }
     }
