@@ -37,6 +37,7 @@
       </TextBlock>
       <controls:TokenizingTextBox
           x:Name="TokenBox"
+          ItemsSource="{Binding SelectedTokens}"
           PlaceholderText="Add Actions"
           QueryIcon="{ui:SymbolIconSource Symbol=Setting}"
           MaxHeight="104"
@@ -65,7 +66,7 @@
         <Run>Current Edit: </Run>
         <Run Text="{Binding Text, ElementName=TokenBox}"/>
       </TextBlock>
-      <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=TokenBox}"/>
+      <ItemsControl ItemsSource="{Binding SelectedTokens}"/>
     </StackPanel>
 
     <StackPanel Grid.Row="1">
@@ -73,6 +74,7 @@
                  Margin="0,0,0,4"/>
       <controls:TokenizingTextBox
             x:Name="TokenBoxEmail"
+            ItemsSource="{Binding SelectedEmails}"
             PlaceholderText="Select Names"
             MaxHeight="104"
             HorizontalAlignment="Stretch"

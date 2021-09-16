@@ -90,7 +90,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private AdvancedCollectionView _acv;
         private AdvancedCollectionView _acvEmail;
 
-        private ObservableCollection<SampleEmailDataType> _selectedEmails;
+        public ObservableCollection<SampleDataType> SelectedTokens { get; set; }
+
+        public ObservableCollection<SampleEmailDataType> SelectedEmails { get; set; }
 
         public TokenizingTextBoxPage()
         {
@@ -112,7 +114,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            _selectedEmails = new ObservableCollection<SampleEmailDataType>();
+            SelectedTokens = new();
+            SelectedEmails = new();
+
+            control.DataContext = this;
 
             if (_ttb != null)
             {
@@ -150,7 +155,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 _ttbEmail = ttbEmail;
 
-                _ttbEmail.ItemsSource = _selectedEmails;
                 _ttbEmail.ItemClick += EmailTokenItemClick;
                 _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
