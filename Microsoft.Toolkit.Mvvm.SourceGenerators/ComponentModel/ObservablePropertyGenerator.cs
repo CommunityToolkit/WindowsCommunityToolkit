@@ -443,7 +443,7 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))))
                 .AddAttributeLists(validationAttributes.Select(static a => AttributeList(SingletonSeparatedList(a))).ToArray())
-                .WithLeadingTrivia(leadingTrivia)
+                .WithLeadingTrivia(leadingTrivia.Where(static trivia => !trivia.IsKind(SyntaxKind.RegionDirectiveTrivia) && !trivia.IsKind(SyntaxKind.EndRegionDirectiveTrivia)))
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
                 .AddAccessorListAccessors(
                     AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)

@@ -11,6 +11,8 @@ using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+#pragma warning disable SA1124
+
 #nullable enable
 
 namespace UnitTests.Mvvm
@@ -56,6 +58,86 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(changing.Item2, 0);
             Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel.Data));
             Assert.AreEqual(changed.Item2, 42);
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4225
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservablePropertyAttributeWithinRegion_Events()
+        {
+            var model = new SampleModel();
+
+            (PropertyChangingEventArgs, int) changing = default;
+            (PropertyChangedEventArgs, int) changed = default;
+
+            model.PropertyChanging += (s, e) =>
+            {
+                Assert.IsNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changing = (e, model.Counter);
+            };
+
+            model.PropertyChanged += (s, e) =>
+            {
+                Assert.IsNotNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changed = (e, model.Counter);
+            };
+
+            model.Counter = 42;
+
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModel.Counter));
+            Assert.AreEqual(changing.Item2, 0);
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel.Counter));
+            Assert.AreEqual(changed.Item2, 42);
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4225
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservablePropertyAttributeRightBelowRegion_Events()
+        {
+            var model = new SampleModel();
+
+            (PropertyChangingEventArgs, string?) changing = default;
+            (PropertyChangedEventArgs, string?) changed = default;
+
+            model.PropertyChanging += (s, e) =>
+            {
+                Assert.IsNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changing = (e, model.Name);
+            };
+
+            model.PropertyChanged += (s, e) =>
+            {
+                Assert.IsNotNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changed = (e, model.Name);
+            };
+
+            model.Name = "Bob";
+
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModel.Name));
+            Assert.AreEqual(changing.Item2, null);
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel.Name));
+            Assert.AreEqual(changed.Item2, "Bob");
         }
 
         [TestCategory("Mvvm")]
@@ -162,6 +244,16 @@ namespace UnitTests.Mvvm
             /// </summary>
             [ObservableProperty]
             private int data;
+
+            #region More properties
+
+            [ObservableProperty]
+            private int counter;
+
+            #endregion
+
+            [ObservableProperty]
+            private string? name;
         }
 
         [INotifyPropertyChanged]
