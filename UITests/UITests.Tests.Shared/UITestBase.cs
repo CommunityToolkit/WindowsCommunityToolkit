@@ -6,8 +6,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 using System.Threading.Tasks;
 
 #if USING_TAEF
@@ -17,6 +15,9 @@ using WEX.TestExecution.Markup;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
+
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 namespace UITests.Tests
 {

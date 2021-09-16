@@ -3,8 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 #if USING_TAEF
 using WEX.Logging.Interop;
@@ -14,9 +12,11 @@ using WEX.TestExecution.Markup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+
 namespace UITests.Tests
 {
-
     [TestClass]
     public class RangeSelectorTest : UITestBase
     {

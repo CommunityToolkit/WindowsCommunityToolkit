@@ -361,7 +361,7 @@ namespace UnitTests.Mvvm
         public partial class ModelWithValueProperty : ObservableObject
         {
             [ObservableProperty]
-            private string value;
+            private string? value;
         }
 
         public partial class ModelWithValuePropertyWithValidation : ObservableValidator
@@ -369,7 +369,7 @@ namespace UnitTests.Mvvm
             [ObservableProperty]
             [Required]
             [MinLength(5)]
-            private string value;
+            private string? value;
         }
   
         public partial class ViewModelWithValidatableGeneratedProperties : ObservableValidator
