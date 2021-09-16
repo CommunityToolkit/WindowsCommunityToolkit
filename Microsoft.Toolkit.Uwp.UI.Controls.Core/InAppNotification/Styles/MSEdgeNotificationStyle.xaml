@@ -154,7 +154,7 @@
                         Padding="4"
                         Style="{StaticResource DismissTextBlockButtonStyle}">
                     <Button.RenderTransform>
-                        <TranslateTransform x:Name="DismissButtonTransform" X="20" Y="2"/>
+                        <TranslateTransform x:Name="DismissButtonTransform" X="20" Y="1"/>
                     </Button.RenderTransform>
                 </Button>
             </Grid>
