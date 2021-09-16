@@ -2,14 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
+using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -91,6 +89,77 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.AreEqual(100, child.ActualWidth, 0.01, "Actual width does not meet expected value of 100");
                 Assert.AreEqual(200, child.ActualHeight, 0.01, "Actual height does not meet expected value of 200");
             });
+        }
+
+        [TestCategory("ConstrainedBox")]
+        [TestMethod]
+        public void Test_ConstrainedBox_AspectRatioParsing_WidthAndHeight()
+        {
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+            try
+            {
+                CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+                AspectRatio ratio = AspectRatio.ConvertToAspectRatio("1.666:1.2");
+
+                Assert.AreEqual(ratio.Width, 1.666);
+                Assert.AreEqual(ratio.Height, 1.2);
+
+                // Explicit tests for other culture infos, see https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4252
+                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("it-IT");
+
+                ratio = AspectRatio.ConvertToAspectRatio("1.666:1.2");
+
+                Assert.AreEqual(ratio.Width, 1.666);
+                Assert.AreEqual(ratio.Height, 1.2);
+
+                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+                ratio = AspectRatio.ConvertToAspectRatio("1.666:1.2");
+
+                Assert.AreEqual(ratio.Width, 1.666);
+                Assert.AreEqual(ratio.Height, 1.2);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = currentCulture;
+            }
+        }
+
+        [TestCategory("ConstrainedBox")]
+        [TestMethod]
+        public void Test_ConstrainedBox_AspectRatioParsing_Ratio()
+        {
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+            try
+            {
+                CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+                AspectRatio ratio = AspectRatio.ConvertToAspectRatio("1.666");
+
+                Assert.AreEqual(ratio.Width, 1.666);
+                Assert.AreEqual(ratio.Height, 1);
+
+                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("it-IT");
+
+                ratio = AspectRatio.ConvertToAspectRatio("1.666");
+
+                Assert.AreEqual(ratio.Width, 1.666);
+                Assert.AreEqual(ratio.Height, 1);
+
+                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+                ratio = AspectRatio.ConvertToAspectRatio("1.666");
+
+                Assert.AreEqual(ratio.Width, 1.666);
+                Assert.AreEqual(ratio.Height, 1);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = currentCulture;
+            }
         }
     }
 }
