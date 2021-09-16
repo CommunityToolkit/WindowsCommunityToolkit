@@ -20,6 +20,8 @@ namespace CommunityToolkit.WinUI.UI
 
         private Dictionary<string, object> _resources;
 
+        internal long? VisibilityToken { get; set; }
+
         /// <summary>
         /// Gets a value indicating whether or not this <see cref="AttachedShadowElementContext"/> has been initialized.
         /// </summary>

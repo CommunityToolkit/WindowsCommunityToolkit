@@ -39,7 +39,7 @@ namespace UnitTests.XamlIslands.UWPApp
         [TestMethod]
         public async Task ThemeListenerDispatcherTestAsync()
         {
-            await _themeListener.OnColorValuesChanged();
+            await _themeListener.OnThemePropertyChangedAsync();
 
             await _taskCompletionSource.Task;
         }
@@ -49,7 +49,7 @@ namespace UnitTests.XamlIslands.UWPApp
         {
             await Task.Run(async () =>
             {
-                await _themeListener.OnColorValuesChanged();
+                await _themeListener.OnThemePropertyChangedAsync();
             });
             await _taskCompletionSource.Task;
         }
