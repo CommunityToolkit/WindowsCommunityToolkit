@@ -403,10 +403,10 @@ namespace CommunityToolkit.WinUI.UI.Animations.Expressions
         /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
-            return $"Matrix4x4({_value.M11},{_value.M12},{_value.M13},{_value.M14}," +
-                             $"{_value.M21},{_value.M22},{_value.M23},{_value.M24}," +
-                             $"{_value.M31},{_value.M32},{_value.M33},{_value.M34}," +
-                             $"{_value.M41},{_value.M42},{_value.M43},{_value.M44})";
+            return $"Matrix4x4({_value.M11.ToCompositionString()},{_value.M12.ToCompositionString()},{_value.M13.ToCompositionString()},{_value.M14.ToCompositionString()}," +
+                             $"{_value.M21.ToCompositionString()},{_value.M22.ToCompositionString()},{_value.M23.ToCompositionString()},{_value.M24.ToCompositionString()}," +
+                             $"{_value.M31.ToCompositionString()},{_value.M32.ToCompositionString()},{_value.M33.ToCompositionString()},{_value.M34.ToCompositionString()}," +
+                             $"{_value.M41.ToCompositionString()},{_value.M42.ToCompositionString()},{_value.M43.ToCompositionString()},{_value.M44.ToCompositionString()})";
         }
 
         private Matrix4x4 _value;

@@ -67,7 +67,7 @@ namespace CommunityToolkit.Mvvm.ComponentModel
     /// }
     /// </code>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
     public sealed class AlsoNotifyChangeForAttribute : Attribute
     {
         /// <summary>
@@ -87,7 +87,7 @@ namespace CommunityToolkit.Mvvm.ComponentModel
         /// The other property names to also notify when the annotated property changes. This parameter can optionally
         /// be used to indicate a series of dependent properties from the same attribute, to keep the code more compact.
         /// </param>
-        public AlsoNotifyChangeForAttribute(string propertyName, string[] otherPropertyNames)
+        public AlsoNotifyChangeForAttribute(string propertyName, params string[] otherPropertyNames)
         {
             PropertyNames = new[] { propertyName }.Concat(otherPropertyNames).ToArray();
         }

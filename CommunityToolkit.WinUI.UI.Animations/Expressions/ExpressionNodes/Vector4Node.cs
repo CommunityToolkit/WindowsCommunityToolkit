@@ -343,7 +343,7 @@ namespace CommunityToolkit.WinUI.UI.Animations.Expressions
         /// <returns>System.String.</returns>
         protected internal override string GetValue()
         {
-            return $"Vector4({_value.X},{_value.Y},{_value.Z},{_value.W})";
+            return $"Vector4({_value.X.ToCompositionString()},{_value.Y.ToCompositionString()},{_value.Z.ToCompositionString()},{_value.W.ToCompositionString()})";
         }
 
         private Vector4 _value;

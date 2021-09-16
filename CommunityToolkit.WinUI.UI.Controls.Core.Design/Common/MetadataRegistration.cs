@@ -20,9 +20,11 @@ namespace CommunityToolkit.WinUI.UI.Controls.Design
             // Note:
             // The default constructor sets value of 'AssemblyFullName' and
             // 'XmlResourceName' used by 'MetadataRegistrationBase.AddDescriptions()'.
-            // The convention here is that the <RootNamespace> in '.DesignTools.csproj'
-            // (or Default namespace in Project -> Properties -> Application tab)
-            // must be the same as runtime assembly's main namespace plus ".Design".
+            // The convention here is that the root namespace plus the Controls category.
+            // Example:
+            //           <RootNamespace>           + "." + <ControlsCategory> + ".xml"
+            // "CommunityToolkit.WinUI.UI.Controls" + "." +    "Primitives"    + ".xml"
+
             Type thisType = this.GetType();
             AssemblyName designLib = thisType.Assembly.GetName();
 
@@ -31,7 +33,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Design
             string controlLibName = designLib.Name.Remove(annexStart, annexString.Length);
 
             AssemblyFullName = designLib.FullName;
-            XmlResourceName = $"{thisType.Namespace}{controlLibName}.xml";
+            XmlResourceName = $"{controlLibName}.xml";
         }
     }
 }
