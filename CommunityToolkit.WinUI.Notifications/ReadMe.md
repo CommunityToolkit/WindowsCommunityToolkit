@@ -28,7 +28,7 @@ Imagine you add this library to a .NET Standard class library, and you also add 
 If you look in the UnitTests folder of the repo, you'll notice that there's three projects...
  - UnitTests.Notifications.Shared
  - UnitTests.Notifications.NetCore
- - UnitTests.Notifications.UWP
+ - UnitTests.Notifications.WinUI
  - UnitTests.Notifications.WinRT
 
 That's because in our source code, we have some #IF defs for switching between the different types of reflection that C# uses, since it's different between a .NET Standard and WinRT code.

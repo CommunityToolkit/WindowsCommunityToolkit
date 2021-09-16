@@ -246,7 +246,7 @@ namespace UnitTests.Mvvm
         public void UnsupportedCSharpLanguageVersion_FromINotifyPropertyChangedGenerator()
         {
             string source = @"
-            using Microsoft.Toolkit.Mvvm.ComponentModel;
+            using CommunityToolkit.Mvvm.ComponentModel;
 
             namespace MyApp
             {
@@ -266,7 +266,7 @@ namespace UnitTests.Mvvm
         public void UnsupportedCSharpLanguageVersion_FromObservableObjectGenerator()
         {
             string source = @"
-            using Microsoft.Toolkit.Mvvm.ComponentModel;
+            using CommunityToolkit.Mvvm.ComponentModel;
 
             namespace MyApp
             {
@@ -286,7 +286,7 @@ namespace UnitTests.Mvvm
         public void UnsupportedCSharpLanguageVersion_FromObservablePropertyGenerator()
         {
             string source = @"
-            using Microsoft.Toolkit.Mvvm.ComponentModel;
+            using CommunityToolkit.Mvvm.ComponentModel;
 
             namespace MyApp
             {
@@ -308,7 +308,7 @@ namespace UnitTests.Mvvm
         public void UnsupportedCSharpLanguageVersion_FromObservableValidatorValidateAllPropertiesGenerator()
         {
             string source = @"
-            using Microsoft.Toolkit.Mvvm.ComponentModel;
+            using CommunityToolkit.Mvvm.ComponentModel;
 
             namespace MyApp
             {
@@ -329,7 +329,7 @@ namespace UnitTests.Mvvm
         public void UnsupportedCSharpLanguageVersion_FromICommandGenerator()
         {
             string source = @"
-            using Microsoft.Toolkit.Mvvm.Input;
+            using CommunityToolkit.Mvvm.Input;
 
             namespace MyApp
             {
@@ -352,7 +352,7 @@ namespace UnitTests.Mvvm
         public void UnsupportedCSharpLanguageVersion_FromIMessengerRegisterAllGenerator()
         {
             string source = @"
-            using Microsoft.Toolkit.Mvvm.Messaging;
+            using CommunityToolkit.Mvvm.Messaging;
 
             namespace MyApp
             {
