@@ -40,14 +40,16 @@ namespace UnitTests.Extensions
 
                 // Need to simulate loading the control (and not just rely upon XamlReader.Load)
                 var frame = new Frame();
-                frame.Navigate(treeRoot.GetType());
+
+                await App.DispatcherQueue.EnqueueAsync(() => frame.Navigate(treeRoot.GetType()));
+
                 Assert.IsInstanceOfType(frame.Content, typeof(Page));
 
                 var btn = treeRoot.FindChild("InnerButton") as Button;
 
                 Assert.IsNull(btn.Parent);
 
-                btn.SetValue(FrameworkElementExtensions.AncestorProperty, new object());
+                await App.DispatcherQueue.EnqueueAsync(() => btn.SetValue(FrameworkElementExtensions.AncestorProperty, new object()));
 
                 Assert.IsNull(btn.Parent);
             });
@@ -81,13 +83,15 @@ namespace UnitTests.Extensions
 
                 // Need to simulate loading the control (and not just rely upon XamlReader.Load)
                 var frame = new Frame();
-                frame.Navigate(treeRoot.GetType());
+
+                await App.DispatcherQueue.EnqueueAsync(() => frame.Navigate(treeRoot.GetType()));
+
                 Assert.IsInstanceOfType(frame.Content, typeof(Page));
 
                 var grid = treeRoot.FindChild("OuterGrid") as Grid;
                 var button = treeRoot.FindChild("InnerButton") as Button;
 
-                button.SetValue(FrameworkElementExtensions.AncestorProperty, new object());
+                await App.DispatcherQueue.EnqueueAsync(() => button.SetValue(FrameworkElementExtensions.AncestorProperty, new object()));
 
                 treeRoot.Unloaded += (sender, e) =>
                 {
