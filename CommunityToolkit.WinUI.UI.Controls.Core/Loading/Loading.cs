@@ -23,6 +23,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public Loading()
         {
             DefaultStyleKey = typeof(Loading);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
         }
 
         /// <inheritdoc/>

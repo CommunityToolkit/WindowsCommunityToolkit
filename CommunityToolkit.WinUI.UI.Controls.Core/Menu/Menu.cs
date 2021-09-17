@@ -24,6 +24,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public Menu()
         {
             DefaultStyleKey = typeof(Menu);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
         }
 
         // even if we have multiple menus in the same page we need only one cache because only one menu item will have certain short cut.

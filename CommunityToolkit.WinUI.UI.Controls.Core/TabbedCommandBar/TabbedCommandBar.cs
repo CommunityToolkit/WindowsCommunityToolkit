@@ -38,7 +38,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public TabbedCommandBar()
         {
             DefaultStyleKey = typeof(TabbedCommandBar);
-            DefaultStyleResourceUri = new System.Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             SelectionChanged += SelectedItemChanged;
             Loaded += TabbedCommandBar_Loaded;

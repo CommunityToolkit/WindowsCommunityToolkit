@@ -33,6 +33,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public DropShadowPanel()
         {
             this.DefaultStyleKey = typeof(DropShadowPanel);
+            this.DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             if (!DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {

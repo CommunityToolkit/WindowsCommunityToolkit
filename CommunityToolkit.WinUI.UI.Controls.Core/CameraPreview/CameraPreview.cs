@@ -77,6 +77,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public CameraPreview()
         {
             this.DefaultStyleKey = typeof(CameraPreview);
+            this.DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
         }
 
         /// <inheritdoc/>

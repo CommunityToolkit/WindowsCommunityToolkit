@@ -119,6 +119,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public RadialProgressBar()
         {
             DefaultStyleKey = typeof(RadialProgressBar);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
             SizeChanged += SizeChangedHandler;
         }
 

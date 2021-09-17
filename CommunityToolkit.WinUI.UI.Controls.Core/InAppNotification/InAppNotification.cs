@@ -35,6 +35,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public InAppNotification()
         {
             DefaultStyleKey = typeof(InAppNotification);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             _dismissTimer = _dispatcherQueue.CreateTimer();
