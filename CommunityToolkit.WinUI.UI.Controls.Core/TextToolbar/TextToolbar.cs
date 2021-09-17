@@ -30,6 +30,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public TextToolbar()
         {
             DefaultStyleKey = typeof(TextToolbar);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             CustomButtons = new ButtonMap();
             ButtonModifications = new DefaultButtonModificationList();

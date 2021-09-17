@@ -15,6 +15,7 @@
         - RadialGauge: Displays a value within a range, using a needle on a circular face.
         - RangeSelector: "Double slider" control for range values.
         - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
+        - RichSuggestBox: RichEditBox which supports at mentioning or tags.
         - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
     </Description>
     <PackageTags>
@@ -23,6 +24,7 @@
         Radial;Gauge        ;RadialGauge       ;
         Range;Selector      ;RangeSelector     ;
         Remote;Device;Picker;RemoteDevicePicker;DevicePicker;RemoteDevice;
+        RichEditBox;RichSuggestBox;Suggestions;Mentions;Tags;
         Tokenizing;Text;Box ;TokenizingTextBox ;TextBox     ;
     </PackageTags>
   </PropertyGroup>

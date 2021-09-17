@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.UI;
@@ -11,8 +10,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
-using Windows.Foundation;
 
 namespace UnitTests.WinUI.UI.Controls
 {

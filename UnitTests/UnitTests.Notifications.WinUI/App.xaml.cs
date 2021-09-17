@@ -15,6 +15,9 @@ namespace UnitTests.Notifications.WinUI
     {
         private static MainWindow _window;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="App"/> class.
+        /// </summary>
         public App()
         {
             InitializeComponent();

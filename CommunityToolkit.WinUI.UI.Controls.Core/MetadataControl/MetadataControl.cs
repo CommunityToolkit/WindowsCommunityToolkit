@@ -65,6 +65,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public MetadataControl()
         {
             DefaultStyleKey = typeof(MetadataControl);
+            DefaultStyleResourceUri = new System.Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
             ActualThemeChanged += OnActualThemeChanged;
         }
 

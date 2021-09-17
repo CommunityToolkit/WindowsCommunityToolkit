@@ -84,6 +84,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public RotatorTile()
         {
             DefaultStyleKey = typeof(RotatorTile);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             Unloaded += RotatorTile_Unloaded;
             Loaded += RotatorTile_Loaded;

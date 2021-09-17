@@ -66,6 +66,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public TileControl()
         {
             DefaultStyleKey = typeof(TileControl);
+            DefaultStyleResourceUri = new Uri("ms-appx:///CommunityToolkit.WinUI.UI.Controls.Core/Themes/Generic.xaml");
 
             InitializeAnimation();
         }

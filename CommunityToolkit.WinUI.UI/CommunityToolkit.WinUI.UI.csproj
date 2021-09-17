@@ -9,7 +9,7 @@
   <PropertyGroup>
     <Title>Windows Community Toolkit - UI</Title>
     <Description>
-      This library provides UI components, such as XAML extensions, helpers, converters and more. It is a part of the Windows Community Toolkit.
+      This library provides various common UI helpers. It is a part of the Windows Community Toolkit.
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
 
@@ -19,6 +19,7 @@
 
       Extensions:
       - ApplicationViewExtensions: Provides attached properties for interacting with the ApplicationView on a window (app view).
+      - AttachedDropShadow: Provides a composition based shadow effect which supports masking.
       - FrameworkElementExtensions: Provides attached dependency properties for the FrameworkElement.
       - ListViewExtensions: Provides attached dependency properties for the ListViewBase
       - LogicalTree: Defines a collection of extensions methods for UI.
@@ -42,8 +43,10 @@
       - BindableValueHolder: Holds the value. Can be used to change several objects' properties at a time.
       - DependencyPropertyWatcher: Used to Track Changes of a Dependency Property
       - ThemeListener: Class which listens for changes to Application Theme or High Contrast Modes and Signals an Event when they occur.
+
+      Triggers: Various Visual State Triggers to help trigger VisualStates in a wide variety of scenarios.
       </Description>
-    <PackageTags>UI;XAML;ApplicationView;FrameworkElement;SurfaceDial;Matrix;Mouse;TextBoxMask;TitleBar;VisualTree;Converters;Extensions;Helpers</PackageTags>
+    <PackageTags>UI;XAML;ApplicationView;FrameworkElement;ListView;SurfaceDial;Matrix;Mouse;TextBoxMask;TitleBar;VisualTree;Converters;Extensions;Helpers</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

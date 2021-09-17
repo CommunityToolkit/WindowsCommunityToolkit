@@ -12,6 +12,7 @@
 
       Controls:
       - AdaptiveGridView: Presents items in an evenly-spaced set of columns to fill the total available space.
+      - ConstrainedBox: Constrain child element by aspect ratio, scale, or multiple.
       - DockPanel: Define areas where you can arrange child elements either horizontally or vertically, relative to each other.
       - StaggeredLayout: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
       - StaggeredPanel: Layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
@@ -23,6 +24,7 @@
     <PackageTags>
       Controls;XAML;UI;
       Adaptive;Grid;View;AdaptiveGridView;GridView ;AdaptiveGrid    ;
+      Constrained;Box;ConstrainedBox;AspectRatio;Aspect;Scale;Multiple;
       Dock;Panel        ;DockPanel       ;
       Staggered;Layout  ;StaggeredLayout ;
       Staggered;Panel   ;StaggeredPanel  ;
