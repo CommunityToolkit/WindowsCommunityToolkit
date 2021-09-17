@@ -443,7 +443,7 @@ namespace CommunityToolkit.Mvvm.SourceGenerators
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode")))),
                     AttributeList(SingletonSeparatedList(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))))
                 .AddAttributeLists(validationAttributes.Select(static a => AttributeList(SingletonSeparatedList(a))).ToArray())
-                .WithLeadingTrivia(leadingTrivia)
+                .WithLeadingTrivia(leadingTrivia.Where(static trivia => !trivia.IsKind(SyntaxKind.RegionDirectiveTrivia) && !trivia.IsKind(SyntaxKind.EndRegionDirectiveTrivia)))
                 .AddModifiers(Token(SyntaxKind.PublicKeyword))
                 .AddAccessorListAccessors(
                     AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
@@ -459,7 +459,7 @@ namespace CommunityToolkit.Mvvm.SourceGenerators
         /// <param name="fieldSymbol">The input <see cref="IFieldSymbol"/> instance to process.</param>
         /// <returns>The generated property name for <paramref name="fieldSymbol"/>.</returns>
         [Pure]
-        private static string GetGeneratedPropertyName(IFieldSymbol fieldSymbol)
+        public static string GetGeneratedPropertyName(IFieldSymbol fieldSymbol)
         {
             string propertyName = fieldSymbol.Name;
 

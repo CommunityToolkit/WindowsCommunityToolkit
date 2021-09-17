@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
+using System.Globalization;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
@@ -75,11 +75,14 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             if (ratio.Length == 2)
             {
-                return new AspectRatio(Convert.ToDouble(ratio[0]), Convert.ToDouble(ratio[1]));
+                double width = double.Parse(ratio[0], NumberStyles.Float, CultureInfo.InvariantCulture);
+                double height = double.Parse(ratio[1], NumberStyles.Float, CultureInfo.InvariantCulture);
+
+                return new AspectRatio(width, height);
             }
             else if (ratio.Length == 1)
             {
-                return new AspectRatio(Convert.ToDouble(ratio[0]));
+                return new AspectRatio(double.Parse(ratio[0], NumberStyles.Float, CultureInfo.InvariantCulture));
             }
 
             return new AspectRatio(1);
