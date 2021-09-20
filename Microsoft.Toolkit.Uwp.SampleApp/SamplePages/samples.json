@@ -19,7 +19,7 @@
         "Type": "DataGridPage",
         "Subcategory": "Layout",
         "About": "Control that presents data in a customizable table of rows and columns.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid",
         "XamlCodeFile": "DataGridCode.bind",
         "Icon": "/SamplePages/DataGrid/DataGrid.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DataGrid.md"
@@ -810,7 +810,7 @@
         "Type": "CameraHelperPage",
         "Subcategory": "Systems",
         "About": "Allows to easily get camera frame sources available for media capture to preview video and get real time video frames/software bitmaps.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp/Helpers/CameraHelper",
         "CodeFile": "CameraHelperCode.bind",
         "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
         "BadgeUpdateVersionRequired": "April 2018 update required",
@@ -830,7 +830,7 @@
         "Type": "RemoteDeviceHelperPage",
         "Subcategory": "Systems",
         "About": "Allows you to easily enumerate remote devices ( Project Rome ).",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper/RemoteDeviceHelper.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper",
         "CodeFile": "RemoteDeviceHelperCode.bind",
         "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
