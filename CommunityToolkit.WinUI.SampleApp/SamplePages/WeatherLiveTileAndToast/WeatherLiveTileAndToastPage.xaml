@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:visualizer="using:NotificationsVisualizerLibrary"
       xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
       mc:Ignorable="d">
 
@@ -22,12 +21,14 @@
             <Button x:Name="ButtonPopToast"
                     HorizontalAlignment="Stretch"
                     Click="ButtonPopToast_Click"
-                    Content="Pop Toast" />
+                    Content="Pop Toast"
+                    Style="{ThemeResource AccentButtonStyle}" />
             <Button x:Name="ButtonPinTile"
                     Margin="0,10,0,0"
                     HorizontalAlignment="Stretch"
                     Click="ButtonPinTile_Click"
-                    Content="Pin Tile" />
+                    Content="Pin Tile"
+                    Style="{ThemeResource AccentButtonStyle}" />
 
             <RichTextBlock Margin="0,10,0,0">
                 <Paragraph>The first button will pop a Toast notification displaying the weather forecast.</Paragraph>
@@ -52,9 +53,7 @@
                 <TextBlock
                         Text="TOAST"
                         Style="{StaticResource Box-Header}" />
-                <visualizer:PreviewToast x:Name="PreviewToastWeather"
-                                     MaxWidth="362"
-                                     HorizontalAlignment="Center" />
+                <Image Source="ms-appx:///Assets/NotificationAssets/WeatherToast.png" Width="362"/>
             </StackPanel>
 
             <TextBlock
@@ -74,9 +73,7 @@
                     <TextBlock
                         Text="SMALL"
                         Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="PreviewTileSmall"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Small" />
+                    <Image Source="ms-appx:///Assets/NotificationAssets/WeatherTileSmall.png" Width="48"/>
                 </StackPanel>
 
                 <StackPanel
@@ -87,9 +84,7 @@
                     <TextBlock
                         Text="MEDIUM"
                         Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="PreviewTileMedium"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Medium" />
+                    <Image Source="ms-appx:///Assets/NotificationAssets/WeatherTileMedium.png" Width="100"/>
                 </StackPanel>
 
                 <StackPanel
@@ -100,9 +95,7 @@
                     <TextBlock
                         Text="WIDE"
                         Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="PreviewTileWide"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Wide" />
+                    <Image Source="ms-appx:///Assets/NotificationAssets/WeatherTileWide.png" Width="204"/>
                 </StackPanel>
 
                 <StackPanel
@@ -113,9 +106,7 @@
                     <TextBlock
                         Text="LARGE"
                         Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="PreviewTileLarge"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Large" />
+                    <Image Source="ms-appx:///Assets/NotificationAssets/WeatherTileLarge.png" Width="204"/>
                 </StackPanel>
             </controls:WrapPanel>
         </StackPanel>

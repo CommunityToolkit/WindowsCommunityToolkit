@@ -3,8 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:visualizer="using:NotificationsVisualizerLibrary"
-      xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -23,7 +21,8 @@
                     Margin="20,20,20,0"
                     HorizontalAlignment="Stretch"
                     Click="ButtonPinTile_Click"
-                    Content="Pin Tile" />
+                    Content="Pin Tile"
+                    Style="{ThemeResource AccentButtonStyle}" />
 
             <RichTextBlock Margin="20,10,20,0">
                 <Paragraph>Click the button to pin a secondary tile and send a notification to the tile, displaying rich visual content. The previews below show you what the tile will look like when you pin it.</Paragraph>
@@ -35,52 +34,10 @@
                 </Paragraph>
             </RichTextBlock>
 
-            <controls:WrapPanel
-                Margin="18"
-                HorizontalAlignment="Center">
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    Padding="20"
-                    Background="{ThemeResource Brush-Grey-04}"
-                    Margin="10">
-                    <TextBlock
-                        Text="MEDIUM"
-                        Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="MediumPreviewTile"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Medium"
-                                        HorizontalAlignment="Center" />
-                </StackPanel>
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    Padding="20"
-                    Background="{ThemeResource Brush-Grey-04}"
-                    Margin="10">
-                    <TextBlock
-                        Text="WIDE"
-                        Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="WidePreviewTile"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Wide"
-                                        HorizontalAlignment="Center" />
-                </StackPanel>
-
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    Padding="20"
-                    Background="{ThemeResource Brush-Grey-04}"
-                    Margin="10">
-                    <TextBlock
-                        Text="LARGE"
-                        Style="{StaticResource Box-Header}" />
-                    <visualizer:PreviewTile x:Name="LargePreviewTile"
-                                        IsAnimationEnabled="False"
-                                        TileSize="Large"
-                                        HorizontalAlignment="Center" />
-                </StackPanel>
-            </controls:WrapPanel>
+            <Border Background="{ThemeResource Brush-Grey-04}" Padding="20" HorizontalAlignment="Center" Margin="18">
+                <Image Source="ms-appx:///Assets/NotificationAssets/SampleLiveTiles.gif" Width="400"/>
+            </Border>
+            
         </StackPanel>
     </ScrollViewer>
 </Page>

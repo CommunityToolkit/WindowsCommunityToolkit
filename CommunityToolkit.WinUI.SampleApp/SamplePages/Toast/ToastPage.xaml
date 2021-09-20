@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:visualizer="using:NotificationsVisualizerLibrary"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -21,7 +20,8 @@
             <Button x:Name="ButtonPopToast"
                     HorizontalAlignment="Stretch"
                     Click="ButtonPopToast_Click"
-                    Content="Pop Toast" />
+                    Content="Pop Toast"
+                    Style="{ThemeResource AccentButtonStyle}" />
 
             <RichTextBlock Margin="0,10,0,0">
                 <Paragraph>The button will pop a Toast notification reminder about your calendar appointment. A preview is seen below.</Paragraph>
@@ -42,9 +42,7 @@
                 <TextBlock
                         Text="TOAST"
                         Style="{StaticResource Box-Header}" />
-                <visualizer:PreviewToast x:Name="PreviewToastReminder"
-                                     MaxWidth="362"
-                                     HorizontalAlignment="Left" />
+                <Image Source="ms-appx:///Assets/NotificationAssets/SampleToast.gif" Width="362"/>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
