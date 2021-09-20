@@ -5,10 +5,7 @@
 using System;
 using CommunityToolkit.WinUI.Notifications;
 using CommunityToolkit.WinUI.SampleApp.Common;
-using CommunityToolkit.WinUI.SampleApp.Models;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Navigation;
-using NotificationsVisualizerLibrary;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
@@ -17,13 +14,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class WeatherLiveTileAndToastPage
     {
-        private TileContent _tileContent;
-        private ToastContent _toastContent;
-
         public WeatherLiveTileAndToastPage()
         {
             InitializeComponent();
-            Initialize();
         }
 
         public static ToastContent GenerateToastContent()
@@ -278,7 +271,9 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 return;
             }
 
-            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(_tileContent.GetXml()));
+            // Generate the tile notification content and update the tile
+            TileContent content = GenerateTileContent();
+            TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
         }
 
         private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
@@ -288,46 +283,48 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 
         private void PopToast()
         {
-            ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
-        }
-
-        private void Initialize()
-        {
-            // Generate the tile notification content
-            _tileContent = GenerateTileContent();
-
             // Generate the toast notification content
-            _toastContent = GenerateToastContent();
+            ToastContentBuilder builder = new ToastContentBuilder();
 
-            // Prepare and update the preview tiles
-            var previewTiles = new PreviewTile[]
-            {
-                PreviewTileSmall, PreviewTileMedium, PreviewTileWide, PreviewTileLarge
-            };
-            foreach (var tile in previewTiles)
-            {
-                tile.DisplayName = "WeatherSample";
-                tile.VisualElements.BackgroundColor = Constants.ApplicationBackgroundColor;
-                tile.VisualElements.ShowNameOnSquare150x150Logo = true;
-                tile.VisualElements.ShowNameOnSquare310x310Logo = true;
-                tile.VisualElements.ShowNameOnWide310x150Logo = true;
-                tile.VisualElements.Square44x44Logo = Constants.Square44x44Logo;
-                tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
-                tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
-                tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
-                _ = tile.UpdateAsync(); // Commit changes (no need to await)
+            // Include launch string so we know what to open when user clicks toast
+            builder.AddArgument("action", "viewForecast");
+            builder.AddArgument("zip", 98008);
 
-                tile.CreateTileUpdater().Update(new TileNotification(_tileContent.GetXml()));
+            // We'll always have this summary text on our toast notification
+            // (it is required that your toast starts with a text element)
+            builder.AddText("Today will be mostly sunny with a high of 63 and a low of 42.");
+
+            // If Adaptive Toast Notifications are supported
+            if (IsAdaptiveToastSupported())
+            {
+                // Use the rich Tile-like visual layout
+                builder.AddVisualChild(new AdaptiveGroup()
+                {
+                    Children =
+            {
+                GenerateSubgroup("Mon", "Mostly Cloudy.png", 63, 42),
+                GenerateSubgroup("Tue", "Cloudy.png", 57, 38),
+                GenerateSubgroup("Wed", "Sunny.png", 59, 43),
+                GenerateSubgroup("Thu", "Sunny.png", 62, 42),
+                GenerateSubgroup("Fri", "Sunny.png", 71, 66)
+            }
+                });
             }
 
-            // Prepare and update preview toast
-            PreviewToastWeather.Properties = new PreviewToastProperties()
+            // Otherwise...
+            else
             {
-                BackgroundColor = Constants.ApplicationBackgroundColor,
-                DisplayName = Constants.ApplicationDisplayName,
-                Square44x44Logo = Constants.Square44x44Logo
-            };
-            PreviewToastWeather.Initialize(_toastContent.GetXml());
+                // We'll just add two simple lines of text
+                builder
+                    .AddText("Monday ⛅ 63° / 42°")
+                    .AddText("Tuesday ☁ 57° / 38°");
+            }
+
+            // Set the base URI for the images, so we don't redundantly specify the entire path
+            builder.Content.Visual.BaseUri = new Uri("Assets/NotificationAssets/", UriKind.Relative);
+
+            // Show the toast
+            builder.Show();
         }
     }
 }

@@ -3,32 +3,29 @@
 // See the LICENSE file in the project root for more information.
 
 using CommunityToolkit.WinUI.Notifications;
-using CommunityToolkit.WinUI.SampleApp.Common;
-using CommunityToolkit.WinUI.SampleApp.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
-using NotificationsVisualizerLibrary;
-using Windows.UI.Notifications;
 
 namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     public sealed partial class ToastPage : Page
     {
-        private ToastContent _toastContent;
-
         public ToastPage()
         {
             InitializeComponent();
-            Initialize();
+        }
+
+        private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
+        {
+            PopToast();
         }
 
 #pragma warning disable SA1008 // Parenthesis spacing
 #pragma warning disable SA1117 // Parameters must be on same line or separate lines
 
-        public static ToastContent GenerateToastContent()
+        private void PopToast()
         {
-            var builder = new ToastContentBuilder()
+            new ToastContentBuilder()
                 .SetToastScenario(ToastScenario.Reminder)
                 .AddArgument("action", "viewEvent")
                 .AddArgument("eventId", 1983)
@@ -43,37 +40,11 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 .AddButton(new ToastButton()
                     .SetSnoozeActivation("snoozeTime"))
                 .AddButton(new ToastButton()
-                    .SetDismissActivation());
-
-            return builder.Content;
+                    .SetDismissActivation())
+                .Show();
         }
 
 #pragma warning restore SA1008
 #pragma warning restore SA1117
-
-        private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
-        {
-            PopToast();
-        }
-
-        private void PopToast()
-        {
-            ToastNotificationManagerCompat.CreateToastNotifier().Show(new ToastNotification(_toastContent.GetXml()));
-        }
-
-        private void Initialize()
-        {
-            // Generate the toast notification content
-            _toastContent = GenerateToastContent();
-
-            // Prepare and update preview toast
-            PreviewToastReminder.Properties = new PreviewToastProperties()
-            {
-                BackgroundColor = Constants.ApplicationBackgroundColor,
-                DisplayName = Constants.ApplicationDisplayName,
-                Square44x44Logo = Constants.Square44x44Logo
-            };
-            PreviewToastReminder.Initialize(_toastContent.GetXml());
-        }
     }
 }
