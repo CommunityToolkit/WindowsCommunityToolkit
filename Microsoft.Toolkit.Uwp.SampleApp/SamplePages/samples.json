@@ -140,7 +140,7 @@
         "Type": "MetadataControlPage",
         "Subcategory": "Status and Info",
         "About": "The control displays a list of metadata separated by bullets. The entries can either be strings or commands.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls/MetadataControl",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Core/MetadataControl",
         "XamlCodeFile": "MetadataControlCode.bind",
         "Icon": "/SamplePages/MetadataControl/MetadataControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MetadataControl.md"
@@ -870,7 +870,7 @@
         "Name": "AutoSelectBehavior",
         "Subcategory": "Systems",
         "About": "Behavior to automatically select the entire content of a TextBox control when it loads",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Select/AutoSelectBehavior.cs",
         "XamlCodeFile": "/SamplePages/AutoSelectBehavior/AutoSelectBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoSelectBehavior.md"
@@ -1311,7 +1311,7 @@
         "Name": "GazeTracing",
         "Type": "GazeTracingPage",
         "About": "Shows how to use the Windows 10 API for eye trackers",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
         "XamlCodeFile": "GazeTracingXaml.bind",
         "CodeFile": "GazeTracingCode.bind",
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
