@@ -33,6 +33,10 @@
         <Image ui:Effects.Shadow="{StaticResource CommonShadow}"
                Height="100" Width="100"
                Source="ms-appx:///Assets/Photos/Owl.jpg"/>
+        <!-- The AttachedDropShadow supports masking of text! -->
+        <TextBlock ui:Effects.Shadow="{StaticResource CommonShadow}"
+                   Text="This is some text with a Shadow!"
+                   HorizontalAlignment="Center"/>
         <!-- You can still apply a Shadow directly and even use binding with it to manipulate at runtime! -->
         <Rectangle RadiusX="32" RadiusY="32"
                    Height="100" Width="100"
@@ -41,8 +45,10 @@
             <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
           </Rectangle.Fill>
           <ui:Effects.Shadow>
+            <!-- If doing a rectangular/rounded shadow, set IsMasked to False for better performance -->
             <ui:AttachedDropShadow BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
                                    CornerRadius="32"
+                                   IsMasked="False"
                                    Color="@[Color:Brush:Black]"
                                    Offset="@[Offset:Vector3:4,4]"
                                    Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"
