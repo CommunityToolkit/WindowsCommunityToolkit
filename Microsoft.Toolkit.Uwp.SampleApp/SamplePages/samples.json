@@ -420,7 +420,7 @@
         "Name": "LoginButton",
         "Subcategory": "Graph",
         "About": "The LoginButton control is a button and flyout to facilitate Microsoft identity platform authentication for AAD or MSA accounts.",
-        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/Microsoft.Toolkit.Graph.Controls/Controls/LoginButton",
+        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/LoginButton",
         /*"XamlCodeFile": "/SamplePages/Graph/LoginButtonXaml.bind",*/
         "Icon": "/SamplePages/Graph/LoginButton.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -431,7 +431,7 @@
         "Name": "PersonView",
         "Subcategory": "Graph",
         "About": "The PersonView control is used to display a person or contact by using their photo, name, and/or email address from Microsoft Graph.",
-        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/Microsoft.Toolkit.Graph.Controls/Controls/PersonView",
+        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/PersonView",
         /*"XamlCodeFile": "/SamplePages/Graph/PersonViewXaml.bind",*/
         "Icon": "/SamplePages/Graph/PersonView.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -442,7 +442,7 @@
         "Name": "PeoplePicker",
         "Subcategory": "Graph",
         "About": "The PeoplePicker Control searchs for people and renders the list of results from Microsoft Graph. By default, the component will search for all people.",
-        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/Microsoft.Toolkit.Graph.Controls/Controls/PeoplePicker",
+        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/PeoplePicker",
         /*"XamlCodeFile": "/SamplePages/Graph/PeoplePickerXaml.bind",*/
         "Icon": "/SamplePages/Graph/PeoplePicker.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
