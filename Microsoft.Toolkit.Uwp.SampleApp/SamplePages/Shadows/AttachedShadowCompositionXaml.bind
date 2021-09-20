@@ -45,7 +45,7 @@
             <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg"/>
           </Rectangle.Fill>
           <ui:Effects.Shadow>
-            <!-- If doing a rectangular/rounded shadow, set IsMasked to False for better performance -->
+            <!-- If doing a rectangular/rounded shadow, set IsMasked to False for better performance or switch to AttachedCardShadow -->
             <ui:AttachedDropShadow BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
                                    CornerRadius="32"
                                    IsMasked="False"
