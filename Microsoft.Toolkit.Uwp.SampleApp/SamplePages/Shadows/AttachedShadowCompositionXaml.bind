@@ -20,11 +20,11 @@
 
   <ScrollViewer>
     <Grid>
-      <!-- The ShadowTarget Grid here is a *sibling* element behind where our elements which will cast
+      <!-- The ShadowTarget Border here is a *sibling* element behind where our elements which will cast
            shadows are located, this is important as otherwise if we used a parent element the
            shadows would appear on top of our elements instead!
            It is also placed within the ScrollViewer here so shadows move with their elements. -->
-      <Grid x:Name="ShadowTarget"/>
+      <Border x:Name="ShadowTarget"/>
       <StackPanel Spacing="32" VerticalAlignment="Center">
         <!-- All buttons on this page have the shadow from the common style!
              The Shadow definition is Shared! -->
