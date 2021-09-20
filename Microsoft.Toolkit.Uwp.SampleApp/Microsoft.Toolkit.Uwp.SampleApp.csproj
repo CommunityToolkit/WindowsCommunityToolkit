@@ -119,9 +119,6 @@
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
     </PackageReference>
-    <PackageReference Include="NotificationsVisualizerLibrary">
-      <Version>1.0.5</Version>
-    </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>
     </PackageReference>
@@ -142,6 +139,8 @@
     <Content Include="Assets\NotificationAssets\Mostly Cloudy-Background.jpg" />
     <Content Include="Assets\NotificationAssets\Mostly Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Mostly Cloudy.png" />
+    <Content Include="Assets\NotificationAssets\SampleLiveTiles.gif" />
+    <Content Include="Assets\NotificationAssets\SampleToast.gif" />
     <Content Include="Assets\NotificationAssets\Slight Drizzle-Square.png" />
     <Content Include="Assets\NotificationAssets\Slight Drizzle.png" />
     <Content Include="Assets\NotificationAssets\Snow-Square.png" />
@@ -150,6 +149,11 @@
     <Content Include="Assets\NotificationAssets\Sunny.png" />
     <Content Include="Assets\NotificationAssets\Thunderstorms-Square.png" />
     <Content Include="Assets\NotificationAssets\Thunderstorms.png" />
+    <Content Include="Assets\NotificationAssets\WeatherTileLarge.png" />
+    <Content Include="Assets\NotificationAssets\WeatherTileMedium.png" />
+    <Content Include="Assets\NotificationAssets\WeatherTileSmall.png" />
+    <Content Include="Assets\NotificationAssets\WeatherTileWide.png" />
+    <Content Include="Assets\NotificationAssets\WeatherToast.png" />
     <Content Include="Assets\People\dave.png" />
     <Content Include="Assets\People\david.png" />
     <Content Include="Assets\People\giorgio.png" />
