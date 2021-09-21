@@ -684,7 +684,7 @@
         "Icon": "/Assets/mslogo.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
         "DeprecatedWarning": "The Graph Providers are in preview. Find out more here: https://aka.ms/wgt",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/providers/InteractiveProviderBehavior.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/overview.md",
         "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls"
       }
     ]
