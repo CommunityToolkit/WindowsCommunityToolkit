@@ -876,6 +876,13 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoSelectBehavior.md"
       },
       {
+        "Name": "StackedNotificationsBehavior",
+        "Type": "StackedNotificationsBehavior",
+        "Subcategory": "Status and Info",
+        "About": "The behavior to add the stacked notification behavior to the WinUI InfoBar control.",
+        "Icon": "/SamplePages/InAppNotification/InAppNotification.png"
+      },
+      {
         "Name": "KeyDownTriggerBehavior",
         "Subcategory": "Systems",
         "About": "Behavior to listen to a key press on a control and executes actions",

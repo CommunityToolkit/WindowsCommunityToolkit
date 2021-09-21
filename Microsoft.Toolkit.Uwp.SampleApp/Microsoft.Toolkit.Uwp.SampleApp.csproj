@@ -519,6 +519,9 @@
       <DependentUpon>RichSuggestBoxPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RichSuggestBox\SuggestionTemplateSelector.cs" />
+    <Compile Include="SamplePages\StackedNotificationsBehavior\StackedNotificationsBehavior.xaml.cs">
+      <DependentUpon>StackedNotificationsBehavior.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TilesBrush\TilesBrushPage.xaml.cs">
       <DependentUpon>TilesBrushPage.xaml</DependentUpon>
     </Compile>
@@ -1008,6 +1011,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Content>
     <Page Include="SamplePages\RichSuggestBox\RichSuggestBoxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\StackedNotificationsBehavior\StackedNotificationsBehavior.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
