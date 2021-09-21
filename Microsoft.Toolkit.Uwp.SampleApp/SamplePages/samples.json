@@ -19,7 +19,7 @@
         "Type": "DataGridPage",
         "Subcategory": "Layout",
         "About": "Control that presents data in a customizable table of rows and columns.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid",
         "XamlCodeFile": "DataGridCode.bind",
         "Icon": "/SamplePages/DataGrid/DataGrid.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DataGrid.md"
@@ -140,7 +140,7 @@
         "Type": "MetadataControlPage",
         "Subcategory": "Status and Info",
         "About": "The control displays a list of metadata separated by bullets. The entries can either be strings or commands.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MetadataControl",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Core/MetadataControl",
         "XamlCodeFile": "MetadataControlCode.bind",
         "Icon": "/SamplePages/MetadataControl/MetadataControl.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MetadataControl.md"
@@ -420,7 +420,7 @@
         "Name": "LoginButton",
         "Subcategory": "Graph",
         "About": "The LoginButton control is a button and flyout to facilitate Microsoft identity platform authentication for AAD or MSA accounts.",
-        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/master/Microsoft.Toolkit.Graph.Controls/Controls/LoginButton",
+        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/LoginButton",
         /*"XamlCodeFile": "/SamplePages/Graph/LoginButtonXaml.bind",*/
         "Icon": "/SamplePages/Graph/LoginButton.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -431,7 +431,7 @@
         "Name": "PersonView",
         "Subcategory": "Graph",
         "About": "The PersonView control is used to display a person or contact by using their photo, name, and/or email address from Microsoft Graph.",
-        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/master/Microsoft.Toolkit.Graph.Controls/Controls/PersonView",
+        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/PersonView",
         /*"XamlCodeFile": "/SamplePages/Graph/PersonViewXaml.bind",*/
         "Icon": "/SamplePages/Graph/PersonView.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -442,7 +442,7 @@
         "Name": "PeoplePicker",
         "Subcategory": "Graph",
         "About": "The PeoplePicker Control searchs for people and renders the list of results from Microsoft Graph. By default, the component will search for all people.",
-        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/master/Microsoft.Toolkit.Graph.Controls/Controls/PeoplePicker",
+        "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/PeoplePicker",
         /*"XamlCodeFile": "/SamplePages/Graph/PeoplePickerXaml.bind",*/
         "Icon": "/SamplePages/Graph/PeoplePicker.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
@@ -539,7 +539,7 @@
         "Subcategory": "Activities",
         "Icon": "/Assets/Helpers.png",
         "About": "Activity chaining Actions from the Behaviors package into an Animation schedule.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations/InvokeActionsActivity.cs",
         "CodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivityCode.bind",
         "XamlCodeFile": "/SamplePages/Animations/Activities/InvokeActionsActivity.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/AnimationSet.md"
@@ -628,7 +628,7 @@
         "Type": "ItemsReorderAnimationPage",
         "Subcategory": "Effect",
         "About": "Animates items of a grid or list control when the size changes",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Animations",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI.Animations/ItemsReorderAnimation.cs",
         "XamlCodeFile": "ItemsReorderAnimation.bind",
         "Icon": "/SamplePages/ItemsReorderAnimation/ItemsReorderAnimation.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ItemsReorderAnimation.md"
@@ -698,7 +698,7 @@
         "Type": "ImageCachePage",
         "Subcategory": "Data",
         "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Cache/ImageCache.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Cache/ImageCache.cs",
         "CodeFile": "ImageCacheCode.bind",
         "XamlCodeFile": "ImageCacheXaml.bind",
         "Icon": "/SamplePages/ImageCache/ImageCache.png",
@@ -729,7 +729,7 @@
         "Type": "BackgroundTaskHelperPage",
         "Subcategory": "Systems",
         "About": "Allows easy registration and maintenance of background task",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BackgroundTaskHelper.md"
@@ -780,7 +780,7 @@
         "Type": "DispatcherQueueHelperPage",
         "Subcategory": "Developer",
         "About": "Allows easy interaction with Windows Runtime message dispatcher queue for multi-threaded scenario (I.E: Run code on UI thread).",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Extensions/DispatcherQueueExtensions.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp/Extensions/DispatcherQueueExtensions.cs",
         "CodeFile": "DispatcherQueueHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/DispatcherQueueExtensions.md"
@@ -810,7 +810,7 @@
         "Type": "CameraHelperPage",
         "Subcategory": "Systems",
         "About": "Allows to easily get camera frame sources available for media capture to preview video and get real time video frames/software bitmaps.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp/Helpers/CameraHelper",
         "CodeFile": "CameraHelperCode.bind",
         "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
         "BadgeUpdateVersionRequired": "April 2018 update required",
@@ -821,7 +821,7 @@
         "Type": "ThemeListenerPage",
         "Subcategory": "Systems",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
       },
@@ -830,7 +830,7 @@
         "Type": "RemoteDeviceHelperPage",
         "Subcategory": "Systems",
         "About": "Allows you to easily enumerate remote devices ( Project Rome ).",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper/RemoteDeviceHelper.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper",
         "CodeFile": "RemoteDeviceHelperCode.bind",
         "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
@@ -851,7 +851,7 @@
         "Type": "AutoFocusBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior to automatically set the focus on a control when it loads",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/AutoFocusBehavior.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/AutoFocusBehavior.cs",
         "XamlCodeFile": "AutoFocusBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehaviors.md"
@@ -861,7 +861,7 @@
         "Type": "FocusBehaviorPage",
         "Subcategory": "Systems",
         "About": "Behavior to automatically set the focus on the first control which accepts it",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/FocusBehavior.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Focus/FocusBehavior.cs",
         "CodeFile": "FocusBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/FocusBehaviors.md"
@@ -870,7 +870,7 @@
         "Name": "AutoSelectBehavior",
         "Subcategory": "Systems",
         "About": "Behavior to automatically select the entire content of a TextBox control when it loads",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Behaviors/",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Select/AutoSelectBehavior.cs",
         "XamlCodeFile": "/SamplePages/AutoSelectBehavior/AutoSelectBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/AutoSelectBehavior.md"
@@ -879,7 +879,7 @@
         "Name": "KeyDownTriggerBehavior",
         "Subcategory": "Systems",
         "About": "Behavior to listen to a key press on a control and executes actions",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Behaviors/Keyboard/KeyDownTriggerBehavior.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Keyboard/KeyDownTriggerBehavior.cs",
         "XamlCodeFile": "/SamplePages/KeyDownTriggerBehavior/KeyDownTriggerBehaviorXaml.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/behaviors/KeyDownTriggerBehavior.md"
@@ -951,7 +951,7 @@
         "Name": "CompareStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/CompareStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/CompareStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/CompareStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -960,7 +960,7 @@
         "Name": "ControlSizeTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the target control meets the specified size",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/ControlSizeTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/ControlSizeTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/ControlSizeTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -969,7 +969,7 @@
         "Name": "IsEqualStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to another value",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/IsEqualStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/IsEqualStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/IsEqualStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -979,7 +979,7 @@
         "Type": "FullScreenModeStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when in full screen mode",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/FullScreenModeStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/FullScreenModeStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/FullScreenModeStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -989,7 +989,7 @@
         "Type": "IsNullOrEmptyStateTriggerPage",
         "Subcategory": "State Triggers",
         "About": "Enables a state if an Object is null or a String/IEnumerable is empty",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/IsNullOrEmptyStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/IsNullOrEmptyStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/IsNullOrEmptyStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -998,7 +998,7 @@
         "Name": "NetworkConnectionStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the network availability changes",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/NetworkConnectionStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/NetworkConnectionStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/NetworkConnectionStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -1007,7 +1007,7 @@
         "Name": "IsNotEqualStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is not equal to another value",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/IsNotEqualStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/IsNotEqualStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/IsNotEqualStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -1016,7 +1016,7 @@
         "Name": "RegexStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the regex expression is true for a given string value",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/RegexStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/RegexStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/RegexStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -1025,7 +1025,7 @@
         "Name": "UserHandPreferenceStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching UI based on whether the user favours their left or right hand.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/UserHandPreferenceStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/UserHandPreferenceStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/UserHandPreferenceStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -1034,7 +1034,7 @@
         "Name": "UserInteractionModeStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Trigger for switching when the User interaction mode changes (tablet mode)",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Triggers/UserInteractionModeStateTrigger.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Triggers/UserInteractionModeStateTrigger.cs",
         "XamlCodeFile": "/SamplePages/Triggers/UserInteractionModeStateTrigger.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/Triggers.md"
@@ -1195,7 +1195,7 @@
         "Name": "Mouse",
         "Type": "MouseCursorPage",
         "About": "Mouse.Cursor attached property enables you to easily change the mouse cursor over specific Framework elements.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement/FrameworkElementExtensions.Mouse.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement/FrameworkElementExtensions.Mouse.cs",
         "XamlCodeFile": "MouseCursorPage.bind",
         "Icon": "/SamplePages/Mouse/MouseCursor.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/MouseCursor.md"
@@ -1212,7 +1212,7 @@
       {
         "Name": "SurfaceDialTextbox",
         "About": "Enables support for Surface Dial on any given Textbox. Rotate the Dial to change the numeric value of the Textbox.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBox/TextBoxExtensions.SurfaceDial.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/TextBox/TextBoxExtensions.SurfaceDial.cs",
         "XamlCodeFile": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextboxCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/SurfaceDialTextboxHelper.md"
@@ -1221,7 +1221,7 @@
         "Name": "Visual Extensions",
         "Type": "VisualExtensionsPage",
         "About": "Attached properties to modify object visual properties through XAML",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/VisualExtensions.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/VisualExtensions.cs",
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/VisualExtensions.md"
@@ -1239,7 +1239,7 @@
         "Name": "ClipToBounds",
         "Type": "ClipToBoundsPage",
         "About": "Extension to clip the UIElement inner controls inside its bounds.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/UIElementExtensions.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/UIElementExtensions.cs",
         "XamlCodeFile": "ClipToBoundsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/UIElementExtensions.md"
@@ -1248,7 +1248,7 @@
         "Name": "StringExtensions",
         "Type": "StringExtensionsPage",
         "About": "String Extensions to validate strings",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit/Extensions/StringExtensions.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/StringExtensions.md"
       },
@@ -1266,7 +1266,7 @@
         "Name": "OnDevice",
         "Type": "OnDevicePage",
         "About": "The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/OnDeviceExtension.cs",
+        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/OnDeviceExtension.cs",
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
@@ -1284,7 +1284,7 @@
         "Name": "EnumValuesExtension",
         "Type": "EnumValuesExtensionPage",
         "About": "The EnumValuesExtension markup extension allows you to easily retrieve a collection of all values from an enum type.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/EnumValuesExtension.cs",
+        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/EnumValuesExtension.cs",
         "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "EnumValuesExtensionXaml.bind",
         "CodeFile": "EnumValuesExtensionCode.bind",
@@ -1311,7 +1311,7 @@
         "Name": "GazeTracing",
         "Type": "GazeTracingPage",
         "About": "Shows how to use the Windows 10 API for eye trackers",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.Gaze/",
+        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
         "XamlCodeFile": "GazeTracingXaml.bind",
         "CodeFile": "GazeTracingCode.bind",
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
