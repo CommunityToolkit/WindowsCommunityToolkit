@@ -103,12 +103,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
-            ThemeInjector.InjectThemeResources(Application.Current.Resources);
+            ThemeInjector.InjectThemeResources(Current.Resources);
 
             // Go full screen on Xbox
             if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
             {
-                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }
 
             // Initialize the constant for the app display name, used for tile and toast previews

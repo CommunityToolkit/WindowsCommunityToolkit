@@ -418,33 +418,36 @@
       },
       {
         "Name": "LoginButton",
+        "Type": "LoginButtonPage",
         "Subcategory": "Graph",
         "About": "The LoginButton control is a button and flyout to facilitate Microsoft identity platform authentication for AAD or MSA accounts.",
         "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/LoginButton",
-        /*"XamlCodeFile": "/SamplePages/Graph/LoginButtonXaml.bind",*/
-        "Icon": "/SamplePages/Graph/LoginButton.png",
+        "XamlCodeFile": "/SamplePages/Graph/LoginButton/LoginButtonXaml.bind",
+        "Icon": "/SamplePages/Graph/LoginButton/LoginButton.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
         "DeprecatedWarning": "The LoginButton control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/LoginButton.md"
       },
       {
         "Name": "PersonView",
+        "Type": "PersonViewPage",
         "Subcategory": "Graph",
         "About": "The PersonView control is used to display a person or contact by using their photo, name, and/or email address from Microsoft Graph.",
         "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/PersonView",
-        /*"XamlCodeFile": "/SamplePages/Graph/PersonViewXaml.bind",*/
-        "Icon": "/SamplePages/Graph/PersonView.png",
+        "XamlCodeFile": "/SamplePages/Graph/PersonView/PersonViewXaml.bind",
+        "Icon": "/SamplePages/Graph/PersonView/PersonView.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
         "DeprecatedWarning": "The PersonView control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PersonView.md"
       },
       {
         "Name": "PeoplePicker",
+        "Type": "PeoplePickerPage",
         "Subcategory": "Graph",
         "About": "The PeoplePicker Control searchs for people and renders the list of results from Microsoft Graph. By default, the component will search for all people.",
         "CodeUrl": "https://github.com/CommunityToolkit/Graph-Controls/tree/main/CommunityToolkit.Graph.Uwp/Controls/PeoplePicker",
-        /*"XamlCodeFile": "/SamplePages/Graph/PeoplePickerXaml.bind",*/
-        "Icon": "/SamplePages/Graph/PeoplePicker.png",
+        "XamlCodeFile": "/SamplePages/Graph/PeoplePicker/PeoplePickerXaml.bind",
+        "Icon": "/SamplePages/Graph/PeoplePicker/PeoplePicker.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
         "DeprecatedWarning": "The PeoplePicker control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PeoplePicker.md"

@@ -1,0 +1,26 @@
+<Page
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PeoplePickerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:wgt="using:CommunityToolkit.Graph.Uwp.Controls"
+    mc:Ignorable="d">
+    
+    <Grid>
+        <wgt:LoginButton x:Name="LoginButton" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <StackPanel Margin="0,64,0,0">
+            <wgt:PeoplePicker x:Name="PeopleChooser" />
+            <TextBlock Margin="0,8,0,0" FontWeight="Bold" Text="Picked People:"/>
+            <ItemsControl ItemsSource="{Binding Items, ElementName=PeopleChooser}"
+                      Margin="8,0,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayName}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</Page>

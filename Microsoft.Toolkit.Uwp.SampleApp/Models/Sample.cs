@@ -10,17 +10,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
-// TODO Reintroduce graph controls
-// using Microsoft.Toolkit.Graph.Converters;
-// using Microsoft.Toolkit.Graph.Providers;
-using Microsoft.Toolkit.Helpers;
+using CommunityToolkit.Graph.Uwp.Converters;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
@@ -28,8 +23,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Media;
-using Microsoft.UI.Xaml;
-using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -692,9 +685,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 VerticalAlignment.Center.GetType(), // Windows
                 StackMode.Replace.GetType(), // Microsoft.Toolkit.Uwp.UI.Controls.Core
-
-              // TODO Reintroduce graph controls
-              // typeof(UserToPersonConverter)) // Search in Microsoft.Toolkit.Graph.Controls
+                typeof(UserToPersonConverter), // CommunityToolkit.Graph.Uwp.Controls
                 ScrollItemPlacement.Default.GetType(), // Search in Microsoft.Toolkit.Uwp.UI
                 EasingType.Default.GetType(), // Microsoft.Toolkit.Uwp.UI.Animations
                 ImageBlendMode.Multiply.GetType(), // Search in Microsoft.Toolkit.Uwp.UI.Media
