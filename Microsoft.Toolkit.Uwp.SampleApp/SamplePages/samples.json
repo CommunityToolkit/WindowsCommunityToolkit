@@ -193,7 +193,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI/Shadows",
         "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowCompositionXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AttachedShadows.md"
       },
       {
         "Name": "AttachedCardShadow (Win2D)",
@@ -202,7 +202,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Media/Shadows",
         "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowWin2DXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AttachedShadows.md",
         "BadgeUpdateVersionRequired": "May 2019 update required",
         "ApiCheck": "Windows.UI.Composition.CompositionVisualSurface"
       },
@@ -670,7 +670,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Animations/Xaml/Shadows",
         "XamlCodeFile": "/SamplePages/Animations/Shadows/AnimatedCardShadowXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AttachedShadows.md"
       }
     ]
   },
