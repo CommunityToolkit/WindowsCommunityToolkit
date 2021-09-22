@@ -1237,7 +1237,7 @@
         "Name": "StringExtensions",
         "Type": "StringExtensionsPage",
         "About": "String Extensions to validate strings",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit/Extensions/StringExtensions.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/CommunityToolkit.Common/Extensions/StringExtensions.cs",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/StringExtensions.md"
       },

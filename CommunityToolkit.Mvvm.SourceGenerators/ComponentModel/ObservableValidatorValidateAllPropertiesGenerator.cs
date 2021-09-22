@@ -51,7 +51,7 @@ namespace CommunityToolkit.Mvvm.SourceGenerators
             // Get the symbol for the required attributes
             INamedTypeSymbol
                 validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!,
-                observablePropertySymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.ComponentModel.ObservablePropertyAttribute")!;
+                observablePropertySymbol = context.Compilation.GetTypeByMetadataName("CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute")!;
 
             // Prepare the attributes to add to the first class declaration
             AttributeListSyntax[] classAttributes = new[]
