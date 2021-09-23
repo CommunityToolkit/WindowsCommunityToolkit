@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(".NET Foundation")]
 [assembly: AssemblyProduct("Microsoft.Toolkit.Uwp.SampleApp")]
-[assembly: AssemblyCopyright("Copyright © 2016-2020")]
+[assembly: AssemblyCopyright("Copyright © 2016-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
