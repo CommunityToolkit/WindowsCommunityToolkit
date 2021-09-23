@@ -26,8 +26,8 @@
     <TargetPlatformBaseVersion>10.0</TargetPlatformBaseVersion>
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
-    <MicrosoftProjectReunionVersion>0.8.2</MicrosoftProjectReunionVersion>
-    <MicrosoftCsWinRTVersion>1.3.3</MicrosoftCsWinRTVersion>
+    <MicrosoftProjectReunionVersion>0.8.4</MicrosoftProjectReunionVersion>
+    <MicrosoftCsWinRTVersion>1.3.5</MicrosoftCsWinRTVersion>
   </PropertyGroup>
 
   <PropertyGroup>

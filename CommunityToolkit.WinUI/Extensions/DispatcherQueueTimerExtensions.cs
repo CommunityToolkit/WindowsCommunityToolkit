@@ -27,7 +27,7 @@ namespace CommunityToolkit.WinUI.UI
         /// <param name="immediate">Determines if the action execute on the leading edge instead of trailing edge.</param>
         /// <example>
         /// <code>
-        /// private DispatcherQueueTimer _typeTimer = new DispatcherQueueTimer();
+        /// private DispatcherQueueTimer _typeTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         ///
         /// _typeTimer.Debounce(async () =>
         ///     {
