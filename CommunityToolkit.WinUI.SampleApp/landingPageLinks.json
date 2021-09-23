@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "MVVM Toolkit", "EffectAnimations", "TabbedCommandBar", "ColorPicker", "ColorPickerButton", "SwitchPresenter" ],
+  "new-samples": [ "AttachedCardShadow (Win2D)", "Shadow Animations", "RichSuggestBox", "MetadataControl", "ConstrainedBox", "ControlSizeTrigger" ],
   "resources": [
     {
       "title": "Toolkit",

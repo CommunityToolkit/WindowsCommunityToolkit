@@ -54,8 +54,7 @@ namespace CommunityToolkit.WinUI.UI.Animations
             {
                 static AnimationBuilder ThrowArgumentNullException()
                 {
-                    throw new ArgumentNullException(
-                        "The target shadow cannot be animated at this time.");
+                    throw new ArgumentNullException("The target shadow cannot be animated at this time.");
                 }
 
                 return ThrowArgumentNullException();
@@ -63,9 +62,14 @@ namespace CommunityToolkit.WinUI.UI.Animations
 
             if (Target is IAttachedShadow allShadows)
             {
-                // in this case we'll animate all the shadows being used.
+                // In this case we'll animate all the shadows being used
                 foreach (var context in allShadows.EnumerateElementContexts()) //// TODO: Find better way!!!
                 {
+                    if (context.Shadow is not DropShadow shadow)
+                    {
+                        continue;
+                    }
+
                     NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
                         explicitTarget,
                         Delay ?? delayHint ?? DefaultDelay,
@@ -75,25 +79,18 @@ namespace CommunityToolkit.WinUI.UI.Animations
 
                     AppendToBuilder(keyFrameBuilder, easingTypeHint, easingModeHint);
 
-                    CompositionAnimation animation = keyFrameBuilder.GetAnimation(context.Shadow, out _);
+                    CompositionAnimation animation = keyFrameBuilder.GetAnimation(shadow, out _);
 
-                    builder.ExternalAnimation(context.Shadow, animation);
+                    builder.ExternalAnimation(shadow, animation);
                 }
 
                 return builder;
             }
-            else
+            else if (Effects.GetShadow((FrameworkElement)parent) is AttachedShadowBase shadowBase &&
+                     shadowBase.GetElementContext((FrameworkElement)parent).Shadow is DropShadow shadow)
             {
-                var shadowBase = Effects.GetShadow(parent as FrameworkElement);
-                if (shadowBase == null)
-                {
-                    static AnimationBuilder ThrowArgumentNullException() => throw new ArgumentNullException("The target's shadow is null, make sure to set the Target property to an element with a Shadow");
-
-                    return ThrowArgumentNullException();
-                }
-
-                var shadow = shadowBase.GetElementContext((FrameworkElement)parent).Shadow;
-
+                // In this case, the animation is targeting the single shadow attached to the target element.
+                // The same checks as before have been performed to ensure that unloading doesn't cause issues.
                 NormalizedKeyFrameAnimationBuilder<TKeyFrame>.Composition keyFrameBuilder = new(
                     explicitTarget,
                     Delay ?? delayHint ?? DefaultDelay,
@@ -107,6 +104,8 @@ namespace CommunityToolkit.WinUI.UI.Animations
 
                 return builder.ExternalAnimation(shadow, animation);
             }
+
+            return builder;
         }
     }
 }
