@@ -63,10 +63,10 @@
 
     <controls:Loading x:Name="LoadingControl">
       <controls:Loading.Background>
-        <brushes:AcrylicBrush BackgroundSource="Backdrop"
-                              TintColor="Black"
+        <brushes:AcrylicBrush TintColor="Black"
                               TintOpacity="@[Opacity:DoubleSlider:0.4:0.0-1.0]"
                               BlurAmount="@[BlurAmount:DoubleSlider:8:0.0-24.0]"/>
+          <!-- BackgroundSource="Backdrop" -->
       </controls:Loading.Background>
       <ContentControl x:Name="LoadingContentControl" />
     </controls:Loading>
