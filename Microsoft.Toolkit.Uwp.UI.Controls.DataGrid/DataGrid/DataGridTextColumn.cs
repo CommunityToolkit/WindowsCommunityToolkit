@@ -26,12 +26,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string DATAGRIDTEXTCOLUMN_fontStyleName = "FontStyle";
         private const string DATAGRIDTEXTCOLUMN_fontWeightName = "FontWeight";
         private const string DATAGRIDTEXTCOLUMN_foregroundName = "Foreground";
+        private const string DATAGRIDTEXTCOLUMN_textAlignmentName = "TextAlignment";
         private const double DATAGRIDTEXTCOLUMN_leftMargin = 12.0;
         private const double DATAGRIDTEXTCOLUMN_rightMargin = 12.0;
 
         private double? _fontSize;
         private FontStyle? _fontStyle;
         private FontWeight? _fontWeight;
+        private TextAlignment? _textAlignment;
         private Brush _foreground;
 
         /// <summary>
@@ -130,6 +132,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the text alignment of the column cells.
+        /// </summary>
+        public TextAlignment TextAlignment
+        {
+            get
+            {
+                return _textAlignment ?? TextAlignment.Left;
+            }
+
+            set
+            {
+                if (_textAlignment != value)
+                {
+                    _textAlignment = value;
+                    NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_textAlignmentName);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets a brush that describes the foreground of the column cells.
         /// </summary>
         public Brush Foreground
@@ -196,6 +218,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBox.FontWeight = _fontWeight.Value;
             }
 
+            if (_textAlignment.HasValue)
+            {
+                textBox.TextAlignment = _textAlignment.Value;
+            }
+
             RefreshForeground(textBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
             if (this.Binding != null)
@@ -235,6 +262,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_fontWeight.HasValue)
             {
                 textBlockElement.FontWeight = _fontWeight.Value;
+            }
+
+            if (_textAlignment.HasValue)
+            {
+                textBlockElement.TextAlignment = _textAlignment.Value;
             }
 
             RefreshForeground(textBlockElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
@@ -313,6 +345,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBlock.FontWeight = this.FontWeight;
                 }
+                else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
+                {
+                    textBlock.TextAlignment = this.TextAlignment;
+                }
                 else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
                 {
                     RefreshForeground(textBlock, computedRowForeground);
@@ -327,6 +363,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
                     textBlock.FontStyle = this.FontStyle;
                     textBlock.FontWeight = this.FontWeight;
+                    textBlock.TextAlignment = this.TextAlignment;
                     RefreshForeground(textBlock, computedRowForeground);
                 }
 
@@ -349,6 +386,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 textBox.FontWeight = this.FontWeight;
             }
+            else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
+            {
+                textBox.TextAlignment = this.TextAlignment;
+            }
             else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
             {
                 RefreshForeground(textBox, computedRowForeground);
@@ -363,6 +404,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SetTextFontSize(textBox, TextBox.FontSizeProperty);
                 textBox.FontStyle = this.FontStyle;
                 textBox.FontWeight = this.FontWeight;
+                textBox.TextAlignment = this.TextAlignment;
                 RefreshForeground(textBox, computedRowForeground);
             }
         }
