@@ -26,7 +26,7 @@
             <media:BlurEffect Amount="16"/>
             <media:ShadeEffect Color="#FF222222" Intensity="0.2"/>
             <media:BlendEffect Mode="Overlay" Source="{media:TileSource Uri=ms-appx:///Assets/BrushAssets/NoiseTexture.png}"/>
-            <media:BlendEffect Mode="Overlay" Source="{media:ImageSource Uri=ms-appx:///SamplePages/DropShadowPanel/Unicorn.png}"/>
+            <media:BlendEffect Mode="Overlay" Source="{media:ImageSource Uri=ms-appx:///SamplePages/Shadows/Unicorn.png}"/>
           </media:PipelineBrush>
         </Border.Background>
       </Border>
