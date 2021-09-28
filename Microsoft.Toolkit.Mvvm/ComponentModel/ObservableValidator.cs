@@ -489,12 +489,13 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             static Action<object> GetValidationActionFallback(Type type)
             {
                 // Get the collection of all properties to validate
-                PropertyInfo[] validatableProperties = (
+                (string Name, MethodInfo GetMethod)[] validatableProperties = (
                     from property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     where property.GetIndexParameters().Length == 0 &&
-                          property.GetCustomAttributes<ValidationAttribute>(true).Any() &&
-                          property.GetMethod is not null
-                    select property).ToArray();
+                          property.GetCustomAttributes<ValidationAttribute>(true).Any()
+                    let getMethod = property.GetMethod
+                    where getMethod is not null
+                    select (property.Name, getMethod)).ToArray();
 
                 // Short path if there are no properties to validate
                 if (validatableProperties.Length == 0)
