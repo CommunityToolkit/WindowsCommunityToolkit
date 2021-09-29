@@ -39,6 +39,12 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
+            // Like in the ObservableValidator.ValidateALlProperties generator, execution is skipped if C# >= 8.0 isn't available
+            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp8 })
+            {
+                return;
+            }
+
             // Get the symbol for the IRecipient<T> interface type
             INamedTypeSymbol iRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Messaging.IRecipient`1")!;
 
