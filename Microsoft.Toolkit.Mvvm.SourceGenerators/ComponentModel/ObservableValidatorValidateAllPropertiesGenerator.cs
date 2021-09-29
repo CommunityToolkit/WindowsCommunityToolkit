@@ -42,12 +42,6 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
-            // Validate the language version
-            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp9 })
-            {
-                context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
-            }
-
             // Get the symbol for the required attributes
             INamedTypeSymbol
                 validationSymbol = context.Compilation.GetTypeByMetadataName("System.ComponentModel.DataAnnotations.ValidationAttribute")!,

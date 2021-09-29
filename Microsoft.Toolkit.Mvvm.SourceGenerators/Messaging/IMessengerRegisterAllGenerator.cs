@@ -39,12 +39,6 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
-            // Validate the language version
-            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp9 })
-            {
-                context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
-            }
-
             // Get the symbol for the IRecipient<T> interface type
             INamedTypeSymbol iRecipientSymbol = context.Compilation.GetTypeByMetadataName("Microsoft.Toolkit.Mvvm.Messaging.IRecipient`1")!;
 
