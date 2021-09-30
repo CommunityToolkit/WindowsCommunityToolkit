@@ -1,6 +1,7 @@
 <Project>
 
   <PropertyGroup>
+    <ParentProjectRootNamespace>$(RootNamespace.Remove($(RootNamespace.LastIndexOf('.'))))</ParentProjectRootNamespace>
     <ParentProjectOutputPath>..\$(ParentProjectName)\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
     <OutputPath>$(ParentProjectOutputPath)Design\</OutputPath>
   </PropertyGroup>
@@ -13,6 +14,9 @@
     <EmbeddedResource Update="**\*.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>$(RootNamespace)</CustomToolNamespace>
+      <!-- The 'ManifestResourceName' metadata changes the default manifest naming scheme -->
+      <ManifestResourceName>$(RootNamespace).%(Filename)</ManifestResourceName>
     </EmbeddedResource>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

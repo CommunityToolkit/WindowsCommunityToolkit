@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
+    <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>

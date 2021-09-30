@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.ComponentModel;
+
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Features;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
@@ -27,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                 b =>
                 {
                     b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBarDefaults)));
-                    b.AddCustomAttributes(nameof(RadialProgressBar.Thickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(RadialProgressBar.Outline), new CategoryAttribute(Properties.Resources.CategoryBrush));
+                    b.AddCustomAttributes(nameof(RadialProgressBar.Thickness), new CategoryAttribute(Resources.CategoryAppearance));
+                    b.AddCustomAttributes(nameof(RadialProgressBar.Outline), new CategoryAttribute(Resources.CategoryBrush));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );

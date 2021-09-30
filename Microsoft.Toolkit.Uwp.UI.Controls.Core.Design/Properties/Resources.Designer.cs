@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties {
+namespace Microsoft.Toolkit.Uwp.UI.Controls.Design {
     using System;
 
 
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Toolkit.Uwp.UI.Controls.Design.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
