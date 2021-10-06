@@ -153,6 +153,20 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
             // The LINQ codegen bloat is not really important for the same reason.
             static Action<IMessenger, object, TToken> LoadRegistrationMethodsForTypeFallback(Type recipientType)
             {
+                // Get the collection of validation methods
+                MethodInfo[] registrationMethods = (
+                    from interfaceType in recipientType.GetInterfaces()
+                    where interfaceType.IsGenericType &&
+                          interfaceType.GetGenericTypeDefinition() == typeof(IRecipient<>)
+                    let messageType = interfaceType.GenericTypeArguments[0]
+                    select MethodInfos.RegisterIRecipient.MakeGenericMethod(messageType, typeof(TToken))).ToArray();
+
+                // Short path if there are no message handlers to register
+                if (registrationMethods.Length == 0)
+                {
+                    return static (_, _, _) => { };
+                }
+
                 // Input parameters (IMessenger instance, non-generic recipient, token)
                 ParameterExpression
                     arg0 = Expression.Parameter(typeof(IMessenger)),
@@ -178,11 +192,7 @@ namespace Microsoft.Toolkit.Mvvm.Messaging
                 // We also add an explicit object conversion to cast the input recipient type to
                 // the actual specific type, so that the exposed message handlers are accessible.
                 BlockExpression body = Expression.Block(
-                    from interfaceType in recipientType.GetInterfaces()
-                    where interfaceType.IsGenericType &&
-                          interfaceType.GetGenericTypeDefinition() == typeof(IRecipient<>)
-                    let messageType = interfaceType.GenericTypeArguments[0]
-                    let registrationMethod = MethodInfos.RegisterIRecipient.MakeGenericMethod(messageType, typeof(TToken))
+                    from registrationMethod in registrationMethods
                     select Expression.Call(registrationMethod, new Expression[]
                     {
                         arg0,

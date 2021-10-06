@@ -12,7 +12,7 @@ using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-#pragma warning disable SA1124
+#pragma warning disable SA1124, SA1307, SA1401
 
 #nullable enable
 
@@ -371,7 +371,7 @@ namespace UnitTests.Mvvm
             [MinLength(5)]
             private string? value;
         }
-  
+
         public partial class ViewModelWithValidatableGeneratedProperties : ObservableValidator
         {
             [Required]

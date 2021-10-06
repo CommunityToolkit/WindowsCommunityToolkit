@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -335,6 +336,54 @@ namespace UnitTests.Mvvm
             model.Age = -10;
 
             model.ValidateAllProperties();
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 1);
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+        }
+
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservableValidator_ValidateAllProperties_WithFallback()
+        {
+            var model = new PersonWithDeferredValidation();
+            var events = new List<DataErrorsChangedEventArgs>();
+
+            MethodInfo[] staticMethods = typeof(ObservableValidator).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
+            MethodInfo validationMethod = staticMethods.Single(static m => m.Name.Contains("GetValidationActionFallback"));
+            Func<Type, Action<object>> validationFunc = (Func<Type, Action<object>>)validationMethod.CreateDelegate(typeof(Func<Type, Action<object>>));
+            Action<object> validationAction = validationFunc(model.GetType());
+
+            model.ErrorsChanged += (s, e) => events.Add(e);
+
+            validationAction(model);
+
+            Assert.IsTrue(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+
+            // Note: we can't use an index here because the order used to return properties
+            // from reflection APIs is an implementation detail and might change at any time.
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Name)));
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+
+            events.Clear();
+
+            model.Name = "James";
+            model.Age = 42;
+
+            validationAction(model);
+
+            Assert.IsFalse(model.HasErrors);
+            Assert.IsTrue(events.Count == 2);
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Name)));
+            Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
+
+            events.Clear();
+
+            model.Age = -10;
+
+            validationAction(model);
+
             Assert.IsTrue(model.HasErrors);
             Assert.IsTrue(events.Count == 1);
             Assert.IsTrue(events.Any(e => e.PropertyName == nameof(Person.Age)));
@@ -412,6 +461,34 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(allErrors[1].MemberNames.Count(), 1);
             Assert.AreEqual(allErrors[1].MemberNames.Single(), nameof(ValidationWithDisplayName.AnotherRequiredField));
             Assert.AreEqual(allErrors[1].ErrorMessage, $"SECOND: {nameof(ValidationWithDisplayName.AnotherRequiredField)}.");
+        }
+
+        // See: https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4272
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(MyBase))]
+        [DataRow(typeof(MyDerived2))]
+        public void Test_ObservableRecipient_ValidationOnNonValidatableProperties(Type type)
+        {
+            MyBase viewmodel = (MyBase)Activator.CreateInstance(type);
+
+            viewmodel.ValidateAll();
+        }
+
+        // See: https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4272
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        [DataRow(typeof(MyBase))]
+        [DataRow(typeof(MyDerived2))]
+        public void Test_ObservableRecipient_ValidationOnNonValidatableProperties_WithFallback(Type type)
+        {
+            MyBase viewmodel = (MyBase)Activator.CreateInstance(type);
+
+            MethodInfo[] staticMethods = typeof(ObservableValidator).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
+            MethodInfo validationMethod = staticMethods.Single(static m => m.Name.Contains("GetValidationActionFallback"));
+            Func<Type, Action<object>> validationFunc = (Func<Type, Action<object>>)validationMethod.CreateDelegate(typeof(Func<Type, Action<object>>));
+
+            validationFunc(viewmodel.GetType())(viewmodel);
         }
 
         public class Person : ObservableValidator
@@ -630,6 +707,23 @@ namespace UnitTests.Mvvm
                 get => this.anotherRequiredField;
                 set => SetProperty(ref this.anotherRequiredField, value, true);
             }
+        }
+
+        public class MyBase : ObservableValidator
+        {
+            public int? MyDummyInt { get; set; } = 0;
+
+            public void ValidateAll()
+            {
+                ValidateAllProperties();
+            }
+        }
+
+        public class MyDerived2 : MyBase
+        {
+            public string Name { get; set; }
+
+            public int SomeRandomproperty { get; set; }
         }
     }
 }
