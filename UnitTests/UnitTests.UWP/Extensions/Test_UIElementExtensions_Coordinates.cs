@@ -26,7 +26,7 @@ namespace UnitTests.Extensions
                 var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-        <Border x:Name=""Target"" Margin=""150,100,0,0""/>
+        <Border x:Name=""Target"" Margin=""150,100,0,0"" UseLayoutRounding=""False""/>
 </Page>") as Page;
 
                 // Test Setup
@@ -63,7 +63,7 @@ namespace UnitTests.Extensions
                 var treeRoot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-        <Border x:Name=""Target"" Margin=""100,150,0,0""/>
+        <Border x:Name=""Target"" Margin=""100,150,0,0"" UseLayoutRounding=""False""/>
 </Page>") as Page;
 
                 // Test Setup

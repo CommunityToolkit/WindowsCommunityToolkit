@@ -29,7 +29,7 @@ namespace UnitTests.UWP.UI.Controls
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <controls:WrapPanel x:Name=""WrapPanel"">
+    <controls:WrapPanel x:Name=""WrapPanel"" UseLayoutRounding=""False"">
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
@@ -82,7 +82,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <controls:WrapPanel x:Name=""WrapPanel"" Orientation=""Vertical"">
+    <controls:WrapPanel x:Name=""WrapPanel"" Orientation=""Vertical""
+            UseLayoutRounding=""False"">
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
@@ -135,7 +136,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <controls:WrapPanel x:Name=""WrapPanel"" HorizontalSpacing=""10"">
+    <controls:WrapPanel x:Name=""WrapPanel"" HorizontalSpacing=""10""
+            UseLayoutRounding=""False"">
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
@@ -188,7 +190,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <controls:WrapPanel x:Name=""WrapPanel"" Orientation=""Vertical"" VerticalSpacing=""10"">
+    <controls:WrapPanel x:Name=""WrapPanel"" Orientation=""Vertical"" VerticalSpacing=""10""
+            UseLayoutRounding=""False"">
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
@@ -241,7 +244,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <controls:WrapPanel x:Name=""WrapPanel"" HorizontalSpacing=""10"" Padding=""20"">
+    <controls:WrapPanel x:Name=""WrapPanel"" HorizontalSpacing=""10"" Padding=""20""
+            UseLayoutRounding=""False"">
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
@@ -294,7 +298,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
-    <controls:WrapPanel x:Name=""WrapPanel"" Orientation=""Vertical"" VerticalSpacing=""10"" Padding=""20"">
+    <controls:WrapPanel x:Name=""WrapPanel"" Orientation=""Vertical"" VerticalSpacing=""10"" Padding=""20""
+            UseLayoutRounding=""False"">
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>
         <Border Width=""100"" Height=""50""/>

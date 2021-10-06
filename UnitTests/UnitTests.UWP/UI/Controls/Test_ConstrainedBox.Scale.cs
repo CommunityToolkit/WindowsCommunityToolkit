@@ -30,7 +30,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
     <Grid x:Name=""ParentGrid"" Width=""200"" Height=""200"">
       <controls:ConstrainedBox x:Name=""ConstrainedBox"" ScaleX=""0.5""
-                               HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"">
+                               HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch""
+                               UseLayoutRounding=""False"">
         <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
       </controls:ConstrainedBox>
     </Grid>
@@ -79,7 +80,8 @@ namespace UnitTests.UWP.UI.Controls
     xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
     <Grid x:Name=""ParentGrid"" Width=""200"" Height=""200"">
       <controls:ConstrainedBox x:Name=""ConstrainedBox"" ScaleY=""0.5""
-                               HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"">
+                               HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch""
+                               UseLayoutRounding=""False"">
         <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
       </controls:ConstrainedBox>
     </Grid>
