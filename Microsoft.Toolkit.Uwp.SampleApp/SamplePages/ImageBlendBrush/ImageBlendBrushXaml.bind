@@ -18,7 +18,7 @@
       <Border Grid.Column="0">
         <Border.Background>
           <media:ImageBlendBrush
-            Source="/SamplePages/DropShadowPanel/Unicorn.png"
+            Source="/SamplePages/Shadows/Unicorn.png"
             Stretch="@[Unicorn Stretch:Enum:Stretch.None]"
             Mode="@[Unicorn Blend Mode:Enum:ImageBlendMode.ColorBurn]"
           />
@@ -27,7 +27,7 @@
       <Border Grid.Column="1">
         <Border.Background>
           <media:ImageBlendBrush
-            Source="/SamplePages/DropShadowPanel/Trex.png"
+            Source="/SamplePages/Shadows/Trex.png"
             Stretch="@[Trex Stretch:Enum:Stretch.None]"
             Mode="@[Trex Blend Mode:Enum:ImageBlendMode.Subtract]"
           />
