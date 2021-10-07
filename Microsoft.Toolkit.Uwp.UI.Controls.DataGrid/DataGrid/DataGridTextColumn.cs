@@ -22,18 +22,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class DataGridTextColumn : DataGridBoundColumn
     {
         private const string DATAGRIDTEXTCOLUMN_fontFamilyName = "FontFamily";
+        private const string DATAGRIDTEXTCOLUMN_textAlignmentName = "TextAlignment";
         private const string DATAGRIDTEXTCOLUMN_fontSizeName = "FontSize";
         private const string DATAGRIDTEXTCOLUMN_fontStyleName = "FontStyle";
         private const string DATAGRIDTEXTCOLUMN_fontWeightName = "FontWeight";
         private const string DATAGRIDTEXTCOLUMN_foregroundName = "Foreground";
-        private const string DATAGRIDTEXTCOLUMN_textAlignmentName = "TextAlignment";
         private const double DATAGRIDTEXTCOLUMN_leftMargin = 12.0;
         private const double DATAGRIDTEXTCOLUMN_rightMargin = 12.0;
 
         private double? _fontSize;
+        private TextAlignment? _textAlignment;
         private FontStyle? _fontStyle;
         private FontWeight? _fontWeight;
-        private TextAlignment? _textAlignment;
         private Brush _foreground;
 
         /// <summary>
@@ -67,6 +67,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DataGridTextColumn textColumn = d as DataGridTextColumn;
             textColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontFamilyName);
+        }
+
+        /// <summary>
+        /// Gets or sets the text alignment.
+        /// </summary>
+        public TextAlignment TextAlignment
+        {
+            get { return (TextAlignment)GetValue(TextAlignmentProperty); }
+            set { SetValue(TextAlignmentProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the TextAlignment dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextAlignmentProperty =
+            DependencyProperty.Register(
+                DATAGRIDTEXTCOLUMN_textAlignmentName,
+                typeof(TextAlignment),
+                typeof(DataGridTextColumn),
+                new PropertyMetadata(TextAlignment.Left, OnTextAlignmentPropertyChanged));
+
+        private static void OnTextAlignmentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGridTextColumn textColumn = d as DataGridTextColumn;
+            textColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_textAlignmentName);
         }
 
         /// <summary>
@@ -132,26 +157,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the text alignment of the column cells.
-        /// </summary>
-        public TextAlignment TextAlignment
-        {
-            get
-            {
-                return _textAlignment ?? TextAlignment.Left;
-            }
-
-            set
-            {
-                if (_textAlignment != value)
-                {
-                    _textAlignment = value;
-                    NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_textAlignmentName);
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a brush that describes the foreground of the column cells.
         /// </summary>
         public Brush Foreground
@@ -203,6 +208,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBox.FontFamily = this.FontFamily;
             }
 
+            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.TextAlignmentProperty))
+            {
+                textBox.TextAlignment = this.TextAlignment;
+            }
+
             if (_fontSize.HasValue)
             {
                 textBox.FontSize = _fontSize.Value;
@@ -216,11 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_fontWeight.HasValue)
             {
                 textBox.FontWeight = _fontWeight.Value;
-            }
-
-            if (_textAlignment.HasValue)
-            {
-                textBox.TextAlignment = _textAlignment.Value;
             }
 
             RefreshForeground(textBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
@@ -249,6 +254,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBlockElement.FontFamily = this.FontFamily;
             }
 
+            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.TextAlignmentProperty))
+            {
+                textBlockElement.TextAlignment = this.TextAlignment;
+            }
+
             if (_fontSize.HasValue)
             {
                 textBlockElement.FontSize = _fontSize.Value;
@@ -262,11 +272,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_fontWeight.HasValue)
             {
                 textBlockElement.FontWeight = _fontWeight.Value;
-            }
-
-            if (_textAlignment.HasValue)
-            {
-                textBlockElement.TextAlignment = _textAlignment.Value;
             }
 
             RefreshForeground(textBlockElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
@@ -333,6 +338,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBlock.FontFamily = this.FontFamily;
                 }
+                else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
+                {
+                    textBlock.TextAlignment = this.TextAlignment;
+                }
                 else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
                 {
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
@@ -345,10 +354,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBlock.FontWeight = this.FontWeight;
                 }
-                else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
-                {
-                    textBlock.TextAlignment = this.TextAlignment;
-                }
                 else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
                 {
                     RefreshForeground(textBlock, computedRowForeground);
@@ -359,11 +364,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         textBlock.FontFamily = this.FontFamily;
                     }
+                    if (this.FontFamily != null)
+                    {
+                        textBlock.TextAlignment = this.TextAlignment;
+                    }
 
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
                     textBlock.FontStyle = this.FontStyle;
                     textBlock.FontWeight = this.FontWeight;
-                    textBlock.TextAlignment = this.TextAlignment;
                     RefreshForeground(textBlock, computedRowForeground);
                 }
 
@@ -373,6 +381,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (propertyName == DATAGRIDTEXTCOLUMN_fontFamilyName)
             {
                 textBox.FontFamily = this.FontFamily;
+            }
+            else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
+            {
+                textBox.TextAlignment = this.TextAlignment;
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
             {
@@ -386,10 +398,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 textBox.FontWeight = this.FontWeight;
             }
-            else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
-            {
-                textBox.TextAlignment = this.TextAlignment;
-            }
             else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
             {
                 RefreshForeground(textBox, computedRowForeground);
@@ -400,11 +408,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBox.FontFamily = this.FontFamily;
                 }
+                if (this.FontFamily != null)
+                {
+                    textBox.TextAlignment = this.TextAlignment;
+                }
 
                 SetTextFontSize(textBox, TextBox.FontSizeProperty);
                 textBox.FontStyle = this.FontStyle;
                 textBox.FontWeight = this.FontWeight;
-                textBox.TextAlignment = this.TextAlignment;
                 RefreshForeground(textBox, computedRowForeground);
             }
         }
