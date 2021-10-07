@@ -30,21 +30,20 @@ namespace UnitTests.Extensions
                 },
                 TimeSpan.FromMilliseconds(60));
 
-            await Task.Delay(TimeSpan.FromMilliseconds(10));
+            var value2 = "Hello";
 
-            value = "Hello";
             debounceTimer.Debounce(
                 () =>
                 {
                     triggeredCount++;
-                    triggeredValue = value;
+                    triggeredValue = value2;
                 },
                 TimeSpan.FromMilliseconds(60));
 
             await Task.Delay(TimeSpan.FromMilliseconds(110));
 
             Assert.AreEqual(false, debounceTimer.IsRunning, "Expected to stop the timer.");
-            Assert.AreEqual(value, triggeredValue, "Expected to execute the last action.");
+            Assert.AreEqual(value2, triggeredValue, "Expected to execute the last action.");
             Assert.AreEqual(1, triggeredCount, "Expected to postpone execution.");
         }
     }
