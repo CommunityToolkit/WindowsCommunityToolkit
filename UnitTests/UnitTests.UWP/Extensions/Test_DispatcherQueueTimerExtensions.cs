@@ -31,7 +31,6 @@ namespace UnitTests.Extensions
                 TimeSpan.FromMilliseconds(60));
 
             var value2 = "Hello";
-
             debounceTimer.Debounce(
                 () =>
                 {
