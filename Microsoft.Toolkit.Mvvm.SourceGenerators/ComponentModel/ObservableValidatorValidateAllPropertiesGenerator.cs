@@ -42,10 +42,11 @@ namespace Microsoft.Toolkit.Mvvm.SourceGenerators
                 return;
             }
 
-            // Validate the language version
-            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp9 })
+            // Validate the language version (this needs at least C# 8.0 due to static local functions being used).
+            // If a lower C# version is set, just skip the execution silently. The fallback path will be used just fine.
+            if (context.ParseOptions is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp8 })
             {
-                context.ReportDiagnostic(Diagnostic.Create(UnsupportedCSharpLanguageVersionError, null));
+                return;
             }
 
             // Get the symbol for the required attributes
