@@ -31,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DATAGRIDTEXTCOLUMN_rightMargin = 12.0;
 
         private double? _fontSize;
-        private TextAlignment? _textAlignment;
         private FontStyle? _fontStyle;
         private FontWeight? _fontWeight;
         private Brush _foreground;
@@ -364,6 +363,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         textBlock.FontFamily = this.FontFamily;
                     }
+
                     if (this.FontFamily != null)
                     {
                         textBlock.TextAlignment = this.TextAlignment;
@@ -408,6 +408,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBox.FontFamily = this.FontFamily;
                 }
+
                 if (this.FontFamily != null)
                 {
                     textBox.TextAlignment = this.TextAlignment;
