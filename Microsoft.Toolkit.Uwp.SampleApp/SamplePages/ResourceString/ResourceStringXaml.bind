@@ -1,0 +1,50 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ResourceString"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <SolidColorBrush x:Key="BrushRed" Color="Red" />
+        <SolidColorBrush x:Key="BrushBlue" Color="Blue" />
+    </Page.Resources>
+    <Grid>
+        <StackPanel Spacing="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="{ui:ResourceString Name=ResourceStringMarkupTitle}"
+               FontSize="30em"
+               TextWrapping="Wrap"
+               Style="{StaticResource BodyTextBlockStyle}"/>
+
+            <TextBlock Text="With the ResourceString Markup Extension, there's no need to use the Uid appoach to get strings from resource files. Simply call the resource by name in any property that takes a string!"
+                       FontSize="20em"
+                       Margin="20"
+                       TextWrapping="Wrap"
+               Style="{StaticResource BodyTextBlockStyle}"/>
+
+            <TextBlock
+               TextWrapping="Wrap"
+               Style="{StaticResource BodyTextBlockStyle}">
+                <Run>Get a greating from the English resource context: </Run>
+                <Run Text="{ui:ResourceString Name=HelloText, Language=en-US}"></Run>
+            </TextBlock>
+            <TextBlock
+               TextWrapping="Wrap"
+               Style="{StaticResource BodyTextBlockStyle}">
+                <Run>Or get a greeting from the Spanish resource context: </Run>
+                <Run Text="{ui:ResourceString Name=HelloText, Language=es-ES}"></Run>
+            </TextBlock>
+
+            <TextBlock
+               TextWrapping="Wrap" Margin="20" FontSize="10em"
+               Style="{StaticResource BodyTextBlockStyle}">
+                See our blog post on #ifdef Windows:
+                <Hyperlink NavigateUri="https://devblogs.microsoft.com/ifdef-windows/use-a-custom-resource-markup-extension-to-succeed-at-ui-string-globalization/">Use a Custom Resource Markup Extension to Succeed at UI String Globalization!</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>
