@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Globalization;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -62,6 +63,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="ratio"><see cref="double"/> value representing the <see cref="AspectRatio"/>.</param>
         public static implicit operator AspectRatio(double ratio) => new AspectRatio(ratio);
+
+        /// <summary>
+        /// Implicit conversion operator to convert a <see cref="int"/> to an <see cref="AspectRatio"/> value.
+        /// Creates a simple aspect ratio of N:1, where N is int
+        /// </summary>
+        /// <param name="width"><see cref="int"/> value representing the <see cref="AspectRatio"/>.</param>
+        public static implicit operator AspectRatio(int width) => new AspectRatio(width, 1.0);
 
         /// <summary>
         /// Converter to take a string aspect ration like "16:9" and convert it to an <see cref="AspectRatio"/> struct.
