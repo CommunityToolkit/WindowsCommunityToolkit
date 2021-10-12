@@ -121,7 +121,7 @@ namespace CommunityToolkit.Mvvm.SourceGenerators
         /// <param name="attributeData">The <see cref="AttributeData"/> for the current attribute being processed.</param>
         /// <param name="classDeclaration">The <see cref="ClassDeclarationSyntax"/> node to process.</param>
         /// <param name="classDeclarationSymbol">The <see cref="INamedTypeSymbol"/> for <paramref name="classDeclaration"/>.</param>
-        /// <param name="sourceSyntaxTree">The <see cref="CodeAnalysis.SyntaxTree"/> for the target parsed source.</param>
+        /// <param name="sourceSyntaxTree">The <see cref="Microsoft.CodeAnalysis.SyntaxTree"/> for the target parsed source.</param>
         private void OnExecute(
             GeneratorExecutionContext context,
             AttributeData attributeData,

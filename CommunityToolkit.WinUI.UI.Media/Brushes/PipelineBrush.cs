@@ -17,7 +17,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     public sealed class PipelineBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
-        /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="Microsoft.UI.Xaml.Media.AcrylicBackgroundSource.Backdrop"/> source).
+        /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/>).
         /// </summary>
         public PipelineBuilder Source { get; set; }
 
