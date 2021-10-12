@@ -319,9 +319,9 @@ namespace UnitTests.Mvvm
                 }
             }";
 
+            // This is explicitly allowed in C# < 9.0, as it doesn't use any new features
             VerifyGeneratedDiagnostics<ObservableValidatorValidateAllPropertiesGenerator>(
-                CSharpSyntaxTree.ParseText(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp7_3)),
-                "MVVMTK0013");
+                CSharpSyntaxTree.ParseText(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp7_3)));
         }
 
         [TestCategory("Mvvm")]
@@ -368,9 +368,9 @@ namespace UnitTests.Mvvm
                 }
             }";
 
+            // This is explicitly allowed in C# < 9.0, as it doesn't use any new features
             VerifyGeneratedDiagnostics<IMessengerRegisterAllGenerator>(
-                CSharpSyntaxTree.ParseText(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp7_3)),
-                "MVVMTK0013");
+                CSharpSyntaxTree.ParseText(source, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp7_3)));
         }
 
         /// <summary>

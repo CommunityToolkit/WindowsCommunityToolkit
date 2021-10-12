@@ -19,7 +19,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     public sealed class PipelineVisualFactory : PipelineVisualFactoryBase
     {
         /// <summary>
-        /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="AcrylicBackgroundSource.Backdrop"/> source).
+        /// Gets or sets the source for the current pipeline (defaults to a <see cref="BackdropSourceExtension"/>).
         /// </summary>
         public PipelineBuilder Source { get; set; }
 

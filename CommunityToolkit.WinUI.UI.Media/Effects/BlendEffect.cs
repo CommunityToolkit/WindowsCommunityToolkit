@@ -20,7 +20,7 @@ namespace CommunityToolkit.WinUI.UI.Media
     public sealed class BlendEffect : PipelineEffect
     {
         /// <summary>
-        /// Gets or sets the input to merge with the current instance (defaults to a <see cref="BackdropSourceExtension"/> with <see cref="Microsoft.UI.Xaml.Media.AcrylicBackgroundSource.Backdrop"/> source).
+        /// Gets or sets the input to merge with the current instance (defaults to a <see cref="BackdropSourceExtension"/>).
         /// </summary>
         public PipelineBuilder? Source { get; set; }
 

@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
@@ -18,6 +19,8 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
     {
         private Random _random = new Random();
         private UIElement _element;
+        private ImplicitAnimationSet _animationSet;
+        private bool _areAnimationsToggled;
 
         public ImplicitAnimationsPage()
         {
@@ -28,6 +31,8 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             _element = control.FindChild("Element");
+            _animationSet = Implicit.GetAnimations(_element);
+            _areAnimationsToggled = true;
         }
 
         private void Load()
@@ -58,6 +63,16 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                         (float)_random.NextDouble() * 2,
                         (float)_random.NextDouble() * 2,
                         1);
+                }
+            });
+
+            SampleController.Current.RegisterNewCommand("Toggle animations", (sender, args) =>
+            {
+                if (_element != null)
+                {
+                    Implicit.SetAnimations(_element, _areAnimationsToggled ? null : _animationSet);
+
+                    _areAnimationsToggled = !_areAnimationsToggled;
                 }
             });
         }
