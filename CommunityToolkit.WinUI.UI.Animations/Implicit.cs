@@ -53,7 +53,7 @@ namespace CommunityToolkit.WinUI.UI.Animations
 
             if (collection is null)
             {
-                element.SetValue(ShowAnimationsProperty, collection = new());
+                element.SetValue(ShowAnimationsProperty, collection = new ImplicitAnimationSet());
             }
 
             return collection;
@@ -80,7 +80,7 @@ namespace CommunityToolkit.WinUI.UI.Animations
 
             if (collection is null)
             {
-                element.SetValue(HideAnimationsProperty, collection = new());
+                element.SetValue(HideAnimationsProperty, collection = new ImplicitAnimationSet());
             }
 
             return collection;
@@ -107,7 +107,7 @@ namespace CommunityToolkit.WinUI.UI.Animations
 
             if (collection is null)
             {
-                element.SetValue(AnimationsProperty, collection = new());
+                element.SetValue(AnimationsProperty, collection = new ImplicitAnimationSet());
             }
 
             return collection;
@@ -145,15 +145,21 @@ namespace CommunityToolkit.WinUI.UI.Animations
                 oldCollection.AnimationsChanged -= OnAnimationsChanged;
             }
 
-            if (d is UIElement element &&
-                e.NewValue is ImplicitAnimationSet collection)
+            if (d is UIElement element)
             {
-                collection.ParentReference = new(element);
-                collection.AnimationsChanged -= OnAnimationsChanged;
-                collection.AnimationsChanged += OnAnimationsChanged;
+                if (e.NewValue is ImplicitAnimationSet collection)
+                {
+                    collection.ParentReference = new(element);
+                    collection.AnimationsChanged -= OnAnimationsChanged;
+                    collection.AnimationsChanged += OnAnimationsChanged;
 
-                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
+                    ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                    ElementCompositionPreview.SetImplicitShowAnimation(element, collection.GetCompositionAnimationGroup(element));
+                }
+                else
+                {
+                    ElementCompositionPreview.SetImplicitShowAnimation(element, null);
+                }
             }
         }
 
@@ -179,15 +185,21 @@ namespace CommunityToolkit.WinUI.UI.Animations
                 oldCollection.AnimationsChanged -= OnAnimationsChanged;
             }
 
-            if (d is UIElement element &&
-                e.NewValue is ImplicitAnimationSet collection)
+            if (d is UIElement element)
             {
-                collection.ParentReference = new(element);
-                collection.AnimationsChanged -= OnAnimationsChanged;
-                collection.AnimationsChanged += OnAnimationsChanged;
+                if (e.NewValue is ImplicitAnimationSet collection)
+                {
+                    collection.ParentReference = new(element);
+                    collection.AnimationsChanged -= OnAnimationsChanged;
+                    collection.AnimationsChanged += OnAnimationsChanged;
 
-                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
+                    ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                    ElementCompositionPreview.SetImplicitHideAnimation(element, collection.GetCompositionAnimationGroup(element));
+                }
+                else
+                {
+                    ElementCompositionPreview.SetImplicitHideAnimation(element, null);
+                }
             }
         }
 
@@ -213,15 +225,21 @@ namespace CommunityToolkit.WinUI.UI.Animations
                 oldCollection.AnimationsChanged -= OnAnimationsChanged;
             }
 
-            if (d is UIElement element &&
-                e.NewValue is ImplicitAnimationSet collection)
+            if (d is UIElement element)
             {
-                collection.ParentReference = new(element);
-                collection.AnimationsChanged -= OnAnimationsChanged;
-                collection.AnimationsChanged += OnAnimationsChanged;
+                if (e.NewValue is ImplicitAnimationSet collection)
+                {
+                    collection.ParentReference = new(element);
+                    collection.AnimationsChanged -= OnAnimationsChanged;
+                    collection.AnimationsChanged += OnAnimationsChanged;
 
-                ElementCompositionPreview.SetIsTranslationEnabled(element, true);
-                ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
+                    ElementCompositionPreview.SetIsTranslationEnabled(element, true);
+                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = collection.GetImplicitAnimationCollection(element);
+                }
+                else
+                {
+                    ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = null;
+                }
             }
         }
     }
