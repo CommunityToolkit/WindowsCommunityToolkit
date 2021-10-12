@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// <summary>
     /// A class for listening element enter or exit the ScrollViewer viewport
     /// </summary>
-    public class ViewportBehavior : BehaviorBase<FrameworkElement>
+    public partial class ViewportBehavior : BehaviorBase<FrameworkElement>
     {
         /// <summary>
         /// The ScrollViewer hosting this element.
@@ -36,8 +36,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <summary>
         /// The IsAlwaysOn value of the associated element
         /// </summary>
-        public static readonly DependencyProperty IsAlwaysOnProperty =
-            DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool)));
+        //public static readonly DependencyProperty IsAlwaysOnProperty =
+        //    DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(true));
 
         /// <summary>
         /// Associated element fully enter the ScrollViewer viewport event
@@ -59,14 +59,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// </summary>
         public event EventHandler ExitingViewport;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this behavior will remain attached after the associated element enters the viewport. When false, the behavior will remove itself after entering.
-        /// </summary>
-        public bool IsAlwaysOn
-        {
-            get { return (bool)GetValue(IsAlwaysOnProperty); }
-            set { SetValue(IsAlwaysOnProperty, value); }
-        }
+        ///// <summary>
+        ///// Gets or sets a value indicating whether this behavior will remain attached after the associated element enters the viewport. When false, the behavior will remove itself after entering.
+        ///// </summary>
+        //public bool IsAlwaysOn
+        //{
+        //    get { return (bool)GetValue(IsAlwaysOnProperty); }
+        //    set { SetValue(IsAlwaysOnProperty, value); }
+        //}
 
         /// <summary>
         /// Gets a value indicating whether associated element is fully in the ScrollViewer viewport
