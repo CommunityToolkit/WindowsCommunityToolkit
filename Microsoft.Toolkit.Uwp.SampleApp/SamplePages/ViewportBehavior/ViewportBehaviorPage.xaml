@@ -7,7 +7,7 @@
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
       mc:Ignorable="d">
     <Page.Resources>
-        <behaviors:ViewportBehavior x:Key="ViewportBehavior" IsAlwaysOn="True"/>
+        <behaviors:ViewportBehavior x:Key="ViewportBehavior" />
     </Page.Resources>
 
     <Grid>

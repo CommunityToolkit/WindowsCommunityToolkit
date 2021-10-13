@@ -1,9 +1,25 @@
+using System;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     public partial class ViewportBehavior
     {
+        /// <summary>
+        /// The IsFullyInViewport value of the associated element
+        /// </summary>
+        public static readonly DependencyProperty IsFullyInViewportProperty =
+            DependencyProperty.Register(nameof(IsFullyInViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool), OnIsFullyInViewportChanged));
+
+        /// <summary>
+        /// The IsInViewport value of the associated element
+        /// </summary>
+        public static readonly DependencyProperty IsInViewportProperty =
+            DependencyProperty.Register(nameof(IsInViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool), OnIsInViewportChanged));
+
+        /// <summary>
+        /// The IsAlwaysOn value of the associated element
+        /// </summary>
         public static readonly DependencyProperty IsAlwaysOnProperty =
             DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(true));
 
@@ -14,6 +30,70 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         {
             get { return (bool)GetValue(IsAlwaysOnProperty); }
             set { SetValue(IsAlwaysOnProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether associated element is fully in the ScrollViewer viewport
+        /// </summary>
+        public bool IsFullyInViewport
+        {
+            get { return (bool)GetValue(IsFullyInViewportProperty); }
+            private set { SetValue(IsFullyInViewportProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether associated element is in the ScrollViewer viewport
+        /// </summary>
+        public bool IsInViewport
+        {
+            get { return (bool)GetValue(IsInViewportProperty); }
+            private set { SetValue(IsInViewportProperty, value); }
+        }
+
+        /// <summary>
+        /// Event tracking when the object is fully within the viewport or not
+        /// </summary>
+        /// <param name="d">ViewportBehavior</param>
+        /// <param name="e">EventArgs</param>
+        private static void OnIsFullyInViewportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = (ViewportBehavior)d;
+            var value = (bool)e.NewValue;
+
+            if (obj.IsAlwaysOn)
+            {
+                if (value)
+                {
+                    obj.EnteredViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                }
+                else
+                {
+                    obj.ExitingViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event tracking the state of the object as it moves in and out of the viewport
+        /// </summary>
+        /// <param name="d">ViewportBehavior</param>
+        /// <param name="e">EventArgs</param>
+        private static void OnIsInViewportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var obj = (ViewportBehavior)d;
+            var value = (bool)e.NewValue;
+
+            if (obj.IsAlwaysOn)
+            {
+                if (value)
+                {
+                    obj.EnteringViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                }
+                else
+                {
+                    obj.ExitedViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                }
+            }
         }
     }
 }
