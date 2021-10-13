@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (from is not null)
                 {
-                    builder.KeyFrame(0.0, from.Value, default, default);
+                    builder.KeyFrame(0.0, from.Value, DefaultEasingType, DefaultEasingMode);
                 }
 
                 foreach (var keyFrame in KeyFrames)
