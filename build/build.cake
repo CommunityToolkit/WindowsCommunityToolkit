@@ -360,7 +360,7 @@ Task("MSTestUITest")
 Task("Default")
     .IsDependentOn("Build")
     //.IsDependentOn("Test")
-    .IsDependentOn("UITest")
+    //.IsDependentOn("UITest")
     .IsDependentOn("Package");
 
 Task("UpdateHeaders")
