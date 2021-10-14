@@ -45,10 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.2.7</Version>
+      <Version>2.2.6-preview-20211011-01</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.2.7</Version>
+      <Version>2.2.6-preview-20211011-01</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.TestPlatform.TestHost">
       <Version>17.1.0-preview-20210908-01</Version>

@@ -36,10 +36,10 @@
       <Version>5.10.3</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>2.2.7</Version>
+      <Version>2.2.6-preview-20211011-01</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>2.2.7</Version>
+      <Version>2.2.6-preview-20211011-01</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeCoverage">
       <Version>16.10.0</Version>
