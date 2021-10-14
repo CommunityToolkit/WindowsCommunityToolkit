@@ -80,6 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (sender is FrameworkElement fe)
             {
+                fe.Loaded -= FrameworkElement_Loaded;
                 SetAncestor(fe, fe.FindAscendant(GetAncestorType(fe)));
             }
         }
