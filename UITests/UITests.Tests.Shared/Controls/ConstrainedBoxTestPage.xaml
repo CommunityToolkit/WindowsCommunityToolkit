@@ -6,6 +6,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
+    <!--  Merely binding the AspectRatio to an integer, here, is enough for a valid test
+        of implicit operator for int -->
     <controls:ConstrainedBox x:Name="ConstrainedBox"
                              Height="100"
                              AspectRatio="{x:Bind IntegerWidth}">
