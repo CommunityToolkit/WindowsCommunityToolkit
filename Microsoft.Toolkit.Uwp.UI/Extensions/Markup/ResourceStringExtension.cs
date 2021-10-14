@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     [MarkupExtensionReturnType(ReturnType = typeof(string))]
     public sealed class ResourceStringExtension : MarkupExtension
     {
-        private static ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView();
+        private static ResourceLoader resourceLoader = ResourceLoader.GetForViewIndependentUse();
 
         /// <summary>
         /// Gets or sets associated ID from resource strings
@@ -32,19 +32,31 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <inheritdoc/>
         protected override object ProvideValue()
         {
-            if (string.IsNullOrEmpty(Language))
+            return GetValue(this.Name, this.Language);
+        }
+
+        /// <summary>
+        /// Gets a string value from resource file associated with a resource key
+        /// </summary>
+        /// <param name="name">Resource key name</param>
+        /// <param name="language">optional language of the associated resource to use (ie: "es-ES")
+        /// default is the OS language of current view</param>
+        /// <returns>a string value from resource file associated with a resource key</returns>
+        public static string GetValue(string name, string language = "")
+        {
+            if (string.IsNullOrEmpty(language))
             {
-                return resourceLoader.GetString(this.Name);
+                return resourceLoader.GetString(name);
             }
             else
             {
                 // not using ResourceContext.GetForCurrentView
                 var resourceContext = new Windows.ApplicationModel.Resources.Core.ResourceContext
                 {
-                    Languages = new string[] { Language }
+                    Languages = new string[] { language }
                 };
                 var resourceMap = Windows.ApplicationModel.Resources.Core.ResourceManager.Current.MainResourceMap.GetSubtree("Resources");
-                return resourceMap.GetValue(this.Name, resourceContext).ValueAsString;
+                return resourceMap.GetValue(name, resourceContext).ValueAsString;
             }
         }
     }
