@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls.Design</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>

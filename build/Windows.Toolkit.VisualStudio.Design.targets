@@ -1,9 +1,29 @@
 <Project>
 
   <PropertyGroup>
+    <ParentProjectRootNamespace>$(RootNamespace.Remove($(RootNamespace.LastIndexOf('.'))))</ParentProjectRootNamespace>
     <ParentProjectOutputPath>..\$(ParentProjectName)\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
     <OutputPath>$(ParentProjectOutputPath)Design\</OutputPath>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(EnableDefaultEmbeddedResourceItems)' == 'True'">
+    <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(EnableDefaultEmbeddedResourceItems)' == 'True' AND '$(EmbeddedResourceUseDependentUponConvention)' == 'True'">
+    <EmbeddedResource Update="**\*.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>$(RootNamespace)</CustomToolNamespace>
+      <!-- The 'ManifestResourceName' metadata changes the default manifest naming scheme -->
+      <ManifestResourceName>$(RootNamespace).%(Filename)</ManifestResourceName>
+    </EmbeddedResource>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
   <ItemGroup Condition="'$(SolutionDir)' == '' OR '$(SolutionDir)' == '*Undefined*'">
     <ProjectReference Include="..\$(ParentProjectName)\$(ParentProjectName)$(MSBuildProjectExtension)">

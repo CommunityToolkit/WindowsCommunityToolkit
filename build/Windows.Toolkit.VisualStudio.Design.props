@@ -12,17 +12,13 @@
     <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
     <ParentTargetFramework>net5.0-windows$(TargetPlatformBaseVersion).$(TargetPlatformRevision).0</ParentTargetFramework>
     <ParentProjectName>$(MSBuildProjectName.Remove($(MSBuildProjectName.LastIndexOf('.'))))</ParentProjectName>
-    <!-- Strip root namespace from strings like "CommunityToolkit.WinUI.UI.Controls.Primitives" to just "Primitives" -->
-    <ParentProjectType>$(ParentProjectName.Remove(0, $([MSBuild]::Add($(ParentProjectName.LastIndexOf('.')), '1'))))</ParentProjectType>
   </PropertyGroup>
 
   <ItemGroup>
     <AppDesigner Include="Properties\"/>
-    <EmbeddedResource Include="Icons\$(ParentProjectName).*.icon.png"/>
-    <EmbeddedResource Include="$(ParentProjectOutputPath)$(ParentProjectName).xml">
-      <Link>$(ParentProjectType).xml</Link>
-      <Visible>False</Visible>
-    </EmbeddedResource>
+      <!-- The 'LogicalName' metadata changes the default manifest naming scheme -->
+    <EmbeddedResource Include="Icons\*.icon.png" LogicalName="$(ParentProjectRootNamespace).%(Filename)%(Extension)"/>
+    <EmbeddedResource Include="$(ParentProjectOutputPath)$(ParentProjectName).xml" LinkBase="Properties\" LogicalName="%(Filename)%(Extension)"/>
   </ItemGroup>
 
 </Project>

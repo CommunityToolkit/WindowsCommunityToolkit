@@ -230,7 +230,7 @@ namespace CommunityToolkit.WinUI.UI.Automation.Peers
                 }
             }
 
-            string name = UI.Controls.Properties.Resources.DataGridRowAutomationPeer_ItemType;
+            string name = UI.Controls.Resources.DataGridRowAutomationPeer_ItemType;
 #if DEBUG_AUTOMATION
             System.Diagnostics.Debug.WriteLine("DataGridItemAutomationPeer.GetNameCore returns " + name);
 #endif
