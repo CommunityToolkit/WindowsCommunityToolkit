@@ -197,7 +197,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             double step = SmallChange;
-            if (KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
+            if (InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = LargeChange;
             }

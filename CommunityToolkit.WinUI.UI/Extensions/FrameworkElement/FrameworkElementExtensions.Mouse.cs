@@ -4,9 +4,9 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using Windows.UI.Core;
 
 namespace CommunityToolkit.WinUI.UI
 {
@@ -14,35 +14,35 @@ namespace CommunityToolkit.WinUI.UI
     public static partial class FrameworkElementExtensions
     {
         private static readonly object _cursorLock = new object();
-        private static readonly CoreCursor _defaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-        private static readonly Dictionary<CoreCursorType, CoreCursor> _cursors =
-            new Dictionary<CoreCursorType, CoreCursor> { { CoreCursorType.Arrow, _defaultCursor } };
+        private static readonly InputCursor _defaultCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+        private static readonly Dictionary<InputSystemCursorShape, InputCursor> _cursors =
+            new Dictionary<InputSystemCursorShape, InputCursor> { { InputSystemCursorShape.Arrow, _defaultCursor } };
 
         /// <summary>
-        /// Dependency property for specifying the target <see cref="CoreCursorType"/> to be shown
+        /// Dependency property for specifying the target <see cref="InputSystemCursorShape"/> to be shown
         /// over the target <see cref="FrameworkElement"/>.
         /// </summary>
         public static readonly DependencyProperty CursorProperty =
-            DependencyProperty.RegisterAttached("Cursor", typeof(CoreCursorType), typeof(FrameworkElementExtensions), new PropertyMetadata(CoreCursorType.Arrow, CursorChanged));
+            DependencyProperty.RegisterAttached("Cursor", typeof(InputSystemCursorShape), typeof(FrameworkElementExtensions), new PropertyMetadata(InputSystemCursorShape.Arrow, CursorChanged));
 
         /// <summary>
-        /// Set the target <see cref="CoreCursorType"/>.
+        /// Set the target <see cref="InputSystemCursorShape"/>.
         /// </summary>
         /// <param name="element">Object where the selector cursor type should be shown.</param>
         /// <param name="value">Target cursor type value.</param>
-        public static void SetCursor(FrameworkElement element, CoreCursorType value)
+        public static void SetCursor(FrameworkElement element, InputSystemCursorShape value)
         {
             element.SetValue(CursorProperty, value);
         }
 
         /// <summary>
-        /// Get the current <see cref="CoreCursorType"/>.
+        /// Get the current <see cref="InputSystemCursorShape"/>.
         /// </summary>
         /// <param name="element">Object where the selector cursor type should be shown.</param>
         /// <returns>Cursor type set on target element.</returns>
-        public static CoreCursorType GetCursor(FrameworkElement element)
+        public static InputSystemCursorShape GetCursor(FrameworkElement element)
         {
-            return (CoreCursorType)element.GetValue(CursorProperty);
+            return (InputSystemCursorShape)element.GetValue(CursorProperty);
         }
 
         private static void CursorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -53,14 +53,14 @@ namespace CommunityToolkit.WinUI.UI
                 throw new NullReferenceException(nameof(element));
             }
 
-            var value = (CoreCursorType)e.NewValue;
+            var value = (InputSystemCursorShape)e.NewValue;
 
-            // lock ensures CoreCursor creation and event handlers attachment/detachment is atomic
+            // lock ensures InputCursor creation and event handlers attachment/detachment is atomic
             lock (_cursorLock)
             {
                 if (!_cursors.ContainsKey(value))
                 {
-                    _cursors[value] = new CoreCursor(value, 1);
+                    _cursors[value] = InputSystemCursor.Create(value);
                 }
 
                 // make sure event handlers are not attached twice to element
@@ -80,8 +80,9 @@ namespace CommunityToolkit.WinUI.UI
                 return;
             }
 
-            CoreCursorType cursor = GetCursor((FrameworkElement)sender);
-            Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
+            InputSystemCursorShape cursor = GetCursor((FrameworkElement)sender);
+
+            // Window.Current.CoreWindow.PointerCursor = _cursors[cursor];
         }
 
         private static void Element_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -92,7 +93,7 @@ namespace CommunityToolkit.WinUI.UI
             }
 
             // when exiting change the cursor to the target Mouse.Cursor value of the new element
-            CoreCursor cursor;
+            InputCursor cursor;
             if (sender != e.OriginalSource && e.OriginalSource is FrameworkElement newElement)
             {
                 cursor = _cursors[GetCursor(newElement)];
@@ -102,7 +103,7 @@ namespace CommunityToolkit.WinUI.UI
                 cursor = _defaultCursor;
             }
 
-            Window.Current.CoreWindow.PointerCursor = cursor;
+            // Window.Current.CoreWindow.PointerCursor = cursor;
         }
 
         private static void ElementOnUnloaded(object sender, RoutedEventArgs routedEventArgs)
@@ -114,7 +115,7 @@ namespace CommunityToolkit.WinUI.UI
 
             // when the element is programatically unloaded, reset the cursor back to default
             // this is necessary when click triggers immediate change in layout and PointerExited is not called
-            Window.Current.CoreWindow.PointerCursor = _defaultCursor;
+            // Window.Current.CoreWindow.PointerCursor = _defaultCursor;
         }
     }
 }

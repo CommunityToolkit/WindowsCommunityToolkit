@@ -8,7 +8,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 
 namespace CommunityToolkit.WinUI.UI.Controls
@@ -42,7 +41,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// <inheritdoc />
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
-            var isCtrlDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var isCtrlDown = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 
             if (!isCtrlDown)
             {

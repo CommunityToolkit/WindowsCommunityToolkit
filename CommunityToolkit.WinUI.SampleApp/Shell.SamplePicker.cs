@@ -242,7 +242,7 @@ namespace CommunityToolkit.WinUI.SampleApp
 
         private void ItemContainer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse &&
+            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse &&
                 (sender as FrameworkElement)?.FindDescendant<DropShadowPanel>() is FrameworkElement panel)
             {
                 panel.Visibility = Visibility.Visible;

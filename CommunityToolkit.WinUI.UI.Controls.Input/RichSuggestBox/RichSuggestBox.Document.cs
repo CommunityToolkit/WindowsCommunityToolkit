@@ -4,7 +4,7 @@
 
 using System;
 using System.Linq;
-using Microsoft.UI.Input.Experimental;
+using Microsoft.UI.Input;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Controls;
 
@@ -67,7 +67,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             });
         }
 
-        private void InvokeTokenPointerOver(ExpPointerPoint pointer)
+        private void InvokeTokenPointerOver(PointerPoint pointer)
         {
             var pointerPosition = TransformToVisual(_richEditBox).TransformPoint(pointer.Position);
             var padding = _richEditBox.Padding;

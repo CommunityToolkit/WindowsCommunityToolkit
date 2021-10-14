@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -74,7 +75,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 return false;
             }
 
-            var ctrl = Microsoft.UI.Input.KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control);
+            var ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control);
             return ctrl.HasFlag(CoreVirtualKeyStates.Down);
         }
 
@@ -134,7 +135,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             PreviousCursor = ProtectedCursor;
             if (PreviousCursor == null)
             {
-                PreviousCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                PreviousCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
             }
 
             _resizeDirection = GetResizeDirection();

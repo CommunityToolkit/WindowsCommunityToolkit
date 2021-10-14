@@ -137,9 +137,9 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private static string MapInputToGestureKey(VirtualKey key, bool menuHasFocus = false)
         {
-            var isCtrlDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var isShiftDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var isAltDown = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down) || menuHasFocus;
+            var isCtrlDown = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var isShiftDown = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var isAltDown = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down) || menuHasFocus;
 
             if (!isCtrlDown && !isShiftDown && !isAltDown)
             {

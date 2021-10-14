@@ -43,7 +43,7 @@ namespace UITests.Tests
                 string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
                 string installerName = "UITests.App";
 #else
-                var exclude = new[] { "Microsoft.ProjectReunion", "Microsoft.VCLibs" };
+                var exclude = new[] { "Microsoft.WindowsAppRuntime", "Microsoft.VCLibs" };
                 var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
 
                 if (files.Count() == 0)

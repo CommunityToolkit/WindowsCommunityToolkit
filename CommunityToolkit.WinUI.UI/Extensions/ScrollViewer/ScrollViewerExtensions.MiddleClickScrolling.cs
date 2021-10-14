@@ -8,7 +8,6 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI.Core;
 
@@ -131,7 +130,7 @@ namespace CommunityToolkit.WinUI.UI
                 Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
                 Window.Current.CoreWindow.PointerReleased -= CoreWindow_PointerReleased;
 
-                Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                // Window.Current.CoreWindow.PointerCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
             }
         }
 
@@ -190,7 +189,7 @@ namespace CommunityToolkit.WinUI.UI
 
             Pointer pointer = e.Pointer;
 
-            if (pointer.PointerDeviceType == PointerDeviceType.Mouse)
+            if (pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
             {
                 _scrollViewer = sender as ScrollViewer;
 
@@ -349,7 +348,10 @@ namespace CommunityToolkit.WinUI.UI
             {
                 if (Window.Current != null)
                 {
-                    dispatcherQueue.EnqueueAsync(() => Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, cursorID));
+                    dispatcherQueue.EnqueueAsync(() =>
+                    {
+                        // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(cursorID)
+                    });
                 }
 
                 _oldCursorID = cursorID;
@@ -368,15 +370,15 @@ namespace CommunityToolkit.WinUI.UI
             {
                 if (Window.Current != null)
                 {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 101);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 102);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 103);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 104);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 105);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 106);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 107);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 108);
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Custom, 109);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(101);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(102);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(103);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(104);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(105);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(106);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(107);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(108);
+                    // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create(109);
                 }
             }
             catch (Exception)
@@ -387,7 +389,7 @@ namespace CommunityToolkit.WinUI.UI
             {
                 if (Window.Current != null)
                 {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                    // Window.Current.CoreWindow.PointerCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
                 }
             }
 

@@ -191,7 +191,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
 
         private void DataGridRowsPresenter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            if (e.PointerDeviceType != Windows.Devices.Input.PointerDeviceType.Touch)
+            if (e.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Touch)
             {
                 e.Complete();
             }
