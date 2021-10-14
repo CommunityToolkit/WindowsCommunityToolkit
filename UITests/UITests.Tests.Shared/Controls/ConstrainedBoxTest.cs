@@ -32,21 +32,11 @@ namespace UITests.Tests
 
         [TestMethod]
         [TestPage("ConstrainedBoxTestPage")]
-        public void SimpleTestMethod()
+        public void Test_AspectRatioBoundToInteger_Placeholder()
         {
-            //ConstrainedBox cb;
-            //var button = new Button(FindElement.ByName("Click Me"));
-            //var textBlock = new TextBlock(FindElement.ById("textBlock"));
-
-            //Verify.IsNotNull(button);
-
-            //Verify.AreEqual(string.Empty, textBlock.GetText());
-
-            //button.Click();
-
-            //Wait.ForIdle();
-
-            //Verify.AreEqual("Clicked", textBlock.GetText());
+            // The test is if the AspectRatio can be bound to integer
+            // This test method acts as a placeholder, to spawn the XAML test page
+            //       and test the binding to an integer
         }
     }
 }

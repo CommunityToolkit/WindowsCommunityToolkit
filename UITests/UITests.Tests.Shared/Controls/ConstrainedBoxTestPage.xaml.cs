@@ -10,6 +10,9 @@ namespace UITests.App.Pages
 {
     public sealed partial class ConstrainedBoxTestPage : Page
     {
+        public int IntegerWidth { get; set; } = 2;
+
+
         public ConstrainedBoxTestPage()
         {
             this.InitializeComponent();
