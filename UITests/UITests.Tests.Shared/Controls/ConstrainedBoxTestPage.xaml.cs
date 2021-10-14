@@ -12,7 +12,6 @@ namespace UITests.App.Pages
     {
         public int IntegerWidth { get; set; } = 2;
 
-
         public ConstrainedBoxTestPage()
         {
             this.InitializeComponent();
