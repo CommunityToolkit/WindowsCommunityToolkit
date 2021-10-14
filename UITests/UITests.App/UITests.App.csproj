@@ -34,8 +34,8 @@
   <Target Name="ForceProtoCodegenAndCompile" BeforeTargets="XamlPreCompile" DependsOnTargets="Protobuf_Compile" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI">
-      <Version>3.0.0-zmain.210615.2-CI</Version>
+    <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI" GeneratePathProperty="true">
+      <Version>3.0.0-zmain.210930.1</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="1.3.5" />
@@ -45,6 +45,13 @@
     <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(PkgMicrosoft_Internal_MUXAppTestHelpers_WinUI)\content\AppTestAutomationHelpers\TestAutomationHelpersPanel.xaml">
+      <Link>AppTestAutomationHelpers\TestAutomationHelpersPanel.xaml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">

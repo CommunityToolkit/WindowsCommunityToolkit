@@ -28,7 +28,7 @@
     <PackageReference Include="MSTest.TestFramework" Version="2.2.4-preview-20210331-02" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <!-- Microsoft.UI.Xaml MSTest Extension -->
-    <PackageReference Include="Microsoft.Internal.MUXTestInfra.MSTest" Version="3.0.0-zmain.210615.2-CI" />
+    <PackageReference Include="Microsoft.Internal.MUXTestInfra.MSTest" Version="3.0.0-zmain.210930.1" />
     <!-- System packages -->
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />

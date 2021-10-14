@@ -68,7 +68,7 @@
     <!-- System packages -->
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <!-- Microsoft.UI.Xaml TAEF Extensions -->
-    <PackageReference Include="Microsoft.Internal.MUXTestInfra.TAEF" Version="3.0.0-zmain.210615.2-CI" />
+    <PackageReference Include="Microsoft.Internal.MUXTestInfra.TAEF" Version="3.0.0-zmain.210930.1" />
     <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />
     <PackageReference Include="TAEF.Redist.Wlk" Version="10.57.200928001" GeneratePathProperty="true" />
     <!-- GRPC/Protobuf -->
