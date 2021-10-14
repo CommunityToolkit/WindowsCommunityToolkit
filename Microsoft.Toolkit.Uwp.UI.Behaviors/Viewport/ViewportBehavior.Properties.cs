@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <summary>
         /// Event tracking when the object is fully within the viewport or not
         /// </summary>
-        /// <param name="d">ViewportBehavior</param>
+        /// <param name="d">DependencyObject</param>
         /// <param name="e">EventArgs</param>
         private static void OnIsFullyInViewportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -74,9 +74,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         }
 
         /// <summary>
-        /// Event tracking the state of the object as it moves in and out of the viewport
+        /// Event tracking the state of the object as it moves into and out of the viewport
         /// </summary>
-        /// <param name="d">ViewportBehavior</param>
+        /// <param name="d">DependencyObject</param>
         /// <param name="e">EventArgs</param>
         private static void OnIsInViewportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
