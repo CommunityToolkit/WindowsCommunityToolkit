@@ -40,6 +40,18 @@
             </TextBlock>
 
             <TextBlock
+               TextWrapping="Wrap" Margin="0,20,0,0"
+               Style="{StaticResource BodyTextBlockStyle}">
+                You can alternatively get a greeting using x:Bind for optimized compiled bind:
+            </TextBlock>
+            <TextBlock
+               TextWrapping="Wrap" Margin="10,10,0,0"
+               Style="{StaticResource BodyTextBlockStyle}">
+                {x:Bind ui:ResourceStringExtension.GetValue('HelloText', 'es-ES')}
+            </TextBlock>
+
+
+            <TextBlock
                TextWrapping="Wrap" Margin="20" FontSize="10em"
                Style="{StaticResource BodyTextBlockStyle}">
                 See our blog post on #ifdef Windows:
