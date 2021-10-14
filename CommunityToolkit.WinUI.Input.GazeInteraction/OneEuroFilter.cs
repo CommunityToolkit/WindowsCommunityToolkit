@@ -57,7 +57,7 @@ namespace CommunityToolkit.WinUI.Input.GazeInteraction
             Point cutoff = new Point(cf, cf);
 
             // determine sampling frequency based on last time stamp
-            float samplingFrequency = 100000000.0f / Math.Max(1, (args.Timestamp - _lastTimestamp).Ticks);
+            var samplingFrequency = (float)TimeSpan.TicksPerSecond / Math.Max(1, (args.Timestamp - _lastTimestamp).Ticks);
             _lastTimestamp = args.Timestamp;
 
             // calculate change in distance...
