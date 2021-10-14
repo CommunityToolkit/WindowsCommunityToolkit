@@ -7,13 +7,12 @@ using CommunityToolkit.WinUI.UI.Automation.Peers;
 using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
 using CommunityToolkit.WinUI.UI.Controls.Utilities;
 using CommunityToolkit.WinUI.UI.Utilities;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
-using Windows.Devices.Input;
-
 using DiagnosticsDebug = System.Diagnostics.Debug;
 
 namespace CommunityToolkit.WinUI.UI.Controls

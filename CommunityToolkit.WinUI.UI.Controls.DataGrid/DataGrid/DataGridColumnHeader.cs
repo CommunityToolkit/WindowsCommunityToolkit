@@ -9,13 +9,13 @@ using CommunityToolkit.WinUI.UI.Controls.DataGridInternals;
 using CommunityToolkit.WinUI.UI.Controls.Utilities;
 using CommunityToolkit.WinUI.UI.Utilities;
 using CommunityToolkit.WinUI.Utilities;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.UI.Core;
 
@@ -1102,18 +1102,20 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
 
             if (this.OwningGrid.IsEnabled && (nearCurrentResizableColumnRightEdge || nearPreviousResizableColumnLeftEdge))
             {
-                CoreCursor currentCursor = ProtectedCursor;
+                InputCursor currentCursor = ProtectedCursor;
                 if (currentCursor == null)
                 {
-                    currentCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+                    currentCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
                 }
 
-                if (currentCursor != null && currentCursor.Type != CoreCursorType.SizeWestEast)
+                if (currentCursor != null &&
+                    (currentCursor is InputDesktopResourceCursor ||
+                    (currentCursor is InputSystemCursor inputSystemCursor && inputSystemCursor.CursorShape != InputSystemCursorShape.SizeWestEast)))
                 {
                     interactionInfo.OriginalCursor = currentCursor;
                     interactionInfo.ResizePointerId = pointer.PointerId;
 
-                    var newCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    var newCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
                     ProtectedCursor = newCursor;
                 }
             }

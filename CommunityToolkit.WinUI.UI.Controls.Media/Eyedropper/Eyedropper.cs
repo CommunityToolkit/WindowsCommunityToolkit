@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -14,7 +15,6 @@ using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.UI;
-using Windows.UI.Core;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
@@ -28,8 +28,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
         private const int PreviewPixelsPerRawPixel = 10;
         private const int PixelCountPerRow = 11;
-        private static readonly CoreCursor DefaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
-        private static readonly CoreCursor MoveCursor = new CoreCursor(CoreCursorType.Cross, 1);
+        private static readonly InputCursor DefaultCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+        private static readonly InputCursor MoveCursor = InputSystemCursor.Create(InputSystemCursorShape.Cross);
 
         private readonly CanvasDevice _device = CanvasDevice.GetSharedDevice();
         private readonly TranslateTransform _layoutTransform = new TranslateTransform();
@@ -300,14 +300,14 @@ namespace CommunityToolkit.WinUI.UI.Controls
         }
 
         // Internal abstraction is used by the Unit Tests
-        internal async Task InternalPointerPressedAsync(uint pointerId, Point position, Windows.Devices.Input.PointerDeviceType pointerDeviceType)
+        internal async Task InternalPointerPressedAsync(uint pointerId, Point position, PointerDeviceType pointerDeviceType)
         {
             _pointerId = pointerId;
             PickStarted?.Invoke(this, EventArgs.Empty);
             await UpdateAppScreenshotAsync();
             UpdateEyedropper(position);
 
-            if (pointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            if (pointerDeviceType == PointerDeviceType.Touch)
             {
                 VisualStateManager.GoToState(this, TouchState, false);
             }

@@ -12,14 +12,14 @@ namespace CommunityToolkit.WinUI.Utilities
     {
         public static void GetMetaKeyState(out bool ctrl, out bool shift)
         {
-            ctrl = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            shift = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            shift = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
         }
 
         public static void GetMetaKeyState(out bool ctrl, out bool shift, out bool alt)
         {
             GetMetaKeyState(out ctrl, out shift);
-            alt = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            alt = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
         }
     }
 }

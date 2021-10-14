@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.UI.Xaml.Data;
-using Windows.ApplicationModel.Resources;
+using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace CommunityToolkit.WinUI.UI.Converters
 {
@@ -13,7 +13,7 @@ namespace CommunityToolkit.WinUI.UI.Converters
     /// </summary>
     public sealed class ResourceNameToResourceStringConverter : IValueConverter
     {
-        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForViewIndependentUse();
+        private readonly ResourceLoader _resourceLoader = new ResourceLoader();
 
         /// <summary>
         /// Take the source string as a resource name that will be looked up in the App Resources.

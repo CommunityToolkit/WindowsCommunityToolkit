@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Runtime.Versioning;
-using Windows.ApplicationModel.Resources;
-using Windows.UI;
+using Microsoft.Windows.ApplicationModel.Resources;
 
 namespace CommunityToolkit.WinUI
 {
@@ -13,29 +11,20 @@ namespace CommunityToolkit.WinUI
     /// </summary>
     public static class StringExtensions
     {
-        private static readonly ResourceLoader IndependentLoader;
+        private static readonly ResourceLoader Loader;
 
         static StringExtensions()
         {
             try
             {
-                IndependentLoader = ResourceLoader.GetForViewIndependentUse();
+                Loader = new ResourceLoader();
             }
             catch
             {
             }
         }
 
-        /// <summary>
-        /// Retrieves the provided resource for the current view context.
-        /// </summary>
-        /// <param name="resourceKey">Resource key to retrieve.</param>
-        /// <returns>string value for given resource or empty string if not found.</returns>
-        public static string GetViewLocalized(this string resourceKey)
-        {
-            return ResourceLoader.GetForCurrentView().GetString(resourceKey);
-        }
-
+        /*
         /// <summary>
         /// Retrieves the provided resource for the current view context.
         /// </summary>
@@ -49,6 +38,7 @@ namespace CommunityToolkit.WinUI
             var resourceLoader = ResourceLoader.GetForUIContext(uiContext);
             return resourceLoader.GetString(resourceKey);
         }
+        */
 
         /// <summary>
         /// Retrieves the provided resource for the given key for use independent of the UI thread.
@@ -57,9 +47,10 @@ namespace CommunityToolkit.WinUI
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey)
         {
-            return IndependentLoader?.GetString(resourceKey);
+            return Loader?.GetString(resourceKey);
         }
 
+        /*
         /// <summary>
         /// Retrieves the provided resource for the given key for use independent of the UI thread.
         /// </summary>
@@ -73,6 +64,7 @@ namespace CommunityToolkit.WinUI
             var resourceLoader = ResourceLoader.GetForUIContext(uiContext);
             return resourceLoader.GetString(resourceKey);
         }
+        */
 
         /// <summary>
         /// Retrieves the provided resource for the given key for use independent of the UI thread. First looks up resource at the application level, before falling back to provided resourcePath. This allows for easily overridable resources within a library.
@@ -83,11 +75,11 @@ namespace CommunityToolkit.WinUI
         public static string GetLocalized(this string resourceKey, string resourcePath)
         {
             // Try and retrieve resource at app level first.
-            var result = IndependentLoader?.GetString(resourceKey);
+            var result = Loader?.GetString(resourceKey);
 
             if (string.IsNullOrEmpty(result))
             {
-                result = ResourceLoader.GetForViewIndependentUse(resourcePath).GetString(resourceKey);
+                result = new ResourceLoader(ResourceLoader.GetDefaultResourceFilePath(), resourcePath).GetString(resourceKey);
             }
 
             return result;

@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using Windows.UI.Core;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
@@ -12,8 +12,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
     {
         private readonly GridSplitter.GridResizeDirection _gridSplitterDirection;
 
-        private CoreCursor _splitterPreviousPointer;
-        private CoreCursor _previousCursor;
+        private InputCursor _splitterPreviousPointer;
+        private InputCursor _previousCursor;
         private GridSplitter.GripperCursorType _gripperCursor;
         private int _gripperCustomCursorResource;
         private bool _isDragging;
@@ -83,7 +83,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             {
                 if (Window.Current != null)
                 {
-                    Window.Current.CoreWindow.PointerCursor = _previousCursor;
+                    // Window.Current.CoreWindow.PointerCursor = _previousCursor;
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
             {
                 if (Window.Current != null)
                 {
-                    _previousCursor = _splitterPreviousPointer = Window.Current.CoreWindow.PointerCursor;
+                    // _previousCursor = _splitterPreviousPointer = Window.Current.CoreWindow.PointerCursor;
                 }
 
                 UpdateDisplayCursor();
@@ -119,26 +119,26 @@ namespace CommunityToolkit.WinUI.UI.Controls
             {
                 if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
                 {
-                    Window.Current.CoreWindow.PointerCursor = GridSplitter.ColumnsSplitterCursor;
+                    // Window.Current.CoreWindow.PointerCursor = GridSplitter.ColumnsSplitterCursor;
                 }
                 else if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Rows)
                 {
-                    Window.Current.CoreWindow.PointerCursor = GridSplitter.RowSplitterCursor;
+                    // Window.Current.CoreWindow.PointerCursor = GridSplitter.RowSplitterCursor;
                 }
             }
             else
             {
-                var coreCursor = (CoreCursorType)((int)_gripperCursor);
+                var inputSystemCursorShape = (InputSystemCursorShape)((int)_gripperCursor);
                 if (_gripperCursor == GridSplitter.GripperCursorType.Custom)
                 {
                     if (_gripperCustomCursorResource > GridSplitter.GripperCustomCursorDefaultResource)
                     {
-                        Window.Current.CoreWindow.PointerCursor = new CoreCursor(coreCursor, (uint)_gripperCustomCursorResource);
+                        // Window.Current.CoreWindow.PointerCursor = InputDesktopResourceCursor.Create((uint)_gripperCustomCursorResource);
                     }
                 }
                 else
                 {
-                    Window.Current.CoreWindow.PointerCursor = new CoreCursor(coreCursor, 1);
+                    // Window.Current.CoreWindow.PointerCursor = InputSystemCursor.Create(inputSystemCursorShape);
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
 
             if (Window.Current != null)
             {
-                Window.Current.CoreWindow.PointerCursor = splitter.PreviousCursor = _splitterPreviousPointer;
+                // Window.Current.CoreWindow.PointerCursor = splitter.PreviousCursor = _splitterPreviousPointer;
             }
 
             _isDragging = false;

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -70,7 +71,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         public static readonly DependencyProperty GripperCursorProperty =
             DependencyProperty.RegisterAttached(
                 nameof(GripperCursor),
-                typeof(CoreCursorType?),
+                typeof(InputSystemCursorShape?),
                 typeof(GridSplitter),
                 new PropertyMetadata(GripperCursorType.Default, OnGripperCursorPropertyChanged));
 

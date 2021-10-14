@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
-using Windows.UI.Core;
 
 namespace CommunityToolkit.WinUI.UI.Controls.Primitives
 {
@@ -60,7 +60,7 @@ namespace CommunityToolkit.WinUI.UI.Controls.Primitives
             set;
         }
 
-        internal CoreCursor OriginalCursor
+        internal InputCursor OriginalCursor
         {
             get;
             set;

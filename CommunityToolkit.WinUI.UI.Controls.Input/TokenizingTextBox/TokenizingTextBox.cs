@@ -36,12 +36,12 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// <summary>
         /// Gets a value indicating whether the shift key is currently in a pressed state
         /// </summary>
-        internal static bool IsShiftPressed => KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+        internal static bool IsShiftPressed => InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
         /// <summary>
         /// Gets a value indicating whether the control key is currently in a pressed state
         /// </summary>
-        internal bool IsControlPressed => KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+        internal bool IsControlPressed => InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 
         internal bool PauseTokenClearOnFocus { get; set; }
 

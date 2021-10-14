@@ -11,13 +11,13 @@ using CommunityToolkit.WinUI.UI.Controls.Primitives;
 using CommunityToolkit.WinUI.UI.Controls.Utilities;
 using CommunityToolkit.WinUI.UI.Utilities;
 using CommunityToolkit.WinUI.Utilities;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
-using Windows.Devices.Input;
 using Windows.Foundation;
 
 using DiagnosticsDebug = System.Diagnostics.Debug;

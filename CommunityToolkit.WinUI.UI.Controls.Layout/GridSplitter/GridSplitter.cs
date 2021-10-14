@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Windows.UI.Core;
 
 namespace CommunityToolkit.WinUI.UI.Controls
 {
@@ -16,10 +16,10 @@ namespace CommunityToolkit.WinUI.UI.Controls
     public partial class GridSplitter : Control
     {
         internal const int GripperCustomCursorDefaultResource = -1;
-        internal static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
-        internal static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
+        internal static readonly InputCursor ColumnsSplitterCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
+        internal static readonly InputCursor RowSplitterCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth);
 
-        internal CoreCursor PreviousCursor { get; set; }
+        internal InputCursor PreviousCursor { get; set; }
 
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;

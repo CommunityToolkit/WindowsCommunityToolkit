@@ -24,8 +24,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
             if (e.Key == VirtualKey.Left)
             {
                 diffPos.X--;
-                var upKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Up);
-                var downKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Down);
+                var upKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Up);
+                var downKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Down);
                 if (upKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y--;
@@ -41,8 +41,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
             else if (e.Key == VirtualKey.Right)
             {
                 diffPos.X++;
-                var upKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Up);
-                var downKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Down);
+                var upKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Up);
+                var downKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Down);
                 if (upKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y--;
@@ -58,8 +58,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
             else if (e.Key == VirtualKey.Up)
             {
                 diffPos.Y--;
-                var leftKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Left);
-                var rightKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Right);
+                var leftKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Left);
+                var rightKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Right);
                 if (leftKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.X--;
@@ -75,8 +75,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
             else if (e.Key == VirtualKey.Down)
             {
                 diffPos.Y++;
-                var leftKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Left);
-                var rightKeyState = KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Right);
+                var leftKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Left);
+                var rightKeyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Right);
                 if (leftKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.X--;

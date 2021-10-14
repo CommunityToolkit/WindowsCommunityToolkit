@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.UI.Input.Experimental;
+using Microsoft.UI.Input;
 using Microsoft.UI.Text;
 
 namespace CommunityToolkit.WinUI.UI.Controls
@@ -26,6 +26,6 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// <summary>
         /// Gets or sets a PointerPoint object relative to the <see cref="RichSuggestBox"/> control.
         /// </summary>
-        public ExpPointerPoint CurrentPoint { get; set; }
+        public PointerPoint CurrentPoint { get; set; }
     }
 }

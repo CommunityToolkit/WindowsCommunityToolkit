@@ -308,7 +308,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// </summary>
         public bool ControlKeyDown
         {
-            get { return IsKeyActive(KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Control)); }
+            get { return IsKeyActive(InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control)); }
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// </summary>
         public bool MenuKeyDown
         {
-            get { return IsKeyActive(KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Menu)); }
+            get { return IsKeyActive(InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Menu)); }
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// </summary>
         public bool ShiftKeyDown
         {
-            get { return IsKeyActive(KeyboardInput.GetKeyStateForCurrentThread(VirtualKey.Shift)); }
+            get { return IsKeyActive(InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift)); }
         }
 
         /// <summary>
