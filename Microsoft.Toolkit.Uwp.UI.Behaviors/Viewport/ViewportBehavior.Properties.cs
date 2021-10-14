@@ -1,3 +1,8 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.Xaml.Interactivity;
 using System;
 using Windows.UI.Xaml;
 
@@ -21,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// The IsAlwaysOn value of the associated element
         /// </summary>
         public static readonly DependencyProperty IsAlwaysOnProperty =
-            DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(true));
+            DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool)));
 
         /// <summary>
         /// Gets or sets a value indicating whether this behavior will remain attached after the associated element enters the viewport. When false, the behavior will remove itself after entering.
@@ -60,16 +65,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             var obj = (ViewportBehavior)d;
             var value = (bool)e.NewValue;
 
-            if (obj.IsAlwaysOn)
+            if (value)
             {
-                if (value)
+                obj.EnteredViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+
+                if (!obj.IsAlwaysOn)
                 {
-                    obj.EnteredViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                    Interaction.GetBehaviors(obj.AssociatedObject).Remove(obj);
                 }
-                else
-                {
-                    obj.ExitingViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
-                }
+            }
+            else
+            {
+                obj.ExitingViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
             }
         }
 
@@ -83,16 +90,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             var obj = (ViewportBehavior)d;
             var value = (bool)e.NewValue;
 
-            if (obj.IsAlwaysOn)
+            if (value)
             {
-                if (value)
-                {
-                    obj.EnteringViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
-                }
-                else
-                {
-                    obj.ExitedViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
-                }
+                obj.EnteringViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+            }
+            else
+            {
+                obj.ExitedViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
             }
         }
     }

@@ -14,7 +14,7 @@
                         Height="200"
                         Background="Gray">
                     <interactivity:Interaction.Behaviors>
-                        <behaviors:ViewportBehavior x:Name="ViewportBehavior" IsAlwaysOn="@[IsAlwaysOn:Bool:True]" />
+                        <behaviors:ViewportBehavior x:Name="ViewportBehavior" IsAlwaysOn="True" />
                     </interactivity:Interaction.Behaviors>
                     <Image x:Name="EffectElement"
                            Width="100"
