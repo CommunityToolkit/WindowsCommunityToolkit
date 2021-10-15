@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             else
             {
-                // not using ResourceContext.GetForCurrentView
+                // Not using ResourceContext.GetForCurrentView
                 ResourceContext resourceContext = new() { Languages = new[] { language } };
                 var resourceMap = Windows.ApplicationModel.Resources.Core.ResourceManager.Current.MainResourceMap.GetSubtree("Resources");
                 return resourceMap.GetValue(name, resourceContext).ValueAsString;
