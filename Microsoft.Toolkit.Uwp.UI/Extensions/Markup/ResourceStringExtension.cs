@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Markup;
 namespace Microsoft.Toolkit.Uwp.UI
 {
     /// <summary>
-    /// Xaml extension to return a string value from resource file associated with a resource key
+    /// Xaml extension to return a <see cref="string"/> value from resource file associated with a resource key
     /// </summary>
     [MarkupExtensionReturnType(ReturnType = typeof(string))]
     public sealed class ResourceStringExtension : MarkupExtension
