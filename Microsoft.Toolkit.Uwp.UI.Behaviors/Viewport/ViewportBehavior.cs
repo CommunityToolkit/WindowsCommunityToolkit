@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     /// <summary>
-    /// A class for listening element enter or exit the ScrollViewer viewport
+    /// A class for listening to an element enter or exit the ScrollViewer viewport
     /// </summary>
     public partial class ViewportBehavior : BehaviorBase<FrameworkElement>
     {

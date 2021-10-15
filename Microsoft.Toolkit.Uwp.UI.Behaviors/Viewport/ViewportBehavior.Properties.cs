@@ -2,12 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Xaml.Interactivity;
 using System;
+using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
+    /// <summary>
+    /// A class for listening to an element enter or exit the ScrollViewer viewport
+    /// </summary>
     public partial class ViewportBehavior
     {
         /// <summary>
