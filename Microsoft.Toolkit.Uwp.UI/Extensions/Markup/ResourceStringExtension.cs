@@ -18,10 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Gets or sets associated ID from resource strings
         /// </summary>
-        public string Name
-        {
-            get; set;
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the associated language resource to use (ie: "es-ES")
