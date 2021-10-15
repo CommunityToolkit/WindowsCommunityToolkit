@@ -52,7 +52,7 @@
 
 
             <TextBlock
-               TextWrapping="Wrap" Margin="20" FontSize="10em"
+               TextWrapping="Wrap" Margin="0,20" FontSize="10em"
                Style="{StaticResource BodyTextBlockStyle}">
                 See our blog post on #ifdef Windows:
                 <Hyperlink NavigateUri="https://devblogs.microsoft.com/ifdef-windows/use-a-custom-resource-markup-extension-to-succeed-at-ui-string-globalization/">Use a Custom Resource Markup Extension to Succeed at UI String Globalization!</Hyperlink>
