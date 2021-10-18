@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Microsoft.Toolkit.Diagnostics
 {
@@ -27,12 +28,23 @@ namespace Microsoft.Toolkit.Diagnostics
             }
 
             /// <summary>
-            /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotNullOrEmpty"/> fails.
+            /// Throws an <see cref="ArgumentNullException"/> or <see cref="ArgumentException"/> when <see cref="Guard.IsNotNullOrEmpty"/> fails.
             /// </summary>
             [DoesNotReturn]
             public static void ThrowArgumentExceptionForIsNotNullOrEmpty(string? text, string name)
             {
-                throw new ArgumentException($"Parameter {AssertString(name)} (string) must not be null or empty, was {(text is null ? "null" : "empty")}", name);
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static Exception GetException(string? text, string name)
+                {
+                    if (text is null)
+                    {
+                        return new ArgumentNullException(name, $"Parameter {AssertString(name)} (string) must not be null or empty, was null");
+                    }
+
+                    return new ArgumentException($"Parameter {AssertString(name)} (string) must not be null or empty, was empty", name);
+                }
+
+                throw GetException(text, name);
             }
 
             /// <summary>
@@ -50,7 +62,18 @@ namespace Microsoft.Toolkit.Diagnostics
             [DoesNotReturn]
             public static void ThrowArgumentExceptionForIsNotNullOrWhiteSpace(string? text, string name)
             {
-                throw new ArgumentException($"Parameter {AssertString(name)} (string) must not be null or whitespace, was {(text is null ? "null" : "whitespace")}", name);
+                [MethodImpl(MethodImplOptions.NoInlining)]
+                static Exception GetException(string? text, string name)
+                {
+                    if (text is null)
+                    {
+                        return new ArgumentNullException(name, $"Parameter {AssertString(name)} (string) must not be null or whitespace, was null");
+                    }
+
+                    return new ArgumentException($"Parameter {AssertString(name)} (string) must not be null or whitespace, was whitespace", name);
+                }
+
+                throw GetException(text, name);
             }
 
             /// <summary>

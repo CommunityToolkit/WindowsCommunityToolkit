@@ -37,7 +37,8 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="text">The input <see cref="string"/> instance to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or empty.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="text"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is empty.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotNullOrEmpty([NotNull] string? text, string name)
         {
@@ -89,7 +90,8 @@ namespace Microsoft.Toolkit.Diagnostics
         /// </summary>
         /// <param name="text">The input <see cref="string"/> instance to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="text"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is whitespace.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotNullOrWhiteSpace([NotNull] string? text, string name)
         {
