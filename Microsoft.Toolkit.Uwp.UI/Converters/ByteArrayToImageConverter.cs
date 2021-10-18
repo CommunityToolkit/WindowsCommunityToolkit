@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <returns>BitmapImage</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is byte[] byteArray && byteArray is not null)
+            if (value is byte[] byteArray)
             {
                 using InMemoryRandomAccessStream stream = new();
                 using (DataWriter writer = new(stream.GetOutputStreamAt(0)))
