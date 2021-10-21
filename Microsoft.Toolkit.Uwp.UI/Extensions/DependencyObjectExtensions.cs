@@ -695,5 +695,42 @@ namespace Microsoft.Toolkit.Uwp.UI
                 element = parent;
             }
         }
+
+        /// <summary>
+        /// Checks whether or not a given <see cref="DependencyObject"/> instance is a descendant of another one.
+        /// </summary>
+        /// <param name="child">The input child element.</param>
+        /// <param name="element">The element to look for in the ascendants hierarchy for <paramref name="child"/>.</param>
+        /// <returns>Whether or not <paramref name="child"/> is a descendant of <paramref name="element"/>.</returns>
+        public static bool IsDescendantOf(this DependencyObject child, DependencyObject element)
+        {
+            while (true)
+            {
+                DependencyObject? parent = VisualTreeHelper.GetParent(child);
+
+                if (parent is null)
+                {
+                    return false;
+                }
+
+                if (parent == element)
+                {
+                    return true;
+                }
+
+                child = parent;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether or not a given <see cref="DependencyObject"/> instance is an ascendant of another one.
+        /// </summary>
+        /// <param name="parent">The input parent element.</param>
+        /// <param name="element">The element to look for in the descendants hierarchy for <paramref name="parent"/>.</param>
+        /// <returns>Whether or not <paramref name="parent"/> is an ascendant of <paramref name="element"/>.</returns>
+        public static bool IsAscendantOf(this DependencyObject parent, DependencyObject element)
+        {
+            return IsDescendantOf(element, parent);
+        }
     }
 }
