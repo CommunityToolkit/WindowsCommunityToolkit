@@ -284,6 +284,24 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Find the first descendant (or self) of type <see cref="FrameworkElement"/> with a given name.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindDescendantOrSelf(this DependencyObject element, string name, StringComparison comparisonType, SearchType searchType)
+        {
+            if (element is FrameworkElement result && name.Equals(result.Name, comparisonType))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, name, comparisonType, searchType);
+        }
+
+        /// <summary>
         /// Find the first descendant (or self) element of a given type, using a depth-first search.
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
@@ -301,6 +319,24 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Find the first descendant (or self) element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T>(this DependencyObject element, SearchType searchType)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result)
+            {
+                return result;
+            }
+
+            return FindDescendant<T>(element, searchType);
+        }
+
+        /// <summary>
         /// Find the first descendant (or self) element of a given type, using a depth-first search.
         /// </summary>
         /// <param name="element">The root element.</param>
@@ -314,6 +350,23 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return FindDescendant(element, type);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element of a given type.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindDescendantOrSelf(this DependencyObject element, Type type, SearchType searchType)
+        {
+            if (element.GetType() == type)
+            {
+                return element;
+            }
+
+            return FindDescendant(element, type, searchType);
         }
 
         /// <summary>
@@ -335,6 +388,25 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Find the first descendant (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate, SearchType searchType)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, predicate, searchType);
+        }
+
+        /// <summary>
         /// Find the first descendant (or self) element matching a given predicate, using a depth-first search.
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
@@ -352,6 +424,27 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
 
             return FindDescendant(element, state, predicate);
+        }
+
+        /// <summary>
+        /// Find the first descendant (or self) element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate, SearchType searchType)
+            where T : notnull, DependencyObject
+        {
+            if (element is T result && predicate(result, state))
+            {
+                return result;
+            }
+
+            return FindDescendant(element, state, predicate, searchType);
         }
 
         /// <summary>
