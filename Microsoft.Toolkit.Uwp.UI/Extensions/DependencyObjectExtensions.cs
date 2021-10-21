@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.UI.Helpers.Internals;
 using Microsoft.Toolkit.Uwp.UI.Predicates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -28,7 +29,22 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             PredicateByName predicateByName = new(name, comparisonType);
 
-            return FindDescendant<FrameworkElement, PredicateByName>(element, ref predicateByName);
+            return FindDescendant<FrameworkElement, PredicateByName>(element, ref predicateByName, SearchType.DepthFirst);
+        }
+
+        /// <summary>
+        /// Find the first descendant of type <see cref="FrameworkElement"/> with a given name.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="name">The name of the element to look for.</param>
+        /// <param name="comparisonType">The comparison type to use to match <paramref name="name"/>.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static FrameworkElement? FindDescendant(this DependencyObject element, string name, StringComparison comparisonType, SearchType searchType)
+        {
+            PredicateByName predicateByName = new(name, comparisonType);
+
+            return FindDescendant<FrameworkElement, PredicateByName>(element, ref predicateByName, searchType);
         }
 
         /// <summary>
@@ -42,7 +58,22 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             PredicateByAny<T> predicateByAny = default;
 
-            return FindDescendant<T, PredicateByAny<T>>(element, ref predicateByAny);
+            return FindDescendant<T, PredicateByAny<T>>(element, ref predicateByAny, SearchType.DepthFirst);
+        }
+
+        /// <summary>
+        /// Find the first descendant element of a given type.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendant<T>(this DependencyObject element, SearchType searchType)
+            where T : notnull, DependencyObject
+        {
+            PredicateByAny<T> predicateByAny = default;
+
+            return FindDescendant<T, PredicateByAny<T>>(element, ref predicateByAny, searchType);
         }
 
         /// <summary>
@@ -55,7 +86,21 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             PredicateByType predicateByType = new(type);
 
-            return FindDescendant<DependencyObject, PredicateByType>(element, ref predicateByType);
+            return FindDescendant<DependencyObject, PredicateByType>(element, ref predicateByType, SearchType.DepthFirst);
+        }
+
+        /// <summary>
+        /// Find the first descendant element of a given type.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="type">The type of element to match.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static DependencyObject? FindDescendant(this DependencyObject element, Type type, SearchType searchType)
+        {
+            PredicateByType predicateByType = new(type);
+
+            return FindDescendant<DependencyObject, PredicateByType>(element, ref predicateByType, searchType);
         }
 
         /// <summary>
@@ -70,7 +115,23 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             PredicateByFunc<T> predicateByFunc = new(predicate);
 
-            return FindDescendant<T, PredicateByFunc<T>>(element, ref predicateByFunc);
+            return FindDescendant<T, PredicateByFunc<T>>(element, ref predicateByFunc, SearchType.DepthFirst);
+        }
+
+        /// <summary>
+        /// Find the first descendant element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendant<T>(this DependencyObject element, Func<T, bool> predicate, SearchType searchType)
+            where T : notnull, DependencyObject
+        {
+            PredicateByFunc<T> predicateByFunc = new(predicate);
+
+            return FindDescendant<T, PredicateByFunc<T>>(element, ref predicateByFunc, searchType);
         }
 
         /// <summary>
@@ -87,41 +148,122 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
 
-            return FindDescendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc);
+            return FindDescendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc, SearchType.DepthFirst);
         }
 
         /// <summary>
-        /// Find the first descendant element matching a given predicate, using a depth-first search.
+        /// Find the first descendant element matching a given predicate.
+        /// </summary>
+        /// <typeparam name="T">The type of elements to match.</typeparam>
+        /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
+        /// <param name="element">The root element.</param>
+        /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
+        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
+        public static T? FindDescendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate, SearchType searchType)
+            where T : notnull, DependencyObject
+        {
+            PredicateByFunc<T, TState> predicateByFunc = new(state, predicate);
+
+            return FindDescendant<T, PredicateByFunc<T, TState>>(element, ref predicateByFunc, searchType);
+        }
+
+        /// <summary>
+        /// Find the first descendant element matching a given predicate.
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
-        private static T? FindDescendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate)
+        private static T? FindDescendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate, SearchType searchType)
             where T : notnull, DependencyObject
             where TPredicate : struct, IPredicate<T>
         {
-            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
-
-            for (var i = 0; i < childrenCount; i++)
+            // Depth-first search, with recursive implementation
+            static T? FindDescendantWithDepthFirstSearch(DependencyObject element, ref TPredicate predicate)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+                int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
-                if (child is T result && predicate.Match(result))
+                for (int i = 0; i < childrenCount; i++)
                 {
-                    return result;
+                    DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                    if (child is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
+                    T? descendant = FindDescendantWithDepthFirstSearch(child, ref predicate);
+
+                    if (descendant is not null)
+                    {
+                        return descendant;
+                    }
                 }
 
-                T? descendant = FindDescendant<T, TPredicate>(child, ref predicate);
-
-                if (descendant is not null)
-                {
-                    return descendant;
-                }
+                return null;
             }
 
-            return null;
+            // Breadth-first search, with iterative implementation and pooled local stack
+            static T? FindDescendantWithBreadthFirstSearch(DependencyObject element, ref TPredicate predicate)
+            {
+                // We're using a pooled buffer writer to amortize allocations for the temporary collection of children
+                // to visit for each level. The underlying array is deliberately just of type object and not DependencyObject
+                // to reduce the number of generic instantiations and allow the rented arrays to be reused more.
+                using ArrayPoolBufferWriter<object> bufferWriter = ArrayPoolBufferWriter<object>.Create();
+
+                int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+                // Add the top level children
+                for (int i = 0; i < childrenCount; i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                    if (child is T result && predicate.Match(result))
+                    {
+                        return result;
+                    }
+
+                    bufferWriter.Add(child);
+                }
+
+                // Explore each depth level
+                for (int i = 0; i < bufferWriter.Count; i++)
+                {
+                    DependencyObject parent = (DependencyObject)bufferWriter[i];
+
+                    childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+
+                    for (int j = 0; j < childrenCount; j++)
+                    {
+                        DependencyObject child = VisualTreeHelper.GetChild(parent, j);
+
+                        if (child is T result && predicate.Match(result))
+                        {
+                            return result;
+                        }
+
+                        bufferWriter.Add(child);
+                    }
+                }
+
+                return null;
+            }
+
+            static T? ThrowArgumentOutOfRangeExceptionForInvalidSearchType()
+            {
+                throw new ArgumentOutOfRangeException(nameof(searchType), "The input search type is not valid");
+            }
+
+            return searchType switch
+            {
+                SearchType.DepthFirst => FindDescendantWithDepthFirstSearch(element, ref predicate),
+                SearchType.BreadthFirst => FindDescendantWithBreadthFirstSearch(element, ref predicate),
+                _ => ThrowArgumentOutOfRangeExceptionForInvalidSearchType()
+            };
         }
 
         /// <summary>
