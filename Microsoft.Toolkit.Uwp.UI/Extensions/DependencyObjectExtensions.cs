@@ -453,27 +453,194 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <para>
         /// This method is meant to provide extra flexibility in specific scenarios and it should not
         /// be used when only the first item is being looked for. In those cases, use one of the
-        /// available <see cref="FindDescendant{T}(DependencyObject)"/> overloads instead, which will
-        /// offer a more compact syntax as well as better performance in those cases.
+        /// available <see cref="FindDescendant{T}(DependencyObject)"/> overloads instead,
+        /// which will offer a more compact syntax as well as better performance in those cases.
         /// </para>
         /// </summary>
         /// <param name="element">The root element.</param>
         /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
         public static IEnumerable<DependencyObject> FindDescendants(this DependencyObject element)
         {
-            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            return FindDescendants(element, SearchType.DepthFirst);
+        }
 
-            for (var i = 0; i < childrenCount; i++)
+        /// <summary>
+        /// Find all descendant elements of the specified element. This method can be chained with
+        /// LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindDescendant{T}(DependencyObject)"/> overloads instead,
+        /// which will offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindDescendants(this DependencyObject element, SearchType searchType)
+        {
+            // Depth-first traversal, with recursion
+            static IEnumerable<DependencyObject> FindDescendantsWithDepthFirstSearch(DependencyObject element)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+                int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
-                yield return child;
-
-                foreach (DependencyObject childOfChild in FindDescendants(child))
+                for (var i = 0; i < childrenCount; i++)
                 {
-                    yield return childOfChild;
+                    DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                    yield return child;
+
+                    foreach (DependencyObject childOfChild in FindDescendants(child))
+                    {
+                        yield return childOfChild;
+                    }
                 }
             }
+
+            // Breadth-first traversal, with pooled local stack
+            static IEnumerable<DependencyObject> FindDescendantsWithBreadthFirstSearch(DependencyObject element)
+            {
+                using ArrayPoolBufferWriter<object> bufferWriter = ArrayPoolBufferWriter<object>.Create();
+
+                int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+                for (int i = 0; i < childrenCount; i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                    yield return child;
+
+                    bufferWriter.Add(child);
+                }
+
+                for (int i = 0; i < bufferWriter.Count; i++)
+                {
+                    DependencyObject parent = (DependencyObject)bufferWriter[i];
+
+                    childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+
+                    for (int j = 0; j < childrenCount; j++)
+                    {
+                        DependencyObject child = VisualTreeHelper.GetChild(parent, j);
+
+                        yield return child;
+
+                        bufferWriter.Add(child);
+                    }
+                }
+            }
+
+            static IEnumerable<DependencyObject> ThrowArgumentOutOfRangeExceptionForInvalidSearchType()
+            {
+                throw new ArgumentOutOfRangeException(nameof(searchType), "The input search type is not valid");
+            }
+
+            return searchType switch
+            {
+                SearchType.DepthFirst => FindDescendantsWithDepthFirstSearch(element),
+                SearchType.BreadthFirst => FindDescendantsWithBreadthFirstSearch(element),
+                _ => ThrowArgumentOutOfRangeExceptionForInvalidSearchType()
+            };
+        }
+
+        /// <summary>
+        /// Find all descendant elements of the specified element (or self). This method can be chained
+        /// with LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindDescendantOrSelf{T}(DependencyObject)"/> overloads instead,
+        /// which will offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindDescendantsOrSelf(this DependencyObject element)
+        {
+            return FindDescendantsOrSelf(element, SearchType.DepthFirst);
+        }
+
+        /// <summary>
+        /// Find all descendant elements of the specified element (or self). This method can be chained
+        /// with LINQ calls to add additional filters or projections on top of the returned results.
+        /// <para>
+        /// This method is meant to provide extra flexibility in specific scenarios and it should not
+        /// be used when only the first item is being looked for. In those cases, use one of the
+        /// available <see cref="FindDescendantOrSelf{T}(DependencyObject)"/> overloads instead,
+        /// which will offer a more compact syntax as well as better performance in those cases.
+        /// </para>
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <param name="searchType">The search type to use to explore the visual tree.</param>
+        /// <returns>All the descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindDescendantsOrSelf(this DependencyObject element, SearchType searchType)
+        {
+            // Depth-first traversal, with recursion
+            static IEnumerable<DependencyObject> FindDescendantsWithDepthFirstSearch(DependencyObject element)
+            {
+                yield return element;
+
+                int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+                for (var i = 0; i < childrenCount; i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                    yield return child;
+
+                    foreach (DependencyObject childOfChild in FindDescendants(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+
+            // Breadth-first traversal, with pooled local stack
+            static IEnumerable<DependencyObject> FindDescendantsWithBreadthFirstSearch(DependencyObject element)
+            {
+                yield return element;
+
+                using ArrayPoolBufferWriter<object> bufferWriter = ArrayPoolBufferWriter<object>.Create();
+
+                int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+                for (int i = 0; i < childrenCount; i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                    yield return child;
+
+                    bufferWriter.Add(child);
+                }
+
+                for (int i = 0; i < bufferWriter.Count; i++)
+                {
+                    DependencyObject parent = (DependencyObject)bufferWriter[i];
+
+                    childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+
+                    for (int j = 0; j < childrenCount; j++)
+                    {
+                        DependencyObject child = VisualTreeHelper.GetChild(parent, j);
+
+                        yield return child;
+
+                        bufferWriter.Add(child);
+                    }
+                }
+            }
+
+            static IEnumerable<DependencyObject> ThrowArgumentOutOfRangeExceptionForInvalidSearchType()
+            {
+                throw new ArgumentOutOfRangeException(nameof(searchType), "The input search type is not valid");
+            }
+
+            return searchType switch
+            {
+                SearchType.DepthFirst => FindDescendantsWithDepthFirstSearch(element),
+                SearchType.BreadthFirst => FindDescendantsWithBreadthFirstSearch(element),
+                _ => ThrowArgumentOutOfRangeExceptionForInvalidSearchType()
+            };
         }
 
         /// <summary>
