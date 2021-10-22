@@ -16,7 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private readonly Dictionary<string, UIElement> sourceAnimatedElements = new();
         private readonly Dictionary<string, UIElement> targetAnimatedElements = new();
-        private readonly IEnumerable<AnimationConfig> animationConfigs;
         private readonly double interruptedAnimationReverseDurationRatio = 0.7;
 
         private CancellationTokenSource _animateCancellationTokenSource;
@@ -28,15 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private FrameworkElement _target;
         private bool _needUpdateTargetLayout = false;
         private bool _isInterruptedAnimation = false;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TransitionHelper"/> class.
-        /// </summary>
-        /// <param name="configs">A collection of animation configurations of UI elements that need to be connected by animation</param>
-        public TransitionHelper(AnimationConfig[] configs)
-        {
-            this.animationConfigs = configs;
-        }
 
         /// <summary>
         /// Morphs from source control to target control.

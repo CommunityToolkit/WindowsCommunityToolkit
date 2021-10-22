@@ -671,6 +671,17 @@
         "XamlCodeFile": "/SamplePages/Animations/Shadows/AnimatedCardShadowXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AttachedShadows.md"
+      },
+      {
+        "Name": "TransitionHelper",
+        "Type": "TransitionHelperPage",
+        "Subcategory": "Helpers",
+        "About": "A animation helper that morphs between two controls.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Animations/Helpers",
+        "XamlCodeFile": "TransitionHelperXaml.bind",
+        "CodeFile": "TransitionHelperCode.bind",
+        "Icon": "/SamplePages/TransitionHelper/TransitionHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/TransitionHelper.md"
       }
     ]
   },

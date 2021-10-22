@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void UpdateSourceAnimatedElements()
         {
             this.sourceAnimatedElements.Clear();
-            var filters = this.animationConfigs.Select(config => config.Id);
+            var filters = this.AnimationConfigs.Select(config => config.Id);
 
             foreach (var item in GetAnimatedElements(this.Source, filters))
             {
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void UpdateTargetAnimatedElements()
         {
             this.targetAnimatedElements.Clear();
-            var filters = this.animationConfigs.Select(config => config.Id);
+            var filters = this.AnimationConfigs.Select(config => config.Id);
 
             foreach (var item in GetAnimatedElements(this.Target, filters))
             {
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationTasks = new List<Task>();
-            foreach (var item in this.animationConfigs)
+            foreach (var item in this.AnimationConfigs)
             {
                 (var source, var target) = this.GetPairElements(item);
                 if (source == null || target == null)
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationTasks = new List<Task>();
-            foreach (var item in this.animationConfigs)
+            foreach (var item in this.AnimationConfigs)
             {
                 (var target, var source) = this.GetPairElements(item);
                 if (source == null || target == null)

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Xaml;
 
@@ -26,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             set
             {
                 this._source = value;
+                this.IsTargetState = false;
                 this.UpdateSourceAnimatedElements();
             }
         }
@@ -47,6 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this.UpdateTargetAnimatedElements();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the collection of animation configurations of UI elements that need to be connected by animation.
+        /// </summary>
+        public IEnumerable<AnimationConfig> AnimationConfigs { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the source control has been morphed to the target control.

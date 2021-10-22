@@ -1,0 +1,27 @@
+//create a TransitionHelper.
+var TransitionHelper transitionHelper = new TransitionHelper();
+
+//Configure TransitionHelper.
+transitionHelper.AnimationConfigs = new AnimationConfig[]{
+    new AnimationConfig
+    {
+        Id = "background"
+    },
+    new AnimationConfig
+    {
+        Id = "image",
+        AdditionalAnimations = new AnimationTarget[]{ AnimationTarget.Scale }
+    },
+    new AnimationConfig
+    {
+        Id = "guide"
+    },
+};
+transitionHelper.Source = FirstControl;
+transitionHelper.Target = SecondControl;
+
+//Animate.
+await transitionHelper.AnimateAsync()
+
+//Reverse.
+await transitionHelper.ReverseAsync();
