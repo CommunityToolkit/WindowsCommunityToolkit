@@ -56,7 +56,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void FirstControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            _transitionHelper.AnimationConfigs = new AnimationConfig[]{
+            _transitionHelper.AnimationConfigs = new AnimationConfig[]
+            {
                 new AnimationConfig
                 {
                     Id = "background"
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[]{ AnimationTarget.Scale }
+                    AdditionalAnimations = new AnimationTarget[] { AnimationTarget.Scale }
                 },
                 new AnimationConfig
                 {
@@ -86,7 +87,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void SecondButton_Click(object sender, RoutedEventArgs e)
         {
-            _transitionHelper.AnimationConfigs = new AnimationConfig[]{
+            _transitionHelper.AnimationConfigs = new AnimationConfig[]
+            {
                 new AnimationConfig
                 {
                     Id = "background"
@@ -94,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[]{ AnimationTarget.Scale }
+                    AdditionalAnimations = new AnimationTarget[] { AnimationTarget.Scale }
                 },
                 new AnimationConfig
                 {
@@ -119,7 +121,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void ThirdButton_Click(object sender, RoutedEventArgs e)
         {
-            _transitionHelper.AnimationConfigs = new AnimationConfig[]{
+            _transitionHelper.AnimationConfigs = new AnimationConfig[]
+            {
                 new AnimationConfig
                 {
                     Id = "background"
@@ -127,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[]{ AnimationTarget.Scale }
+                    AdditionalAnimations = new AnimationTarget[] { AnimationTarget.Scale }
                 },
                 new AnimationConfig
                 {
