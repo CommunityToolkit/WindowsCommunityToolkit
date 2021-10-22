@@ -137,10 +137,13 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             Parent.OnElementContextUninitialized(this);
 
-            SpriteVisual.Shadow = null;
-            SpriteVisual.Dispose();
+            if (SpriteVisual != null)
+            {
+                SpriteVisual.Shadow = null;
+                SpriteVisual.Dispose();
+            }
 
-            Shadow.Dispose();
+            Shadow?.Dispose();
 
             ElementCompositionPreview.SetElementChildVisual(Element, null);
 
