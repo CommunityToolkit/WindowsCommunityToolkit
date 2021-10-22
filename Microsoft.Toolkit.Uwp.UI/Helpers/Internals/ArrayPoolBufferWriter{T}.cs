@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers.Internals
     /// enable the pattern-based <see cref="IDisposable"/> support. We aren't worried with consumers not
     /// using this type correctly since it's private and only accessible within the parent type.
     /// </remarks>
-    internal ref struct ArrayPoolBufferWriter<T>
+    internal struct ArrayPoolBufferWriter<T> : IDisposable
     {
         /// <summary>
         /// The default buffer size to use to expand empty arrays.
