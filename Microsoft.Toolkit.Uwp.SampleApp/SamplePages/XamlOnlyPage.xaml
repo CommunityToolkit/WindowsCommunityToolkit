@@ -44,6 +44,7 @@
                 <ui:SurfaceDialOptions />
             </ui:TextBoxExtensions.SurfaceDialOptions>
         </TextBox>
+        <TextBlock x:Key="OnDeviceExtension" Text="{ui:OnDevice Desktop=Desktop, Xbox=Xbox, Default=Default}" />
         <controls:SwitchPresenter x:Key="SwitchPresenterControl">
             <controls:CaseCollection>
                 <controls:Case IsDefault="True" />

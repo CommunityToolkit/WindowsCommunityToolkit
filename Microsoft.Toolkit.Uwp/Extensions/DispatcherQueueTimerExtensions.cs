@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="immediate">Determines if the action execute on the leading edge instead of trailing edge.</param>
         /// <example>
         /// <code>
-        /// private DispatcherQueueTimer _typeTimer = new DispatcherQueueTimer();
+        /// private DispatcherQueueTimer _typeTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
         ///
         /// _typeTimer.Debounce(async () =>
         ///     {
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 timer.Tick += Timer_Tick;
 
                 // Store/Update function
-                _debounceInstances.AddOrUpdate(timer, action, (k, v) => v);
+                _debounceInstances.AddOrUpdate(timer, action, (k, v) => action);
             }
 
             // Start the timer to keep track of the last call here.

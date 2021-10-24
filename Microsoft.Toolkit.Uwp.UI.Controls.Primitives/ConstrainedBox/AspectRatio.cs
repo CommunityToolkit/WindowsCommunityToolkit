@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Globalization;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -64,6 +65,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static implicit operator AspectRatio(double ratio) => new AspectRatio(ratio);
 
         /// <summary>
+        /// Implicit conversion operator to convert a <see cref="int"/> to an <see cref="AspectRatio"/> value.
+        /// Creates a simple aspect ratio of N:1, where N is int
+        /// </summary>
+        /// <param name="width"><see cref="int"/> value representing the <see cref="AspectRatio"/>.</param>
+        public static implicit operator AspectRatio(int width) => new AspectRatio(width, 1.0);
+
+        /// <summary>
         /// Converter to take a string aspect ration like "16:9" and convert it to an <see cref="AspectRatio"/> struct.
         /// Used automatically by XAML.
         /// </summary>
@@ -75,11 +83,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ratio.Length == 2)
             {
-                return new AspectRatio(Convert.ToDouble(ratio[0]), Convert.ToDouble(ratio[1]));
+                double width = double.Parse(ratio[0], NumberStyles.Float, CultureInfo.InvariantCulture);
+                double height = double.Parse(ratio[1], NumberStyles.Float, CultureInfo.InvariantCulture);
+
+                return new AspectRatio(width, height);
             }
             else if (ratio.Length == 1)
             {
-                return new AspectRatio(Convert.ToDouble(ratio[0]));
+                return new AspectRatio(double.Parse(ratio[0], NumberStyles.Float, CultureInfo.InvariantCulture));
             }
 
             return new AspectRatio(1);

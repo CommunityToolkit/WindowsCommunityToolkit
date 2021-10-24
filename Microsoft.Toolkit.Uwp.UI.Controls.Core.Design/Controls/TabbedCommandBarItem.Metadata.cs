@@ -4,8 +4,6 @@
 
 using System.ComponentModel;
 
-using Microsoft.Toolkit.Uwp.UI.Controls.Design.Properties;
-
 using Microsoft.VisualStudio.DesignTools.Extensibility;
 using Microsoft.VisualStudio.DesignTools.Extensibility.Metadata;
 

@@ -6,7 +6,7 @@
 
 ## Fixes
 
-<!-- Add the relevant issue number after the word "Fixes" mentioned above (for ex: "## Fixes #1234") which will automatically close the issue once the PR is merged. -->
+<!-- Add the relevant issue number after the word "Fixes" mentioned above (for ex: `## Fixes #0000`) which will automatically close the issue once the PR is merged. -->
 
 <!-- Add a brief overview here of the feature/bug & fix. -->
 

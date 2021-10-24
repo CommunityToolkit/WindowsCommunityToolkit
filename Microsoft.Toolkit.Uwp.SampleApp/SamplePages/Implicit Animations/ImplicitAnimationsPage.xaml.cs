@@ -5,6 +5,7 @@
 using System;
 using System.Numerics;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -18,6 +19,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private Random _random = new Random();
         private UIElement _element;
+        private ImplicitAnimationSet _animationSet;
+        private bool _areAnimationsToggled;
 
         public ImplicitAnimationsPage()
         {
@@ -28,6 +31,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public void OnXamlRendered(FrameworkElement control)
         {
             _element = control.FindChild("Element");
+            _animationSet = Implicit.GetAnimations(_element);
+            _areAnimationsToggled = true;
         }
 
         private void Load()
@@ -58,6 +63,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         (float)_random.NextDouble() * 2,
                         (float)_random.NextDouble() * 2,
                         1);
+                }
+            });
+
+            SampleController.Current.RegisterNewCommand("Toggle animations", (sender, args) =>
+            {
+                if (_element != null)
+                {
+                    Implicit.SetAnimations(_element, _areAnimationsToggled ? null : _animationSet);
+
+                    _areAnimationsToggled = !_areAnimationsToggled;
                 }
             });
         }

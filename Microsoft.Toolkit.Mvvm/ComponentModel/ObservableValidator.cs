@@ -488,6 +488,21 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
             // Fallback method to create the delegate with a compiled LINQ expression
             static Action<object> GetValidationActionFallback(Type type)
             {
+                // Get the collection of all properties to validate
+                (string Name, MethodInfo GetMethod)[] validatableProperties = (
+                    from property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    where property.GetIndexParameters().Length == 0 &&
+                          property.GetCustomAttributes<ValidationAttribute>(true).Any()
+                    let getMethod = property.GetMethod
+                    where getMethod is not null
+                    select (property.Name, getMethod)).ToArray();
+
+                // Short path if there are no properties to validate
+                if (validatableProperties.Length == 0)
+                {
+                    return static _ => { };
+                }
+
                 // MyViewModel inst0 = (MyViewModel)arg0;
                 ParameterExpression arg0 = Expression.Parameter(typeof(object));
                 UnaryExpression inst0 = Expression.Convert(arg0, type);
@@ -513,14 +528,10 @@ namespace Microsoft.Toolkit.Mvvm.ComponentModel
                 // ObservableValidator externally, but that is fine because IL doesn't really have
                 // a concept of member visibility, that's purely a C# build-time feature.
                 BlockExpression body = Expression.Block(
-                    from property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    where property.GetIndexParameters().Length == 0 &&
-                          property.GetCustomAttributes<ValidationAttribute>(true).Any()
-                    let getter = property.GetMethod
-                    where getter is not null
+                    from property in validatableProperties
                     select Expression.Call(inst0, validateMethod, new Expression[]
                     {
-                        Expression.Convert(Expression.Call(inst0, getter), typeof(object)),
+                        Expression.Convert(Expression.Call(inst0, property.GetMethod), typeof(object)),
                         Expression.Constant(property.Name)
                     }));
 

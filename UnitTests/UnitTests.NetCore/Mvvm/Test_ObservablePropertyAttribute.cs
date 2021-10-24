@@ -7,9 +7,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+#pragma warning disable SA1124, SA1307, SA1401
 
 #nullable enable
 
@@ -58,6 +61,86 @@ namespace UnitTests.Mvvm
             Assert.AreEqual(changed.Item2, 42);
         }
 
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4225
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservablePropertyAttributeWithinRegion_Events()
+        {
+            var model = new SampleModel();
+
+            (PropertyChangingEventArgs, int) changing = default;
+            (PropertyChangedEventArgs, int) changed = default;
+
+            model.PropertyChanging += (s, e) =>
+            {
+                Assert.IsNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changing = (e, model.Counter);
+            };
+
+            model.PropertyChanged += (s, e) =>
+            {
+                Assert.IsNotNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changed = (e, model.Counter);
+            };
+
+            model.Counter = 42;
+
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModel.Counter));
+            Assert.AreEqual(changing.Item2, 0);
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel.Counter));
+            Assert.AreEqual(changed.Item2, 42);
+        }
+
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4225
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_ObservablePropertyAttributeRightBelowRegion_Events()
+        {
+            var model = new SampleModel();
+
+            (PropertyChangingEventArgs, string?) changing = default;
+            (PropertyChangedEventArgs, string?) changed = default;
+
+            model.PropertyChanging += (s, e) =>
+            {
+                Assert.IsNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changing = (e, model.Name);
+            };
+
+            model.PropertyChanged += (s, e) =>
+            {
+                Assert.IsNotNull(changing.Item1);
+                Assert.IsNull(changed.Item1);
+                Assert.AreSame(model, s);
+                Assert.IsNotNull(s);
+                Assert.IsNotNull(e);
+
+                changed = (e, model.Name);
+            };
+
+            model.Name = "Bob";
+
+            Assert.AreEqual(changing.Item1?.PropertyName, nameof(SampleModel.Name));
+            Assert.AreEqual(changing.Item2, null);
+            Assert.AreEqual(changed.Item1?.PropertyName, nameof(SampleModel.Name));
+            Assert.AreEqual(changed.Item2, "Bob");
+        }
+
         [TestCategory("Mvvm")]
         [TestMethod]
         public void Test_AlsoNotifyChangeForAttribute_Events()
@@ -71,7 +154,7 @@ namespace UnitTests.Mvvm
             model.Name = "Bob";
             model.Surname = "Ross";
 
-            CollectionAssert.AreEqual(new[] { nameof(model.Name), nameof(model.FullName), nameof(model.Surname), nameof(model.FullName) }, propertyNames);
+            CollectionAssert.AreEqual(new[] { nameof(model.Name), nameof(model.FullName), nameof(model.Alias), nameof(model.Surname), nameof(model.FullName), nameof(model.Alias) }, propertyNames);
         }
 
         [TestCategory("Mvvm")]
@@ -155,6 +238,36 @@ namespace UnitTests.Mvvm
             CollectionAssert.AreEqual(new[] { nameof(model.Value) }, propertyNames);
         }
 
+        // See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4184
+        [TestCategory("Mvvm")]
+        [TestMethod]
+        public void Test_GeneratedPropertiesWithValidationAttributesOverFields()
+        {
+            var model = new ViewModelWithValidatableGeneratedProperties();
+
+            List<string?> propertyNames = new();
+
+            model.PropertyChanged += (s, e) => propertyNames.Add(e.PropertyName);
+
+            // Assign these fields directly to bypass the validation that is executed in the generated setters.
+            // We only need those generated properties to be there to check whether they are correctly detected.
+            model.first = "A";
+            model.last = "This is a very long name that exceeds the maximum length of 60 for this property";
+
+            Assert.IsFalse(model.HasErrors);
+
+            model.RunValidation();
+
+            Assert.IsTrue(model.HasErrors);
+
+            ValidationResult[] validationErrors = model.GetErrors().ToArray();
+
+            Assert.AreEqual(validationErrors.Length, 2);
+
+            CollectionAssert.AreEqual(new[] { nameof(ViewModelWithValidatableGeneratedProperties.First) }, validationErrors[0].MemberNames.ToArray());
+            CollectionAssert.AreEqual(new[] { nameof(ViewModelWithValidatableGeneratedProperties.Last) }, validationErrors[1].MemberNames.ToArray());
+        }
+
         public partial class SampleModel : ObservableObject
         {
             /// <summary>
@@ -162,6 +275,16 @@ namespace UnitTests.Mvvm
             /// </summary>
             [ObservableProperty]
             private int data;
+
+            #region More properties
+
+            [ObservableProperty]
+            private int counter;
+
+            #endregion
+
+            [ObservableProperty]
+            private string? name;
         }
 
         [INotifyPropertyChanged]
@@ -169,13 +292,16 @@ namespace UnitTests.Mvvm
         {
             [ObservableProperty]
             [AlsoNotifyChangeFor(nameof(FullName))]
+            [AlsoNotifyChangeFor(nameof(Alias))]
             private string? name;
 
             [ObservableProperty]
-            [AlsoNotifyChangeFor(nameof(FullName))]
+            [AlsoNotifyChangeFor(nameof(FullName), nameof(Alias))]
             private string? surname;
 
             public string FullName => $"{Name} {Surname}";
+
+            public string Alias => $"{Name?.ToLower()}{Surname?.ToLower()}";
         }
 
         public partial class MyFormViewModel : ObservableValidator
@@ -235,7 +361,7 @@ namespace UnitTests.Mvvm
         public partial class ModelWithValueProperty : ObservableObject
         {
             [ObservableProperty]
-            private string value;
+            private string? value;
         }
 
         public partial class ModelWithValuePropertyWithValidation : ObservableValidator
@@ -243,7 +369,26 @@ namespace UnitTests.Mvvm
             [ObservableProperty]
             [Required]
             [MinLength(5)]
-            private string value;
+            private string? value;
+        }
+
+        public partial class ViewModelWithValidatableGeneratedProperties : ObservableValidator
+        {
+            [Required]
+            [MinLength(2)]
+            [MaxLength(60)]
+            [Display(Name = "FirstName")]
+            [ObservableProperty]
+            public string first = "Bob";
+
+            [Display(Name = "LastName")]
+            [Required]
+            [MinLength(2)]
+            [MaxLength(60)]
+            [ObservableProperty]
+            public string last = "Jones";
+
+            public void RunValidation() => ValidateAllProperties();
         }
     }
 }

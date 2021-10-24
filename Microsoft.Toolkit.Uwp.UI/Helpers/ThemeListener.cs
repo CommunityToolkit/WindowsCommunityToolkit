@@ -79,23 +79,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
             }
         }
 
-        private void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)
+        private async void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)
         {
 #if DEBUG
             System.Diagnostics.Debug.WriteLine("HighContrast Changed");
 #endif
 
-            UpdateProperties();
+            await OnThemePropertyChangedAsync();
         }
 
         // Note: This can get called multiple times during HighContrast switch, do we care?
         private async void Settings_ColorValuesChanged(UISettings sender, object args)
         {
-            await OnColorValuesChanged();
+            await OnThemePropertyChangedAsync();
         }
 
-        // Internal abstraction is used by the Unit Tests
-        internal Task OnColorValuesChanged()
+        /// <summary>
+        /// Dispatches an update for the public properties and the firing of <see cref="ThemeChanged"/> on <see cref="DispatcherQueue"/>.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> that indicates when the dispatching has completed.</returns>
+        internal Task OnThemePropertyChangedAsync()
         {
             // Getting called off thread, so we need to dispatch to request value.
             return DispatcherQueue.EnqueueAsync(
