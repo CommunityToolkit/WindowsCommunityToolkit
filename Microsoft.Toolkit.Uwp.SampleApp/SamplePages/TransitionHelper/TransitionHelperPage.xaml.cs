@@ -20,9 +20,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private FrameworkElement firstControl;
         private FrameworkElement secondControl;
         private FrameworkElement thirdControl;
-        private Button secondButton;
-        private Button secondBackButton;
-        private Button thirdButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransitionHelperPage"/> class.
@@ -73,41 +70,69 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.firstControl = control.FindChild("FirstControl");
             this.secondControl = control.FindChild("SecondControl");
             this.thirdControl = control.FindChild("ThirdControl");
-            this.secondButton = control.FindChild("SecondButton") as Button;
-            this.secondBackButton = control.FindChild("SecondBackButton") as Button;
-            this.thirdButton = control.FindChild("ThirdButton") as Button;
-            this.firstControl.Tapped += this.FirstControl_Tapped;
-            this.secondBackButton.Click += this.SecondBackButton_Click;
-            this.secondButton.Click += this.SecondButton_Click;
-            this.thirdButton.Click += this.ThirdButton_Click;
+            var minToMidButton = control.FindChild("MinToMidButton") as Button;
+            var minToMaxButton = control.FindChild("MinToMaxButton") as Button;
+            var midGoBackButton = control.FindChild("MidGoBackButton") as Button;
+            var midToMinButton = control.FindChild("MidToMinButton") as Button;
+            var midToMaxButton = control.FindChild("MidToMaxButton") as Button;
+            var maxGoBackButton = control.FindChild("MaxGoBackButton") as Button;
+            var maxToMinButton = control.FindChild("MaxToMinButton") as Button;
+            var maxToMidButton = control.FindChild("MaxToMidButton") as Button;
+            minToMidButton.Click += this.MinToMidButton_Click;
+            minToMaxButton.Click += this.MinToMaxButton_Click;
+            midToMinButton.Click += this.MidToMinButton_Click;
+            midToMaxButton.Click += this.MidToMaxButton_Click;
+            maxToMinButton.Click += this.MaxToMinButton_Click;
+            maxToMidButton.Click += this.MaxToMidButton_Click;
+            midGoBackButton.Click += this.GoBackButton_Click;
+            maxGoBackButton.Click += this.GoBackButton_Click;
         }
 
-        private void FirstControl_Tapped(object sender, TappedRoutedEventArgs e)
+        private void MaxToMidButton_Click(object sender, RoutedEventArgs e)
         {
-            this.transitionHelper.Source = this.firstControl;
+            this.transitionHelper.Source = this.thirdControl;
             this.transitionHelper.Target = this.secondControl;
-            this.transitionHelper.IgnoredOrUnpairedElementHideTranslation = new Vector3(20, 0, 0);
             _ = this.transitionHelper.AnimateAsync();
         }
 
-        private void SecondBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            _ = this.transitionHelper.ReverseAsync();
-        }
-
-        private void SecondButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.transitionHelper.Source = this.secondControl;
-            this.transitionHelper.Target = this.thirdControl;
-            this.transitionHelper.IgnoredOrUnpairedElementHideTranslation = new Vector3(0, 20, 0);
-            _ = this.transitionHelper.AnimateAsync();
-        }
-
-        private void ThirdButton_Click(object sender, RoutedEventArgs e)
+        private void MaxToMinButton_Click(object sender, RoutedEventArgs e)
         {
             this.transitionHelper.Source = this.thirdControl;
             this.transitionHelper.Target = this.firstControl;
             _ = this.transitionHelper.AnimateAsync();
+        }
+
+        private void MidToMinButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.transitionHelper.Source = this.secondControl;
+            this.transitionHelper.Target = this.firstControl;
+            _ = this.transitionHelper.AnimateAsync();
+        }
+
+        private void MidToMaxButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.transitionHelper.Source = this.secondControl;
+            this.transitionHelper.Target = this.thirdControl;
+            _ = this.transitionHelper.AnimateAsync();
+        }
+
+        private void MinToMaxButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.transitionHelper.Source = this.firstControl;
+            this.transitionHelper.Target = this.thirdControl;
+            _ = this.transitionHelper.AnimateAsync();
+        }
+
+        private void MinToMidButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.transitionHelper.Source = this.firstControl;
+            this.transitionHelper.Target = this.secondControl;
+            _ = this.transitionHelper.AnimateAsync();
+        }
+
+        private void GoBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            _ = this.transitionHelper.ReverseAsync();
         }
     }
 }

@@ -37,9 +37,17 @@
                     </Border.Background>
                 </Border>
             </Grid>
-            <TextBlock VerticalAlignment="Center" animations:TransitionHelper.Id="guide">
-                ⬅ Click Here
-            </TextBlock>
+            <StackPanel animations:TransitionHelper.Id="guide"
+                    Spacing="2">
+                <Button x:Name="MinToMidButton"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    
+                </Button>
+                <Button x:Name="MinToMaxButton"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    
+                </Button>
+            </StackPanel>
         </StackPanel>
         <Grid
             x:Name="SecondControl"
@@ -78,9 +86,21 @@
                     <TextBlock animations:TransitionHelper.Id="name">Magic</TextBlock>
                     <TextBlock animations:TransitionHelper.Id="desc">Magic is a cute 😺.</TextBlock>
                 </StackPanel>
-                <StackPanel animations:TransitionHelper.Id="guide" Spacing="2">
-                    <Button x:Name="SecondBackButton">go back</Button>
-                    <Button x:Name="SecondButton">Click Here</Button>
+                <StackPanel animations:TransitionHelper.Id="guide"
+                    Orientation="Horizontal"
+                    Spacing="2">
+                    <Button x:Name="MidGoBackButton"
+                            Style="{StaticResource NavigationBackButtonNormalStyle}">
+                        
+                    </Button>
+                    <Button x:Name="MidToMinButton"
+                            Style="{StaticResource NavigationBackButtonNormalStyle}">
+                        
+                    </Button>
+                    <Button x:Name="MidToMaxButton"
+                            Style="{StaticResource NavigationBackButtonNormalStyle}">
+                        
+                    </Button>
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -166,14 +186,25 @@
                         RadiusY="5" />
                 </StackPanel>
             </StackPanel>
-            <Button
-                x:Name="ThirdButton"
-                Margin="10"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                animations:TransitionHelper.Id="guide">
-                Click Here
-            </Button>
+            <StackPanel Margin="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    animations:TransitionHelper.Id="guide"
+                    Orientation="Horizontal"
+                    Spacing="2">
+                <Button x:Name="MaxGoBackButton"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    
+                </Button>
+                <Button x:Name="MaxToMinButton"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    
+                </Button>
+                <Button x:Name="MaxToMidButton"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    
+                </Button>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

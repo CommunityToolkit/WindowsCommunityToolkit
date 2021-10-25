@@ -5,6 +5,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-    <Grid x:Name="XamlRoot"
-          animations:TransitionHelper.Id="root" />
+    <!--
+        The use of animations:TransitionHelper.Id here is meaningless,
+        but it seems that if you do not declare it in advance,
+        the sample app will not be able to recognize animations:TransitionHelper.Id
+    -->
+    <Grid animations:TransitionHelper.Id="root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Padding="50,20">
+            <TextBlock Text="Click the arrow button to view the animation." />
+        </Grid>
+        <Grid x:Name="XamlRoot"
+              Grid.Row="1" />
+    </Grid>
 </Page>
