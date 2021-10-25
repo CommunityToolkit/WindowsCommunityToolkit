@@ -81,43 +81,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private async Task AnimateFromSourceToTargetAsync(CancellationToken token)
         {
-            var duration = this.AnimationDuration;
-            if (this._isInterruptedAnimation)
-            {
-                duration *= this.interruptedAnimationReverseDurationRatio;
-            }
-
-            var animationTasks = new List<Task>();
-            var sourceUnpairedElements = new List<UIElement>();
-            var targetUnpairedElements = new List<UIElement>();
-            foreach (var item in this.AnimationConfigs)
-            {
-                (var source, var target) = this.GetPairElements(item);
-                if (source == null || target == null)
-                {
-                    if (source != null)
-                    {
-                        sourceUnpairedElements.Add(source);
-                    }
-
-                    if (target != null)
-                    {
-                        targetUnpairedElements.Add(target);
-                    }
-
-                    continue;
-                }
-
-                animationTasks.Add(this.AnimateElementsAsync(source, target, duration, item, token));
-            }
-
-            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, false, token));
-            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, true, token));
-
-            await Task.WhenAll(animationTasks);
+            await this.AnimateControlsAsync(false, token);
         }
 
         private async Task AnimateFromTargetToSourceAsync(CancellationToken token)
+        {
+            await this.AnimateControlsAsync(true, token);
+        }
+
+        private async Task AnimateControlsAsync(bool reversed, CancellationToken token)
         {
             var duration = this.AnimationDuration;
             if (this._isInterruptedAnimation)
@@ -146,11 +118,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     continue;
                 }
 
-                animationTasks.Add(this.AnimateElementsAsync(target, source, duration, item, token));
+                animationTasks.Add(
+                    this.AnimateElementsAsync(
+                        reversed ? target : source,
+                        reversed ? source : target,
+                        duration,
+                        item,
+                        token));
             }
 
-            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, true, token));
-            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, false, token));
+            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, reversed, token));
+            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, !reversed, token));
 
             await Task.WhenAll(animationTasks);
         }
