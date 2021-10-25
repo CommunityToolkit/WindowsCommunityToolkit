@@ -23,14 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private TaskCompletionSource<object> _animateTaskSource;
         private TaskCompletionSource<object> _reverseTaskSource;
         private TaskCompletionSource<object> _updateTargetLayoutTaskSource;
-        private FrameworkElement _source;
-        private FrameworkElement _target;
         private bool _needUpdateTargetLayout = false;
         private bool _isInterruptedAnimation = false;
 
         /// <summary>
         /// Morphs from source control to target control.
         /// </summary>
+        /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task AnimateAsync(bool forceUpdateAnimatedElements = false)
         {
@@ -78,6 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Reverse animation, morphs from target control to source control.
         /// </summary>
+        /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task ReverseAsync(bool forceUpdateAnimatedElements = false)
         {

@@ -14,6 +14,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
+        private FrameworkElement _source;
+        private FrameworkElement _target;
+        private IEnumerable<AnimationConfig> _animationConfigs;
+
         /// <summary>
         /// Gets or sets the source control.
         /// </summary>
@@ -53,7 +57,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the collection of animation configurations of UI elements that need to be connected by animation.
         /// </summary>
-        public IEnumerable<AnimationConfig> AnimationConfigs { get; set; }
+        public IEnumerable<AnimationConfig> AnimationConfigs
+        {
+            get
+            {
+                return this._animationConfigs;
+            }
+
+            set
+            {
+                this._animationConfigs = value;
+                this.UpdateSourceAnimatedElements();
+                this.UpdateTargetAnimatedElements();
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the source control has been morphed to the target control.
