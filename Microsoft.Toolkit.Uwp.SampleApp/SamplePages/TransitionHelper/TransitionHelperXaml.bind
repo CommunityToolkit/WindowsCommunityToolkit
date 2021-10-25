@@ -39,7 +39,7 @@
         </StackPanel>
         <Grid
             x:Name="SecondControl"
-            Margin="150"
+            Margin="0, 150"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Visibility="Collapsed">

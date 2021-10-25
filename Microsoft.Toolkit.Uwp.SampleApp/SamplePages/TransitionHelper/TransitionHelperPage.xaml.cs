@@ -16,17 +16,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class TransitionHelperPage : Page, IXamlRenderListener
     {
-        private readonly TransitionHelper _transitionHelper = new();
-        private FrameworkElement _firstControl;
-        private FrameworkElement _secondControl;
-        private FrameworkElement _thirdControl;
-        private FrameworkElement _secondNameTextBlock;
-        private FrameworkElement _secondDescTextBlock;
-        private FrameworkElement _thirdNameTextBlock;
-        private FrameworkElement _thirdDescTextBlock;
-        private Button _secondButton;
-        private Button _secondBackButton;
-        private Button _thirdButton;
+        private readonly TransitionHelper transitionHelper = new ();
+        private FrameworkElement firstControl;
+        private FrameworkElement secondControl;
+        private FrameworkElement thirdControl;
+        private FrameworkElement secondNameTextBlock;
+        private FrameworkElement secondDescTextBlock;
+        private FrameworkElement thirdNameTextBlock;
+        private FrameworkElement thirdDescTextBlock;
+        private Button secondButton;
+        private Button secondBackButton;
+        private Button thirdButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransitionHelperPage"/> class.
@@ -38,69 +38,83 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            this._firstControl = control.FindChild("FirstControl");
-            this._secondControl = control.FindChild("SecondControl");
-            this._thirdControl = control.FindChild("ThirdControl");
-            this._secondNameTextBlock = control.FindChild("SecondNameTextBlock");
-            this._secondDescTextBlock = control.FindChild("SecondDescTextBlock");
-            this._thirdNameTextBlock = control.FindChild("ThirdNameTextBlock");
-            this._thirdDescTextBlock = control.FindChild("ThirdDescTextBlock");
-            this._secondButton = control.FindChild("SecondButton") as Button;
-            this._secondBackButton = control.FindChild("SecondBackButton") as Button;
-            this._thirdButton = control.FindChild("ThirdButton") as Button;
-            this._firstControl.Tapped += FirstControl_Tapped;
-            this._secondBackButton.Click += SecondBackButton_Click;
-            this._secondButton.Click += SecondButton_Click;
-            this._thirdButton.Click += ThirdButton_Click;
+            this.firstControl = control.FindChild("FirstControl");
+            this.secondControl = control.FindChild("SecondControl");
+            this.thirdControl = control.FindChild("ThirdControl");
+            this.secondNameTextBlock = control.FindChild("SecondNameTextBlock");
+            this.secondDescTextBlock = control.FindChild("SecondDescTextBlock");
+            this.thirdNameTextBlock = control.FindChild("ThirdNameTextBlock");
+            this.thirdDescTextBlock = control.FindChild("ThirdDescTextBlock");
+            this.secondButton = control.FindChild("SecondButton") as Button;
+            this.secondBackButton = control.FindChild("SecondBackButton") as Button;
+            this.thirdButton = control.FindChild("ThirdButton") as Button;
+            this.firstControl.Tapped += this.FirstControl_Tapped;
+            this.secondBackButton.Click += this.SecondBackButton_Click;
+            this.secondButton.Click += this.SecondButton_Click;
+            this.thirdButton.Click += this.ThirdButton_Click;
         }
 
         private void FirstControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            _transitionHelper.AnimationConfigs = new AnimationConfig[]
+            this.transitionHelper.AnimationConfigs = new AnimationConfig[]
             {
                 new AnimationConfig
                 {
-                    Id = "background"
+                    Id = "background",
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.Scale,
+                    },
                 },
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[] { AnimationTarget.Scale }
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.Scale,
+                    },
                 },
                 new AnimationConfig
                 {
-                    Id = "guide"
+                    Id = "guide",
                 },
             };
-            _transitionHelper.Source = _firstControl;
-            _transitionHelper.Target = _secondControl;
-            _transitionHelper.IgnoredElementHideTranslation = new Vector3(20, 0, 0);
-            TransitionHelper.SetIsIgnored(_secondNameTextBlock, true);
-            TransitionHelper.SetIsIgnored(_secondDescTextBlock, true);
-            _ = _transitionHelper.AnimateAsync();
+            this.transitionHelper.Source = this.firstControl;
+            this.transitionHelper.Target = this.secondControl;
+            this.transitionHelper.IgnoredElementHideTranslation = new Vector3(20, 0, 0);
+            TransitionHelper.SetIsIgnored(this.secondNameTextBlock, true);
+            TransitionHelper.SetIsIgnored(this.secondDescTextBlock, true);
+            _ = this.transitionHelper.AnimateAsync();
         }
 
         private void SecondBackButton_Click(object sender, RoutedEventArgs e)
         {
-            _ = _transitionHelper.ReverseAsync();
+            _ = this.transitionHelper.ReverseAsync();
         }
 
         private void SecondButton_Click(object sender, RoutedEventArgs e)
         {
-            _transitionHelper.AnimationConfigs = new AnimationConfig[]
+            this.transitionHelper.AnimationConfigs = new AnimationConfig[]
             {
                 new AnimationConfig
                 {
-                    Id = "background"
+                    Id = "background",
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.Scale,
+                    },
                 },
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[] { AnimationTarget.Scale }
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.Scale,
+                    },
                 },
                 new AnimationConfig
                 {
-                    Id = "guide"
+                    Id = "guide",
                 },
                 new AnimationConfig
                 {
@@ -111,37 +125,44 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     Id = "desc",
                 },
             };
-            _transitionHelper.Source = _secondControl;
-            _transitionHelper.Target = _thirdControl;
-            _transitionHelper.IgnoredElementHideTranslation = new Vector3(0, 20, 0);
-            TransitionHelper.SetIsIgnored(_secondNameTextBlock, false);
-            TransitionHelper.SetIsIgnored(_secondDescTextBlock, false);
-            _ = _transitionHelper.AnimateAsync();
+            this.transitionHelper.Source = this.secondControl;
+            this.transitionHelper.Target = this.thirdControl;
+            this.transitionHelper.IgnoredElementHideTranslation = new Vector3(0, 20, 0);
+            TransitionHelper.SetIsIgnored(this.secondNameTextBlock, false);
+            TransitionHelper.SetIsIgnored(this.secondDescTextBlock, false);
+            _ = this.transitionHelper.AnimateAsync();
         }
 
         private void ThirdButton_Click(object sender, RoutedEventArgs e)
         {
-            _transitionHelper.AnimationConfigs = new AnimationConfig[]
+            this.transitionHelper.AnimationConfigs = new AnimationConfig[]
             {
                 new AnimationConfig
                 {
-                    Id = "background"
+                    Id = "background",
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.Scale,
+                    },
                 },
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[] { AnimationTarget.Scale }
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.Scale,
+                    },
                 },
                 new AnimationConfig
                 {
-                    Id = "guide"
-                }
+                    Id = "guide",
+                },
             };
-            _transitionHelper.Source = _thirdControl;
-            _transitionHelper.Target = _firstControl;
-            TransitionHelper.SetIsIgnored(_thirdNameTextBlock, true);
-            TransitionHelper.SetIsIgnored(_thirdDescTextBlock, true);
-            _ = _transitionHelper.AnimateAsync();
+            this.transitionHelper.Source = this.thirdControl;
+            this.transitionHelper.Target = this.firstControl;
+            TransitionHelper.SetIsIgnored(this.thirdNameTextBlock, true);
+            TransitionHelper.SetIsIgnored(this.thirdDescTextBlock, true);
+            _ = this.transitionHelper.AnimateAsync();
         }
     }
 }
