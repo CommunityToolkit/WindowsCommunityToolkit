@@ -93,28 +93,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(600);
 
         /// <summary>
-        /// Gets or sets the duration of the show animation for ignored and unpaired UI elements.
+        /// Gets or sets the duration of the show animation for ignored or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredAndUnpairedElementShowDuration { get; set; } = TimeSpan.FromMilliseconds(200);
+        public TimeSpan IgnoredOrUnpairedElementShowDuration { get; set; } = TimeSpan.FromMilliseconds(200);
 
         /// <summary>
-        /// Gets or sets the delay of the show animation for ignored and unpaired UI elements.
+        /// Gets or sets the delay of the show animation for ignored or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredAndUnpairedElementShowDelayDuration { get; set; } = TimeSpan.FromMilliseconds(300);
+        public TimeSpan IgnoredOrUnpairedElementShowDelayDuration { get; set; } = TimeSpan.FromMilliseconds(300);
 
         /// <summary>
-        /// Gets or sets the duration of the interval between the show animations for ignored and unpaired UI elements.
+        /// Gets or sets the duration of the interval between the show animations for ignored or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredAndUnpairedElementShowStepDuration { get; set; } = TimeSpan.FromMilliseconds(50);
+        public TimeSpan IgnoredOrUnpairedElementShowStepDuration { get; set; } = TimeSpan.FromMilliseconds(50);
 
         /// <summary>
-        /// Gets or sets the duration of the hide animation for ignored and unpaired UI elements.
+        /// Gets or sets the duration of the hide animation for ignored or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredAndUnpairedElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
+        public TimeSpan IgnoredOrUnpairedElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
 
         /// <summary>
-        /// Gets or sets the translation of the hide animation for ignored and unpaired UI elements.
+        /// Gets or sets the translation of the hide animation for ignored or unpaired UI elements.
         /// </summary>
-        public Vector3 IgnoredAndUnpairedElementHideTranslation { get; set; } = new Vector3(0, 20, 0);
+        public Vector3 IgnoredOrUnpairedElementHideTranslation { get; set; } = new Vector3(0, 20, 0);
     }
 }

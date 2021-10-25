@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.transitionHelper.Source = this.firstControl;
             this.transitionHelper.Target = this.secondControl;
-            this.transitionHelper.IgnoredAndUnpairedElementHideTranslation = new Vector3(20, 0, 0);
+            this.transitionHelper.IgnoredOrUnpairedElementHideTranslation = new Vector3(20, 0, 0);
             _ = this.transitionHelper.AnimateAsync();
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.transitionHelper.Source = this.secondControl;
             this.transitionHelper.Target = this.thirdControl;
-            this.transitionHelper.IgnoredAndUnpairedElementHideTranslation = new Vector3(0, 20, 0);
+            this.transitionHelper.IgnoredOrUnpairedElementHideTranslation = new Vector3(0, 20, 0);
             _ = this.transitionHelper.AnimateAsync();
         }
 

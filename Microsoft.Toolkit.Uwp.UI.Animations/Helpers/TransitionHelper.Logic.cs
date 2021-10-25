@@ -111,8 +111,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationTasks.Add(this.AnimateElementsAsync(source, target, duration, item, token));
             }
 
-            animationTasks.Add(this.AnimateIgnoredAndUnpairedElementsAsync(this.Source, sourceUnpairedElements, false, token));
-            animationTasks.Add(this.AnimateIgnoredAndUnpairedElementsAsync(this.Target, targetUnpairedElements, true, token));
+            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, false, token));
+            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, true, token));
 
             await Task.WhenAll(animationTasks);
         }
@@ -149,8 +149,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationTasks.Add(this.AnimateElementsAsync(target, source, duration, item, token));
             }
 
-            animationTasks.Add(this.AnimateIgnoredAndUnpairedElementsAsync(this.Source, sourceUnpairedElements, true, token));
-            animationTasks.Add(this.AnimateIgnoredAndUnpairedElementsAsync(this.Target, targetUnpairedElements, false, token));
+            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, true, token));
+            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, false, token));
 
             await Task.WhenAll(animationTasks);
         }
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             await Task.WhenAll(animationTasks);
         }
 
-        private async Task AnimateIgnoredAndUnpairedElementsAsync(UIElement parent, IEnumerable<UIElement> unpairedElements, bool isShow, CancellationToken token)
+        private async Task AnimateIgnoredOrUnpairedElementsAsync(UIElement parent, IEnumerable<UIElement> unpairedElements, bool isShow, CancellationToken token)
         {
             if (parent == null)
             {
@@ -241,8 +241,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             var animationTasks = new List<Task>();
             var ignoredElements = GetIgnoredElements(parent);
-            var duration = isShow ? this.IgnoredAndUnpairedElementShowDuration : this.IgnoredAndUnpairedElementHideDuration;
-            var delay = isShow ? this.IgnoredAndUnpairedElementShowDelayDuration : TimeSpan.Zero;
+            var duration = isShow ? this.IgnoredOrUnpairedElementShowDuration : this.IgnoredOrUnpairedElementHideDuration;
+            var delay = isShow ? this.IgnoredOrUnpairedElementShowDelayDuration : TimeSpan.Zero;
             if (this._isInterruptedAnimation)
             {
                 duration *= this.interruptedAnimationReverseDurationRatio;
@@ -251,22 +251,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             foreach (var item in ignoredElements.Concat(unpairedElements))
             {
-                if (this.IgnoredAndUnpairedElementHideTranslation != Vector3.Zero)
+                if (this.IgnoredOrUnpairedElementHideTranslation != Vector3.Zero)
                 {
                     animationTasks.Add(AnimationBuilder.Create().Translation(
-                        to: isShow ? Vector3.Zero : this.IgnoredAndUnpairedElementHideTranslation,
+                        from: this._isInterruptedAnimation ? null : (isShow ? this.IgnoredOrUnpairedElementHideTranslation : Vector3.Zero),
+                        to: isShow ? Vector3.Zero : this.IgnoredOrUnpairedElementHideTranslation,
                         duration: duration,
                         delay: delay).StartAsync(item, token));
                 }
 
                 animationTasks.Add(AnimationBuilder.Create().Opacity(
+                    from: this._isInterruptedAnimation ? null : (isShow ? 0 : 1),
                     to: isShow ? 1 : 0,
                     duration: duration,
                     delay: delay).StartAsync(item, token));
 
                 if (isShow)
                 {
-                    delay += this.IgnoredAndUnpairedElementShowStepDuration;
+                    delay += this.IgnoredOrUnpairedElementShowStepDuration;
                 }
             }
 
