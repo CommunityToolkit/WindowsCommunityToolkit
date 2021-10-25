@@ -21,6 +21,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private void UpdateSourceAnimatedElements()
         {
+            if (this.Source == null)
+            {
+                return;
+            }
+
             this.sourceAnimatedElements.Clear();
             var filters = this.AnimationConfigs.Select(config => config.Id);
 
@@ -32,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void UpdateTargetAnimatedElements()
         {
+            if (this.Target == null)
+            {
+                return;
+            }
+
             this.targetAnimatedElements.Clear();
             var filters = this.AnimationConfigs.Select(config => config.Id);
 
@@ -309,8 +319,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void AnimateUIElementsScale(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, Vector3 targetScale, TimeSpan duration)
         {
-            _ = sourceBuilder.Scale(to: targetScale, duration: duration);
-            _ = targetBuilder.Scale(to: Vector3.One, duration: duration);
+            if (this._isInterruptedAnimation)
+            {
+                _ = sourceBuilder.Scale(to: Vector3.One, duration: TimeSpan.FromMilliseconds(1));
+                _ = targetBuilder.Scale(to: Vector3.One, duration: duration);
+                return;
+            }
+
+            _ = sourceBuilder.Scale().TimedKeyFrames(
+                build: b => b
+                    .KeyFrame(duration - TimeSpan.FromMilliseconds(1), targetScale)
+                    .KeyFrame(duration, Vector3.One));
+            _ = targetBuilder.Scale().TimedKeyFrames(
+                delayBehavior: AnimationDelayBehavior.SetInitialValueBeforeDelay,
+                build: b => b
+                    .KeyFrame(TimeSpan.Zero, new Vector3(1 / targetScale.X, 1 / targetScale.Y, 1))
+                    .KeyFrame(duration - TimeSpan.FromMilliseconds(1), Vector3.One)
+                    .KeyFrame(duration, Vector3.One));
         }
 
         private void AnimateUIElementsOpacity(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, TimeSpan duration)

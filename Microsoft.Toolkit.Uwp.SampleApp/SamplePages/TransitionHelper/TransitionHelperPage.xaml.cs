@@ -55,6 +55,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AnimationConfig
                 {
                     Id = "name",
+                    AdditionalAnimations = new AnimationTarget[]
+                    {
+                        AnimationTarget.ScaleY,
+                    },
                 },
                 new AnimationConfig
                 {
