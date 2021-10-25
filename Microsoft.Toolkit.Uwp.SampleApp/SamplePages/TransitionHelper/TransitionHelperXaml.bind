@@ -27,11 +27,15 @@
                             Opacity="0.4" />
                     </ui:Effects.Shadow>
                 </Border>
-                <PersonPicture
-                    Width="40"
-                    BorderThickness="0"
+                <Border
+                    Width="36"
+                    Height="36"
                     animations:TransitionHelper.Id="image"
-                    ProfilePicture="ms-appx:///Assets/Photos/Owl.jpg" />
+                    CornerRadius="18">
+                    <Border.Background>
+                        <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg" />
+                    </Border.Background>
+                </Border>
             </Grid>
             <TextBlock VerticalAlignment="Center" animations:TransitionHelper.Id="guide">
                 ⬅ Click Here
@@ -58,17 +62,21 @@
                 Padding="20"
                 Orientation="Horizontal"
                 Spacing="20">
-                <PersonPicture
+                <Border 
                     Width="50"
-                    BorderThickness="0"
+                    Height="50"
                     animations:TransitionHelper.Id="image"
-                    ProfilePicture="ms-appx:///Assets/Photos/Owl.jpg" />
+                    CornerRadius="25">
+                    <Border.Background>
+                        <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg" />
+                    </Border.Background>
+                </Border>
                 <StackPanel
                     Width="400"
                     VerticalAlignment="Center"
                     Spacing="5">
-                    <TextBlock x:Name="SecondNameTextBlock" animations:TransitionHelper.Id="name">Magic</TextBlock>
-                    <TextBlock x:Name="SecondDescTextBlock" animations:TransitionHelper.Id="desc">Magic is a cute cat.</TextBlock>
+                    <TextBlock animations:TransitionHelper.Id="name">Magic</TextBlock>
+                    <TextBlock animations:TransitionHelper.Id="desc">Magic is a cute 😺.</TextBlock>
                 </StackPanel>
                 <StackPanel animations:TransitionHelper.Id="guide" Spacing="2">
                     <Button x:Name="SecondBackButton">go back</Button>
@@ -96,28 +104,27 @@
             <StackPanel
                 Padding="20"
                 HorizontalAlignment="Center"
-                BorderBrush="DimGray"
-                BorderThickness="0,0,0,0.5"
                 Spacing="20">
-                <PersonPicture
+                <Border
                     Width="80"
-                    BorderThickness="0"
-                    HorizontalAlignment="Center"
+                    Height="80"
                     animations:TransitionHelper.Id="image"
-                    ProfilePicture="ms-appx:///Assets/Photos/Owl.jpg" />
+                    CornerRadius="40">
+                    <Border.Background>
+                        <ImageBrush ImageSource="ms-appx:///Assets/Photos/Owl.jpg" />
+                    </Border.Background>
+                </Border>
                 <StackPanel Spacing="5">
                     <TextBlock
-                        x:Name="ThirdNameTextBlock"
                         HorizontalAlignment="Center"
                         animations:TransitionHelper.Id="name"
                         FontSize="24">
                         Magic
                     </TextBlock>
                     <TextBlock
-                        x:Name="ThirdDescTextBlock"
                         HorizontalAlignment="Center"
                         animations:TransitionHelper.Id="desc">
-                        Magic is a cute cat, but sometimes very naughty.
+                        Magic is a cute 😺, but sometimes very naughty.
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Padding="50,100" animations:TransitionHelper.IsIgnored="True">
