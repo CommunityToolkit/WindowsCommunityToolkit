@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
@@ -1063,6 +1064,76 @@ namespace UnitTests.UI
             }
 
             public int Compare(object x, object y) => _func(x, y);
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Shaping_OutOfRange()
+        {
+            var _random = new Random();
+            var Models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
+            {
+                Id = i + 1,
+                Title = $"Title: {i + 1}",
+                Year = _random.Next(2015, 2020)
+            }));
+
+            IAdvancedCollectionView View1 = new AdvancedCollectionView(Models, true);
+            View1.ObserveFilterProperty(nameof(Model.Year));
+            View1.Filter = model => ((Model)model).Year <= 2020;
+
+            IAdvancedCollectionView View2 = new AdvancedCollectionView(Models, true);
+            View2.ObserveFilterProperty(nameof(Model.Year));
+            View2.Filter = model => ((Model)model).Year >= 2021;
+
+            Model model1 = View1.FirstOrDefault(x => ((Model)x).Id == 1) as Model;
+            if(model1 != null)
+            {
+                model1.Year = _random.Next(2021, 2030);
+                View1.Remove(model1);
+                View2.Add(model1);
+            }
+
+            Assert.IsTrue(!View1.Contains(model1));
+            Assert.IsTrue(View2.Contains(model1));
+
+            Model model5 = View1.FirstOrDefault(x => ((Model)x).Id == 5) as Model;
+            if (model5 != null)
+            {
+                model5.Year = _random.Next(2021, 2030);
+                View1.Remove(model5);
+                View2.Add(model5);
+            }
+
+            Assert.IsTrue(!View1.Contains(model5));
+            Assert.IsTrue(View2.Contains(model5));
+        }
+
+        public class Model : ObservableObject
+        {
+            private int _id;
+
+            public int Id
+            {
+                get { return _id; }
+                set { SetProperty(ref _id, value); }
+            }
+
+            private string _title;
+
+            public string Title
+            {
+                get { return _title; }
+                set { SetProperty(ref _title, value); }
+            }
+
+            private int _year;
+
+            public int Year
+            {
+                get { return _year; }
+                set { SetProperty(ref _year, value); }
+            }
         }
     }
 }
