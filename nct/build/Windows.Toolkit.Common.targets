@@ -7,7 +7,6 @@
 
   <PropertyGroup>
     <CommonTags Condition="$(IsCoreProject)">$(CommonTags);.NET</CommonTags>
-    <CommonTags Condition="$(IsUwpProject)">$(CommonTags);UWP</CommonTags>
     <PackageTags Condition="'$(PackageTags)' != ''">$(CommonTags);$(PackageTags)</PackageTags>
     <PackageTags Condition="'$(PackageTags)' == ''">$(CommonTags)</PackageTags>
   </PropertyGroup>
