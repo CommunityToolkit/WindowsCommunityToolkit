@@ -1,5 +1,5 @@
 // Create a TransitionHelper.
-var TransitionHelper transitionHelper = new TransitionHelper();
+var transitionHelper = new TransitionHelper();
 
 // Configure TransitionHelper.
 transitionHelper.AnimationConfigs = new AnimationConfig[]

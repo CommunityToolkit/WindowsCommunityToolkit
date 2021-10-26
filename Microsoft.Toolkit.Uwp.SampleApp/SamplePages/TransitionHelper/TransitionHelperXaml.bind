@@ -10,7 +10,7 @@
     <Grid>
         <StackPanel
             x:Name="FirstControl"
-            Margin="100"
+            Margin="100, 50"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Orientation="Horizontal"
@@ -23,7 +23,7 @@
                     <ui:Effects.Shadow>
                         <media:AttachedCardShadow
                             BlurRadius="4"
-                            CornerRadius="8"
+                            CornerRadius="4"
                             Opacity="0.4" />
                     </ui:Effects.Shadow>
                 </Border>
@@ -51,7 +51,7 @@
         </StackPanel>
         <Grid
             x:Name="SecondControl"
-            Margin="0, 150"
+            Margin="0, 100"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Visibility="Collapsed">
@@ -106,7 +106,6 @@
         </Grid>
         <Grid
             x:Name="ThirdControl"
-            Margin="0, 150"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="Collapsed">
