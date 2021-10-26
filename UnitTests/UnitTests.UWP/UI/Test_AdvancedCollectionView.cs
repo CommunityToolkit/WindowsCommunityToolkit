@@ -1100,13 +1100,51 @@ namespace UnitTests.UI
             Model model5 = View1.FirstOrDefault(x => ((Model)x).Id == 5) as Model;
             if (model5 != null)
             {
-                model5.Year = _random.Next(2021, 2030);
                 View1.Remove(model5);
+                
                 View2.Add(model5);
+                model5.Year = _random.Next(2021, 2030);
             }
 
             Assert.IsTrue(!View1.Contains(model5));
             Assert.IsTrue(View2.Contains(model5));
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Shaping_LastItem()
+        {
+            var _random = new Random();
+            var Models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
+            {
+                Id = i + 1,
+                Title = $"Title: {i + 1}",
+                Year = _random.Next(2015, 2020)
+            }));
+
+            IAdvancedCollectionView View1 = new AdvancedCollectionView(Models, true);
+            View1.ObserveFilterProperty(nameof(Model.Year));
+            View1.Filter = model => ((Model)model).Year <= 2020;
+
+            IAdvancedCollectionView View2 = new AdvancedCollectionView(Models, true);
+            //View2.ObserveFilterProperty(nameof(Model.Year));
+            //View2.Filter = model => ((Model)model).Year >= 2021;
+
+            int lastIndex = View1.Count - 1;
+            if(lastIndex >= 0)
+            {
+                Model modelLast = (Model)View1[lastIndex];
+                //Model model1 = View1.FirstOrDefault(x => ((Model)x).Id == 1) as Model;
+                if (modelLast != null)
+                {
+                    modelLast.Year = _random.Next(2021, 2030);
+                    View1.Remove(modelLast);
+                    View2.Add(modelLast);
+                }
+
+                Assert.IsTrue(!View1.Contains(modelLast));
+                Assert.IsTrue(View2.Contains(modelLast));
+            }
         }
 
         public class Model : ObservableObject
