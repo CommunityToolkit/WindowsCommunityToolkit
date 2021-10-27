@@ -1070,82 +1070,82 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Shaping_OutOfRangeCheck()
         {
-            var _random = new Random();
-            var Models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
+            var random = new Random();
+            var models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
             {
                 Id = i + 1,
                 Title = $"Title: {i + 1}",
-                Year = _random.Next(2015, 2020)
+                Year = random.Next(2015, 2020)
             }));
 
-            IAdvancedCollectionView View1 = new AdvancedCollectionView(Models, true);
-            View1.ObserveFilterProperty(nameof(Model.Year));
-            View1.Filter = model => ((Model)model).Year <= 2020;
+            IAdvancedCollectionView view1 = new AdvancedCollectionView(models, true);
+            view1.ObserveFilterProperty(nameof(Model.Year));
+            view1.Filter = model => ((Model)model).Year <= 2020;
 
-            IAdvancedCollectionView View2 = new AdvancedCollectionView(Models, true);
-            View2.ObserveFilterProperty(nameof(Model.Year));
-            View2.Filter = model => ((Model)model).Year >= 2021;
+            IAdvancedCollectionView view2 = new AdvancedCollectionView(models, true);
+            view2.ObserveFilterProperty(nameof(Model.Year));
+            view2.Filter = model => ((Model)model).Year >= 2021;
             
             // In an attempt to reproduce the bug, initially we need to remove the first item ...
-            Model model1 = View1.FirstOrDefault(x => ((Model)x).Id == 1) as Model;
+            Model model1 = view1.FirstOrDefault(x => ((Model)x).Id == 1) as Model;
             if(model1 != null)
             {
-                View1.Remove(model1);
-                model1.Year = _random.Next(2021, 2030);
-                View2.Add(model1);
+                view1.Remove(model1);
+                model1.Year = random.Next(2021, 2030);
+                view2.Add(model1);
             }
 
-            Assert.IsTrue(!View1.Contains(model1));
-            Assert.IsTrue(View2.Contains(model1));
+            Assert.IsTrue(!view1.Contains(model1));
+            Assert.IsTrue(view2.Contains(model1));
 
             // ... and continue on by removing the fifth item, which had led to an issue with Drag & Drop
             //      - see https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4339
-            Model model5 = View1.FirstOrDefault(x => ((Model)x).Id == 5) as Model;
+            Model model5 = view1.FirstOrDefault(x => ((Model)x).Id == 5) as Model;
             if (model5 != null)
             {
-                View1.Remove(model5);
-                model5.Year = _random.Next(2021, 2030);
-                View2.Add(model5);
+                view1.Remove(model5);
+                model5.Year = random.Next(2021, 2030);
+                view2.Add(model5);
             }
 
-            Assert.IsTrue(!View1.Contains(model5));
-            Assert.IsTrue(View2.Contains(model5));
+            Assert.IsTrue(!view1.Contains(model5));
+            Assert.IsTrue(view2.Contains(model5));
         }
 
         [TestCategory("AdvancedCollectionView")]
         [UITestMethod]
         public void Test_AdvancedCollectionView_Shaping_RemoveLastItem()
         {
-            var _random = new Random();
-            var Models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
+            var random = new Random();
+            var models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
             {
                 Id = i + 1,
                 Title = $"Title: {i + 1}",
-                Year = _random.Next(2015, 2020)
+                Year = random.Next(2015, 2020)
             }));
 
-            IAdvancedCollectionView View1 = new AdvancedCollectionView(Models, true);
-            View1.ObserveFilterProperty(nameof(Model.Year));
-            View1.Filter = model => ((Model)model).Year <= 2020;
+            IAdvancedCollectionView view1 = new AdvancedCollectionView(models, true);
+            view1.ObserveFilterProperty(nameof(Model.Year));
+            view1.Filter = model => ((Model)model).Year <= 2020;
 
-            IAdvancedCollectionView View2 = new AdvancedCollectionView(Models, true);
-            View2.ObserveFilterProperty(nameof(Model.Year));
-            View2.Filter = model => ((Model)model).Year >= 2021;
+            IAdvancedCollectionView view2 = new AdvancedCollectionView(models, true);
+            view2.ObserveFilterProperty(nameof(Model.Year));
+            view2.Filter = model => ((Model)model).Year >= 2021;
 
-            int lastIndex = View1.Count - 1;
+            int lastIndex = view1.Count - 1;
             if(lastIndex >= 0)
             {
-                Model modelLast = (Model)View1[lastIndex];
+                Model modelLast = (Model)view1[lastIndex];
 
                 if (modelLast != null)
                 {
-                    View1.Remove(modelLast);
-                    modelLast.Year = _random.Next(2021, 2030);
-                    View2.Add(modelLast);
+                    view1.Remove(modelLast);
+                    modelLast.Year = random.Next(2021, 2030);
+                    view2.Add(modelLast);
                 }
 
-                Assert.IsTrue(!View1.Contains(modelLast));
-                Assert.IsTrue(View2.Contains(modelLast));
+                Assert.IsTrue(!view1.Contains(modelLast));
+                Assert.IsTrue(view2.Contains(modelLast));
             }
         }
 
