@@ -18,8 +18,8 @@
             <Grid Width="50" Height="50">
                 <Border
                     animations:TransitionHelper.Id="background"
-                    Background="White"
-                    CornerRadius="8">
+                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+                    CornerRadius="4">
                     <ui:Effects.Shadow>
                         <media:AttachedCardShadow
                             BlurRadius="4"
@@ -57,7 +57,7 @@
             Visibility="Collapsed">
             <Border
                 animations:TransitionHelper.Id="background"
-                Background="White"
+                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 CornerRadius="8">
                 <ui:Effects.Shadow>
                     <media:AttachedCardShadow
@@ -111,7 +111,7 @@
             Visibility="Collapsed">
             <Border
                 animations:TransitionHelper.Id="background"
-                Background="White"
+                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
                 CornerRadius="8">
                 <ui:Effects.Shadow>
                     <media:AttachedCardShadow
