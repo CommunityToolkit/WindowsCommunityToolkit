@@ -1053,6 +1053,55 @@ namespace UnitTests.UI
             Assert.AreEqual(42, ((Person)a.First()).Age);
         }
 
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Filterd_Using_Shaping_Changing_Properties()
+        {
+            var l = new ObservableCollection<Person>
+            {
+                new Person()
+                {
+                    Name = "lorem",
+                    Age = 4
+                },
+                new Person()
+                {
+                    Name = "imsum",
+                    Age = 8
+                },
+                new Person()
+                {
+                    Name = "dolor",
+                    Age = 15
+                },
+                new Person()
+                {
+                    Name = "sit",
+                    Age = 16
+                },
+                new Person()
+                {
+                    Name = "amet",
+                    Age = 23
+                },
+                new Person()
+                {
+                    Name = "consectetur",
+                    Age = 42
+                },
+            };
+
+            var a = new AdvancedCollectionView(l, true);
+            a.ObserveFilterProperty(nameof(Person.Age));
+            a.Filter = p => ((Person)p).Age <= 5;
+
+            Assert.AreEqual(1, a.Count);
+
+            l[4].Age = 5;
+
+            Assert.AreEqual(2, a.Count);
+        }
+
         private class DelegateComparable : IComparer
         {
             private Func<object, object, int> _func;
