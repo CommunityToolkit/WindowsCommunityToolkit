@@ -12,6 +12,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public enum InnerContentClipMode
     {
         /// <summary>
+        /// Do not clip inner content.
+        /// </summary>
+        None,
+
+        /// <summary>
         /// Use <see cref="Windows.UI.Composition.CompositionMaskBrush"/> to clip inner content.
         /// </summary>
         /// <remarks>
