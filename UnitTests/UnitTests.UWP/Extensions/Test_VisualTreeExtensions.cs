@@ -441,6 +441,103 @@ namespace UnitTests.Extensions
 
         [TestCategory("VisualTree")]
         [TestMethod]
+        public async Task Test_VisualTree_FindFirstLevelDescendants_Exists()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
+    <Grid>
+        <Border x:Name=""A""/>
+        <TextBlock x:Name=""B""/>
+        <StackPanel x:Name=""C"">
+            <TextBox/>
+            <TextBlock/>
+        </StackPanel>
+        <Grid x:Name=""D"">
+            <TextBlock/>
+            <StackPanel>
+                <TextBox/>
+                <TextBlock/>
+            </StackPanel>
+            <TextBlock/>
+        </Grid>
+        <TextBlock x:Name=""E""/>
+    </Grid>
+</Page>") as Page;
+
+                // Test Setup
+                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
+
+                // Initialize Visual Tree
+                await SetTestContentAsync(treeRoot);
+
+                // Main Test
+                var rootGrid = treeRoot.FindDescendant<Grid>();
+                var children = rootGrid.FindFirstLevelDescendants().ToArray();
+
+                Assert.AreEqual(5, children.Length, "Expected to find 5 children.");
+
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'A'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'B'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'C'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'D'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'E'");
+            });
+        }
+
+        [TestCategory("VisualTree")]
+        [TestMethod]
+        public async Task Test_VisualTree_FindFirstLevelDescendantsOrSelf_Exists()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
+    <Grid x:Name=""RootGrid"">
+        <Border x:Name=""A""/>
+        <TextBlock x:Name=""B""/>
+        <StackPanel x:Name=""C"">
+            <TextBox/>
+            <TextBlock/>
+        </StackPanel>
+        <Grid x:Name=""D"">
+            <TextBlock/>
+            <StackPanel>
+                <TextBox/>
+                <TextBlock/>
+            </StackPanel>
+            <TextBlock/>
+        </Grid>
+        <TextBlock x:Name=""E""/>
+    </Grid>
+</Page>") as Page;
+
+                // Test Setup
+                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
+
+                // Initialize Visual Tree
+                await SetTestContentAsync(treeRoot);
+
+                // Main Test
+                var rootGrid = treeRoot.FindDescendant<Grid>();
+                var childrenOrSelf = rootGrid.FindFirstLevelDescendantsOrSelf().ToArray();
+
+                Assert.AreEqual(6, childrenOrSelf.Length, "Expected to find 6 children or self.");
+
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "RootGrid"), "Couldn't find self");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'A'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'B'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'C'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'D'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'E'");
+            });
+        }
+
+        [TestCategory("VisualTree")]
+        [TestMethod]
         public async Task Test_VisualTree_FindAscendant_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>

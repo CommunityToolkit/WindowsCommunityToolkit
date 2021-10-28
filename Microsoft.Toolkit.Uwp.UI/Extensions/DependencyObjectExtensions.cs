@@ -544,6 +544,44 @@ namespace Microsoft.Toolkit.Uwp.UI
         }
 
         /// <summary>
+        /// Find all first level descendant elements of the specified element. This method can be chained
+        /// with INQ calls to add additional filters or projections on top of the returned results.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the first level descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindFirstLevelDescendants(this DependencyObject element)
+        {
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+            for (var i = 0; i < childrenCount; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                yield return child;
+            }
+        }
+
+        /// <summary>
+        /// Find all first level descendant elements of the specified element. This method can be chained
+        /// with INQ calls to add additional filters or projections on top of the returned results.
+        /// </summary>
+        /// <param name="element">The root element.</param>
+        /// <returns>All the first level descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
+        public static IEnumerable<DependencyObject> FindFirstLevelDescendantsOrSelf(this DependencyObject element)
+        {
+            yield return element;
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+            for (var i = 0; i < childrenCount; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+
+                yield return child;
+            }
+        }
+
+        /// <summary>
         /// Find all descendant elements of the specified element (or self). This method can be chained
         /// with LINQ calls to add additional filters or projections on top of the returned results.
         /// <para>
