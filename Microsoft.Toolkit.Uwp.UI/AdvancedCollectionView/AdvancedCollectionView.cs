@@ -677,33 +677,17 @@ namespace Microsoft.Toolkit.Uwp.UI
                     return false;
                 }
 
-                if (newStartingIndex == 0 || _view.Count == 0)
-                {
-                    newViewIndex = 0;
-                }
-                else if (newStartingIndex == _source.Count - 1)
-                {
-                    newViewIndex = _view.Count - 1;
-                }
-                else if (viewIndex.HasValue)
+                if (viewIndex.HasValue)
                 {
                     newViewIndex = viewIndex.Value;
                 }
                 else
                 {
-                    for (int i = 0, j = 0; i < _source.Count; i++)
-                    {
-                        if (i == newStartingIndex)
-                        {
-                            newViewIndex = j;
-                            break;
-                        }
-
-                        if (_view[j] == _source[i])
-                        {
-                            j++;
-                        }
-                    }
+                    newViewIndex = _view.Select(x => _source.IndexOf(x)) // Get indexes of all items that are currently in view
+                                        .Concat(new int[] { newStartingIndex }) // Add index of item that need to be inserted in view
+                                        .OrderBy(x => x)
+                                        .ToList()
+                                        .IndexOf(newStartingIndex); // Get the index for new item in view
                 }
             }
 
