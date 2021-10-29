@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Diagnostics
             [DoesNotReturn]
             public static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
             {
-                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support reading", name);
+                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support reading.", name);
             }
 
             /// <summary>
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Diagnostics
             [DoesNotReturn]
             public static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
             {
-                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support writing", name);
+                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support writing.", name);
             }
 
             /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
             [DoesNotReturn]
             public static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
             {
-                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support seeking", name);
+                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) doesn't support seeking.", name);
             }
 
             /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Diagnostics
             [DoesNotReturn]
             public static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
             {
-                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) must be at position {AssertString(0)}, was at {AssertString(stream.Position)}", name);
+                throw new ArgumentException($"Stream {AssertString(name)} ({stream.GetType().ToTypeString()}) must be at position {AssertString(0)}, was at {AssertString(stream.Position)}.", name);
             }
         }
     }
