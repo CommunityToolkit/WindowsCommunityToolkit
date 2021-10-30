@@ -36,7 +36,13 @@ jobs:
     displayName: 'NuGet Authenticate'
     inputs:
       forceReinstallCredentialProvider: true
-  
+
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      version: 5.0.402
+      performMultiLevelLookup: true
+
   - task: DotNetCoreCLI@2
     inputs:
       command: custom
@@ -50,12 +56,6 @@ jobs:
   #- powershell: .\build\Install-WindowsSdkISO.ps1 19041
   #  displayName: Insider SDK
 
-  - task: UseDotNet@2
-    displayName: 'Install .NET Core SDK'
-    inputs:
-      version: 5.0.402
-      performMultiLevelLookup: true
-  
   - powershell: .\build\build.ps1 -Target Build
     displayName: Build
 

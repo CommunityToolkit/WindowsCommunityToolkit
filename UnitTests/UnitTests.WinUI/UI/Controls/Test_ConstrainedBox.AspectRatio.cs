@@ -93,6 +93,46 @@ namespace UnitTests.WinUI.UI.Controls
 
         [TestCategory("ConstrainedBox")]
         [TestMethod]
+        public async Task Test_ConstrainedBox_Normal_IntegerWidth()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:CommunityToolkit.WinUI.UI.Controls"">
+      <controls:ConstrainedBox x:Name=""ConstrainedBox"" AspectRatio=""2"" Height=""100"">
+        <Border HorizontalAlignment=""Stretch"" VerticalAlignment=""Stretch"" Background=""Red""/>
+      </controls:ConstrainedBox>
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                // Initialize Visual Tree
+                await SetTestContentAsync(treeRoot);
+
+                var panel = treeRoot.FindChild("ConstrainedBox") as ConstrainedBox;
+
+                Assert.IsNotNull(panel, "Could not find ConstrainedBox in tree.");
+
+                // Check Size
+                Assert.AreEqual(2.0, panel.AspectRatio, 0.01, "ApectRatio does not meet expected value of 2.0");
+
+                // Force Layout calculations
+                panel.UpdateLayout();
+
+                var child = panel.Content as Border;
+
+                Assert.IsNotNull(child, "Could not find inner Border");
+
+                // Check Size
+                Assert.AreEqual(200, child.ActualWidth, 0.01, "Actual width does not meet expected value of 200");
+                Assert.AreEqual(100, child.ActualHeight, 0.01, "Actual height does not meet expected value of 100");
+            });
+        }
+
+        [TestCategory("ConstrainedBox")]
+        [TestMethod]
         public void Test_ConstrainedBox_AspectRatioParsing_WidthAndHeight()
         {
             CultureInfo currentCulture = CultureInfo.CurrentCulture;

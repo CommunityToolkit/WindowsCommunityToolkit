@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" GeneratePathProperty="true" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <!-- Workaround for https://github.com/microsoft/WindowsAppSDK/issues/1217 -->
-  <Target Name="FixBinPlaceBootstrapDll" BeforeTargets="BinPlaceBootstrapDll">
-    <PropertyGroup>
-      <_WindowsAppSDKFoundationPlatform>x86</_WindowsAppSDKFoundationPlatform>
-    </PropertyGroup>
+  <Target Name="FixReferenceCopyLocalPaths" BeforeTargets="ResolvePackageAssets">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="$(PkgMicrosoft_WindowsAppSDK)\build\..\runtimes\lib\native\AnyCPU\Microsoft.WindowsAppRuntime.Bootstrap.dll"/>
+    </ItemGroup>
   </Target>
 </Project>

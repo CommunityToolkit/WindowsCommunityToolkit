@@ -34,8 +34,8 @@
   <Target Name="ForceProtoCodegenAndCompile" BeforeTargets="XamlPreCompile" DependsOnTargets="Protobuf_Compile" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI">
-      <Version>3.0.0-zmain.210615.2-CI</Version>
+    <PackageReference Include="Microsoft.Internal.MUXAppTestHelpers.WinUI" GeneratePathProperty="true">
+      <Version>3.0.0-zmain.210930.1</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinRTVersion)" />
@@ -45,6 +45,13 @@
     <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(PkgMicrosoft_Internal_MUXAppTestHelpers_WinUI)\content\AppTestAutomationHelpers\TestAutomationHelpersPanel.xaml">
+      <Link>AppTestAutomationHelpers\TestAutomationHelpersPanel.xaml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">
@@ -94,6 +101,10 @@
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Core\CommunityToolkit.WinUI.UI.Controls.Core.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>CommunityToolkit.WinUI.UI.Controls.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Controls.Primitives\CommunityToolkit.WinUI.UI.Controls.Primitives.csproj">
+      <Project>{84ab7dc5-95c9-4cf8-a370-d077e9e9ef1a}</Project>
+      <Name>CommunityToolkit.WinUI.UI.Controls.Primitives</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>

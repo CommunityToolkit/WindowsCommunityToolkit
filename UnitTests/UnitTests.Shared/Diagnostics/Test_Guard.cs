@@ -123,6 +123,68 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
+        public void Test_Guard_IsNullOrEmpty_Ok()
+        {
+            Guard.IsNullOrEmpty(null, nameof(Test_Guard_IsNullOrEmpty_Ok));
+            Guard.IsNullOrEmpty(string.Empty, nameof(Test_Guard_IsNullOrEmpty_Ok));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Test_Guard_IsNullOrEmpty_Fail()
+        {
+            Guard.IsNullOrEmpty("Hello", nameof(Test_Guard_IsNullOrEmpty_Fail));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        public void Test_Guard_IsNotNullOrEmpty_Ok()
+        {
+            Guard.IsNotNullOrEmpty("Hello", nameof(Test_Guard_IsNotNullOrEmpty_Ok));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Test_Guard_IsNotNullOrEmpty_Null()
+        {
+            Guard.IsNotNullOrEmpty(null, nameof(Test_Guard_IsNotNullOrEmpty_Null));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Test_Guard_IsNotNullOrEmpty_Empty()
+        {
+            Guard.IsNotNullOrEmpty(string.Empty, nameof(Test_Guard_IsNotNullOrEmpty_Empty));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        public void Test_Guard_IsNotNullOrWhiteSpace_Ok()
+        {
+            Guard.IsNotNullOrWhiteSpace("Hello", nameof(Test_Guard_IsNotNullOrWhiteSpace_Ok));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Test_Guard_IsNotNullOrWhiteSpace_Null()
+        {
+            Guard.IsNotNullOrWhiteSpace(null, nameof(Test_Guard_IsNotNullOrWhiteSpace_Null));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Test_Guard_IsNotNullOrWhiteSpace_Empty()
+        {
+            Guard.IsNotNullOrWhiteSpace("  ", nameof(Test_Guard_IsNotNullOrWhiteSpace_Empty));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
         public void Test_Guard_IsEqualTo_Ok()
         {
             Guard.IsEqualTo("Hello", "Hello", nameof(Test_Guard_IsEqualTo_Ok));

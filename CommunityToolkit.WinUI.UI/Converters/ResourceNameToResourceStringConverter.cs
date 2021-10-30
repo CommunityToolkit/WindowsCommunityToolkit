@@ -13,7 +13,7 @@ namespace CommunityToolkit.WinUI.UI.Converters
     /// </summary>
     public sealed class ResourceNameToResourceStringConverter : IValueConverter
     {
-        private readonly ResourceLoader _resourceLoader = new ResourceLoader();
+        private readonly ResourceManager _resourceManager = new ResourceManager();
 
         /// <summary>
         /// Take the source string as a resource name that will be looked up in the App Resources.
@@ -31,7 +31,7 @@ namespace CommunityToolkit.WinUI.UI.Converters
                 return string.Empty;
             }
 
-            return _resourceLoader.GetString(value.ToString());
+            return _resourceManager.MainResourceMap.TryGetValue(value.ToString()).ValueAsString;
         }
 
         /// <summary>

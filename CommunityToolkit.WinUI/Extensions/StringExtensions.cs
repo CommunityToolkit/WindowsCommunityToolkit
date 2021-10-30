@@ -11,13 +11,13 @@ namespace CommunityToolkit.WinUI
     /// </summary>
     public static class StringExtensions
     {
-        private static readonly ResourceLoader Loader;
+        private static readonly ResourceManager ResourceManager;
 
         static StringExtensions()
         {
             try
             {
-                Loader = new ResourceLoader();
+                ResourceManager = new ResourceManager();
             }
             catch
             {
@@ -47,7 +47,7 @@ namespace CommunityToolkit.WinUI
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey)
         {
-            return Loader?.GetString(resourceKey);
+            return ResourceManager.MainResourceMap.TryGetValue(resourceKey)?.ValueAsString;
         }
 
         /*
@@ -75,11 +75,20 @@ namespace CommunityToolkit.WinUI
         public static string GetLocalized(this string resourceKey, string resourcePath)
         {
             // Try and retrieve resource at app level first.
-            var result = Loader?.GetString(resourceKey);
+            var result = ResourceManager.MainResourceMap.TryGetValue(resourceKey)?.ValueAsString;
 
             if (string.IsNullOrEmpty(result))
             {
-                result = new ResourceLoader(ResourceLoader.GetDefaultResourceFilePath(), resourcePath).GetString(resourceKey);
+                var manager = new ResourceManager();
+                var subTree = manager.MainResourceMap.TryGetSubtree(resourcePath);
+                if (subTree != null)
+                {
+                    var r = subTree.TryGetValue(resourceKey);
+                    if (r != null)
+                    {
+                        result = r.ValueAsString;
+                    }
+                }
             }
 
             return result;
