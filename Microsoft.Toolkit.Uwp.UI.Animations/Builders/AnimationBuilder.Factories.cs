@@ -365,8 +365,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     Property,
                     To,
                     From,
-                    Duration,
                     Delay,
+                    Duration,
                     EasingType.ToEasingFunction(EasingMode),
                     Repeat.ToRepeatBehavior());
             }
