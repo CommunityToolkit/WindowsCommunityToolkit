@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
@@ -1051,6 +1052,27 @@ namespace UnitTests.UI
             };
 
             Assert.AreEqual(42, ((Person)a.First()).Age);
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Using_with_DataGrid()
+        {
+            var l = new ObservableCollection<string>
+            {
+                "lorem",
+                "ipsum",
+                "dolor",
+                "sit",
+                "amet"
+            };
+
+            var a = new AdvancedCollectionView { Source = l };
+            new DataGrid { ItemsSource = a };
+            Assert.AreEqual(5, a.Count);
+
+            l.RemoveAt(l.Count - 1);
+            Assert.AreEqual(4, a.Count);
         }
 
         private class DelegateComparable : IComparer
