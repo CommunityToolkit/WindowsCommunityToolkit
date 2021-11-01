@@ -605,6 +605,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        internal void RemoveRowAt(int rowIndex)
+        {
+            IEnumerable<DataGridRow> rows = GetAllRows();
+            object item = rows.ElementAtOrDefault(rowIndex)?.DataContext;
+            RemoveElementAt(SlotFromRowIndex(rowIndex), item, true);
+        }
+
         internal void RemoveRowAt(int rowIndex, object item)
         {
             RemoveElementAt(SlotFromRowIndex(rowIndex), item, true);

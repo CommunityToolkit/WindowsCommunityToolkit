@@ -306,6 +306,10 @@
       <Project>{d4ff799d-0df2-495a-adc9-3bbc4aef8971}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Behaviors</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj">
+      <Project>{DAEB9CEC-C817-33B2-74B2-BC379380DB72}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.UI.Controls.Layout\Microsoft.Toolkit.Uwp.UI.Controls.Layout.csproj">
       <Project>{cb444381-18ba-4a51-bb32-3a498bcc1e99}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Layout</Name>

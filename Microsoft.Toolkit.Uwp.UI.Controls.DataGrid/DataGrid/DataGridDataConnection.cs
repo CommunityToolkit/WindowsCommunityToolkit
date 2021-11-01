@@ -954,7 +954,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     {
                         // If we're grouping then we handle this through the CollectionViewGroup notifications.
                         // Remove is a single item operation.
-                        _owner.RemoveRowAt(index, sender[index]);
+                        _owner.RemoveRowAt(index);
                     }
 
                     break;
