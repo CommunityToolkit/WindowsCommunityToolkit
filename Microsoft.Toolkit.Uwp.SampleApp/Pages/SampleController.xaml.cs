@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     public sealed partial class SampleController : Page, INotifyPropertyChanged
     {
         public static SampleController Current { get; private set; }
+        public ThemeListener ThemeListener => _themeListener;
 
         public SampleController()
         {
