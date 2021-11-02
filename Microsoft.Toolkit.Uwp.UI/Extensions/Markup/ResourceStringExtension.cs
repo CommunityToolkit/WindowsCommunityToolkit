@@ -37,6 +37,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Gets a string value from resource file associated with a resource key.
         /// </summary>
         /// <param name="name">Resource key name.</param>
+        /// <returns>a string value from resource file associated with a resource key.</returns>
+        public static string GetValue(string name)
+        {
+            // This function is needed to accomodate compiled function usage without second paramater,
+            // which doesn't work with optional values.
+            return resourceLoader.GetString(name);
+        }
+
+        /// <summary>
+        /// Gets a string value from resource file associated with a resource key.
+        /// </summary>
+        /// <param name="name">Resource key name.</param>
         /// <param name="language">optional language of the associated resource to use (ie: "es-ES").
         /// default is the OS language of current view.</param>
         /// <returns>a string value from resource file associated with a resource key.</returns>
@@ -44,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         {
             if (string.IsNullOrEmpty(language))
             {
-                return resourceLoader.GetString(name);
+                return GetValue(name);
             }
 
             // Not using ResourceContext.GetForCurrentView nor GetForViewIndependentUse
@@ -53,5 +65,6 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             return resourceMap.GetValue(name, resourceContext).ValueAsString;
         }
+
     }
 }
