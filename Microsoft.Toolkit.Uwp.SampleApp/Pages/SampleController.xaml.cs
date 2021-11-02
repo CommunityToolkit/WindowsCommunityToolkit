@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// Gets the current System Theme.
         /// </summary>
         /// <returns>System Theme</returns>
-        public ApplicationTheme SystemTheme()
+        public ApplicationTheme GetSystemTheme()
         {
             return _themeListener.CurrentTheme;
         }
