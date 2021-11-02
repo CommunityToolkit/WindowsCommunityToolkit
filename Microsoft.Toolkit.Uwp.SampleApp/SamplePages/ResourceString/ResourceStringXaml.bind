@@ -47,6 +47,11 @@
             <TextBlock
                TextWrapping="Wrap" Margin="10,10,0,0"
                Style="{StaticResource BodyTextBlockStyle}">
+                {x:Bind ui:ResourceStringExtension.GetValue('HelloText')}
+            </TextBlock>
+            <TextBlock
+               TextWrapping="Wrap" Margin="10,10,0,0"
+               Style="{StaticResource BodyTextBlockStyle}">
                 {x:Bind ui:ResourceStringExtension.GetValue('HelloText', 'es-ES')}
             </TextBlock>
 
