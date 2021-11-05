@@ -234,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>The resource that was removed, if any</returns>
         public T RemoveResource<T>(string key)
         {
-            if (_resources.TryGetValue(key, out var objResource))
+            if (_resources != null && _resources.TryGetValue(key, out var objResource))
             {
                 _resources.Remove(key);
                 if (objResource is T resource)
@@ -255,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public T RemoveAndDisposeResource<T>(string key)
             where T : IDisposable
         {
-            if (_resources.TryGetValue(key, out var objResource))
+            if (_resources != null && _resources.TryGetValue(key, out var objResource))
             {
                 _resources.Remove(key);
                 if (objResource is T resource)
