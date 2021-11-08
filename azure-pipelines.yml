@@ -9,7 +9,7 @@ pr:
 - rel/*
 
 pool:
-  vmImage: windows-2019
+  vmImage: windows-2022
 
 variables:
   BuildConfiguration: Release
@@ -22,15 +22,15 @@ jobs:
   steps:
   - task: BatchScript@1
     inputs:
-      filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+      filename: "C:\\Program Files\\Microsoft Visual Studio\\2022\\Preview\\Common7\\Tools\\VsDevCmd.bat"
       arguments: -no_logo
       modifyEnvironment: true
     displayName: Setup Environment Variables
 
   - task: NuGetToolInstaller@1
-    displayName: Use NuGet 5.8.1
+    displayName: Use NuGet 5.11.0
     inputs:
-      versionSpec: 5.8.1
+      versionSpec: 5.11.0
 
   - task: NuGetAuthenticate@0
     displayName: 'NuGet Authenticate'
@@ -40,7 +40,7 @@ jobs:
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
     inputs:
-      version: 5.0.402
+      version: 5.0.403
       performMultiLevelLookup: true
 
   - task: DotNetCoreCLI@2

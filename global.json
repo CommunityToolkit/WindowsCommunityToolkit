@@ -1,8 +1,8 @@
 {
   "sdk": {
-    "version": "5.0.402"
+    "version": "5.0.403"
   },
   "msbuild-sdks": {
-    "MSBuild.Sdk.Extras": "3.0.23"
+    "MSBuild.Sdk.Extras": "3.0.38"
   }
 }
