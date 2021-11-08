@@ -680,7 +680,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 ClearBrush(_needleBrush, NeedleBrushProperty);
                 ClearBrush(_trailBrush, TrailBrushProperty);
                 ClearBrush(_scaleBrush, ScaleBrushProperty);
-                ClearBrush(_scaleBrush, ScaleTickBrushProperty);
+                ClearBrush(_scaleTickBrush, ScaleTickBrushProperty);
                 ClearBrush(_tickBrush, TickBrushProperty);
                 ClearBrush(_foreground, ForegroundProperty);
             }
@@ -690,7 +690,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 RestoreBrush(_needleBrush, NeedleBrushProperty);
                 RestoreBrush(_trailBrush, TrailBrushProperty);
                 RestoreBrush(_scaleBrush, ScaleBrushProperty);
-                RestoreBrush(_scaleBrush, ScaleTickBrushProperty);
+                RestoreBrush(_scaleTickBrush, ScaleTickBrushProperty);
                 RestoreBrush(_tickBrush, TickBrushProperty);
                 RestoreBrush(_foreground, ForegroundProperty);
             }

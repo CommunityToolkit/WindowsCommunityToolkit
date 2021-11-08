@@ -365,8 +365,8 @@ namespace CommunityToolkit.WinUI.UI.Animations
                     Property,
                     To,
                     From,
-                    Duration,
                     Delay,
+                    Duration,
                     EasingType.ToEasingFunction(EasingMode),
                     Repeat.ToRepeatBehavior());
             }
