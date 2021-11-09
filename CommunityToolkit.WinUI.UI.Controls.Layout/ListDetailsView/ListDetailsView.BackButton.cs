@@ -38,6 +38,8 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 return;
             }
 
+            SystemNavigationManager navigationManager = Window.Current == null ? null : SystemNavigationManager.GetForCurrentView();
+
             if (ViewState == ListDetailsViewState.Details)
             {
                 if (BackButtonBehavior == BackButtonBehavior.Inline && _inlineBackButton != null)
@@ -47,8 +49,7 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
                     // Continue to support the system back button if it is being used
-                    SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
-                    if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
+                    if (navigationManager?.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
                     {
                         // Setting this indicates that the system back button is being used
                         _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
@@ -66,10 +67,12 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 }
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
                 {
-                    SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
-                    _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                    if (navigationManager != null)
+                    {
+                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
 
-                    navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                        navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                    }
                 }
             }
             else if (previousState == ListDetailsViewState.Details)
@@ -96,7 +99,11 @@ namespace CommunityToolkit.WinUI.UI.Controls
                 if (_previousSystemBackButtonVisibility.HasValue)
                 {
                     // Make sure we show the back button if the stack can navigate back
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
+                    if (navigationManager != null)
+                    {
+                        navigationManager.AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
+                    }
+
                     _previousSystemBackButtonVisibility = null;
                 }
             }
