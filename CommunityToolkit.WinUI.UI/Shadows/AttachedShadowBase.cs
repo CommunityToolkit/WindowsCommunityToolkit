@@ -21,11 +21,6 @@ namespace CommunityToolkit.WinUI.UI
     public abstract class AttachedShadowBase : DependencyObject, IAttachedShadow
     {
         /// <summary>
-        /// Gets a value indicating whether or not Composition's VisualSurface is supported.
-        /// </summary>
-        protected static readonly bool SupportsCompositionVisualSurface = ApiInformation.IsTypePresent(typeof(CompositionVisualSurface).FullName);
-
-        /// <summary>
         /// The <see cref="DependencyProperty"/> for <see cref="BlurRadius"/>.
         /// </summary>
         public static readonly DependencyProperty BlurRadiusProperty =
@@ -52,11 +47,6 @@ namespace CommunityToolkit.WinUI.UI
         /// </summary>
         public static readonly DependencyProperty OpacityProperty =
             DependencyProperty.Register(nameof(Opacity), typeof(double), typeof(AttachedShadowBase), new PropertyMetadata(1d, OnDependencyPropertyChanged));
-
-        /// <summary>
-        /// Gets a value indicating whether or not this <see cref="AttachedShadowBase"/> implementation is supported on the current platform.
-        /// </summary>
-        public abstract bool IsSupported { get; }
 
         /// <summary>
         /// Gets or sets the collection of <see cref="AttachedShadowElementContext"/> for each element this <see cref="AttachedShadowBase"/> is connected to.
@@ -106,11 +96,6 @@ namespace CommunityToolkit.WinUI.UI
 
         internal void ConnectElement(FrameworkElement element)
         {
-            if (!IsSupported)
-            {
-                return;
-            }
-
             ShadowElementContextTable = ShadowElementContextTable ?? new ConditionalWeakTable<FrameworkElement, AttachedShadowElementContext>();
             if (ShadowElementContextTable.TryGetValue(element, out var context))
             {

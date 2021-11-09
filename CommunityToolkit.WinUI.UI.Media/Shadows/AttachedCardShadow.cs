@@ -49,9 +49,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         }
 
         /// <inheritdoc/>
-        public override bool IsSupported => SupportsCompositionVisualSurface;
-
-        /// <inheritdoc/>
         protected internal override bool SupportsOnSizeChangedEvent => true;
 
         /// <inheritdoc/>
@@ -76,11 +73,6 @@ namespace CommunityToolkit.WinUI.UI.Media
         /// <inheritdoc/>
         protected override CompositionBrush GetShadowMask(AttachedShadowElementContext context)
         {
-            if (!SupportsCompositionVisualSurface)
-            {
-                return null;
-            }
-
             // Create rounded rectangle geometry and add it to a shape
             var geometry = context.GetResource(RoundedRectangleGeometryResourceKey) ?? context.AddResource(
                 RoundedRectangleGeometryResourceKey,

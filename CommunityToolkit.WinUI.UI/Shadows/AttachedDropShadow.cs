@@ -23,9 +23,6 @@ namespace CommunityToolkit.WinUI.UI
         private const float MaxBlurRadius = 72;
 
         /// <inheritdoc/>
-        public override bool IsSupported => true;
-
-        /// <inheritdoc/>
         protected internal override bool SupportsOnSizeChangedEvent => true;
 
         private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> RoundedRectangleGeometryResourceKey = "RoundedGeometry";
@@ -276,7 +273,7 @@ namespace CommunityToolkit.WinUI.UI
 
                 // If we don't have a mask and have specified rounded corners, we'll generate a simple quick mask.
                 // This is the same code from link:AttachedCardShadow.cs:GetShadowMask
-                if (mask == null && SupportsCompositionVisualSurface && CornerRadius > 0)
+                if (mask == null && CornerRadius > 0)
                 {
                     // Create rounded rectangle geometry and add it to a shape
                     var geometry = context.GetResource(RoundedRectangleGeometryResourceKey) ?? context.AddResource(
