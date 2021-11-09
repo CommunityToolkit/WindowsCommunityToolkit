@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="SelectedColor"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedColorProperty =
-            DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(ColorPickerButton), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(ColorPickerButton), new PropertyMetadata(null, new PropertyChangedCallback(SelectedColorChanged)));
 
 #pragma warning disable SA1306 // Field names should begin with lower-case letter
         //// Template Parts
@@ -139,6 +139,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (CheckeredBackgroundBorder != null)
             {
                 CheckeredBackgroundBorder.Loaded += this.CheckeredBackgroundBorder_Loaded;
+            }
+        }
+
+        private static void SelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ColorPickerButton instance && !(instance.ColorPicker is null))
+            {
+                instance.ColorPicker.Color = instance.SelectedColor;
             }
         }
 
