@@ -202,9 +202,7 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Media/Shadows",
         "XamlCodeFile": "/SamplePages/Shadows/AttachedShadowWin2DXaml.bind",
         "Icon": "/SamplePages/Shadows/DropShadowPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AttachedShadows.md",
-        "BadgeUpdateVersionRequired": "May 2019 update required",
-        "ApiCheck": "Microsoft.UI.Composition.CompositionVisualSurface"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AttachedShadows.md"
       },
       {
         "Name": "DropShadowPanel",
@@ -381,7 +379,6 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/CommunityToolkit.WinUI.UI.Controls.Media/InfiniteCanvas",
         "XamlCodeFile": "InfiniteCanvas.bind",
         "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
-        "ApiCheck": "Microsoft.UI.Xaml.Controls.ColorPicker",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
       },
       {
