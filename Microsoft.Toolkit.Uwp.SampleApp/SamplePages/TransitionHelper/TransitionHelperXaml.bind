@@ -5,12 +5,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
+    <Page.Resources>
+        <animations:TransitionHelper x:Key="MyTransitionHelper">
+            <animations:TransitionHelper.AnimationConfigs>
+                <animations:AnimationConfig Id="background" ScaleMode="Scale" />
+                <animations:AnimationConfig Id="image" ScaleMode="Scale" />
+                <animations:AnimationConfig Id="guide" />
+                <animations:AnimationConfig Id="name" ScaleMode="ScaleY" />
+                <animations:AnimationConfig Id="desc" />
+            </animations:TransitionHelper.AnimationConfigs>
+        </animations:TransitionHelper>
+    </Page.Resources>
     <Grid>
         <StackPanel
             x:Name="FirstControl"
-            Margin="100, 50"
+            Margin="100,50"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Orientation="Horizontal"
@@ -37,21 +51,38 @@
                     </Border.Background>
                 </Border>
             </Grid>
-            <StackPanel animations:TransitionHelper.Id="guide"
-                    Spacing="2">
-                <Button x:Name="MinToMidButton"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}">
-                    
+            <StackPanel animations:TransitionHelper.Id="guide" Spacing="2">
+                <Button
+                    x:Name="MinToMidButton"
+                    Content="&#xE0AB;"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Click">
+                            <behaviors:StartTransitionAction
+                                Source="{Binding ElementName=FirstControl}"
+                                Target="{Binding ElementName=SecondControl}"
+                                Transition="{StaticResource MyTransitionHelper}" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
                 </Button>
-                <Button x:Name="MinToMaxButton"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}">
-                    
+                <Button
+                    x:Name="MinToMaxButton"
+                    Content="&#xE741;"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Click">
+                            <behaviors:StartTransitionAction
+                                Source="{Binding ElementName=FirstControl}"
+                                Target="{Binding ElementName=ThirdControl}"
+                                Transition="{StaticResource MyTransitionHelper}" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
                 </Button>
             </StackPanel>
         </StackPanel>
         <Grid
             x:Name="SecondControl"
-            Margin="0, 100"
+            Margin="0,100"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Visibility="Collapsed">
@@ -70,7 +101,7 @@
                 Padding="20"
                 Orientation="Horizontal"
                 Spacing="20">
-                <Border 
+                <Border
                     Width="50"
                     Height="50"
                     animations:TransitionHelper.Id="image"
@@ -86,20 +117,35 @@
                     <TextBlock animations:TransitionHelper.Id="name">Magic</TextBlock>
                     <TextBlock animations:TransitionHelper.Id="desc">Magic is a cute 😺.</TextBlock>
                 </StackPanel>
-                <StackPanel animations:TransitionHelper.Id="guide"
+                <StackPanel
+                    animations:TransitionHelper.Id="guide"
                     Orientation="Horizontal"
                     Spacing="2">
-                    <Button x:Name="MidGoBackButton"
-                            Style="{StaticResource NavigationBackButtonNormalStyle}">
-                        
+                    <Button
+                        x:Name="MidToMinButton"
+                        Content="&#xE72B;"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                        <interactivity:Interaction.Behaviors>
+                            <interactions:EventTriggerBehavior EventName="Click">
+                                <behaviors:StartTransitionAction
+                                    Source="{Binding ElementName=SecondControl}"
+                                    Target="{Binding ElementName=FirstControl}"
+                                    Transition="{StaticResource MyTransitionHelper}" />
+                            </interactions:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                     </Button>
-                    <Button x:Name="MidToMinButton"
-                            Style="{StaticResource NavigationBackButtonNormalStyle}">
-                        
-                    </Button>
-                    <Button x:Name="MidToMaxButton"
-                            Style="{StaticResource NavigationBackButtonNormalStyle}">
-                        
+                    <Button
+                        x:Name="MidToMaxButton"
+                        Content="&#xE74B;"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}">
+                        <interactivity:Interaction.Behaviors>
+                            <interactions:EventTriggerBehavior EventName="Click">
+                                <behaviors:StartTransitionAction
+                                    Source="{Binding ElementName=SecondControl}"
+                                    Target="{Binding ElementName=ThirdControl}"
+                                    Transition="{StaticResource MyTransitionHelper}" />
+                            </interactions:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -140,9 +186,7 @@
                         FontSize="24">
                         Magic
                     </TextBlock>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        animations:TransitionHelper.Id="desc">
+                    <TextBlock HorizontalAlignment="Center" animations:TransitionHelper.Id="desc">
                         Magic is a cute 😺, but sometimes very naughty.
                     </TextBlock>
                 </StackPanel>
@@ -185,23 +229,38 @@
                         RadiusY="5" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Margin="10"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    animations:TransitionHelper.Id="guide"
-                    Orientation="Horizontal"
-                    Spacing="2">
-                <Button x:Name="MaxGoBackButton"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}">
-                    
+            <StackPanel
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                animations:TransitionHelper.Id="guide"
+                Orientation="Horizontal"
+                Spacing="2">
+                <Button
+                    x:Name="MaxToMinButton"
+                    Content="&#xE742;"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Click">
+                            <behaviors:StartTransitionAction
+                                Source="{Binding ElementName=ThirdControl}"
+                                Target="{Binding ElementName=FirstControl}"
+                                Transition="{StaticResource MyTransitionHelper}" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
                 </Button>
-                <Button x:Name="MaxToMinButton"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}">
-                    
-                </Button>
-                <Button x:Name="MaxToMidButton"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}">
-                    
+                <Button
+                    x:Name="MaxToMidButton"
+                    Content="&#xE74A;"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Click">
+                            <behaviors:StartTransitionAction
+                                Source="{Binding ElementName=ThirdControl}"
+                                Target="{Binding ElementName=SecondControl}"
+                                Transition="{StaticResource MyTransitionHelper}" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
                 </Button>
             </StackPanel>
         </Grid>

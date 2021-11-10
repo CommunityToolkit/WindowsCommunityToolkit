@@ -2,7 +2,10 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     <!--
@@ -17,6 +20,14 @@
         </Grid.RowDefinitions>
         <Grid Padding="50,20">
             <TextBlock Text="Click the arrow button to view the animation." />
+            <!--  The same reason as above for animations:TransitionHelper.Id  -->
+            <Button Visibility="Collapsed">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <behaviors:StartTransitionAction />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
         </Grid>
         <Grid x:Name="XamlRoot"
               Grid.Row="1" />

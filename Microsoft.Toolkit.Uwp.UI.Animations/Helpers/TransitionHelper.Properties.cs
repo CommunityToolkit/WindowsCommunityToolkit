@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private FrameworkElement _source;
         private FrameworkElement _target;
-        private IEnumerable<AnimationConfig> _animationConfigs;
+        private List<AnimationConfig> _animationConfigs = new();
 
         /// <summary>
         /// Gets or sets the source control.
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the collection of animation configurations of UI elements that need to be connected by animation.
         /// </summary>
-        public IEnumerable<AnimationConfig> AnimationConfigs
+        public List<AnimationConfig> AnimationConfigs
         {
             get
             {
