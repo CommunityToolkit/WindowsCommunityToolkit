@@ -178,34 +178,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private async Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, AnimationConfig config, CancellationToken token)
         {
             var animationTasks = new List<Task>();
-            foreach (var animation in config.Animations)
+            var sourceBuilder = AnimationBuilder.Create();
+            var targetBuilder = AnimationBuilder.Create();
+            this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, duration);
+            this.AnimateUIElementsOpacity(sourceBuilder, targetBuilder, duration * 1 / 3); // Make opacity animation faster
+            switch (config.ScaleMode)
             {
-                var sourceBuilder = AnimationBuilder.Create();
-                var targetBuilder = AnimationBuilder.Create();
-                switch (animation)
-                {
-                    case AnimationTarget.Translation:
-                        this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, duration);
-                        break;
-                    case AnimationTarget.Scale:
-                        this.AnimateUIElementsScale(sourceBuilder, targetBuilder, source, target, duration);
-                        break;
-                    case AnimationTarget.ScaleX:
-                        this.AnimateUIElementsScaleX(sourceBuilder, targetBuilder, source, target, duration);
-                        break;
-                    case AnimationTarget.ScaleY:
-                        this.AnimateUIElementsScaleY(sourceBuilder, targetBuilder, source, target, duration);
-                        break;
-                    case AnimationTarget.Opacity:
-                        this.AnimateUIElementsOpacity(sourceBuilder, targetBuilder, duration * 1 / 3); // Make opacity animation faster
-                        break;
-                    default:
-                        break;
-                }
-
-                animationTasks.Add(sourceBuilder.StartAsync(source, token));
-                animationTasks.Add(targetBuilder.StartAsync(target, token));
+                case ScaleMode.Scale:
+                    this.AnimateUIElementsScale(sourceBuilder, targetBuilder, source, target, duration);
+                    break;
+                case ScaleMode.ScaleX:
+                    this.AnimateUIElementsScaleX(sourceBuilder, targetBuilder, source, target, duration);
+                    break;
+                case ScaleMode.ScaleY:
+                    this.AnimateUIElementsScaleY(sourceBuilder, targetBuilder, source, target, duration);
+                    break;
+                default:
+                    break;
             }
+
+            animationTasks.Add(sourceBuilder.StartAsync(source, token));
+            animationTasks.Add(targetBuilder.StartAsync(target, token));
 
             await Task.WhenAll(animationTasks);
         }

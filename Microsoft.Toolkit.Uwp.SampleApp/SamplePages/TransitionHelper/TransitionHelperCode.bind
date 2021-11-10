@@ -3,40 +3,31 @@ var transitionHelper = new TransitionHelper();
 
 // Configure TransitionHelper.
 transitionHelper.AnimationConfigs = new AnimationConfig[]
-{
-    new AnimationConfig
     {
-        Id = "background",
-        AdditionalAnimations = new AnimationTarget[]
+        new AnimationConfig
         {
-            AnimationTarget.Scale,
+            Id = "background",
+            ScaleMode = ScaleMode.Scale
         },
-    },
-    new AnimationConfig
-    {
-        Id = "image",
-        AdditionalAnimations = new AnimationTarget[]
+        new AnimationConfig
         {
-            AnimationTarget.Scale,
+            Id = "image",
+            ScaleMode = ScaleMode.Scale
         },
-    },
-    new AnimationConfig
-    {
-        Id = "guide",
-    },
-    new AnimationConfig
-    {
-        Id = "name",
-        AdditionalAnimations = new AnimationTarget[]
+        new AnimationConfig
         {
-            AnimationTarget.ScaleY,
+            Id = "guide",
         },
-    },
-    new AnimationConfig
-    {
-        Id = "desc",
-    },
-};
+        new AnimationConfig
+        {
+            Id = "name",
+            ScaleMode = ScaleMode.ScaleY
+        },
+        new AnimationConfig
+        {
+            Id = "desc",
+        },
+    };
 transitionHelper.Source = FirstControl;
 transitionHelper.Target = SecondControl;
 

@@ -32,18 +32,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AnimationConfig
                 {
                     Id = "background",
-                    AdditionalAnimations = new AnimationTarget[]
-                    {
-                        AnimationTarget.Scale,
-                    },
+                    ScaleMode = ScaleMode.Scale
                 },
                 new AnimationConfig
                 {
                     Id = "image",
-                    AdditionalAnimations = new AnimationTarget[]
-                    {
-                        AnimationTarget.Scale,
-                    },
+                    ScaleMode = ScaleMode.Scale
                 },
                 new AnimationConfig
                 {
@@ -52,10 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new AnimationConfig
                 {
                     Id = "name",
-                    AdditionalAnimations = new AnimationTarget[]
-                    {
-                        AnimationTarget.ScaleY,
-                    },
+                    ScaleMode = ScaleMode.ScaleY
                 },
                 new AnimationConfig
                 {
