@@ -19,8 +19,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// </summary>
         public TransitionHelper Transition
         {
-            get => (TransitionHelper)GetValue(TransitionProperty);
-            set => SetValue(TransitionProperty, value);
+            get
+            {
+                return (TransitionHelper)this.GetValue(TransitionProperty);
+            }
+
+            set
+            {
+                this.SetValue(TransitionProperty, value);
+            }
         }
 
         /// <summary>
@@ -37,8 +44,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// </summary>
         public FrameworkElement Source
         {
-            get => (FrameworkElement)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get
+            {
+                return (FrameworkElement)this.GetValue(SourceProperty);
+            }
+
+            set
+            {
+                this.SetValue(SourceProperty, value);
+            }
         }
 
         /// <summary>
@@ -55,8 +69,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// </summary>
         public FrameworkElement Target
         {
-            get => (FrameworkElement)GetValue(TargetProperty);
-            set => SetValue(TargetProperty, value);
+            get
+            {
+                return (FrameworkElement)this.GetValue(TargetProperty);
+            }
+
+            set
+            {
+                this.SetValue(TargetProperty, value);
+            }
         }
 
         /// <summary>
@@ -71,24 +92,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <inheritdoc/>
         public object Execute(object sender, object parameter)
         {
-            if (Transition is null)
+            if (this.Transition is null)
             {
-                throw new ArgumentNullException(nameof(Transition));
+                throw new ArgumentNullException(nameof(this.Transition));
             }
 
-            if (Source is null)
+            if (this.Source is null)
             {
-                throw new ArgumentNullException(nameof(Source));
+                throw new ArgumentNullException(nameof(this.Source));
             }
 
-            if (Target is null)
+            if (this.Target is null)
             {
-                throw new ArgumentNullException(nameof(Target));
+                throw new ArgumentNullException(nameof(this.Target));
             }
 
-            Transition.Source = Source;
-            Transition.Target = Target;
-            _ = Transition.AnimateAsync();
+            this.Transition.Source = this.Source;
+            this.Transition.Target = this.Target;
+            _ = this.Transition.AnimateAsync();
 
             return null;
         }

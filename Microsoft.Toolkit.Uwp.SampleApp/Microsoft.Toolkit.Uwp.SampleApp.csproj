@@ -297,7 +297,7 @@
     <Content Include="SamplePages\PersonView\PersonView.png" />
     -->
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
-    <Content Include="SamplePages\TransitionHelper\TransitionHelper.png" />
+    <Content Include="SamplePages\Animations\Helpers\TransitionHelper.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
@@ -563,9 +563,6 @@
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\TransitionHelper\TransitionHelperPage.xaml.cs">
-      <DependentUpon>TransitionHelperPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml.cs">
       <DependentUpon>FullScreenModeStateTriggerPage.xaml</DependentUpon>
     </Compile>
@@ -648,8 +645,8 @@
     <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
-    <Content Include="SamplePages\TransitionHelper\TransitionHelperCode.bind" />
-    <Content Include="SamplePages\TransitionHelper\TransitionHelperXaml.bind" />
+    <Content Include="SamplePages\Animations\Helpers\TransitionHelperCode.bind" />
+    <Content Include="SamplePages\Animations\Helpers\TransitionHelperXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1114,10 +1111,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Content>
-    <Page Include="SamplePages\TransitionHelper\TransitionHelperPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\Triggers\FullScreenModeStateTriggerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

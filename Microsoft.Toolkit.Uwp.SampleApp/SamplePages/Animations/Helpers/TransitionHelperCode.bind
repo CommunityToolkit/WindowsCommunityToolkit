@@ -2,7 +2,7 @@
 var transitionHelper = new TransitionHelper();
 
 // Configure TransitionHelper.
-transitionHelper.AnimationConfigs = new AnimationConfig[]
+transitionHelper.AnimationConfigs = new List<AnimationConfig>
     {
         new AnimationConfig
         {
