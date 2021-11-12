@@ -42,7 +42,7 @@ namespace UITests.Tests
             var redButton = new Button(FindElement.ById("SetRedButton"));
 
             Verify.IsNotNull(colorpicker);
-            Verify.IsNotNull(colorpicker);
+            Verify.IsNotNull(redButton);
 
             colorpicker.Click();
 
