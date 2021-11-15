@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
     /// A animation helper that morphs between two controls.
     /// </summary>
+    [ContentProperty(Name = nameof(AnimationConfigs))]
     public sealed partial class TransitionHelper
     {
         private readonly Dictionary<string, UIElement> sourceAnimatedElements = new();

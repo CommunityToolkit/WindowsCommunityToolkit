@@ -13,13 +13,11 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ani:TransitionHelper x:Key="MyTransitionHelper">
-            <ani:TransitionHelper.AnimationConfigs>
-                <ani:AnimationConfig Id="background" ScaleMode="Scale" />
-                <ani:AnimationConfig Id="image" ScaleMode="Scale" />
-                <ani:AnimationConfig Id="guide" />
-                <ani:AnimationConfig Id="name" ScaleMode="ScaleY" />
-                <ani:AnimationConfig Id="desc" />
-            </ani:TransitionHelper.AnimationConfigs>
+            <ani:AnimationConfig Id="background" ScaleMode="Scale" />
+            <ani:AnimationConfig Id="image" ScaleMode="Scale" />
+            <ani:AnimationConfig Id="guide" />
+            <ani:AnimationConfig Id="name" ScaleMode="ScaleY" />
+            <ani:AnimationConfig Id="desc" />
         </ani:TransitionHelper>
     </Page.Resources>
     <Grid>
