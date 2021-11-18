@@ -23,8 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 
         /// <summary>
         /// Gets or sets the duration of the notification.
-        /// Use <see cref="TimeSpan.MinValue"/> for a persistent notification.
+        /// Set to null for persistent notification.
         /// </summary>
-        public TimeSpan Duration { get; set; }
+        public TimeSpan? Duration { get; set; }
     }
 }

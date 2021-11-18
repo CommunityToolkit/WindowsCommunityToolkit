@@ -14,15 +14,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// </summary>
     public class StackedNotificationsBehavior : BehaviorBase<InfoBar>
     {
-        private readonly List<Notification> _stackedNotifications;
+        private readonly Queue<Notification> _stackedNotifications;
         private readonly DispatcherQueueTimer _dismissTimer;
+        private Notification _currentNotification;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StackedNotificationsBehavior"/> class.
         /// </summary>
         public StackedNotificationsBehavior()
         {
-            _stackedNotifications = new List<Notification>();
+            _stackedNotifications = new Queue<Notification>();
 
             var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             _dismissTimer = dispatcherQueue.CreateTimer();
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <param name="notification">The notification to display.</param>
         public void Show(Notification notification)
         {
-            _stackedNotifications.Add(notification);
+            _stackedNotifications.Enqueue(notification);
             ShowNext();
         }
 
@@ -43,6 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         protected override bool Initialize()
         {
             AssociatedObject.Closed += OnInfoBarClosed;
+            AssociatedObject.PointerEntered += OnPointerEntered;
+            AssociatedObject.PointerExited += OnPointedExited;
             return true;
         }
 
@@ -50,6 +53,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         protected override bool Uninitialize()
         {
             AssociatedObject.Closed -= OnInfoBarClosed;
+            AssociatedObject.PointerEntered -= OnPointerEntered;
+            AssociatedObject.PointerExited -= OnPointedExited;
             return true;
         }
 
@@ -70,33 +75,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             StopTimer();
             AssociatedObject.IsOpen = false;
 
-            if (_stackedNotifications.Count == 0)
+            if (!_stackedNotifications.TryDequeue(out var notificationToDisplay))
             {
+                _currentNotification = null;
                 return;
             }
 
-            var notificationToDisplay = _stackedNotifications[0];
-            _stackedNotifications.RemoveAt(0);
-
+            _currentNotification = notificationToDisplay;
             AssociatedObject.SetNotification(notificationToDisplay);
             AssociatedObject.IsOpen = true;
 
             StartTimer(notificationToDisplay.Duration);
         }
 
-        private void StartTimer(TimeSpan duration)
+        private void StartTimer(TimeSpan? duration)
         {
-            if (duration == default)
+            if (duration is null)
             {
                 return;
             }
 
-            _dismissTimer.Interval = duration;
+            _dismissTimer.Interval = duration.Value;
             _dismissTimer.Start();
         }
 
         private void StopTimer() => _dismissTimer.Stop();
 
         private void OnTimerTick(DispatcherQueueTimer sender, object args) => AssociatedObject.IsOpen = false;
+
+        private void OnPointedExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e) => StartTimer(_currentNotification?.Duration);
+
+        private void OnPointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e) => StopTimer();
     }
 }
