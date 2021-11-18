@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Collections;
+using CommunityToolkit.Common.Collections;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : Collections.IIncrementalSource<IType>
+         where TSource : IIncrementalSource<IType>
     {
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 

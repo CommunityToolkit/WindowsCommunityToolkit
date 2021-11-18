@@ -5,7 +5,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Toolkit.Uwp;
 using UITests.App.Commands;
 using UITests.App.Pages;

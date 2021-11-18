@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using CommunityToolkit.Common.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample implementation of the <see cref="Collections.IIncrementalSource{TSource}"/> interface.
+    /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
     /// </summary>
-    /// <seealso cref="Collections.IIncrementalSource{TSource}"/>
-    public class PeopleSource : Collections.IIncrementalSource<Person>
+    /// <seealso cref="IIncrementalSource{TSource}"/>
+    public class PeopleSource : IIncrementalSource<Person>
     {
         private readonly List<Person> _people;
 
