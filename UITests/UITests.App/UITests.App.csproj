@@ -179,14 +179,6 @@
     <None Include="UITests.App.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj">
-      <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>Microsoft.Toolkit.HighPerformance</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj">
-      <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
-      <Name>Microsoft.Toolkit.Mvvm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
@@ -242,10 +234,6 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>Microsoft.Toolkit.Uwp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
-      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>Microsoft.Toolkit</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

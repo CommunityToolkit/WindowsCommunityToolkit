@@ -13,9 +13,4 @@
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm.SourceGenerators\Microsoft.Toolkit.Mvvm.SourceGenerators.csproj" />
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Mvvm\Microsoft.Toolkit.Mvvm.csproj" />
-  </ItemGroup>
-
 </Project>
