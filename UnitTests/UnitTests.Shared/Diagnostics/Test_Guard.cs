@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Diagnostics
@@ -146,7 +146,7 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_Guard_IsNotNullOrEmpty_Null()
         {
             Guard.IsNotNullOrEmpty(null, nameof(Test_Guard_IsNotNullOrEmpty_Null));
@@ -169,7 +169,8 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_Guard_IsNotNullOrWhiteSpace_Null()
         {
             Guard.IsNotNullOrWhiteSpace(null, nameof(Test_Guard_IsNotNullOrWhiteSpace_Null));

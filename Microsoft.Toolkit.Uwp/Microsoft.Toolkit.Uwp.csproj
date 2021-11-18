@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" Version="7.1.1-preview3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
   </ItemGroup>
 

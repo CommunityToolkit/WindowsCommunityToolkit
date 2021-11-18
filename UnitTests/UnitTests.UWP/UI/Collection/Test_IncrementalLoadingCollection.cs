@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Common;
+using CommunityToolkit.Common.Collections;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -98,7 +100,7 @@ namespace UnitTests.UI
         {
             var allData = Enumerable.Range(0, pages * pageSize).ToArray();
             var source = new DataSource<int>(allData, FailPassSequence);
-            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
+            var collection = new IncrementalLoadingCollection<DataSource< int>, int> (source, pageSize);
 
             var willFail = true;
             for (var submitedRequests = 0; submitedRequests < pages * 2; submitedRequests++)
