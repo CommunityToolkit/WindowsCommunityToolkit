@@ -41,6 +41,16 @@ namespace System
         /// <param name="target">The target object to pass as argument to <paramref name="callback"/>.</param>
         public static void Register(Action<object> callback, object target)
         {
+#if NETSTANDARD2_0
+            if (RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework"))
+            {
+                // On .NET Framework using a GC callback causes issues with app domain unloading,
+                // so the callback is not registered if that runtime is detected and just ignored.
+                // Users on .NET Framework will have to manually trim the messenger, if they'd like.
+                return;
+            }
+#endif
+
             _ = new Gen2GcCallback(callback, target);
         }
 
