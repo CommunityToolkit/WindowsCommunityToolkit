@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Load()
         {
             SampleController.Current.RegisterNewCommand(
-                "Show notification with random text",
+                "Show information notification",
                 (s, a) =>
                 {
                     var notification = new Notification
@@ -40,6 +40,48 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
                         Duration = TimeSpan.FromSeconds(10),
+                        Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational,
+                    };
+                    stackedNotificationBehavior.Show(notification);
+                });
+            SampleController.Current.RegisterNewCommand(
+                "Show error notification",
+                (s, a) =>
+                {
+                    var notification = new Notification
+                    {
+                        Title = $"Notification {DateTimeOffset.Now}",
+                        Message = GetRandomText(),
+                        Duration = TimeSpan.FromSeconds(10),
+                        Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error,
+                    };
+                    stackedNotificationBehavior.Show(notification);
+                });
+            SampleController.Current.RegisterNewCommand(
+                "Show notification with action",
+                (s, a) =>
+                {
+                    var notification = new Notification
+                    {
+                        Title = $"Notification {DateTimeOffset.Now}",
+                        Message = GetRandomText(),
+                        Duration = TimeSpan.FromSeconds(10),
+                        Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning,
+                        ActionButton = new Button { Content = "Action" }
+                    };
+                    stackedNotificationBehavior.Show(notification);
+                });
+            SampleController.Current.RegisterNewCommand(
+                "Show notification with custom content",
+                (s, a) =>
+                {
+                    var notification = new Notification
+                    {
+                        Title = $"Notification {DateTimeOffset.Now}",
+                        Message = GetRandomText(),
+                        Duration = TimeSpan.FromSeconds(10),
+                        Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning,
+                        Content = new TextBlock { Text = "Custom content" }
                     };
                     stackedNotificationBehavior.Show(notification);
                 });
