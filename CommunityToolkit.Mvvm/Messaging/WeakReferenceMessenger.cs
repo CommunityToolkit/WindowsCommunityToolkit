@@ -30,6 +30,7 @@ namespace CommunityToolkit.Mvvm.Messaging
     /// The <see cref="WeakReferenceMessenger"/> type will automatically perform internal trimming when
     /// full GC collections are invoked, so calling <see cref="Cleanup"/> manually is not necessary to
     /// ensure that on average the internal data structures are as trimmed and compact as possible.
+    /// Note: this is not supported when running on .NET Framework, due to app domain unloading issues.
     /// </para>
     /// </remarks>
     public sealed class WeakReferenceMessenger : IMessenger

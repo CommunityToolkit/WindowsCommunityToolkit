@@ -56,7 +56,7 @@
       <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
     </PackageReference>
     <PackageReference Include="Microsoft.Graphics.Win2D">
-      <Version>1.0.0.29-preview3</Version>
+      <Version>1.0.0.30</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

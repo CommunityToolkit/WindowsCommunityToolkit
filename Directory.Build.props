@@ -22,8 +22,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageOutputPath>$(RepositoryDirectory)bin\nupkg</PackageOutputPath>
         <GenerateLibraryLayout Condition="$(IsWinUIProject)">true</GenerateLibraryLayout>
-        <!-- Turned off until 16.11 (https://github.com/dotnet/msbuild/pull/6676) -->
-        <!--<TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>-->
+        <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
       </PropertyGroup>
     </When>
     <Otherwise>

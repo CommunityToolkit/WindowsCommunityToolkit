@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.WinUI" Version="2.0.12" />
+    <PackageReference Include="ColorCode.WinUI" Version="2.0.13" />
   </ItemGroup>
 
   <Import Project="$(BuildToolsDirectory)Windows.Toolkit.WinUI.Controls.targets" />

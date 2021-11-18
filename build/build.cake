@@ -145,7 +145,7 @@ Task("Verify")
 {
     VerifyHeaders(false);
 
-    StartPowershellFile("./Find-WindowsSDKVersions.ps1");
+    // StartPowershellFile("./Find-WindowsSDKVersions.ps1");
 });
 
 Task("Version")

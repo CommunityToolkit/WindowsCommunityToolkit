@@ -9,17 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(WindowsAppSDKVersion)" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="@(None->WithMetadataValue('Pack','true'))" />
   </ItemGroup>
-
-  <!-- Workaround for https://github.com/microsoft/WindowsAppSDK/issues/1217 -->
-  <Target Name="FixReferenceCopyLocalPaths" BeforeTargets="ResolvePackageAssets">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="$(PkgMicrosoft_WindowsAppSDK)\build\..\runtimes\lib\native\AnyCPU\Microsoft.WindowsAppRuntime.Bootstrap.dll"/>
-    </ItemGroup>
-  </Target>
+  
 </Project>
