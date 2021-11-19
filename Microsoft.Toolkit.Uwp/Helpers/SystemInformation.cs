@@ -6,7 +6,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Helpers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Security.ExchangeActiveSyncProvisioning;

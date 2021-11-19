@@ -100,7 +100,7 @@ namespace UnitTests.UI
         {
             var allData = Enumerable.Range(0, pages * pageSize).ToArray();
             var source = new DataSource<int>(allData, FailPassSequence);
-            var collection = new IncrementalLoadingCollection<DataSource< int>, int> (source, pageSize);
+            var collection = new IncrementalLoadingCollection<DataSource<int>, int>(source, pageSize);
 
             var willFail = true;
             for (var submitedRequests = 0; submitedRequests < pages * 2; submitedRequests++)
