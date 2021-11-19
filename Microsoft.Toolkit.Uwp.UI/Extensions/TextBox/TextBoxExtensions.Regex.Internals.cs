@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using CommunityToolkit.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
