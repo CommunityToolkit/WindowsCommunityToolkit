@@ -165,12 +165,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Common" Version="7.1.1-preview3.1" />
+    <PackageReference Include="CommunityToolkit.Common" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.Diagnostics">
-      <Version>7.0.3</Version>
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>7.0.3</Version>
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
