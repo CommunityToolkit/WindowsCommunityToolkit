@@ -119,12 +119,12 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Common" Version="7.1.1-preview3.1" />
+    <PackageReference Include="CommunityToolkit.Common" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.Diagnostics">
-      <Version>7.0.3</Version>
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>7.0.3</Version>
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>5.0.2</Version>
