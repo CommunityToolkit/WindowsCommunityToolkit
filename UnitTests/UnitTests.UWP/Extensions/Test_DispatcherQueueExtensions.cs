@@ -287,5 +287,167 @@ namespace UnitTests.Extensions
             Assert.IsNotNull(task.Exception);
             Assert.IsInstanceOfType(task.Exception.InnerExceptions.FirstOrDefault(), typeof(ArgumentException));
         }
+
+        [TestCategory("DispatcherQueueExtensions")]
+        [TestMethod]
+        public async Task Test_DispatcherQueueExtensions_Stateful_TryEnqueueT1_Ok_NonUIThread()
+        {
+            TaskCompletionSource taskSource = new();
+
+            _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    try
+                    {
+                        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+                        bool success = dispatcherQueue.TryEnqueue(x =>
+                        {
+                            Assert.AreEqual(x, nameof(Test_DispatcherQueueExtensions_Stateful_TryEnqueueT1_Ok_NonUIThread));
+
+                            var textBlock = new TextBlock { Text = x };
+
+                            Assert.AreEqual(textBlock.Text, x);
+
+                            taskSource.SetResult();
+                        }, nameof(Test_DispatcherQueueExtensions_Stateful_TryEnqueueT1_Ok_NonUIThread));
+
+                        if (!success)
+                        {
+                            taskSource.SetException(new Exception("Failed to enqueue task"));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        taskSource.SetException(e);
+                    }
+                });
+
+            return taskSource.Task;
+        }
+
+        [TestCategory("DispatcherQueueExtensions")]
+        [TestMethod]
+        public async Task Test_DispatcherQueueExtensions_Stateful_TryEnqueueT1T2_Ok_NonUIThread()
+        {
+            TaskCompletionSource taskSource = new();
+
+            _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    try
+                    {
+                        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+                        bool success = dispatcherQueue.TryEnqueue((x, tcs) =>
+                        {
+                            Assert.AreEqual(x, nameof(Test_DispatcherQueueExtensions_Stateful_TryEnqueueT1T2_Ok_NonUIThread));
+                            Assert.AreSame(tcs, taskSource);
+
+                            var textBlock = new TextBlock { Text = x };
+
+                            Assert.AreEqual(textBlock.Text, x);
+
+                            tcs.SetResult();
+                        }, nameof(Test_DispatcherQueueExtensions_Stateful_TryEnqueueT1T2_Ok_NonUIThread), taskSource);
+
+                        if (!success)
+                        {
+                            taskSource.SetException(new Exception("Failed to enqueue task"));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        taskSource.SetException(e);
+                    }
+                });
+
+            return taskSource.Task;
+        }
+
+        [TestCategory("DispatcherQueueExtensions")]
+        [TestMethod]
+        public async Task Test_DispatcherQueueExtensions_Stateful_WithPriority_TryEnqueueT1_Ok_NonUIThread()
+        {
+            TaskCompletionSource taskSource = new();
+
+            _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    try
+                    {
+                        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+                        bool success = dispatcherQueue.TryEnqueue(
+                            DispatcherQueuePriority.Normal,
+                            x =>
+                        {
+                            Assert.AreEqual(x, nameof(Test_DispatcherQueueExtensions_Stateful_WithPriority_TryEnqueueT1_Ok_NonUIThread));
+
+                            var textBlock = new TextBlock { Text = x };
+
+                            Assert.AreEqual(textBlock.Text, x);
+
+                            taskSource.SetResult();
+                        }, nameof(Test_DispatcherQueueExtensions_Stateful_WithPriority_TryEnqueueT1_Ok_NonUIThread));
+
+                        if (!success)
+                        {
+                            taskSource.SetException(new Exception("Failed to enqueue task"));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        taskSource.SetException(e);
+                    }
+                });
+
+            return taskSource.Task;
+        }
+
+        [TestCategory("DispatcherQueueExtensions")]
+        [TestMethod]
+        public async Task Test_DispatcherQueueExtensions_Stateful_WithPriority_TryEnqueueT1T2_Ok_NonUIThread()
+        {
+            TaskCompletionSource taskSource = new();
+
+            _ = CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    try
+                    {
+                        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+
+                        bool success = dispatcherQueue.TryEnqueue(
+                            DispatcherQueuePriority.Normal,
+                            (x, tcs) =>
+                        {
+                            Assert.AreEqual(x, nameof(Test_DispatcherQueueExtensions_Stateful_WithPriority_TryEnqueueT1T2_Ok_NonUIThread));
+                            Assert.AreSame(tcs, taskSource);
+
+                            var textBlock = new TextBlock { Text = x };
+
+                            Assert.AreEqual(textBlock.Text, x);
+
+                            tcs.SetResult();
+                        }, nameof(Test_DispatcherQueueExtensions_Stateful_WithPriority_TryEnqueueT1T2_Ok_NonUIThread), taskSource);
+
+                        if (!success)
+                        {
+                            taskSource.SetException(new Exception("Failed to enqueue task"));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        taskSource.SetException(e);
+                    }
+                });
+
+            return taskSource.Task;
+        }
     }
 }

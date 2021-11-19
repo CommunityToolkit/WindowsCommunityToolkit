@@ -8,6 +8,7 @@
     <Title>Windows Community Toolkit - Common (UWP)</Title>
     <Description>This package includes code only helpers such as Color conversion tool, Storage file handling, a Stream helper class, SystemInformation helpers, etc.</Description>
     <PackageTags>Storage;File;Folder;Color;Conversion;Stream;Helpers;Extensions;System;Information</PackageTags>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
