@@ -57,7 +57,7 @@ namespace UnitTests.WinUI.UI.Controls
 
                 await App.DispatcherQueue.EnqueueAsync(() => firsttb.Focus(FocusState.Programmatic));
 
-                Assert.AreEqual(firsttb, FocusManager.GetFocusedElement(), "TextBox didn't get focus");
+                Assert.AreEqual(firsttb, FocusManager.GetFocusedElement(listDetailsView.XamlRoot), "TextBox didn't get focus");
 
                 var tcs = new TaskCompletionSource<bool>();
 
@@ -94,7 +94,7 @@ namespace UnitTests.WinUI.UI.Controls
 
                 await App.DispatcherQueue.EnqueueAsync(() => firsttb.Focus(FocusState.Programmatic));
 
-                Assert.AreEqual(firsttb, FocusManager.GetFocusedElement(), "TextBox didn't get focus");
+                Assert.AreEqual(firsttb, FocusManager.GetFocusedElement(listDetailsView.XamlRoot), "TextBox didn't get focus");
 
                 var tcs = new TaskCompletionSource<bool>();
 
