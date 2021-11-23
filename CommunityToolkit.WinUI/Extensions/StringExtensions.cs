@@ -47,7 +47,18 @@ namespace CommunityToolkit.WinUI
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey)
         {
-            return ResourceManager.MainResourceMap.TryGetValue(resourceKey)?.ValueAsString;
+            var result = ResourceManager.MainResourceMap.TryGetValue(resourceKey)?.ValueAsString;
+
+            if (string.IsNullOrEmpty(result))
+            {
+                var r = ResourceManager.MainResourceMap.TryGetSubtree("Resources")?.TryGetValue(resourceKey);
+                if (r != null)
+                {
+                    result = r.ValueAsString;
+                }
+            }
+
+            return result;
         }
 
         /*
@@ -79,11 +90,15 @@ namespace CommunityToolkit.WinUI
 
             if (string.IsNullOrEmpty(result))
             {
-                var manager = new ResourceManager();
-                var subTree = manager.MainResourceMap.TryGetSubtree(resourcePath);
-                if (subTree != null)
+                var r = ResourceManager.MainResourceMap.TryGetSubtree("Resources")?.TryGetValue(resourceKey);
+                if (r != null)
                 {
-                    var r = subTree.TryGetValue(resourceKey);
+                    result = r.ValueAsString;
+                }
+
+                if (string.IsNullOrEmpty(result))
+                {
+                    r = ResourceManager.MainResourceMap.TryGetSubtree(resourcePath)?.TryGetValue(resourceKey);
                     if (r != null)
                     {
                         result = r.ValueAsString;
