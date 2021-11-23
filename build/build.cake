@@ -258,30 +258,6 @@ Task("Test")
     };
 
     VSTest(baseDir + $"/**/{configuration}/**/UnitTests.*.appxrecipe", testSettings);
-}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.*NetCore.csproj"), (file) =>
-{
-    Information("\nRunning NetCore Unit Tests");
-    var testSettings = new DotNetCoreTestSettings
-    {
-        Configuration = configuration,
-        NoBuild = true,
-        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
-        Verbosity = DotNetCoreVerbosity.Normal,
-        ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings /p:Platform=AnyCPU"),
-    };
-    DotNetCoreTest(file.FullPath, testSettings);
-}).DoesForEach(GetFiles(baseDir + "/**/UnitTests.SourceGenerators.csproj"), (file) =>
-{
-    Information("\nRunning NetCore Source Generator Unit Tests");
-    var testSettings = new DotNetCoreTestSettings
-    {
-        Configuration = configuration,
-        NoBuild = true,
-        Loggers = new[] { "trx;LogFilePrefix=VsTestResults" },
-        Verbosity = DotNetCoreVerbosity.Normal,
-        ArgumentCustomization = arg => arg.Append($"-s {baseDir}/.runsettings /p:Platform=AnyCPU"),
-    };
-    DotNetCoreTest(file.FullPath, testSettings);
 }).DeferOnError();
 
 Task("UITest")
