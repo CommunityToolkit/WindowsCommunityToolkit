@@ -35,10 +35,9 @@ namespace UnitTests
                     content.Loaded -= Callback;
 
                     // Wait for first Render pass
-                    await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() =>
-                    {
-                        taskCompletionSource.SetResult(true);
-                    });
+                    await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
+
+                    taskCompletionSource.SetResult(true);
                 }
 
                 // Going to wait for our original content to unload
