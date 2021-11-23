@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.6-preview-20211011-01" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.6-preview-20211011-01" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0-preview-20211109-03" />
   </ItemGroup>
 
   <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />

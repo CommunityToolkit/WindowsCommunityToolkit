@@ -43,7 +43,7 @@
       <Version>2.2.6-preview-20211011-01</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.TestPlatform.TestHost">
-      <Version>17.1.0-preview-20210908-01</Version>
+      <Version>17.1.0-preview-20211109-03</Version>
       <ExcludeAssets>build</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
