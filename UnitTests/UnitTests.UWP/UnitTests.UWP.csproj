@@ -123,9 +123,6 @@
     <PackageReference Include="CommunityToolkit.Diagnostics">
       <Version>7.1.2</Version>
     </PackageReference>
-    <PackageReference Include="CommunityToolkit.Mvvm">
-      <Version>7.1.2</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>5.0.2</Version>
     </PackageReference>
