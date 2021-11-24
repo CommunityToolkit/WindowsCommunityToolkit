@@ -212,6 +212,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 return;
             }
 
+            // Create a rounded rectangle Visual with a thick outline and no fill, then use a VisualSurface of it as an opacity mask for the shadow.
+            // This will have the effect of clipping the inner content of the shadow, so that the casting element is not covered by the shadow,
+            // while the shadow is still rendered outside of the element. Similar to what takes place in GetVisualClip,
+            // except here we use a brush to mask content instead of a pure geometric clip.
             var shapeVisual = context.GetResource(OpacityMaskShapeVisualResourceKey) ??
                 context.AddResource(OpacityMaskShapeVisualResourceKey, context.Compositor.CreateShapeVisual());
 
