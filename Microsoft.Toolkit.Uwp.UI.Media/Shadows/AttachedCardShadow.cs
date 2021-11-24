@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -20,9 +21,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public sealed class AttachedCardShadow : AttachedShadowBase
     {
         private const float MaxBlurRadius = 72;
-        private static readonly TypedResourceKey<CompositionGeometricClip> ClipResourceKey = "Clip";
 
+        private static readonly TypedResourceKey<CompositionGeometricClip> ClipResourceKey = "Clip";
         private static readonly TypedResourceKey<CompositionPathGeometry> PathGeometryResourceKey = "PathGeometry";
+        private static readonly TypedResourceKey<CompositionMaskBrush> OpacityMaskBrushResourceKey = "OpacityMask";
+        private static readonly TypedResourceKey<ShapeVisual> OpacityMaskShapeVisualResourceKey = "OpacityMaskShapeVisual";
+        private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> OpacityMaskGeometryResourceKey = "OpacityMaskGeometry";
+        private static readonly TypedResourceKey<CompositionSpriteShape> OpacityMaskSpriteShapeResourceKey = "OpacityMaskSpriteShape";
+        private static readonly TypedResourceKey<CompositionVisualSurface> OpacityMaskShapeVisualSurfaceResourceKey = "OpacityMaskShapeVisualSurface";
+        private static readonly TypedResourceKey<CompositionSurfaceBrush> OpacityMaskShapeVisualSurfaceBrushResourceKey = "OpacityMaskShapeVisualSurfaceBrush";
+        private static readonly TypedResourceKey<CompositionVisualSurface> OpacityMaskVisualSurfaceResourceKey = "OpacityMaskVisualSurface";
+        private static readonly TypedResourceKey<CompositionSurfaceBrush> OpacityMaskSurfaceBrushResourceKey = "OpacityMaskSurfaceBrush";
+        private static readonly TypedResourceKey<SpriteVisual> OpacityMaskVisualResourceKey = "OpacityMaskVisual";
         private static readonly TypedResourceKey<CompositionRoundedRectangleGeometry> RoundedRectangleGeometryResourceKey = "RoundedGeometry";
         private static readonly TypedResourceKey<CompositionSpriteShape> ShapeResourceKey = "Shape";
         private static readonly TypedResourceKey<ShapeVisual> ShapeVisualResourceKey = "ShapeVisual";
@@ -40,12 +50,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 new PropertyMetadata(4d, OnDependencyPropertyChanged)); // Default WinUI ControlCornerRadius is 4
 
         /// <summary>
+        /// The <see cref="DependencyProperty"/> for <see cref="InnerContentClipMode"/>.
+        /// </summary>
+        public static readonly DependencyProperty InnerContentClipModeProperty =
+            DependencyProperty.Register(
+                nameof(InnerContentClipMode),
+                typeof(InnerContentClipMode),
+                typeof(AttachedCardShadowBase),
+                new PropertyMetadata(InnerContentClipMode.CompositionGeometricClip, OnDependencyPropertyChanged));
+
+        /// <summary>
         /// Gets or sets the roundness of the shadow's corners.
         /// </summary>
         public double CornerRadius
         {
             get => (double)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the mode use to clip inner content from the shadow.
+        /// </summary>
+        public InnerContentClipMode InnerContentClipMode
+        {
+            get => (InnerContentClipMode)GetValue(InnerContentClipModeProperty);
+            set => SetValue(InnerContentClipModeProperty, value);
         }
 
         /// <inheritdoc/>
@@ -55,22 +84,137 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected internal override bool SupportsOnSizeChangedEvent => true;
 
         /// <inheritdoc/>
-        protected override void OnPropertyChanged(AttachedShadowElementContext context, DependencyProperty property, object oldValue, object newValue)
+        protected internal override void OnElementContextInitialized(AttachedShadowElementContext context)
         {
-            if (property == CornerRadiusProperty)
-            {
-                var geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
-                if (geometry != null)
-                {
-                    geometry.CornerRadius = new Vector2((float)(double)newValue);
-                }
+            UpdateVisualOpacityMask(context);
+            base.OnElementContextInitialized(context);
+        }
 
-                UpdateShadowClip(context);
+        /// <inheritdoc/>
+        protected override void SetElementChildVisual(AttachedShadowElementContext context)
+        {
+            if (context.TryGetResource(OpacityMaskShapeVisualSurfaceBrushResourceKey, out var opacityMask))
+            {
+                var visualSurface = context.GetResource(OpacityMaskVisualSurfaceResourceKey) ??
+                    context.AddResource(OpacityMaskVisualSurfaceResourceKey, context.Compositor.CreateVisualSurface());
+                visualSurface.SourceVisual = context.SpriteVisual;
+                context.SpriteVisual.RelativeSizeAdjustment = Vector2.Zero;
+                context.SpriteVisual.Size = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight);
+                visualSurface.SourceOffset = new Vector2(-MaxBlurRadius);
+                visualSurface.SourceSize = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius * 2);
+
+                var surfaceBrush = context.GetResource(OpacityMaskSurfaceBrushResourceKey) ??
+                    context.AddResource(OpacityMaskSurfaceBrushResourceKey, context.Compositor.CreateSurfaceBrush());
+                surfaceBrush.Surface = visualSurface;
+                surfaceBrush.Stretch = CompositionStretch.None;
+
+                CompositionMaskBrush maskBrush = context.GetResource(OpacityMaskBrushResourceKey) ??
+                    context.AddResource(OpacityMaskBrushResourceKey, context.Compositor.CreateMaskBrush());
+                maskBrush.Source = surfaceBrush;
+                maskBrush.Mask = opacityMask;
+
+                var visual = context.GetResource(OpacityMaskVisualResourceKey) ??
+                    context.AddResource(OpacityMaskVisualResourceKey, context.Compositor.CreateSpriteVisual());
+                visual.RelativeSizeAdjustment = Vector2.One;
+                visual.Offset = new Vector3(-MaxBlurRadius, -MaxBlurRadius, 0);
+                visual.Size = new Vector2(MaxBlurRadius * 2);
+                visual.Brush = maskBrush;
+                ElementCompositionPreview.SetElementChildVisual(context.Element, visual);
             }
             else
             {
-                base.OnPropertyChanged(context, property, oldValue, newValue);
+                base.SetElementChildVisual(context);
+                context.RemoveAndDisposeResource(OpacityMaskVisualSurfaceResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskSurfaceBrushResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskVisualResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskBrushResourceKey);
             }
+        }
+
+        /// <summary>
+        /// Updates the <see cref="CompositionBrush"/> used to mask <paramref name="context"/>.<see cref="AttachedShadowElementContext.SpriteVisual">SpriteVisual</see>.
+        /// </summary>
+        /// <param name="context">The <see cref="AttachedShadowElementContext"/> whose <see cref="SpriteVisual"/> will be masked.</param>
+        private void UpdateVisualOpacityMask(AttachedShadowElementContext context)
+        {
+            if (InnerContentClipMode != InnerContentClipMode.CompositionMaskBrush)
+            {
+                context.RemoveAndDisposeResource(OpacityMaskShapeVisualResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskGeometryResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskSpriteShapeResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskShapeVisualSurfaceResourceKey);
+                context.RemoveAndDisposeResource(OpacityMaskShapeVisualSurfaceBrushResourceKey);
+                return;
+            }
+
+            var shapeVisual = context.GetResource(OpacityMaskShapeVisualResourceKey) ??
+                context.AddResource(OpacityMaskShapeVisualResourceKey, context.Compositor.CreateShapeVisual());
+
+            CompositionRoundedRectangleGeometry geom = context.GetResource(OpacityMaskGeometryResourceKey) ??
+                context.AddResource(OpacityMaskGeometryResourceKey, context.Compositor.CreateRoundedRectangleGeometry());
+            CompositionSpriteShape shape = context.GetResource(OpacityMaskSpriteShapeResourceKey) ??
+                context.AddResource(OpacityMaskSpriteShapeResourceKey, context.Compositor.CreateSpriteShape(geom));
+
+            geom.Offset = new Vector2(MaxBlurRadius / 2);
+            geom.CornerRadius = new Vector2((MaxBlurRadius / 2) + (float)CornerRadius);
+            shape.StrokeThickness = MaxBlurRadius;
+            shape.StrokeBrush = shape.StrokeBrush ?? context.Compositor.CreateColorBrush(Colors.Black);
+
+            if (!shapeVisual.Shapes.Contains(shape))
+            {
+                shapeVisual.Shapes.Add(shape);
+            }
+
+            var visualSurface = context.GetResource(OpacityMaskShapeVisualSurfaceResourceKey) ??
+                context.AddResource(OpacityMaskShapeVisualSurfaceResourceKey, context.Compositor.CreateVisualSurface());
+            visualSurface.SourceVisual = shapeVisual;
+
+            geom.Size = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius);
+            shapeVisual.Size = visualSurface.SourceSize = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius * 2);
+
+            var surfaceBrush = context.GetResource(OpacityMaskShapeVisualSurfaceBrushResourceKey) ??
+                context.AddResource(OpacityMaskShapeVisualSurfaceBrushResourceKey, context.Compositor.CreateSurfaceBrush());
+            surfaceBrush.Surface = visualSurface;
+        }
+
+        /// <inheritdoc/>
+        protected override CompositionClip GetShadowClip(AttachedShadowElementContext context)
+        {
+            if (InnerContentClipMode != InnerContentClipMode.CompositionGeometricClip)
+            {
+                context.RemoveAndDisposeResource(PathGeometryResourceKey);
+                context.RemoveAndDisposeResource(ClipResourceKey);
+                return null;
+            }
+
+            // The way this shadow works without the need to project on another element is because
+            // we're clipping the inner part of the shadow which would be cast on the element
+            // itself away. This method is creating an outline so that we are only showing the
+            // parts of the shadow that are outside the element's context.
+            // Note: This does cause an issue if the element does clip itself to its bounds, as then
+            // the shadowed area is clipped as well.
+            var pathGeom = context.GetResource(PathGeometryResourceKey) ??
+                           context.AddResource(PathGeometryResourceKey, context.Compositor.CreatePathGeometry());
+            var clip = context.GetResource(ClipResourceKey) ?? context.AddResource(ClipResourceKey, context.Compositor.CreateGeometricClip(pathGeom));
+
+            // Create rounded rectangle geometry at a larger size that compensates for the size of the stroke,
+            // as we want the inside edge of the stroke to match the edges of the element.
+            // Additionally, the inside edge of the stroke will have a smaller radius than the radius we specified.
+            // Using "(StrokeThickness / 2) + Radius" as our rectangle's radius will give us an inside stroke radius that matches the radius we want.
+            var canvasRectangle = CanvasGeometry.CreateRoundedRectangle(
+                null,
+                -MaxBlurRadius / 2,
+                -MaxBlurRadius / 2,
+                (float)context.Element.ActualWidth + MaxBlurRadius,
+                (float)context.Element.ActualHeight + MaxBlurRadius,
+                (MaxBlurRadius / 2) + (float)CornerRadius,
+                (MaxBlurRadius / 2) + (float)CornerRadius);
+
+            var canvasStroke = canvasRectangle.Stroke(MaxBlurRadius);
+
+            pathGeom.Path = new CompositionPath(canvasStroke);
+
+            return clip;
         }
 
         /// <inheritdoc/>
@@ -112,39 +256,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         }
 
         /// <inheritdoc/>
-        protected override CompositionClip GetShadowClip(AttachedShadowElementContext context)
+        protected override void OnPropertyChanged(AttachedShadowElementContext context, DependencyProperty property, object oldValue, object newValue)
         {
-            // The way this shadow works without the need to project on another element is because
-            // we're clipping the inner part of the shadow which would be cast on the element
-            // itself away. This method is creating an outline so that we are only showing the
-            // parts of the shadow that are outside the element's context.
-            // Note: This does cause an issue if the element does clip itself to its bounds, as then
-            // the shadowed area is clipped as well.
-            var pathGeom = context.GetResource(PathGeometryResourceKey) ??
-                           context.AddResource(PathGeometryResourceKey, context.Compositor.CreatePathGeometry());
-            var clip = context.GetResource(ClipResourceKey) ?? context.AddResource(ClipResourceKey, context.Compositor.CreateGeometricClip(pathGeom));
+            if (property == CornerRadiusProperty)
+            {
+                UpdateShadowClip(context);
+                UpdateVisualOpacityMask(context);
 
-            // Create rounded rectangle geometry at a larger size that compensates for the size of the stroke,
-            // as we want the inside edge of the stroke to match the edges of the element.
-            // Additionally, the inside edge of the stroke will have a smaller radius than the radius we specified.
-            // Using "(StrokeThickness / 2) + Radius" as our rectangle's radius will give us an inside stroke radius that matches the radius we want.
-            var canvasRectangle = CanvasGeometry.CreateRoundedRectangle(
-                null,
-                -MaxBlurRadius / 2,
-                -MaxBlurRadius / 2,
-                (float)context.Element.ActualWidth + MaxBlurRadius,
-                (float)context.Element.ActualHeight + MaxBlurRadius,
-                (MaxBlurRadius / 2) + (float)CornerRadius,
-                (MaxBlurRadius / 2) + (float)CornerRadius);
+                var geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
+                if (geometry != null)
+                {
+                    geometry.CornerRadius = new Vector2((float)(double)newValue);
+                }
+            }
+            else if (property == InnerContentClipModeProperty)
+            {
+                UpdateShadowClip(context);
+                UpdateVisualOpacityMask(context);
+                SetElementChildVisual(context);
+            }
+            else
+            {
+                base.OnPropertyChanged(context, property, oldValue, newValue);
+            }
 
-            var canvasStroke = canvasRectangle.Stroke(MaxBlurRadius);
-
-            pathGeom.Path = new CompositionPath(canvasStroke);
-
-            return clip;
+            base.OnPropertyChanged(context, property, oldValue, newValue);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         protected internal override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
             var sizeAsVec2 = newSize.ToVector2();

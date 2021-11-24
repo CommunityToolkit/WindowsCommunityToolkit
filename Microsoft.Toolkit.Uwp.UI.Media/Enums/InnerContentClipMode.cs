@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
-    /// The method that shadows deriving from <see cref="AttachedCardShadowBase"/> use when clipping their inner content.
+    /// The method that each instance of <see cref="AttachedCardShadow"/> uses when clipping its inner content.
     /// </summary>
     public enum InnerContentClipMode
     {
