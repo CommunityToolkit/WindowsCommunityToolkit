@@ -10,14 +10,16 @@
       mc:Ignorable="d">
 
     <Grid>
-        <muxc:InfoBar>
+        <muxc:InfoBar MaxWidth="360"
+                      Margin="0,0,40,40"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom">
             <interactivity:Interaction.Behaviors>
                 <behaviors:StackedNotificationsBehavior x:Name="stackedNotificationBehavior" />
             </interactivity:Interaction.Behaviors>
         </muxc:InfoBar>
 
-        <StackPanel Padding="20"
-                    VerticalAlignment="Center">
+        <StackPanel Padding="20">
             <TextBox x:Name="NotificationDurationTextBox"
                      Header="Notification Duration (in ms):"
                      Text="0" />

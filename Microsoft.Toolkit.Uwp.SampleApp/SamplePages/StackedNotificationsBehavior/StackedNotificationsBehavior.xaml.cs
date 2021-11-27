@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private TimeSpan? GetDuration()
         {
-            if(!int.TryParse(NotificationDurationTextBox.Text, out var duration))
+            if(!int.TryParse(NotificationDurationTextBox.Text, out var duration) || duration <= 0)
             {
                 return null;
             }
