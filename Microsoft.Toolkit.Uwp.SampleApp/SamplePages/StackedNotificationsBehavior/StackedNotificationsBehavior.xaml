@@ -15,5 +15,14 @@
                 <behaviors:StackedNotificationsBehavior x:Name="stackedNotificationBehavior" />
             </interactivity:Interaction.Behaviors>
         </muxc:InfoBar>
+
+        <StackPanel Padding="20"
+                    VerticalAlignment="Center">
+            <TextBox x:Name="NotificationDurationTextBox"
+                     Header="Notification Duration (in ms):"
+                     Text="0" />
+            <TextBlock Margin="4,4,0,0"
+                       Text="*if duration is less or equal 0, the notification will never be dismissed" />
+        </StackPanel>
     </Grid>
 </Page>

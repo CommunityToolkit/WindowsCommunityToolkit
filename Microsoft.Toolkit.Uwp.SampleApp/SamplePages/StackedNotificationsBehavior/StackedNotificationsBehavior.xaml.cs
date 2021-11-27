@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
-                        Duration = TimeSpan.FromSeconds(10),
+                        Duration = GetDuration(),
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational,
                     };
                     stackedNotificationBehavior.Show(notification);
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
-                        Duration = TimeSpan.FromSeconds(10),
+                        Duration = GetDuration(),
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error,
                     };
                     stackedNotificationBehavior.Show(notification);
@@ -61,11 +61,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 "Show notification with action",
                 (s, a) =>
                 {
-                    var notification = new Notification
+                    var notification = new NotificationWithOverrides
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
-                        Duration = TimeSpan.FromSeconds(10),
+                        Duration = GetDuration(),
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning,
                         ActionButton = new Button { Content = "Action" }
                     };
@@ -75,16 +75,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 "Show notification with custom content",
                 (s, a) =>
                 {
-                    var notification = new Notification
+                    var notification = new NotificationWithOverrides
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
-                        Duration = TimeSpan.FromSeconds(10),
+                        Duration = GetDuration(),
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning,
                         Content = new TextBlock { Text = "Custom content" }
                     };
                     stackedNotificationBehavior.Show(notification);
                 });
+        }
+
+        private TimeSpan? GetDuration()
+        {
+            if(!int.TryParse(NotificationDurationTextBox.Text, out var duration))
+            {
+                return null;
+            }
+
+            return TimeSpan.FromMilliseconds(duration);
         }
     }
 }
