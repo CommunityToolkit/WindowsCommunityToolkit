@@ -545,7 +545,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         /// <summary>
         /// Find all first level descendant elements of the specified element. This method can be chained
-        /// with INQ calls to add additional filters or projections on top of the returned results.
+        /// with LINQ calls to add additional filters or projections on top of the returned results.
         /// </summary>
         /// <param name="element">The root element.</param>
         /// <returns>All the first level descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>
@@ -563,7 +563,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         /// <summary>
         /// Find all first level descendant elements of the specified element. This method can be chained
-        /// with INQ calls to add additional filters or projections on top of the returned results.
+        /// with LINQ calls to add additional filters or projections on top of the returned results.
         /// </summary>
         /// <param name="element">The root element.</param>
         /// <returns>All the first level descendant <see cref="DependencyObject"/> instance from <paramref name="element"/>.</returns>

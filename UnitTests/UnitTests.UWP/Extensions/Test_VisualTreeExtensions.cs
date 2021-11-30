@@ -480,10 +480,10 @@ namespace UnitTests.Extensions
                 Assert.AreEqual(5, children.Length, "Expected to find 5 children.");
 
                 Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'A'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'B'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'C'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'D'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'E'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "B"), "Couldn't find child 'B'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "C"), "Couldn't find child 'C'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "D"), "Couldn't find child 'D'");
+                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "E"), "Couldn't find child 'E'");
             });
         }
 
@@ -529,10 +529,10 @@ namespace UnitTests.Extensions
 
                 Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "RootGrid"), "Couldn't find self");
                 Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'A'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'B'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'C'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'D'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'E'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "B"), "Couldn't find child 'B'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "C"), "Couldn't find child 'C'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "D"), "Couldn't find child 'D'");
+                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "E"), "Couldn't find child 'E'");
             });
         }
 
