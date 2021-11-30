@@ -104,12 +104,6 @@ namespace CommunityToolkit.WinUI.SampleApp
         {
             ThemeInjector.InjectThemeResources(Resources);
 
-            // Go full screen on Xbox
-            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() == DeviceFormFactor.Xbox)
-            {
-                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
-            }
-
             // Initialize the constant for the app display name, used for tile and toast previews
             if (Constants.ApplicationDisplayName == null)
             {
@@ -122,6 +116,12 @@ namespace CommunityToolkit.WinUI.SampleApp
             _window = new MainWindow(launchParameters);
 
             WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(_window);
+
+            // Go full screen on Xbox
+            if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor(WindowHandle) == DeviceFormFactor.Xbox)
+            {
+                ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
+            }
 
             _window.Activate();
         }

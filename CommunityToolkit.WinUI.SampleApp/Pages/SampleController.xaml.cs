@@ -250,7 +250,7 @@ namespace CommunityToolkit.WinUI.SampleApp
                         InfoAreaPivot.TabItems.Add(PropertiesPivotItem);
                     }
 
-                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor() != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
+                    if (AnalyticsInfo.VersionInfo.GetDeviceFormFactor((App.Current as App).WindowHandle) != DeviceFormFactor.Desktop || CurrentSample.DisableXamlEditorRendering)
                     {
                         // Only makes sense (and works) for now to show Live Xaml on Desktop, so fallback to old system here otherwise.
                         XamlReadOnlyCodeRenderer.SetCode(CurrentSample.UpdatedXamlCode, "xaml");
