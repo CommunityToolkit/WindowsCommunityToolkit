@@ -124,7 +124,7 @@ namespace CommunityToolkit.WinUI.SampleApp.Controls
             _printHelper.OnPrintSucceeded += PrintHelper_OnPrintSucceeded;
             _printHelper.OnPrintCanceled += PrintHelper_OnPrintCanceled;
 
-            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App");
+            await _printHelper.ShowPrintUIAsync((App.Current as App).WindowHandle, "Windows Community Toolkit Sample App");
         }
 
         private void ReleasePrintHelper()

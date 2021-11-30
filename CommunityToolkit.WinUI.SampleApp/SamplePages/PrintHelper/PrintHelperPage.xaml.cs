@@ -100,7 +100,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
+            await _printHelper.ShowPrintUIAsync((App.Current as App).WindowHandle, "Windows Community Toolkit Sample App", printHelperOptions);
         }
 
         private async void DirectPrint_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -121,7 +121,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions, true);
+            await _printHelper.ShowPrintUIAsync((App.Current as App).WindowHandle, "Windows Community Toolkit Sample App", printHelperOptions, true);
         }
 
         private async void CustomPrint_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
@@ -186,7 +186,7 @@ namespace CommunityToolkit.WinUI.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
+            await _printHelper.ShowPrintUIAsync((App.Current as App).WindowHandle, "Windows Community Toolkit Sample App", printHelperOptions);
         }
 
         private void ReleasePrintHelper()

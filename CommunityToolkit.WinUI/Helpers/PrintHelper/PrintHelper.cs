@@ -165,33 +165,35 @@ namespace CommunityToolkit.WinUI.Helpers
         /// <summary>
         /// Starts the print task.
         /// </summary>
+        /// <param name="windowHandle">The windowHandle used to get the PrintManager instance.</param>
         /// <param name="printTaskName">Name of the print task to use</param>
         /// <param name="directPrint">Directly print the content of the container instead of relying on list built with <see cref="AddFrameworkElementToPrint(FrameworkElement)"/> method</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
+        public async Task ShowPrintUIAsync(IntPtr windowHandle, string printTaskName, bool directPrint = false)
         {
             this._directPrint = directPrint;
 
-            PrintManager printMan = PrintManager.GetForCurrentView();
+            PrintManager printMan = PrintManagerInterop.GetForWindow(windowHandle);
             printMan.PrintTaskRequested += PrintTaskRequested;
 
             // Launch print process
             _printTaskName = printTaskName;
-            await PrintManager.ShowPrintUIAsync();
+            await PrintManagerInterop.ShowPrintUIForWindowAsync(windowHandle);
         }
 
         /// <summary>
         /// Starts the print task.
         /// </summary>
+        /// <param name="windowHandle">The windowHandle used to get the PrintManager instance.</param>
         /// <param name="printTaskName">Name of the print task to use</param>
         /// <param name="printHelperOptions">Settings for the print task</param>
         /// <param name="directPrint">Directly print the content of the container instead of relying on list built with <see cref="AddFrameworkElementToPrint(FrameworkElement)"/> method</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task ShowPrintUIAsync(string printTaskName, PrintHelperOptions printHelperOptions, bool directPrint = false)
+        public Task ShowPrintUIAsync(IntPtr windowHandle, string printTaskName, PrintHelperOptions printHelperOptions, bool directPrint = false)
         {
             _printHelperOptions = printHelperOptions;
 
-            return ShowPrintUIAsync(printTaskName, directPrint);
+            return ShowPrintUIAsync(windowHandle, printTaskName, directPrint);
         }
 
         /// <summary>
@@ -225,7 +227,7 @@ namespace CommunityToolkit.WinUI.Helpers
             _printDocument.AddPages += AddPrintPages;
         }
 
-        private async Task DetachCanvas()
+        private async Task DetachCanvas(PrintManager printMan)
         {
             if (!_directPrint)
             {
@@ -242,7 +244,6 @@ namespace CommunityToolkit.WinUI.Helpers
             await ClearPageCache();
 
             // Remove the handler for printing initialization.
-            PrintManager printMan = PrintManager.GetForCurrentView();
             printMan.PrintTaskRequested -= PrintTaskRequested;
         }
 
@@ -272,7 +273,7 @@ namespace CommunityToolkit.WinUI.Helpers
 
                             _stateBags.Clear();
                             _canvasContainer.RequestedTheme = ElementTheme.Default;
-                            await DetachCanvas();
+                            await DetachCanvas(sender);
 
                             switch (args.Completion)
                             {

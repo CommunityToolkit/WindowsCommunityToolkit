@@ -14,7 +14,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System.Profile;
 using Windows.UI.ViewManagement;
-using WinRT;
 
 namespace CommunityToolkit.WinUI.SampleApp
 {
@@ -23,14 +22,6 @@ namespace CommunityToolkit.WinUI.SampleApp
         private MainWindow _window;
 
         public IntPtr WindowHandle { get; private set; }
-
-        [ComImport]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        [Guid("EECDBF0E-BAE9-4CB6-A68E-9598E1CB57BB")]
-        internal interface IWindowNative
-        {
-            IntPtr WindowHandle { get; }
-        }
 
         [ComImport]
         [Guid("3E68D4BD-7135-4D10-8018-9FB6D9F33FA1")]
@@ -130,8 +121,7 @@ namespace CommunityToolkit.WinUI.SampleApp
 
             _window = new MainWindow(launchParameters);
 
-            IWindowNative windowWrapper = _window.As<IWindowNative>();
-            WindowHandle = windowWrapper.WindowHandle;
+            WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(_window);
 
             _window.Activate();
         }
