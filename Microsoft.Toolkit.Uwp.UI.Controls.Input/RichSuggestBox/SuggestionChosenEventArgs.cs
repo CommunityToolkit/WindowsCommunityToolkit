@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using CommunityToolkit.Common.Deferred;
+using Microsoft.Toolkit.Deferred;
 using Windows.UI.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls

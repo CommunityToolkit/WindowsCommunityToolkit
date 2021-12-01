@@ -4,7 +4,6 @@
 
 using System;
 using System.Threading.Tasks;
-using CommunityToolkit.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 

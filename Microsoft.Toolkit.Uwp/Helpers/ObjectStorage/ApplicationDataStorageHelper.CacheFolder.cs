@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CommunityToolkit.Common.Helpers;
+using Microsoft.Toolkit.Helpers;
 using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Helpers

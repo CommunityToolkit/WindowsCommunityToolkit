@@ -4,8 +4,8 @@
 
 using System;
 using System.Reflection;
+using Microsoft.Toolkit.Helpers;
 using Newtonsoft.Json;
-using CommunityToolkit.Common.Helpers;
 
 namespace UnitTests.Helpers
 {

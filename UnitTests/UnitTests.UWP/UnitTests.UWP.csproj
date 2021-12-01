@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -119,10 +119,6 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Common" Version="7.1.2" />
-    <PackageReference Include="CommunityToolkit.Diagnostics">
-      <Version>7.1.2</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection">
       <Version>5.0.2</Version>
     </PackageReference>
@@ -131,6 +127,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit">
+      <Version>7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Diagnostics">
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.7.0</Version>

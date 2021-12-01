@@ -8,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
-using CommunityToolkit.Common;
 
 namespace UnitTests.UWP.UI.Controls
 {

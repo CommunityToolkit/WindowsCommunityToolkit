@@ -6,7 +6,6 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <!-- code comment -->
             <!--  Color Resources  -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Styles/Themes.xaml" />

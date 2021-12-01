@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using CommunityToolkit.Common;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
