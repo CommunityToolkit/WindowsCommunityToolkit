@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 using Microsoft.Windows.Apps.Test.Foundation;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
 
@@ -18,9 +19,6 @@ using WEX.TestExecution.Markup;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 namespace UITests.Tests
 {
@@ -33,13 +31,15 @@ namespace UITests.Tests
         [TestProperty("Platform", "Any")]
         public static void ClassInitialize(TestContext testContext)
         {
-            TestEnvironment.Initialize(testContext, WinUICsUWPSampleApp);
+            TestEnvironment.Initialize(testContext, UITestsAppSampleApp);
         }
 
         [TestMethod]
         [TestPage("GridSplitterTestPage")]
         public async Task TestGridSplitterDragHorizontalAsync()
         {
+            var scaleFactor = await TestAssembly.GetHostDpi() / 96.0f;
+
             var amount = 50;
             var tolerance = 10;
 
@@ -122,6 +122,8 @@ namespace UITests.Tests
         [TestPage("GridSplitterTestPage")]
         public async Task TestGridSplitterDragVerticalAsync()
         {
+            var scaleFactor = await TestAssembly.GetHostDpi() / 96.0f;
+
             var amount = 50;
             var tolerance = 10;
 

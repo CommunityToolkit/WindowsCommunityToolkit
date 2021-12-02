@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls.Design</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyTitle>Windows Community Toolkit - Markdown Control (Design)</AssemblyTitle>
+    <Description>Design time support for Windows Community Toolkit Markdown Control</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CommunityToolkit.WinUI.UI.Controls.Core.Design\Common\*.cs" LinkBase="Common" />
+  </ItemGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.VisualStudio.Design.targets" />
+
+</Project>

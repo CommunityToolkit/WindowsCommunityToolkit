@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - Media Controls</Title>
+    <Description>
+      This library provides controls backed by win2d for use in XAML. It is a part of the Windows Community Toolkit.
+
+      Controls:
+        - Eyedropper: Eyedropper allows user to pick up a color from anywhere in there application.
+        - ImageCropper: ImageCropper control allows user to crop image freely.
+        - InfiniteCanvas: Supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
+    </Description>
+    <PackageTags>
+      Controls;XAML;UI;
+      Eye;Dropper    ;EyeDropper    ;
+      Image;Cropper  ;ImageCropper  ;Crop;
+      Infinite;Canvas;InfiniteCanvas;
+    </PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
+  </ItemGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.WinUI.Controls.targets" />
+
+</Project>

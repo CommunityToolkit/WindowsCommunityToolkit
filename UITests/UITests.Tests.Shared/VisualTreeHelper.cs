@@ -32,33 +32,27 @@ namespace UITests.Tests
         /// <returns>Retrieved value or default.</returns>
         public static async Task<T> FindElementPropertyAsync<T>(string name, string property)
         {
-            var response = await TestAssembly.SendCustomMessageToApp(new()
+            try
             {
-                { "Command", "Custom" },
-                { "Id", "VisualTreeHelper.FindElementProperty" },
-                { "ElementName", name },
-                { "Property", property },
-            });
+                var str = await TestAssembly.FindElementProperty(name, property);
 
-            if (!TestAssembly.CheckResponseStatusOK(response))
+                if (!string.IsNullOrEmpty(str))
+                {
+                    Log.Comment("[Harness] VisualTreeHelper.FindElementPropertyAsync - Received: {0}", str);
+
+                    try
+                    {
+                        return JsonSerializer.Deserialize<T>(str, SerializerOptions);
+                    }
+                    catch
+                    {
+                        Log.Error("[Harness] VisualTreeHelper.FindElementPropertyAsync - Couldn't deserialize result as {0}", typeof(T));
+                    }
+                }
+            }
+            catch
             {
                 Log.Error("[Harness] VisualTreeHelper: Error trying to retrieve property {0} from element named {1}.", property, name);
-
-                return default(T);
-            }
-
-            if (response.Message.TryGetValue("Result", out object value) && value is string str)
-            {
-                Log.Comment("[Harness] VisualTreeHelper.FindElementPropertyAsync - Received: {0}", str);
-
-                try
-                {
-                    return JsonSerializer.Deserialize<T>(str, SerializerOptions);
-                }
-                catch
-                {
-                    Log.Error("[Harness] VisualTreeHelper.FindElementPropertyAsync - Couldn't deserialize result as {0}", typeof(T));
-                }
             }
 
             return default(T);

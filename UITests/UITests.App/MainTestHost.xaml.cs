@@ -5,14 +5,14 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Uwp;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using UITests.App.Commands;
 using UITests.App.Pages;
-using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace UITests.App
 {
@@ -21,8 +21,6 @@ namespace UITests.App
     /// </summary>
     public sealed partial class MainTestHost : IRecipient<RequestPageMessage>
     {
-        private DispatcherQueue _queue;
-
         private Assembly _executingAssembly = Assembly.GetExecutingAssembly();
 
         private TaskCompletionSource<bool> _loadingStateTask;
@@ -33,10 +31,16 @@ namespace UITests.App
 
             WeakReferenceMessenger.Default.Register<RequestPageMessage>(this);
 
-            _queue = DispatcherQueue.GetForCurrentThread();
-
             // Initialize Custom Commands for AppService
-            VisualTreeHelperCommands.Initialize(_queue);
+            VisualTreeHelperCommands.Initialize(DispatcherQueue, async () =>
+            {
+                var dpi = 0.0;
+                await DispatcherQueue.EnqueueAsync(() =>
+                {
+                    dpi = XamlRoot.RasterizationScale;
+                });
+                return dpi;
+            });
         }
 
         public void Receive(RequestPageMessage message)
@@ -54,7 +58,7 @@ namespace UITests.App
                 _loadingStateTask = new TaskCompletionSource<bool>();
 
                 // Ensure we're on the UI thread as we'll be called from the AppService now.
-                _ = _queue.EnqueueAsync(() =>
+                _ = DispatcherQueue.EnqueueAsync(() =>
                 {
                     // Navigate without extra animations
                     navigationFrame.Navigate(FindPageType(pageName), new SuppressNavigationTransitionInfo());
@@ -86,7 +90,7 @@ namespace UITests.App
             return null;
         }
 
-        private void NavigationFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        private void NavigationFrame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             Log.Comment("Navigated to Page {0}", e.SourcePageType.FullName);
             if (e.Content is Page page)
@@ -113,7 +117,7 @@ namespace UITests.App
             _loadingStateTask.SetResult(true);
         }
 
-        private void NavigationFrame_NavigationFailed(object sender, Windows.UI.Xaml.Navigation.NavigationFailedEventArgs e)
+        private void NavigationFrame_NavigationFailed(object sender, Microsoft.UI.Xaml.Navigation.NavigationFailedEventArgs e)
         {
             Log.Error("Failed to navigate to page {0}", e.SourcePageType.FullName);
             _loadingStateTask.SetResult(false);

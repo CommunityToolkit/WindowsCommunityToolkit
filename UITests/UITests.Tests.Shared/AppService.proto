@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option csharp_namespace = "UITests.App.Protos";
+
+package UITestsAppService;
+
+service AppService {
+  rpc OpenPage (OpenPageRequest) returns (OpenPageReply);
+  rpc FindElementProperty (FindElementPropertyRequest) returns (FindElementPropertyReply);
+  rpc SubscribeLog (SubscribeLogRequest) returns (stream LogUpdate);
+  rpc GetHostDpi (GetHostDpiRequest) returns (GetHostDpiReply);
+}
+
+message OpenPageRequest {
+	string pageName = 1;
+}
+
+message OpenPageReply {
+	string status = 1;
+}
+
+message FindElementPropertyRequest {
+    string elementName = 1;
+    string property = 2;
+}
+
+message FindElementPropertyReply {
+    string jsonReply = 1;
+}
+
+message SubscribeLogRequest {
+}
+
+message GetHostDpiRequest {
+}
+
+message GetHostDpiReply {
+    int32 dpi = 1;
+}
+
+message LogUpdate {
+  string level = 1;
+  string message = 2;
+}

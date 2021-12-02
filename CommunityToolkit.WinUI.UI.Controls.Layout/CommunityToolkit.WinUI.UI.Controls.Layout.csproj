@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - Layout Controls</Title>
+    <Description>
+      This library provides XAML layout controls. It is a part of the Windows Community Toolkit.
+
+      Controls:
+        - BladeView: Provides a horizontal collection of blades for drilling into detailed scenarios.
+        - Carousel: Presents items in a carousel control.
+        - Expander: Expander allows user to show/hide content based on a boolean state.
+        - GridSplitter: A the control that redistributes space between columns or rows of a Grid control.
+        - HeaderedContentControl: Provides a header to content.
+        - HeaderedItemsControl: Provides a header to items.
+        - LayoutTransformControl: Support for transformations as if applied by LayoutTransform.
+        - ListDetailsView: Implements the List/Details design pattern.
+        - OrbitView: Positions items in a circle around a center element and supports orbits and anchors.
+    </Description>
+    <PackageTags>
+      Controls;XAML;UI;
+      Blade;View              ;BladeView             ;
+      Carousel                ;
+      Expander                ;
+      Grid;Splitter           ;GridSplitter          ;
+      Headered;Content;Control;HeaderedContentControl;ContentControl ;HeaderedContent;
+      Headered;Items;Control  ;HeaderedItemsControl  ;ItemsControl   ;HeaderedItems  ;
+      Layout;Transform;Control;LayoutTransformControl;LayoutTransform;
+      List;Details;View       ;ListDetailsView       ;ListDetails    ;
+      Orbit;View              ;OrbitView             ;
+    </PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
+  </ItemGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.WinUI.Controls.targets" />
+
+</Project>

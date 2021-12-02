@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - DataGrid Control</Title>
+    <Description>
+      This library provides a XAML DataGrid control. It is a part of the Windows Community Toolkit.
+    </Description>
+    <PackageTags>Controls;XAML;UI;Data;Grid;DataGrid</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>$(RootNamespace)</CustomToolNamespace>
+      <!-- The 'ManifestResourceName' metadata changes the default manifest naming scheme -->
+      <ManifestResourceName>$(RootNamespace).%(Filename)</ManifestResourceName>
+    </EmbeddedResource>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.WinUI.Controls.targets" />
+
+</Project>

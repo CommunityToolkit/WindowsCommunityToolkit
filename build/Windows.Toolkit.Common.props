@@ -24,16 +24,18 @@
 
   <PropertyGroup>
     <TargetPlatformBaseVersion>10.0</TargetPlatformBaseVersion>
-    <TargetPlatformRevision>19041</TargetPlatformRevision>
+    <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
+    <WindowsAppSDKVersion>1.0.0</WindowsAppSDKVersion>
+    <MicrosoftCsWinRTVersion>1.3.5</MicrosoftCsWinRTVersion>
   </PropertyGroup>
 
   <PropertyGroup>
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('.Sample'))</IsSampleProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
-    <IsUwpProject>$(MSBuildProjectName.Contains('.Uwp'))</IsUwpProject>
-    <IsUwpProject Condition="$(IsDesignProject)">False</IsUwpProject>
+    <IsWinUIProject>$(MSBuildProjectName.Contains('.WinUI'))</IsWinUIProject>
+    <IsWinUIProject Condition="$(IsDesignProject)">False</IsWinUIProject>
     <IsCoreProject Condition="$(IsDesignProject) or $(IsSampleProject) or $(IsTestProject)">False</IsCoreProject>
     <IsCoreProject Condition="'$(IsCoreProject)' == ''">True</IsCoreProject>
   </PropertyGroup>

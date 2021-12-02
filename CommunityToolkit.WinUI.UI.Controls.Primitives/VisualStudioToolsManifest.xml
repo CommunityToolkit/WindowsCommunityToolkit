@@ -1,0 +1,16 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.Primitives.dll">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Community Toolkit"
+        BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.AdaptiveGridView" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DockPanel" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.StaggeredLayout" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.StaggeredPanel" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.SwitchPresenter" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.UniformGrid" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.WrapLayout" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.WrapPanel" />
+    </ToolboxItems>
+  </File>
+</FileList>

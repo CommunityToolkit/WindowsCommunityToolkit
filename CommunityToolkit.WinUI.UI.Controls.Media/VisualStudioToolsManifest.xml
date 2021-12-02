@@ -1,0 +1,14 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.Media.dll">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Community Toolkit"
+        BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.Eyedropper" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.EyedropperToolButton" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ImageCropper" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.ImageCropperThumb" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.InfiniteCanvas" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.InfiniteCanvasTextBox" />
+    </ToolboxItems>
+  </File>
+</FileList>

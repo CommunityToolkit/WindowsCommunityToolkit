@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0-windows10.0.19041</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <LangVersion>9.0</LangVersion>
     <PlatformTarget>x86</PlatformTarget>
+    <OutputType>Exe</OutputType>
     <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <ProjectReunionCopyXamlToolingLibs>false</ProjectReunionCopyXamlToolingLibs>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -16,14 +21,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\UITests.Tests.Shared\AppService.proto" GrpcServices="Client">
+      <Link>AppService.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="MainClass.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(PkgMUXCustomBuildTasks)\tools\$(PlatformTarget)\WttLog.dll" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\AppPackages\*\Dependencies\$(PlatformTarget)\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App.Package\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(Pkgtaef_redist_wlk)\build\Binaries\x86\WTTlog.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,11 +68,14 @@
     <!-- System packages -->
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
     <!-- Microsoft.UI.Xaml TAEF Extensions -->
-    <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
+    <PackageReference Include="Microsoft.Internal.MUXTestInfra.TAEF" Version="3.0.0-zmain.210930.1" />
     <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />
-    <PackageReference Include="TAEF.Redist.Wlk" Version="10.31.180822002" GeneratePathProperty="true" />
-    <!-- Windows SDK package -->
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+    <PackageReference Include="TAEF.Redist.Wlk" Version="10.57.200928001" GeneratePathProperty="true" />
+    <!-- GRPC/Protobuf -->
+    <PackageReference Include="Grpc.Tools" Version="2.36.4" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.36.0" />
+    <PackageReference Include="Grpc.Core" Version="2.36.4" />
+    <PackageReference Include="Google.Protobuf" Version="3.15.7" />
   </ItemGroup>
 
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />

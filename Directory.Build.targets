@@ -4,13 +4,13 @@
 
   <PropertyGroup>
     <!-- Exclude Notifications project from this since it sets different min versions than what we want for notifications -->
-    <UseUWP Condition="($(TargetFramework.StartsWith('uap10.0')) or '$(TargetFramework)' == 'net461') and '$(MSBuildProjectName)' != 'Microsoft.Toolkit.Uwp.Notifications'">true</UseUWP>
-    <UseUWP Condition="'$(UseUWP)' == ''">false</UseUWP>
+    <UseWinUI Condition="($(TargetFramework.StartsWith('net5.0-windows10')) or '$(TargetFramework)' == 'net461') and '$(MSBuildProjectName)' != 'CommunityToolkit.WinUI.Notifications'">true</UseWinUI>
+    <UseWinUI Condition="'$(UseWinUI)' == ''">false</UseWinUI>
   </PropertyGroup>
 
   <Choose>
     <!-- We'll include signing the Notifications library since we need the DLL signature to match for interop from class libraries to main projects -->
-    <When Condition="!($(TargetFramework.StartsWith('uap10.0')) or '$(TargetFramework)' == 'native' or $(IsSampleProject)) or '$(MSBuildProjectName)' == 'Microsoft.Toolkit.Uwp.Notifications'">
+    <When Condition="!($(TargetFramework.StartsWith('uap10.0')) or '$(TargetFramework)' == 'native' or $(IsSampleProject)) or '$(MSBuildProjectName)' == 'CommunityToolkit.WinUI.Notifications'">
       <PropertyGroup>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
@@ -18,7 +18,7 @@
     </When>
   </Choose>
 
-  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.UWP.Build.targets" Condition="$(UseUWP)" />
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.WinUI.Build.targets" Condition="$(UseWinUI)" />
 
   <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Workarounds.Xaml.targets" Condition="$(IsCoreProject)" />
 

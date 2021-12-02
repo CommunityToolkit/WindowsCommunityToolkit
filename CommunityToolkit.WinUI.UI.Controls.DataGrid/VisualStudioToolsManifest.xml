@@ -1,0 +1,26 @@
+<FileList>
+  <File Reference="CommunityToolkit.WinUI.UI.Controls.DataGrid.dll">
+    <ToolboxItems UIFramework="UAP"
+        VSCategory="Windows Community Toolkit"
+        BlendCategory="Windows Community Toolkit">
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGrid" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridCell" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridCellsPresenter" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridColumn" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridBoundColumn" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridFillerColumn" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridCheckBoxColumn" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridComboBoxColumn" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridColumnHeader" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridColumnHeadersPresenter" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridDetailsPresenter" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridFrozenGrid" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridRow" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridRowHeader" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridRowGroupHeader" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridRowsPresenter" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridTemplateColumn" />
+      <Item Type="CommunityToolkit.WinUI.UI.Controls.DataGridTextColumn" />
+    </ToolboxItems>
+  </File>
+</FileList>

@@ -3,19 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Microsoft.Toolkit;
-using Microsoft.Toolkit.Uwp;
-using Microsoft.Toolkit.Uwp.UI;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml.Controls;
 using UITests.App.Pages;
-using Windows.Foundation.Collections;
-using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace UITests.App.Commands
 {
@@ -23,21 +19,22 @@ namespace UITests.App.Commands
     {
         private static DispatcherQueue Queue { get; set; }
 
+        public static Func<Task<double>> GetRasterizationScale { get; private set; }
+
         private static JsonSerializerOptions SerializerOptions { get; } = new JsonSerializerOptions(JsonSerializerDefaults.General)
         {
             NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
         };
 
-        public static void Initialize(DispatcherQueue uiThread)
+        public static void Initialize(DispatcherQueue uiThread, Func<Task<double>> getRasterizationScale)
         {
             Queue = uiThread;
-
-            (App.Current as App).RegisterCustomCommand("VisualTreeHelper.FindElementProperty", FindElementProperty);
+            GetRasterizationScale = getRasterizationScale;
         }
 
-        public static async Task<ValueSet> FindElementProperty(ValueSet arguments)
+        public static async Task<string> FindElementProperty(string name, string propertyName)
         {
-            ValueSet results = new ValueSet();
+            string result = null;
 
             if (Queue == null)
             {
@@ -48,7 +45,7 @@ namespace UITests.App.Commands
             await Queue.EnqueueAsync(() =>
             {
                 // Dispatch?
-                var content = Window.Current.Content as Frame;
+                var content = App.CurrentWindow.Content as Frame;
 
                 if (content == null)
                 {
@@ -56,50 +53,41 @@ namespace UITests.App.Commands
                     return;
                 }
 
-                if (arguments.TryGetValue("ElementName", out object value) && value is string name &&
-                    arguments.TryGetValue("Property", out object value2) && value2 is string propertyName)
+                Log.Comment("VisualTreeHelper.FindElementProperty('{0}', '{1}')", name, propertyName);
+
+                // 1. Find Element in Visual Tree
+                var element = content.FindDescendant(name);
+
+                try
                 {
-                    Log.Comment("VisualTreeHelper.FindElementProperty('{0}', '{1}')", name, propertyName);
+                    Log.Comment("VisualTreeHelper.FindElementProperty - Found Element? {0}", element != null);
 
-                    // 1. Find Element in Visual Tree
-                    var element = content.FindDescendant(name);
+                    var typeinfo = element.GetType().GetTypeInfo();
 
-                    try
+                    Log.Comment("Element Type: {0}", typeinfo.FullName);
+
+                    var prop = element.GetType().GetTypeInfo().GetProperty(propertyName);
+
+                    if (prop == null)
                     {
-                        Log.Comment("VisualTreeHelper.FindElementProperty - Found Element? {0}", element != null);
-
-                        var typeinfo = element.GetType().GetTypeInfo();
-
-                        Log.Comment("Element Type: {0}", typeinfo.FullName);
-
-                        var prop = element.GetType().GetTypeInfo().GetProperty(propertyName);
-
-                        if (prop == null)
-                        {
-                            Log.Error("VisualTreeHelper.FindElementProperty - Couldn't find Property named {0} on type {1}", propertyName, typeinfo.FullName);
-                            return;
-                        }
-
-                        // 2. Get the property using reflection
-                        var propValue = prop.GetValue(element);
-
-                        // 3. Serialize and return the result
-                        results.Add("Result", JsonSerializer.Serialize(propValue, SerializerOptions));
+                        Log.Error("VisualTreeHelper.FindElementProperty - Couldn't find Property named {0} on type {1}", propertyName, typeinfo.FullName);
+                        return;
                     }
-                    catch (Exception e)
-                    {
-                        Log.Error("Error {0}", e.Message);
-                        Log.Error("StackTrace:\n{0}", e.StackTrace);
-                    }
+
+                    // 2. Get the property using reflection
+                    var propValue = prop.GetValue(element);
+
+                    // 3. Serialize and return the result
+                    result = JsonSerializer.Serialize(propValue, SerializerOptions);
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Error {0}", e.Message);
+                    Log.Error("StackTrace:\n{0}", e.StackTrace);
                 }
             });
 
-            if (results.Count > 0)
-            {
-                return results;
-            }
-
-            return null; // Failure
+            return result;
         }
     }
 }

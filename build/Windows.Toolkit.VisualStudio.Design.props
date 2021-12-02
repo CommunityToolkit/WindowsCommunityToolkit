@@ -10,7 +10,7 @@
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>False</AppendRuntimeIdentifierToOutputPath>
     <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
-    <ParentTargetFramework>uap$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision)</ParentTargetFramework>
+    <ParentTargetFramework>net5.0-windows$(TargetPlatformBaseVersion).$(TargetPlatformRevision).0</ParentTargetFramework>
     <ParentProjectName>$(MSBuildProjectName.Remove($(MSBuildProjectName.LastIndexOf('.'))))</ParentProjectName>
   </PropertyGroup>
 

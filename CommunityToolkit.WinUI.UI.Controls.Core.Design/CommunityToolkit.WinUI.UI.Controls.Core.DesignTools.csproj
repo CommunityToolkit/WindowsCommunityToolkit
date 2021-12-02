@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <RootNamespace>CommunityToolkit.WinUI.UI.Controls.Design</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyTitle>Windows Community Toolkit - Common Controls (DesignTools)</AssemblyTitle>
+    <Description>Design time support for Windows Community Toolkit Common Controls</Description>
+  </PropertyGroup>
+
+  <Import Project="$(BuildToolsDirectory)Windows.Toolkit.VisualStudio.Design.targets" />
+
+</Project>

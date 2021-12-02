@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - Common (UWP)</Title>
+    <Description>This package includes code only helpers such as Color conversion tool, Storage file handling, a Stream helper class, SystemInformation helpers, etc.</Description>
+    <PackageTags>Storage;File;Folder;Color;Conversion;Stream;Helpers;Extensions;System;Information</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" Version="7.1.2" />
+  </ItemGroup>
+
+</Project>

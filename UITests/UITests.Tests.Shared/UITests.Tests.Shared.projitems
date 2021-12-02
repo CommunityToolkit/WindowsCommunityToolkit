@@ -27,6 +27,7 @@
         <None Include="$(MSBuildThisFileDirectory)UITestBase.cs" />
         <None Include="$(MSBuildThisFileDirectory)TestAssembly.cs" />
         <None Include="$(MSBuildThisFileDirectory)TestPageAttribute.cs" />
+        <None Include="$(MSBuildThisFileDirectory)AppService.proto" />
         <None Include="$(MSBuildThisFileDirectory)VisualTreeHelper.cs" />
       </ItemGroup>
     </Otherwise>

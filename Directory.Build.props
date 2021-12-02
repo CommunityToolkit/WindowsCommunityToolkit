@@ -1,5 +1,5 @@
 <Project>
-
+  
   <PropertyGroup>
     <RepositoryDirectory>$(MSBuildThisFileDirectory)</RepositoryDirectory>
     <BuildToolsDirectory>$(RepositoryDirectory)build\</BuildToolsDirectory>
@@ -7,12 +7,21 @@
 
   <Import Project="$(BuildToolsDirectory)Windows.Toolkit.Common.props" />
 
+  <PropertyGroup>
+    <!-- Remove after https://github.com/DotNetAnalyzers/StyleCopAnalyzers/pull/3285 is merged, as this is already in our .editorconfig -->
+    <NoWarn>$(NoWarn);SA1101;SA1633;SA1202;SA1600;SA1413;SA1611;SA1629;SA1201;SA1309;SA1310;SA1602</NoWarn>
+    <!-- TODO: WinUI3 - Need to fix -->
+    <NoWarn>$(NoWarn);CA1033;CA1065;CA1001;CS0252;CS8073;CA1063;CA2213;CA2214;CS8600;CS8604</NoWarn>
+    <!-- TODO: WinUI3 - Remove when XAMLBehaviors is strong signed -->
+    <NoWarn>$(NoWarn);CS8002</NoWarn>
+  </PropertyGroup>
+  
   <Choose>
     <When Condition="$(IsCoreProject)">
       <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageOutputPath>$(RepositoryDirectory)bin\nupkg</PackageOutputPath>
-        <GenerateLibraryLayout Condition="$(IsUwpProject)">true</GenerateLibraryLayout>
+        <GenerateLibraryLayout Condition="$(IsWinUIProject)">true</GenerateLibraryLayout>
         <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
       </PropertyGroup>
     </When>
@@ -26,7 +35,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="$(IsUwpProject)">
+    <When Condition="$(IsWinUIProject)">
       <PropertyGroup>
         <!-- Code CS8002 is a warning for strong named -> non-strong-named reference. This is valid for platforms other than .NET Framework (and is needed for the UWP targets. -->
         <NoWarn>$(NoWarn);CS8002</NoWarn>

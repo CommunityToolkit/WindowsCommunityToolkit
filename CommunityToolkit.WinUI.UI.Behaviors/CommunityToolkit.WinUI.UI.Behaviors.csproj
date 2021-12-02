@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+    <TargetFrameworks>net5.0-windows10.0.18362.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>Windows Community Toolkit - UI Behaviors</Title>
+    <Description>
+      This library provides UI behaviors built on the XAML behaviors SDK. It is a part of the Windows Community Toolkit.
+      
+      - Animation: Various helpers for integration with the Toolkit's Animation package.
+      - AutoFocusBehevior: Sets focus to the associated control.
+      - AutoSelectBehavior: Selects a TextBox's text automatically.
+      - FadeHeaderBehavior, QuickReturnHeaderBehavior, StickyHeaderBehavior: Helpers for ListViewBase Header Behavior
+      - FocusBehavior: Sets focus to a specified control.
+      - KeyDownTriggerBehavior: Trigger behaviors when a key is pressed.
+      - ViewportBehavior: Listening for element to enter or exit the ScrollViewer viewport      
+    </Description>
+    <PackageTags>UI;XAML;Behaviors;Interactivity;Interaction;Focus;Header;Viewport;Selection;Focus;KeyDown;Triggers;Viewport</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
+    <!-- TODO: Including Animation reference for now for initial refactor of the ScrollHeader behaviors, we may be able to remove, but may also have some Behaviors for Animations? -->
+    <ProjectReference Include="..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj" />
+  </ItemGroup>
+
+</Project>

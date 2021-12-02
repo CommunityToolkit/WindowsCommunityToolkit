@@ -1,0 +1,28 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:brushes="using:CommunityToolkit.WinUI.UI.Media"
+    mc:Ignorable="d">
+
+  <Grid>
+    <controls:ConstrainedBox AspectRatio="16:3" VerticalAlignment="Top">
+      <Image Source="/Assets/Photos/WestSeattleView.jpg"
+             Stretch="UniformToFill"
+             VerticalAlignment="Center"/> <!-- Center on the City -->
+    </controls:ConstrainedBox>
+    <controls:ConstrainedBox MultipleX="64"
+                             AspectRatio="1:1"
+                             MinWidth="64" MaxWidth="512">
+        <controls:ConstrainedBox.Background>
+            <!-- TODO: TilesBrush doesn't support Dpi image loading for this scenario
+                 This example is configured for 100% DPI at the moment.
+                 See https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4150
+                 -->
+            <brushes:TilesBrush TextureUri="ms-appx:///Assets/checker.png"/>
+        </controls:ConstrainedBox.Background>
+    </controls:ConstrainedBox>
+  </Grid>
+</Page>
