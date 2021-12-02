@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace CommunityToolkit.WinUI.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample implementation of the <see cref="Collections.IIncrementalSource{TSource}"/> interface.
+    /// A sample implementation of the <see cref="Net.Collections.IIncrementalSource{TSource}"/> interface.
     /// </summary>
     /// <seealso cref="Net.Collections.IIncrementalSource{TSource}"/>
     public class PeopleSource : CommunityToolkit.Common.Collections.IIncrementalSource<Person>

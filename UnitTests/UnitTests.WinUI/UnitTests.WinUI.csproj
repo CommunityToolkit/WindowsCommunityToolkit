@@ -35,6 +35,12 @@
     <PackageReference Include="FluentAssertions">
       <Version>5.10.3</Version>
     </PackageReference>
+    <PackageReference Include="CommunityToolkit.Common">
+      <Version>7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Diagnostics">
+      <Version>7.1.2</Version>
+    </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.2.6-preview-20211011-01</Version>
     </PackageReference>
@@ -87,8 +93,6 @@
     <EmbeddedResource Include="Assets\StoreLogo.embeded.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommunityToolkit.Diagnostics\CommunityToolkit.Diagnostics.csproj" />
-    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Animations\CommunityToolkit.WinUI.UI.Animations.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Behaviors\CommunityToolkit.WinUI.UI.Behaviors.csproj" />
@@ -101,14 +105,12 @@
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI.Media\CommunityToolkit.WinUI.UI.Media.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.UI\CommunityToolkit.WinUI.UI.csproj" />
     <ProjectReference Include="..\..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj" />
-    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <Import Project="..\UnitTests.Shared\UnitTests.Shared.projitems" Label="Shared" />
   <!-- No-op to avoid build error when packing solution from commandline -->
   <Target Name="Pack" />
 </Project>

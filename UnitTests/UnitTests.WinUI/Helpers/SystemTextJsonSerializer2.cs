@@ -8,7 +8,7 @@ using CommunityToolkit.Common.Helpers;
 namespace UnitTests.Helpers
 {
     /// <summary>
-    /// Example class of writing a new <see cref="IObjectSerializer"/> that uses System.Text.Json.
+    /// Example class of writing a new <see cref="CommunityToolkit.Common.Helpers.IObjectSerializer"/> that uses System.Text.Json.
     /// Based on <see cref="CommunityToolkit.Common.Helpers.IObjectSerializer"/>.
     /// </summary>
     internal class SystemTextJsonSerializer2 : IObjectSerializer

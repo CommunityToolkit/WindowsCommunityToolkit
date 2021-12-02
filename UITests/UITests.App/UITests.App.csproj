@@ -38,6 +38,15 @@
       <Version>3.0.0-zmain.210930.1</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+	<PackageReference Include="CommunityToolkit.Common">
+		<Version>7.1.2</Version>
+	</PackageReference>
+	<PackageReference Include="CommunityToolkit.Diagnostics">
+		<Version>7.1.2</Version>
+	</PackageReference>
+	<PackageReference Include="CommunityToolkit.Mvvm">
+		<Version>7.1.2</Version>
+	</PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinRTVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Grpc" Version="2.38.1" />
@@ -54,14 +63,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommunityToolkit.HighPerformance\CommunityToolkit.HighPerformance.csproj">
-      <Project>{7e30d48c-4cd8-47be-b557-10a20391dcc4}</Project>
-      <Name>CommunityToolkit.HighPerformance</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CommunityToolkit.Mvvm\CommunityToolkit.Mvvm.csproj">
-      <Project>{d82ae6e1-e612-434e-acb2-363ee48738d3}</Project>
-      <Name>CommunityToolkit.Mvvm</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\CommunityToolkit.WinUI.Connectivity\CommunityToolkit.WinUI.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>CommunityToolkit.WinUI.Connectivity</Name>
@@ -117,10 +118,6 @@
     <ProjectReference Include="..\..\CommunityToolkit.WinUI\CommunityToolkit.WinUI.csproj">
       <Project>{805f80df-75c6-4c2f-8fd9-b47f6d0df5a3}</Project>
       <Name>CommunityToolkit.WinUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CommunityToolkit.Common\CommunityToolkit.Common.csproj">
-      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>CommunityToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\UITests.Tests.Shared\UITests.Tests.Shared.projitems" Label="Shared" />
