@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -237,7 +238,7 @@ namespace UnitTests.Helpers
             var folderItemsList = folderItems.ToList();
             Assert.AreEqual(1, folderItemsList.Count());
             Assert.AreEqual(fileName, folderItemsList[0].Name);
-            Assert.AreEqual(Microsoft.Toolkit.Helpers.DirectoryItemType.File, folderItemsList[0].ItemType);
+            Assert.AreEqual(DirectoryItemType.File, folderItemsList[0].ItemType);
 
             // Rename a file in a subfolder
             var itemRenamed = await storageHelper.TryRenameItemAsync(filePath, fileName2);

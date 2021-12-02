@@ -7,14 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Collections;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A sample implementation of the <see cref="Collections.IIncrementalSource{TSource}"/> interface.
+    /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
     /// </summary>
-    /// <seealso cref="Collections.IIncrementalSource{TSource}"/>
-    public class PeopleSource : Collections.IIncrementalSource<Person>
+    /// <seealso cref="IIncrementalSource{TSource}"/>
+    public class PeopleSource : IIncrementalSource<Person>
     {
         private readonly List<Person> _people;
 

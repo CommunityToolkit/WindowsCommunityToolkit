@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : Collections.IIncrementalSource<IType>
+         where TSource : IIncrementalSource<IType>
     {
         private readonly SemaphoreSlim _mutex = new SemaphoreSlim(1);
 
