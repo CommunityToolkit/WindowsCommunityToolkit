@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
     /// </summary>
     public class StackedNotificationsBehavior : BehaviorBase<InfoBar>
     {
-        private readonly Queue<Notification> _stackedNotifications;
+        private readonly LinkedList<Notification> _stackedNotifications;
         private readonly DispatcherQueueTimer _dismissTimer;
         private Notification _currentNotification;
         private bool _initialIconVisible;
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// </summary>
         public StackedNotificationsBehavior()
         {
-            _stackedNotifications = new Queue<Notification>();
+            _stackedNotifications = new LinkedList<Notification>();
 
             var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
             _dismissTimer = dispatcherQueue.CreateTimer();
@@ -42,8 +42,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <param name="notification">The notification to display.</param>
         public void Show(Notification notification)
         {
-            _stackedNotifications.Enqueue(notification);
+            if (notification is null)
+            {
+                throw new ArgumentNullException(nameof(notification));
+            }
+
+            _stackedNotifications.AddLast(notification);
             ShowNext();
+        }
+
+        /// <summary>
+        /// Remove the <paramref name="notification"/>.
+        /// If the notification is displayed, it will be closed.
+        /// If the notification is still in the queue, it will be removed.
+        /// </summary>
+        /// <param name="notification">The notification to remove.</param>
+        public void Remove(Notification notification)
+        {
+            if (notification is null)
+            {
+                throw new ArgumentNullException(nameof(notification));
+            }
+
+            if (notification == _currentNotification)
+            {
+                // We close the notification. This will trigger the display of the next one.
+                // See OnInfoBarClosed.
+                AssociatedObject.IsOpen = false;
+                return;
+            }
+
+            _stackedNotifications.Remove(notification);
         }
 
         /// <inheritdoc/>
@@ -82,11 +111,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             AssociatedObject.IsOpen = false;
             RestoreOverridenProperties();
 
-            if (!_stackedNotifications.TryDequeue(out var notificationToDisplay))
+            if (_stackedNotifications.Count == 0)
             {
                 _currentNotification = null;
                 return;
             }
+
+            var notificationToDisplay = _stackedNotifications.First.Value;
+            _stackedNotifications.RemoveFirst();
 
             _currentNotification = notificationToDisplay;
             SetNotification(notificationToDisplay);
@@ -101,57 +133,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             AssociatedObject.Message = notification.Message;
             AssociatedObject.Severity = notification.Severity;
 
-            if (notification is NotificationWithOverrides overrides)
+            if (notification.Overrides.HasFlag(NotificationOverrides.Icon))
             {
-                if (overrides.Overrides.HasFlag(NotificationOverrides.Icon))
-                {
-                    _initialIconVisible = AssociatedObject.IsIconVisible;
-                    AssociatedObject.IsIconVisible = overrides.IsIconVisible;
-                }
+                _initialIconVisible = AssociatedObject.IsIconVisible;
+                AssociatedObject.IsIconVisible = notification.IsIconVisible;
+            }
 
-                if (overrides.Overrides.HasFlag(NotificationOverrides.Content))
-                {
-                    _initialContent = AssociatedObject.Content;
-                    AssociatedObject.Content = overrides.Content;
-                }
+            if (notification.Overrides.HasFlag(NotificationOverrides.Content))
+            {
+                _initialContent = AssociatedObject.Content;
+                AssociatedObject.Content = notification.Content;
+            }
 
-                if (overrides.Overrides.HasFlag(NotificationOverrides.ContentTemplate))
-                {
-                    _initialContentTemplate = AssociatedObject.ContentTemplate;
-                    AssociatedObject.ContentTemplate = overrides.ContentTemplate;
-                }
+            if (notification.Overrides.HasFlag(NotificationOverrides.ContentTemplate))
+            {
+                _initialContentTemplate = AssociatedObject.ContentTemplate;
+                AssociatedObject.ContentTemplate = notification.ContentTemplate;
+            }
 
-                if (overrides.Overrides.HasFlag(NotificationOverrides.ActionButton))
-                {
-                    _initialActionButton = AssociatedObject.ActionButton;
-                    AssociatedObject.ActionButton = overrides.ActionButton;
-                }
+            if (notification.Overrides.HasFlag(NotificationOverrides.ActionButton))
+            {
+                _initialActionButton = AssociatedObject.ActionButton;
+                AssociatedObject.ActionButton = notification.ActionButton;
             }
         }
 
         private void RestoreOverridenProperties()
         {
-            if (_currentNotification is not NotificationWithOverrides overrides)
+            if (_currentNotification is null)
             {
                 return;
             }
 
-            if (overrides.Overrides.HasFlag(NotificationOverrides.Icon))
+            if (_currentNotification.Overrides.HasFlag(NotificationOverrides.Icon))
             {
                 AssociatedObject.IsIconVisible = _initialIconVisible;
             }
 
-            if (overrides.Overrides.HasFlag(NotificationOverrides.Content))
+            if (_currentNotification.Overrides.HasFlag(NotificationOverrides.Content))
             {
                 AssociatedObject.Content = _initialContent;
             }
 
-            if (overrides.Overrides.HasFlag(NotificationOverrides.ContentTemplate))
+            if (_currentNotification.Overrides.HasFlag(NotificationOverrides.ContentTemplate))
             {
                 AssociatedObject.ContentTemplate = _initialContentTemplate;
             }
 
-            if (overrides.Overrides.HasFlag(NotificationOverrides.ActionButton))
+            if (_currentNotification.Overrides.HasFlag(NotificationOverrides.ActionButton))
             {
                 AssociatedObject.ActionButton = _initialActionButton;
             }

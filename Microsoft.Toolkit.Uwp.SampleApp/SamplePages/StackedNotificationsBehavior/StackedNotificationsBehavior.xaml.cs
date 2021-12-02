@@ -10,6 +10,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class StackedNotificationsBehavior : Page
     {
+        private Notification _lastNotification;
+
         public StackedNotificationsBehavior()
         {
             InitializeComponent();
@@ -35,33 +37,33 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 "Show information notification",
                 (s, a) =>
                 {
-                    var notification = new Notification
+                    _lastNotification = new Notification
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
                         Duration = GetDuration(),
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational,
                     };
-                    stackedNotificationBehavior.Show(notification);
+                    stackedNotificationBehavior.Show(_lastNotification);
                 });
             SampleController.Current.RegisterNewCommand(
                 "Show error notification",
                 (s, a) =>
                 {
-                    var notification = new Notification
+                    _lastNotification = new Notification
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
                         Duration = GetDuration(),
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error,
                     };
-                    stackedNotificationBehavior.Show(notification);
+                    stackedNotificationBehavior.Show(_lastNotification);
                 });
             SampleController.Current.RegisterNewCommand(
                 "Show notification with action",
                 (s, a) =>
                 {
-                    var notification = new NotificationWithOverrides
+                    _lastNotification = new Notification
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
@@ -69,13 +71,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning,
                         ActionButton = new Button { Content = "Action" }
                     };
-                    stackedNotificationBehavior.Show(notification);
+                    stackedNotificationBehavior.Show(_lastNotification);
                 });
             SampleController.Current.RegisterNewCommand(
                 "Show notification with custom content",
                 (s, a) =>
                 {
-                    var notification = new NotificationWithOverrides
+                    _lastNotification = new Notification
                     {
                         Title = $"Notification {DateTimeOffset.Now}",
                         Message = GetRandomText(),
@@ -83,7 +85,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Warning,
                         Content = new TextBlock { Text = "Custom content" }
                     };
-                    stackedNotificationBehavior.Show(notification);
+                    stackedNotificationBehavior.Show(_lastNotification);
+                });
+            SampleController.Current.RegisterNewCommand(
+                "Remove last notification",
+                (s, a) =>
+                {
+                    if (_lastNotification is null)
+                    {
+                        return;
+                    }
+
+                    stackedNotificationBehavior.Remove(_lastNotification);
                 });
         }
 
