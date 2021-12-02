@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// For instance:
         /// <code>
         /// var animation = AnimationBuilder.Create().Opacity(0, 1).Size(1.2, 1);
-        /// 
+        ///
         /// animation.Start(MyButton);
         /// animation.Start(MyGrid);
         /// </code>
