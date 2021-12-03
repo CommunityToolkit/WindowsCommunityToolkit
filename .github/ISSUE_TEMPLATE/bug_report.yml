@@ -133,4 +133,12 @@ body:
   attributes:
      label: Additional context
      description: Add any other context about the problem here.
-     
+- type: dropdown
+  id: contribution
+  attributes:
+     label: Help us help you
+     description: Would you like to contribute a solution to this issue?
+     options:
+       - Yes, I'd like to be assigned to work on this item.
+       - Yes, but only if others can assist.
+       - No.
