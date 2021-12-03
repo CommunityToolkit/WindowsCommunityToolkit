@@ -25,6 +25,14 @@ body:
       placeholder: 
   validations:
       required: false
+- type: checkboxes
+  id: reproducable-in-sample-app
+  attributes: 
+    label: Reproducible in sample app?
+    description: Can this be reproduced in the Sample App? (Either in a sample as-is or with new XAML pasted in the editor.)
+    options:
+      - label: This bug can be reproduced in the sample app.
+        required: false
 - type: textarea
   id: repro-steps
   validations:
