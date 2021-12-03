@@ -68,11 +68,13 @@ body:
      label: Windows Build Number
      description: Check one or more of the following options
      options:
-       - label: Fall Creators Update (16299)
-       - label: April 2018 Update (17134)
-       - label: October 2018 Update (17763)
-       - label: May 2019 Update (18362)
-       - label: May 2020 Update (19041)
+       - label: Windows 10 1809 (Build 17763)
+       - label: Windows 10 1903 (Build 18362)
+       - label: Windows 10 1909 (Build 18363)
+       - label: Windows 10 2004 (Build 19041)
+       - label: Windows 10 20H2 (Build 19042)
+       - label: Windows 10 21H1 (Build 19043)
+       - label: Windows 11 21H2 (Build 22000)
        - label: Other (specify)
 - type: input
   id: environment-windows-build-other-build-number
@@ -85,11 +87,10 @@ body:
      label: App minimum and target SDK version
      description: Check one or more of the following options
      options:
-       - label: Fall Creators Update (16299)
-       - label: April 2018 Update (17134)
-       - label: October 2018 Update (17763)
-       - label: May 2019 Update (18362)
-       - label: May 2020 Update (19041)
+       - label: Windows 10, version 1809 (Build 17763)
+       - label: Windows 10, version 1903 (Build 18362)
+       - label: Windows 10, version 1909 (Build 18363)
+       - label: Windows 10, version 2004 (Build 19041)
        - label: Other (specify)
 - type: input
   id: environment-app-min-target-other-build-number
