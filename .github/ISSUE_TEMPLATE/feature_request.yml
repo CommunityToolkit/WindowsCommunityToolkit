@@ -12,6 +12,7 @@ body:
       This info is essential to help us understand your feature request.
       
       If you're uncertain about the feature, find or start an [Ideas](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/ideas) discussion, where you can get insight from the community regarding your issue. 
+
 - type: textarea
   id: problem-description
   validations: 
@@ -51,3 +52,14 @@ body:
   attributes:
     label: Additional info
     description: Add any other context or screenshots about the feature request here.
+
+
+- type: dropdown
+  id: contribution
+  attributes:
+     label: Help us help you
+     description: Would you like to contribute a solution to this issue?
+     options:
+       - Yes, I'd like to be assigned to work on this item.
+       - Yes, but only if others can assist.
+       - No.
