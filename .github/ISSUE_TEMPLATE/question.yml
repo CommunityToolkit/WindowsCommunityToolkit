@@ -1,0 +1,23 @@
+name: Question
+description: I have a question about how to use something in the toolkit.
+labels: "question :grey_question:"
+title: "[Question]"
+body:
+- type: markdown
+  attributes:
+    value: |
+     ## Before you begin
+     We try to keep this GitHub issue list for bugs and features.
+     
+     To make sure your question helps others too, considering posting on Stack Overflow under the ['windows-community-toolkit' tag](https://stackoverflow.com/questions/tagged/windows-community-toolkit), or our ["Questions & Help"](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help) GitHub Discussions.  
+      
+     If your question is about our documentation, please file an issue [here](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new) instead, or this issue will be automatically closed.
+
+     Thanks!
+- type: textarea
+  id: description
+  validations: 
+     required: true
+  attributes: 
+     label: 'Your question:'
+     description: Please provide detailed information, including examples, screenshots and relevant issues if possible.
