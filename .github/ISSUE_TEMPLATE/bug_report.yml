@@ -10,7 +10,7 @@ body:
       
       This info is essential for investigating your bug report. Issues with missing information may be closed without investigation.
       
-      If you're uncertain about the problem, find or start a discussion under [Questions & Help](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help), where you can get insight from the community regarding your issue. 
+      If you're uncertain about the problem, find or start a [Questions & Help](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help) discussion, where you can get insight from the community regarding your issue. 
       
 - type: textarea
   id: description
