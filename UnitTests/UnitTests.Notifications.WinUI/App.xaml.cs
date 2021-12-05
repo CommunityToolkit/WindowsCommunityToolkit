@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.UI.Xaml;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
 namespace UnitTests.Notifications.WinUI
@@ -48,6 +49,18 @@ namespace UnitTests.Notifications.WinUI
 
             // replace back with e.Arguments when https://github.com/microsoft/microsoft-ui-xaml/issues/3368 is fixed
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(Environment.CommandLine);
+        }
+
+        [AssemblyCleanup]
+        public static void CleanupWindow()
+        {
+            if (_window != null)
+            {
+                _window.DispatcherQueue.TryEnqueue(() =>
+                {
+                    _window.Close();
+                });
+            }
         }
     }
 }
