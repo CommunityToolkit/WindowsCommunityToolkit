@@ -6,6 +6,7 @@ using System;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using UnitTests.WinUI;
@@ -89,6 +90,18 @@ namespace UnitTests
 
             // replace back with e.Arguments when https://github.com/microsoft/microsoft-ui-xaml/issues/3368 is fixed
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(Environment.CommandLine);
+        }
+
+        [AssemblyCleanup]
+        public static void CleanupWindow()
+        {
+            if(_window != null)
+            {
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    _window.Close();
+                });
+            }
         }
     }
 }
