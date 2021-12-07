@@ -30,12 +30,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public static readonly DependencyProperty ValueProperty =
             DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(true, OnValuePropertyChanged));
 
+        public static bool IsActive { get; private set; }
+
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (IsNullOrEmptyStateTrigger)d;
             var val = e.NewValue;
 
-            obj.SetActive(IsNullOrEmpty(val));
+            obj.SetActive(IsActive = IsNullOrEmpty(val));
 
             if (val == null)
             {

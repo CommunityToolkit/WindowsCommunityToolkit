@@ -259,6 +259,7 @@
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
     <Compile Include="UI\Triggers\Test_ControlSizeTrigger.cs" />
+    <Compile Include="UI\Triggers\Test_IsNullOrEmptyStateTrigger.cs" />
     <Compile Include="VisualUITestBase.cs" />
   </ItemGroup>
   <ItemGroup>
