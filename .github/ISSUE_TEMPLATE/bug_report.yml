@@ -39,6 +39,7 @@ body:
     required: true
   attributes:
      label: Steps to reproduce
+     render: text
      description: Provide steps to reproduce the issue, or let us know why it can't be reproduced (e.g. more complex setup, environment, dependencies, etc...)
      placeholder: |
         A repro from the sample app expidites the process of discovering, resolving, and validating bug fixes. 
