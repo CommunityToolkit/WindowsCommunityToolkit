@@ -28,8 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="Value"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(true, OnValuePropertyChanged));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
+        /// <summary>
+        /// Gets a value indicating whether the trigger is active.
+        /// </summary>
         public static bool IsActive { get; private set; }
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

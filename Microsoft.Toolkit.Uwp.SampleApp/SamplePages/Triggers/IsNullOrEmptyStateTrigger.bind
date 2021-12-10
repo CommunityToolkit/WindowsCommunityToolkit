@@ -26,6 +26,7 @@
         <VisualState x:Name="ListEmptyState">
           <VisualState.StateTriggers>
             <triggers:IsNullOrEmptyStateTrigger Value="{Binding Items, ElementName=OurList, Mode=OneWay}"/>
+          <!--<triggers:IsNullOrEmptyStateTrigger Value="{Binding SelectedItem, ElementName=OurList, Mode=OneWay}"/>-->
           </VisualState.StateTriggers>
           <VisualState.Setters>
             <Setter Target="RemoveButton.IsEnabled" Value="False" />
