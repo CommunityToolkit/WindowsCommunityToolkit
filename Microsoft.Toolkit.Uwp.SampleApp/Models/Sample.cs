@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 // TODO Reintroduce graph controls
 // using Microsoft.Toolkit.Graph.Converters;
 // using Microsoft.Toolkit.Graph.Providers;
-using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
