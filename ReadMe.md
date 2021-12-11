@@ -56,8 +56,6 @@ This project is supported by the [.NET Foundation](http://dotnetfoundation.org).
 
 ## 🏆 Contributors
 
-<a href="https://github.com/CommunityToolkit/WindowsCommunityToolkit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=CommunityToolkit/WindowsCommunityToolkit" />
-</a>
+[![Toolkit Contributors](https://contrib.rocks/image?repo=CommunityToolkit/WindowsCommunityToolkit)](https://github.com/CommunityToolkit/WindowsCommunityToolkit/graphs/contributors)
 
 Made with [contrib.rocks](https://contrib.rocks).
