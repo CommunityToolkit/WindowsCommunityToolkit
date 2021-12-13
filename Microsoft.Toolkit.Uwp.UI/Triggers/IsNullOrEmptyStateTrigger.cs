@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             }
 
             // Try to listen for various notification events
-            // Starting with INorifyCollectionChanged
+            // Starting with INotifyCollectionChanged
             var valNotifyCollection = val as INotifyCollectionChanged;
             if (valNotifyCollection != null)
             {

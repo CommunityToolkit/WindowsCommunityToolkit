@@ -16,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private Button _addButton;
         private Button _removeButton;
         private ListBox _listBox;
+        private Button _unselectButton;
+        private ListView _selectListView;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IsNullOrEmptyStateTriggerPage"/> class.
@@ -52,6 +54,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             _listBox = control.FindDescendant("OurList") as ListBox;
+
+            _selectListView = control.FindDescendant("SelectList") as ListView;
+            
+            // Hack to programmatically set the SelectedItem to *any* initial value other than null,
+            //      to prime the trigger to self-reflect when control initially loads, and apply appropriate trigger logic
+            _selectListView.SelectedItem = string.Empty;
+
+            if (control.FindDescendant("RemoveSelection") is Button btn3)
+            {
+                _unselectButton = btn3;
+
+                _unselectButton.Click += this.UnselectButton_Click;
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -64,9 +79,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_listBox != null)
+            if (_listBox != null && _listBox.Items.Count > 0)
             {
                 _listBox.Items.RemoveAt(0);
+            }
+        }
+
+        private void UnselectButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_selectListView != null && _selectListView.SelectedItem != null)
+            {
+                _selectListView.SelectedItem = null;
             }
         }
     }
