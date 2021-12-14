@@ -34,14 +34,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// <summary>
         /// Gets a value indicating whether the trigger is active.
         /// </summary>
-        public static bool IsActive { get; private set; }
+        public bool IsActive
+        {
+            get => (bool)GetValue(IsActiveProperty);
+            set => SetValue(IsActiveProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsActive"/> DependencyProperty
+        /// Allows user to enable the trigger from XAML
+        /// </summary>
+        public static readonly DependencyProperty IsActiveProperty =
+            DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(false, OnIsActiveChanged));
+
+        private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null && e.NewValue is bool)
+            {
+                var obj = (IsNullOrEmptyStateTrigger)d;
+                obj.SetActive((bool)e.NewValue);
+            }
+        }
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (IsNullOrEmptyStateTrigger)d;
             var val = e.NewValue;
 
-            obj.SetActive(IsActive = IsNullOrEmpty(val));
+            obj.SetActive(obj.IsActive = IsNullOrEmpty(val));
 
             if (val == null)
             {

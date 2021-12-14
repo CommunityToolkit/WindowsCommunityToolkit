@@ -37,7 +37,7 @@
         <VisualState x:Name="SelectedItemNotNullState" />
         <VisualState x:Name="SelectedItemNullState">
             <VisualState.StateTriggers>
-                <triggers:IsNullOrEmptyStateTrigger Value="{Binding SelectedItem, ElementName=SelectList}"/>
+                <triggers:IsNullOrEmptyStateTrigger Value="{Binding SelectedItem, ElementName=SelectList}" IsActive="True"/>
             </VisualState.StateTriggers>
             <VisualState.Setters>
                 <Setter Target="RemoveSelection.IsEnabled" Value="False" />
@@ -75,21 +75,20 @@
           </Style>
         </ListBox.ItemContainerStyle>
       </ListBox>
-        
-        <Border BorderBrush="Gold" BorderThickness="1" Margin="0,80,0,0">
-            <StackPanel>
-                <Button x:Name="RemoveSelection" Content="Unselect" />
-                <TextBlock x:Name="SelectionEmptyMessage" Text="SelectedItem is empty, select an item" Visibility="Collapsed"
-                            Margin="5,0,0,0"/>
-                <ListView x:Name="SelectList" HorizontalAlignment="Left">
-                    <ListView.Items>
-                        <TextBlock Text="One" />
-                        <TextBlock Text="Two" />
-                        <TextBlock Text="Three" />
-                    </ListView.Items>
-                </ListView>
-            </StackPanel>            
-        </Border>
+      <Border BorderBrush="Gold" BorderThickness="1" Margin="0,80,0,0" Width="275">
+        <StackPanel>
+            <Button x:Name="RemoveSelection" Content="Unselect" />
+            <TextBlock x:Name="SelectionEmptyMessage" Text="SelectedItem is empty, select an item" Visibility="Collapsed"
+                        Margin="5,0,0,0"/>
+            <ListView x:Name="SelectList" HorizontalAlignment="Left">
+                <ListView.Items>
+                    <TextBlock Text="One" />
+                    <TextBlock Text="Two" />
+                    <TextBlock Text="Three" />
+                </ListView.Items>
+            </ListView>
+        </StackPanel>            
+      </Border>
     </StackPanel>
   </Grid>
 </Page>

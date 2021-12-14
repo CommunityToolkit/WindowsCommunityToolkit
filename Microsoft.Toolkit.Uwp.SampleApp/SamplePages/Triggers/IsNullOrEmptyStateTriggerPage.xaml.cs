@@ -56,10 +56,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _listBox = control.FindDescendant("OurList") as ListBox;
 
             _selectListView = control.FindDescendant("SelectList") as ListView;
-            
-            // Hack to programmatically set the SelectedItem to *any* initial value other than null,
-            //      to prime the trigger to self-reflect when control initially loads, and apply appropriate trigger logic
-            _selectListView.SelectedItem = string.Empty;
 
             if (control.FindDescendant("RemoveSelection") is Button btn3)
             {
