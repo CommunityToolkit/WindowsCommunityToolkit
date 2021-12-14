@@ -184,6 +184,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
+            var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
+            Closing?.Invoke(this, closingEventArgs);
+
+            if (closingEventArgs.Cancel)
+            {
+                return;
+            }
+
             _dismissTimer.Stop();
 
             // Dismiss all if requested
@@ -209,14 +217,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _dismissTimer.Start();
                 }
 
-                return;
-            }
-
-            var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
-            Closing?.Invoke(this, closingEventArgs);
-
-            if (closingEventArgs.Cancel)
-            {
                 return;
             }
 
