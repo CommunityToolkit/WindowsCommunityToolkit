@@ -14,6 +14,8 @@ body:
       
 - type: textarea
   id: description
+  validations:
+    required: true
   attributes:
      label: Describe the bug
      description: A clear and concise description of what the bug is.
@@ -136,6 +138,8 @@ body:
      description: Add any other context about the problem here.
 - type: dropdown
   id: contribution
+  validations:
+    required: true
   attributes:
      label: Help us help you
      description: Would you like to contribute a solution to this issue?
