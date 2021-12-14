@@ -77,7 +77,7 @@
       </ListBox>
       <Border BorderBrush="Gold" BorderThickness="1" Margin="0,80,0,0" Width="275">
         <StackPanel>
-            <Button x:Name="RemoveSelection" Content="Unselect" />
+            <Button x:Name="RemoveSelection" Content="Deselect" />
             <TextBlock x:Name="SelectionEmptyMessage" Text="SelectedItem is empty, select an item" Visibility="Collapsed"
                         Margin="5,0,0,0"/>
             <ListView x:Name="SelectList" HorizontalAlignment="Left">

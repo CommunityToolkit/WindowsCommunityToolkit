@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         /// <summary>
-        /// Gets a value indicating whether the trigger is active.
+        /// Gets or sets a value indicating whether a trigger is active.
         /// </summary>
         public bool IsActive
         {
