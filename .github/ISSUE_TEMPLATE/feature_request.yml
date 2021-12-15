@@ -1,0 +1,65 @@
+name: Feature request
+description: Create a report to help us fix something that isn't working as expected
+title: "[Feature]"
+labels: "feature request :mailbox_with_mail:"
+body:
+- type: markdown
+  attributes: 
+    value: |
+      ## Before you begin
+      🚨 **Please do not skip instructions**🚨
+      
+      This info is essential to help us understand your feature request.
+      
+      If you're uncertain about the feature, find or start an [Ideas](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/ideas) discussion, where you can get insight from the community regarding your issue. 
+
+- type: textarea
+  id: problem-description
+  validations: 
+    required: true
+  attributes: 
+    label: Describe the problem
+    description: Describe the problem this feature would solve.
+    placeholder: |
+       A clear and concise description of what the problem is, starting with the user story.
+
+       Describe or link to any existing issues or discussions.
+       
+       Provide examples of the restrictions in the current environment that hinders the work your users or you want to perform. What are the ways this new feature will help transform and deliver those results
+       
+       For example, I am currently using the InfiniteCanvas control which lacks the TabbedCommandBar control feature. I am looking to improve user experience therefore i would like to use that in my project to provide ease of accessibility and a user-friendly interface. This new feature will provide quick access to the toolbar, enhance space utilization, etc [...]
+
+- type: textarea
+  id: solution-description
+  validations: 
+    required: true
+  attributes: 
+    label: Describe the solution
+    description: Describe the solution to the problem.
+    placeholder: |
+       A clear and concise description of what you want to happen. Define how do you think it will help the community and the value it adds to the toolkit.
+
+- type: textarea
+  id: alternatives
+  attributes: 
+    label: Alternatives
+    description: Describe alternatives you've considered
+    placeholder: |
+       A clear and concise description of any alternative solutions or features you've considered.
+
+- type: textarea
+  id: additional-info
+  attributes:
+    label: Additional info
+    description: Add any other context or screenshots about the feature request here.
+
+
+- type: dropdown
+  id: contribution
+  attributes:
+     label: Help us help you
+     description: Would you like to contribute a solution to this issue?
+     options:
+       - Yes, I'd like to be assigned to work on this item.
+       - Yes, but only if others can assist.
+       - No.
