@@ -70,6 +70,12 @@ namespace Microsoft.Toolkit.Uwp.UI
                 case ValidationType.Decimal:
                     regexMatch = textBox.Text.IsDecimal();
                     break;
+                case ValidationType.Currency:
+                    // @"(^\d*\.\d{2}$)" regex pattern to detect currency sign with currency value
+                    // Mathes: $100.00, $100, $10.25
+                    // Non-Matches: 100., $10.233, $10.
+                    regexMatch = Regex.IsMatch(textBox.Text, @"(^\d*\.\d{2}$)");
+                    break;
                 case ValidationType.Email:
                     regexMatch = textBox.Text.IsEmail();
                     break;

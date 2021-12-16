@@ -54,6 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI
             Decimal,
 
             /// <summary>
+            /// Currency validation
+            /// </summary>
+            Currency,
+
+            /// <summary>
             /// Text only validation
             /// </summary>
             Characters,
