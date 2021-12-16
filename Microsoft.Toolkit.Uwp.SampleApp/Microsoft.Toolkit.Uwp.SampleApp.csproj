@@ -497,9 +497,6 @@
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
     <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
-    <Compile Include="SamplePages\ContentSizer\ContentSizerPage.xaml.cs">
-      <DependentUpon>ContentSizerPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\Vector3Converter.cs" />
     <Compile Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorPage.xaml.cs">
       <DependentUpon>AutoFocusBehaviorPage.xaml</DependentUpon>
