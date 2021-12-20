@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendant<T>(this DependencyObject element, Func<T, bool> predicate)
             where T : notnull, DependencyObject
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <param name="searchType">The search type to use to explore the visual tree.</param>
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendant<T>(this DependencyObject element, Func<T, bool> predicate, SearchType searchType)
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The root element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, DependencyObject
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The root element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <param name="searchType">The search type to use to explore the visual tree.</param>
         /// <returns>The descendant that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate, SearchType searchType)
@@ -374,7 +374,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate)
             where T : notnull, DependencyObject
@@ -392,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <param name="searchType">The search type to use to explore the visual tree.</param>
         /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate, SearchType searchType)
@@ -413,7 +413,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The root element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, DependencyObject
@@ -433,7 +433,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The root element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicatee to use to match the descendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the descendant nodes.</param>
         /// <param name="searchType">The search type to use to explore the visual tree.</param>
         /// <returns>The descendant (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindDescendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate, SearchType searchType)
@@ -727,7 +727,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The starting element.</param>
-        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the ascendant nodes.</param>
         /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
         public static T? FindAscendant<T>(this DependencyObject element, Func<T, bool> predicate)
             where T : notnull, DependencyObject
@@ -744,7 +744,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The starting element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the ascendant nodes.</param>
         /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
         public static T? FindAscendant<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, DependencyObject
@@ -760,7 +760,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
         /// <param name="element">The starting element.</param>
-        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the ascendant nodes.</param>
         /// <returns>The ascendant that was found, or <see langword="null"/>.</returns>
         private static T? FindAscendant<T, TPredicate>(this DependencyObject element, ref TPredicate predicate)
             where T : notnull, DependencyObject
@@ -839,7 +839,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The starting element.</param>
-        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the ascendant nodes.</param>
         /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindAscendantOrSelf<T>(this DependencyObject element, Func<T, bool> predicate)
             where T : notnull, DependencyObject
@@ -859,7 +859,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The starting element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicatee to use to match the ascendant nodes.</param>
+        /// <param name="predicate">The predicate to use to match the ascendant nodes.</param>
         /// <returns>The ascendant (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindAscendantOrSelf<T, TState>(this DependencyObject element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, DependencyObject
