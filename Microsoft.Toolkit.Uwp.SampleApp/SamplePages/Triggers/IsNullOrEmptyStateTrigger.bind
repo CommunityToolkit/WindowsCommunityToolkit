@@ -37,7 +37,7 @@
         <VisualState x:Name="SelectedItemNotNullState" />
         <VisualState x:Name="SelectedItemNullState">
             <VisualState.StateTriggers>
-                <triggers:IsNullOrEmptyStateTrigger Value="{Binding SelectedItem, ElementName=SelectList}" IsActive="True"/>
+                <triggers:IsNullOrEmptyStateTrigger Value="{Binding SelectedItem, ElementName=SelectList}"/>
             </VisualState.StateTriggers>
             <VisualState.Setters>
                 <Setter Target="RemoveSelection.IsEnabled" Value="False" />

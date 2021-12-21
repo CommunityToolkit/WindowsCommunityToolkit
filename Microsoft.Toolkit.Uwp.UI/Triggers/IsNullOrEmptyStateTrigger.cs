@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections;
 using System.Collections.Specialized;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -32,36 +31,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
 
         /// <summary>
-        /// Gets or sets a value indicating whether a trigger is active.
+        /// Initializes a new instance of the <see cref="IsNullOrEmptyStateTrigger"/> class.
         /// </summary>
-        public bool IsActive
+        public IsNullOrEmptyStateTrigger()
         {
-            get => (bool)GetValue(IsActiveProperty);
-            set => SetValue(IsActiveProperty, value);
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="IsActive"/> DependencyProperty
-        /// Allows user to enable the trigger from XAML
-        /// </summary>
-        public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(false, OnIsActiveChanged));
-
-        private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue != null && e.NewValue is bool)
-            {
-                var obj = (IsNullOrEmptyStateTrigger)d;
-                obj.SetActive((bool)e.NewValue);
-            }
+            SetActive(true);
         }
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (IsNullOrEmptyStateTrigger)d;
             var val = e.NewValue;
-
-            obj.SetActive(obj.IsActive = IsNullOrEmpty(val));
 
             if (val == null)
             {
