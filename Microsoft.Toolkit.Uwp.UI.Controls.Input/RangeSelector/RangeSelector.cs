@@ -37,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
-        private Thumb _minThumb;
-        private Thumb _maxThumb;
+        private RangeThumb _minThumb;
+        private RangeThumb _maxThumb;
         private Canvas _containerCanvas;
         private Grid _controlGrid;
         private double _oldValue;
@@ -98,8 +98,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _outOfRangeContentContainer = GetTemplateChild("OutOfRangeContentContainer") as Border;
             _activeRectangle = GetTemplateChild("ActiveRectangle") as Rectangle;
-            _minThumb = GetTemplateChild("MinThumb") as Thumb;
-            _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
+            _minThumb = GetTemplateChild("MinThumb") as RangeThumb;
+            _maxThumb = GetTemplateChild("MaxThumb") as RangeThumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
             _controlGrid = GetTemplateChild("ControlGrid") as Grid;
             _toolTip = GetTemplateChild("ToolTip") as Grid;
