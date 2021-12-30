@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// The <see cref="ContentSizer"/> is a control which can be used to resize any element, usually its parent. If you are using a <see cref="Grid"/>, use <see cref="GridSplitter"/> instead.
     /// </summary>
     [ContentProperty(Name = nameof(Content))]
-    public partial class ContentSizer : Control
+    public partial class ContentSizer : SplitBase
     {
         // Symbols for GripperBar in Segoe MDL2 Assets
         private const string GripperBarVertical = "\xE784";
