@@ -150,20 +150,20 @@
                             <controls:RangeThumb x:Name="MinThumb"
                                                  AutomationProperties.Name="Min thumb"
                                                  IsTabStop="True"
-                                                 Maximum="{Binding Maximum, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                 Minimum="{Binding Minimum, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                 Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                 Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                  Style="{StaticResource RangeThumbStyle}"
                                                  TabIndex="0"
-                                                 Value="{Binding RangeStart, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                                 Value="{Binding RangeStart, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
 
                             <controls:RangeThumb x:Name="MaxThumb"
                                                  AutomationProperties.Name="Max thumb"
                                                  IsTabStop="True"
-                                                 Maximum="{Binding Maximum, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                 Minimum="{Binding Minimum, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                 Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                 Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                  Style="{StaticResource RangeThumbStyle}"
                                                  TabIndex="1"
-                                                 Value="{Binding RangeEnd, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                                 Value="{Binding RangeEnd, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                         </Canvas>
                     </Grid>
                 </ControlTemplate>
