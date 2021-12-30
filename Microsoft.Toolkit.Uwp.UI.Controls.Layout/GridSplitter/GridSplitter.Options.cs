@@ -35,14 +35,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(GridResizeDirection.Auto));
 
         /// <summary>
-        /// Identifies the <see cref="ResizeBehavior"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ResizeBehaviorProperty
-            = DependencyProperty.Register(
-                nameof(ResizeBehavior),
-                typeof(GridResizeBehavior),
-                typeof(GridSplitter),
-                new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
+        ///// Identifies the <see cref="ResizeBehavior"/> dependency property.
+        ///// </summary>
+        //public static readonly DependencyProperty ResizeBehaviorProperty
+        //    = DependencyProperty.Register(
+        //        nameof(ResizeBehavior),
+        //        typeof(GridResizeBehavior),
+        //        typeof(GridSplitter),
+        //        new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
         /// <summary>
         /// Identifies the <see cref="GripperForeground"/> dependency property.
@@ -113,15 +113,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(ResizeDirectionProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets which Columns or Rows the Splitter resizes.
-        /// </summary>
-        public GridResizeBehavior ResizeBehavior
-        {
-            get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
+        ///// <summary>
+        ///// Gets or sets which Columns or Rows the Splitter resizes.
+        ///// </summary>
+        //public GridResizeBehavior ResizeBehavior
+        //{
+        //    get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
 
-            set { SetValue(ResizeBehaviorProperty, value); }
-        }
+        //    set { SetValue(ResizeBehaviorProperty, value); }
+        //}
 
         /// <summary>
         /// Gets or sets the foreground color of grid splitter grip
