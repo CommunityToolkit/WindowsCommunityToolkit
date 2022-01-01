@@ -5729,14 +5729,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 bool focusLeftDataGrid = true;
                 bool dataGridWillReceiveRoutedEvent = true;
-                DataGridColumn editingColumn = null;
+                bool focusedElementReceivesRoutedEvent = false;
 
                 // Walk up the visual tree of the newly focused element
                 // to determine if focus is still within DataGrid.
                 object focusedObject = GetFocusedElement();
                 DependencyObject focusedDependencyObject = focusedObject as DependencyObject;
 
-                while (focusedDependencyObject != null)
+                if (this.EditingRow != null && this.EditingColumnIndex != -1)
+                {
+                    var editingColumn = this.ColumnsItemsInternal[this.EditingColumnIndex];
+                    focusedElementReceivesRoutedEvent = editingColumn.ContainsChild(focusedDependencyObject) || focusedDependencyObject is Popup;
+                }
+
+                while (focusedDependencyObject != null && !focusedElementReceivesRoutedEvent)
                 {
                     if (focusedDependencyObject == this)
                     {
@@ -5769,23 +5775,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     focusedDependencyObject = parent;
                 }
 
-                if (this.EditingRow != null && this.EditingColumnIndex != -1)
+                if (!focusLeftDataGrid || focusedElementReceivesRoutedEvent)
                 {
-                    editingColumn = this.ColumnsItemsInternal[this.EditingColumnIndex];
-
-                    if (focusLeftDataGrid && editingColumn is DataGridTemplateColumn)
-                    {
-                        dataGridWillReceiveRoutedEvent = false;
-                    }
+                    dataGridWillReceiveRoutedEvent = false;
                 }
-
-                if (focusLeftDataGrid && !(editingColumn is DataGridTemplateColumn))
+                else if (this.EditingRow != null && this.EditingColumnIndex != -1)
                 {
                     this.ContainsFocus = false;
-                    if (this.EditingRow != null)
-                    {
-                        CommitEdit(DataGridEditingUnit.Row, true /*exitEditingMode*/);
-                    }
+                    CommitEdit(DataGridEditingUnit.Row, true /*exitEditingMode*/);
 
                     ResetFocusedRow();
                     ApplyDisplayedRowsState(this.DisplayData.FirstScrollingSlot, this.DisplayData.LastScrollingSlot);
@@ -5798,14 +5795,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         UpdateCurrentState(this.DisplayData.GetDisplayedElement(this.CurrentSlot), this.CurrentColumnIndex, true /*applyCellState*/);
                     }
                 }
-                else if (!dataGridWillReceiveRoutedEvent)
+
+                if (!dataGridWillReceiveRoutedEvent)
                 {
-                    FrameworkElement focusedElement = focusedObject as FrameworkElement;
-                    if (focusedElement != null)
-                    {
-                        focusedElement.LostFocus += new RoutedEventHandler(ExternalEditingElement_LostFocus);
-                    }
+                    HandleLostFocusForExternalElement(focusedObject);
                 }
+            }
+        }
+
+        private void HandleLostFocusForExternalElement(object focusedObject)
+        {
+            FrameworkElement focusedElement = focusedObject as FrameworkElement;
+            if (focusedElement != null)
+            {
+                focusedElement.LostFocus += new RoutedEventHandler(ExternalEditingElement_LostFocus);
             }
         }
 
