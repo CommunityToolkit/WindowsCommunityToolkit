@@ -18,7 +18,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
             this.Loaded += ThemeListenerPage_Loaded;
-            SampleController.Current.ThemeListener.ThemeChanged += Listener_ThemeChanged;
             SampleController.Current.ThemeChanged += Current_ThemeChanged;
         }
 
@@ -32,11 +31,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UpdateThemeState();
         }
 
-        private void Listener_ThemeChanged(ThemeListener sender)
-        {
-            UpdateThemeState();
-        }
-
         private void UpdateThemeState()
         {
             SystemTheme.Text = SampleController.Current.ThemeListener.CurrentThemeName;
@@ -46,7 +40,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
             Loaded -= ThemeListenerPage_Loaded;
-            SampleController.Current.ThemeListener.ThemeChanged -= Listener_ThemeChanged;
             SampleController.Current.ThemeChanged -= Current_ThemeChanged;
         }
     }
