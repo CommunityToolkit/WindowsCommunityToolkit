@@ -18,11 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     internal static class CompositionObjectExtensions
     {
         /// <summary>
-        /// Starts an <see cref="ExpressionAnimation"/> to keep the size of the source <see cref="CompositionObject"/> in sync with the target <see cref="UIElement"/>
+        /// Starts an <see cref="ExpressionAnimation"/> to keep the size of the source <see cref="Visual"/> in sync with the target <see cref="UIElement"/>
         /// </summary>
-        /// <param name="source">The <see cref="CompositionObject"/> to start the animation on</param>
+        /// <param name="source">The <see cref="Visual"/> to start the animation on</param>
         /// <param name="target">The target <see cref="UIElement"/> to read the size updates from</param>
-        public static void BindSize(this CompositionObject source, UIElement target)
+        public static void BindSize(this Visual source, UIElement target)
         {
             var visual = ElementCompositionPreview.GetElementVisual(target);
             var bindSizeAnimation = source.Compositor.CreateExpressionAnimation($"{nameof(visual)}.Size");
