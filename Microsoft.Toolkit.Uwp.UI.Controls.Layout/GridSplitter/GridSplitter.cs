@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Represents the control that redistributes space between columns or rows of a Grid control.
     /// </summary>
-    public partial class GridSplitter : Control
+    public partial class GridSplitter : SplitBase
     {
         internal const int GripperCustomCursorDefaultResource = -1;
         internal static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);

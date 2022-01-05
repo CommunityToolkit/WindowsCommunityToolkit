@@ -1,3 +1,7 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +13,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Base class for GridSplitter and ContentSizer
+    /// </summary>
     public partial class SplitBase : Control
     {
         /// <summary>
@@ -89,48 +96,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// Identifies the <see cref="ResizeBehavior"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ResizeBehaviorProperty
-            = DependencyProperty.Register(
-                nameof(ResizeBehavior),
-                typeof(GridResizeBehavior),
-                typeof(GridSplitter),
-                new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
-
         /// <summary>
-        /// Gets or sets which Columns or Rows the Splitter resizes.
+        /// Check for new requested vertical size is valid or not
         /// </summary>
-        public GridResizeBehavior ResizeBehavior
+        /// <param name="target">Target control being resized</param>
+        /// <param name="verticalChange">The requested vertical change</param>
+        /// <returns>Bool result if requested vertical change is valid or not</returns>
+        protected bool IsValidHeight(FrameworkElement target, double verticalChange)
         {
-            get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
-            set { SetValue(ResizeBehaviorProperty, value); }
+            var newHeight = target.ActualHeight + verticalChange;
+
+            var minHeight = target.MinHeight;
+            if (newHeight < 0 || (!double.IsNaN(minHeight) && newHeight < minHeight))
+            {
+                return false;
+            }
+
+            var maxHeight = target.MaxHeight;
+            if (!double.IsNaN(maxHeight) && newHeight > maxHeight)
+            {
+                return false;
+            }
+
+            if (newHeight <= ActualHeight)
+            {
+                return false;
+            }
+
+            return true;
         }
-    }
-
-    /// <summary>
-    /// Enum to indicate what Columns or Rows the GridSplitter resizes
-    /// </summary>
-    public enum GridResizeBehavior
-    {
-        /// <summary>
-        /// Determine which columns or rows to resize based on its Alignment.
-        /// </summary>
-        BasedOnAlignment,
 
         /// <summary>
-        /// Resize the current and next Columns or Rows.
+        /// Check for new requested horizontal size is valid or not
         /// </summary>
-        CurrentAndNext,
+        /// <param name="target">Target control being resized</param>
+        /// <param name="horizontalChange">The requested horizontal change</param>
+        /// <returns>Bool result if requested horizontal change is valid or not</returns>
+        protected bool IsValidWidth(FrameworkElement target, double horizontalChange)
+        {
+            var newWidth = target.ActualWidth + horizontalChange;
 
-        /// <summary>
-        /// Resize the previous and current Columns or Rows.
-        /// </summary>
-        PreviousAndCurrent,
+            var minWidth = target.MinWidth;
+            if (newWidth < 0 || (!double.IsNaN(minWidth) && newWidth < minWidth))
+            {
+                return false;
+            }
 
-        /// <summary>
-        /// Resize the previous and next Columns or Rows.
-        /// </summary>
-        PreviousAndNext
+            var maxWidth = target.MaxWidth;
+            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
+            {
+                return false;
+            }
+
+            if (newWidth <= ActualWidth)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

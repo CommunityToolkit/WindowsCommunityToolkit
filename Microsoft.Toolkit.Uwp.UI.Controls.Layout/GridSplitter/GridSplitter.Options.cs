@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ResizeDirection"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ResizeDirectionProperty
+        public static new readonly DependencyProperty ResizeDirectionProperty
             = DependencyProperty.Register(
                 nameof(ResizeDirection),
                 typeof(GridResizeDirection),
@@ -35,14 +35,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(GridResizeDirection.Auto));
 
         /// <summary>
-        ///// Identifies the <see cref="ResizeBehavior"/> dependency property.
-        ///// </summary>
-        //public static readonly DependencyProperty ResizeBehaviorProperty
-        //    = DependencyProperty.Register(
-        //        nameof(ResizeBehavior),
-        //        typeof(GridResizeBehavior),
-        //        typeof(GridSplitter),
-        //        new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
+        /// Identifies the <see cref="ResizeBehavior"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ResizeBehaviorProperty
+            = DependencyProperty.Register(
+                nameof(ResizeBehavior),
+                typeof(GridResizeBehavior),
+                typeof(GridSplitter),
+                new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
         /// <summary>
         /// Identifies the <see cref="GripperForeground"/> dependency property.
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="GripperCursor"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty GripperCursorProperty =
+        public static new readonly DependencyProperty GripperCursorProperty =
             DependencyProperty.RegisterAttached(
                 nameof(GripperCursor),
                 typeof(CoreCursorType?),
@@ -106,22 +106,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets whether the Splitter resizes the Columns, Rows, or Both.
         /// </summary>
-        public GridResizeDirection ResizeDirection
+        public new GridResizeDirection ResizeDirection
         {
             get { return (GridResizeDirection)GetValue(ResizeDirectionProperty); }
-
             set { SetValue(ResizeDirectionProperty, value); }
         }
 
-        ///// <summary>
-        ///// Gets or sets which Columns or Rows the Splitter resizes.
-        ///// </summary>
-        //public GridResizeBehavior ResizeBehavior
-        //{
-        //    get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
-
-        //    set { SetValue(ResizeBehaviorProperty, value); }
-        //}
+        /// <summary>
+        /// Gets or sets which Columns or Rows the Splitter resizes.
+        /// </summary>
+        public GridResizeBehavior ResizeBehavior
+        {
+            get { return (GridResizeBehavior)GetValue(ResizeBehaviorProperty); }
+            set { SetValue(ResizeBehaviorProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the foreground color of grid splitter grip
@@ -129,7 +127,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public Brush GripperForeground
         {
             get { return (Brush)GetValue(GripperForegroundProperty); }
-
             set { SetValue(GripperForegroundProperty, value); }
         }
 
@@ -139,14 +136,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public int ParentLevel
         {
             get { return (int)GetValue(ParentLevelProperty); }
-
             set { SetValue(ParentLevelProperty, value); }
         }
 
         /// <summary>
         /// Gets or sets the gripper Cursor type
         /// </summary>
-        public GripperCursorType GripperCursor
+        public new GripperCursorType GripperCursor
         {
             get { return (GripperCursorType)GetValue(GripperCursorProperty); }
             set { SetValue(GripperCursorProperty, value); }
