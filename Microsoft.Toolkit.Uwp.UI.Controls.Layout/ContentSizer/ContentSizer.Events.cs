@@ -117,53 +117,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return false;
         }
-
-        private bool IsValidHeight(FrameworkElement target, double verticalChange)
-        {
-            var newHeight = target.ActualHeight + verticalChange;
-
-            var minHeight = target.MinHeight;
-            if (newHeight < 0 || (!double.IsNaN(minHeight) && newHeight < minHeight))
-            {
-                return false;
-            }
-
-            var maxHeight = target.MaxHeight;
-            if (!double.IsNaN(maxHeight) && newHeight > maxHeight)
-            {
-                return false;
-            }
-
-            if (newHeight <= ActualHeight)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool IsValidWidth(FrameworkElement target, double horizontalChange)
-        {
-            var newWidth = target.ActualWidth + horizontalChange;
-
-            var minWidth = target.MinWidth;
-            if (newWidth < 0 || (!double.IsNaN(minWidth) && newWidth < minWidth))
-            {
-                return false;
-            }
-
-            var maxWidth = target.MaxWidth;
-            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
-            {
-                return false;
-            }
-
-            if (newWidth <= ActualWidth)
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }

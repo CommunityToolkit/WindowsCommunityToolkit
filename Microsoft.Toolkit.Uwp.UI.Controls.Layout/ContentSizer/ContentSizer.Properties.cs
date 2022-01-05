@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class ContentSizer
     {
         /// <summary>
-        /// Gets or sets the content template for the <see cref="Content"/>. By default is a TextBlock.
+        /// Gets or sets the content template for the <see cref="SplitBase.Content"/>. By default is a TextBlock.
         /// </summary>
         public DataTemplate ContentTemplate
         {
@@ -47,6 +47,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty GripperForegroundProperty =
             DependencyProperty.Register(nameof(GripperForeground), typeof(Brush), typeof(ContentSizer), new PropertyMetadata(default(Brush)));
-
     }
 }
