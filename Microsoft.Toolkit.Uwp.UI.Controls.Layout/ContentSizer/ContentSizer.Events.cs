@@ -97,6 +97,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
             TargetControl.Height += verticalChange;
 
+            GripperCursor = Windows.UI.Core.CoreCursorType.SizeNorthSouth;
+
             return false;
         }
 
@@ -114,6 +116,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // TODO: This only works if splitter is on left and making things grow right...
             TargetControl.Width += horizontalChange;
+
+            GripperCursor = Windows.UI.Core.CoreCursorType.SizeWestEast;
 
             return false;
         }
