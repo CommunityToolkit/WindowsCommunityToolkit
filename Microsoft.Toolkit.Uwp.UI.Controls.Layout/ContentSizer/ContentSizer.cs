@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
@@ -45,6 +46,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Register Events
             Loaded += ContentSizer_Loaded;
+        }
+
+        /// <summary>
+        /// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
+        /// </summary>
+        /// <returns>An automation peer for this <see cref="ContentSizer"/>.</returns>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ContentSizerAutomationPeer(this);
         }
     }
 }
