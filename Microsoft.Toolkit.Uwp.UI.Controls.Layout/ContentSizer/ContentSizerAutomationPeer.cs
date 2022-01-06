@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
+    /// <summary>
+    /// Defines a framework element automation peer for the <see cref="ContentSizer"/> control.
+    /// </summary>
     public class ContentSizerAutomationPeer : FrameworkElementAutomationPeer
     {
         /// <summary>
@@ -16,9 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// <param name="owner">
         /// The <see cref="ContentSizer" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.ContentSizerAutomationPeer" />.
         /// </param>
-        public ContentSizerAutomationPeer(ContentSizer owner) : base(owner)
+        public ContentSizerAutomationPeer(ContentSizer owner)
+            : base(owner)
         {
-
         }
 
         private ContentSizer OwningContentSizer
