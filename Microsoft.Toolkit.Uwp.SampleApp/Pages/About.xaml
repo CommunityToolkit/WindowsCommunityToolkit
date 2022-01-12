@@ -54,7 +54,8 @@
                     <TextBlock Width="150"
                                HorizontalAlignment="Left"
                                TextTrimming="CharacterEllipsis"
-                               Text="{x:Bind FullName}" />
+                               Text="{x:Bind FullName}"
+                               ToolTipService.ToolTip="{x:Bind FullName}"/>
                     <TextBlock HorizontalAlignment="Right"
                                Opacity="0.5"
                                Text="{x:Bind Published.ToString('MMM d', {x:Null})}" />
