@@ -88,6 +88,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return true;
             }
 
+            verticalChange = InvertDragDirection ? -verticalChange : verticalChange;
+
             if (!IsValidHeight(TargetControl, verticalChange))
             {
                 return true;
@@ -108,6 +110,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return true;
             }
+
+            horizontalChange = InvertDragDirection ? -horizontalChange : horizontalChange;
 
             if (!IsValidWidth(TargetControl, horizontalChange))
             {

@@ -97,6 +97,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="SplitBase"/> control is resizing in the opposite direction.
+        /// </summary>
+        public bool InvertDragDirection
+        {
+            get { return (bool)GetValue(InvertDragDirectionProperty); }
+            set { SetValue(InvertDragDirectionProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="InvertDragDirection"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty InvertDragDirectionProperty =
+            DependencyProperty.Register(nameof(InvertDragDirection), typeof(bool), typeof(SplitBase), new PropertyMetadata(false));
+
+        /// <summary>
         /// Check for new requested vertical size is valid or not
         /// </summary>
         /// <param name="target">Target control being resized</param>
