@@ -32,21 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 CreateGripperDisplay();
                 Element = _gripperDisplay;
             }
-
-            if (_hoverWrapper == null)
-            {
-                var hoverWrapper = new GripperHoverWrapper(
-                    CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
-                    ? this
-                    : Element,
-                    _resizeDirection,
-                    GripperCursor,
-                    GripperCustomCursorResource);
-                ManipulationStarted += hoverWrapper.SplitterManipulationStarted;
-                ManipulationCompleted += hoverWrapper.SplitterManipulationCompleted;
-
-                _hoverWrapper = hoverWrapper;
-            }
         }
 
         private void CreateGripperDisplay()

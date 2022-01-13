@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;
-        private GripperHoverWrapper _hoverWrapper;
+
         private TextBlock _gripperDisplay;
 
         private bool _pressed = false;
@@ -166,6 +166,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Loaded += GridSplitter_Loaded;
             string automationName = "WCT_GridSplitter_AutomationName".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Layout/Resources");
             AutomationProperties.SetName(this, automationName);
+
+            RegisterPropertyChangedCallback(GripperForegroundProperty, (sender, eventArgs) =>
+            {
+                var gridSplitter = (GridSplitter)sender;
+
+                if (gridSplitter._gripperDisplay == null)
+                {
+                    return;
+                }
+
+                gridSplitter._gripperDisplay.Foreground = gridSplitter.GripperForeground;
+            });
         }
 
         /// <inheritdoc />
@@ -182,8 +194,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationStarted -= GridSplitter_ManipulationStarted;
             ManipulationCompleted -= GridSplitter_ManipulationCompleted;
 
-            _hoverWrapper?.UnhookEvents();
-
             // Register Events
             Loaded += GridSplitter_Loaded;
             PointerEntered += GridSplitter_PointerEntered;
@@ -192,8 +202,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PointerReleased += GridSplitter_PointerReleased;
             ManipulationStarted += GridSplitter_ManipulationStarted;
             ManipulationCompleted += GridSplitter_ManipulationCompleted;
-
-            _hoverWrapper?.UpdateHoverElement(Element);
 
             ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         }

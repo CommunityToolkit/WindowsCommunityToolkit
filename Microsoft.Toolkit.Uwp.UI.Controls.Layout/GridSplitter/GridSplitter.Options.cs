@@ -2,10 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -22,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(Element),
                 typeof(UIElement),
                 typeof(GridSplitter),
-                new PropertyMetadata(default(UIElement), OnElementPropertyChanged));
+                new PropertyMetadata(default(UIElement)));
 
         /// <summary>
         /// Identifies the <see cref="ResizeDirection"/> dependency property.
@@ -45,16 +42,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(GridResizeBehavior.BasedOnAlignment));
 
         /// <summary>
-        /// Identifies the <see cref="GripperForeground"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty GripperForegroundProperty
-            = DependencyProperty.Register(
-                nameof(GripperForeground),
-                typeof(Brush),
-                typeof(GridSplitter),
-                new PropertyMetadata(default(Brush), OnGripperForegroundPropertyChanged));
-
-        /// <summary>
         /// Identifies the <see cref="ParentLevel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ParentLevelProperty
@@ -65,26 +52,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(default(int)));
 
         /// <summary>
-        /// Identifies the <see cref="GripperCursor"/> dependency property.
-        /// </summary>
-        public static new readonly DependencyProperty GripperCursorProperty =
-            DependencyProperty.RegisterAttached(
-                nameof(GripperCursor),
-                typeof(CoreCursorType?),
-                typeof(GridSplitter),
-                new PropertyMetadata(GripperCursorType.Default, OnGripperCursorPropertyChanged));
-
-        /// <summary>
-        /// Identifies the <see cref="GripperCustomCursorResource"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty GripperCustomCursorResourceProperty =
-            DependencyProperty.RegisterAttached(
-                nameof(GripperCustomCursorResource),
-                typeof(uint),
-                typeof(GridSplitter),
-                new PropertyMetadata(GripperCustomCursorDefaultResource, GripperCustomCursorResourcePropertyChanged));
-
-        /// <summary>
         /// Identifies the <see cref="CursorBehavior"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CursorBehaviorProperty =
@@ -92,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(CursorBehavior),
                 typeof(SplitterCursorBehavior),
                 typeof(GridSplitter),
-                new PropertyMetadata(SplitterCursorBehavior.ChangeOnSplitterHover, CursorBehaviorPropertyChanged));
+                new PropertyMetadata(SplitterCursorBehavior.ChangeOnSplitterHover));
 
         /// <summary>
         /// Gets or sets the visual content of this Grid Splitter
@@ -122,15 +89,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the foreground color of grid splitter grip
-        /// </summary>
-        public Brush GripperForeground
-        {
-            get { return (Brush)GetValue(GripperForegroundProperty); }
-            set { SetValue(GripperForegroundProperty, value); }
-        }
-
-        /// <summary>
         /// Gets or sets the level of the parent grid to resize
         /// </summary>
         public int ParentLevel
@@ -149,77 +107,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the gripper Custom Cursor resource number
-        /// </summary>
-        public int GripperCustomCursorResource
-        {
-            get { return (int)GetValue(GripperCustomCursorResourceProperty); }
-            set { SetValue(GripperCustomCursorResourceProperty, value); }
-        }
-
-        /// <summary>
         /// Gets or sets splitter cursor on hover behavior
         /// </summary>
         public SplitterCursorBehavior CursorBehavior
         {
             get { return (SplitterCursorBehavior)GetValue(CursorBehaviorProperty); }
             set { SetValue(CursorBehaviorProperty, value); }
-        }
-
-        private static void OnGripperForegroundPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)d;
-
-            if (gridSplitter._gripperDisplay == null)
-            {
-                return;
-            }
-
-            gridSplitter._gripperDisplay.Foreground = gridSplitter.GripperForeground;
-        }
-
-        private static void OnGripperCursorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)d;
-
-            if (gridSplitter._hoverWrapper == null)
-            {
-                return;
-            }
-
-            gridSplitter._hoverWrapper.GripperCursor = gridSplitter.GripperCursor;
-        }
-
-        private static void GripperCustomCursorResourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)d;
-
-            if (gridSplitter._hoverWrapper == null)
-            {
-                return;
-            }
-
-            gridSplitter._hoverWrapper.GripperCustomCursorResource = gridSplitter.GripperCustomCursorResource;
-        }
-
-        private static void CursorBehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)d;
-
-            gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
-                                                           SplitterCursorBehavior.ChangeOnSplitterHover
-                ? gridSplitter
-                : gridSplitter.Element);
-        }
-
-        private static void OnElementPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var gridSplitter = (GridSplitter)d;
-
-            gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
-                                                           SplitterCursorBehavior.ChangeOnSplitterHover
-                ? gridSplitter
-                : gridSplitter.Element);
         }
     }
 }
