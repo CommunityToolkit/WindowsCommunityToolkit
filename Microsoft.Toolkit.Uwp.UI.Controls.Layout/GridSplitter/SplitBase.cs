@@ -2,14 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -47,6 +43,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty GripperCursorProperty =
             DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SplitBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
+
+        /// <summary>
+        /// Gets or sets the foreground color of sizer grip.
+        /// </summary>
+        public Brush GripperForeground
+        {
+            get { return (Brush)GetValue(GripperForegroundProperty); }
+            set { SetValue(GripperForegroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="GripperForeground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GripperForegroundProperty =
+            DependencyProperty.Register(nameof(GripperForeground), typeof(Brush), typeof(SplitBase), new PropertyMetadata(default(Brush)));
 
         /// <summary>
         /// Gets or sets the direction that the sizer will interact with.
