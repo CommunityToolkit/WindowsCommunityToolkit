@@ -16,11 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
-        // Symbols for GripperBar in Segoe MDL2 Assets
-        private const string GripperBarVertical = "\xE784";
-        private const string GripperBarHorizontal = "\xE76F";
-        private const string GripperDisplayFont = "Segoe MDL2 Assets";
-
         private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
         {
             _resizeDirection = GetResizeDirection();
@@ -46,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Foreground = GripperForeground,
                     Text = _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal
                 };
+
                 _gripperDisplay.SetValue(
                     Windows.UI.Xaml.Automation.AutomationProperties.AccessibilityViewProperty,
                     Windows.UI.Xaml.Automation.Peers.AccessibilityView.Raw);
