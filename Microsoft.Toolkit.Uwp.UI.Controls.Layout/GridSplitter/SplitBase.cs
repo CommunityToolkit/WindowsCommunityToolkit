@@ -10,12 +10,32 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Base class for GridSplitter and ContentSizer
+    /// Base class for splitting/resizing controls
     /// </summary>
     public partial class SplitBase : Control
     {
         /// <summary>
-        /// Gets or sets the content of the sizer, by default is the grip symbol.
+        /// Vertical symbol for GripperBar in Segoe MDL2 Font asset.
+        /// </summary>
+        protected const string GripperBarVertical = "\xE784";
+
+        /// <summary>
+        /// Horizontal symbol for GripperBar in Segoe MDL2 Font asset.
+        /// </summary>
+        protected const string GripperBarHorizontal = "\xE76F";
+
+        /// <summary>
+        /// Distance (horizontal or vertical) to move, in response to keyboard activity.
+        /// </summary>
+        protected const double GripperKeyboardChange = 8.0d;
+
+        /// <summary>
+        /// Font family used for gripper.
+        /// </summary>
+        protected const string GripperDisplayFont = "Segoe MDL2 Assets";
+
+        /// <summary>
+        /// Gets or sets the content of the splitter control; by default, it is the grip symbol.
         /// </summary>
         public object Content
         {
@@ -28,6 +48,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register(nameof(Content), typeof(object), typeof(SplitBase), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the content template for the <see cref="Content"/>. 
+        /// </summary>
+        public DataTemplate ContentTemplate
+        {
+            get { return (DataTemplate)GetValue(ContentTemplateProperty); }
+            set { SetValue(ContentTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ContentTemplate"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ContentTemplateProperty =
+            DependencyProperty.Register(nameof(ContentTemplate), typeof(DataTemplate), typeof(SplitBase), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the cursor to use when hovering over the sizer.
@@ -75,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SplitBase), new PropertyMetadata(ContentResizeDirection.Vertical));
 
         /// <summary>
-        /// Gets or sets the control that the <see cref="ContentSizer"/> is resizing. Be default, this will be the visual ancestor of the <see cref="ContentSizer"/>.
+        /// Gets or sets the control that the <see cref="SplitBase"/> is resizing. Be default, this will be the visual ancestor of the <see cref="SplitBase"/>.
         /// </summary>
         public FrameworkElement TargetControl
         {
@@ -92,15 +127,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnTargetControlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Check if our width can be manipulated
-            if (d is ContentSizer sizer && e.NewValue is FrameworkElement element)
+            if (d is SplitBase splitterBase && e.NewValue is FrameworkElement element)
             {
                 // TODO: For Auto we might want to do detection logic (TBD) here first?
-                if (sizer.ResizeDirection != ContentResizeDirection.Horizontal && double.IsNaN(element.Width))
+                if (splitterBase.ResizeDirection != ContentResizeDirection.Horizontal && double.IsNaN(element.Width))
                 {
                     element.Width = element.DesiredSize.Width;
                 }
 
-                if (sizer.ResizeDirection != ContentResizeDirection.Vertical && double.IsNaN(element.Height))
+                if (splitterBase.ResizeDirection != ContentResizeDirection.Vertical && double.IsNaN(element.Height))
                 {
                     element.Height = element.DesiredSize.Height;
                 }

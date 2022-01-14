@@ -1,8 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
-
     <Style TargetType="local:ContentSizer">
         <Setter Property="IsTabStop" Value="True" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />

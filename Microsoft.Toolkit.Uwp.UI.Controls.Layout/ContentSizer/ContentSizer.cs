@@ -17,27 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [ContentProperty(Name = nameof(Content))]
     public partial class ContentSizer : SplitBase
     {
-        // Symbols for GripperBar in Segoe MDL2 Assets
-        private const string GripperBarVertical = "\xE784";
-        private const string GripperBarHorizontal = "\xE76F";
-
-        private const double GripperKeyboardChange = 8.0d;
-
-        /// <summary>
-        /// Gets or sets the content template for the <see cref="SplitBase.Content"/>. By default is a TextBlock.
-        /// </summary>
-        public DataTemplate ContentTemplate
-        {
-            get { return (DataTemplate)GetValue(ContentTemplateProperty); }
-            set { SetValue(ContentTemplateProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ContentTemplate"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ContentTemplateProperty =
-            DependencyProperty.Register(nameof(ContentTemplate), typeof(DataTemplate), typeof(ContentSizer), new PropertyMetadata(null));
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentSizer"/> class.
         /// </summary>
