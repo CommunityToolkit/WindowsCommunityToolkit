@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Content), typeof(object), typeof(SplitBase), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the content template for the <see cref="Content"/>. 
+        /// Gets or sets the content template for the <see cref="Content"/>.
         /// </summary>
         public DataTemplate ContentTemplate
         {
