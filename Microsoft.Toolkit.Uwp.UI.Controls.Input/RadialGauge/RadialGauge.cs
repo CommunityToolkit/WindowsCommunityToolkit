@@ -870,10 +870,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return number + modulo;
         }
-        
-        private void AddKeyboardAccelerator(VirtualKeyModifiers keyModifiers,
-                                            VirtualKey key,
-                                            TypedEventHandler<KeyboardAccelerator, KeyboardAcceleratorInvokedEventArgs> handler)
+
+        private void AddKeyboardAccelerator(
+            VirtualKeyModifiers keyModifiers,
+            VirtualKey key,
+            TypedEventHandler<KeyboardAccelerator, KeyboardAcceleratorInvokedEventArgs> handler)
         {
             var accelerator = new KeyboardAccelerator()
             {
