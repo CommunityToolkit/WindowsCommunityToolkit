@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -76,15 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (int)GetValue(ParentLevelProperty); }
             set { SetValue(ParentLevelProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the gripper Cursor type
-        /// </summary>
-        public new GripperCursorType GripperCursor
-        {
-            get { return (GripperCursorType)GetValue(GripperCursorProperty); }
-            set { SetValue(GripperCursorProperty, value); }
         }
 
         /// <summary>

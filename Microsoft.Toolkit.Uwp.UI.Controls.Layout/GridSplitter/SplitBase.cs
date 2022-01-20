@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected const string GripperDisplayFont = "Segoe MDL2 Assets";
 
         /// <summary>
-        /// Gets or sets the content of the splitter control; by default, it is the grip symbol.
+        /// Gets or sets the content of the splitter control.
         /// </summary>
         public object Content
         {

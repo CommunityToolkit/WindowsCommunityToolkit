@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Content =
                     _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal;
 
-                GripperCursor = _resizeDirection == GridResizeDirection.Columns ? GripperCursorType.SizeWestEast : GripperCursorType.SizeNorthSouth;
+                GripperCursor = _resizeDirection == GridResizeDirection.Columns ? CoreCursorType.SizeWestEast : CoreCursorType.SizeNorthSouth;
             }
         }
 
