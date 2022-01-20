@@ -1,4 +1,4 @@
-﻿<Page x:Class="UITests.App.Pages.GridSplitterTestPage"
+<Page x:Class="UITests.App.Pages.GridSplitterTestPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -88,14 +88,6 @@
             <!--<controls:GridSplitter.RenderTransform>
                 <TranslateTransform Y="-8" />
             </controls:GridSplitter.RenderTransform>-->
-            <controls:GridSplitter.Element>
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
-                           Foreground="White"
-                           IsHitTestVisible="False"
-                           Text="&#xE76F;" />
-            </controls:GridSplitter.Element>
         </controls:GridSplitter>
     </Grid>
 </Page>

@@ -21,30 +21,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
+            ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+
             // Adding Grip to Grid Splitter
-            if (Element == default(UIElement))
+            if (Content == null)
             {
-                CreateGripperDisplay();
-                Element = _gripperDisplay;
-            }
-        }
+                Content =
+                    _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal;
 
-        private void CreateGripperDisplay()
-        {
-            if (_gripperDisplay == null)
-            {
-                _gripperDisplay = new TextBlock
-                {
-                    FontFamily = new FontFamily(GripperDisplayFont),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Foreground = GripperForeground,
-                    Text = _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal
-                };
-
-                _gripperDisplay.SetValue(
-                    Windows.UI.Xaml.Automation.AutomationProperties.AccessibilityViewProperty,
-                    Windows.UI.Xaml.Automation.Peers.AccessibilityView.Raw);
+                GripperCursor = _resizeDirection == GridResizeDirection.Columns ? GripperCursorType.SizeWestEast : GripperCursorType.SizeNorthSouth;
             }
         }
 

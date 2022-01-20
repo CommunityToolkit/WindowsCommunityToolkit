@@ -85,14 +85,6 @@
       <controls:GridSplitter.RenderTransform>
         <TranslateTransform Y="-8" />
       </controls:GridSplitter.RenderTransform>
-      <controls:GridSplitter.Element>
-          <TextBlock HorizontalAlignment="Center"
-                         IsHitTestVisible="False"
-                         VerticalAlignment="Center"
-                         Text="&#xE76F;"
-                         Foreground="White"
-                         FontFamily="Segoe MDL2 Assets"/>
-      </controls:GridSplitter.Element>
     </controls:GridSplitter>
 
     <VisualStateManager.VisualStateGroups>
