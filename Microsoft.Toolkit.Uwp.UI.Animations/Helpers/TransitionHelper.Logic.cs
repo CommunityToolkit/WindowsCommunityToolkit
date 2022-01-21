@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private void UpdateSourceAnimatedElements()
         {
-            if (this.Source == null)
+            if (this.Source is null)
             {
                 return;
             }
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void UpdateTargetAnimatedElements()
         {
-            if (this.Target == null)
+            if (this.Target is null)
             {
                 return;
             }
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private void ToggleVisualState(UIElement target, VisualStateToggleMethod method, bool isVisible)
         {
-            if (target == null)
+            if (target is null)
             {
                 return;
             }
@@ -79,17 +79,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this.targetAnimatedElements.ContainsKey(config.Id) ? this.targetAnimatedElements[config.Id] : null);
         }
 
-        private async Task AnimateFromSourceToTargetAsync(CancellationToken token)
+        private Task AnimateFromSourceToTargetAsync(CancellationToken token)
         {
-            await this.AnimateControlsAsync(false, token);
+            return this.AnimateControlsAsync(false, token);
         }
 
-        private async Task AnimateFromTargetToSourceAsync(CancellationToken token)
+        private Task AnimateFromTargetToSourceAsync(CancellationToken token)
         {
-            await this.AnimateControlsAsync(true, token);
+            return this.AnimateControlsAsync(true, token);
         }
 
-        private async Task AnimateControlsAsync(bool reversed, CancellationToken token)
+        private Task AnimateControlsAsync(bool reversed, CancellationToken token)
         {
             var duration = this.AnimationDuration;
             if (this._isInterruptedAnimation)
@@ -103,14 +103,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             foreach (var item in this.AnimationConfigs)
             {
                 (var source, var target) = this.GetPairElements(item);
-                if (source == null || target == null)
+                if (source is null || target is null)
                 {
-                    if (source != null)
+                    if (source is not null)
                     {
                         sourceUnpairedElements.Add(source);
                     }
 
-                    if (target != null)
+                    if (target is not null)
                     {
                         targetUnpairedElements.Add(target);
                     }
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, reversed, token));
             animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, !reversed, token));
 
-            await Task.WhenAll(animationTasks);
+            return Task.WhenAll(animationTasks);
         }
 
         private void RestoreState(bool isTargetState)
@@ -175,9 +175,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _ = this._updateTargetLayoutTaskSource.TrySetResult(null);
         }
 
-        private async Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, AnimationConfig config, CancellationToken token)
+        private Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, AnimationConfig config, CancellationToken token)
         {
-            var animationTasks = new List<Task>();
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
             this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, duration);
@@ -197,17 +196,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     break;
             }
 
-            animationTasks.Add(sourceBuilder.StartAsync(source, token));
-            animationTasks.Add(targetBuilder.StartAsync(target, token));
-
-            await Task.WhenAll(animationTasks);
+            return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
 
-        private async Task AnimateIgnoredOrUnpairedElementsAsync(UIElement parent, IEnumerable<UIElement> unpairedElements, bool isShow, CancellationToken token)
+        private Task AnimateIgnoredOrUnpairedElementsAsync(UIElement parent, IEnumerable<UIElement> unpairedElements, bool isShow, CancellationToken token)
         {
-            if (parent == null)
+            if (parent is null)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             var animationTasks = new List<Task>();
@@ -243,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            await Task.WhenAll(animationTasks);
+            return Task.WhenAll(animationTasks);
         }
 
         private void AnimateUIElementsTranslation(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, TimeSpan duration)

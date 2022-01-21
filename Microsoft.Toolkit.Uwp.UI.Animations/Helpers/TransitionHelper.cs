@@ -35,14 +35,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task AnimateAsync(bool forceUpdateAnimatedElements = false)
         {
-            if (this._animateCancellationTokenSource != null)
+            if (this._animateCancellationTokenSource is not null)
             {
                 return;
             }
 
             this._animateCancellationTokenSource = new CancellationTokenSource();
 
-            if (this._reverseCancellationTokenSource != null)
+            if (this._reverseCancellationTokenSource is not null)
             {
                 if (!this._isInterruptedAnimation)
                 {
@@ -83,14 +83,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task ReverseAsync(bool forceUpdateAnimatedElements = false)
         {
-            if (this._reverseCancellationTokenSource != null)
+            if (this._reverseCancellationTokenSource is not null)
             {
                 return;
             }
 
             this._reverseCancellationTokenSource = new CancellationTokenSource();
 
-            if (this._animateCancellationTokenSource != null)
+            if (this._animateCancellationTokenSource is not null)
             {
                 if (!this._isInterruptedAnimation)
                 {

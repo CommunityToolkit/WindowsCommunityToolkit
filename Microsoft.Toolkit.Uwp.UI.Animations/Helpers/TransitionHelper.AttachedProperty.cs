@@ -13,9 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
-        private const string IdPropertyName = "Id";
-        private const string IsIgnoredPropertyName = "IsIgnored";
-
         /// <summary>
         /// Get the animation id of the UI element.
         /// </summary>
@@ -38,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Two elements of the same id on different controls will be connected by animation.
         /// </summary>
         public static readonly DependencyProperty IdProperty =
-            DependencyProperty.RegisterAttached(IdPropertyName, typeof(string), typeof(TransitionHelper), null);
+            DependencyProperty.RegisterAttached("Id", typeof(string), typeof(TransitionHelper), null);
 
         /// <summary>
         /// Get the value indicating whether the UI element needs to be connected by animation.
@@ -61,34 +58,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// IsIgnored is used to mark controls that do not need to be connected by animation, it will disappear/show independently.
         /// </summary>
         public static readonly DependencyProperty IsIgnoredProperty =
-            DependencyProperty.RegisterAttached(IsIgnoredPropertyName, typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("IsIgnored", typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
 
         private static IEnumerable<UIElement> GetAnimatedElements(UIElement targetElement, IEnumerable<string> filters)
         {
-            if (targetElement == null)
-            {
-                return null;
-            }
-
-            var elements = targetElement.FindDescendants().ToList() ?? new List<DependencyObject>();
-            elements.Add(targetElement);
-
-            return filters == null
-                ? elements.Where(element => GetId(element) != null).OfType<UIElement>()
-                : elements.Where(element => GetId(element) != null && filters.Contains(GetId(element))).OfType<UIElement>();
+            return targetElement?.FindDescendantsOrSelf(SearchType.BreadthFirst)
+                    .Where(element => GetId(element) is string id && (filters is null || filters.Contains(id)))
+                    .DistinctBy(element => GetId(element))
+                    .OfType<UIElement>();
         }
 
         private static IEnumerable<UIElement> GetIgnoredElements(UIElement targetElement)
         {
-            if (targetElement == null)
-            {
-                return null;
-            }
-
-            var elements = targetElement.FindDescendants().ToList() ?? new List<DependencyObject>();
-            elements.Add(targetElement);
-
-            return elements.Where(element => GetIsIgnored(element)).OfType<UIElement>();
+            return targetElement?.FindDescendantsOrSelf(SearchType.BreadthFirst)
+                    .Where(element => GetIsIgnored(element)).OfType<UIElement>();
         }
     }
 }
