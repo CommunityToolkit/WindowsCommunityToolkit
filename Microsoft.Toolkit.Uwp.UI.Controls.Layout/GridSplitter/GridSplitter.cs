@@ -24,8 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;
 
-        private TextBlock _gripperDisplay;
-
         private bool _pressed = false;
         private bool _dragging = false;
         private bool _pointerEntered = false;
@@ -170,13 +168,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(GripperForegroundProperty, (sender, eventArgs) =>
             {
                 var gridSplitter = (GridSplitter)sender;
-
-                if (gridSplitter._gripperDisplay == null)
-                {
-                    return;
-                }
-
-                gridSplitter._gripperDisplay.Foreground = gridSplitter.GripperForeground;
             });
         }
 

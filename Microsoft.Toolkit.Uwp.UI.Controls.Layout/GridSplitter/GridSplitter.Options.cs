@@ -12,16 +12,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class GridSplitter
     {
         /// <summary>
-        /// Identifies the <see cref="Element"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ElementProperty
-            = DependencyProperty.Register(
-                nameof(Element),
-                typeof(UIElement),
-                typeof(GridSplitter),
-                new PropertyMetadata(default(UIElement)));
-
-        /// <summary>
         /// Identifies the <see cref="ResizeDirection"/> dependency property.
         /// </summary>
         public static new readonly DependencyProperty ResizeDirectionProperty
@@ -60,15 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(SplitterCursorBehavior),
                 typeof(GridSplitter),
                 new PropertyMetadata(SplitterCursorBehavior.ChangeOnSplitterHover));
-
-        /// <summary>
-        /// Gets or sets the visual content of this Grid Splitter
-        /// </summary>
-        public UIElement Element
-        {
-            get { return (UIElement)GetValue(ElementProperty); }
-            set { SetValue(ElementProperty, value); }
-        }
 
         /// <summary>
         /// Gets or sets whether the Splitter resizes the Columns, Rows, or Both.

@@ -81,14 +81,9 @@
                                Grid.ColumnSpan="3"
                                Height="16"
                                VerticalAlignment="Top">
-            <controls:GridSplitter.Element>
-                <TextBlock HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
-                           Foreground="White"
-                           IsHitTestVisible="False"
-                           Text="&#xE76F;" />
-            </controls:GridSplitter.Element>
+            <!--<controls:GridSplitter.RenderTransform>
+                <TranslateTransform Y="-8" />
+            </controls:GridSplitter.RenderTransform>-->
         </controls:GridSplitter>
     </Grid>
 </Page>

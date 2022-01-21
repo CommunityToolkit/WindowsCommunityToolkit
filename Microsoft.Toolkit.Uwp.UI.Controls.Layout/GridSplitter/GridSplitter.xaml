@@ -28,14 +28,28 @@
         <Setter Property="MinHeight" Value="16" />
         <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
         <Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock AutomationProperties.AccessibilityView="Raw"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="{TemplateBinding GripperForeground}"
+                               Text="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:GridSplitter">
                     <Grid x:Name="RootGrid"
+                          ui:FrameworkElementExtensions.Cursor="{TemplateBinding GripperCursor}"
                           Background="{TemplateBinding Background}">
-                        <ContentPresenter HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
-                                          Content="{TemplateBinding Element}" />
+                        <ContentPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Content}" 
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="GridSplitterStates">
                                 <VisualState x:Name="Normal" />
