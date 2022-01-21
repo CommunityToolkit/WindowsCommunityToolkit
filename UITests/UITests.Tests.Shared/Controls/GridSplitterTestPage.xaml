@@ -81,9 +81,6 @@
                                Grid.ColumnSpan="3"
                                Height="16"
                                VerticalAlignment="Top">
-            <!--<controls:GridSplitter.RenderTransform>
-                <TranslateTransform Y="-8" />
-            </controls:GridSplitter.RenderTransform>-->
         </controls:GridSplitter>
     </Grid>
 </Page>
