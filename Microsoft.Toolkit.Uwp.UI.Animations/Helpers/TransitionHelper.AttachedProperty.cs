@@ -13,6 +13,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
+        private class AnimatedElementIdComparer : IEqualityComparer<DependencyObject>
+        {
+            public bool Equals(DependencyObject x, DependencyObject y)
+            {
+                return GetId(x) is string xId && GetId(y) is string yId && xId == yId;
+            }
+
+            public int GetHashCode(DependencyObject obj)
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
         /// Get the animation id of the UI element.
         /// </summary>
@@ -62,15 +75,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static IEnumerable<UIElement> GetAnimatedElements(UIElement targetElement, IEnumerable<string> filters)
         {
-            return targetElement?.FindDescendantsOrSelf(SearchType.BreadthFirst)
+            return targetElement?.FindDescendantsOrSelf()
                     .Where(element => GetId(element) is string id && (filters is null || filters.Contains(id)))
-                    .DistinctBy(element => GetId(element))
+                    .Distinct(new AnimatedElementIdComparer())
                     .OfType<UIElement>();
         }
 
         private static IEnumerable<UIElement> GetIgnoredElements(UIElement targetElement)
         {
-            return targetElement?.FindDescendantsOrSelf(SearchType.BreadthFirst)
+            return targetElement?.FindDescendantsOrSelf()
                     .Where(element => GetIsIgnored(element)).OfType<UIElement>();
         }
     }
