@@ -8,8 +8,8 @@ using Microsoft.Toolkit.Helpers;
 namespace UnitTests.Helpers
 {
     /// <summary>
-    /// Example class of writing a new <see cref="IObjectSerializer"/> that uses System.Text.Json.
-    /// Based on <see cref="Microsoft.Toolkit.Helpers.IObjectSerializer"/>.
+    /// Example class of writing a new <see cref="Microsoft.Toolkit.Helpers.IObjectSerializer"/> that uses System.Text.Json.
+    /// Based on <see cref="IObjectSerializer"/>.
     /// </summary>
     internal class SystemTextJsonSerializer2 : IObjectSerializer
     {

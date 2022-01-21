@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp

@@ -1,0 +1,149 @@
+name: Bug report
+description: Create a report to help us fix something that isn't working as expected
+labels: "bug :bug:"
+body:
+- type: markdown
+  attributes: 
+    value: |
+      ## Before you begin
+      🚨 **Please do not skip instructions**🚨
+      
+      This info is essential for investigating your bug report. Issues with missing information may be closed without investigation.
+      
+      If you're uncertain about the problem, find or start a [Questions & Help](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help) discussion, where you can get insight from the community regarding your issue. 
+      
+- type: textarea
+  id: description
+  validations:
+    required: true
+  attributes:
+     label: Describe the bug
+     description: A clear and concise description of what the bug is.
+- type: input
+  id: last-working-toolkit-version
+  attributes:
+      label: Regression
+      description: If this is a regression, what toolkit version did you last see it work?
+      placeholder: 
+  validations:
+      required: false
+- type: checkboxes
+  id: reproducable-in-sample-app
+  attributes: 
+    label: Reproducible in sample app?
+    description: Can this be reproduced in the Sample App? (Either in a sample as-is or with new XAML pasted in the editor.)
+    options:
+      - label: This bug can be reproduced in the sample app.
+        required: false
+- type: textarea
+  id: repro-steps
+  validations:
+    required: true
+  attributes:
+     label: Steps to reproduce
+     render: text
+     description: Provide steps to reproduce the issue, or let us know why it can't be reproduced (e.g. more complex setup, environment, dependencies, etc...)
+     placeholder: |
+        A repro from the sample app expidites the process of discovering, resolving, and validating bug fixes. 
+        Provide code-snippets or XAML snippets as appropriate.
+
+        Example repro steps:
+        1. Given the following environment (Sample App w/ XAML, Project with Isolated setup, etc...)
+        2. Go to '...'
+        3. Click on '....'
+        4. Scroll down to '....'
+        5. See error
+- type: textarea
+  id: expected-behavior
+  validations:
+    required: true
+  attributes:
+     label: Expected behavior
+     description: A clear and concise description of what you expected to happen.
+- type: textarea
+  id: screenshots
+  attributes:
+     label: Screenshots
+     description: If applicable, add screenshots to help explain your problem.
+- type: checkboxes
+  id: environment-windows-build
+  attributes:
+     label: Windows Build Number
+     description: Check one or more of the following options
+     options:
+       - label: Windows 10 1809 (Build 17763)
+       - label: Windows 10 1903 (Build 18362)
+       - label: Windows 10 1909 (Build 18363)
+       - label: Windows 10 2004 (Build 19041)
+       - label: Windows 10 20H2 (Build 19042)
+       - label: Windows 10 21H1 (Build 19043)
+       - label: Windows 11 21H2 (Build 22000)
+       - label: Other (specify)
+- type: input
+  id: environment-windows-build-other-build-number
+  attributes:
+     label: Other Windows Build number
+     description: If applicable, another Windows build number not listed (such as an Insider build)
+- type: checkboxes
+  id: environment-app-min-target-version
+  attributes:
+     label: App minimum and target SDK version
+     description: Check one or more of the following options
+     options:
+       - label: Windows 10, version 1809 (Build 17763)
+       - label: Windows 10, version 1903 (Build 18362)
+       - label: Windows 10, version 1909 (Build 18363)
+       - label: Windows 10, version 2004 (Build 19041)
+       - label: Other (specify)
+- type: input
+  id: environment-app-min-target-other-build-number
+  attributes:
+     label: Other SDK version
+     description: If applicable, another SDK version not listed (such as an Insider SDK)
+- type: dropdown
+  id: visual-studio-version
+  attributes: 
+     multiple: true
+     label: Visual Studio Version
+     description: Check one or more of the following options
+     options:
+       - 2017
+       - 2019
+       - 2022
+- type: input
+  id: visual-studio-exact-build
+  attributes:
+     label: Visual Studio Build Number
+     description: What's the exact build number? (Found in Visual Studio under Help -> About Microsoft Visual Studio)
+- type: dropdown
+  id: form-factor
+  attributes: 
+     multiple: true
+     label: Device form factor
+     description: Check one or more of the following options
+     options:
+       - Desktop
+       - Xbox
+       - Surface Hub
+       - IoT
+- type: textarea
+  id: nuget-packages
+  attributes:
+     label: Nuget packages
+     description: Which NuGet packages have you used? Include the version number.
+- type: textarea
+  id: additional-context
+  attributes:
+     label: Additional context
+     description: Add any other context about the problem here.
+- type: dropdown
+  id: contribution
+  validations:
+    required: true
+  attributes:
+     label: Help us help you
+     description: Would you like to contribute a solution to this issue?
+     options:
+       - Yes, I'd like to be assigned to work on this item.
+       - Yes, but only if others can assist.
+       - No.

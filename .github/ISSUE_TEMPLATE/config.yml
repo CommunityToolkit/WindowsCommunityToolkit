@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question
+    url: https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help
+    about: I have a question about how to use something in the toolkit.
+  - name: Documentation
+    url: https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new
+    about: I have a documentation suggestion or question
+  - name: Win32 Controls
+    url: https://github.com/CommunityToolkit/Microsoft.Toolkit.Win32/issues/new
+    about: I have an issue with a Toolkit WPF or WinForms control

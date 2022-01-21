@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Numerics;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -48,10 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for the current event.</param>
         private static async void OnVisualFactoryPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var element = (UIElement)d;
-            var attachedVisual = await ((AttachedVisualFactoryBase)e.NewValue).GetAttachedVisualAsync(element);
+            UIElement element = (UIElement)d;
+            Visual attachedVisual = await ((AttachedVisualFactoryBase)e.NewValue).GetAttachedVisualAsync(element);
 
-            attachedVisual.BindSize(element);
+            attachedVisual.RelativeSizeAdjustment = Vector2.One;
 
             ElementCompositionPreview.SetElementChildVisual(element, attachedVisual);
         }

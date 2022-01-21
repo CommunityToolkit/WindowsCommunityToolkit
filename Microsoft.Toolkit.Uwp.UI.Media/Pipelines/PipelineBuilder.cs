@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Graphics.Effects;
@@ -188,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <returns>A <see cref="Task{T}"/> that returns the final <see cref="SpriteVisual"/> instance to use</returns>
         public async Task<SpriteVisual> AttachAsync(UIElement target, UIElement reference = null)
         {
-            var visual = Window.Current.Compositor.CreateSpriteVisual();
+            SpriteVisual visual = Window.Current.Compositor.CreateSpriteVisual();
 
             visual.Brush = await BuildAsync();
 
@@ -196,7 +197,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 
             if (reference != null)
             {
-                visual.BindSize(reference);
+                if (reference == target)
+                {
+                    visual.RelativeSizeAdjustment = Vector2.One;
+                }
+                else
+                {
+                    visual.BindSize(reference);
+                }
             }
 
             return visual;

@@ -7,6 +7,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MetadataControl">
                     <TextBlock x:Name="TextContainer"
+                               AutomationProperties.AccessibilityView="{TemplateBinding AutomationProperties.AccessibilityView}"
                                Style="{TemplateBinding TextBlockStyle}" />
                 </ControlTemplate>
             </Setter.Value>
