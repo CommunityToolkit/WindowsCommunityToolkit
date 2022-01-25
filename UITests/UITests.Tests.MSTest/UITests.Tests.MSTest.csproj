@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <!-- MSTest -->
+    <PackageReference Include="Microsoft.Toolkit" Version="7.1.2" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />

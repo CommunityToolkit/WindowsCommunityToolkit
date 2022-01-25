@@ -105,6 +105,9 @@
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1901.28001</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit">
+      <Version>7.1.2</Version>
+    </PackageReference>
     <!-- TODO Reintroduce graph controls
     <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
       <Version>6.1.0-build.6</Version>
@@ -1475,10 +1478,6 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
       <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
-      <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
-      <Name>Microsoft.Toolkit</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj">
       <Project>{b24a296c-b3eb-4e06-a64e-74ac2d1acc91}</Project>

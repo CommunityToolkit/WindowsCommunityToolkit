@@ -37,9 +37,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </para>
         /// For instance:
         /// <code>
-        /// AnimationBuilder.Create()<br/>
-        ///     .Opacity(from: 0, to: 1)<br/>
-        ///     .Translation(Axis.X, from: -40, to: 0)<br/>
+        /// AnimationBuilder.Create()
+        ///     .Opacity(from: 0, to: 1)
+        ///     .Translation(Axis.X, from: -40, to: 0)
         ///     .Start(MyButton);
         /// </code>
         /// <para>
@@ -48,9 +48,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </para>
         /// For instance:
         /// <code>
-        /// var animation = AnimationBuilder.Create().Opacity(0, 1).Size(1.2, 1);<br/>
-        /// <br/>
-        /// animation.Start(MyButton);<br/>
+        /// var animation = AnimationBuilder.Create().Opacity(0, 1).Size(1.2, 1);
+        ///
+        /// animation.Start(MyButton);
         /// animation.Start(MyGrid);
         /// </code>
         /// Alternatively, the <see cref="AnimationSet"/> type can be used to configure animations directly from XAML.

@@ -642,6 +642,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     tick = radialGauge._compositor.CreateSpriteVisual();
                     tick.Size = new Vector2((float)radialGauge.TickWidth, (float)radialGauge.TickLength);
                     tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.TickBrush.Color);
+                    tick.Opacity = (float)radialGauge.TickBrush.Opacity;
                     tick.Offset = new Vector3(100 - ((float)radialGauge.TickWidth / 2), 0.0f, 0);
                     tick.CenterPoint = new Vector3((float)radialGauge.TickWidth / 2, 100.0f, 0);
                     tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
@@ -654,6 +655,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     tick = radialGauge._compositor.CreateSpriteVisual();
                     tick.Size = new Vector2((float)radialGauge.ScaleTickWidth, (float)radialGauge.ScaleWidth);
                     tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.ScaleTickBrush.Color);
+                    tick.Opacity = (float)radialGauge.ScaleTickBrush.Opacity;
                     tick.Offset = new Vector3(100 - ((float)radialGauge.ScaleTickWidth / 2), (float)radialGauge.ScalePadding, 0);
                     tick.CenterPoint = new Vector3((float)radialGauge.ScaleTickWidth / 2, 100 - (float)radialGauge.ScalePadding, 0);
                     tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
@@ -665,6 +667,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             radialGauge._needle = radialGauge._compositor.CreateSpriteVisual();
             radialGauge._needle.Size = new Vector2((float)radialGauge.NeedleWidth, (float)radialGauge.NeedleLength);
             radialGauge._needle.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.NeedleBrush.Color);
+            radialGauge._needle.Opacity = (float)radialGauge.NeedleBrush.Opacity;
             radialGauge._needle.CenterPoint = new Vector3((float)radialGauge.NeedleWidth / 2, (float)radialGauge.NeedleLength, 0);
             radialGauge._needle.Offset = new Vector3(100 - ((float)radialGauge.NeedleWidth / 2), 100 - (float)radialGauge.NeedleLength, 0);
             radialGauge._root.Children.InsertAtTop(radialGauge._needle);
@@ -680,7 +683,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ClearBrush(_needleBrush, NeedleBrushProperty);
                 ClearBrush(_trailBrush, TrailBrushProperty);
                 ClearBrush(_scaleBrush, ScaleBrushProperty);
-                ClearBrush(_scaleBrush, ScaleTickBrushProperty);
+                ClearBrush(_scaleTickBrush, ScaleTickBrushProperty);
                 ClearBrush(_tickBrush, TickBrushProperty);
                 ClearBrush(_foreground, ForegroundProperty);
             }
@@ -690,7 +693,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 RestoreBrush(_needleBrush, NeedleBrushProperty);
                 RestoreBrush(_trailBrush, TrailBrushProperty);
                 RestoreBrush(_scaleBrush, ScaleBrushProperty);
-                RestoreBrush(_scaleBrush, ScaleTickBrushProperty);
+                RestoreBrush(_scaleTickBrush, ScaleTickBrushProperty);
                 RestoreBrush(_tickBrush, TickBrushProperty);
                 RestoreBrush(_foreground, ForegroundProperty);
             }
