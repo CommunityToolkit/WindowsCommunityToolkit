@@ -61,7 +61,12 @@ namespace Microsoft.Toolkit.Uwp.UI
             /// <summary>
             /// Phone number validation
             /// </summary>
-            PhoneNumber
+            PhoneNumber,
+
+            /// <summary>
+            /// Currency validation
+            /// </summary>
+            Currency
         }
     }
 }
