@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                     b.AddCustomAttributes(nameof(GridSplitter.Element), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(GridSplitter.ResizeDirection), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(GridSplitter.ResizeBehavior), new CategoryAttribute(Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(GridSplitter.GripperForeground), new CategoryAttribute(Resources.CategoryBrush));
                     b.AddCustomAttributes(nameof(GridSplitter.ParentLevel), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(nameof(GridSplitter.GripperCursor), new CategoryAttribute(Resources.CategoryAppearance));
                     b.AddCustomAttributes(nameof(GridSplitter.GripperCustomCursorResource),

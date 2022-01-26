@@ -37,7 +37,7 @@
         ResizeDirection="Auto"
         ResizeBehavior="BasedOnAlignment"
         CursorBehavior="ChangeOnGripperHover"
-        GripperForeground="{ThemeResource Brush-Alt}">
+        Foreground="{ThemeResource Brush-Alt}">
       </controls:GridSplitter>
 
       <!--Row Grid Splitter-->

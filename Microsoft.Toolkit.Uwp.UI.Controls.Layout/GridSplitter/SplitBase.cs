@@ -30,11 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected const double GripperKeyboardChange = 8.0d;
 
         /// <summary>
-        /// Font family used for gripper.
-        /// </summary>
-        protected const string GripperDisplayFont = "Segoe MDL2 Assets";
-
-        /// <summary>
         /// Gets or sets the content of the splitter control.
         /// </summary>
         public object Content
@@ -78,21 +73,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty GripperCursorProperty =
             DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SplitBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
-
-        /// <summary>
-        /// Gets or sets the foreground color of sizer grip.
-        /// </summary>
-        public Brush GripperForeground
-        {
-            get { return (Brush)GetValue(GripperForegroundProperty); }
-            set { SetValue(GripperForegroundProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="GripperForeground"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty GripperForegroundProperty =
-            DependencyProperty.Register(nameof(GripperForeground), typeof(Brush), typeof(SplitBase), new PropertyMetadata(default(Brush)));
 
         /// <summary>
         /// Gets or sets the direction that the sizer will interact with.
@@ -145,17 +125,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SplitBase"/> control is resizing in the opposite direction.
         /// </summary>
-        public bool InvertDragDirection
+        public bool IsDragInverted
         {
-            get { return (bool)GetValue(InvertDragDirectionProperty); }
-            set { SetValue(InvertDragDirectionProperty, value); }
+            get { return (bool)GetValue(IsDragInvertedProperty); }
+            set { SetValue(IsDragInvertedProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="InvertDragDirection"/> dependency property.
+        /// Identifies the <see cref="IsDragInverted"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty InvertDragDirectionProperty =
-            DependencyProperty.Register(nameof(InvertDragDirection), typeof(bool), typeof(SplitBase), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsDragInvertedProperty =
+            DependencyProperty.Register(nameof(IsDragInverted), typeof(bool), typeof(SplitBase), new PropertyMetadata(false));
+
+        protected bool VerticalMove(double verticalChange)
+        {
+            if (TargetControl == null)
+            {
+                return true;
+            }
+
+            verticalChange = IsDragInverted ? -verticalChange : verticalChange;
+
+            if (!IsValidHeight(TargetControl, verticalChange))
+            {
+                return true;
+            }
+
+            // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
+            TargetControl.Height += verticalChange;
+
+            GripperCursor = Windows.UI.Core.CoreCursorType.SizeNorthSouth;
+
+            return false;
+        }
 
         /// <summary>
         /// Check for new requested vertical size is valid or not
@@ -185,6 +187,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return true;
+        }
+
+        protected bool HorizontalMove(double horizontalChange)
+        {
+            if (TargetControl == null)
+            {
+                return true;
+            }
+
+            horizontalChange = IsDragInverted ? -horizontalChange : horizontalChange;
+
+            if (!IsValidWidth(TargetControl, horizontalChange))
+            {
+                return true;
+            }
+
+            TargetControl.Width += horizontalChange;
+
+            GripperCursor = Windows.UI.Core.CoreCursorType.SizeWestEast;
+
+            return false;
         }
 
         /// <summary>

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
@@ -15,12 +14,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter : SplitBase
     {
-        internal const int GripperCustomCursorDefaultResource = -1;
-        internal static readonly CoreCursor ColumnsSplitterCursor = new CoreCursor(CoreCursorType.SizeWestEast, 1);
-        internal static readonly CoreCursor RowSplitterCursor = new CoreCursor(CoreCursorType.SizeNorthSouth, 1);
-
-        internal CoreCursor PreviousCursor { get; set; }
-
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;
 
@@ -164,11 +157,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Loaded += GridSplitter_Loaded;
             string automationName = "WCT_GridSplitter_AutomationName".GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls.Layout/Resources");
             AutomationProperties.SetName(this, automationName);
-
-            RegisterPropertyChangedCallback(GripperForegroundProperty, (sender, eventArgs) =>
-            {
-                var gridSplitter = (GridSplitter)sender;
-            });
         }
 
         /// <inheritdoc />

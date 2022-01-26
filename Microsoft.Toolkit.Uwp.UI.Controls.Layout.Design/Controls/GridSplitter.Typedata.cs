@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         internal const string Element = nameof(Element);
         internal const string GripperCursor = nameof(GripperCursor);
         internal const string GripperCustomCursorResource = nameof(GripperCustomCursorResource);
-        internal const string GripperForeground = nameof(GripperForeground);
         internal const string ParentLevel = nameof(ParentLevel);
         internal const string ResizeBehavior = nameof(ResizeBehavior);
         internal const string ResizeDirection = nameof(ResizeDirection);

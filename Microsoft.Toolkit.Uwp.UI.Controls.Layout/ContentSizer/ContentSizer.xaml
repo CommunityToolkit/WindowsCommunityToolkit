@@ -9,7 +9,6 @@
         <Setter Property="MinWidth" Value="16" />
         <Setter Property="MinHeight" Value="16" />
         <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
-        <Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="AutomationProperties.Name" Value="ms-resource://Microsoft.Toolkit.Uwp.UI.Controls.Layout/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Resources/WCT_ContentSizer_AutomationName" />
@@ -17,8 +16,8 @@
             <Setter.Value>
                 <DataTemplate>
                     <TextBlock AutomationProperties.AccessibilityView="Raw"
-                               FontFamily="Segoe MDL2 Assets"
-                               Foreground="{TemplateBinding GripperForeground}"
+                               FontFamily="{StaticResource SymbolFonts}"
+                               Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
                                Text="{Binding}" />
                 </DataTemplate>
             </Setter.Value>

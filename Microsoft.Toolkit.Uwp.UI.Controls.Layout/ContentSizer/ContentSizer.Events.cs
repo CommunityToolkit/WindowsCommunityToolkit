@@ -80,48 +80,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             base.OnManipulationDelta(e);
         }
-
-        private bool VerticalMove(double verticalChange)
-        {
-            if (TargetControl == null)
-            {
-                return true;
-            }
-
-            verticalChange = InvertDragDirection ? -verticalChange : verticalChange;
-
-            if (!IsValidHeight(TargetControl, verticalChange))
-            {
-                return true;
-            }
-
-            // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
-            TargetControl.Height += verticalChange;
-
-            GripperCursor = Windows.UI.Core.CoreCursorType.SizeNorthSouth;
-
-            return false;
-        }
-
-        private bool HorizontalMove(double horizontalChange)
-        {
-            if (TargetControl == null)
-            {
-                return true;
-            }
-
-            horizontalChange = InvertDragDirection ? -horizontalChange : horizontalChange;
-
-            if (!IsValidWidth(TargetControl, horizontalChange))
-            {
-                return true;
-            }
-
-            TargetControl.Width += horizontalChange;
-
-            GripperCursor = Windows.UI.Core.CoreCursorType.SizeWestEast;
-
-            return false;
-        }
     }
 }

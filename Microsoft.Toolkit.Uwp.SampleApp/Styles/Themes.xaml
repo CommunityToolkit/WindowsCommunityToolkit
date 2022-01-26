@@ -19,6 +19,8 @@
     <SolidColorBrush x:Key="Brush-Red"
                      Color="{StaticResource Red}" />
 
+    <FontFamily x:Key="SymbolFonts">Fonts/#Segoe MDL2 Assets</FontFamily>
+
     <!--  Brushes  -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">

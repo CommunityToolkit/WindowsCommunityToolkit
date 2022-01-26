@@ -220,7 +220,7 @@
                                        Width="11"
                                        Background="Transparent"
                                        HorizontalAlignment="Left"
-                                       GripperForeground="{ThemeResource Brush-Alt}"
+                                       Foreground="{ThemeResource Brush-Alt}"
                                        ParentLevel="1" />
             </Grid>
 

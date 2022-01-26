@@ -5,9 +5,7 @@
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -28,9 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Content =
                     _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal;
-
-                GripperCursor = _resizeDirection == GridResizeDirection.Columns ? CoreCursorType.SizeWestEast : CoreCursorType.SizeNorthSouth;
             }
+
+            GripperCursor = _resizeDirection == GridResizeDirection.Columns ? CoreCursorType.SizeWestEast : CoreCursorType.SizeNorthSouth;
         }
 
         /// <inheritdoc />
@@ -87,28 +85,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
             // saving the previous state
-            PreviousCursor = Window.Current.CoreWindow.PointerCursor;
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
-            }
-
             base.OnManipulationStarted(e);
-        }
-
-        /// <inheritdoc />
-        protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
-        {
-            Window.Current.CoreWindow.PointerCursor = PreviousCursor;
-
-            base.OnManipulationCompleted(e);
         }
 
         /// <inheritdoc />
