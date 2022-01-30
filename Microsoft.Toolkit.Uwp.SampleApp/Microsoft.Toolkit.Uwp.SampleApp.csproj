@@ -512,6 +512,9 @@
     <Compile Include="SamplePages\FocusBehavior\FocusBehaviorPage.xaml.cs">
       <DependentUpon>FocusBehaviorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\GridExtensions\GridExtensionsPage.xaml.cs">
+      <DependentUpon>GridExtensionsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
     </Compile>
@@ -647,6 +650,7 @@
     <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
+    <Content Include="SamplePages\GridExtensions\GridExtensionsCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -991,6 +995,10 @@
     <Content Include="SamplePages\MetadataControl\MetadataControlCode.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\GridExtensions\GridExtensionsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\MetadataControl\MetadataControlPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
