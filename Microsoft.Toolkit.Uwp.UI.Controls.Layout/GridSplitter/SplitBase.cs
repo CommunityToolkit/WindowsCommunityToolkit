@@ -137,6 +137,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsDragInvertedProperty =
             DependencyProperty.Register(nameof(IsDragInverted), typeof(bool), typeof(SplitBase), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Process requested vertical resizing.
+        /// </summary>
+        /// <param name="verticalChange">The requested vertical change</param>
+        /// <returns><see cref="bool"/> result of processed vertical change</returns>
         protected bool VerticalMove(double verticalChange)
         {
             if (TargetControl == null)
@@ -189,6 +194,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return true;
         }
 
+        /// <summary>
+        /// Process requested horizontal resizing.
+        /// </summary>
+        /// <param name="horizontalChange">The requested horizontal change</param>
+        /// <returns><see cref="bool"/> result of processed horizontal change</returns>
         protected bool HorizontalMove(double horizontalChange)
         {
             if (TargetControl == null)
