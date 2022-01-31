@@ -31,7 +31,7 @@
       <controls:GridSplitter
         Width="11"
         Background="{ThemeResource Brush-Grey-04}"
-        GripperCursor="Default"
+        GripperCursor="Arrow"
         HorizontalAlignment="Left"
         Grid.Column="1"
         ResizeDirection="Auto"
@@ -45,16 +45,14 @@
         Grid.Row="1"
         Background="{ThemeResource Brush-Grey-04}" Height="11"
         HorizontalAlignment="Stretch">
-        <controls:GridSplitter.Element>
+        <controls:GridSplitter.Content>
           <Grid>
             <TextBlock HorizontalAlignment="Center"
                        IsHitTestVisible="False"
                        VerticalAlignment="Center"
-                       Text="&#xE76F;"
-                       Foreground="{ThemeResource Brush-Alt}"
-                       FontFamily="Segoe MDL2 Assets"/>
+                       Foreground="{ThemeResource Brush-Alt}" />
           </Grid>
-        </controls:GridSplitter.Element>
+        </controls:GridSplitter.Content>
       </controls:GridSplitter>
     </Grid>
 

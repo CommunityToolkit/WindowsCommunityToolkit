@@ -220,8 +220,8 @@
                                        Width="11"
                                        Background="Transparent"
                                        HorizontalAlignment="Left"
-                                       Foreground="{ThemeResource Brush-Alt}"
-                                       ParentLevel="1" />
+                                       ParentLevel="1">
+                </controls:GridSplitter>
             </Grid>
 
             <Border HorizontalAlignment="Stretch"

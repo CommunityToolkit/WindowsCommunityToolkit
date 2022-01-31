@@ -34,7 +34,6 @@
                 <DataTemplate>
                     <TextBlock AutomationProperties.AccessibilityView="Raw"
                                FontFamily="{StaticResource SymbolFonts}"
-                               Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
                                Text="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
