@@ -251,6 +251,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return true;
         }
 
+        /// <summary>
+        /// Processes KeyUp event
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">A <see cref="KeyRoutedEventArgs"/> which contains the event data</param>
         protected void SplitBase_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (ResizeDirection == ContentResizeDirection.Vertical)
