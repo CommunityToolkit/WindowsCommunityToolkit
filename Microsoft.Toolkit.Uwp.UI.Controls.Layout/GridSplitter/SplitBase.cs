@@ -5,6 +5,7 @@
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -248,6 +249,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return true;
+        }
+
+        protected void SplitBase_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (ResizeDirection == ContentResizeDirection.Vertical)
+            {
+                if (e.Key == Windows.System.VirtualKey.Left)
+                {
+                    HorizontalMove(-GripperKeyboardChange);
+                }
+                else if (e.Key == Windows.System.VirtualKey.Right)
+                {
+                    HorizontalMove(GripperKeyboardChange);
+                }
+            }
+            else
+            {
+                if (e.Key == Windows.System.VirtualKey.Up)
+                {
+                    VerticalMove(-GripperKeyboardChange);
+                }
+                else if (e.Key == Windows.System.VirtualKey.Down)
+                {
+                    VerticalMove(GripperKeyboardChange);
+                }
+            }
         }
     }
 }

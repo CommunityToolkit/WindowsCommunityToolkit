@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // TODO: Can this be set in XAML, do we open a WinUI issue to track?
             ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
 
-            KeyUp += ContentSizer_KeyUp;
+            KeyUp += SplitBase_KeyUp;
         }
 
         /// <inheritdoc/>
