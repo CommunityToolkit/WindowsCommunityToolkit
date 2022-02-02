@@ -1296,7 +1296,7 @@
         "About": "Extensions to enable switching grid layouts dynamically",
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI/Extensions/GridExtensions",
         "XamlCodeFile": "GridExtensionsCode.bind",
-        "Icon": "/Assets/Helpers.png",
+        "Icon": "/Assets/Helpers.png"
       }
     ]
   },

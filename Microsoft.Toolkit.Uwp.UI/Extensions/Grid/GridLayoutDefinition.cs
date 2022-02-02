@@ -17,7 +17,15 @@ namespace Microsoft.Toolkit.Uwp.UI
     [ContentProperty(Name = "AreaDefinition")]
     public class GridLayoutDefinition
     {
-        private IDictionary<string, (int Row, int RowSpan, int Column, int ColumnSpan)> _cellProperties;
+        /// <summary>
+        /// Dictionary to store the parsed result of area definition.
+        /// </summary>
+        /// <remarks>
+        /// The string key is <see href="https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-name-attribute">x:Name attribute</see>
+        /// of child elements of the grid, while the tuple value is the row index, row span value, column index and column span value of that
+        /// specific element.
+        /// </remarks>
+        private IDictionary<string, (int Row, int RowSpan, int Column, int ColumnSpan)> _cellProperties = new Dictionary<string, (int Row, int RowSpan, int Column, int ColumnSpan)>();
 
         /// <summary>
         /// Gets a list of ColumnDefinition objects defined for this layout.
@@ -86,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </example>
         public string AreaDefinition
         {
-            set => _cellProperties = ParseAreaDefinition(value);
+            set => ParseAreaDefinition(value);
         }
 
         internal void Apply(Grid grid)
@@ -95,32 +103,55 @@ namespace Microsoft.Toolkit.Uwp.UI
             UpdateChildren(grid);
         }
 
-        private static IDictionary<string, (int, int, int, int)> ParseAreaDefinition(string str)
+        /// <summary>
+        /// Parse the area definition string, and save it in <see cref="_cellProperties"/>.
+        /// </summary>
+        /// <param name="str">The area definition string.</param>
+        /// <remarks>
+        /// The parsing goes as:<br/>
+        /// 1. Split the string by semicolon, as the rows separator is semicolon.<br/>
+        /// 2. Split every row string by space. <br/>
+        /// The (i,j)th value of resulting 2 deminsional array is
+        /// <see href="https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-name-attribute">x:Name attribute</see>
+        /// of the element that should be placed at (i,j)th cell in the grid.<br/>
+        /// If name of an element repeats, that element should span over all the cells with its name.
+        /// </remarks>
+        private void ParseAreaDefinition(string str)
         {
-            var def = new Dictionary<string, (int Row, int RowSpan, int Column, int ColumnSpan)>();
+            _cellProperties.Clear();
+
+            // split the area definition by semicolon and then split every row by space.
             var table = str
                 .Split(";", StringSplitOptions.RemoveEmptyEntries)
-                .Select(row => row.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(cell => cell.Trim()).ToList())
-                .ToList();
-            for (var i = 0; i < table.Count; ++i)
+                .Select(row => row.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(cell => cell.Trim()));
+
+            // Since the table is Enumerable of Enumerable rather than list of list, we need to iterated over it via foreach loop.
+            // foreach loop doesn't have a current index, but we need current index in the loop body, thus the explicit i and j declaration.
+            var i = 0;
+            foreach (var tableRow in table)
             {
-                var tableRow = table[i];
-                for (var j = 0; j < tableRow.Count; ++j)
+                var j = 0;
+                foreach (var childName in tableRow)
                 {
-                    var childName = tableRow[j];
-                    if (def.TryGetValue(childName, out var properties))
+                    if (_cellProperties.TryGetValue(childName, out var properties))
                     {
+                        // if childName already exists in _cellProperties, it means the element name is repeating in the area definition.
+                        // we should keep row index and column index, while setting row span and column span.
+                        // The number of cells to span over is (currentIndex - startingIndex + 1).
                         var (row, _, column, _) = properties;
-                        def[childName] = (Row: row, RowSpan: i - row + 1, Column: column, ColumnSpan: j - column + 1);
+                        _cellProperties[childName] = (Row: row, RowSpan: i - row + 1, Column: column, ColumnSpan: j - column + 1);
                     }
                     else
                     {
-                        def[childName] = (Row: i, RowSpan: 1, Column: j, ColumnSpan: 1);
+                        // otherwise, the element should be placed at (i, j)th cell and span over 1 row, 1 column.
+                        _cellProperties[childName] = (Row: i, RowSpan: 1, Column: j, ColumnSpan: 1);
                     }
-                }
-            }
 
-            return def;
+                    ++j;
+                }
+
+                ++i;
+            }
         }
 
         private void ApplyRowColumnDefinitions(Grid grid)
@@ -151,6 +182,5 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
             }
         }
-
     }
 }
