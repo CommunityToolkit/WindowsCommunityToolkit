@@ -41,8 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Sets area definition for this layout.
         /// </summary>
         /// <remarks>
-        /// Aread definition string should list the <see cref="FrameworkElement.Name"/> of Grid elements in row-major order.
-        /// Elements in same row should be separated with whitespaces and rows should be separated with semicolons.
+        /// Area definition string should list the <see cref="FrameworkElement.Name"/> of Grid elements in row-major order.
+        /// Elements in same row should be separated with whitespaces, and rows should be separated with semicolons.
         /// Row and column spans can be expressed by repeating element names.
         /// </remarks>
         /// <example>
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// The parsing goes as:<br/>
         /// 1. Split the string by semicolon, as the rows separator is semicolon.<br/>
         /// 2. Split every row string by space. <br/>
-        /// The (i,j)th value of resulting 2 deminsional array is
+        /// The (i,j)th value of resulting 2 dimensional array is
         /// <see href="https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/x-name-attribute">x:Name attribute</see>
         /// of the element that should be placed at (i,j)th cell in the grid.<br/>
         /// If name of an element repeats, that element should span over all the cells with its name.
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 .Split(";", StringSplitOptions.RemoveEmptyEntries)
                 .Select(row => row.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(cell => cell.Trim()));
 
-            // Since the table is Enumerable of Enumerable rather than list of list, we need to iterated over it via foreach loop.
+            // Since the table is Enumerable of Enumerable rather than list of list, we need to iterate over it via foreach loop.
             // foreach loop doesn't have a current index, but we need current index in the loop body, thus the explicit i and j declaration.
             var i = 0;
             foreach (var tableRow in table)

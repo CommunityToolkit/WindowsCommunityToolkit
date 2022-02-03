@@ -97,7 +97,7 @@
                         <ColumnDefinition Width="*" />
                     </ui:GridLayoutDefinition.ColumnDefinitions>
                     Number      Title;
-                    <!--  semicolon is used to separate differnt rows  -->
+                    <!--  semicolon is used to separate different rows  -->
                     Description Description
                     <!--  row/column span is expressed by repeating the elment name  -->
                 </ui:GridLayoutDefinition>
