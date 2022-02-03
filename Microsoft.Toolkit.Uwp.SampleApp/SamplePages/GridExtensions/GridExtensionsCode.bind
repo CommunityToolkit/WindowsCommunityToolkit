@@ -14,96 +14,94 @@
             <Setter Property="Padding" Value="4" />
         </Style>
         <Style TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
     </Page.Resources>
 
-    <Grid VerticalAlignment="Top" Padding="16">
+    <Grid Padding="16"
+          VerticalAlignment="Top">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <triggers:CompareStateTrigger
-                            Value="{Binding ElementName=Resizer, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
-                            Comparison="LessThanOrEqual"
-                            To="360"/>
+                        <triggers:CompareStateTrigger Comparison="LessThanOrEqual"
+                                                      Value="{Binding ElementName=Resizer, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+                                                      To="360" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="DynamicLayoutGrid.(ui:GridExtensions.ActiveLayout)" Value="Narrow"/>
+                        <Setter Target="DynamicLayoutGrid.(ui:GridExtensions.ActiveLayout)" Value="Narrow" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
 
-        <Grid Grid.Row="1" Height="48">
+        <Grid Height="48">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="240" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border
-                x:Name="Resizer"
-                ui:FrameworkElementExtensions.EnableActualSizeBinding="True"
-                Background="{StaticResource Brush-Brand-Color}">
+            <Border x:Name="Resizer"
+                    ui:FrameworkElementExtensions.EnableActualSizeBinding="True"
+                    Background="{StaticResource Brush-Brand-Color}">
                 <TextBlock TextWrapping="Wrap">
-                    Resize to see the layout to be <LineBreak/>
-                    switched dynamically.
-                </TextBlock>
+                    Resize to see the layout to be<LineBreak />
+                    switched dynamically.</TextBlock>
             </Border>
-            <controls:GridSplitter
-                HorizontalAlignment="Left"
-                Grid.Column="1"
-                Width="12"/>
+            <controls:GridSplitter Grid.Column="1"
+                                   Width="12"
+                                   HorizontalAlignment="Left" />
         </Grid>
 
-        <Grid
-            Grid.Row="2"
-            x:Name="DynamicLayoutGrid"
-            ui:GridExtensions.ActiveLayout="Normal"
-            ColumnSpacing="12"
-            RowSpacing="8"
-            BorderThickness="1"
-            BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"
-            HorizontalAlignment="Left"
-            Width="{Binding ElementName=Resizer, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
-            Padding="8">
-            <!-- Declaratively define the possible layouts. -->
-            <!-- GridEx.Layouts is a dictionary of GridLayoutDefinition -->
+        <Grid x:Name="DynamicLayoutGrid"
+              Grid.Row="1"
+              Width="{Binding ElementName=Resizer, Path=(ui:FrameworkElementExtensions.ActualWidth)}"
+              Padding="8"
+              HorizontalAlignment="Left"
+              ui:GridExtensions.ActiveLayout="Normal"
+              BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"
+              BorderThickness="1"
+              ColumnSpacing="12"
+              RowSpacing="8">
+            <!--  Declaratively define the possible layouts.  -->
+            <!--  GridEx.Layouts is a dictionary of GridLayoutDefinition  -->
             <ui:GridExtensions.Layouts>
                 <ui:GridLayoutDefinition x:Key="Normal">
-                    <!-- A GridLayoutDefinition consists of -->
-                    <!-- row definitions, column definitions and an area definition -->
+                    <!--  A GridLayoutDefinition consists of  -->
+                    <!--  row definitions, column definitions and an area definition  -->
                     <ui:GridLayoutDefinition.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
                     </ui:GridLayoutDefinition.RowDefinitions>
                     <ui:GridLayoutDefinition.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </ui:GridLayoutDefinition.ColumnDefinitions>
-                    <!-- Area definition just simply puts down -->
-                    <!-- children names in desired order -->
+                    <!--  Area definition just simply puts down  -->
+                    <!--  children names in desired order  -->
                     Number Title Description
                 </ui:GridLayoutDefinition>
                 <ui:GridLayoutDefinition x:Key="Narrow">
                     <ui:GridLayoutDefinition.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </ui:GridLayoutDefinition.RowDefinitions>
                     <ui:GridLayoutDefinition.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </ui:GridLayoutDefinition.ColumnDefinitions>
-                    Number      Title; <!-- semicolon is used to separate differnt rows -->
-                    Description Description <!-- row/column span is expressed by repeating the elment name -->
+                    Number      Title;
+                    <!--  semicolon is used to separate different rows  -->
+                    Description Description
+                    <!--  row/column span is expressed by repeating the elment name  -->
                 </ui:GridLayoutDefinition>
             </ui:GridExtensions.Layouts>
-            <Border x:Name="Number" Width="32">
+            <Border x:Name="Number"
+                    Width="32">
                 <TextBlock>1</TextBlock>
             </Border>
             <Border x:Name="Title">
