@@ -31,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
             IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
             _items = new ObservableCollection<DataGridDataItem>();
-            IFormatProvider provider = CultureInfo.InvariantCulture.DateTimeFormat;
 
             using (StreamReader sr = new StreamReader(randomStream.AsStreamForRead()))
             {
@@ -50,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                             Coordinates = values[4],
                             Prominence = uint.Parse(values[5]),
                             Parent_mountain = values[6],
-                            First_ascent = DateTimeOffset.Parse(values[7], provider),
+                            First_ascent = DateTimeOffset.Parse(values[7], CultureInfo.InvariantCulture.DateTimeFormat),
                             Ascents = values[8],
                         });
                 }
