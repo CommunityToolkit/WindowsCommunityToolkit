@@ -33,7 +33,7 @@
             <Setter.Value>
                 <DataTemplate>
                     <TextBlock AutomationProperties.AccessibilityView="Raw"
-                               FontFamily="{StaticResource SymbolFonts}"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                Text="{Binding}" />
                 </DataTemplate>
             </Setter.Value>

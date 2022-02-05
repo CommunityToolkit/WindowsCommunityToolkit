@@ -45,14 +45,12 @@
         Grid.Row="1"
         Background="{ThemeResource Brush-Grey-04}" Height="11"
         HorizontalAlignment="Stretch">
-        <controls:GridSplitter.Content>
           <Grid>
             <TextBlock HorizontalAlignment="Center"
                        IsHitTestVisible="False"
                        VerticalAlignment="Center"
                        Foreground="{ThemeResource Brush-Alt}" />
           </Grid>
-        </controls:GridSplitter.Content>
       </controls:GridSplitter>
     </Grid>
 
