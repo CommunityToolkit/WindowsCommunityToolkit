@@ -182,8 +182,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PointerReleased += GridSplitter_PointerReleased;
             ManipulationStarted += GridSplitter_ManipulationStarted;
             ManipulationCompleted += GridSplitter_ManipulationCompleted;
-
-            ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         }
 
         private void GridSplitter_PointerReleased(object sender, PointerRoutedEventArgs e)

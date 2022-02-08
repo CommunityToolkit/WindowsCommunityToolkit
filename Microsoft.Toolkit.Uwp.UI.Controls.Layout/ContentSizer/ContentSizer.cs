@@ -6,8 +6,6 @@ using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -22,9 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ContentSizer()
         {
             this.DefaultStyleKey = typeof(ContentSizer);
-
-            // TODO: Can this be set in XAML, do we open a WinUI issue to track?
-            ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
 
             KeyUp += SplitBase_KeyUp;
         }

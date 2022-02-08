@@ -29,6 +29,7 @@
         <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ManipulationMode" Value="TranslateX,TranslateY"/>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>

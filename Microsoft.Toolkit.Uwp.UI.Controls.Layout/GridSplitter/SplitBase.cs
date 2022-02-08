@@ -7,7 +7,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -17,6 +16,68 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [ContentProperty(Name = nameof(Content))]
     public partial class SplitBase : Control
     {
+        /// <summary>
+        /// Check for new requested vertical size is valid or not
+        /// </summary>
+        /// <param name="target">Target control being resized</param>
+        /// <param name="verticalChange">The requested vertical change</param>
+        /// <param name="parentActualHeight">The parent control's ActualHeight</param>
+        /// <returns>Bool result if requested vertical change is valid or not</returns>
+        protected static bool IsValidHeight(FrameworkElement target, double verticalChange, double parentActualHeight)
+        {
+            var newHeight = target.ActualHeight + verticalChange;
+
+            var minHeight = target.MinHeight;
+            if (newHeight < 0 || (!double.IsNaN(minHeight) && newHeight < minHeight))
+            {
+                return false;
+            }
+
+            var maxHeight = target.MaxHeight;
+            if (!double.IsNaN(maxHeight) && newHeight > maxHeight)
+            {
+                return false;
+            }
+
+            if (newHeight <= parentActualHeight)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Check for new requested horizontal size is valid or not
+        /// </summary>
+        /// <param name="target">Target control being resized</param>
+        /// <param name="horizontalChange">The requested horizontal change</param>
+        /// <param name="parentActualWidth">The parent control's ActualWidth</param>
+        /// <returns>Bool result if requested horizontal change is valid or not</returns>
+        protected static bool IsValidWidth(FrameworkElement target, double horizontalChange, double parentActualWidth)
+        {
+            var newWidth = target.ActualWidth + horizontalChange;
+
+            var minWidth = target.MinWidth;
+            if (newWidth < 0 || (!double.IsNaN(minWidth) && newWidth < minWidth))
+            {
+                return false;
+            }
+
+            var maxWidth = target.MaxWidth;
+            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
+            {
+                return false;
+            }
+
+            if (newWidth <= parentActualWidth)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Vertical symbol for GripperBar in Segoe MDL2 Font asset.
         /// </summary>
@@ -154,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             verticalChange = IsDragInverted ? -verticalChange : verticalChange;
 
-            if (!IsValidHeight(TargetControl, verticalChange))
+            if (!IsValidHeight(TargetControl, verticalChange, ActualHeight))
             {
                 return true;
             }
@@ -162,39 +223,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
             TargetControl.Height += verticalChange;
 
-            GripperCursor = Windows.UI.Core.CoreCursorType.SizeNorthSouth;
+            GripperCursor = CoreCursorType.SizeNorthSouth;
 
             return false;
-        }
-
-        /// <summary>
-        /// Check for new requested vertical size is valid or not
-        /// </summary>
-        /// <param name="target">Target control being resized</param>
-        /// <param name="verticalChange">The requested vertical change</param>
-        /// <returns>Bool result if requested vertical change is valid or not</returns>
-        protected bool IsValidHeight(FrameworkElement target, double verticalChange)
-        {
-            var newHeight = target.ActualHeight + verticalChange;
-
-            var minHeight = target.MinHeight;
-            if (newHeight < 0 || (!double.IsNaN(minHeight) && newHeight < minHeight))
-            {
-                return false;
-            }
-
-            var maxHeight = target.MaxHeight;
-            if (!double.IsNaN(maxHeight) && newHeight > maxHeight)
-            {
-                return false;
-            }
-
-            if (newHeight <= ActualHeight)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -211,46 +242,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             horizontalChange = IsDragInverted ? -horizontalChange : horizontalChange;
 
-            if (!IsValidWidth(TargetControl, horizontalChange))
+            if (!IsValidWidth(TargetControl, horizontalChange, ActualWidth))
             {
                 return true;
             }
 
             TargetControl.Width += horizontalChange;
 
-            GripperCursor = Windows.UI.Core.CoreCursorType.SizeWestEast;
+            GripperCursor = CoreCursorType.SizeWestEast;
 
             return false;
-        }
-
-        /// <summary>
-        /// Check for new requested horizontal size is valid or not
-        /// </summary>
-        /// <param name="target">Target control being resized</param>
-        /// <param name="horizontalChange">The requested horizontal change</param>
-        /// <returns>Bool result if requested horizontal change is valid or not</returns>
-        protected bool IsValidWidth(FrameworkElement target, double horizontalChange)
-        {
-            var newWidth = target.ActualWidth + horizontalChange;
-
-            var minWidth = target.MinWidth;
-            if (newWidth < 0 || (!double.IsNaN(minWidth) && newWidth < minWidth))
-            {
-                return false;
-            }
-
-            var maxWidth = target.MaxWidth;
-            if (!double.IsNaN(maxWidth) && newWidth > maxWidth)
-            {
-                return false;
-            }
-
-            if (newWidth <= ActualWidth)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <summary>

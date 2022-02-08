@@ -19,8 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
-            ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-
             // Adding Grip to Grid Splitter
             if (Content == null)
             {

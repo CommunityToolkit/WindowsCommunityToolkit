@@ -12,6 +12,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="AutomationProperties.Name" Value="ms-resource://Microsoft.Toolkit.Uwp.UI.Controls.Layout/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Resources/WCT_ContentSizer_AutomationName" />
+        <Setter Property="ManipulationMode" Value="TranslateX,TranslateY"/>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
