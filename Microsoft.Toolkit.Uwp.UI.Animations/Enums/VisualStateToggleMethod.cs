@@ -15,8 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         ByVisibility,
 
         /// <summary>
-        /// Change the visibility of UI elements by modifying the Opacity property.
+        /// Change the visibility of UI elements by modifying the IsVisible property of it's Visual.
         /// </summary>
-        ByOpacity
+        ByIsVisible
     }
 }

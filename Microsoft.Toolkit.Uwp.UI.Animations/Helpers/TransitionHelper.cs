@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private CancellationTokenSource _reverseCancellationTokenSource;
         private TaskCompletionSource<object> _animateTaskSource;
         private TaskCompletionSource<object> _reverseTaskSource;
-        private TaskCompletionSource<object> _updateTargetLayoutTaskSource;
         private bool _needUpdateTargetLayout = false;
         private bool _isInterruptedAnimation = false;
 

@@ -63,14 +63,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 case VisualStateToggleMethod.ByVisibility:
                     target.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
                     break;
-                case VisualStateToggleMethod.ByOpacity:
+                case VisualStateToggleMethod.ByIsVisible:
                     var targetVisual = ElementCompositionPreview.GetElementVisual(target);
                     targetVisual.IsVisible = isVisible;
-                    target.IsHitTestVisible = isVisible;
                     break;
                 default:
                     break;
             }
+
+            target.IsHitTestVisible = isVisible;
         }
 
         private (UIElement, UIElement) GetPairElements(AnimationConfig config)
@@ -142,12 +143,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private async Task InitStateAsync(bool forceUpdateAnimatedElements = false)
         {
-            this.ToggleVisualState(this.Source, this.SourceToggleMethod, true);
-            this.ToggleVisualState(this.Target, this.TargetToggleMethod, true);
-            if (this._needUpdateTargetLayout && this.TargetToggleMethod == VisualStateToggleMethod.ByVisibility)
-            {
-                await this.UpdateTargetLayoutAsync();
-            }
+            await Task.WhenAll(
+                this.InitUIElementState(this.Source, this._needUpdateTargetLayout),
+                this.InitUIElementState(this.Target, this._needUpdateTargetLayout));
 
             if (forceUpdateAnimatedElements)
             {
@@ -156,23 +154,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private async Task UpdateTargetLayoutAsync()
+        private Task InitUIElementState(FrameworkElement target, bool needUpdateLayout)
         {
-            this._updateTargetLayoutTaskSource = new TaskCompletionSource<object>();
-            this.ToggleVisualState(this.Target, VisualStateToggleMethod.ByOpacity, false);
-            this.Target.LayoutUpdated += this.TargetControl_LayoutUpdated;
-            this.Target.InvalidateArrange();
-            this.Target.UpdateLayout();
-            _ = await this._updateTargetLayoutTaskSource.Task;
-            this._updateTargetLayoutTaskSource = null;
+            var updateLayoutTask = Task.CompletedTask;
+            if (target is null)
+            {
+                return updateLayoutTask;
+            }
+
+            target.IsHitTestVisible = false;
+
+            if (target.Visibility == Visibility.Collapsed)
+            {
+                target.Visibility = Visibility.Visible;
+                if (needUpdateLayout)
+                {
+                    updateLayoutTask = this.UpdateLayoutAsync(target);
+                }
+            }
+
+            if (target.Opacity < 0.01)
+            {
+                target.Opacity = 1;
+            }
+
+            var targetVisual = ElementCompositionPreview.GetElementVisual(target);
+            if (!targetVisual.IsVisible)
+            {
+                targetVisual.IsVisible = true;
+            }
+
+            return updateLayoutTask;
         }
 
-        private void TargetControl_LayoutUpdated(object sender, object e)
+        private Task UpdateLayoutAsync(FrameworkElement target)
         {
-            this.Target.LayoutUpdated -= this.TargetControl_LayoutUpdated;
-            this.ToggleVisualState(this.Target, VisualStateToggleMethod.ByOpacity, true);
-            this._needUpdateTargetLayout = false;
-            _ = this._updateTargetLayoutTaskSource.TrySetResult(null);
+            var updateTargetLayoutTaskSource = new TaskCompletionSource<object>();
+            void OnTargetLayoutUpdated(object sender, object e)
+            {
+                target.LayoutUpdated -= OnTargetLayoutUpdated;
+                this._needUpdateTargetLayout = false;
+                _ = updateTargetLayoutTaskSource.TrySetResult(null);
+            }
+
+            target.LayoutUpdated += OnTargetLayoutUpdated;
+            target.UpdateLayout();
+            return updateTargetLayoutTaskSource.Task;
         }
 
         private Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, AnimationConfig config, CancellationToken token)
