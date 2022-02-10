@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_lazyInitImageLayoutAction != null)
             {
-                _lazyInitImageLayoutAction?.Invoke();
+                _lazyInitImageLayoutAction.Invoke();
                 _lazyInitImageLayoutAction = null;
             }
             else
