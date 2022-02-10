@@ -680,7 +680,16 @@
         "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Animations/Helpers",
         "XamlCodeFile": "/SamplePages/TransitionHelper/TransitionHelperXaml.bind",
         "CodeFile": "/SamplePages/TransitionHelper/TransitionHelperCode.bind",
-        "Icon": "/SamplePages/TransitionHelper/TransitionHelper.png",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/TransitionHelper.md"
+      },
+      {
+        "Name": "StartTransitionAction",
+        "Subcategory": "Actions",
+        "About": "An action that can trigger the target TransitionHelper instance.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Behaviors/Animations/StartTransitionAction.cs",
+        "XamlCodeFile": "/SamplePages/Animations/Actions/StartTransitionActionXaml.bind",
+        "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/TransitionHelper.md"
       }
     ]

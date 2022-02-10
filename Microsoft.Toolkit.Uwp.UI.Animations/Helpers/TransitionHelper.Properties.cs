@@ -30,6 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             set
             {
+                if (this._source == value)
+                {
+                    return;
+                }
+
                 this._source = value;
                 this._needUpdateSourceLayout = true;
                 this.IsTargetState = false;
@@ -49,6 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             set
             {
+                if (this._target == value)
+                {
+                    return;
+                }
+
                 this._target = value;
                 this._needUpdateTargetLayout = true;
                 this.UpdateTargetAnimatedElements();

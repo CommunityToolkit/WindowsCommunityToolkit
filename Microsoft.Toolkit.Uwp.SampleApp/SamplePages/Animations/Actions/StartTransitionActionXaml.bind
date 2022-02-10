@@ -1,0 +1,85 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ani="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <ani:TransitionHelper x:Key="MyTransitionHelper">
+            <ani:AnimationConfig Id="icon"
+                                 ScaleMode="Scale" />
+            <ani:AnimationConfig Id="name"
+                                 ScaleMode="ScaleY" />
+            <ani:AnimationConfig Id="desc" />
+        </ani:TransitionHelper>
+    </Page.Resources>
+    <StackPanel Margin="50,20"
+                Spacing="20">
+        <StackPanel Orientation="Horizontal"
+                    Spacing="16">
+            <Button Content="Start Transition">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <behaviors:StartTransitionAction Source="{Binding ElementName=FirstControl}"
+                                                         Target="{Binding ElementName=SecondControl}"
+                                                         Transition="{StaticResource MyTransitionHelper}" />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+            <Button Content="Reverse Transition">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <behaviors:ReverseTransitionAction Transition="{StaticResource MyTransitionHelper}" />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+        <Grid>
+            <Grid x:Name="FirstControl"
+                  VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal"
+                            Spacing="10">
+                    <Border Width="50"
+                            Height="50"
+                            Padding="8"
+                            ani:TransitionHelper.Id="icon"
+                            Background="Gray"
+                            CornerRadius="25">
+                        <Image Source="ms-appx:///Assets/ToolkitLogo.png" />
+                    </Border>
+                    <TextBlock VerticalAlignment="Center"
+                               ani:TransitionHelper.Id="name">
+                        Windows Community Toolkit
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="SecondControl"
+                  MaxWidth="400"
+                  VerticalAlignment="Top"
+                  Visibility="Collapsed">
+                <StackPanel Spacing="20">
+                    <Border Width="80"
+                            Height="80"
+                            Padding="8"
+                            ani:TransitionHelper.Id="icon"
+                            Background="Gray"
+                            CornerRadius="8">
+                        <Image Source="ms-appx:///Assets/ToolkitLogo.png" />
+                    </Border>
+                    <TextBlock ani:TransitionHelper.Id="name"
+                               FontSize="24"
+                               FontWeight="SemiBold">
+                        Windows Community Toolkit
+                    </TextBlock>
+                    <TextBlock ani:TransitionHelper.Id="desc"
+                               TextWrapping="Wrap">
+                        The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows.
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </StackPanel>
+</Page>

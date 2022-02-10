@@ -300,7 +300,6 @@
     <Content Include="SamplePages\PersonView\PersonView.png" />
     -->
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
-    <Content Include="SamplePages\TransitionHelper\TransitionHelper.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
@@ -653,6 +652,7 @@
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
     <Content Include="SamplePages\TransitionHelper\TransitionHelperCode.bind" />
     <Content Include="SamplePages\TransitionHelper\TransitionHelperXaml.bind" />
+    <Content Include="SamplePages\Animations\Actions\StartTransitionActionXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
