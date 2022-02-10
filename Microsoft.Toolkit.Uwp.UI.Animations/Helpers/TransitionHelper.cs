@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private CancellationTokenSource _reverseCancellationTokenSource;
         private TaskCompletionSource<object> _animateTaskSource;
         private TaskCompletionSource<object> _reverseTaskSource;
+        private bool _needUpdateSourceLayout = false;
         private bool _needUpdateTargetLayout = false;
         private bool _isInterruptedAnimation = false;
 
@@ -60,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (!this.IsTargetState && !this._animateCancellationTokenSource.IsCancellationRequested)
             {
                 this._animateTaskSource = new TaskCompletionSource<object>();
-                await this.InitStateAsync(forceUpdateAnimatedElements);
+                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
                 await this.AnimateFromSourceToTargetAsync(this._animateCancellationTokenSource.Token);
                 this.RestoreState(true);
                 _ = this._animateTaskSource?.TrySetResult(null);
@@ -108,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (this.IsTargetState && !this._reverseCancellationTokenSource.IsCancellationRequested)
             {
                 this._reverseTaskSource = new TaskCompletionSource<object>();
-                await this.InitStateAsync(forceUpdateAnimatedElements);
+                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
                 await this.AnimateFromTargetToSourceAsync(this._reverseCancellationTokenSource.Token);
                 this.RestoreState(false);
                 _ = this._reverseTaskSource?.TrySetResult(null);

@@ -141,11 +141,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this.ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
         }
 
-        private async Task InitStateAsync(bool forceUpdateAnimatedElements = false)
+        private async Task InitControlsStateAsync(bool forceUpdateAnimatedElements = false)
         {
             await Task.WhenAll(
-                this.InitUIElementState(this.Source, this._needUpdateTargetLayout),
-                this.InitUIElementState(this.Target, this._needUpdateTargetLayout));
+                this.InitControlStateAsync(this.Source, this._needUpdateSourceLayout),
+                this.InitControlStateAsync(this.Target, this._needUpdateTargetLayout));
+
+            this._needUpdateSourceLayout = false;
+            this._needUpdateTargetLayout = false;
 
             if (forceUpdateAnimatedElements)
             {
@@ -154,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private Task InitUIElementState(FrameworkElement target, bool needUpdateLayout)
+        private Task InitControlStateAsync(FrameworkElement target, bool needUpdateLayout)
         {
             var updateLayoutTask = Task.CompletedTask;
             if (target is null)
@@ -169,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 target.Visibility = Visibility.Visible;
                 if (needUpdateLayout)
                 {
-                    updateLayoutTask = this.UpdateLayoutAsync(target);
+                    updateLayoutTask = this.UpdateControlLayoutAsync(target);
                 }
             }
 
@@ -187,13 +190,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateLayoutTask;
         }
 
-        private Task UpdateLayoutAsync(FrameworkElement target)
+        private Task UpdateControlLayoutAsync(FrameworkElement target)
         {
             var updateTargetLayoutTaskSource = new TaskCompletionSource<object>();
             void OnTargetLayoutUpdated(object sender, object e)
             {
                 target.LayoutUpdated -= OnTargetLayoutUpdated;
-                this._needUpdateTargetLayout = false;
                 _ = updateTargetLayoutTaskSource.TrySetResult(null);
             }
 

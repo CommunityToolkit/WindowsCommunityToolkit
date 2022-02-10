@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             set
             {
                 this._source = value;
+                this._needUpdateSourceLayout = true;
                 this.IsTargetState = false;
                 this.UpdateSourceAnimatedElements();
             }
