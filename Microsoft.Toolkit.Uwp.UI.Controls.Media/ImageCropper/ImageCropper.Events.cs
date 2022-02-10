@@ -166,13 +166,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ImageCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (Source == null)
+            if (Source == null || !IsValidRect(CanvasRect))
             {
                 return;
             }
 
-            UpdateImageLayout();
-            UpdateMaskArea();
+            if (_lazyInitImageLayoutAction != null)
+            {
+                _lazyInitImageLayoutAction?.Invoke();
+                _lazyInitImageLayoutAction = null;
+            }
+            else
+            {
+                UpdateImageLayout();
+                UpdateMaskArea();
+            }
         }
     }
 }

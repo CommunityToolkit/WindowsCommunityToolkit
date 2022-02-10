@@ -23,6 +23,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="animate">Whether animation is enabled.</param>
         private void InitImageLayout(bool animate = false)
         {
+            if (!IsValidRect(CanvasRect))
+            {
+                _lazyInitImageLayoutAction = () => InitImageLayout(animate);
+                return;
+            }
+
             if (Source != null)
             {
                 _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);

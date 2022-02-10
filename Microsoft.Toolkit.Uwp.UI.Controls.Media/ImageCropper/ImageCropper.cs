@@ -59,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private RectangleGeometry _outerGeometry;
         private Geometry _innerGeometry;
         private TimeSpan _animationDuration = TimeSpan.FromSeconds(0.3);
+        private Action _lazyInitImageLayoutAction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCropper"/> class.
