@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI
     [MarkupExtensionReturnType(ReturnType = typeof(string))]
     public sealed class ResourceStringExtension : MarkupExtension
     {
-        private static ResourceLoader resourceLoader = ResourceLoader.GetForViewIndependentUse();
+        private static readonly ResourceLoader resourceLoader = ResourceLoader.GetForViewIndependentUse();
 
         /// <summary>
         /// Gets or sets associated ID from resource strings.
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Gets a string value from resource file associated with a resource key.
         /// </summary>
         /// <param name="name">Resource key name.</param>
-        /// <returns>a string value from resource file associated with a resource key.</returns>
+        /// <returns>A string value from resource file associated with a resource key.</returns>
         public static string GetValue(string name)
         {
             // This function is needed to accomodate compiled function usage without second paramater,
@@ -49,9 +49,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// Gets a string value from resource file associated with a resource key.
         /// </summary>
         /// <param name="name">Resource key name.</param>
-        /// <param name="language">optional language of the associated resource to use (ie: "es-ES").
+        /// <param name="language">Optional language of the associated resource to use (ie: "es-ES").
         /// default is the OS language of current view.</param>
-        /// <returns>a string value from resource file associated with a resource key.</returns>
+        /// <returns>A string value from resource file associated with a resource key.</returns>
         public static string GetValue(string name, string language = "")
         {
             if (string.IsNullOrEmpty(language))

@@ -7,58 +7,58 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
-    <Page.Resources>
-        <SolidColorBrush x:Key="BrushRed" Color="Red" />
-        <SolidColorBrush x:Key="BrushBlue" Color="Blue" />
-    </Page.Resources>
     <Grid>
         <StackPanel Spacing="8"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock Text="{ui:ResourceString Name=ResourceStringMarkupTitle}"
-               FontSize="30em"
-               TextWrapping="Wrap"
-               Style="{StaticResource BodyTextBlockStyle}"/>
+               FontSize="30"               
+               TextWrapping="Wrap"/>
 
             <TextBlock Text="With the ResourceString Markup Extension, there's no need to use the Uid appoach to get strings from resource files. Simply call the resource by name in any property that takes a string!"
-                       FontSize="20em"
-                       Margin="20"
-                       TextWrapping="Wrap"
-               Style="{StaticResource BodyTextBlockStyle}"/>
+                FontSize="20"
+                Margin="10,20,0,0"
+                TextWrapping="Wrap"/>
 
             <TextBlock
-               TextWrapping="Wrap"
-               Style="{StaticResource BodyTextBlockStyle}">
+                FontSize="20"
+                Margin="10,20,0,0"
+                TextWrapping="Wrap">
                 <Run>Get a greating from the English resource context: </Run>
                 <Run Text="{ui:ResourceString Name=HelloText, Language=en-US}"></Run>
             </TextBlock>
             <TextBlock
-               TextWrapping="Wrap"
-               Style="{StaticResource BodyTextBlockStyle}">
+                FontSize="20"
+                Margin="10,20,0,0"
+                TextWrapping="Wrap">
                 <Run>Or get a greeting from the Spanish resource context: </Run>
                 <Run Text="{ui:ResourceString Name=HelloText, Language=es-ES}"></Run>
             </TextBlock>
 
             <TextBlock
-               TextWrapping="Wrap" Margin="0,20,0,0"
-               Style="{StaticResource BodyTextBlockStyle}">
+                FontSize="20"
+                Margin="10,20,0,0"
+                TextWrapping="Wrap">
                 You can alternatively get a greeting using x:Bind for optimized compiled bind:
             </TextBlock>
             <TextBlock
-               TextWrapping="Wrap" Margin="10,10,0,0"
-               Style="{StaticResource BodyTextBlockStyle}">
+                FontSize="18"
+                Margin="20,0,0,0"
+                TextWrapping="Wrap">
                 {x:Bind ui:ResourceStringExtension.GetValue('HelloText')}
             </TextBlock>
             <TextBlock
-               TextWrapping="Wrap" Margin="10,10,0,0"
-               Style="{StaticResource BodyTextBlockStyle}">
+                FontSize="18"
+                Margin="20,0,0,0"
+                TextWrapping="Wrap">
                 {x:Bind ui:ResourceStringExtension.GetValue('HelloText', 'es-ES')}
             </TextBlock>
 
 
             <TextBlock
-               TextWrapping="Wrap" Margin="0,20" FontSize="10em"
-               Style="{StaticResource BodyTextBlockStyle}">
+                FontSize="16"
+                Margin="10,20,0,0"
+                TextWrapping="Wrap">
                 See our blog post on #ifdef Windows:
                 <Hyperlink NavigateUri="https://devblogs.microsoft.com/ifdef-windows/use-a-custom-resource-markup-extension-to-succeed-at-ui-string-globalization/">Use a Custom Resource Markup Extension to Succeed at UI String Globalization!</Hyperlink>
             </TextBlock>
