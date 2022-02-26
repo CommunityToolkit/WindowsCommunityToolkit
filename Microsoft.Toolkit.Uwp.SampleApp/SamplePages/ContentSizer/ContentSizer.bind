@@ -7,42 +7,51 @@
     mc:Ignorable="d">
 
   <Grid x:Name="RootGrid">
-    <!-- Just to separate our two examples -->
     <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="Auto"/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
     
-    <!-- Left-side 'Shelf' -->
-    <StackPanel Orientation="Horizontal">
-      <Border x:Name="SideContent"
-              Background="DarkGreen"
-              MinWidth="200"
-              MaxWidth="600">
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center">
-          Side Content
-        </TextBlock>
-      </Border>
-      <controls:ContentSizer TargetControl="{Binding ElementName=SideContent}"/>
-    </StackPanel>
+    <!-- Left-side 'Shelf', In this case you could also use a GridSplitter -->
+    <Border x:Name="SideContent"
+            Background="DarkGreen"
+            MinWidth="200"
+            MaxWidth="600"
+            Grid.RowSpan="3">
+      <TextBlock HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+        Side Content
+      </TextBlock>
+    </Border>
+    <controls:ContentSizer TargetControl="{Binding ElementName=SideContent}"
+                           Grid.Column="1" Grid.RowSpan="3"/>
     
-    <!-- Bottom 'Shelf' -->
+    <!-- Bottom 'Shelf', In this case you cannot use GridSplitter as row would maintain its size when Expander gets collapsed -->
     <controls:Expander x:Name="TopExpander"
                        VerticalAlignment="Top"
                        ExpandDirection="Up"
                        Header="This is some Shelf"
                        HorizontalContentAlignment="Stretch"
                        IsExpanded="True"
-                       Grid.Column="1">
-      <Grid Height="256">
+                       Grid.Column="2">
+      <Grid Height="128" x:Name="ExpandContent"
+            MinHeight="32" MaxHeight="256">
         <TextBlock HorizontalAlignment="Center"
                    TextWrapping="Wrap"
                    Text="This is the expanded content"
                    VerticalAlignment="Center"/>
-        <controls:ContentSizer ResizeDirection="Horizontal" Height="16"
-                               VerticalAlignment="Bottom"/>
       </Grid>
     </controls:Expander>
+    <controls:ContentSizer ResizeDirection="Horizontal" Height="16"
+                           TargetControl="{Binding ElementName=ExpandContent}"
+                           VerticalAlignment="Top"
+                           Visibility="{Binding IsExpanded, ElementName=TopExpander}"
+                           Grid.Column="2" Grid.Row="1"/>
   </Grid>
 </Page>
