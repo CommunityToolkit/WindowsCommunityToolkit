@@ -154,6 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SplitBase), new PropertyMetadata(ContentResizeDirection.Vertical));
 
         //// TODO: Move to ContentSizer
+
         /// <summary>
         /// Gets or sets the control that the <see cref="SplitBase"/> is resizing. Be default, this will be the visual ancestor of the <see cref="SplitBase"/>.
         /// </summary>
@@ -188,6 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         //// TODO: Check if this is ContentSizer only property
+
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SplitBase"/> control is resizing in the opposite direction.
         /// </summary>
