@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Base class for splitting/resizing controls
     /// </summary>
     [ContentProperty(Name = nameof(Content))]
-    public partial class SplitBase : Control
+    public abstract partial class SplitBase : Control
     {
         /// <summary>
         /// Check for new requested vertical size is valid or not
@@ -153,6 +153,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ResizeDirectionProperty =
             DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SplitBase), new PropertyMetadata(ContentResizeDirection.Vertical));
 
+        //// TODO: Move to ContentSizer
         /// <summary>
         /// Gets or sets the control that the <see cref="SplitBase"/> is resizing. Be default, this will be the visual ancestor of the <see cref="SplitBase"/>.
         /// </summary>
@@ -186,6 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        //// TODO: Check if this is ContentSizer only property
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SplitBase"/> control is resizing in the opposite direction.
         /// </summary>
@@ -202,57 +204,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsDragInverted), typeof(bool), typeof(SplitBase), new PropertyMetadata(false));
 
         /// <summary>
-        /// Process requested vertical resizing.
-        /// </summary>
-        /// <param name="verticalChange">The requested vertical change</param>
-        /// <returns><see cref="bool"/> result of processed vertical change</returns>
-        protected bool VerticalMove(double verticalChange)
-        {
-            if (TargetControl == null)
-            {
-                return true;
-            }
-
-            verticalChange = IsDragInverted ? -verticalChange : verticalChange;
-
-            if (!IsValidHeight(TargetControl, verticalChange, ActualHeight))
-            {
-                return true;
-            }
-
-            // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
-            TargetControl.Height += verticalChange;
-
-            GripperCursor = CoreCursorType.SizeNorthSouth;
-
-            return false;
-        }
-
-        /// <summary>
-        /// Process requested horizontal resizing.
+        /// Method to process the requested horizontal resizing.
         /// </summary>
         /// <param name="horizontalChange">The requested horizontal change</param>
-        /// <returns><see cref="bool"/> result of processed horizontal change</returns>
-        protected bool HorizontalMove(double horizontalChange)
-        {
-            if (TargetControl == null)
-            {
-                return true;
-            }
+        /// <returns><see cref="bool"/> indicates if the change was made</returns>
+        protected abstract bool HorizontalMove(double horizontalChange);
 
-            horizontalChange = IsDragInverted ? -horizontalChange : horizontalChange;
-
-            if (!IsValidWidth(TargetControl, horizontalChange, ActualWidth))
-            {
-                return true;
-            }
-
-            TargetControl.Width += horizontalChange;
-
-            GripperCursor = CoreCursorType.SizeWestEast;
-
-            return false;
-        }
+        /// <summary>
+        /// Method to process the requested vertical resizing.
+        /// </summary>
+        /// <param name="verticalChange">The requested vertical change</param>
+        /// <returns><see cref="bool"/> indicates if the change was made</returns>
+        protected abstract bool VerticalMove(double verticalChange);
 
         /// <summary>
         /// Processes KeyUp event

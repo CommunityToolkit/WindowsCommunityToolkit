@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -53,6 +54,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnManipulationDelta(e);
+        }
+
+        /// <inheritdoc/>
+        protected override bool HorizontalMove(double horizontalChange)
+        {
+            if (TargetControl == null)
+            {
+                return true;
+            }
+
+            horizontalChange = IsDragInverted ? -horizontalChange : horizontalChange;
+
+            if (!IsValidWidth(TargetControl, horizontalChange, ActualWidth))
+            {
+                return true;
+            }
+
+            TargetControl.Width += horizontalChange;
+
+            GripperCursor = CoreCursorType.SizeWestEast;
+
+            return false;
+        }
+
+        /// <inheritdoc/>
+        protected override bool VerticalMove(double verticalChange)
+        {
+            if (TargetControl == null)
+            {
+                return true;
+            }
+
+            verticalChange = IsDragInverted ? -verticalChange : verticalChange;
+
+            if (!IsValidHeight(TargetControl, verticalChange, ActualHeight))
+            {
+                return true;
+            }
+
+            // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
+            TargetControl.Height += verticalChange;
+
+            GripperCursor = CoreCursorType.SizeNorthSouth;
+
+            return false;
         }
     }
 }

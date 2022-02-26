@@ -118,7 +118,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnManipulationDelta(e);
         }
 
-        private new bool VerticalMove(double verticalChange)
+        /// <inheritdoc/>
+        protected override bool VerticalMove(double verticalChange)
         {
             if (CurrentRow == null || SiblingRow == null)
             {
@@ -184,7 +185,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private new bool HorizontalMove(double horizontalChange)
+        /// <inheritdoc/>
+        protected override bool HorizontalMove(double horizontalChange)
         {
             if (CurrentColumn == null || SiblingColumn == null)
             {
