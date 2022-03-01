@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Represents the control that redistributes space between columns or rows of a Grid control.
     /// </summary>
-    public partial class GridSplitter : SplitBase
+    public partial class GridSplitter : SizerBase
     {
         private GridResizeDirection _resizeDirection;
         private GridResizeBehavior _resizeBehavior;

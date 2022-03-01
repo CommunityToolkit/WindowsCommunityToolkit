@@ -36,7 +36,6 @@
         Grid.Column="1"
         ResizeDirection="Auto"
         ResizeBehavior="BasedOnAlignment"
-        CursorBehavior="ChangeOnGripperHover"
         Foreground="{ThemeResource Brush-Alt}">
       </controls:GridSplitter>
 

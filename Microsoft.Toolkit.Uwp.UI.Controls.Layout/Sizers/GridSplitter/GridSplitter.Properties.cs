@@ -43,16 +43,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(default(int)));
 
         /// <summary>
-        /// Identifies the <see cref="CursorBehavior"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty CursorBehaviorProperty =
-            DependencyProperty.RegisterAttached(
-                nameof(CursorBehavior),
-                typeof(SplitterCursorBehavior),
-                typeof(GridSplitter),
-                new PropertyMetadata(SplitterCursorBehavior.ChangeOnSplitterHover));
-
-        /// <summary>
         /// Gets or sets whether the Splitter resizes the Columns, Rows, or Both.
         /// </summary>
         public new GridResizeDirection ResizeDirection
@@ -77,15 +67,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (int)GetValue(ParentLevelProperty); }
             set { SetValue(ParentLevelProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets splitter cursor on hover behavior
-        /// </summary>
-        public SplitterCursorBehavior CursorBehavior
-        {
-            get { return (SplitterCursorBehavior)GetValue(CursorBehaviorProperty); }
-            set { SetValue(CursorBehaviorProperty, value); }
         }
     }
 }

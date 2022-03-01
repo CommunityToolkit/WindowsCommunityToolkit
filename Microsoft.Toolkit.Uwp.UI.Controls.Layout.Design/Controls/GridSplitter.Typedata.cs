@@ -13,7 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 
     internal static class GridSplitter
     {
-        internal const string CursorBehavior = nameof(CursorBehavior);
         internal const string Element = nameof(Element);
         internal const string GripperCursor = nameof(GripperCursor);
         internal const string GripperCustomCursorResource = nameof(GripperCustomCursorResource);

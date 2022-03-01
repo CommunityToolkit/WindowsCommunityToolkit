@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class ContentSizer
     {
         /// <summary>
-        /// Gets or sets the control that the <see cref="SplitBase"/> is resizing. Be default, this will be the visual ancestor of the <see cref="SplitBase"/>.
+        /// Gets or sets the control that the <see cref="ContentSizer"/> is resizing. Be default, this will be the visual ancestor of the <see cref="ContentSizer"/>.
         /// </summary>
         public FrameworkElement TargetControl
         {
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="TargetControl"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TargetControlProperty =
-            DependencyProperty.Register(nameof(TargetControl), typeof(FrameworkElement), typeof(SplitBase), new PropertyMetadata(null, OnTargetControlChanged));
+            DependencyProperty.Register(nameof(TargetControl), typeof(FrameworkElement), typeof(ContentSizer), new PropertyMetadata(null, OnTargetControlChanged));
 
         private static void OnTargetControlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Or should we just do it in the manipulation event if Width is null?
 
             // Check if our width can be manipulated
-            if (d is SplitBase splitterBase && e.NewValue is FrameworkElement element)
+            if (d is SizerBase splitterBase && e.NewValue is FrameworkElement element)
             {
                 // TODO: For Auto ResizeDirection we might want to do detection logic (TBD) here first?
                 if (splitterBase.ResizeDirection != ContentResizeDirection.Horizontal && double.IsNaN(element.Width))

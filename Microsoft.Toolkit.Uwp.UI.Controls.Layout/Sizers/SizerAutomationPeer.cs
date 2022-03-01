@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
-    // TODO: Make this generalize for SplitBase?
+    // TODO: Make this generalize for SizerBase?
 
     /// <summary>
     /// Defines a framework element automation peer for the <see cref="ContentSizer"/> control.

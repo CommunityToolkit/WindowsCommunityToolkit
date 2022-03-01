@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Base class for splitting/resizing controls
     /// </summary>
     [ContentProperty(Name = nameof(Content))]
-    public abstract partial class SplitBase : Control
+    public abstract partial class SizerBase : Control
     {
         /// <summary>
         /// Check for new requested vertical size is valid or not
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Content"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register(nameof(Content), typeof(object), typeof(SplitBase), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Content), typeof(object), typeof(SizerBase), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the content template for the <see cref="Content"/>.
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ContentTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ContentTemplateProperty =
-            DependencyProperty.Register(nameof(ContentTemplate), typeof(DataTemplate), typeof(SplitBase), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ContentTemplate), typeof(DataTemplate), typeof(SizerBase), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the cursor to use when hovering over the sizer.
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="GripperCursor"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty GripperCursorProperty =
-            DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SplitBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
+            DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SizerBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
 
         /// <summary>
         /// Gets or sets the direction that the sizer will interact with.
@@ -151,12 +151,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ResizeDirection"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ResizeDirectionProperty =
-            DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SplitBase), new PropertyMetadata(ContentResizeDirection.Vertical));
+            DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SizerBase), new PropertyMetadata(ContentResizeDirection.Vertical));
 
         //// TODO: Check if this is ContentSizer only property
 
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="SplitBase"/> control is resizing in the opposite direction.
+        /// Gets or sets a value indicating whether the <see cref="SizerBase"/> control is resizing in the opposite direction.
         /// </summary>
         public bool IsDragInverted
         {
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="IsDragInverted"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsDragInvertedProperty =
-            DependencyProperty.Register(nameof(IsDragInverted), typeof(bool), typeof(SplitBase), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsDragInverted), typeof(bool), typeof(SizerBase), new PropertyMetadata(false));
 
         /// <summary>
         /// Method to process the requested horizontal resizing.
@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="sender">The sender of the event</param>
         /// <param name="e">A <see cref="KeyRoutedEventArgs"/> which contains the event data</param>
-        protected void SplitBase_KeyUp(object sender, KeyRoutedEventArgs e)
+        protected void SizerBase_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (ResizeDirection == ContentResizeDirection.Vertical)
             {

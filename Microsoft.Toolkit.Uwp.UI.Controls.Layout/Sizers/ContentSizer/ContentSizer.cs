@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="ContentSizer"/> is a control which can be used to resize any element, usually its parent. If you are using a <see cref="Grid"/>, use <see cref="GridSplitter"/> instead.
     /// </summary>
-    public partial class ContentSizer : SplitBase
+    public partial class ContentSizer : SizerBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentSizer"/> class.
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(ContentSizer);
 
-            KeyUp += SplitBase_KeyUp;
+            KeyUp += SizerBase_KeyUp;
         }
 
         /// <inheritdoc/>

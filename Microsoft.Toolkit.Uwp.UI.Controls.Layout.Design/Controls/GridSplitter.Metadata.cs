@@ -26,7 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
                         new CategoryAttribute(Resources.CategoryAppearance),
                         new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
                     );
-                    b.AddCustomAttributes(nameof(GridSplitter.CursorBehavior), new CategoryAttribute(Resources.CategoryCommon));
                     b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
                 }
             );
