@@ -153,41 +153,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty ResizeDirectionProperty =
             DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SplitBase), new PropertyMetadata(ContentResizeDirection.Vertical));
 
-        //// TODO: Move to ContentSizer
-
-        /// <summary>
-        /// Gets or sets the control that the <see cref="SplitBase"/> is resizing. Be default, this will be the visual ancestor of the <see cref="SplitBase"/>.
-        /// </summary>
-        public FrameworkElement TargetControl
-        {
-            get { return (FrameworkElement)GetValue(TargetControlProperty); }
-            set { SetValue(TargetControlProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="TargetControl"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty TargetControlProperty =
-            DependencyProperty.Register(nameof(TargetControl), typeof(FrameworkElement), typeof(SplitBase), new PropertyMetadata(null, OnTargetControlChanged));
-
-        private static void OnTargetControlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            // Check if our width can be manipulated
-            if (d is SplitBase splitterBase && e.NewValue is FrameworkElement element)
-            {
-                // TODO: For Auto we might want to do detection logic (TBD) here first?
-                if (splitterBase.ResizeDirection != ContentResizeDirection.Horizontal && double.IsNaN(element.Width))
-                {
-                    element.Width = element.DesiredSize.Width;
-                }
-
-                if (splitterBase.ResizeDirection != ContentResizeDirection.Vertical && double.IsNaN(element.Height))
-                {
-                    element.Height = element.DesiredSize.Height;
-                }
-            }
-        }
-
         //// TODO: Check if this is ContentSizer only property
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the target parent grid from level
         /// </summary>
-        private new FrameworkElement TargetControl
+        private FrameworkElement TargetControl
         {
             get
             {
