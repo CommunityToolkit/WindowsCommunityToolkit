@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    <Style TargetType="local:GridSplitter">
+    <Style TargetType="local:SizerBase">
         <Setter Property="IsTabStop" Value="True" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -29,19 +29,21 @@
         <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="AutomationProperties.Name" Value="ms-resource://Microsoft.Toolkit.Uwp.UI.Controls.Layout/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Resources/WCT_SizerBase_AutomationName" />
         <Setter Property="ManipulationMode" Value="TranslateX,TranslateY"/>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <TextBlock AutomationProperties.AccessibilityView="Raw"
                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                               Foreground="{ThemeResource SystemControlForegroundAltHighBrush}"
                                Text="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:GridSplitter">
+                <ControlTemplate TargetType="local:SizerBase">
                     <Grid x:Name="RootGrid"
                           ui:FrameworkElementExtensions.Cursor="{TemplateBinding GripperCursor}"
                           Background="{TemplateBinding Background}">

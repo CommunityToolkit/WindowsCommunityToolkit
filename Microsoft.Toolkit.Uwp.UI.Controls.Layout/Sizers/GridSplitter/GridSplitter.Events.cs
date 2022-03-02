@@ -5,6 +5,7 @@
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -17,6 +18,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
         {
             _resizeDirection = GetResizeDirection();
+            Orientation = _resizeDirection == GridResizeDirection.Rows ?
+                Orientation.Horizontal : Orientation.Vertical;
             _resizeBehavior = GetResizeBehavior();
 
             // Adding Grip to Grid Splitter
@@ -30,92 +33,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc />
-        protected override void OnKeyDown(KeyRoutedEventArgs e)
-        {
-            var step = 1;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
-            {
-                step = 5;
-            }
-
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                if (e.Key == VirtualKey.Left)
-                {
-                    HorizontalMove(-step);
-                }
-                else if (e.Key == VirtualKey.Right)
-                {
-                    HorizontalMove(step);
-                }
-                else
-                {
-                    return;
-                }
-
-                e.Handled = true;
-                return;
-            }
-
-            if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                if (e.Key == VirtualKey.Up)
-                {
-                    VerticalMove(-step);
-                }
-                else if (e.Key == VirtualKey.Down)
-                {
-                    VerticalMove(step);
-                }
-                else
-                {
-                    return;
-                }
-
-                e.Handled = true;
-            }
-
-            base.OnKeyDown(e);
-        }
-
-        /// <inheritdoc />
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
-            // saving the previous state
             _resizeDirection = GetResizeDirection();
+            Orientation = _resizeDirection == GridResizeDirection.Rows ?
+                Orientation.Horizontal : Orientation.Vertical;
             _resizeBehavior = GetResizeBehavior();
 
             base.OnManipulationStarted(e);
-        }
-
-        /// <inheritdoc />
-        protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
-        {
-            var horizontalChange = e.Delta.Translation.X;
-            var verticalChange = e.Delta.Translation.Y;
-
-            if (this.FlowDirection == FlowDirection.RightToLeft)
-            {
-                horizontalChange *= -1;
-            }
-
-            if (_resizeDirection == GridResizeDirection.Columns)
-            {
-                if (HorizontalMove(horizontalChange))
-                {
-                    return;
-                }
-            }
-            else if (_resizeDirection == GridResizeDirection.Rows)
-            {
-                if (VerticalMove(verticalChange))
-                {
-                    return;
-                }
-            }
-
-            base.OnManipulationDelta(e);
         }
 
         /// <inheritdoc/>

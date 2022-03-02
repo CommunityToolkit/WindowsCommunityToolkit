@@ -139,19 +139,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SizerBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
 
         /// <summary>
-        /// Gets or sets the direction that the sizer will interact with.
+        /// Gets or sets the orientation the sizer will be and how it will interact with other elements. Defaults to <see cref="Orientation.Vertical"/>.
         /// </summary>
-        public ContentResizeDirection ResizeDirection
+        /// <remarks>
+        /// Note if using <see cref="GridSplitter"/>, use the <see cref="GridSplitter.ResizeDirection"/> property instead.
+        /// </remarks>
+        public Orientation Orientation
         {
-            get { return (ContentResizeDirection)GetValue(ResizeDirectionProperty); }
-            set { SetValue(ResizeDirectionProperty, value); }
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="ResizeDirection"/> dependency property.
+        /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ResizeDirectionProperty =
-            DependencyProperty.Register(nameof(ResizeDirection), typeof(ContentResizeDirection), typeof(SizerBase), new PropertyMetadata(ContentResizeDirection.Vertical));
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(SizerBase), new PropertyMetadata(Orientation.Vertical));
 
         //// TODO: Check if this is ContentSizer only property
 
@@ -185,34 +188,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected abstract bool VerticalMove(double verticalChange);
 
         /// <summary>
-        /// Processes KeyUp event
+        /// Initializes a new instance of the <see cref="SizerBase"/> class.
         /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">A <see cref="KeyRoutedEventArgs"/> which contains the event data</param>
-        protected void SizerBase_KeyUp(object sender, KeyRoutedEventArgs e)
+        public SizerBase()
         {
-            if (ResizeDirection == ContentResizeDirection.Vertical)
-            {
-                if (e.Key == Windows.System.VirtualKey.Left)
-                {
-                    HorizontalMove(-GripperKeyboardChange);
-                }
-                else if (e.Key == Windows.System.VirtualKey.Right)
-                {
-                    HorizontalMove(GripperKeyboardChange);
-                }
-            }
-            else
-            {
-                if (e.Key == Windows.System.VirtualKey.Up)
-                {
-                    VerticalMove(-GripperKeyboardChange);
-                }
-                else if (e.Key == Windows.System.VirtualKey.Down)
-                {
-                    VerticalMove(GripperKeyboardChange);
-                }
-            }
+            this.DefaultStyleKey = typeof(SizerBase);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            // Unregister Events
+            PointerEntered -= GridSplitter_PointerEntered;
+            PointerExited -= GridSplitter_PointerExited;
+            PointerPressed -= GridSplitter_PointerPressed;
+            PointerReleased -= GridSplitter_PointerReleased;
+            ManipulationStarted -= GridSplitter_ManipulationStarted;
+            ManipulationCompleted -= GridSplitter_ManipulationCompleted;
+
+            // Register Events
+            PointerEntered += GridSplitter_PointerEntered;
+            PointerExited += GridSplitter_PointerExited;
+            PointerPressed += GridSplitter_PointerPressed;
+            PointerReleased += GridSplitter_PointerReleased;
+            ManipulationStarted += GridSplitter_ManipulationStarted;
+            ManipulationCompleted += GridSplitter_ManipulationCompleted;
         }
     }
 }

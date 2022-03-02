@@ -2,8 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -15,12 +17,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ResizeDirection"/> dependency property.
         /// </summary>
-        public static new readonly DependencyProperty ResizeDirectionProperty
+        public static readonly DependencyProperty ResizeDirectionProperty
             = DependencyProperty.Register(
                 nameof(ResizeDirection),
                 typeof(GridResizeDirection),
                 typeof(GridSplitter),
-                new PropertyMetadata(GridResizeDirection.Auto));
+                new PropertyMetadata(GridResizeDirection.Auto, OnResizeDirectionPropertyChanged));
+
+        private static void OnResizeDirectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is GridSplitter splitter && e.NewValue is GridResizeDirection direction &&
+                direction != GridResizeDirection.Auto)
+            {
+                // Update base classes property based on specific polyfill for GridSplitter
+                splitter.Orientation =
+                    direction == GridResizeDirection.Rows ?
+                        Orientation.Horizontal :
+                        Orientation.Vertical;
+            }
+        }
 
         /// <summary>
         /// Identifies the <see cref="ResizeBehavior"/> dependency property.
@@ -45,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets whether the Splitter resizes the Columns, Rows, or Both.
         /// </summary>
-        public new GridResizeDirection ResizeDirection
+        public GridResizeDirection ResizeDirection
         {
             get { return (GridResizeDirection)GetValue(ResizeDirectionProperty); }
             set { SetValue(ResizeDirectionProperty, value); }

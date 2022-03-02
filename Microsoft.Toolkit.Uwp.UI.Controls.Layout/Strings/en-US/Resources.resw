@@ -65,12 +65,8 @@
     <value>Expand Blade</value>
     <comment>Narrator Resource for BladeView expanded status</comment>
   </data>
-  <data name="WCT_GridSplitter_AutomationName" xml:space="preserve">
-    <value>GridSplitter</value>
-    <comment>Narrator Resource for GridSplitter control</comment>
-  </data>
-  <data name="WCT_ContentSizer_AutomationName" xml:space="preserve">
-    <value>Content Sizer</value>
-    <comment>Narrator Resource for ContentSizer control</comment>
+  <data name="WCT_SizerBase_AutomationName" xml:space="preserve">
+    <value>Sizer</value>
+    <comment>Narrator Resource for SizerBase controls and similar</comment>
   </data>
 </root>

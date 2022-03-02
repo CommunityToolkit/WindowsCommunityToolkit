@@ -23,37 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // TODO: Make Converter to put in XAML?
                 Content =
-                    ResizeDirection == ContentResizeDirection.Vertical ? GripperBarVertical : GripperBarHorizontal;
+                    Orientation == Orientation.Vertical ? GripperBarVertical : GripperBarHorizontal;
             }
 
             if (TargetControl == null)
             {
                 TargetControl = this.FindAscendant<FrameworkElement>();
             }
-        }
-
-        /// <inheritdoc />
-        protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
-        {
-            var horizontalChange = e.Delta.Translation.X;
-            var verticalChange = e.Delta.Translation.Y;
-
-            if (ResizeDirection == ContentResizeDirection.Vertical)
-            {
-                if (HorizontalMove(horizontalChange))
-                {
-                    return;
-                }
-            }
-            else if (ResizeDirection == ContentResizeDirection.Horizontal)
-            {
-                if (VerticalMove(verticalChange))
-                {
-                    return;
-                }
-            }
-
-            base.OnManipulationDelta(e);
         }
 
         /// <inheritdoc/>

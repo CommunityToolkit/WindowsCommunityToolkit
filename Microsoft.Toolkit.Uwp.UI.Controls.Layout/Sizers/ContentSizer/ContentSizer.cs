@@ -14,22 +14,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class ContentSizer : SizerBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContentSizer"/> class.
-        /// </summary>
-        public ContentSizer()
-        {
-            this.DefaultStyleKey = typeof(ContentSizer);
-
-            KeyUp += SizerBase_KeyUp;
-        }
-
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             // Note, we re-register for the proper timing to check for default property values. If we just set Loaded once in our constructor this doesn't work... Not sure why... 🤷‍
+
+            //// TODO: Do we want a virtual OnLoaded event to handle this for everyone in the base?
 
             // Unhook registered events
             Loaded -= ContentSizer_Loaded;

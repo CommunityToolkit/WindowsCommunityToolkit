@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -35,14 +36,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (d is SizerBase splitterBase && e.NewValue is FrameworkElement element)
             {
                 // TODO: For Auto ResizeDirection we might want to do detection logic (TBD) here first?
-                if (splitterBase.ResizeDirection != ContentResizeDirection.Horizontal && double.IsNaN(element.Width))
+                if (splitterBase.Orientation != Orientation.Horizontal && double.IsNaN(element.Width))
                 {
                     // We need to set the Width or Height somewhere,
                     // as if it's NaN we won't be able to manipulate it.
                     element.Width = element.DesiredSize.Width;
                 }
 
-                if (splitterBase.ResizeDirection != ContentResizeDirection.Vertical && double.IsNaN(element.Height))
+                if (splitterBase.Orientation != Orientation.Vertical && double.IsNaN(element.Height))
                 {
                     element.Height = element.DesiredSize.Height;
                 }

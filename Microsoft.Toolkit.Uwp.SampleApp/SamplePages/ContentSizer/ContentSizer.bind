@@ -48,7 +48,7 @@
                    VerticalAlignment="Center"/>
       </Grid>
     </controls:Expander>
-    <controls:ContentSizer ResizeDirection="Horizontal" Height="16"
+    <controls:ContentSizer Orientation="Horizontal" Height="16"
                            TargetControl="{Binding ElementName=ExpandContent}"
                            VerticalAlignment="Top"
                            Visibility="{Binding IsExpanded, ElementName=TopExpander}"
