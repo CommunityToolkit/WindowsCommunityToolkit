@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Input;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Events for <see cref="SizerBase"/>.
+    /// Event implementations for <see cref="SizerBase"/>.
     /// </summary>
     public partial class SizerBase
     {
