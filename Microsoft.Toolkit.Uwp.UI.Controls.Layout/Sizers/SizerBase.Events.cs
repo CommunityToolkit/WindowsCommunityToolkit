@@ -26,17 +26,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //// if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             //// Note: WPF doesn't do anything here.
 
-            //// TODO: Do we need to worry about RTL layout here as well? See OnManipulationDelta below
-
             if (Orientation == Orientation.Vertical)
             {
+                var horizontalChange = GripperKeyboardChange;
+
+                // Important: adjust for RTL language flow settings and invert horizontal axis
+                if (this.FlowDirection == FlowDirection.RightToLeft)
+                {
+                    horizontalChange *= -1;
+                }
+
                 if (e.Key == Windows.System.VirtualKey.Left)
                 {
-                    OnHorizontalMove(-GripperKeyboardChange);
+                    OnHorizontalMove(-horizontalChange);
                 }
                 else if (e.Key == Windows.System.VirtualKey.Right)
                 {
-                    OnHorizontalMove(GripperKeyboardChange);
+                    OnHorizontalMove(horizontalChange);
                 }
             }
             else
