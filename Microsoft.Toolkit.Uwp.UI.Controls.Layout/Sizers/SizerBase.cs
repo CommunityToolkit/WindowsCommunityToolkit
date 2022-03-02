@@ -178,14 +178,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="horizontalChange">The requested horizontal change</param>
         /// <returns><see cref="bool"/> indicates if the change was made</returns>
-        protected abstract bool HorizontalMove(double horizontalChange);
+        protected abstract bool OnHorizontalMove(double horizontalChange);
 
         /// <summary>
         /// Method to process the requested vertical resizing.
         /// </summary>
         /// <param name="verticalChange">The requested vertical change</param>
         /// <returns><see cref="bool"/> indicates if the change was made</returns>
-        protected abstract bool VerticalMove(double verticalChange);
+        protected abstract bool OnVerticalMove(double verticalChange);
+
+        /// <summary>
+        /// Called when the control has been initialized.
+        /// </summary>
+        /// <param name="e">Loaded event args.</param>
+        protected abstract void OnLoaded(RoutedEventArgs e);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SizerBase"/> class.
@@ -201,6 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             // Unregister Events
+            Loaded -= SizerBase_Loaded;
             PointerEntered -= GridSplitter_PointerEntered;
             PointerExited -= GridSplitter_PointerExited;
             PointerPressed -= GridSplitter_PointerPressed;
@@ -209,12 +216,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationCompleted -= GridSplitter_ManipulationCompleted;
 
             // Register Events
+            Loaded += SizerBase_Loaded;
             PointerEntered += GridSplitter_PointerEntered;
             PointerExited += GridSplitter_PointerExited;
             PointerPressed += GridSplitter_PointerPressed;
             PointerReleased += GridSplitter_PointerReleased;
             ManipulationStarted += GridSplitter_ManipulationStarted;
             ManipulationCompleted += GridSplitter_ManipulationCompleted;
+        }
+
+        private void SizerBase_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= SizerBase_Loaded;
+
+            OnLoaded(e);
         }
     }
 }

@@ -15,9 +15,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class ContentSizer
     {
-        // If no values specified, setup our default behaviors.
-        private void ContentSizer_Loaded(object sender, RoutedEventArgs e)
+        /// <inheritdoc/>
+        protected override void OnLoaded(RoutedEventArgs e)
         {
+            // If no values specified, setup our default behaviors.
             // Adding Grip to Grid Splitter
             if (Content == null)
             {
@@ -33,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
-        protected override bool HorizontalMove(double horizontalChange)
+        protected override bool OnHorizontalMove(double horizontalChange)
         {
             if (TargetControl == null)
             {
@@ -55,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
-        protected override bool VerticalMove(double verticalChange)
+        protected override bool OnVerticalMove(double verticalChange)
         {
             if (TargetControl == null)
             {

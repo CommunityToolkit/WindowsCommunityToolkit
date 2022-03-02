@@ -15,7 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class GridSplitter
     {
-        private void GridSplitter_Loaded(object sender, RoutedEventArgs e)
+        /// <inheritdoc/>
+        protected override void OnLoaded(RoutedEventArgs e)
         {
             _resizeDirection = GetResizeDirection();
             Orientation = _resizeDirection == GridResizeDirection.Rows ?
@@ -44,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
-        protected override bool VerticalMove(double verticalChange)
+        protected override bool OnVerticalMove(double verticalChange)
         {
             if (CurrentRow == null || SiblingRow == null)
             {
@@ -111,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
-        protected override bool HorizontalMove(double horizontalChange)
+        protected override bool OnHorizontalMove(double horizontalChange)
         {
             if (CurrentColumn == null || SiblingColumn == null)
             {

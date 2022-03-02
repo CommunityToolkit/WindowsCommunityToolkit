@@ -32,22 +32,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (e.Key == Windows.System.VirtualKey.Left)
                 {
-                    HorizontalMove(-GripperKeyboardChange);
+                    OnHorizontalMove(-GripperKeyboardChange);
                 }
                 else if (e.Key == Windows.System.VirtualKey.Right)
                 {
-                    HorizontalMove(GripperKeyboardChange);
+                    OnHorizontalMove(GripperKeyboardChange);
                 }
             }
             else
             {
                 if (e.Key == Windows.System.VirtualKey.Up)
                 {
-                    VerticalMove(-GripperKeyboardChange);
+                    OnVerticalMove(-GripperKeyboardChange);
                 }
                 else if (e.Key == Windows.System.VirtualKey.Down)
                 {
-                    VerticalMove(GripperKeyboardChange);
+                    OnVerticalMove(GripperKeyboardChange);
                 }
             }
         }
@@ -66,14 +66,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (Orientation == Orientation.Vertical)
             {
-                if (HorizontalMove(horizontalChange))
+                if (OnHorizontalMove(horizontalChange))
                 {
                     return;
                 }
             }
             else if (Orientation == Orientation.Horizontal)
             {
-                if (VerticalMove(verticalChange))
+                if (OnVerticalMove(verticalChange))
                 {
                     return;
                 }

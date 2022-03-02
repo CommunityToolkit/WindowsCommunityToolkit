@@ -144,26 +144,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return null;
             }
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GridSplitter"/> class.
-        /// </summary>
-        public GridSplitter()
-            : base()
-        {
-            Loaded += GridSplitter_Loaded;
-        }
-
-        /// <inheritdoc />
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            // Unhook registered events
-            Loaded -= GridSplitter_Loaded;
-
-            // Register Events
-            Loaded += GridSplitter_Loaded;
-        }
     }
 }
