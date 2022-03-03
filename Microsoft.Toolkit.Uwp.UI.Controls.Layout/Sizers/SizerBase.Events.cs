@@ -31,6 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //// var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             //// if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             //// Note: WPF doesn't do anything here.
+            //// I think if we did anything, we'd create a SmallKeyboardIncrement property?
 
             // Initialize a drag event for this keyboard interaction.
             OnDragStarting();
@@ -115,19 +116,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _dragging = false;
         private bool _pointerEntered = false;
 
-        private void GridSplitter_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private void SizerBase_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             _pressed = false;
             VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
         }
 
-        private void GridSplitter_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void SizerBase_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             _pressed = true;
             VisualStateManager.GoToState(this, "Pressed", true);
         }
 
-        private void GridSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void SizerBase_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             _pointerEntered = false;
 
@@ -137,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void GridSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void SizerBase_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             _pointerEntered = true;
 
@@ -147,14 +148,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        private void SizerBase_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             _dragging = false;
             _pressed = false;
             VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
         }
 
-        private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        private void SizerBase_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {
             _dragging = true;
             VisualStateManager.GoToState(this, "Pressed", true);

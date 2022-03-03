@@ -83,21 +83,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Unregister Events
             Loaded -= SizerBase_Loaded;
-            PointerEntered -= GridSplitter_PointerEntered;
-            PointerExited -= GridSplitter_PointerExited;
-            PointerPressed -= GridSplitter_PointerPressed;
-            PointerReleased -= GridSplitter_PointerReleased;
-            ManipulationStarted -= GridSplitter_ManipulationStarted;
-            ManipulationCompleted -= GridSplitter_ManipulationCompleted;
+            PointerEntered -= SizerBase_PointerEntered;
+            PointerExited -= SizerBase_PointerExited;
+            PointerPressed -= SizerBase_PointerPressed;
+            PointerReleased -= SizerBase_PointerReleased;
+            ManipulationStarted -= SizerBase_ManipulationStarted;
+            ManipulationCompleted -= SizerBase_ManipulationCompleted;
 
             // Register Events
             Loaded += SizerBase_Loaded;
-            PointerEntered += GridSplitter_PointerEntered;
-            PointerExited += GridSplitter_PointerExited;
-            PointerPressed += GridSplitter_PointerPressed;
-            PointerReleased += GridSplitter_PointerReleased;
-            ManipulationStarted += GridSplitter_ManipulationStarted;
-            ManipulationCompleted += GridSplitter_ManipulationCompleted;
+            PointerEntered += SizerBase_PointerEntered;
+            PointerExited += SizerBase_PointerExited;
+            PointerPressed += SizerBase_PointerPressed;
+            PointerReleased += SizerBase_PointerReleased;
+            ManipulationStarted += SizerBase_ManipulationStarted;
+            ManipulationCompleted += SizerBase_ManipulationCompleted;
         }
 
         private void SizerBase_Loaded(object sender, RoutedEventArgs e)
