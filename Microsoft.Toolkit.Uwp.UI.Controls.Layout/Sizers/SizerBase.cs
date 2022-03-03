@@ -30,6 +30,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// They will receive the cumulative change in <see cref="OnDragHorizontal(double)"/> or
         /// <see cref="OnDragVertical(double)"/> based on the <see cref="Orientation"/> property.
         /// </summary>
+        /// <remarks>
+        /// This method is also called at the start of a keyboard interaction. Keyboard strokes use the same pattern to emulate a mouse movement for a single change. The appropriate
+        /// <see cref="OnDragHorizontal(double)"/> or <see cref="OnDragVertical(double)"/>
+        /// method will also be called after when the keyboard is used.
+        /// </remarks>
         protected abstract void OnDragStarting();
 
         /// <summary>
@@ -37,6 +42,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="horizontalChange">The <see cref="ManipulationDeltaRoutedEventArgs.Cumulative"/> horizontal change amount from the start in device-independent pixels DIP.</param>
         /// <returns><see cref="bool"/> indicates if a change was made</returns>
+        /// <remarks>
+        /// The value provided here is the cumulative change from the beginning of the
+        /// manipulation. This method will be used regardless of input device. It will already
+        /// be adjusted for RightToLeft <see cref="FlowDirection"/> of the containing
+        /// layout/settings. It will also already account for any settings such as
+        /// <see cref="DragIncrement"/> or <see cref="KeyboardIncrement"/>. The implementor
+        /// just needs to use the provided value to manipulate their baseline stored
+        /// in <see cref="OnDragStarting"/> to provide the desired change.
+        /// </remarks>
         protected abstract bool OnDragHorizontal(double horizontalChange);
 
         /// <summary>
@@ -44,6 +58,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="verticalChange">The <see cref="ManipulationDeltaRoutedEventArgs.Cumulative"/> vertical change amount from the start in device-independent pixels DIP.</param>
         /// <returns><see cref="bool"/> indicates if a change was made</returns>
+        /// <remarks>
+        /// The value provided here is the cumulative change from the beginning of the
+        /// manipulation. This method will be used regardless of input device. It will also
+        /// already account for any settings such as <see cref="DragIncrement"/> or
+        /// <see cref="KeyboardIncrement"/>. The implementor just needs
+        /// to use the provided value to manipulate their baseline stored
+        /// in <see cref="OnDragStarting"/> to provide the desired change.
+        /// </remarks>
         protected abstract bool OnDragVertical(double verticalChange);
 
         /// <summary>

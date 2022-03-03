@@ -21,14 +21,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
+            // If we're manipulating with mouse/touch, we ignore keyboard inputs.
+            if (_dragging)
+            {
+                return;
+            }
+
             //// TODO: Do we want Ctrl/Shift to be a small increment (kind of inverse to old GridSplitter logic)?
             //// var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             //// if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             //// Note: WPF doesn't do anything here.
 
+            // Initialize a drag event for this keyboard interaction.
+            OnDragStarting();
+
             if (Orientation == Orientation.Vertical)
             {
-                var horizontalChange = GripperKeyboardChange;
+                var horizontalChange = KeyboardIncrement;
 
                 // Important: adjust for RTL language flow settings and invert horizontal axis
                 if (this.FlowDirection == FlowDirection.RightToLeft)
@@ -49,11 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (e.Key == Windows.System.VirtualKey.Up)
                 {
-                    OnDragVertical(-GripperKeyboardChange);
+                    OnDragVertical(-KeyboardIncrement);
                 }
                 else if (e.Key == Windows.System.VirtualKey.Down)
                 {
-                    OnDragVertical(GripperKeyboardChange);
+                    OnDragVertical(KeyboardIncrement);
                 }
             }
         }
@@ -69,8 +78,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
         {
-            var horizontalChange = e.Cumulative.Translation.X;
-            var verticalChange = e.Cumulative.Translation.Y;
+            // We use Trancate here to provide 'snapping' points with the DragIncrement property
+            // It works for both our negative and positive values, as otherwise we'd need to use
+            // Ceiling when negative and Floor when positive to maintain the correct behavior.
+            var horizontalChange =
+                Math.Truncate(e.Cumulative.Translation.X / DragIncrement) * DragIncrement;
+            var verticalChange =
+                Math.Truncate(e.Cumulative.Translation.Y / DragIncrement) * DragIncrement;
 
             // Important: adjust for RTL language flow settings and invert horizontal axis
             if (this.FlowDirection == FlowDirection.RightToLeft)

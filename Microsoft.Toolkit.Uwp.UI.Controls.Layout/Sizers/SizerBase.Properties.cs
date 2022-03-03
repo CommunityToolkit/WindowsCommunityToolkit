@@ -26,11 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected const string GripperBarHorizontal = "\xE76F";
 
         /// <summary>
-        /// Distance (horizontal or vertical) to move, in response to keyboard activity.
-        /// </summary>
-        protected const double GripperKeyboardChange = 8.0d;
-
-        /// <summary>
         /// Gets or sets the content of the splitter control.
         /// </summary>
         public object Content
@@ -74,6 +69,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty GripperCursorProperty =
             DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SizerBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
+
+        /// <summary>
+        /// Gets or sets the incremental amount of change for draging with the mouse or touch of a sizer control. Effectively a snapping increment for changes. The default is 1.
+        /// </summary>
+        /// <example>
+        /// For instance, if the DragIncrement is set to 16. Then when a component is resized with the sizer, it will only increase or decrease in size in that increment. I.e. -16, 0, 16, 32, 48, etc...
+        /// </example>
+        /// <remarks>
+        /// This value is indepedent of the <see cref="KeyboardIncrement"/> property. If you need to provide consistent snapping when moving regardless of input device, set these properties to the same value.
+        /// </remarks>
+        public double DragIncrement
+        {
+            get { return (double)GetValue(DragIncrementProperty); }
+            set { SetValue(DragIncrementProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DragIncrement"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DragIncrementProperty =
+            DependencyProperty.Register(nameof(DragIncrement), typeof(double), typeof(SizerBase), new PropertyMetadata(1d));
+
+        /// <summary>
+        /// Gets or sets the distance each press of an arrow key moves a sizer control. The default is 8.
+        /// </summary>
+        /// <remarks>
+        /// This value is independent of the <see cref="DragIncrement"/> setting when using mouse/touch. If you want a consistent behavior regardless of input device, set them to the same value if snapping is required.
+        /// </remarks>
+        public double KeyboardIncrement
+        {
+            get { return (double)GetValue(KeyboardIncrementProperty); }
+            set { SetValue(KeyboardIncrementProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="KeyboardIncrement"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty KeyboardIncrementProperty =
+            DependencyProperty.Register(nameof(KeyboardIncrement), typeof(double), typeof(SizerBase), new PropertyMetadata(8d));
 
         /// <summary>
         /// Gets or sets the orientation the sizer will be and how it will interact with other elements. Defaults to <see cref="Orientation.Vertical"/>.

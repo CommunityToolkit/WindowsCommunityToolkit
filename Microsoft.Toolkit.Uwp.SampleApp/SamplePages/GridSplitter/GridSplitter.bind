@@ -67,6 +67,7 @@
             Grid.Column="@[Column:Slider:1:0-2]"
             ResizeDirection="@[ResizeDirection:Enum:GridResizeDirection.Auto]"
             ResizeBehavior="@[ResizeBehavior:Enum:GridResizeBehavior.BasedOnAlignment]"
+            DragIncrement="@[DragIncrement:Slider:1:1-24]"
             Width="16">
       <controls:GridSplitter.RenderTransform>
         <TranslateTransform X="-8" />
