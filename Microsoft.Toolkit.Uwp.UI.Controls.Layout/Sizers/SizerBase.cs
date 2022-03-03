@@ -89,6 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PointerReleased -= SizerBase_PointerReleased;
             ManipulationStarted -= SizerBase_ManipulationStarted;
             ManipulationCompleted -= SizerBase_ManipulationCompleted;
+            IsEnabledChanged -= SizerBase_IsEnabledChanged;
 
             // Register Events
             Loaded += SizerBase_Loaded;
@@ -98,6 +99,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PointerReleased += SizerBase_PointerReleased;
             ManipulationStarted += SizerBase_ManipulationStarted;
             ManipulationCompleted += SizerBase_ManipulationCompleted;
+            IsEnabledChanged += SizerBase_IsEnabledChanged;
+
+            // Trigger initial state transition based on if we're Enabled or not currently.
+            SizerBase_IsEnabledChanged(this, null);
         }
 
         private void SizerBase_Loaded(object sender, RoutedEventArgs e)

@@ -51,8 +51,9 @@
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Content="{TemplateBinding Content}" 
                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <!-- Note: These align with Thumb -->
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="GridSplitterStates">
+                            <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
@@ -64,6 +65,8 @@
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlSplitterPressed}" />
                                     </VisualState.Setters>
                                 </VisualState>
+                                <!-- TODO -->
+                                <VisualState x:Name="Disabled"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>

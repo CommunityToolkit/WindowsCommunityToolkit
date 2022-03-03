@@ -119,20 +119,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void SizerBase_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             _pressed = false;
-            VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
+
+            if (IsEnabled)
+            {
+                VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
+            }
         }
 
         private void SizerBase_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             _pressed = true;
-            VisualStateManager.GoToState(this, "Pressed", true);
+
+            if (IsEnabled)
+            {
+                VisualStateManager.GoToState(this, "Pressed", true);
+            }
         }
 
         private void SizerBase_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             _pointerEntered = false;
 
-            if (!_pressed && !_dragging)
+            if (!_pressed && !_dragging && IsEnabled)
             {
                 VisualStateManager.GoToState(this, "Normal", true);
             }
@@ -142,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _pointerEntered = true;
 
-            if (!_pressed && !_dragging)
+            if (!_pressed && !_dragging && IsEnabled)
             {
                 VisualStateManager.GoToState(this, "PointerOver", true);
             }
@@ -159,6 +167,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _dragging = true;
             VisualStateManager.GoToState(this, "Pressed", true);
+        }
+
+        private void SizerBase_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!IsEnabled)
+            {
+                VisualStateManager.GoToState(this, "Disabled", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
+            }
         }
     }
 }
