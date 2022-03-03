@@ -24,7 +24,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // TODO: Make Converter to put in XAML?
                 Content =
-                    Orientation == Orientation.Vertical ? GripperBarVertical : GripperBarHorizontal;
+                    Orientation == Orientation.Vertical ?
+                        GripperBarVertical :
+                        GripperBarHorizontal;
             }
 
             if (TargetControl == null)
@@ -33,8 +35,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private double _currentSize;
+
         /// <inheritdoc/>
-        protected override bool OnHorizontalMove(double horizontalChange)
+        protected override void OnDragStarting()
+        {
+            if (TargetControl != null)
+            {
+                _currentSize =
+                    Orientation == Orientation.Vertical ?
+                        TargetControl.ActualWidth :
+                        TargetControl.ActualHeight;
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override bool OnDragHorizontal(double horizontalChange)
         {
             if (TargetControl == null)
             {
@@ -43,39 +59,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             horizontalChange = IsDragInverted ? -horizontalChange : horizontalChange;
 
-            if (!IsValidWidth(TargetControl, horizontalChange, ActualWidth))
+            if (!IsValidWidth(TargetControl, _currentSize + horizontalChange, ActualWidth))
             {
-                return true;
+                return false;
             }
 
-            TargetControl.Width += horizontalChange;
+            TargetControl.Width = _currentSize + horizontalChange;
 
             GripperCursor = CoreCursorType.SizeWestEast;
 
-            return false;
+            return true;
         }
 
         /// <inheritdoc/>
-        protected override bool OnVerticalMove(double verticalChange)
+        protected override bool OnDragVertical(double verticalChange)
         {
             if (TargetControl == null)
             {
-                return true;
+                return false;
             }
 
             verticalChange = IsDragInverted ? -verticalChange : verticalChange;
 
-            if (!IsValidHeight(TargetControl, verticalChange, ActualHeight))
+            if (!IsValidHeight(TargetControl, _currentSize + verticalChange, ActualHeight))
             {
-                return true;
+                return false;
             }
 
-            // Do we need our ContentResizeDirection to be 4 way? Maybe 'Auto' would check the horizontal/vertical alignment of the target???
-            TargetControl.Height += verticalChange;
+            TargetControl.Height = _currentSize + verticalChange;
 
             GripperCursor = CoreCursorType.SizeNorthSouth;
 
-            return false;
+            return true;
         }
     }
 }

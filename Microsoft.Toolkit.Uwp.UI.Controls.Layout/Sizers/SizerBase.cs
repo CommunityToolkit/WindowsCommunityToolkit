@@ -17,24 +17,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public abstract partial class SizerBase : Control
     {
         /// <summary>
-        /// Method to process the requested horizontal resizing.
-        /// </summary>
-        /// <param name="horizontalChange">The requested horizontal change</param>
-        /// <returns><see cref="bool"/> indicates if the change was made</returns>
-        protected abstract bool OnHorizontalMove(double horizontalChange);
-
-        /// <summary>
-        /// Method to process the requested vertical resizing.
-        /// </summary>
-        /// <param name="verticalChange">The requested vertical change</param>
-        /// <returns><see cref="bool"/> indicates if the change was made</returns>
-        protected abstract bool OnVerticalMove(double verticalChange);
-
-        /// <summary>
         /// Called when the control has been initialized.
         /// </summary>
         /// <param name="e">Loaded event args.</param>
-        protected abstract void OnLoaded(RoutedEventArgs e);
+        protected virtual void OnLoaded(RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Called when the <see cref="SizerBase"/> control starts to be dragged by the user.
+        /// Implementor should record current state of manipulated target at this point in time.
+        /// They will receive the cumulative change in <see cref="OnDragHorizontal(double)"/> or
+        /// <see cref="OnDragVertical(double)"/> based on the <see cref="Orientation"/> property.
+        /// </summary>
+        protected abstract void OnDragStarting();
+
+        /// <summary>
+        /// Method to process the requested horizontal resize.
+        /// </summary>
+        /// <param name="horizontalChange">The <see cref="ManipulationDeltaRoutedEventArgs.Cumulative"/> horizontal change amount from the start in device-independent pixels DIP.</param>
+        /// <returns><see cref="bool"/> indicates if a change was made</returns>
+        protected abstract bool OnDragHorizontal(double horizontalChange);
+
+        /// <summary>
+        /// Method to process the requested vertical resize.
+        /// </summary>
+        /// <param name="verticalChange">The <see cref="ManipulationDeltaRoutedEventArgs.Cumulative"/> vertical change amount from the start in device-independent pixels DIP.</param>
+        /// <returns><see cref="bool"/> indicates if a change was made</returns>
+        protected abstract bool OnDragVertical(double verticalChange);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SizerBase"/> class.

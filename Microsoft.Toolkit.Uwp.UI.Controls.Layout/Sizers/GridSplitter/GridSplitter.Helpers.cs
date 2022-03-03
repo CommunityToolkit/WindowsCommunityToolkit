@@ -22,10 +22,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar;
         }
 
-        private bool SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
+        private bool SetColumnWidth(ColumnDefinition columnDefinition, double newWidth, GridUnitType unitType)
         {
-            var newWidth = columnDefinition.ActualWidth + horizontalChange;
-
             var minWidth = columnDefinition.MinWidth;
             if (!double.IsNaN(minWidth) && newWidth < minWidth)
             {
@@ -47,10 +45,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private bool IsValidColumnWidth(ColumnDefinition columnDefinition, double horizontalChange)
+        private bool IsValidColumnWidth(ColumnDefinition columnDefinition, double newWidth)
         {
-            var newWidth = columnDefinition.ActualWidth + horizontalChange;
-
             var minWidth = columnDefinition.MinWidth;
             if (!double.IsNaN(minWidth) && newWidth < minWidth)
             {
@@ -71,10 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return true;
         }
 
-        private bool SetRowHeight(RowDefinition rowDefinition, double verticalChange, GridUnitType unitType)
+        private bool SetRowHeight(RowDefinition rowDefinition, double newHeight, GridUnitType unitType)
         {
-            var newHeight = rowDefinition.ActualHeight + verticalChange;
-
             var minHeight = rowDefinition.MinHeight;
             if (!double.IsNaN(minHeight) && newHeight < minHeight)
             {
@@ -96,10 +90,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        private bool IsValidRowHeight(RowDefinition rowDefinition, double verticalChange)
+        private bool IsValidRowHeight(RowDefinition rowDefinition, double newHeight)
         {
-            var newHeight = rowDefinition.ActualHeight + verticalChange;
-
             var minHeight = rowDefinition.MinHeight;
             if (!double.IsNaN(minHeight) && newHeight < minHeight)
             {

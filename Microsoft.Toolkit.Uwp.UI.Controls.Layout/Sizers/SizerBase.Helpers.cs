@@ -19,13 +19,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Check for new requested vertical size is valid or not
         /// </summary>
         /// <param name="target">Target control being resized</param>
-        /// <param name="verticalChange">The requested vertical change</param>
+        /// <param name="newHeight">The requested new height</param>
         /// <param name="parentActualHeight">The parent control's ActualHeight</param>
         /// <returns>Bool result if requested vertical change is valid or not</returns>
-        protected static bool IsValidHeight(FrameworkElement target, double verticalChange, double parentActualHeight)
+        protected static bool IsValidHeight(FrameworkElement target, double newHeight, double parentActualHeight)
         {
-            var newHeight = target.ActualHeight + verticalChange;
-
             var minHeight = target.MinHeight;
             if (newHeight < 0 || (!double.IsNaN(minHeight) && newHeight < minHeight))
             {
@@ -50,13 +48,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Check for new requested horizontal size is valid or not
         /// </summary>
         /// <param name="target">Target control being resized</param>
-        /// <param name="horizontalChange">The requested horizontal change</param>
+        /// <param name="newWidth">The requested new width</param>
         /// <param name="parentActualWidth">The parent control's ActualWidth</param>
         /// <returns>Bool result if requested horizontal change is valid or not</returns>
-        protected static bool IsValidWidth(FrameworkElement target, double horizontalChange, double parentActualWidth)
+        protected static bool IsValidWidth(FrameworkElement target, double newWidth, double parentActualWidth)
         {
-            var newWidth = target.ActualWidth + horizontalChange;
-
             var minWidth = target.MinWidth;
             if (newWidth < 0 || (!double.IsNaN(minWidth) && newWidth < minWidth))
             {

@@ -38,31 +38,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (e.Key == Windows.System.VirtualKey.Left)
                 {
-                    OnHorizontalMove(-horizontalChange);
+                    OnDragHorizontal(-horizontalChange);
                 }
                 else if (e.Key == Windows.System.VirtualKey.Right)
                 {
-                    OnHorizontalMove(horizontalChange);
+                    OnDragHorizontal(horizontalChange);
                 }
             }
             else
             {
                 if (e.Key == Windows.System.VirtualKey.Up)
                 {
-                    OnVerticalMove(-GripperKeyboardChange);
+                    OnDragVertical(-GripperKeyboardChange);
                 }
                 else if (e.Key == Windows.System.VirtualKey.Down)
                 {
-                    OnVerticalMove(GripperKeyboardChange);
+                    OnDragVertical(GripperKeyboardChange);
                 }
             }
         }
 
         /// <inheritdoc />
+        protected override void OnManipulationStarting(ManipulationStartingRoutedEventArgs e)
+        {
+            base.OnManipulationStarting(e);
+
+            OnDragStarting();
+        }
+
+        /// <inheritdoc />
         protected override void OnManipulationDelta(ManipulationDeltaRoutedEventArgs e)
         {
-            var horizontalChange = e.Delta.Translation.X;
-            var verticalChange = e.Delta.Translation.Y;
+            var horizontalChange = e.Cumulative.Translation.X;
+            var verticalChange = e.Cumulative.Translation.Y;
 
             // Important: adjust for RTL language flow settings and invert horizontal axis
             if (this.FlowDirection == FlowDirection.RightToLeft)
@@ -72,14 +80,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (Orientation == Orientation.Vertical)
             {
-                if (OnHorizontalMove(horizontalChange))
+                if (!OnDragHorizontal(horizontalChange))
                 {
                     return;
                 }
             }
             else if (Orientation == Orientation.Horizontal)
             {
-                if (OnVerticalMove(verticalChange))
+                if (!OnDragVertical(verticalChange))
                 {
                     return;
                 }
