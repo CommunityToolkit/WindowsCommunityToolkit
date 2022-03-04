@@ -649,6 +649,7 @@
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
     <Content Include="SamplePages\Sizers\ContentSizer.bind" />
     <Content Include="SamplePages\Sizers\GridSplitter.bind" />
+    <Content Include="SamplePages\Sizers\PropertySizer.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

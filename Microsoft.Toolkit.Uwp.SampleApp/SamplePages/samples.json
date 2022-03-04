@@ -179,7 +179,7 @@
         "Name": "ContentSizer",
         "Subcategory": "Layout",
         "About": "ContentSizer is a general sizing control which can manipulate the size of its parent or other elements. Used as a building block for more complex UI systems.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Layout/ContentSizer",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Sizers/ContentSizer",
         "XamlCodeFile": "/SamplePages/Sizers/ContentSizer.bind",
         "Icon": "/SamplePages/Sizers/ContentSizer.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ContentSizer.md"
@@ -188,10 +188,19 @@
         "Name": "GridSplitter",
         "Subcategory": "Layout",
         "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Layout/GridSplitter",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Sizers/GridSplitter",
         "XamlCodeFile": "/SamplePages/Sizers/GridSplitter.bind",
         "Icon": "/SamplePages/Sizers/GridSplitter.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md"
+      },
+      {
+        "Name": "PropertySizer",
+        "Subcategory": "Layout",
+        "About": "PropertySizer is a specific sizing control which can manipulate any double value or some other element or property.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI.Controls.Layout/Sizers/PropertySizer",
+        "XamlCodeFile": "/SamplePages/Sizers/PropertySizer.bind",
+        "Icon": "/SamplePages/Sizers/ContentSizer.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ContentSizer.md"
       },
       {
         "Name": "AttachedDropShadow (Composition)",
