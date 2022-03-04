@@ -23,13 +23,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Orientation.Horizontal : Orientation.Vertical;
             _resizeBehavior = GetResizeBehavior();
 
-            // Adding Grip to Grid Splitter
-            if (Content == null)
-            {
-                Content =
-                    _resizeDirection == GridResizeDirection.Columns ? GripperBarVertical : GripperBarHorizontal;
-            }
-
             GripperCursor = _resizeDirection == GridResizeDirection.Columns ? CoreCursorType.SizeWestEast : CoreCursorType.SizeNorthSouth;
         }
 

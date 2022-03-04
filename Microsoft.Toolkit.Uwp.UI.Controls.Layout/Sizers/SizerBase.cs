@@ -13,7 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Base class for splitting/resizing type controls like <see cref="GridSplitter"/> and <see cref="ContentSizer"/>. Acts similar to an enlarged <see cref="Windows.UI.Xaml.Controls.Primitives.Thumb"/> type control, but with keyboard support. Subclasses should override the various abstract methods here to implement their behavior.
     /// </summary>
-    [ContentProperty(Name = nameof(Content))]
     public abstract partial class SizerBase : Control
     {
         /// <summary>

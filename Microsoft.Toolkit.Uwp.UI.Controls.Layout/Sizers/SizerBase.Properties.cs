@@ -16,46 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class SizerBase : Control
     {
         /// <summary>
-        /// Vertical symbol for GripperBar in Segoe MDL2 Font asset.
-        /// </summary>
-        protected const string GripperBarVertical = "\xE784";
-
-        /// <summary>
-        /// Horizontal symbol for GripperBar in Segoe MDL2 Font asset.
-        /// </summary>
-        protected const string GripperBarHorizontal = "\xE76F";
-
-        /// <summary>
-        /// Gets or sets the content of the splitter control.
-        /// </summary>
-        public object Content
-        {
-            get { return (object)GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="Content"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register(nameof(Content), typeof(object), typeof(SizerBase), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Gets or sets the content template for the <see cref="Content"/>.
-        /// </summary>
-        public DataTemplate ContentTemplate
-        {
-            get { return (DataTemplate)GetValue(ContentTemplateProperty); }
-            set { SetValue(ContentTemplateProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="ContentTemplate"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ContentTemplateProperty =
-            DependencyProperty.Register(nameof(ContentTemplate), typeof(DataTemplate), typeof(SizerBase), new PropertyMetadata(null));
-
-        /// <summary>
         /// Gets or sets the cursor to use when hovering over the sizer.
         /// </summary>
         public CoreCursorType GripperCursor

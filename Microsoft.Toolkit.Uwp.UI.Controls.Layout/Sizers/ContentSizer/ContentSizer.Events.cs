@@ -18,17 +18,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void OnLoaded(RoutedEventArgs e)
         {
-            // If no values specified, setup our default behaviors.
-            // Adding Grip to Grid Splitter
-            if (Content == null)
-            {
-                // TODO: Make Converter to put in XAML?
-                Content =
-                    Orientation == Orientation.Vertical ?
-                        GripperBarVertical :
-                        GripperBarHorizontal;
-            }
-
             if (TargetControl == null)
             {
                 TargetControl = this.FindAscendant<FrameworkElement>();
