@@ -64,6 +64,7 @@
                 <controls:DataGridTextColumn />
             </controls:DataGrid.Columns>
         </controls:DataGrid>
+        <controls:GridSplitter x:Key="GridSplitterControl" />
     </Page.Resources>
 
     <Grid>

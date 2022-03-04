@@ -273,7 +273,6 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
-    <Content Include="SamplePages\ContentSizer\ContentSizer.png" />
     <Content Include="SamplePages\Animations\Effects\EffectAnimations.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -283,6 +282,8 @@
     <Content Include="SamplePages\Primitives\ConstrainedBox.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
+    <Content Include="SamplePages\Sizers\ContentSizer.png" />
+    <Content Include="SamplePages\Sizers\GridSplitter.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -330,7 +331,6 @@
     <Content Include="SamplePages\Shadows\Unicorn.png" />
     <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
     <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
-    <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
@@ -400,7 +400,6 @@
     <Content Include="SamplePages\Expander\ExpanderXaml.bind" />
     <Content Include="SamplePages\BladeView\BladeCode.bind" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeaderCode.bind" />
-    <Content Include="SamplePages\GridSplitter\GridSplitter.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorCode.bind" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehaviorXaml.bind" />
     <Content Include="SamplePages\ImageCache\ImageCacheXaml.bind" />
@@ -608,7 +607,6 @@
     <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionXaml.bind" />
     <Content Include="SamplePages\EnumValuesExtension\EnumValuesExtensionCode.bind" />
-    <Content Include="SamplePages\ContentSizer\ContentSizer.bind" />
     <Content Include="SamplePages\FocusBehavior\FocusBehaviorXaml.bind" />
     <Content Include="SamplePages\AutoFocusBehavior\AutoFocusBehaviorXaml.bind" />
     <Content Include="SamplePages\ColorPicker\ColorPickerXaml.bind" />
@@ -649,6 +647,8 @@
     <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
+    <Content Include="SamplePages\Sizers\ContentSizer.bind" />
+    <Content Include="SamplePages\Sizers\GridSplitter.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -863,9 +863,6 @@
     </Compile>
     <Compile Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml.cs">
       <DependentUpon>ScrollHeaderPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\GridSplitter\GridSplitterPage.xaml.cs">
-      <DependentUpon>GridSplitterPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml.cs">
       <DependentUpon>FadeHeaderBehaviorPage.xaml</DependentUpon>
@@ -1302,10 +1299,6 @@
     <Page Include="SamplePages\ScrollHeader\ScrollHeaderPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\GridSplitter\GridSplitterPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\FadeHeader\FadeHeaderBehaviorPage.xaml">
       <Generator>MSBuild:Compile</Generator>
