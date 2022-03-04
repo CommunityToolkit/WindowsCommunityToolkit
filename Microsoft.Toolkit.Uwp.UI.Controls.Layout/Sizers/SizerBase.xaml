@@ -47,7 +47,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:SizerBase">
                     <Grid x:Name="RootGrid"
-                          ui:FrameworkElementExtensions.Cursor="{TemplateBinding GripperCursor}"
+                          ui:FrameworkElementExtensions.Cursor="{TemplateBinding Cursor}"
                           Background="{TemplateBinding Background}">
 
                         <TextBlock AutomationProperties.AccessibilityView="Raw"

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,19 +17,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class SizerBase : Control
     {
         /// <summary>
-        /// Gets or sets the cursor to use when hovering over the sizer.
+        /// Gets or sets the cursor to use when hovering over the gripper bar.
         /// </summary>
-        public CoreCursorType GripperCursor
+        public CoreCursorType Cursor
         {
-            get { return (CoreCursorType)GetValue(GripperCursorProperty); }
-            set { SetValue(GripperCursorProperty, value); }
+            get { return (CoreCursorType)GetValue(CursorProperty); }
+            set { SetValue(CursorProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="GripperCursor"/> dependency property.
+        /// Identifies the <see cref="Cursor"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty GripperCursorProperty =
-            DependencyProperty.Register(nameof(GripperCursor), typeof(CoreCursorType), typeof(SizerBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
+        public static readonly DependencyProperty CursorProperty =
+            DependencyProperty.Register(nameof(Cursor), typeof(CoreCursorType), typeof(SizerBase), new PropertyMetadata(CoreCursorType.SizeWestEast));
 
         /// <summary>
         /// Gets or sets the incremental amount of change for draging with the mouse or touch of a sizer control. Effectively a snapping increment for changes. The default is 1.
@@ -85,6 +86,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OrientationProperty =
-            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(SizerBase), new PropertyMetadata(Orientation.Vertical));
+            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(SizerBase), new PropertyMetadata(Orientation.Vertical, OnOrientationPropertyChanged));
+
+        private static void OnOrientationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is SizerBase gripper)
+            {
+                // TODO: For WinUI 3, we will just be setting the ProtectedCursor property directly.
+                gripper.Cursor = gripper.Orientation == Orientation.Vertical ? CoreCursorType.SizeWestEast : CoreCursorType.SizeNorthSouth;
+            }
+        }
     }
 }

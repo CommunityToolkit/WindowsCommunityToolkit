@@ -55,8 +55,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             TargetControl.Width = _currentSize + horizontalChange;
 
-            GripperCursor = CoreCursorType.SizeWestEast;
-
             return true;
         }
 
@@ -76,8 +74,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             TargetControl.Height = _currentSize + verticalChange;
-
-            GripperCursor = CoreCursorType.SizeNorthSouth;
 
             return true;
         }

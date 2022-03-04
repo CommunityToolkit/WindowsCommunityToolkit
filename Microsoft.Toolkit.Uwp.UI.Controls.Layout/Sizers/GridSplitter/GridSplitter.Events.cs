@@ -22,8 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Orientation = _resizeDirection == GridResizeDirection.Rows ?
                 Orientation.Horizontal : Orientation.Vertical;
             _resizeBehavior = GetResizeBehavior();
-
-            GripperCursor = _resizeDirection == GridResizeDirection.Columns ? CoreCursorType.SizeWestEast : CoreCursorType.SizeNorthSouth;
         }
 
         private double _currentSize;
