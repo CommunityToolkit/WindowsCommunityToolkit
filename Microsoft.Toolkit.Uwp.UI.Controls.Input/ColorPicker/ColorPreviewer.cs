@@ -131,14 +131,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             // Remove any existing events present if the control was previously loaded then unloaded
             this.ConnectEvents(false);
 
-            this.CenterCheckeredBackgroundBorder = this.GetTemplateChild<Border>("CenterCheckeredBackgroundBorder", false);
-            this.LeftCheckeredBackgroundBorder   = this.GetTemplateChild<Border>("LeftCheckeredBackgroundBorder", false);
-            this.RightCheckeredBackgroundBorder  = this.GetTemplateChild<Border>("RightCheckeredBackgroundBorder", false);
+            this.CenterCheckeredBackgroundBorder = this.GetTemplateChild<Border>(nameof(CenterCheckeredBackgroundBorder));
+            this.LeftCheckeredBackgroundBorder   = this.GetTemplateChild<Border>(nameof(LeftCheckeredBackgroundBorder));
+            this.RightCheckeredBackgroundBorder  = this.GetTemplateChild<Border>(nameof(RightCheckeredBackgroundBorder));
 
-            this.N1PreviewBorder = this.GetTemplateChild<Border>("N1PreviewBorder", false);
-            this.N2PreviewBorder = this.GetTemplateChild<Border>("N2PreviewBorder", false);
-            this.P1PreviewBorder = this.GetTemplateChild<Border>("P1PreviewBorder", false);
-            this.P2PreviewBorder = this.GetTemplateChild<Border>("P2PreviewBorder", false);
+            this.N1PreviewBorder = this.GetTemplateChild<Border>(nameof(N1PreviewBorder));
+            this.N2PreviewBorder = this.GetTemplateChild<Border>(nameof(N2PreviewBorder));
+            this.P1PreviewBorder = this.GetTemplateChild<Border>(nameof(P1PreviewBorder));
+            this.P2PreviewBorder = this.GetTemplateChild<Border>(nameof(P2PreviewBorder));
 
             // Must connect after controls are resolved
             this.ConnectEvents(true);
