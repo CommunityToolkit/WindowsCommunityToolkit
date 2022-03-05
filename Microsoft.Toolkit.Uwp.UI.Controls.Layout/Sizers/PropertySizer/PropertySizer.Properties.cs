@@ -28,8 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsDragInverted), typeof(bool), typeof(PropertySizer), new PropertyMetadata(false));
 
         /// <summary>
-        /// Gets or sets the binding to a <c>double</c> value that the <see cref="PropertySizer"/> is manipulating.
+        /// Gets or sets a two-way binding to a <c>double</c> value that the <see cref="PropertySizer"/> is manipulating.
         /// </summary>
+        /// <remarks>
+        /// Note that the binding should be configured to be a <c>TwoWay</c> binding in order for the control to notify the source of the changed value.
+        /// </remarks>
         /// <example>
         /// &lt;controls:PropertySizer Binding="{Binding OpenPaneLength, ElementName=ViewPanel, Mode=TwoWay}"&gt;
         /// </example>
@@ -44,5 +47,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty BindingProperty =
             DependencyProperty.Register(nameof(Binding), typeof(double), typeof(PropertySizer), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the minimum allowed value for the <see cref="PropertySizer"/> to allow for the <see cref="Binding"/> value. Ignored if not provided.
+        /// </summary>
+        public double Minimum
+        {
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Minimum"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MinimumProperty =
+            DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(PropertySizer), new PropertyMetadata(0));
+
+        /// <summary>
+        /// Gets or sets the maximum allowed value for the <see cref="PropertySizer"/> to allow for the <see cref="Binding"/> value. Ignored if not provided.
+        /// </summary>
+        public double Maximum
+        {
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="Maximum"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty MaximumProperty =
+            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(PropertySizer), new PropertyMetadata(0));
     }
 }

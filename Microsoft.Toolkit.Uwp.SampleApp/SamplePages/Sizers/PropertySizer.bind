@@ -42,8 +42,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!-- Note the use of a TwoWay binding here, this is required for this control to work. -->
             <controls:PropertySizer Binding="{Binding OpenPaneLength, ElementName=ViewPanel, Mode=TwoWay}"
                                     HorizontalAlignment="Left"
+                                    Minimum="52"
+                                    Maximum="440"
                                     Visibility="{Binding IsPaneOpen, ElementName=ViewPanel}"/>
             <!--In An Application, put your host frame here: <Frame Grid.Column="1"/>-->
             <!--Here we show the content as a border for a visual aid -->
