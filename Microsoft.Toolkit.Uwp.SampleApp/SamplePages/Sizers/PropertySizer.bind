@@ -10,7 +10,7 @@
     <muxc:NavigationView
               x:Name="ViewPanel"
               PaneDisplayMode="Left"
-              IsPaneOpen="False"
+              IsPaneOpen="True"
               OpenPaneLength="300">
         <muxc:NavigationView.AutoSuggestBox>
             <AutoSuggestBox AutomationProperties.Name="Search" QueryIcon="Find" />
