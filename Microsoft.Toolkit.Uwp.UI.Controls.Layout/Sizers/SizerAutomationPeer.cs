@@ -8,29 +8,27 @@ using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
-    // TODO: Make this generalize for SizerBase?
-
     /// <summary>
-    /// Defines a framework element automation peer for the <see cref="ContentSizer"/> control.
+    /// Defines a framework element automation peer for the <see cref="SizerBase"/> controls.
     /// </summary>
-    public class ContentSizerAutomationPeer : FrameworkElementAutomationPeer
+    public class SizerAutomationPeer : FrameworkElementAutomationPeer
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContentSizerAutomationPeer"/> class.
+        /// Initializes a new instance of the <see cref="SizerAutomationPeer"/> class.
         /// </summary>
         /// <param name="owner">
-        /// The <see cref="ContentSizer" /> that is associated with this <see cref="T:Windows.UI.Xaml.Automation.Peers.ContentSizerAutomationPeer" />.
+        /// The <see cref="SizerBase" /> that is associated with this <see cref="SizerAutomationPeer" />.
         /// </param>
-        public ContentSizerAutomationPeer(ContentSizer owner)
+        public SizerAutomationPeer(SizerBase owner)
             : base(owner)
         {
         }
 
-        private ContentSizer OwningContentSizer
+        private SizerBase OwningSizer
         {
             get
             {
-                return Owner as ContentSizer;
+                return Owner as SizerBase;
             }
         }
 
@@ -55,13 +53,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         /// </returns>
         protected override string GetNameCore()
         {
-            string name = AutomationProperties.GetName(this.OwningContentSizer);
+            string name = AutomationProperties.GetName(this.OwningSizer);
             if (!string.IsNullOrEmpty(name))
             {
                 return name;
             }
 
-            name = this.OwningContentSizer.Name;
+            name = this.OwningSizer.Name;
             if (!string.IsNullOrEmpty(name))
             {
                 return name;

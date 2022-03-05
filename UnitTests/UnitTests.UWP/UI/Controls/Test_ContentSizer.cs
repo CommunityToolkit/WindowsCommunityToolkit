@@ -22,7 +22,7 @@ namespace UnitTests.UWP.UI.Controls
             const string name = "ContentSizer";
 
             var contentSizer = new ContentSizer();
-            var contentSizerAutomationPeer = FrameworkElementAutomationPeer.CreatePeerForElement(contentSizer) as ContentSizerAutomationPeer;
+            var contentSizerAutomationPeer = FrameworkElementAutomationPeer.CreatePeerForElement(contentSizer) as SizerAutomationPeer;
 
             Assert.IsNotNull(contentSizerAutomationPeer, "Verify that the AutomationPeer is ContentSizerAutomationPeer.");
 
