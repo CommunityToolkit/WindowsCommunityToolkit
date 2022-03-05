@@ -1,64 +1,47 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+                    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+                    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI">
 
-    <Style
-        TargetType="primitives:ColorPreviewer">
-        <Setter
-            Property="Template">
+    <Style TargetType="primitives:ColorPreviewer">
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate
-                    TargetType="primitives:ColorPreviewer">
-                    <Grid
-                        x:Name="RootGrid">
+                <ControlTemplate TargetType="primitives:ColorPreviewer">
+                    <Grid x:Name="RootGrid">
                         <Grid.Resources>
-                            <controls:AccentColorConverter
-                                x:Key="AccentColor" />
-                            <converters:BoolToVisibilityConverter
-                                x:Key="BoolToVisibility" />
-                            <ui:AttachedDropShadow
-                                x:Key="DropShadow"
-                                Offset="4"
-                                CastTo="{Binding RelativeSource={RelativeSource TemplatedParent}, ElementName=ShadowTargetBorder}" />
+                            <controls:AccentColorConverter x:Key="AccentColor" />
+                            <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+                            <ui:AttachedDropShadow x:Key="DropShadow"
+                                                   Offset="4"
+                                                   CastTo="{Binding RelativeSource={RelativeSource TemplatedParent}, ElementName=ShadowTargetBorder}" />
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="*" />
-                            <ColumnDefinition
-                                Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid
-                            Grid.Column="0"
-                            Height="40"
-                            Width="90"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowAccentColors, Converter={StaticResource BoolToVisibility}}">
+                        <Grid Grid.Column="0"
+                              Height="40"
+                              Width="90"
+                              VerticalAlignment="Center"
+                              Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowAccentColors, Converter={StaticResource BoolToVisibility}}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="*" />
-                                <ColumnDefinition
-                                    Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border
-                                x:Name="LeftCheckeredBackgroundBorder"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch" />
-                            <Border
-                                x:Name="N2PreviewBorder"
-                                Grid.Column="0"
-                                CornerRadius="4,0,0,4"
-                                Tag="-2">
+                            <Border x:Name="LeftCheckeredBackgroundBorder"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" />
+                            <Border x:Name="N2PreviewBorder"
+                                    Grid.Column="0"
+                                    CornerRadius="4,0,0,4"
+                                    Tag="-2">
                                 <Border.Background>
-                                    <SolidColorBrush
-                                        Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='-2'}" />
+                                    <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='-2'}" />
                                 </Border.Background>
                             </Border>
                             <!-- The -1 and +1 accent preview originally had a drop shadow as well.
@@ -66,75 +49,59 @@
                                  shadow and preview border, it would have required it's own
                                  checkered background. This was judged not worth the performance 
                                  trade-off so shadows were removed. -->
-                            <Border
-                                x:Name="N1PreviewBorder"
-                                Grid.Column="1"
-                                Tag="-1">
+                            <Border x:Name="N1PreviewBorder"
+                                    Grid.Column="1"
+                                    Tag="-1">
                                 <Border.Background>
-                                    <SolidColorBrush
-                                        Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='-1'}" />
+                                    <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='-1'}" />
                                 </Border.Background>
                             </Border>
                         </Grid>
-                        <Grid
-                            Grid.Column="2"
-                            Height="40"
-                            Width="90"
-                            VerticalAlignment="Center"
-                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowAccentColors, Converter={StaticResource BoolToVisibility}}">
+                        <Grid Grid.Column="2"
+                              Height="40"
+                              Width="90"
+                              VerticalAlignment="Center"
+                              Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowAccentColors, Converter={StaticResource BoolToVisibility}}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="*" />
-                                <ColumnDefinition
-                                    Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Border
-                                x:Name="CenterCheckeredBackgroundBorder"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch" />
-                            <Border
-                                x:Name="P1PreviewBorder"
-                                Grid.Column="0"
-                                Tag="1">
+                            <Border x:Name="CenterCheckeredBackgroundBorder"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" />
+                            <Border x:Name="P1PreviewBorder"
+                                    Grid.Column="0"
+                                    Tag="1">
                                 <Border.Background>
-                                    <SolidColorBrush
-                                        Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='1'}" />
+                                    <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='1'}" />
                                 </Border.Background>
                             </Border>
-                            <Border
-                                x:Name="P2PreviewBorder"
-                                Grid.Column="1"
-                                CornerRadius="0,4,4,0"
-                                Tag="2">
+                            <Border x:Name="P2PreviewBorder"
+                                    Grid.Column="1"
+                                    CornerRadius="0,4,4,0"
+                                    Tag="2">
                                 <Border.Background>
-                                    <SolidColorBrush
-                                        Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='2'}" />
+                                    <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='2'}" />
                                 </Border.Background>
                             </Border>
                         </Grid>
                         <!-- Must be last for drop shadow Z-index -->
-                        <Grid
-                            Grid.Column="1">
-                            <Border
-                                x:Name="ShadowTargetBorder" />
-                            <Border
-                                Background="{ThemeResource FlyoutPresenterBackground}"
-                                CornerRadius="4"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch" />
-                            <Border
-                                x:Name="RightCheckeredBackgroundBorder"
-                                CornerRadius="4"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch" />
-                            <Border
-                                x:Name="PreviewBorder"
-                                CornerRadius="4">
+                        <Grid Grid.Column="1">
+                            <Border x:Name="ShadowTargetBorder" />
+                            <Border Background="{ThemeResource FlyoutPresenterBackground}"
+                                    CornerRadius="4"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" />
+                            <Border x:Name="RightCheckeredBackgroundBorder"
+                                    CornerRadius="4"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" />
+                            <Border x:Name="PreviewBorder"
+                                    CornerRadius="4">
                                 <Border.Background>
-                                    <SolidColorBrush
-                                        Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='0'}" />
+                                    <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='0'}" />
                                 </Border.Background>
                             </Border>
                         </Grid>
