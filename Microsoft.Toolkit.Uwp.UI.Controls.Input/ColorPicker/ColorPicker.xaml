@@ -5,6 +5,7 @@
                     xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
                     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                     xmlns:winuiprimitives="using:Microsoft.UI.Xaml.Controls.Primitives">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
@@ -257,7 +258,7 @@
                         <!--  Channel 1 RGB:Red HSV:Hue  -->
                         <Border Grid.Row="2"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=Channel1TextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=Channel1NumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
@@ -270,12 +271,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="R" />
                         </Border>
-                        <TextBox x:Name="Channel1TextBox"
-                                 Grid.Row="2"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Red Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="Channel1NumberBox"
+                                        AutomationProperties.Name="Red Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="2"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="Channel1Slider"
                                                       Grid.Row="2"
                                                       Grid.Column="2"
@@ -287,7 +288,7 @@
                         <!--  Channel 2 RGB:Green HSV:Saturation  -->
                         <Border Grid.Row="3"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=Channel2TextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=Channel2NumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
@@ -300,12 +301,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="G" />
                         </Border>
-                        <TextBox x:Name="Channel2TextBox"
-                                 Grid.Row="3"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Green Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="Channel2NumberBox"
+                                        AutomationProperties.Name="Green Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="3"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="Channel2Slider"
                                                       Grid.Row="3"
                                                       Grid.Column="2"
@@ -317,7 +318,7 @@
                         <!--  Channel 3 RGB:Blue HSV:Value  -->
                         <Border Grid.Row="4"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=Channel3TextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=Channel3NumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
@@ -330,12 +331,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="B" />
                         </Border>
-                        <TextBox x:Name="Channel3TextBox"
-                                 Grid.Row="4"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Blue Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="Channel3NumberBox"
+                                        AutomationProperties.Name="Blue Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="4"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="Channel3Slider"
                                                       Grid.Row="4"
                                                       Grid.Column="2"
@@ -348,7 +349,7 @@
                         <Border x:Name="AlphaChannelBorder"
                                 Grid.Row="5"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=AlphaChannelTextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=AlphaChannelNumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
@@ -361,12 +362,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="A" />
                         </Border>
-                        <TextBox x:Name="AlphaChannelTextBox"
-                                 Grid.Row="5"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Alpha Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="AlphaChannelNumberBox"
+                                        AutomationProperties.Name="Alpha Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="5"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="AlphaChannelSlider"
                                                       Grid.Row="5"
                                                       Grid.Column="2"
@@ -459,7 +460,7 @@
                         <VisualState.Setters>
                             <Setter Target="ColorSpectrumAlphaSlider.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelBorder.Visibility" Value="Collapsed" />
-                            <Setter Target="AlphaChannelTextBox.Visibility" Value="Collapsed" />
+                            <Setter Target="AlphaChannelNumberBox.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelSlider.Visibility" Value="Collapsed" />
                         </VisualState.Setters>
                     </VisualState>
@@ -486,7 +487,7 @@
                     <VisualState x:Name="AlphaTextInputVisible" />
                     <VisualState x:Name="AlphaTextInputCollapsed">
                         <VisualState.Setters>
-                            <Setter Target="AlphaChannelTextBox.Visibility" Value="Collapsed" />
+                            <Setter Target="AlphaChannelNumberBox.Visibility" Value="Collapsed" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -497,9 +498,9 @@
                             <Setter Target="Channel1TextBlock.Text" Value="H" />
                             <Setter Target="Channel2TextBlock.Text" Value="S" />
                             <Setter Target="Channel3TextBlock.Text" Value="V" />
-                            <Setter Target="Channel1TextBox.(AutomationProperties.Name)" Value="Hue Channel" />
-                            <Setter Target="Channel2TextBox.(AutomationProperties.Name)" Value="Saturation Channel" />
-                            <Setter Target="Channel3TextBox.(AutomationProperties.Name)" Value="Value Channel" />
+                            <Setter Target="Channel1NumberBox.(AutomationProperties.Name)" Value="Hue Channel" />
+                            <Setter Target="Channel2NumberBox.(AutomationProperties.Name)" Value="Saturation Channel" />
+                            <Setter Target="Channel3NumberBox.(AutomationProperties.Name)" Value="Value Channel" />
                             <Setter Target="Channel1Slider.(AutomationProperties.Name)" Value="Hue Channel" />
                             <Setter Target="Channel2Slider.(AutomationProperties.Name)" Value="Saturation Channel" />
                             <Setter Target="Channel3Slider.(AutomationProperties.Name)" Value="Value Channel" />
@@ -520,7 +521,7 @@
                         <VisualState.Setters>
                             <Setter Target="ColorSpectrumAlphaSlider.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelBorder.Visibility" Value="Collapsed" />
-                            <Setter Target="AlphaChannelTextBox.Visibility" Value="Collapsed" />
+                            <Setter Target="AlphaChannelNumberBox.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelSlider.Visibility" Value="Collapsed" />
                         </VisualState.Setters>
                     </VisualState>
