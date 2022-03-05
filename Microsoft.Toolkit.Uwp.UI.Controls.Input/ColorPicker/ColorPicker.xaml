@@ -41,7 +41,6 @@
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}">
             <Grid.Resources>
-                <localconverters:ColorToColorShadeConverter x:Key="ColorToColorShadeConverter" />
                 <converters:ColorToDisplayNameConverter x:Key="ColorToDisplayNameConverter" />
                 <localconverters:ColorToHexConverter x:Key="ColorToHexConverter" />
 
