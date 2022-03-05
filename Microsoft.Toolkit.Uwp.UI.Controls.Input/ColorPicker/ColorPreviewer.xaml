@@ -87,9 +87,14 @@
                                 </Border.Background>
                             </Border>
                         </Grid>
+                        <Border x:Name="ShadowTargetBorder"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch" />
                         <!-- Must be last for drop shadow Z-index -->
                         <Grid Grid.Column="1">
-                            <Border x:Name="ShadowTargetBorder" />
                             <Border Background="{ThemeResource FlyoutPresenterBackground}"
                                     CornerRadius="4"
                                     HorizontalAlignment="Stretch"
@@ -99,6 +104,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" />
                             <Border x:Name="PreviewBorder"
+                                    ui:Effects.Shadow="{StaticResource DropShadow}"
                                     CornerRadius="4">
                                 <Border.Background>
                                     <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=HsvColor, Converter={StaticResource AccentColor}, ConverterParameter='0'}" />
