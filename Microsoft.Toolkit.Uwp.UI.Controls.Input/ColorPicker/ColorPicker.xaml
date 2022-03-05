@@ -46,7 +46,7 @@
 
                 <Style x:Key="InputTextBoxStyle"
                        TargetType="TextBox">
-                    <Setter Property="CornerRadius" Value="0,2,2,0" />
+                    <Setter Property="CornerRadius" Value="0,4,4,0" />
                     <!--  TODO: Is there a theme resource we can use for this from the system?  -->
                 </Style>
             </Grid.Resources>
@@ -215,7 +215,7 @@
                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                           BorderThickness="1"
                                           Content="RGB"
-                                          CornerRadius="2,0,0,2"
+                                          CornerRadius="4,0,0,4"
                                           IsThreeState="False" />
                             <ToggleButton x:Name="HsvToggleButton"
                                           Grid.Column="1"
@@ -224,7 +224,7 @@
                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                           BorderThickness="1"
                                           Content="HSV"
-                                          CornerRadius="0,2,2,0"
+                                          CornerRadius="0,4,4,0"
                                           IsThreeState="False" />
                             <Grid x:Name="HexInputGrid"
                                   Grid.Column="3">
@@ -237,7 +237,7 @@
                                         Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                         BorderBrush="{ThemeResource TextControlBorderBrush}"
                                         BorderThickness="1,1,0,1"
-                                        CornerRadius="2,0,0,2">
+                                        CornerRadius="4,0,0,4">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontWeight="SemiBold"
@@ -262,7 +262,7 @@
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="Channel1TextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -292,7 +292,7 @@
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="Channel2TextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -322,7 +322,7 @@
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="Channel3TextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -353,7 +353,7 @@
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="AlphaChannelTextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
