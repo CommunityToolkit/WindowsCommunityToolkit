@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters;
+using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -47,10 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = nameof(ColorPicker.HexInputTextBox),             Type = typeof(TextBox))]
     [TemplatePart(Name = nameof(ColorPicker.HsvToggleButton),             Type = typeof(ToggleButton))]
     [TemplatePart(Name = nameof(ColorPicker.RgbToggleButton),             Type = typeof(ToggleButton))]
-    [TemplatePart(Name = nameof(ColorPicker.P1PreviewBorder),             Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.P2PreviewBorder),             Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.N1PreviewBorder),             Type = typeof(Border))]
-    [TemplatePart(Name = nameof(ColorPicker.N2PreviewBorder),             Type = typeof(Border))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1501:Statement should not be on a single line", Justification = "Inline brackets are used to improve code readability with repeated null checks.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1025:Code should not contain multiple whitespace in a row", Justification = "Whitespace is used to align code in columns for readability.")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1306:Field names should begin with lower-case letter", Justification = "Only template parts start with a capital letter. This differentiates them from other fields.")]
@@ -72,10 +69,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool isInitialized      = false;
 
         // Color information for updates
-        private HsvColor?       savedHsvColor              = null;
-        private Color?          savedHsvColorRgbEquivalent = null;
-        private Color?          updatedRgbColor            = null;
-        private DispatcherQueueTimer dispatcherQueueTimer            = null;
+        private HsvColor?            savedHsvColor              = null;
+        private Color?               savedHsvColorRgbEquivalent = null;
+        private Color?               updatedRgbColor            = null;
+        private DispatcherQueueTimer dispatcherQueueTimer       = null;
 
         private ListBox           ColorPanelSelector;
         private ColorSpectrum     ColorSpectrumControl;
@@ -94,10 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ColorPickerSlider Channel3Slider;
         private ColorPickerSlider AlphaChannelSlider;
 
-        private Border N1PreviewBorder;
-        private Border N2PreviewBorder;
-        private Border P1PreviewBorder;
-        private Border P2PreviewBorder;
+        private ColorPreviewer ColorPreviewer;
 
         // Up to 10 checkered backgrounds may be used by name anywhere in the template
         private Border CheckeredBackground1Border;
@@ -197,10 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.Channel3Slider     = this.GetTemplateChild<ColorPickerSlider>(nameof(Channel3Slider));
             this.AlphaChannelSlider = this.GetTemplateChild<ColorPickerSlider>(nameof(AlphaChannelSlider));
 
-            this.N1PreviewBorder = this.GetTemplateChild<Border>(nameof(N1PreviewBorder));
-            this.N2PreviewBorder = this.GetTemplateChild<Border>(nameof(N2PreviewBorder));
-            this.P1PreviewBorder = this.GetTemplateChild<Border>(nameof(P1PreviewBorder));
-            this.P2PreviewBorder = this.GetTemplateChild<Border>(nameof(P2PreviewBorder));
+            this.ColorPreviewer = this.GetTemplateChild<ColorPreviewer>(nameof(ColorPreviewer));
 
             this.CheckeredBackground1Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground1Border));
             this.CheckeredBackground2Border  = this.GetTemplateChild<Border>(nameof(CheckeredBackground2Border));
@@ -312,10 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.ColorSpectrumAlphaSlider          != null) { this.ColorSpectrumAlphaSlider.Loaded          += ChannelSlider_Loaded; }
                 if (this.ColorSpectrumThirdDimensionSlider != null) { this.ColorSpectrumThirdDimensionSlider.Loaded += ChannelSlider_Loaded; }
 
-                if (this.N1PreviewBorder != null) { this.N1PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
-                if (this.N2PreviewBorder != null) { this.N2PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
-                if (this.P1PreviewBorder != null) { this.P1PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
-                if (this.P2PreviewBorder != null) { this.P2PreviewBorder.PointerPressed += PreviewBorder_PointerPressed; }
+                if (this.ColorPreviewer != null) { this.ColorPreviewer.ColorChangeRequested += ColorPreviewer_ColorChangeRequested; }
 
                 if (this.CheckeredBackground1Border  != null) { this.CheckeredBackground1Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
                 if (this.CheckeredBackground2Border  != null) { this.CheckeredBackground2Border.Loaded  += CheckeredBackgroundBorder_Loaded; }
@@ -366,10 +354,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.ColorSpectrumAlphaSlider          != null) { this.ColorSpectrumAlphaSlider.Loaded          -= ChannelSlider_Loaded; }
                 if (this.ColorSpectrumThirdDimensionSlider != null) { this.ColorSpectrumThirdDimensionSlider.Loaded -= ChannelSlider_Loaded; }
 
-                if (this.N1PreviewBorder != null) { this.N1PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
-                if (this.N2PreviewBorder != null) { this.N2PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
-                if (this.P1PreviewBorder != null) { this.P1PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
-                if (this.P2PreviewBorder != null) { this.P2PreviewBorder.PointerPressed -= PreviewBorder_PointerPressed; }
+                if (this.ColorPreviewer != null) { this.ColorPreviewer.ColorChangeRequested -= ColorPreviewer_ColorChangeRequested; }
 
                 if (this.CheckeredBackground1Border  != null) { this.CheckeredBackground1Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
                 if (this.CheckeredBackground2Border  != null) { this.CheckeredBackground2Border.Loaded  -= CheckeredBackgroundBorder_Loaded; }
@@ -700,6 +685,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
+                // Update the preview color
+                if (this.ColorPreviewer != null)
+                {
+                    this.ColorPreviewer.HsvColor = hsvColor;
+                }
+
                 // Update all other color channels
                 if (this.GetActiveColorRepresentation() == ColorRepresentation.Hsva)
                 {
@@ -1005,7 +996,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Therefore, always calculate HSV color here
                 // Warning: Always maintain/use HSV information in the saved HSV color
                 // This avoids loss of precision and drift caused by continuously converting to/from RGB
-                if (this.savedHsvColor ==  null)
+                if (this.savedHsvColor == null)
                 {
                     var rgbColor = this.Color;
 
@@ -1404,17 +1395,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Event handler for when a preview color panel is pressed.
-        /// This will update the color to the background of the pressed panel.
+        /// Event handler for when the color previewer requests a new color.
         /// </summary>
-        private void PreviewBorder_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void ColorPreviewer_ColorChangeRequested(object sender, HsvColor hsvColor)
         {
-            Border border = sender as Border;
+            Color rgbColor = Uwp.Helpers.ColorHelper.FromHsv(hsvColor.H, hsvColor.S, hsvColor.V, hsvColor.A);
 
-            if (border?.Background is SolidColorBrush brush)
-            {
-                this.ScheduleColorUpdate(brush.Color);
-            }
+            // Regardless of the active color model, the previewer always uses HSV
+            // Therefore, always calculate HSV color here
+            // Warning: Always maintain/use HSV information in the saved HSV color
+            // This avoids loss of precision and drift caused by continuously converting to/from RGB
+            this.savedHsvColor = hsvColor;
+            this.savedHsvColorRgbEquivalent = rgbColor;
+
+            this.ScheduleColorUpdate(rgbColor);
 
             return;
         }

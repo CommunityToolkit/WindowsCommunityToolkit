@@ -33,6 +33,7 @@
             <Setter Property="ColorSpectrumShape" Value="Box"/>
             <Setter Property="IsAlphaEnabled" Value="False"/>
             <Setter Property="IsHexInputVisible" Value="True"/>
+            <Setter Property="ShowAccentColors" Value="False"/>
           </Style>
         </controls:ColorPickerButton.ColorPickerStyle>
       </controls:ColorPickerButton>

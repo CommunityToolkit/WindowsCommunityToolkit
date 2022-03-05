@@ -20,6 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     internal class ColorPickerRenderingHelpers
     {
         /// <summary>
+        /// Gets the default color used for checkered background squares (alternate squares are transparent).
+        /// Checkered backgrounds are used to help show transparency.
+        /// </summary>
+        internal static readonly Color CheckerBackgroundColor = Color.FromArgb(0x19, 0x80, 0x80, 0x80);
+
+        /// <summary>
         /// Generates a new bitmap of the specified size by changing a specific color channel.
         /// This will produce a gradient representing all possible differences of that color channel.
         /// </summary>
