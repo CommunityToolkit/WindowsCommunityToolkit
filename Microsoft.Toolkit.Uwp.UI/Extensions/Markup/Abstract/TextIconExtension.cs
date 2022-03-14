@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         private static FontFamily symbolThemeFontFamily;
 
         /// <summary>
-        /// Gets the reusable "Segoe MDL2 Assets" <see cref="FontFamily"/> instance.
+        /// Gets the reusable "Segoe Fluent Icons,Segoe MDL2 Assets" <see cref="FontFamily"/> instance.
         /// </summary>
         protected static FontFamily SymbolThemeFontFamily
         {

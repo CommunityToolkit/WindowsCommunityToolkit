@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public string Glyph { get; set; }
 
         /// <summary>
-        /// Gets or sets the font family to use to display the icon. If <see langword="null"/>, "Segoe MDL2 Assets" will be used.
+        /// Gets or sets the font family to use to display the icon. If <see langword="null"/>, "Segoe Fluent Icons,Segoe MDL2 Assets" will be used.
         /// </summary>
         public FontFamily FontFamily { get; set; }
 
