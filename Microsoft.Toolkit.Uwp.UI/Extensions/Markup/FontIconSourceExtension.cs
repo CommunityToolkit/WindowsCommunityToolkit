@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var fontIcon = new FontIconSource
             {
                 Glyph = Glyph,
-                FontFamily = FontFamily ?? SegoeMDL2AssetsFontFamily,
+                FontFamily = FontFamily ?? SymbolThemeFontFamily,
                 FontWeight = FontWeight,
                 FontStyle = FontStyle,
                 IsTextScaleFactorEnabled = IsTextScaleFactorEnabled,
