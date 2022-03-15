@@ -152,6 +152,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         // You need to use DateTimeOffset to get proper binding to the CalendarDatePicker control, DateTime won't work.
         public DateTimeOffset First_ascent { get; set; }
 
+        public bool IsFavorite { get; set; }
+
         public string Ascents { get; set; }
 
         bool INotifyDataErrorInfo.HasErrors
