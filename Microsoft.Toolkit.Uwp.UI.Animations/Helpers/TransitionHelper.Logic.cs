@@ -80,16 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this.targetAnimatedElements.ContainsKey(config.Id) ? this.targetAnimatedElements[config.Id] : null);
         }
 
-        private Task AnimateFromSourceToTargetAsync(CancellationToken token)
-        {
-            return this.AnimateControlsAsync(false, token);
-        }
-
-        private Task AnimateFromTargetToSourceAsync(CancellationToken token)
-        {
-            return this.AnimateControlsAsync(true, token);
-        }
-
         private Task AnimateControlsAsync(bool reversed, CancellationToken token)
         {
             var duration = this.AnimationDuration;
@@ -134,11 +124,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(animationTasks);
         }
 
+        private async Task AnimateControlsAsync(bool reversed, CancellationToken token, bool forceUpdateAnimatedElements)
+        {
+            var reversedCancellationTokenSource =
+                reversed ? this._animateCancellationTokenSource : this._reverseCancellationTokenSource;
+            var reversedTaskSource =
+                reversed ? this._animateTaskSource : this._reverseTaskSource;
+
+            if (reversedCancellationTokenSource is not null)
+            {
+                if (this._isInterruptedAnimation)
+                {
+                    this._isInterruptedAnimation = false;
+                    await reversedTaskSource.Task;
+                }
+                else
+                {
+                    reversedCancellationTokenSource?.Cancel();
+                    this._isInterruptedAnimation = true;
+                }
+            }
+
+            if (!this._isInterruptedAnimation && IsTargetState != reversed)
+            {
+                return;
+            }
+
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            TaskCompletionSource<object> currentTaskSource;
+            if (reversed)
+            {
+                currentTaskSource = this._reverseTaskSource = new TaskCompletionSource<object>();
+            }
+            else
+            {
+                currentTaskSource = this._animateTaskSource = new TaskCompletionSource<object>();
+            }
+
+            await this.InitControlsStateAsync(forceUpdateAnimatedElements);
+            await this.AnimateControlsAsync(reversed, token);
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            this.RestoreState(!reversed);
+            _ = currentTaskSource.TrySetResult(null);
+
+            this._isInterruptedAnimation = false;
+        }
+
         private void RestoreState(bool isTargetState)
         {
             this.IsTargetState = isTargetState;
             this.ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
             this.ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
+        }
+
+        private void RestoreUIElements(IEnumerable<UIElement> animatedElements)
+        {
+            foreach (var animatedElement in animatedElements)
+            {
+                var visual = ElementCompositionPreview.GetElementVisual(animatedElement);
+                visual.Opacity = 1;
+                visual.Scale = Vector3.One;
+                var transformMatrix = visual.TransformMatrix;
+                transformMatrix.Translation = Vector3.Zero;
+                visual.TransformMatrix = transformMatrix;
+            }
         }
 
         private async Task InitControlsStateAsync(bool forceUpdateAnimatedElements = false)

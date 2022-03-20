@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -41,38 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             this._animateCancellationTokenSource = new CancellationTokenSource();
-
-            if (this._reverseCancellationTokenSource is not null)
-            {
-                if (!this._isInterruptedAnimation)
-                {
-                    this._reverseCancellationTokenSource?.Cancel();
-                    this._isInterruptedAnimation = true;
-                }
-                else
-                {
-                    this._isInterruptedAnimation = false;
-                }
-
-                _ = await this._reverseTaskSource.Task;
-                this._reverseTaskSource = null;
-            }
-
-            if (!this.IsTargetState && !this._animateCancellationTokenSource.IsCancellationRequested)
-            {
-                this._animateTaskSource = new TaskCompletionSource<object>();
-                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
-                await this.AnimateFromSourceToTargetAsync(this._animateCancellationTokenSource.Token);
-                this.RestoreState(true);
-                _ = this._animateTaskSource?.TrySetResult(null);
-            }
-
-            this.IsTargetState = true;
-            if (!this._animateCancellationTokenSource.IsCancellationRequested)
-            {
-                this._isInterruptedAnimation = false;
-            }
-
+            await AnimateControlsAsync(false, _animateCancellationTokenSource.Token, forceUpdateAnimatedElements);
             this._animateCancellationTokenSource = null;
         }
 
@@ -89,39 +59,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             this._reverseCancellationTokenSource = new CancellationTokenSource();
+            await AnimateControlsAsync(true, _reverseCancellationTokenSource.Token, forceUpdateAnimatedElements);
+            this._reverseCancellationTokenSource = null;
+        }
 
+        /// <summary>
+        /// Reset to initial state.
+        /// </summary>
+        public void Reset()
+        {
+            var needRestoreChildElements = this.IsTargetState;
             if (this._animateCancellationTokenSource is not null)
             {
-                if (!this._isInterruptedAnimation)
-                {
-                    this._animateCancellationTokenSource?.Cancel();
-                    this._isInterruptedAnimation = true;
-                }
-                else
-                {
-                    this._isInterruptedAnimation = false;
-                }
-
-                _ = await this._animateTaskSource.Task;
-                this._animateTaskSource = null;
+                needRestoreChildElements = true;
+                this._animateCancellationTokenSource.Cancel();
+                this._animateCancellationTokenSource = null;
             }
 
-            if (this.IsTargetState && !this._reverseCancellationTokenSource.IsCancellationRequested)
+            if (_reverseCancellationTokenSource is not null)
             {
-                this._reverseTaskSource = new TaskCompletionSource<object>();
-                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
-                await this.AnimateFromTargetToSourceAsync(this._reverseCancellationTokenSource.Token);
-                this.RestoreState(false);
-                _ = this._reverseTaskSource?.TrySetResult(null);
+                needRestoreChildElements = true;
+                this._reverseCancellationTokenSource.Cancel();
+                this._reverseCancellationTokenSource = null;
             }
 
-            this.IsTargetState = false;
-            if (!this._reverseCancellationTokenSource.IsCancellationRequested)
+            this._isInterruptedAnimation = false;
+            this.RestoreState(false);
+
+            if (needRestoreChildElements)
             {
-                this._isInterruptedAnimation = false;
+                this.RestoreUIElements(this.sourceAnimatedElements.Values.Concat(GetIgnoredElements(Source)));
+                this.RestoreUIElements(this.targetAnimatedElements.Values.Concat(GetIgnoredElements(Target)));
             }
-
-            this._reverseCancellationTokenSource = null;
         }
     }
 }
