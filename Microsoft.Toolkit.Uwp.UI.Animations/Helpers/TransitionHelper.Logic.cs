@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(animationTasks);
         }
 
-        private async Task AnimateControlsAsync(bool reversed, CancellationToken token, bool forceUpdateAnimatedElements)
+        private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, bool forceUpdateAnimatedElements)
         {
             var reversedCancellationTokenSource =
                 reversed ? this._animateCancellationTokenSource : this._reverseCancellationTokenSource;

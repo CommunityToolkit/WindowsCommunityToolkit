@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             this._animateCancellationTokenSource = new CancellationTokenSource();
-            await AnimateControlsAsync(false, _animateCancellationTokenSource.Token, forceUpdateAnimatedElements);
+            await StartInterruptibleAnimationsAsync(false, _animateCancellationTokenSource.Token, forceUpdateAnimatedElements);
             this._animateCancellationTokenSource = null;
         }
 
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             this._reverseCancellationTokenSource = new CancellationTokenSource();
-            await AnimateControlsAsync(true, _reverseCancellationTokenSource.Token, forceUpdateAnimatedElements);
+            await StartInterruptibleAnimationsAsync(true, _reverseCancellationTokenSource.Token, forceUpdateAnimatedElements);
             this._reverseCancellationTokenSource = null;
         }
 
