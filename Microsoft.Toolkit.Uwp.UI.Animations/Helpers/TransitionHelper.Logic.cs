@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var targetUnpairedElements = new List<UIElement>();
             foreach (var item in this.AnimationConfigs)
             {
-                (var source, var target) = this.GetPairElements(item);
+                var (source, target) = this.GetPairElements(item);
                 if (source is null || target is null)
                 {
                     if (source is not null)
