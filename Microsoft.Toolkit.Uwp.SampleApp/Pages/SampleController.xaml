@@ -82,6 +82,12 @@
                             <ComboBoxItem Content="Light" />
                             <ComboBoxItem Content="Dark" />
                         </ComboBox>
+
+                        <TextBlock Text="Flow Direction" VerticalAlignment="Center" Margin="8,0,10,0" />
+                        <ComboBox x:Name="FlowDirectionPicker">
+                            <ComboBoxItem Content="Left To Right" />
+                            <ComboBoxItem Content="Right To Left" />
+                        </ComboBox>
                     </StackPanel>
                 </StackPanel>
 
