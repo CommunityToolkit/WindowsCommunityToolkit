@@ -10,13 +10,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public class AnimationConfig
     {
         /// <summary>
-        /// Gets or sets id of UI element.
+        /// Gets or sets id of a UI element.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the scale strategy of UI element.
+        /// Gets or sets the scale strategy of a UI element.
+        /// The default value is <see cref="ScaleMode.Scale"/>.
         /// </summary>
-        public ScaleMode ScaleMode { get; set; } = ScaleMode.None;
+        public ScaleMode ScaleMode { get; set; } = ScaleMode.Scale;
+
+        /// <summary>
+        /// Gets or sets the strategy for animating the opacity of a UI element.
+        /// The default value is <see cref="OpacityAnimationMode.Faster"/>.
+        /// </summary>
+        public OpacityAnimationMode OpacityMode { get; set; } = OpacityAnimationMode.Faster;
     }
 }

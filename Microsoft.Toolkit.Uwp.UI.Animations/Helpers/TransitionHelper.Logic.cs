@@ -266,7 +266,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
             this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, duration);
-            this.AnimateUIElementsOpacity(sourceBuilder, targetBuilder, duration * 1 / 3); // Make opacity animation faster
+            TimeSpan opacityAnimationDuration = config.OpacityMode switch
+            {
+                OpacityAnimationMode.Normal => duration,
+                OpacityAnimationMode.Faster => duration * 1 / 3,
+                _ => duration
+            };
+            this.AnimateUIElementsOpacity(sourceBuilder, targetBuilder, opacityAnimationDuration);
             switch (config.ScaleMode)
             {
                 case ScaleMode.Scale:
@@ -278,6 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 case ScaleMode.ScaleY:
                     this.AnimateUIElementsScaleY(sourceBuilder, targetBuilder, source, target, duration);
                     break;
+                case ScaleMode.None:
                 default:
                     break;
             }
