@@ -12,8 +12,10 @@
     <Page.Resources>
         <ani:TransitionHelper x:Key="MyTransitionHelper">
             <ani:AnimationConfig Id="background"
-                                 OpacityMode="Normal" />
-            <ani:AnimationConfig Id="image" />
+                                 OpacityMode="Normal"
+                                 ScaleMode="Scale" />
+            <ani:AnimationConfig Id="image"
+                                 ScaleMode="Scale" />
             <ani:AnimationConfig Id="guide" />
             <ani:AnimationConfig Id="name"
                                  ScaleMode="ScaleY" />

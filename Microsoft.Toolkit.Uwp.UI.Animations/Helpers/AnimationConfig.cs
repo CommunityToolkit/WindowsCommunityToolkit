@@ -16,9 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Gets or sets the scale strategy of a UI element.
-        /// The default value is <see cref="ScaleMode.Scale"/>.
+        /// The default value is <see cref="ScaleMode.None"/>.
         /// </summary>
-        public ScaleMode ScaleMode { get; set; } = ScaleMode.Scale;
+        public ScaleMode ScaleMode { get; set; } = ScaleMode.None;
 
         /// <summary>
         /// Gets or sets the strategy for animating the opacity of a UI element.
