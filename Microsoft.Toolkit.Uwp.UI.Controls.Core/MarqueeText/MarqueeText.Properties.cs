@@ -19,9 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty IsWrappingProperty =
             DependencyProperty.Register(nameof(IsWrapping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
 
-        private static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(MarqueeText), new PropertyMetadata(true, PropertyChanged));
-
         /// <summary>
         /// Gets or sets the text being displayed in Marquee.
         /// </summary>
@@ -61,19 +58,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(IsWrappingProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the marquee is active.
-        /// </summary>
-        public bool IsActive
-        {
-            get { return (bool)GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
-        }
-
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MarqueeText;
-            control.StartAnimation();
+
+            if (e == null)
+            {
+                return;
+            }
+
+            // Can't resume if Wrapping changed
+            bool resume = e.Property != IsWrappingProperty;
+            control.UpdateAnimation(resume);
         }
     }
 }

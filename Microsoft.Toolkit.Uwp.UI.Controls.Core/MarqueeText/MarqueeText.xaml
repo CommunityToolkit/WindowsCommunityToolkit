@@ -16,7 +16,11 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="MarqueeStateGroup">
                                 <VisualState x:Name="MarqueeActive"/>
-                                <VisualState x:Name="MarqueeStopped"/>
+                                <VisualState x:Name="MarqueeStopped">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueeTransform.X" Value="0.0"/>
+                                    </VisualState.Setters>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 

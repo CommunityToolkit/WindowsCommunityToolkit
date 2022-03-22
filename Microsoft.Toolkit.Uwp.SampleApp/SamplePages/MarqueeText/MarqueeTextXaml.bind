@@ -8,7 +8,6 @@
 
   <Grid>
     <controls:MarqueeText Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                          IsActive="@[IsActive:Bool:True]"
                           Speed="@[Speed:Slider:32:4-128]"
                           IsRepeating="@[IsRepeating:Bool:True]"
                           IsWrapping="@[IsWrapping:Bool:False]"

@@ -37,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private TranslateTransform _marqueeTranform;
         private Storyboard _marqueeStoryboad;
 
+        private bool _isActive;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MarqueeText"/> class.
         /// </summary>
@@ -55,13 +57,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
             _activeState = (VisualState)GetTemplateChild(MarqueeActiveState);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
-
-            PropertyChanged(this, null);
+            _isActive = true;
 
             this.SizeChanged += MarqueeText_SizeChanged;
         }
 
-        private void StartAnimation(bool resume = true)
+        private void StartAnimation()
+        {
+            _isActive = true;
+            UpdateAnimation(true);
+        }
+
+        private void StopAnimation()
+        {
+            _isActive = false;
+            UpdateAnimation(false);
+        }
+
+        private void UpdateAnimation(bool resume = true)
         {
             if (_marqueeStoryboad != null)
             {
@@ -73,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (!IsActive)
+            if (!_isActive)
             {
                 if (_marqueeStoryboad != null)
                 {
@@ -100,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
             {
-                IsActive = false;
+                StopAnimation();
                 _segment2.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -152,12 +165,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void StoryBoard_Completed(object sender, object e)
         {
-            IsActive = false;
+            StopAnimation();
         }
 
         private void MarqueeText_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            IsActive = true;
             StartAnimation();
         }
     }
