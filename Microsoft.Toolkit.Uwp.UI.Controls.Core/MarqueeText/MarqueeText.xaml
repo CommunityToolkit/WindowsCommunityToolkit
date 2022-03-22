@@ -18,20 +18,42 @@
                                 <VisualState x:Name="MarqueeActive"/>
                                 <VisualState x:Name="MarqueeStopped"/>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="WrappingStateGroup">
+                                <VisualState x:Name="Wrapping">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment2.Visibility" Value="Visible"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NotWrapping">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment2.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
-                        <TextBlock Name="TextBlock1"
-                               Foreground="{TemplateBinding Foreground}"
-                               Text="{TemplateBinding Text}"
-                               FontFamily="{TemplateBinding FontFamily}"
-                               FontSize="{TemplateBinding FontSize}"
-                               FontStretch="{TemplateBinding FontStretch}"
-                               FontStyle="{TemplateBinding FontStyle}"
-                               FontWeight="{TemplateBinding FontWeight}">
-                            <TextBlock.RenderTransform>
+
+                        <StackPanel x:Name="MarqueeStack" Orientation="Horizontal">
+                            <StackPanel.RenderTransform>
                                 <TranslateTransform x:Name="MarqueeTransform"/>
-                            </TextBlock.RenderTransform>
-                        </TextBlock>
+                            </StackPanel.RenderTransform>
+                            <TextBlock x:Name="Segment1"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Text}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontStretch="{TemplateBinding FontStretch}"
+                                       FontStyle="{TemplateBinding FontStyle}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       Padding="0,0,32,0"/>
+                            <TextBlock x:Name="Segment2"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Text}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontStretch="{TemplateBinding FontStretch}"
+                                       FontStyle="{TemplateBinding FontStyle}"
+                                       FontWeight="{TemplateBinding FontWeight}"/>
+                        </StackPanel>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

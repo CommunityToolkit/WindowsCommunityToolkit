@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A Control that displays Text in a Marquee style.
     /// </summary>
     [TemplatePart(Name = CanvasPartName, Type = typeof(Canvas))]
-    [TemplatePart(Name = TextBlock1PartName, Type = typeof(TextBlock))]
+    [TemplatePart(Name = Segment1PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = MarqueeStoryboardPartName, Type = typeof(Storyboard))]
     [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
     [TemplateVisualState(GroupName = MarqueeStateGroup, Name = MarqueeActiveState)]
@@ -20,7 +20,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class MarqueeText : Control
     {
         private const string CanvasPartName = "Canvas";
-        private const string TextBlock1PartName = "TextBlock1";
+        private const string Segment1PartName = "Segment1";
+        private const string MarqueeStackPartName = "MarqueeStack";
         private const string MarqueeStoryboardPartName = "MarqueeStoryboard";
         private const string MarqueeTransformPartName = "MarqueeTransform";
 
@@ -28,11 +29,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string MarqueeActiveState = "MarqueeActive";
         private const string MarqueeStoppedState = "MarqueeStopped";
 
+        private const string WrappingState = "Wrapping";
+        private const string NotWrappingState = "NotWrapping";
+
         private Canvas _canvas;
-        private TextBlock _textBlock1;
-        private Storyboard _marqueeStoryboad;
+        private FrameworkElement _segment1;
         private VisualState _activeState;
         private TranslateTransform _marqueeTranform;
+        private Storyboard _marqueeStoryboad;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarqueeText"/> class.
@@ -48,9 +52,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _canvas = (Canvas)GetTemplateChild(CanvasPartName);
-            _textBlock1 = (TextBlock)GetTemplateChild(TextBlock1PartName);
+            _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
             _activeState = (VisualState)GetTemplateChild(MarqueeActiveState);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
+
+            PropertyChanged(this, null);
         }
 
         private void StartAnimation(bool resume = true)
@@ -75,9 +81,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            double start = _canvas.ActualWidth;
-            double end = -_textBlock1.ActualWidth;
+            double start = IsWrapping ? 0 : _canvas.ActualWidth;
+            double end = -_segment1.ActualWidth;
             double distance = start - end;
+
+            if (distance == 0)
+            {
+                return;
+            }
 
             TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
             RepeatBehavior repeatBehavior = IsRepeating ? RepeatBehavior.Forever : new RepeatBehavior(1);

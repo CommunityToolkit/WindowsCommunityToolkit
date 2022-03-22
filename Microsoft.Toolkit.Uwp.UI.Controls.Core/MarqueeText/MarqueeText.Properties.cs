@@ -16,6 +16,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty IsRepeatingProperty =
             DependencyProperty.Register(nameof(IsRepeating), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
 
+        private static readonly DependencyProperty IsWrappingProperty =
+            DependencyProperty.Register(nameof(IsWrapping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(true, PropertyChanged));
+
         private static readonly DependencyProperty IsActiveProperty =
             DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(MarqueeText), new PropertyMetadata(true, PropertyChanged));
 
@@ -47,6 +50,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not the marquee text wraps.
+        /// </summary>
+        public bool IsWrapping
+        {
+            get { return (bool)GetValue(IsWrappingProperty); }
+            set { SetValue(IsWrappingProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not the marquee is active.
         /// </summary>
         public bool IsActive
@@ -58,6 +70,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MarqueeText;
+
+            if (e == null || e.Property == IsWrappingProperty)
+            {
+                if (control.IsWrapping)
+                {
+                    VisualStateManager.GoToState(control, WrappingState, true);
+                }
+                else
+                {
+                    VisualStateManager.GoToState(control, NotWrappingState, true);
+                }
+            }
+
             control.StartAnimation();
         }
     }
