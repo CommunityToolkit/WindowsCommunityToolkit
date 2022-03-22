@@ -25,12 +25,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MarqueeText_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            StartAnimation();
+            StartMarquee();
         }
 
         private void StoryBoard_Completed(object sender, object e)
         {
-            StopAnimation();
+            StopMarque(true);
             MarqueeCompleted?.Invoke(this, EventArgs.Empty);
         }
     }

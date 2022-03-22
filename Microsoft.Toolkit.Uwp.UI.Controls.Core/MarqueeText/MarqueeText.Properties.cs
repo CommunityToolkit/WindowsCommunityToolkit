@@ -70,8 +70,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Can't resume through IsWrapping change
             if (e.Property == IsWrappingProperty)
             {
-                control.StopAnimation();
-                control.StartAnimation();
+                bool active = control._isActive;
+                control.StopMarque(false);
+                if (active)
+                {
+                    control.StartMarquee();
+                }
             } else
             {
                 control.UpdateAnimation(true);

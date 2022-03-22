@@ -15,8 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = MarqueeStoryboardPartName, Type = typeof(Storyboard))]
     [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
-    [TemplateVisualState(GroupName = MarqueeStateGroup, Name = MarqueeActiveState)]
-    [TemplateVisualState(GroupName = MarqueeStateGroup, Name = MarqueeStoppedState)]
     [ContentProperty(Name = nameof(Text))]
     public partial class MarqueeText : Control
     {
@@ -26,14 +24,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string MarqueeStoryboardPartName = "MarqueeStoryboard";
         private const string MarqueeTransformPartName = "MarqueeTransform";
 
-        private const string MarqueeStateGroup = "MarqueeStateGroup";
         private const string MarqueeActiveState = "MarqueeActive";
         private const string MarqueeStoppedState = "MarqueeStopped";
 
         private Canvas _canvas;
         private FrameworkElement _segment1;
         private FrameworkElement _segment2;
-        private VisualState _activeState;
         private TranslateTransform _marqueeTranform;
         private Storyboard _marqueeStoryboad;
 
@@ -55,13 +51,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvas = (Canvas)GetTemplateChild(CanvasPartName);
             _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
-            _activeState = (VisualState)GetTemplateChild(MarqueeActiveState);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
             this.SizeChanged += MarqueeText_SizeChanged;
         }
 
-        private void StartAnimation()
+        /// <summary>
+        /// Begins the Marquee animation if not running.
+        /// </summary>
+        public void StartMarquee()
         {
             bool initial = _isActive;
             _isActive = true;
@@ -74,7 +72,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void StopAnimation(bool stopping = true)
+        /// <summary>
+        /// Stops the Marquee animation.
+        /// </summary>
+        public void StopMarquee()
+        {
+            StopMarque(_isActive);
+        }
+
+        private void StopMarque(bool stopping)
         {
             _isActive = false;
             bool playing = UpdateAnimation(false);
@@ -89,11 +95,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>True if the Animation is now playing</returns>
         private bool UpdateAnimation(bool resume = true)
         {
-            if (_marqueeStoryboad != null)
-            {
-                _marqueeStoryboad.Completed -= StoryBoard_Completed;
-            }
-
             if (_canvas == null)
             {
                 return false;
@@ -101,11 +102,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!_isActive)
             {
-                if (_marqueeStoryboad != null)
-                {
-                    _marqueeStoryboad.Stop();
-                }
-
                 VisualStateManager.GoToState(this, MarqueeStoppedState, false);
 
                 return false;
@@ -122,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
             {
-                StopAnimation(resume);
+                StopMarque(resume);
                 _segment2.Visibility = Visibility.Collapsed;
                 return false;
             }
@@ -131,6 +127,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
             RepeatBehavior repeatBehavior = IsRepeating ? RepeatBehavior.Forever : new RepeatBehavior(1);
+
+            if (_marqueeStoryboad != null)
+            {
+                _marqueeStoryboad.Completed -= StoryBoard_Completed;
+            }
+
             _marqueeStoryboad = new Storyboard()
             {
                 Duration = duration,
@@ -161,7 +163,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Storyboard.SetTarget(animation, _marqueeTranform);
             Storyboard.SetTargetProperty(animation, "(TranslateTransform.X)");
 
-            _activeState.Storyboard = _marqueeStoryboad;
             VisualStateManager.GoToState(this, MarqueeActiveState, true);
             _marqueeStoryboad.Begin();
 
