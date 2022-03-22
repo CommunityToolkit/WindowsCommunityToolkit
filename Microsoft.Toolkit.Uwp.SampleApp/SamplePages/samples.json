@@ -517,6 +517,15 @@
         "XamlCodeFile": "RichSuggestBoxXaml.bind",
         "Icon": "/SamplePages/RichSuggestBox/RichSuggestBox.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RichSuggestBox.md"
+      },
+      {
+        "Name": "MarqueeText",
+        "Subcategory": "Status and Info",
+        "About": "A text control that shows a marquee scrolling across the screen.",
+        //"CodeUrl": ,
+        "XamlCodeFile": "MarqueeTextXaml.bind",
+        "Icon": "/SamplePages/MarqueeText/MarqueeText.png"
+        //"DocumentationUrl": 
       }
     ]
   },

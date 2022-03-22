@@ -279,9 +279,10 @@
     <Content Include="SamplePages\Graph\LoginButton.png" />
     <Content Include="SamplePages\Graph\PeoplePicker.png" />
     <Content Include="SamplePages\Graph\PersonView.png" />
+    <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
     <Content Include="SamplePages\Primitives\ConstrainedBox.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
-    <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
+    <Content Include="SamplePages\MarqueeText\MarqueeText.png" />
     <Content Include="SamplePages\TabbedCommandBar\TabbedCommandBar.png" />
     <Content Include="SamplePages\Animations\Effects\FadeBehavior.png" />
     <Content Include="SamplePages\ColorPicker\ColorPicker.png" />
@@ -647,6 +648,7 @@
     <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
+    <Content Include="SamplePages\MarqueeText\MarqueeTextXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
