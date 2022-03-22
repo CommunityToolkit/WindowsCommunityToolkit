@@ -73,19 +73,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MarqueeText;
-
-            if (e == null || e.Property == IsWrappingProperty)
-            {
-                if (control.IsWrapping)
-                {
-                    VisualStateManager.GoToState(control, WrappingState, true);
-                }
-                else
-                {
-                    VisualStateManager.GoToState(control, NotWrappingState, true);
-                }
-            }
-
             control.StartAnimation();
         }
     }

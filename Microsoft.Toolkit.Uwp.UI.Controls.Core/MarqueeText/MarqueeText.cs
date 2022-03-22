@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = CanvasPartName, Type = typeof(Canvas))]
     [TemplatePart(Name = Segment1PartName, Type = typeof(FrameworkTemplate))]
+    [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = MarqueeStoryboardPartName, Type = typeof(Storyboard))]
     [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
     [TemplateVisualState(GroupName = MarqueeStateGroup, Name = MarqueeActiveState)]
@@ -21,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string CanvasPartName = "Canvas";
         private const string Segment1PartName = "Segment1";
+        private const string Segment2PartName = "Segment2";
         private const string MarqueeStoryboardPartName = "MarqueeStoryboard";
         private const string MarqueeTransformPartName = "MarqueeTransform";
 
@@ -28,11 +30,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string MarqueeActiveState = "MarqueeActive";
         private const string MarqueeStoppedState = "MarqueeStopped";
 
-        private const string WrappingState = "Wrapping";
-        private const string NotWrappingState = "NotWrapping";
-
         private Canvas _canvas;
         private FrameworkElement _segment1;
+        private FrameworkElement _segment2;
         private VisualState _activeState;
         private TranslateTransform _marqueeTranform;
         private Storyboard _marqueeStoryboad;
@@ -52,10 +52,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _canvas = (Canvas)GetTemplateChild(CanvasPartName);
             _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
+            _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
             _activeState = (VisualState)GetTemplateChild(MarqueeActiveState);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
             PropertyChanged(this, null);
+
+            this.SizeChanged += MarqueeText_SizeChanged;
         }
 
         private void StartAnimation(bool resume = true)
@@ -98,8 +101,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
             {
                 IsActive = false;
+                _segment2.Visibility = Visibility.Collapsed;
                 return;
             }
+
+            _segment2.Visibility = IsWrapping ? Visibility.Visible : Visibility.Collapsed;
 
             TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
             RepeatBehavior repeatBehavior = IsRepeating ? RepeatBehavior.Forever : new RepeatBehavior(1);
@@ -147,6 +153,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void StoryBoard_Completed(object sender, object e)
         {
             IsActive = false;
+        }
+
+        private void MarqueeText_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            IsActive = true;
+            StartAnimation();
         }
     }
 }

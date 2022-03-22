@@ -15,28 +15,8 @@
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="MarqueeStateGroup">
-                                <VisualState x:Name="MarqueeActive">
-                                    <VisualState.Setters>
-                                        <Setter Target="Segment2.Visibility" Value="Visible"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="MarqueeStopped">
-                                    <VisualState.Setters>
-                                        <Setter Target="Segment2.Visibility" Value="Collapsed"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="WrappingStateGroup">
-                                <VisualState x:Name="Wrapping">
-                                    <VisualState.Setters>
-                                        <Setter Target="Segment2Wrap.Visibility" Value="Visible"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="NotWrapping">
-                                    <VisualState.Setters>
-                                        <Setter Target="Segment2Wrap.Visibility" Value="Collapsed"/>
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="MarqueeActive"/>
+                                <VisualState x:Name="MarqueeStopped"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
@@ -53,8 +33,7 @@
                                        FontStyle="{TemplateBinding FontStyle}"
                                        FontWeight="{TemplateBinding FontWeight}"
                                        Padding="0,0,32,0"/>
-                            <Grid x:Name="Segment2Wrap">
-                                <TextBlock x:Name="Segment2"
+                            <TextBlock x:Name="Segment2"
                                        Foreground="{TemplateBinding Foreground}"
                                        Text="{TemplateBinding Text}"
                                        FontFamily="{TemplateBinding FontFamily}"
@@ -62,7 +41,6 @@
                                        FontStretch="{TemplateBinding FontStretch}"
                                        FontStyle="{TemplateBinding FontStyle}"
                                        FontWeight="{TemplateBinding FontWeight}"/>
-                            </Grid>
                         </StackPanel>
                     </Canvas>
                 </ControlTemplate>
