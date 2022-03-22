@@ -21,7 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string CanvasPartName = "Canvas";
         private const string Segment1PartName = "Segment1";
-        private const string MarqueeStackPartName = "MarqueeStack";
         private const string MarqueeStoryboardPartName = "MarqueeStoryboard";
         private const string MarqueeTransformPartName = "MarqueeTransform";
 
@@ -78,7 +77,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _marqueeStoryboad.Stop();
                 }
 
+                VisualStateManager.GoToState(this, MarqueeStoppedState, false);
+
                 return;
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, MarqueeActiveState, true);
             }
 
             double start = IsWrapping ? 0 : _canvas.ActualWidth;
@@ -87,6 +92,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (distance == 0)
             {
+                return;
+            }
+
+            if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
+            {
+                IsActive = false;
                 return;
             }
 

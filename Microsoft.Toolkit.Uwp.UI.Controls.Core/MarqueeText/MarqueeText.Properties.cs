@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsRepeating), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
 
         private static readonly DependencyProperty IsWrappingProperty =
-            DependencyProperty.Register(nameof(IsWrapping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(true, PropertyChanged));
+            DependencyProperty.Register(nameof(IsWrapping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
 
         private static readonly DependencyProperty IsActiveProperty =
             DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(MarqueeText), new PropertyMetadata(true, PropertyChanged));
@@ -52,6 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether or not the marquee text wraps.
         /// </summary>
+        /// <remarks>
+        /// Wrappping text won't scroll if the text can already fit in the screen.
+        /// </remarks>
         public bool IsWrapping
         {
             get { return (bool)GetValue(IsWrappingProperty); }
