@@ -11,6 +11,7 @@
                           IsActive="@[IsActive:Bool:True]"
                           Speed="@[Speed:Slider:32:4-128]"
                           IsRepeating="@[IsRepeating:Bool:True]"
+                          IsWrapping="@[IsWrapping:Bool:False]"
                           FontSize="18"/>
   </Grid>
 </Page>
