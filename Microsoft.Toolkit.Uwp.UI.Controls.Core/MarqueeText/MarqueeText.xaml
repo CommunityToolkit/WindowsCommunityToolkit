@@ -12,6 +12,14 @@
                             Background="{TemplateBinding Background}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="MarqueeStateGroup">
+                                <VisualState x:Name="MarqueeActive"/>
+                                <VisualState x:Name="MarqueeStopped"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        
                         <TextBlock Name="TextBlock1"
                                Foreground="{TemplateBinding Foreground}"
                                Text="{TemplateBinding Text}"
@@ -21,8 +29,8 @@
                                FontStyle="{TemplateBinding FontStyle}"
                                FontWeight="{TemplateBinding FontWeight}">
                             <TextBlock.RenderTransform>
-                                    <TranslateTransform x:Name="textBlockTransform"/>
-                                </TextBlock.RenderTransform>
+                                <TranslateTransform x:Name="MarqueeTransform"/>
+                            </TextBlock.RenderTransform>
                         </TextBlock>
                     </Canvas>
                 </ControlTemplate>
