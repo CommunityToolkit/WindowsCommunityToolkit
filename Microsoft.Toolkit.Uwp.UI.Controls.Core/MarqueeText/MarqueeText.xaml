@@ -1,0 +1,24 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+
+    <Style TargetType="controls:MarqueeText">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:MarqueeText">
+                    <TextBlock Name="Textblock1"
+                               Foreground="{TemplateBinding Foreground}"
+                               Text="{TemplateBinding Text}"
+                               FontFamily="{TemplateBinding FontFamily}"
+                               FontSize="{TemplateBinding FontSize}"
+                               FontStretch="{TemplateBinding FontStretch}"
+                               FontStyle="{TemplateBinding FontStyle}"
+                               FontWeight="{TemplateBinding FontWeight}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>
