@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using Windows.UI.Xaml;
 
@@ -35,9 +36,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
+                if(this._source is not null)
+                {
+                    this.RestoreUIElements(this.sourceAnimatedElements.Values.Concat(GetIgnoredElements(this._source)));
+                }
+
                 this._source = value;
                 this._needUpdateSourceLayout = true;
-                this.IsTargetState = false;
                 this.UpdateSourceAnimatedElements();
             }
         }
@@ -59,8 +64,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
+                if (this._target is not null)
+                {
+                    this.RestoreUIElements(this.targetAnimatedElements.Values.Concat(GetIgnoredElements(this._target)));
+                }
+
                 this._target = value;
                 this._needUpdateTargetLayout = true;
+                this.IsTargetState = false;
                 this.UpdateTargetAnimatedElements();
             }
         }

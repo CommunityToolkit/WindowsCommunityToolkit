@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Reverse animation, morphs from target control to source control.
         /// </summary>
-        /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
+        /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of child elements before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task ReverseAsync(bool forceUpdateAnimatedElements = false)
         {
@@ -66,9 +66,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Reset to initial state.
         /// </summary>
-        public void Reset()
+        /// <param name="forceRestoreChildElements">Indicates whether to force the reset of child elements.</param>
+        public void Reset(bool forceRestoreChildElements = false)
         {
-            var needRestoreChildElements = this.IsTargetState;
+            var needRestoreChildElements = forceRestoreChildElements || this.IsTargetState;
             if (this._animateCancellationTokenSource is not null)
             {
                 needRestoreChildElements = true;
