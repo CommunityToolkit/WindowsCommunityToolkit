@@ -53,8 +53,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
         }
 
-        private void StartAnimation()
+        private void StartAnimation(bool resume = true)
         {
+            if (_marqueeStoryboad != null)
+            {
+                _marqueeStoryboad.Completed -= StoryBoard_Completed;
+            }
+
             if (_canvas == null)
             {
                 return;
@@ -62,10 +67,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (!IsActive)
             {
+                if (_marqueeStoryboad != null)
+                {
+                    _marqueeStoryboad.Stop();
+                }
+
                 return;
             }
 
-            TimeSpan duration = TimeSpan.FromSeconds(_textBlock1.ActualWidth / Speed);
+            double start = _canvas.ActualWidth;
+            double end = -_textBlock1.ActualWidth;
+            double distance = start - end;
+
+            TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
             RepeatBehavior repeatBehavior = IsRepeating ? RepeatBehavior.Forever : new RepeatBehavior(1);
             _marqueeStoryboad = new Storyboard()
             {
@@ -83,12 +97,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var frame1 = new DiscreteDoubleKeyFrame
             {
                 KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero),
-                Value = _canvas.ActualWidth,
+                Value = start,
             };
             var frame2 = new EasingDoubleKeyFrame
             {
                 KeyTime = KeyTime.FromTimeSpan(duration),
-                Value = -_textBlock1.ActualWidth,
+                Value = end,
             };
 
             animation.KeyFrames.Add(frame1);
@@ -98,6 +112,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Storyboard.SetTargetProperty(animation, "(TranslateTransform.X)");
 
             _marqueeStoryboad.Begin();
+
+            if (resume)
+            {
+                double progress = (start - _marqueeTranform.X) / distance;
+                _marqueeStoryboad.Seek(duration * progress);
+            }
+
             _activeState.Storyboard = _marqueeStoryboad;
         }
 
