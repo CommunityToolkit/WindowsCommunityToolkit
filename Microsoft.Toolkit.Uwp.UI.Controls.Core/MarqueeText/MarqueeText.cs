@@ -57,24 +57,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
             _activeState = (VisualState)GetTemplateChild(MarqueeActiveState);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
-            _isActive = true;
 
             this.SizeChanged += MarqueeText_SizeChanged;
         }
 
         private void StartAnimation()
         {
+            bool initial = _isActive;
             _isActive = true;
-            UpdateAnimation(true);
+            bool playing = UpdateAnimation(initial);
+
+            // Invoke MarqueeBegan if Marquee is now playing and was not before
+            if (playing && !initial)
+            {
+                MarqueeBegan?.Invoke(this, EventArgs.Empty);
+            }
         }
 
-        private void StopAnimation()
+        private void StopAnimation(bool stopping = true)
         {
             _isActive = false;
-            UpdateAnimation(false);
+            bool playing = UpdateAnimation(false);
+
+            // Invoke MarqueeStopped if Marquee is not playing and was before
+            if (!playing && stopping)
+            {
+                MarqueeStopped?.Invoke(this, EventArgs.Empty);
+            }
         }
 
-        private void UpdateAnimation(bool resume = true)
+        /// <returns>True if the Animation is now playing</returns>
+        private bool UpdateAnimation(bool resume = true)
         {
             if (_marqueeStoryboad != null)
             {
@@ -83,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_canvas == null)
             {
-                return;
+                return false;
             }
 
             if (!_isActive)
@@ -95,11 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 VisualStateManager.GoToState(this, MarqueeStoppedState, false);
 
-                return;
-            }
-            else
-            {
-                VisualStateManager.GoToState(this, MarqueeActiveState, true);
+                return false;
             }
 
             double start = IsWrapping ? 0 : _canvas.ActualWidth;
@@ -108,14 +117,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (distance == 0)
             {
-                return;
+                return false;
             }
 
             if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
             {
-                StopAnimation();
+                StopAnimation(resume);
                 _segment2.Visibility = Visibility.Collapsed;
-                return;
+                return false;
             }
 
             _segment2.Visibility = IsWrapping ? Visibility.Visible : Visibility.Collapsed;
@@ -152,6 +161,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Storyboard.SetTarget(animation, _marqueeTranform);
             Storyboard.SetTargetProperty(animation, "(TranslateTransform.X)");
 
+            _activeState.Storyboard = _marqueeStoryboad;
+            VisualStateManager.GoToState(this, MarqueeActiveState, true);
             _marqueeStoryboad.Begin();
 
             if (resume)
@@ -160,17 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _marqueeStoryboad.Seek(duration * progress);
             }
 
-            _activeState.Storyboard = _marqueeStoryboad;
-        }
-
-        private void StoryBoard_Completed(object sender, object e)
-        {
-            StopAnimation();
-        }
-
-        private void MarqueeText_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            StartAnimation();
+            return true;
         }
     }
 }

@@ -67,9 +67,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            // Can't resume if Wrapping changed
-            bool resume = e.Property != IsWrappingProperty;
-            control.UpdateAnimation(resume);
+            // Can't resume through IsWrapping change
+            if (e.Property == IsWrappingProperty)
+            {
+                control.StopAnimation();
+                control.StartAnimation();
+            } else
+            {
+                control.UpdateAnimation(true);
+            }
         }
     }
 }
