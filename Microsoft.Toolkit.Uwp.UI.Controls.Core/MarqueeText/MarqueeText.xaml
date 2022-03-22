@@ -8,14 +8,23 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MarqueeText">
-                    <TextBlock Name="Textblock1"
+                    <Canvas x:Name="Canvas"
+                            Background="{TemplateBinding Background}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
+                        <TextBlock Name="TextBlock1"
                                Foreground="{TemplateBinding Foreground}"
                                Text="{TemplateBinding Text}"
                                FontFamily="{TemplateBinding FontFamily}"
                                FontSize="{TemplateBinding FontSize}"
                                FontStretch="{TemplateBinding FontStretch}"
                                FontStyle="{TemplateBinding FontStyle}"
-                               FontWeight="{TemplateBinding FontWeight}"/>
+                               FontWeight="{TemplateBinding FontWeight}">
+                            <TextBlock.RenderTransform>
+                                    <TranslateTransform x:Name="textBlockTransform"/>
+                                </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
