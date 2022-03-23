@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A Control that displays Text in a Marquee style.
     /// </summary>
-    [TemplatePart(Name = CanvasPartName, Type = typeof(Panel))]
+    [TemplatePart(Name = MarqueeContainerPartName, Type = typeof(Panel))]
     [TemplatePart(Name = Segment1PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [ContentProperty(Name = nameof(Text))]
     public partial class MarqueeText : Control
     {
-        private const string CanvasPartName = "Canvas";
+        private const string MarqueeContainerPartName = "MarqueeContainer";
         private const string Segment1PartName = "Segment1";
         private const string Segment2PartName = "Segment2";
         private const string MarqueeTransformPartName = "MarqueeTransform";
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string MarqueeActiveState = "MarqueeActive";
         private const string MarqueeStoppedState = "MarqueeStopped";
 
-        private Panel _canvas;
+        private Panel _marqueeContainer;
         private FrameworkElement _segment1;
         private FrameworkElement _segment2;
         private TranslateTransform _marqueeTranform;
@@ -51,12 +51,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            _canvas = (Panel)GetTemplateChild(CanvasPartName);
+            _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
             _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
-            _canvas.SizeChanged += Canvas_SizeChanged;
+            _marqueeContainer.SizeChanged += Canvas_SizeChanged;
             Unloaded += MarqueeText_Unloaded;
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>True if the Animation is now playing</returns>
         private bool UpdateAnimation(bool resume = true)
         {
-            if (_canvas == null)
+            if (_marqueeContainer == null)
             {
                 return false;
             }
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            double start = IsWrapping ? 0 : _canvas.ActualWidth;
+            double start = IsLooping ? 0 : _marqueeContainer.ActualWidth;
             double end = -_segment1.ActualWidth;
             double distance = start - end;
 
@@ -120,17 +120,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
+            if (IsLooping && _segment1.ActualWidth < _marqueeContainer.ActualWidth)
             {
                 StopMarque(resume);
                 _segment2.Visibility = Visibility.Collapsed;
                 return false;
             }
 
-            _segment2.Visibility = IsWrapping ? Visibility.Visible : Visibility.Collapsed;
+            _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
 
             TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
-            RepeatBehavior repeatBehavior = IsRepeating ? RepeatBehavior.Forever : new RepeatBehavior(1);
 
             if (_marqueeStoryboad != null)
             {
@@ -140,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _marqueeStoryboad = new Storyboard()
             {
                 Duration = duration,
-                RepeatBehavior = repeatBehavior,
+                RepeatBehavior = RepeatBehavior,
             };
 
             _marqueeStoryboad.Completed += StoryBoard_Completed;
@@ -148,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new DoubleAnimationUsingKeyFrames
             {
                 Duration = duration,
-                RepeatBehavior = repeatBehavior,
+                RepeatBehavior = RepeatBehavior,
             };
             var frame1 = new DiscreteDoubleKeyFrame
             {

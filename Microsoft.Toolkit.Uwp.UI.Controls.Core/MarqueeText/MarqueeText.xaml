@@ -27,7 +27,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid x:Name="Canvas">
+                        <Grid x:Name="MarqueeContainer">
                             <StackPanel x:Name="MarqueePanel" Orientation="Horizontal">
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="MarqueeTransform"/>

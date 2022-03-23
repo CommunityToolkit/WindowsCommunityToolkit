@@ -4,6 +4,7 @@
 
 using Windows.UI.Text;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -18,11 +19,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty SpeedProperty =
             DependencyProperty.Register(nameof(Speed), typeof(double), typeof(MarqueeText), new PropertyMetadata(32d, PropertyChanged));
 
-        private static readonly DependencyProperty IsRepeatingProperty =
-            DependencyProperty.Register(nameof(IsRepeating), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
+        private static readonly DependencyProperty RepeatBehaviorProperty =
+            DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
-        private static readonly DependencyProperty IsWrappingProperty =
-            DependencyProperty.Register(nameof(IsWrapping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
+        private static readonly DependencyProperty IsLoopingProperty =
+            DependencyProperty.Register(nameof(IsLooping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
 
         private static readonly DependencyProperty TextDecorationsProperty =
             DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
@@ -48,10 +49,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether or not the marquee scroll repeats.
         /// </summary>
-        public bool IsRepeating
+        public RepeatBehavior RepeatBehavior
         {
-            get { return (bool)GetValue(IsRepeatingProperty); }
-            set { SetValue(IsRepeatingProperty, value); }
+            get { return (RepeatBehavior)GetValue(RepeatBehaviorProperty); }
+            set { SetValue(RepeatBehaviorProperty, value); }
         }
 
         /// <summary>
@@ -60,10 +61,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <remarks>
         /// Wrappping text won't scroll if the text can already fit in the screen.
         /// </remarks>
-        public bool IsWrapping
+        public bool IsLooping
         {
-            get { return (bool)GetValue(IsWrappingProperty); }
-            set { SetValue(IsWrappingProperty, value); }
+            get { return (bool)GetValue(IsLoopingProperty); }
+            set { SetValue(IsLoopingProperty, value); }
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Can't resume through IsWrapping change
-            if (e.Property == IsWrappingProperty)
+            if (e.Property == IsLoopingProperty)
             {
                 bool active = control._isActive;
                 control.StopMarque(false);
