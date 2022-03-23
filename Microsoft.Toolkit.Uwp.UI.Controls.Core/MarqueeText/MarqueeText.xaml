@@ -5,14 +5,18 @@
 
     <Style TargetType="controls:MarqueeText">
         <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MarqueeText">
-                    <Canvas x:Name="Canvas"
-                            Background="{TemplateBinding Background}"
-                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
-
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}"
+                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          Padding="{TemplateBinding Padding}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="MarqueeStateGroup">
                                 <VisualState x:Name="MarqueeActive"/>
@@ -24,29 +28,31 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <StackPanel x:Name="MarqueeStack" Orientation="Horizontal">
+                        <StackPanel x:Name="MarqueePanel" Orientation="Horizontal">
                             <StackPanel.RenderTransform>
                                 <TranslateTransform x:Name="MarqueeTransform"/>
                             </StackPanel.RenderTransform>
                             <TextBlock x:Name="Segment1"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       Text="{TemplateBinding Text}"
-                                       FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       FontStretch="{TemplateBinding FontStretch}"
-                                       FontStyle="{TemplateBinding FontStyle}"
-                                       FontWeight="{TemplateBinding FontWeight}"
-                                       Padding="0,0,32,0"/>
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="{TemplateBinding Text}"
+                                           FontFamily="{TemplateBinding FontFamily}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontStretch="{TemplateBinding FontStretch}"
+                                           FontStyle="{TemplateBinding FontStyle}"
+                                           FontWeight="{TemplateBinding FontWeight}"
+                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                           Padding="0,0,32,0"/>
                             <TextBlock x:Name="Segment2"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       Text="{TemplateBinding Text}"
-                                       FontFamily="{TemplateBinding FontFamily}"
-                                       FontSize="{TemplateBinding FontSize}"
-                                       FontStretch="{TemplateBinding FontStretch}"
-                                       FontStyle="{TemplateBinding FontStyle}"
-                                       FontWeight="{TemplateBinding FontWeight}"/>
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="{TemplateBinding Text}"
+                                           FontFamily="{TemplateBinding FontFamily}"
+                                           FontSize="{TemplateBinding FontSize}"
+                                           FontStretch="{TemplateBinding FontStretch}"
+                                           FontStyle="{TemplateBinding FontStyle}"
+                                           FontWeight="{TemplateBinding FontWeight}"
+                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"/>
                         </StackPanel>
-                    </Canvas>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
