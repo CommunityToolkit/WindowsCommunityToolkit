@@ -189,12 +189,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             foreach (var animatedElement in animatedElements)
             {
-                var visual = ElementCompositionPreview.GetElementVisual(animatedElement);
-                visual.Opacity = 1;
-                visual.Scale = Vector3.One;
-                var transformMatrix = visual.TransformMatrix;
-                transformMatrix.Translation = Vector3.Zero;
-                visual.TransformMatrix = transformMatrix;
+                AnimationBuilder.Create()
+                    .Translation(to: Vector3.Zero, duration: almostZeroDuration)
+                    .Opacity(to: 1, duration: almostZeroDuration)
+                    .Scale(to: Vector3.One, duration: almostZeroDuration)
+                    .Start(animatedElement);
             }
         }
 
@@ -339,7 +338,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (this._isInterruptedAnimation)
             {
-                _ = sourceBuilder.Translation(to: Vector3.Zero, duration: TimeSpan.FromMilliseconds(1));
+                _ = sourceBuilder.Translation(to: Vector3.Zero, duration: almostZeroDuration);
                 _ = targetBuilder.Translation(to: Vector3.Zero, duration: duration);
                 return;
             }
@@ -347,13 +346,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var diff = target.TransformToVisual(source).TransformPoint(default);
             _ = sourceBuilder.Translation().TimedKeyFrames(
                 build: b => b
-                    .KeyFrame(duration - TimeSpan.FromMilliseconds(1), new Vector3((float)diff.X, (float)diff.Y, 0))
+                    .KeyFrame(duration - almostZeroDuration, new Vector3((float)diff.X, (float)diff.Y, 0))
                     .KeyFrame(duration, Vector3.Zero));
             _ = targetBuilder.Translation().TimedKeyFrames(
                 delayBehavior: AnimationDelayBehavior.SetInitialValueBeforeDelay,
                 build: b => b
                     .KeyFrame(TimeSpan.Zero, new Vector3((float)-diff.X, (float)-diff.Y, 0))
-                    .KeyFrame(duration - TimeSpan.FromMilliseconds(1), Vector3.Zero)
+                    .KeyFrame(duration - almostZeroDuration, Vector3.Zero)
                     .KeyFrame(duration, Vector3.Zero));
         }
 
@@ -383,20 +382,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (this._isInterruptedAnimation)
             {
-                _ = sourceBuilder.Scale(to: Vector3.One, duration: TimeSpan.FromMilliseconds(1));
+                _ = sourceBuilder.Scale(to: Vector3.One, duration: almostZeroDuration);
                 _ = targetBuilder.Scale(to: Vector3.One, duration: duration);
                 return;
             }
 
             _ = sourceBuilder.Scale().TimedKeyFrames(
                 build: b => b
-                    .KeyFrame(duration - TimeSpan.FromMilliseconds(1), targetScale)
+                    .KeyFrame(duration - almostZeroDuration, targetScale)
                     .KeyFrame(duration, Vector3.One));
             _ = targetBuilder.Scale().TimedKeyFrames(
                 delayBehavior: AnimationDelayBehavior.SetInitialValueBeforeDelay,
                 build: b => b
                     .KeyFrame(TimeSpan.Zero, new Vector3(1 / targetScale.X, 1 / targetScale.Y, 1))
-                    .KeyFrame(duration - TimeSpan.FromMilliseconds(1), Vector3.One)
+                    .KeyFrame(duration - almostZeroDuration, Vector3.One)
                     .KeyFrame(duration, Vector3.One));
         }
 
@@ -404,8 +403,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (this._isInterruptedAnimation)
             {
-                _ = sourceBuilder.Opacity(to: 0, duration: TimeSpan.FromMilliseconds(1));
-                _ = targetBuilder.Opacity(to: 1, duration: TimeSpan.FromMilliseconds(1));
+                _ = sourceBuilder.Opacity(to: 0, duration: almostZeroDuration);
+                _ = targetBuilder.Opacity(to: 1, duration: almostZeroDuration);
                 return;
             }
 

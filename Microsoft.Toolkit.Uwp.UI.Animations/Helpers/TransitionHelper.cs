@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -20,6 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private readonly Dictionary<string, UIElement> sourceAnimatedElements = new();
         private readonly Dictionary<string, UIElement> targetAnimatedElements = new();
         private readonly double interruptedAnimationReverseDurationRatio = 0.7;
+        private readonly TimeSpan almostZeroDuration = TimeSpan.FromMilliseconds(1);
 
         private CancellationTokenSource _animateCancellationTokenSource;
         private CancellationTokenSource _reverseCancellationTokenSource;
