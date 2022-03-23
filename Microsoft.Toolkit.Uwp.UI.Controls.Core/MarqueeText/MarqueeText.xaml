@@ -33,24 +33,26 @@
                                 <TranslateTransform x:Name="MarqueeTransform"/>
                             </StackPanel.RenderTransform>
                             <TextBlock x:Name="Segment1"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           FontStretch="{TemplateBinding FontStretch}"
-                                           FontStyle="{TemplateBinding FontStyle}"
-                                           FontWeight="{TemplateBinding FontWeight}"
-                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"
-                                           Padding="0,0,32,0"/>
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Text}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontStretch="{TemplateBinding FontStretch}"
+                                       FontStyle="{TemplateBinding FontStyle}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                       TextDecorations="{TemplateBinding TextDecorations}"
+                                       Padding="0,0,32,0"/>
                             <TextBlock x:Name="Segment2"
-                                           Foreground="{TemplateBinding Foreground}"
-                                           Text="{TemplateBinding Text}"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           FontSize="{TemplateBinding FontSize}"
-                                           FontStretch="{TemplateBinding FontStretch}"
-                                           FontStyle="{TemplateBinding FontStyle}"
-                                           FontWeight="{TemplateBinding FontWeight}"
-                                           CharacterSpacing="{TemplateBinding CharacterSpacing}"/>
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Text}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       FontStretch="{TemplateBinding FontStretch}"
+                                       FontStyle="{TemplateBinding FontStyle}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       CharacterSpacing="{TemplateBinding CharacterSpacing}"
+                                       TextDecorations="{TemplateBinding TextDecorations}"/>
                         </StackPanel>
                     </Grid>
                 </ControlTemplate>

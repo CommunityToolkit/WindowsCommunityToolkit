@@ -1,3 +1,4 @@
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -18,6 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static readonly DependencyProperty IsWrappingProperty =
             DependencyProperty.Register(nameof(IsWrapping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
+
+        private static readonly DependencyProperty TextDecorationsProperty =
+            DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
 
         /// <summary>
         /// Gets or sets the text being displayed in Marquee.
@@ -56,6 +60,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsWrappingProperty); }
             set { SetValue(IsWrappingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates what decorations are applied to the text.
+        /// </summary>
+        public TextDecorations TextDecorations
+        {
+            get { return (TextDecorations)GetValue(TextDecorationsProperty); }
+            set { SetValue(TextDecorationsProperty, value); }
         }
 
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
