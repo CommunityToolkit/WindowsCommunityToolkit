@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
-            _marqueeContainer.SizeChanged += Canvas_SizeChanged;
+            _marqueeContainer.SizeChanged += Container_SizeChanged;
             Unloaded += MarqueeText_Unloaded;
         }
 
@@ -111,16 +111,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            double start = IsLooping ? 0 : _marqueeContainer.ActualWidth;
-            double end = -_segment1.ActualWidth;
-            double distance = start - end;
+            double start;
+            double end;
+            double value;
+            string property;
+            switch (Direction)
+            {
+                default:
+                case MarqueeDirection.Left:
+                    start = _marqueeContainer.ActualWidth;
+                    end = -_segment1.ActualWidth;
+                    value = _marqueeTranform.X;
+                    property = "(TranslateTransform.X)";
+                    break;
+                case MarqueeDirection.Right:
+                    start = -_segment1.ActualWidth;
+                    end = _marqueeContainer.ActualWidth;
+                    value = _marqueeTranform.X;
+                    property = "(TranslateTransform.X)";
+                    break;
+                case MarqueeDirection.Up:
+                    start = _marqueeContainer.ActualHeight;
+                    end = -_segment1.ActualHeight;
+                    value = _marqueeTranform.Y;
+                    property = "(TranslateTransform.Y)";
+                    break;
+                case MarqueeDirection.Down:
+                    start = -_segment1.ActualHeight;
+                    end = _marqueeContainer.ActualHeight;
+                    value = _marqueeTranform.Y;
+                    property = "(TranslateTransform.Y)";
+                    break;
+            }
+
+            if (IsLooping)
+            {
+                start = 0;
+            }
+
+            double distance = Math.Abs(start - end);
 
             if (distance == 0)
             {
                 return false;
             }
 
-            if (IsLooping && _segment1.ActualWidth < _marqueeContainer.ActualWidth)
+            if (IsLooping && Math.Abs(end) < Math.Abs(start))
             {
                 StopMarque(resume);
                 _segment2.Visibility = Visibility.Collapsed;
@@ -164,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             animation.KeyFrames.Add(frame2);
             _marqueeStoryboad.Children.Add(animation);
             Storyboard.SetTarget(animation, _marqueeTranform);
-            Storyboard.SetTargetProperty(animation, "(TranslateTransform.X)");
+            Storyboard.SetTargetProperty(animation, property);
 
             VisualStateManager.GoToState(this, MarqueeActiveState, true);
             _marqueeStoryboad.Begin();

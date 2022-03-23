@@ -25,6 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty IsLoopingProperty =
             DependencyProperty.Register(nameof(IsLooping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
 
+        private static readonly DependencyProperty DirectionProperty =
+            DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, PropertyChanged));
+
         private static readonly DependencyProperty TextDecorationsProperty =
             DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
 
@@ -65,6 +68,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsLoopingProperty); }
             set { SetValue(IsLoopingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the marquee text wraps.
+        /// </summary>
+        /// <remarks>
+        /// Wrappping text won't scroll if the text can already fit in the screen.
+        /// </remarks>
+        public MarqueeDirection Direction
+        {
+            get { return (MarqueeDirection)GetValue(DirectionProperty); }
+            set { SetValue(DirectionProperty, value); }
         }
 
         /// <summary>

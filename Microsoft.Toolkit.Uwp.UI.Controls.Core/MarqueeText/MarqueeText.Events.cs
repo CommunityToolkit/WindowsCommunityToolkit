@@ -32,10 +32,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MarqueeText_Unloaded(object sender, RoutedEventArgs e)
         {
             this.Unloaded -= MarqueeText_Unloaded;
-            _marqueeContainer.SizeChanged -= Canvas_SizeChanged;
+            _marqueeContainer.SizeChanged -= Container_SizeChanged;
         }
 
-        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Container_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (_marqueeContainer != null)
             {
