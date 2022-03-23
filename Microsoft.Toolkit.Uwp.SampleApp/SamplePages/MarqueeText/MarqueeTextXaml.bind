@@ -10,6 +10,7 @@
     <controls:MarqueeText Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                           Speed="@[Speed:Slider:96:32-256]"
                           IsLooping="@[IsLooping:Bool:False]"
+                          Direction="@[Direction:Enum:MarqueeDirection.Left]"
                           RepeatBehavior="2x"
                           FontSize="18"/>
   </Grid>
