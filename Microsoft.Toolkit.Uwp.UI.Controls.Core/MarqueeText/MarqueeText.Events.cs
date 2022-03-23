@@ -1,5 +1,7 @@
 using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -25,6 +27,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void MarqueeText_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (_canvas != null)
+            {
+                RectangleGeometry clip = new RectangleGeometry();
+                clip.Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height);
+                _canvas.Clip = clip;
+            }
+
             StartMarquee();
         }
 
