@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A Control that displays Text in a Marquee style.
     /// </summary>
-    [TemplatePart(Name = RootGridPartName, Type = typeof(Grid))]
+    [TemplatePart(Name = CanvasPartName, Type = typeof(Panel))]
     [TemplatePart(Name = Segment1PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [ContentProperty(Name = nameof(Text))]
     public partial class MarqueeText : Control
     {
-        private const string RootGridPartName = "RootGrid";
+        private const string CanvasPartName = "Canvas";
         private const string Segment1PartName = "Segment1";
         private const string Segment2PartName = "Segment2";
         private const string MarqueeTransformPartName = "MarqueeTransform";
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string MarqueeActiveState = "MarqueeActive";
         private const string MarqueeStoppedState = "MarqueeStopped";
 
-        private Grid _rootGrid;
+        private Panel _canvas;
         private FrameworkElement _segment1;
         private FrameworkElement _segment2;
         private TranslateTransform _marqueeTranform;
@@ -51,12 +51,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            _rootGrid = (Grid)GetTemplateChild(RootGridPartName);
+            _canvas = (Panel)GetTemplateChild(CanvasPartName);
             _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
             _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
-            _rootGrid.SizeChanged += RootGrid_SizeChanged;
+            _canvas.SizeChanged += Canvas_SizeChanged;
             Unloaded += MarqueeText_Unloaded;
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>True if the Animation is now playing</returns>
         private bool UpdateAnimation(bool resume = true)
         {
-            if (_rootGrid == null)
+            if (_canvas == null)
             {
                 return false;
             }
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            double start = IsWrapping ? 0 : _rootGrid.ActualWidth;
+            double start = IsWrapping ? 0 : _canvas.ActualWidth;
             double end = -_segment1.ActualWidth;
             double distance = start - end;
 
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            if (IsWrapping && _segment1.ActualWidth < _rootGrid.ActualWidth)
+            if (IsWrapping && _segment1.ActualWidth < _canvas.ActualWidth)
             {
                 StopMarque(resume);
                 _segment2.Visibility = Visibility.Collapsed;

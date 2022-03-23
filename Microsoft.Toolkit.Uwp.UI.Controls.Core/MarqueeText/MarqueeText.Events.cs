@@ -32,16 +32,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void MarqueeText_Unloaded(object sender, RoutedEventArgs e)
         {
             this.Unloaded -= MarqueeText_Unloaded;
-            _rootGrid.SizeChanged -= RootGrid_SizeChanged;
+            _canvas.SizeChanged -= Canvas_SizeChanged;
         }
 
-        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (_rootGrid != null)
+            if (_canvas != null)
             {
                 RectangleGeometry clip = new RectangleGeometry();
                 clip.Rect = new Rect(0, 0, e.NewSize.Width, e.NewSize.Height);
-                _rootGrid.Clip = clip;
+                _canvas.Clip = clip;
             }
 
             StartMarquee();

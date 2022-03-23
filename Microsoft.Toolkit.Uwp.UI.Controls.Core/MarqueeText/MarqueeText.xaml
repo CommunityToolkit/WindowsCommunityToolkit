@@ -9,8 +9,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MarqueeText">
-                    <Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}"
+                    <Grid Background="{TemplateBinding Background}"
                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                           BorderBrush="{TemplateBinding BorderBrush}"
@@ -28,11 +27,12 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <StackPanel x:Name="MarqueePanel" Orientation="Horizontal">
-                            <StackPanel.RenderTransform>
-                                <TranslateTransform x:Name="MarqueeTransform"/>
-                            </StackPanel.RenderTransform>
-                            <TextBlock x:Name="Segment1"
+                        <Grid x:Name="Canvas">
+                            <StackPanel x:Name="MarqueePanel" Orientation="Horizontal">
+                                <StackPanel.RenderTransform>
+                                    <TranslateTransform x:Name="MarqueeTransform"/>
+                                </StackPanel.RenderTransform>
+                                <TextBlock x:Name="Segment1"
                                        Foreground="{TemplateBinding Foreground}"
                                        Text="{TemplateBinding Text}"
                                        FontFamily="{TemplateBinding FontFamily}"
@@ -43,7 +43,7 @@
                                        CharacterSpacing="{TemplateBinding CharacterSpacing}"
                                        TextDecorations="{TemplateBinding TextDecorations}"
                                        Padding="0,0,32,0"/>
-                            <TextBlock x:Name="Segment2"
+                                <TextBlock x:Name="Segment2"
                                        Foreground="{TemplateBinding Foreground}"
                                        Text="{TemplateBinding Text}"
                                        FontFamily="{TemplateBinding FontFamily}"
@@ -53,7 +53,8 @@
                                        FontWeight="{TemplateBinding FontWeight}"
                                        CharacterSpacing="{TemplateBinding CharacterSpacing}"
                                        TextDecorations="{TemplateBinding TextDecorations}"/>
-                        </StackPanel>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
