@@ -81,6 +81,7 @@
                 Value="{ThemeResource RadialGaugeForeground}" />
         <Setter Property="UseSystemFocusVisuals"
                 Value="True" />
+        <Setter Property="FlowDirection" Value="LeftToRight"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialGauge">
