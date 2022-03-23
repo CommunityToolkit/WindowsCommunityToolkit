@@ -23,10 +23,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
         private static readonly DependencyProperty IsLoopingProperty =
-            DependencyProperty.Register(nameof(IsLooping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, PropertyChanged));
+            DependencyProperty.Register(nameof(IsLooping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, IsLoopingPropertyChanged));
 
         private static readonly DependencyProperty DirectionProperty =
-            DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, PropertyChanged));
+            DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
 
         private static readonly DependencyProperty TextDecorationsProperty =
             DependencyProperty.Register(nameof(TextDecorations), typeof(TextDecorations), typeof(MarqueeText), new PropertyMetadata(TextDecorations.None));
@@ -91,28 +91,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(TextDecorationsProperty, value); }
         }
 
+        private static void IsLoopingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as MarqueeText;
+            bool active = control._isActive;
+            control.StopMarquee(false);
+            if (active)
+            {
+                control.StartMarquee();
+            }
+        }
+
+        private static void DirectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as MarqueeText;
+            bool active = control._isActive;
+            var oldDirection = (MarqueeDirection)e.OldValue;
+            var newDirection = (MarqueeDirection)e.NewValue;
+            bool oldAxisX = oldDirection == MarqueeDirection.Left || oldDirection == MarqueeDirection.Right;
+            bool newAxisX = newDirection == MarqueeDirection.Left || newDirection == MarqueeDirection.Right;
+
+            VisualStateManager.GoToState(control, GetVisualStateName(newDirection), true);
+
+            if (oldAxisX != newAxisX)
+            {
+                control.StopMarquee(false);
+            }
+
+            if (active)
+            {
+                control.StartMarquee();
+            }
+        }
+
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MarqueeText;
-
-            if (e == null)
-            {
-                return;
-            }
-
-            // Can't resume through IsWrapping change
-            if (e.Property == IsLoopingProperty)
-            {
-                bool active = control._isActive;
-                control.StopMarque(false);
-                if (active)
-                {
-                    control.StartMarquee();
-                }
-            } else
-            {
-                control.UpdateAnimation(true);
-            }
+            control.UpdateAnimation(true);
         }
     }
 }

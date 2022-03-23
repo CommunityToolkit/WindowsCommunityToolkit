@@ -33,6 +33,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.Unloaded -= MarqueeText_Unloaded;
             _marqueeContainer.SizeChanged -= Container_SizeChanged;
+
+            if (_marqueeStoryboad != null)
+            {
+                _marqueeStoryboad.Completed -= StoryBoard_Completed;
+            }
         }
 
         private void Container_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -49,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void StoryBoard_Completed(object sender, object e)
         {
-            StopMarque(true);
+            StopMarquee(true);
             MarqueeCompleted?.Invoke(this, EventArgs.Empty);
         }
     }

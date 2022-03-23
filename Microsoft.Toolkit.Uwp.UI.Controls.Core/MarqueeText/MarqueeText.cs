@@ -19,6 +19,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = Segment2PartName, Type = typeof(FrameworkTemplate))]
     [TemplatePart(Name = MarqueeTransformPartName, Type = typeof(TranslateTransform))]
+    [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = LeftwardsVisualStateName)]
+    [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = RightwardsVisualStateName)]
+    [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = UpwardsVisualStateName)]
+    [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = DownwardsVisualStateName)]
     [ContentProperty(Name = nameof(Text))]
     public partial class MarqueeText : Control
     {
@@ -29,6 +33,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private const string MarqueeActiveState = "MarqueeActive";
         private const string MarqueeStoppedState = "MarqueeStopped";
+
+        private const string DirectionVisualStateGroupName = "DirectionStateGroup";
+        private const string LeftwardsVisualStateName = "Leftwards";
+        private const string RightwardsVisualStateName = "Rightwards";
+        private const string UpwardsVisualStateName = "Upwards";
+        private const string DownwardsVisualStateName = "Downwards";
 
         private Panel _marqueeContainer;
         private FrameworkElement _segment1;
@@ -60,6 +70,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Unloaded += MarqueeText_Unloaded;
         }
 
+        private static string GetVisualStateName(MarqueeDirection direction)
+        {
+            return direction switch
+            {
+                MarqueeDirection.Left => LeftwardsVisualStateName,
+                MarqueeDirection.Right => RightwardsVisualStateName,
+                MarqueeDirection.Up => UpwardsVisualStateName,
+                MarqueeDirection.Down => DownwardsVisualStateName,
+                _ => LeftwardsVisualStateName,
+            };
+        }
+
+        private static bool IsInverseDirection(MarqueeDirection direction)
+        {
+            return direction == MarqueeDirection.Right || direction == MarqueeDirection.Up;
+        }
+
+        private static bool IsDirectionHorizontal(MarqueeDirection direction)
+        {
+            return direction == MarqueeDirection.Left || direction == MarqueeDirection.Right;
+        }
+
         /// <summary>
         /// Begins the Marquee animation if not running.
         /// </summary>
@@ -81,10 +113,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void StopMarquee()
         {
-            StopMarque(_isActive);
+            StopMarquee(_isActive);
         }
 
-        private void StopMarque(bool stopping)
+        private void StopMarquee(bool stopping)
         {
             _isActive = false;
             bool playing = UpdateAnimation(false);
@@ -111,56 +143,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            double start;
-            double end;
+            // Get the size (width horizontal, height if vertical) of the
+            // contain and segment.
+            // Also track the property to adjust based on the orientation.
+            double containerSize;
+            double segmentSize;
             double value;
             string property;
-            switch (Direction)
+
+            if (IsDirectionHorizontal(Direction))
             {
-                default:
-                case MarqueeDirection.Left:
-                    start = _marqueeContainer.ActualWidth;
-                    end = -_segment1.ActualWidth;
-                    value = _marqueeTranform.X;
-                    property = "(TranslateTransform.X)";
-                    break;
-                case MarqueeDirection.Right:
-                    start = -_segment1.ActualWidth;
-                    end = _marqueeContainer.ActualWidth;
-                    value = _marqueeTranform.X;
-                    property = "(TranslateTransform.X)";
-                    break;
-                case MarqueeDirection.Up:
-                    start = _marqueeContainer.ActualHeight;
-                    end = -_segment1.ActualHeight;
-                    value = _marqueeTranform.Y;
-                    property = "(TranslateTransform.Y)";
-                    break;
-                case MarqueeDirection.Down:
-                    start = -_segment1.ActualHeight;
-                    end = _marqueeContainer.ActualHeight;
-                    value = _marqueeTranform.Y;
-                    property = "(TranslateTransform.Y)";
-                    break;
+                containerSize = _marqueeContainer.ActualWidth;
+                segmentSize = _segment1.ActualWidth;
+                value = _marqueeTranform.X;
+                property = "(TranslateTransform.X)";
+            }
+            else
+            {
+                containerSize = _marqueeContainer.ActualHeight;
+                segmentSize = _segment1.ActualHeight;
+                value = _marqueeTranform.Y;
+                property = "(TranslateTransform.Y)";
             }
 
-            if (IsLooping)
+            if (IsLooping && segmentSize < containerSize)
             {
-                start = 0;
+                StopMarquee(resume);
+                _segment2.Visibility = Visibility.Collapsed;
+                return false;
             }
 
-            double distance = Math.Abs(start - end);
+            double start = IsLooping ? 0 : containerSize;
+            double end = -segmentSize;
+            double distance = start - end;
 
             if (distance == 0)
             {
                 return false;
             }
 
-            if (IsLooping && Math.Abs(end) < Math.Abs(start))
+            // Swap the start and end to inverse direction for right or upwards
+            if (IsInverseDirection(Direction))
             {
-                StopMarque(resume);
-                _segment2.Visibility = Visibility.Collapsed;
-                return false;
+                double swap = start;
+                start = end;
+                end = swap;
             }
 
             _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
@@ -207,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (resume)
             {
-                double progress = (start - _marqueeTranform.X) / distance;
+                double progress = Math.Abs(start - value) / distance;
                 _marqueeStoryboad.Seek(duration * progress);
             }
 

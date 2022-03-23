@@ -22,6 +22,29 @@
                                 <VisualState x:Name="MarqueeStopped">
                                     <VisualState.Setters>
                                         <Setter Target="MarqueeTransform.X" Value="0.0"/>
+                                        <Setter Target="MarqueeTransform.Y" Value="0.0"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DirectionStateGroup">
+                                <VisualState x:Name="Leftwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Horizontal"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Rightwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Horizontal"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Upwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Vertical"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Downwards">
+                                    <VisualState.Setters>
+                                        <Setter Target="MarqueePanel.Orientation" Value="Vertical"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
