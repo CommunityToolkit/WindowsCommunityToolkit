@@ -22,8 +22,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty RepeatBehaviorProperty =
             DependencyProperty.Register(nameof(RepeatBehavior), typeof(RepeatBehavior), typeof(MarqueeText), new PropertyMetadata(new RepeatBehavior(1), PropertyChanged));
 
-        private static readonly DependencyProperty IsLoopingProperty =
-            DependencyProperty.Register(nameof(IsLooping), typeof(bool), typeof(MarqueeText), new PropertyMetadata(false, IsLoopingPropertyChanged));
+        private static readonly DependencyProperty BehaviorProperty =
+            DependencyProperty.Register(nameof(Behavior), typeof(MarqueeBehavior), typeof(MarqueeText), new PropertyMetadata(false, BehaviorPropertyChanged));
 
         private static readonly DependencyProperty DirectionProperty =
             DependencyProperty.Register(nameof(Direction), typeof(MarqueeDirection), typeof(MarqueeText), new PropertyMetadata(MarqueeDirection.Left, DirectionPropertyChanged));
@@ -59,16 +59,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the marquee text wraps.
+        /// Gets or sets the marquee behavior.
         /// </summary>
-        /// <remarks>
-        /// Wrappping text won't scroll if the text can already fit in the screen.
-        /// </remarks>
-        public bool IsLooping
+        public MarqueeBehavior Behavior
         {
-            get { return (bool)GetValue(IsLoopingProperty); }
-            set { SetValue(IsLoopingProperty, value); }
+            get { return (MarqueeBehavior)GetValue(BehaviorProperty); }
+            set { SetValue(BehaviorProperty, value); }
         }
+
+        private bool IsTicker => Behavior == MarqueeBehavior.Ticker;
+
+        private bool IsLooping => Behavior == MarqueeBehavior.Looping;
+
+        private bool IsBouncing => Behavior == MarqueeBehavior.Bouncing;
 
         /// <summary>
         /// Gets or sets a value indicating whether or not the marquee text wraps.
@@ -82,6 +85,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(DirectionProperty, value); }
         }
 
+        private bool IsDirectionHorizontal => Direction == MarqueeDirection.Left || Direction == MarqueeDirection.Right;
+
+        private bool IsDirectionInverse => Direction == MarqueeDirection.Up || Direction == MarqueeDirection.Right;
+
         /// <summary>
         /// Gets or sets a value that indicates what decorations are applied to the text.
         /// </summary>
@@ -91,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(TextDecorationsProperty, value); }
         }
 
-        private static void IsLoopingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void BehaviorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as MarqueeText;
             bool active = control._isActive;

@@ -82,16 +82,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
         }
 
-        private static bool IsInverseDirection(MarqueeDirection direction)
-        {
-            return direction == MarqueeDirection.Right || direction == MarqueeDirection.Up;
-        }
-
-        private static bool IsDirectionHorizontal(MarqueeDirection direction)
-        {
-            return direction == MarqueeDirection.Left || direction == MarqueeDirection.Right;
-        }
-
         /// <summary>
         /// Begins the Marquee animation if not running.
         /// </summary>
@@ -151,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double value;
             string property;
 
-            if (IsDirectionHorizontal(Direction))
+            if (IsDirectionHorizontal)
             {
                 containerSize = _marqueeContainer.ActualWidth;
                 segmentSize = _segment1.ActualWidth;
@@ -173,9 +163,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            double start = IsLooping ? 0 : containerSize;
-            double end = -segmentSize;
-            double distance = start - end;
+            double start = IsLooping || IsBouncing ? 0 : containerSize;
+            double end = IsBouncing ? containerSize - segmentSize : -segmentSize;
+            double distance = Math.Abs(start - end);
 
             if (distance == 0)
             {
@@ -183,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Swap the start and end to inverse direction for right or upwards
-            if (IsInverseDirection(Direction))
+            if (IsDirectionInverse)
             {
                 double swap = start;
                 start = end;
@@ -203,6 +193,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Duration = duration,
                 RepeatBehavior = RepeatBehavior,
+                AutoReverse = IsBouncing,
             };
 
             _marqueeStoryboad.Completed += StoryBoard_Completed;
@@ -211,6 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Duration = duration,
                 RepeatBehavior = RepeatBehavior,
+                AutoReverse = IsBouncing,
             };
             var frame1 = new DiscreteDoubleKeyFrame
             {
