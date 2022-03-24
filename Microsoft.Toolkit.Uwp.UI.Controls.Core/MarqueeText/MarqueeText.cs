@@ -76,6 +76,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _marqueeContainer.SizeChanged += Container_SizeChanged;
             Unloaded += MarqueeText_Unloaded;
+
+            VisualStateManager.GoToState(this, GetVisualStateName(Direction), false);
+            VisualStateManager.GoToState(this, GetVisualStateName(Behavior), false);
         }
 
         private static string GetVisualStateName(MarqueeDirection direction)
