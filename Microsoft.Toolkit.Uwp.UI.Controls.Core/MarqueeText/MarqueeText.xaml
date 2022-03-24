@@ -48,6 +48,23 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="BehaviorStateGroup">
+                                <VisualState x:Name="Ticker">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Looping">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0,0,32,0"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Bouncing">
+                                    <VisualState.Setters>
+                                        <Setter Target="Segment1.Padding" Value="0"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="MarqueeContainer">
@@ -64,8 +81,7 @@
                                        FontStyle="{TemplateBinding FontStyle}"
                                        FontWeight="{TemplateBinding FontWeight}"
                                        CharacterSpacing="{TemplateBinding CharacterSpacing}"
-                                       TextDecorations="{TemplateBinding TextDecorations}"
-                                       Padding="0,0,32,0"/>
+                                       TextDecorations="{TemplateBinding TextDecorations}"/>
                                 <TextBlock x:Name="Segment2"
                                        Foreground="{TemplateBinding Foreground}"
                                        Text="{TemplateBinding Text}"
@@ -83,5 +99,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
 </ResourceDictionary>

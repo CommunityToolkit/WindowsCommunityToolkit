@@ -102,6 +102,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as MarqueeText;
             bool active = control._isActive;
+            var newBehavior = (MarqueeBehavior)e.NewValue;
+
+            VisualStateManager.GoToState(control, GetVisualStateName(newBehavior), true);
+
             control.StopMarquee(false);
             if (active)
             {

@@ -23,6 +23,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = RightwardsVisualStateName)]
     [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = UpwardsVisualStateName)]
     [TemplateVisualState(GroupName = DirectionVisualStateGroupName, Name = DownwardsVisualStateName)]
+    [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = TickerVisualStateName)]
+    [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = LoopingVisualStateName)]
+    [TemplateVisualState(GroupName = BehaviorVisualStateGroupName, Name = BouncingVisualStateName)]
     [ContentProperty(Name = nameof(Text))]
     public partial class MarqueeText : Control
     {
@@ -39,6 +42,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string RightwardsVisualStateName = "Rightwards";
         private const string UpwardsVisualStateName = "Upwards";
         private const string DownwardsVisualStateName = "Downwards";
+
+        private const string BehaviorVisualStateGroupName = "BehaviorStateGroup";
+        private const string TickerVisualStateName = "Ticker";
+        private const string LoopingVisualStateName = "Looping";
+        private const string BouncingVisualStateName = "Bouncing";
 
         private Panel _marqueeContainer;
         private FrameworkElement _segment1;
@@ -79,6 +87,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 MarqueeDirection.Up => UpwardsVisualStateName,
                 MarqueeDirection.Down => DownwardsVisualStateName,
                 _ => LeftwardsVisualStateName,
+            };
+        }
+
+        private static string GetVisualStateName(MarqueeBehavior behavior)
+        {
+            return behavior switch
+            {
+                MarqueeBehavior.Ticker => TickerVisualStateName,
+                MarqueeBehavior.Looping => LoopingVisualStateName,
+                MarqueeBehavior.Bouncing => BouncingVisualStateName,
+                _ => TickerVisualStateName,
             };
         }
 
