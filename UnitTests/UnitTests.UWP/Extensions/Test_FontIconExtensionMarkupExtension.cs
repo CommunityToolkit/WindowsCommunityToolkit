@@ -17,7 +17,7 @@ namespace UnitTests.Extensions
     {
         [TestCategory("FontIconExtensionMarkupExtension")]
         [UITestMethod]
-        public void Test_FontIconExtension_MarkupExtension_ProvideSegoeMdl2Asset()
+        public void Test_FontIconExtension_MarkupExtension_ProvideSymbolThemeFont()
         {
             var treeroot = XamlReader.Load(@"<Page
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
@@ -35,7 +35,7 @@ namespace UnitTests.Extensions
             Assert.IsNotNull(icon, $"Could not find the {nameof(FontIcon)} element in button.");
 
             Assert.AreEqual(icon.Glyph, "\uE105", "Expected icon glyph to be E105.");
-            Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe MDL2 Assets");
+            Assert.AreEqual(icon.FontFamily.Source, "Segoe Fluent Icons,Segoe MDL2 Assets", "Expected font family to be \"Segoe Fluent Icons,Segoe MDL2 Assets\"");
         }
 
         [TestCategory("FontIconExtensionMarkupExtension")]

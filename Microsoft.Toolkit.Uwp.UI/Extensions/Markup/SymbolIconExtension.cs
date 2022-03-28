@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             var fontIcon = new FontIcon
             {
                 Glyph = unchecked((char)Symbol).ToString(),
-                FontFamily = SegoeMDL2AssetsFontFamily,
+                FontFamily = SymbolThemeFontFamily,
                 FontWeight = FontWeight,
                 FontStyle = FontStyle,
                 IsTextScaleFactorEnabled = IsTextScaleFactorEnabled,
