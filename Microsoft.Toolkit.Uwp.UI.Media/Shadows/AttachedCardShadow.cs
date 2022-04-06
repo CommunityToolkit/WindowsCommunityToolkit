@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             DependencyProperty.Register(
                 nameof(InnerContentClipMode),
                 typeof(InnerContentClipMode),
-                typeof(AttachedCardShadowBase),
+                typeof(AttachedCardShadow),
                 new PropertyMetadata(InnerContentClipMode.CompositionGeometricClip, OnDependencyPropertyChanged));
 
         /// <summary>
