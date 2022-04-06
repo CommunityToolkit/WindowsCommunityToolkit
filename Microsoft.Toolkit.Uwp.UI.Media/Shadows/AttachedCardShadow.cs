@@ -114,8 +114,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             {
                 base.OnPropertyChanged(context, property, oldValue, newValue);
             }
-
-            base.OnPropertyChanged(context, property, oldValue, newValue);
         }
 
         /// <inheritdoc/>
