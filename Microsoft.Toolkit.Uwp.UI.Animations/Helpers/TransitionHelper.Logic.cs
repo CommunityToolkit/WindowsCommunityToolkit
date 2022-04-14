@@ -189,10 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             foreach (var animatedElement in animatedElements)
             {
+                ElementCompositionPreview.SetIsTranslationEnabled(animatedElement, true);
                 var visual = ElementCompositionPreview.GetElementVisual(animatedElement);
                 visual.Opacity = 1;
                 visual.Scale = Vector3.One;
-                ElementCompositionPreview.SetIsTranslationEnabled(animatedElement, true);
                 visual.Properties.InsertVector3("Translation", Vector3.Zero);
             }
         }
@@ -221,7 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return updateLayoutTask;
             }
 
-            target.IsHitTestVisible = false;
+            target.IsHitTestVisible = IsHitTestVisibleWhenAnimating;
 
             if (target.Visibility == Visibility.Collapsed)
             {

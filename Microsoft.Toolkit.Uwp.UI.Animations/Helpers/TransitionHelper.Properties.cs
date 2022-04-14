@@ -100,6 +100,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public bool IsTargetState { get; private set; } = false;
 
         /// <summary>
+        /// Gets or sets a value indicating whether the contained area of the source or target control can return true values for hit testing when animating.
+        /// </summary>
+        public bool IsHitTestVisibleWhenAnimating { get; set; } = false;
+
+        /// <summary>
         /// Gets or sets the method of changing the visibility of the source control.
         /// </summary>
         public VisualStateToggleMethod SourceToggleMethod { get; set; } = VisualStateToggleMethod.ByVisibility;
