@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private FrameworkElement _source;
         private FrameworkElement _target;
-        private List<AnimationConfig> _animationConfigs = new();
 
         /// <summary>
         /// Gets or sets the source control.
@@ -38,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if(this._source is not null)
                 {
-                    this.RestoreUIElements(this.sourceAnimatedElements.Values.Concat(GetIgnoredElements(this._source)));
+                    this.RestoreUIElements(this.SourceAnimatedElements);
                 }
 
                 this._source = value;
@@ -66,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (this._target is not null)
                 {
-                    this.RestoreUIElements(this.targetAnimatedElements.Values.Concat(GetIgnoredElements(this._target)));
+                    this.RestoreUIElements(this.TargetAnimatedElements);
                 }
 
                 this._target = value;
@@ -79,20 +78,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the collection of animation configurations of UI elements that need to be connected by animation.
         /// </summary>
-        public List<AnimationConfig> AnimationConfigs
-        {
-            get
-            {
-                return this._animationConfigs;
-            }
+        public List<AnimationConfig> AnimationConfigs { get; set; } = new();
 
-            set
-            {
-                this._animationConfigs = value;
-                this.UpdateSourceAnimatedElements();
-                this.UpdateTargetAnimatedElements();
-            }
-        }
+        /// <summary>
+        /// Gets or sets the default animation configuration.
+        /// </summary>
+        public AnimationConfig DefaultAnimationConfig { get; set; } = new ();
 
         /// <summary>
         /// Gets a value indicating whether the source control has been morphed to the target control.
@@ -120,28 +111,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(600);
 
         /// <summary>
-        /// Gets or sets the duration of the show animation for ignored or unpaired UI elements.
+        /// Gets or sets the duration of the show animation for independent or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredOrUnpairedElementShowDuration { get; set; } = TimeSpan.FromMilliseconds(200);
+        public TimeSpan IndependentElementShowDuration { get; set; } = TimeSpan.FromMilliseconds(200);
 
         /// <summary>
-        /// Gets or sets the delay of the show animation for ignored or unpaired UI elements.
+        /// Gets or sets the delay of the show animation for independent or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredOrUnpairedElementShowDelayDuration { get; set; } = TimeSpan.FromMilliseconds(300);
+        public TimeSpan IndependentElementShowDelayDuration { get; set; } = TimeSpan.FromMilliseconds(300);
 
         /// <summary>
-        /// Gets or sets the duration of the interval between the show animations for ignored or unpaired UI elements.
+        /// Gets or sets the duration of the interval between the show animations for independent or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredOrUnpairedElementShowStepDuration { get; set; } = TimeSpan.FromMilliseconds(50);
+        public TimeSpan IndependentElementShowStepDuration { get; set; } = TimeSpan.FromMilliseconds(50);
 
         /// <summary>
-        /// Gets or sets the duration of the hide animation for ignored or unpaired UI elements.
+        /// Gets or sets the duration of the hide animation for independent or unpaired UI elements.
         /// </summary>
-        public TimeSpan IgnoredOrUnpairedElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
+        public TimeSpan IndependentElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
 
         /// <summary>
-        /// Gets or sets the translation of the hide animation for ignored or unpaired UI elements.
+        /// Gets or sets the translation of the hide animation for independent or unpaired UI elements.
         /// </summary>
-        public Vector3 IgnoredOrUnpairedElementHideTranslation { get; set; } = new Vector3(0, 20, 0);
+        public Vector3 IndependentElementHideTranslation { get; set; } = new Vector3(0, 20, 0);
     }
 }

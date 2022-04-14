@@ -16,10 +16,8 @@
                                  ScaleMode="Scale" />
             <ani:AnimationConfig Id="image"
                                  ScaleMode="Scale" />
-            <ani:AnimationConfig Id="guide" />
             <ani:AnimationConfig Id="name"
                                  ScaleMode="ScaleY" />
-            <ani:AnimationConfig Id="desc" />
         </ani:TransitionHelper>
     </Page.Resources>
     <Grid>
@@ -178,7 +176,7 @@
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Padding="50,100"
-                            ani:TransitionHelper.IsIgnored="True">
+                            ani:TransitionHelper.IsIndependent="True">
                     <Rectangle Width="200"
                                Height="20"
                                Margin="10"

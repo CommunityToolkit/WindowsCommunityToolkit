@@ -26,13 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            this.sourceAnimatedElements.Clear();
-            var filters = this.AnimationConfigs.Select(config => config.Id);
-
-            foreach (var item in GetAnimatedElements(this.Source, filters))
-            {
-                this.sourceAnimatedElements[GetId(item)] = item;
-            }
+            UpdateAnimatedElements(this.Source, this.sourceConnectedAnimatedElements, this.sourceIndependentAnimatedElements);
         }
 
         private void UpdateTargetAnimatedElements()
@@ -42,12 +36,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            this.targetAnimatedElements.Clear();
-            var filters = this.AnimationConfigs.Select(config => config.Id);
+            UpdateAnimatedElements(this.Target, this.targetConnectedAnimatedElements, this.targetIndependentAnimatedElements);
+        }
 
-            foreach (var item in GetAnimatedElements(this.Target, filters))
+        private void UpdateAnimatedElements(UIElement parent, IDictionary<string, UIElement> connectedAnimatedElements, IList<UIElement> independentAnimatedElements)
+        {
+            if (this.Source is null)
             {
-                this.targetAnimatedElements[GetId(item)] = item;
+                return;
+            }
+
+            connectedAnimatedElements.Clear();
+            independentAnimatedElements.Clear();
+
+            foreach (var item in GetAnimatedElements(parent))
+            {
+                if (GetId(item) is string id)
+                {
+                    connectedAnimatedElements[id] = item;
+                }
+                else
+                {
+                    independentAnimatedElements.Add(item);
+                }
             }
         }
 
@@ -74,12 +85,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             target.IsHitTestVisible = isVisible;
         }
 
-        private (UIElement, UIElement) GetPairElements(AnimationConfig config)
-        {
-            return (this.sourceAnimatedElements.ContainsKey(config.Id) ? this.sourceAnimatedElements[config.Id] : null,
-                this.targetAnimatedElements.ContainsKey(config.Id) ? this.targetAnimatedElements[config.Id] : null);
-        }
-
         private Task AnimateControlsAsync(bool reversed, CancellationToken token)
         {
             var duration = this.AnimationDuration;
@@ -89,37 +94,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationTasks = new List<Task>();
-            var sourceUnpairedElements = new List<UIElement>();
-            var targetUnpairedElements = new List<UIElement>();
-            foreach (var item in this.AnimationConfigs)
+            var sourceUnpairedElements = this.sourceConnectedAnimatedElements
+                .Where(item => !this.targetConnectedAnimatedElements.ContainsKey(item.Key))
+                .Select(item => item.Value);
+            var targetUnpairedElements = this.targetConnectedAnimatedElements
+                .Where(item => !this.sourceConnectedAnimatedElements.ContainsKey(item.Key))
+                .Select(item => item.Value);
+
+            var pairedElementKeys = this.sourceConnectedAnimatedElements
+                .Where(item => this.targetConnectedAnimatedElements.ContainsKey(item.Key))
+                .Select(item => item.Key);
+            foreach (var key in pairedElementKeys)
             {
-                var (source, target) = this.GetPairElements(item);
-                if (source is null || target is null)
-                {
-                    if (source is not null)
-                    {
-                        sourceUnpairedElements.Add(source);
-                    }
-
-                    if (target is not null)
-                    {
-                        targetUnpairedElements.Add(target);
-                    }
-
-                    continue;
-                }
+                var source = this.sourceConnectedAnimatedElements[key];
+                var target = this.targetConnectedAnimatedElements[key];
+                var animationConfig = this.AnimationConfigs.FirstOrDefault(config => config.Id == key) ?? this.DefaultAnimationConfig;
 
                 animationTasks.Add(
                     this.AnimateElementsAsync(
                         reversed ? target : source,
                         reversed ? source : target,
                         duration,
-                        item,
+                        animationConfig,
                         token));
             }
 
-            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Source, sourceUnpairedElements, reversed, token));
-            animationTasks.Add(this.AnimateIgnoredOrUnpairedElementsAsync(this.Target, targetUnpairedElements, !reversed, token));
+            animationTasks.Add(this.AnimateIndependentElementsAsync(this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements), reversed, token));
+            animationTasks.Add(this.AnimateIndependentElementsAsync(this.targetIndependentAnimatedElements.Concat(targetUnpairedElements), !reversed, token));
 
             return Task.WhenAll(animationTasks);
         }
@@ -291,30 +292,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
 
-        private Task AnimateIgnoredOrUnpairedElementsAsync(UIElement parent, IEnumerable<UIElement> unpairedElements, bool isShow, CancellationToken token)
+        private Task AnimateIndependentElementsAsync(IEnumerable<UIElement> independentElements, bool isShow, CancellationToken token)
         {
-            if (parent is null)
+            if (!independentElements.Any())
             {
                 return Task.CompletedTask;
             }
 
             var animationTasks = new List<Task>();
-            var ignoredElements = GetIgnoredElements(parent);
-            var duration = isShow ? this.IgnoredOrUnpairedElementShowDuration : this.IgnoredOrUnpairedElementHideDuration;
-            var delay = isShow ? this.IgnoredOrUnpairedElementShowDelayDuration : TimeSpan.Zero;
+            var duration = isShow ? this.IndependentElementShowDuration : this.IndependentElementHideDuration;
+            var delay = isShow ? this.IndependentElementShowDelayDuration : TimeSpan.Zero;
             if (this._isInterruptedAnimation)
             {
                 duration *= this.interruptedAnimationReverseDurationRatio;
                 delay *= this.interruptedAnimationReverseDurationRatio;
             }
 
-            foreach (var item in ignoredElements.Concat(unpairedElements))
+            foreach (var item in independentElements)
             {
-                if (this.IgnoredOrUnpairedElementHideTranslation != Vector3.Zero)
+                if (this.IndependentElementHideTranslation != Vector3.Zero)
                 {
                     animationTasks.Add(AnimationBuilder.Create().Translation(
-                        from: this._isInterruptedAnimation ? null : (isShow ? this.IgnoredOrUnpairedElementHideTranslation : Vector3.Zero),
-                        to: isShow ? Vector3.Zero : this.IgnoredOrUnpairedElementHideTranslation,
+                        from: this._isInterruptedAnimation ? null : (isShow ? this.IndependentElementHideTranslation : Vector3.Zero),
+                        to: isShow ? Vector3.Zero : this.IndependentElementHideTranslation,
                         duration: duration,
                         delay: delay).StartAsync(item, token));
                 }
@@ -327,7 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (isShow)
                 {
-                    delay += this.IgnoredOrUnpairedElementShowStepDuration;
+                    delay += this.IndependentElementShowStepDuration;
                 }
             }
 

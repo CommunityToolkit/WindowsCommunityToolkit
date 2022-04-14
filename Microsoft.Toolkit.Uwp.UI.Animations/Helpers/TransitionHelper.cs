@@ -18,8 +18,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     [ContentProperty(Name = nameof(AnimationConfigs))]
     public sealed partial class TransitionHelper
     {
-        private readonly Dictionary<string, UIElement> sourceAnimatedElements = new();
-        private readonly Dictionary<string, UIElement> targetAnimatedElements = new();
+        private readonly Dictionary<string, UIElement> sourceConnectedAnimatedElements = new();
+        private readonly Dictionary<string, UIElement> targetConnectedAnimatedElements = new();
+        private readonly List<UIElement> sourceIndependentAnimatedElements = new();
+        private readonly List<UIElement> targetIndependentAnimatedElements = new();
         private readonly double interruptedAnimationReverseDurationRatio = 0.7;
         private readonly TimeSpan almostZeroDuration = TimeSpan.FromMilliseconds(1);
 
@@ -30,6 +32,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private bool _needUpdateSourceLayout = false;
         private bool _needUpdateTargetLayout = false;
         private bool _isInterruptedAnimation = false;
+
+        private IEnumerable<UIElement> SourceAnimatedElements => this.sourceConnectedAnimatedElements.Values.Concat(this.sourceIndependentAnimatedElements);
+
+        private IEnumerable<UIElement> TargetAnimatedElements => this.targetConnectedAnimatedElements.Values.Concat(this.targetIndependentAnimatedElements);
 
         /// <summary>
         /// Morphs from source control to target control.
@@ -66,10 +72,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Reset to initial state.
+        /// Reset to initial or target state.
         /// </summary>
+        /// <param name="toInitialState">Indicates whether to reset to initial state. default value is True, if it is False, it will be reset to target state.</param>
         /// <param name="forceRestoreChildElements">Indicates whether to force the reset of child elements.</param>
-        public void Reset(bool forceRestoreChildElements = false)
+        public void Reset(bool toInitialState = true, bool forceRestoreChildElements = false)
         {
             var needRestoreChildElements = forceRestoreChildElements || this.IsTargetState;
             if (this._animateCancellationTokenSource is not null)
@@ -87,12 +94,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             this._isInterruptedAnimation = false;
-            this.RestoreState(false);
+            this.RestoreState(!toInitialState);
 
             if (needRestoreChildElements)
             {
-                this.RestoreUIElements(this.sourceAnimatedElements.Values.Concat(GetIgnoredElements(Source)));
-                this.RestoreUIElements(this.targetAnimatedElements.Values.Concat(GetIgnoredElements(Target)));
+                this.RestoreUIElements(this.SourceAnimatedElements);
+                this.RestoreUIElements(this.TargetAnimatedElements);
             }
         }
     }

@@ -13,10 +13,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
-        private class AnimatedElementIdComparer : IEqualityComparer<DependencyObject>
+        private class AnimatedElementComparer : IEqualityComparer<DependencyObject>
         {
             public bool Equals(DependencyObject x, DependencyObject y)
             {
+                if (GetIsIndependent(x) || GetIsIndependent(y))
+                {
+                    return false;
+                }
+
                 return GetId(x) is string xId && GetId(y) is string yId && xId == yId;
             }
 
@@ -51,40 +56,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             DependencyProperty.RegisterAttached("Id", typeof(string), typeof(TransitionHelper), null);
 
         /// <summary>
-        /// Get the value indicating whether the UI element needs to be connected by animation.
+        /// Get the value indicating whether the UI element is animated independently.
         /// </summary>
         /// <returns>A bool value indicating whether the UI element needs to be connected by animation.</returns>
-        public static bool GetIsIgnored(DependencyObject obj)
+        public static bool GetIsIndependent(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsIgnoredProperty);
+            return (bool)obj.GetValue(IsIndependentProperty);
         }
 
         /// <summary>
-        /// Set the value indicating whether the UI element needs to be connected by animation.
+        /// Set the value indicating whether the UI element is animated independently.
         /// </summary>
-        public static void SetIsIgnored(DependencyObject obj, bool value)
+        public static void SetIsIndependent(DependencyObject obj, bool value)
         {
-            obj.SetValue(IsIgnoredProperty, value);
+            obj.SetValue(IsIndependentProperty, value);
         }
 
         /// <summary>
-        /// IsIgnored is used to mark controls that do not need to be connected by animation, it will disappear/show independently.
+        /// IsIndependent is used to mark controls that do not need to be connected by animation, it will disappear/show independently.
         /// </summary>
-        public static readonly DependencyProperty IsIgnoredProperty =
-            DependencyProperty.RegisterAttached("IsIgnored", typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsIndependentProperty =
+            DependencyProperty.RegisterAttached("IsIndependent", typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
 
-        private static IEnumerable<UIElement> GetAnimatedElements(UIElement targetElement, IEnumerable<string> filters)
+        private static IEnumerable<UIElement> GetAnimatedElements(UIElement targetElement)
         {
             return targetElement?.FindDescendantsOrSelf()
-                    .Where(element => GetId(element) is string id && (filters is null || filters.Contains(id)))
-                    .Distinct(new AnimatedElementIdComparer())
+                    .Where(element => GetId(element) is not null || GetIsIndependent(element))
+                    .Distinct(new AnimatedElementComparer())
                     .OfType<UIElement>();
-        }
-
-        private static IEnumerable<UIElement> GetIgnoredElements(UIElement targetElement)
-        {
-            return targetElement?.FindDescendantsOrSelf()
-                    .Where(element => GetIsIgnored(element)).OfType<UIElement>();
         }
     }
 }
