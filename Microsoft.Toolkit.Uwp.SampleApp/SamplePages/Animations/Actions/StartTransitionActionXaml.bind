@@ -13,7 +13,6 @@
                                  ScaleMode="Scale" />
             <ani:AnimationConfig Id="name"
                                  ScaleMode="ScaleY" />
-            <ani:AnimationConfig Id="desc" />
         </ani:TransitionHelper>
     </Page.Resources>
     <StackPanel Margin="50,20"

@@ -100,7 +100,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var targetUnpairedElements = this.targetConnectedAnimatedElements
                 .Where(item => !this.sourceConnectedAnimatedElements.ContainsKey(item.Key))
                 .Select(item => item.Value);
-
             var pairedElementKeys = this.sourceConnectedAnimatedElements
                 .Where(item => this.targetConnectedAnimatedElements.ContainsKey(item.Key))
                 .Select(item => item.Key);
@@ -109,7 +108,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var source = this.sourceConnectedAnimatedElements[key];
                 var target = this.targetConnectedAnimatedElements[key];
                 var animationConfig = this.AnimationConfigs.FirstOrDefault(config => config.Id == key) ?? this.DefaultAnimationConfig;
-
                 animationTasks.Add(
                     this.AnimateElementsAsync(
                         reversed ? target : source,
@@ -265,7 +263,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
-            this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, duration);
+
+            ElementCompositionPreview.GetElementVisual(source).CenterPoint = new Vector3(source.ActualSize * config.NormalizedCenterPoint, 0);
+            ElementCompositionPreview.GetElementVisual(target).CenterPoint = new Vector3(target.ActualSize * config.NormalizedCenterPoint, 0);
+            this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, config.NormalizedCenterPoint, duration);
             TimeSpan opacityAnimationDuration = config.OpacityMode switch
             {
                 OpacityAnimationMode.Normal => duration,
@@ -334,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(animationTasks);
         }
 
-        private void AnimateUIElementsTranslation(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, TimeSpan duration)
+        private void AnimateUIElementsTranslation(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, Vector2 normalizedCenterPoint, TimeSpan duration)
         {
             if (this._isInterruptedAnimation)
             {
@@ -343,15 +344,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var diff = target.TransformToVisual(source).TransformPoint(default);
+            var sourceNormalizedCenterPoint = source.ActualSize * normalizedCenterPoint;
+            var targetNormalizedCenterPoint = target.ActualSize * normalizedCenterPoint;
+            var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceNormalizedCenterPoint + targetNormalizedCenterPoint;
             _ = sourceBuilder.Translation().TimedKeyFrames(
                 build: b => b
-                    .KeyFrame(duration - almostZeroDuration, new Vector3((float)diff.X, (float)diff.Y, 0))
+                    .KeyFrame(duration - almostZeroDuration, new Vector3(diff, 0))
                     .KeyFrame(duration, Vector3.Zero));
             _ = targetBuilder.Translation().TimedKeyFrames(
                 delayBehavior: AnimationDelayBehavior.SetInitialValueBeforeDelay,
                 build: b => b
-                    .KeyFrame(TimeSpan.Zero, new Vector3((float)-diff.X, (float)-diff.Y, 0))
+                    .KeyFrame(TimeSpan.Zero, new Vector3(-diff, 0))
                     .KeyFrame(duration - almostZeroDuration, Vector3.Zero)
                     .KeyFrame(duration, Vector3.Zero));
         }
