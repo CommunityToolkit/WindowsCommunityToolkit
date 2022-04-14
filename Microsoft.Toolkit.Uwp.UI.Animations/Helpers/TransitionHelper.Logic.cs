@@ -189,11 +189,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             foreach (var animatedElement in animatedElements)
             {
-                AnimationBuilder.Create()
-                    .Translation(to: Vector3.Zero, duration: almostZeroDuration)
-                    .Opacity(to: 1, duration: almostZeroDuration)
-                    .Scale(to: Vector3.One, duration: almostZeroDuration)
-                    .Start(animatedElement);
+                var visual = ElementCompositionPreview.GetElementVisual(animatedElement);
+                visual.Opacity = 1;
+                visual.Scale = Vector3.One;
+                ElementCompositionPreview.SetIsTranslationEnabled(animatedElement, true);
+                visual.Properties.InsertVector3("Translation", Vector3.Zero);
             }
         }
 
