@@ -4,8 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
@@ -143,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Gets or sets the translation of the hide animation for independent or unpaired UI elements.
-        /// The default value is Point(0, 20).
+        /// The default value is (0, 20).
         /// </summary>
         public Point IndependentElementHideTranslation { get; set; } = new (0, 20);
 
