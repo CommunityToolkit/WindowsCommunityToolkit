@@ -40,18 +40,62 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Morphs from source control to target control.
         /// </summary>
+        /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+        public Task StartAsync()
+        {
+            return StartAsync(CancellationToken.None, false);
+        }
+
+        /// <summary>
+        /// Morphs from source control to target control.
+        /// </summary>
         /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
-        public async Task AnimateAsync(bool forceUpdateAnimatedElements = false)
+        public Task StartAsync(bool forceUpdateAnimatedElements)
+        {
+            return StartAsync(CancellationToken.None, forceUpdateAnimatedElements);
+        }
+
+        /// <summary>
+        /// Morphs from source control to target control.
+        /// </summary>
+        /// <param name="token">The cancellation token to stop animations while they're running.</param>
+        /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
+        /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+        public async Task StartAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
             if (this._animateCancellationTokenSource is not null)
             {
                 return;
             }
 
+            if (this._reverseCancellationTokenSource is not null)
+            {
+                if (this._isInterruptedAnimation)
+                {
+                    this._isInterruptedAnimation = false;
+                    await this._reverseTaskSource.Task;
+                }
+                else
+                {
+                    this._reverseCancellationTokenSource.Cancel();
+                    this._isInterruptedAnimation = true;
+                }
+            }
+
             this._animateCancellationTokenSource = new CancellationTokenSource();
-            await StartInterruptibleAnimationsAsync(false, _animateCancellationTokenSource.Token, forceUpdateAnimatedElements);
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, _animateCancellationTokenSource.Token);
+            await StartInterruptibleAnimationsAsync(false, linkedTokenSource.Token, forceUpdateAnimatedElements);
             this._animateCancellationTokenSource = null;
+        }
+
+        /// <summary>
+        /// Reverse animation, morphs from target control to source control.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+        public Task ReverseAsync()
+        {
+            return ReverseAsync(CancellationToken.None, false);
         }
 
         /// <summary>
@@ -59,15 +103,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of child elements before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
-        public async Task ReverseAsync(bool forceUpdateAnimatedElements = false)
+        public Task ReverseAsync(bool forceUpdateAnimatedElements)
+        {
+            return ReverseAsync(CancellationToken.None, forceUpdateAnimatedElements);
+        }
+
+        /// <summary>
+        /// Reverse animation, morphs from target control to source control.
+        /// </summary>
+        /// <param name="token">The cancellation token to stop animations while they're running.</param>
+        /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of child elements before the animation starts.</param>
+        /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
+        public async Task ReverseAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
             if (this._reverseCancellationTokenSource is not null)
             {
                 return;
             }
 
+            if (this._animateCancellationTokenSource is not null)
+            {
+                if (this._isInterruptedAnimation)
+                {
+                    this._isInterruptedAnimation = false;
+                    await this._animateTaskSource.Task;
+                }
+                else
+                {
+                    this._animateCancellationTokenSource.Cancel();
+                    this._isInterruptedAnimation = true;
+                }
+            }
+
             this._reverseCancellationTokenSource = new CancellationTokenSource();
-            await StartInterruptibleAnimationsAsync(true, _reverseCancellationTokenSource.Token, forceUpdateAnimatedElements);
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, _reverseCancellationTokenSource.Token);
+            this._reverseCancellationTokenSource = new CancellationTokenSource();
+            await StartInterruptibleAnimationsAsync(true, linkedTokenSource.Token, forceUpdateAnimatedElements);
             this._reverseCancellationTokenSource = null;
         }
 
@@ -75,32 +146,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Reset to initial or target state.
         /// </summary>
         /// <param name="toInitialState">Indicates whether to reset to initial state. default value is True, if it is False, it will be reset to target state.</param>
-        /// <param name="forceRestoreChildElements">Indicates whether to force the reset of child elements.</param>
-        public void Reset(bool toInitialState = true, bool forceRestoreChildElements = false)
+        public void Reset(bool toInitialState = true)
         {
-            var needRestoreChildElements = forceRestoreChildElements || this.IsTargetState;
             if (this._animateCancellationTokenSource is not null)
             {
-                needRestoreChildElements = true;
                 this._animateCancellationTokenSource.Cancel();
                 this._animateCancellationTokenSource = null;
             }
 
             if (_reverseCancellationTokenSource is not null)
             {
-                needRestoreChildElements = true;
                 this._reverseCancellationTokenSource.Cancel();
                 this._reverseCancellationTokenSource = null;
             }
 
             this._isInterruptedAnimation = false;
-            this.RestoreState(!toInitialState);
-
-            if (needRestoreChildElements)
-            {
-                this.RestoreUIElements(this.SourceAnimatedElements);
-                this.RestoreUIElements(this.TargetAnimatedElements);
-            }
+            this.RestoreState(!toInitialState, true);
         }
     }
 }

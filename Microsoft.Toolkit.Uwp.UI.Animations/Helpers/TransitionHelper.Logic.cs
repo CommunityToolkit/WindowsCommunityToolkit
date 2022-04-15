@@ -138,25 +138,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, bool forceUpdateAnimatedElements)
         {
-            var reversedCancellationTokenSource =
-                reversed ? this._animateCancellationTokenSource : this._reverseCancellationTokenSource;
-            var reversedTaskSource =
-                reversed ? this._animateTaskSource : this._reverseTaskSource;
-
-            if (reversedCancellationTokenSource is not null)
-            {
-                if (this._isInterruptedAnimation)
-                {
-                    this._isInterruptedAnimation = false;
-                    await reversedTaskSource.Task;
-                }
-                else
-                {
-                    reversedCancellationTokenSource?.Cancel();
-                    this._isInterruptedAnimation = true;
-                }
-            }
-
             if (!this._isInterruptedAnimation && IsTargetState != reversed)
             {
                 return;
@@ -184,17 +165,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            this.RestoreState(!reversed);
+            this.RestoreState(!reversed, false);
             _ = currentTaskSource.TrySetResult(null);
 
             this._isInterruptedAnimation = false;
         }
 
-        private void RestoreState(bool isTargetState)
+        private void RestoreState(bool isTargetState, bool restoreAllChildElements)
         {
             this.IsTargetState = isTargetState;
             this.ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
             this.ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
+            if (restoreAllChildElements)
+            {
+                this.RestoreUIElements(this.SourceAnimatedElements);
+                this.RestoreUIElements(this.TargetAnimatedElements);
+            }
+            else
+            {
+                this.RestoreUIElements(isTargetState ? this.SourceAnimatedElements : this.TargetAnimatedElements);
+            }
         }
 
         private void RestoreUIElements(IEnumerable<UIElement> animatedElements)

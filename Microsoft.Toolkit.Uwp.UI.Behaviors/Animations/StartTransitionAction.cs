@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 
             this.Transition.Source = this.Source;
             this.Transition.Target = this.Target;
-            _ = this.Transition.AnimateAsync();
+            _ = this.Transition.StartAsync();
 
             return null;
         }
