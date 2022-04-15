@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
-                if(this._source is not null)
+                if (this._source is not null)
                 {
                     this.RestoreUIElements(this.SourceAnimatedElements);
                 }
@@ -83,56 +84,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the default animation configuration.
         /// </summary>
-        public AnimationConfig DefaultAnimationConfig { get; set; } = new ();
+        public AnimationConfig DefaultAnimationConfig { get; set; } = new();
 
         /// <summary>
         /// Gets a value indicating whether the source control has been morphed to the target control.
+        /// The default value is false.
         /// </summary>
         public bool IsTargetState { get; private set; } = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the contained area of the source or target control can return true values for hit testing when animating.
+        /// The default value is false.
         /// </summary>
         public bool IsHitTestVisibleWhenAnimating { get; set; } = false;
 
         /// <summary>
         /// Gets or sets the method of changing the visibility of the source control.
+        /// The default value is <see cref="VisualStateToggleMethod.ByVisibility"/>.
         /// </summary>
         public VisualStateToggleMethod SourceToggleMethod { get; set; } = VisualStateToggleMethod.ByVisibility;
 
         /// <summary>
         /// Gets or sets the method of changing the visibility of the target control.
+        /// The default value is <see cref="VisualStateToggleMethod.ByVisibility"/>.
         /// </summary>
         public VisualStateToggleMethod TargetToggleMethod { get; set; } = VisualStateToggleMethod.ByVisibility;
 
         /// <summary>
         /// Gets or sets the duration of the connected animation between two UI elements.
+        /// The default value is 600ms.
         /// </summary>
         public TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(600);
 
         /// <summary>
         /// Gets or sets the duration of the show animation for independent or unpaired UI elements.
+        /// The default value is 200ms.
         /// </summary>
         public TimeSpan IndependentElementShowDuration { get; set; } = TimeSpan.FromMilliseconds(200);
 
         /// <summary>
         /// Gets or sets the delay of the show animation for independent or unpaired UI elements.
+        /// The default value is 300ms.
         /// </summary>
         public TimeSpan IndependentElementShowDelayDuration { get; set; } = TimeSpan.FromMilliseconds(300);
 
         /// <summary>
         /// Gets or sets the duration of the interval between the show animations for independent or unpaired UI elements.
+        /// The default value is 50ms.
         /// </summary>
         public TimeSpan IndependentElementShowStepDuration { get; set; } = TimeSpan.FromMilliseconds(50);
 
         /// <summary>
         /// Gets or sets the duration of the hide animation for independent or unpaired UI elements.
+        /// The default value is 100ms.
         /// </summary>
         public TimeSpan IndependentElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
 
         /// <summary>
         /// Gets or sets the translation of the hide animation for independent or unpaired UI elements.
+        /// The default value is Vector3(0, 20, 0).
         /// </summary>
         public Vector3 IndependentElementHideTranslation { get; set; } = new Vector3(0, 20, 0);
+
+        /// <summary>
+        /// Gets or sets the easing function type for animation of independent or unpaired UI elements.
+        /// The default value is <see cref="EasingType.Default"/>.
+        /// </summary>
+        public EasingType IndependentElementEasingType { get; set; } = EasingType.Default;
+
+        /// <summary>
+        /// Gets or sets the easing function mode for animation of independent or unpaired UI elements.
+        /// The default value is <see cref="EasingMode.EaseInOut"/>.
+        /// </summary>
+        public EasingMode IndependentElementEasingMode { get; set; } = EasingMode.EaseInOut;
     }
 }

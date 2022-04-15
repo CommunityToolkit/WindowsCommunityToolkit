@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -117,8 +118,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         token));
             }
 
-            animationTasks.Add(this.AnimateIndependentElementsAsync(this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements), reversed, token));
-            animationTasks.Add(this.AnimateIndependentElementsAsync(this.targetIndependentAnimatedElements.Concat(targetUnpairedElements), !reversed, token));
+            animationTasks.Add(
+                this.AnimateIndependentElementsAsync(
+                    this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements),
+                    reversed,
+                    token,
+                    IndependentElementEasingType,
+                    IndependentElementEasingMode));
+            animationTasks.Add(
+                this.AnimateIndependentElementsAsync(
+                    this.targetIndependentAnimatedElements.Concat(targetUnpairedElements),
+                    !reversed,
+                    token,
+                    IndependentElementEasingType,
+                    IndependentElementEasingMode));
 
             return Task.WhenAll(animationTasks);
         }
@@ -266,24 +279,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             ElementCompositionPreview.GetElementVisual(source).CenterPoint = new Vector3(source.ActualSize * config.NormalizedCenterPoint, 0);
             ElementCompositionPreview.GetElementVisual(target).CenterPoint = new Vector3(target.ActualSize * config.NormalizedCenterPoint, 0);
-            this.AnimateUIElementsTranslation(sourceBuilder, targetBuilder, source, target, config.NormalizedCenterPoint, duration);
+            this.AnimateUIElementsTranslation(
+                sourceBuilder,
+                targetBuilder,
+                source,
+                target,
+                config.NormalizedCenterPoint,
+                duration,
+                config.EasingType,
+                config.EasingMode);
             TimeSpan opacityAnimationDuration = config.OpacityMode switch
             {
                 OpacityAnimationMode.Normal => duration,
                 OpacityAnimationMode.Faster => duration * 1 / 3,
                 _ => duration
             };
-            this.AnimateUIElementsOpacity(sourceBuilder, targetBuilder, opacityAnimationDuration);
+            this.AnimateUIElementsOpacity(
+                sourceBuilder,
+                targetBuilder,
+                opacityAnimationDuration,
+                config.EasingType,
+                config.EasingMode);
             switch (config.ScaleMode)
             {
                 case ScaleMode.Scale:
-                    this.AnimateUIElementsScale(sourceBuilder, targetBuilder, source, target, duration);
+                    this.AnimateUIElementsScale(
+                        sourceBuilder,
+                        targetBuilder,
+                        source,
+                        target,
+                        duration,
+                        config.EasingType,
+                        config.EasingMode);
                     break;
                 case ScaleMode.ScaleX:
-                    this.AnimateUIElementsScaleX(sourceBuilder, targetBuilder, source, target, duration);
+                    this.AnimateUIElementsScaleX(
+                        sourceBuilder,
+                        targetBuilder,
+                        source,
+                        target,
+                        duration,
+                        config.EasingType,
+                        config.EasingMode);
                     break;
                 case ScaleMode.ScaleY:
-                    this.AnimateUIElementsScaleY(sourceBuilder, targetBuilder, source, target, duration);
+                    this.AnimateUIElementsScaleY(
+                        sourceBuilder,
+                        targetBuilder,
+                        source,
+                        target,
+                        duration,
+                        config.EasingType,
+                        config.EasingMode);
                     break;
                 case ScaleMode.None:
                 default:
@@ -293,7 +340,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
 
-        private Task AnimateIndependentElementsAsync(IEnumerable<UIElement> independentElements, bool isShow, CancellationToken token)
+        private Task AnimateIndependentElementsAsync(
+            IEnumerable<UIElement> independentElements,
+            bool isShow,
+            CancellationToken token,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             if (!independentElements.Any())
             {
@@ -317,6 +369,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         from: this._isInterruptedAnimation ? null : (isShow ? this.IndependentElementHideTranslation : Vector3.Zero),
                         to: isShow ? Vector3.Zero : this.IndependentElementHideTranslation,
                         duration: duration,
+                        easingType: easingType,
+                        easingMode: easingMode,
                         delay: delay).StartAsync(item, token));
                 }
 
@@ -324,6 +378,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     from: this._isInterruptedAnimation ? null : (isShow ? 0 : 1),
                     to: isShow ? 1 : 0,
                     duration: duration,
+                    easingType: easingType,
+                    easingMode: easingMode,
                     delay: delay).StartAsync(item, token));
 
                 if (isShow)
@@ -335,12 +391,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(animationTasks);
         }
 
-        private void AnimateUIElementsTranslation(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, Vector2 normalizedCenterPoint, TimeSpan duration)
+        private void AnimateUIElementsTranslation(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            UIElement source,
+            UIElement target,
+            Vector2 normalizedCenterPoint,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             if (this._isInterruptedAnimation)
             {
                 _ = sourceBuilder.Translation(to: Vector3.Zero, duration: almostZeroDuration);
-                _ = targetBuilder.Translation(to: Vector3.Zero, duration: duration);
+                _ = targetBuilder.Translation(to: Vector3.Zero, duration: duration, easingType: easingType, easingMode: easingMode);
                 return;
             }
 
@@ -349,60 +413,92 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceNormalizedCenterPoint + targetNormalizedCenterPoint;
             _ = sourceBuilder.Translation().TimedKeyFrames(
                 build: b => b
-                    .KeyFrame(duration - almostZeroDuration, new Vector3(diff, 0))
+                    .KeyFrame(duration - almostZeroDuration, new Vector3(diff, 0), easingType, easingMode)
                     .KeyFrame(duration, Vector3.Zero));
             _ = targetBuilder.Translation().TimedKeyFrames(
                 delayBehavior: AnimationDelayBehavior.SetInitialValueBeforeDelay,
                 build: b => b
                     .KeyFrame(TimeSpan.Zero, new Vector3(-diff, 0))
-                    .KeyFrame(duration - almostZeroDuration, Vector3.Zero)
+                    .KeyFrame(duration - almostZeroDuration, Vector3.Zero, easingType, easingMode)
                     .KeyFrame(duration, Vector3.Zero));
         }
 
-        private void AnimateUIElementsScale(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, TimeSpan duration)
+        private void AnimateUIElementsScale(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            UIElement source,
+            UIElement target,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             var scaleX = target.ActualSize.X / source.ActualSize.X;
             var scaleY = target.ActualSize.Y / source.ActualSize.Y;
             var scale = new Vector3((float)scaleX, (float)scaleY, 1);
-            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration);
+            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateUIElementsScaleX(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, TimeSpan duration)
+        private void AnimateUIElementsScaleX(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            UIElement source,
+            UIElement target,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             var scaleX = target.ActualSize.X / source.ActualSize.X;
             var scale = new Vector3((float)scaleX, (float)scaleX, 1);
-            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration);
+            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateUIElementsScaleY(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, UIElement source, UIElement target, TimeSpan duration)
+        private void AnimateUIElementsScaleY(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            UIElement source,
+            UIElement target,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             var scaleY = target.ActualSize.Y / source.ActualSize.Y;
             var scale = new Vector3((float)scaleY, (float)scaleY, 1);
-            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration);
+            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateUIElementsScale(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, Vector3 targetScale, TimeSpan duration)
+        private void AnimateUIElementsScale(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            Vector3 targetScale,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             if (this._isInterruptedAnimation)
             {
                 _ = sourceBuilder.Scale(to: Vector3.One, duration: almostZeroDuration);
-                _ = targetBuilder.Scale(to: Vector3.One, duration: duration);
+                _ = targetBuilder.Scale(to: Vector3.One, duration: duration, easingType: easingType, easingMode: easingMode);
                 return;
             }
 
             _ = sourceBuilder.Scale().TimedKeyFrames(
                 build: b => b
-                    .KeyFrame(duration - almostZeroDuration, targetScale)
+                    .KeyFrame(duration - almostZeroDuration, targetScale, easingType, easingMode)
                     .KeyFrame(duration, Vector3.One));
             _ = targetBuilder.Scale().TimedKeyFrames(
                 delayBehavior: AnimationDelayBehavior.SetInitialValueBeforeDelay,
                 build: b => b
                     .KeyFrame(TimeSpan.Zero, new Vector3(1 / targetScale.X, 1 / targetScale.Y, 1))
-                    .KeyFrame(duration - almostZeroDuration, Vector3.One)
+                    .KeyFrame(duration - almostZeroDuration, Vector3.One, easingType, easingMode)
                     .KeyFrame(duration, Vector3.One));
         }
 
-        private void AnimateUIElementsOpacity(AnimationBuilder sourceBuilder, AnimationBuilder targetBuilder, TimeSpan duration)
+        private void AnimateUIElementsOpacity(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
         {
             if (this._isInterruptedAnimation)
             {
@@ -411,8 +507,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            _ = sourceBuilder.Opacity(to: 0, duration: duration);
-            _ = targetBuilder.Opacity(to: 1, duration: duration);
+            _ = sourceBuilder.Opacity(to: 0, duration: duration, easingType: easingType, easingMode: easingMode);
+            _ = targetBuilder.Opacity(to: 1, duration: duration, easingType: easingType, easingMode: easingMode);
         }
     }
 }

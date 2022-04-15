@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -35,5 +36,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// The default value is <see cref="OpacityAnimationMode.Faster"/>.
         /// </summary>
         public OpacityAnimationMode OpacityMode { get; set; } = OpacityAnimationMode.Faster;
+
+        /// <summary>
+        /// Gets or sets the easing function type for animation.
+        /// The default value is <see cref="EasingType.Default"/>.
+        /// </summary>
+        public EasingType EasingType { get; set; } = EasingType.Default;
+
+        /// <summary>
+        /// Gets or sets the easing function mode for animation.
+        /// The default value is <see cref="EasingMode.EaseInOut"/>.
+        /// </summary>
+        public EasingMode EasingMode { get; set; } = EasingMode.EaseInOut;
     }
 }
