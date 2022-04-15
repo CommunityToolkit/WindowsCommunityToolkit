@@ -277,14 +277,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
 
-            ElementCompositionPreview.GetElementVisual(source).CenterPoint = new Vector3(source.ActualSize * config.NormalizedCenterPoint, 0);
-            ElementCompositionPreview.GetElementVisual(target).CenterPoint = new Vector3(target.ActualSize * config.NormalizedCenterPoint, 0);
+            ElementCompositionPreview.GetElementVisual(source).CenterPoint = new Vector3(source.ActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
+            ElementCompositionPreview.GetElementVisual(target).CenterPoint = new Vector3(target.ActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
             this.AnimateUIElementsTranslation(
                 sourceBuilder,
                 targetBuilder,
                 source,
                 target,
-                config.NormalizedCenterPoint,
+                config.NormalizedCenterPoint.ToVector2(),
                 duration,
                 config.EasingType,
                 config.EasingMode);
@@ -363,24 +363,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             foreach (var item in independentElements)
             {
-                if (this.IndependentElementHideTranslation != Vector3.Zero)
+                if (this.IndependentElementHideTranslation != default)
                 {
-                    animationTasks.Add(AnimationBuilder.Create().Translation(
-                        from: this._isInterruptedAnimation ? null : (isShow ? this.IndependentElementHideTranslation : Vector3.Zero),
-                        to: isShow ? Vector3.Zero : this.IndependentElementHideTranslation,
+                    animationTasks.Add(
+                        AnimationBuilder
+                        .Create()
+                        .Translation(
+                            from: this._isInterruptedAnimation ? null : (isShow ? this.IndependentElementHideTranslation.ToVector3() : Vector3.Zero),
+                            to: isShow ? Vector3.Zero : this.IndependentElementHideTranslation.ToVector3(),
+                            duration: duration,
+                            easingType: easingType,
+                            easingMode: easingMode,
+                            delay: delay)
+                        .StartAsync(item, token));
+                }
+
+                animationTasks.Add(
+                    AnimationBuilder
+                    .Create()
+                    .Opacity(
+                        from: this._isInterruptedAnimation ? null : (isShow ? 0 : 1),
+                        to: isShow ? 1 : 0,
                         duration: duration,
                         easingType: easingType,
                         easingMode: easingMode,
-                        delay: delay).StartAsync(item, token));
-                }
-
-                animationTasks.Add(AnimationBuilder.Create().Opacity(
-                    from: this._isInterruptedAnimation ? null : (isShow ? 0 : 1),
-                    to: isShow ? 1 : 0,
-                    duration: duration,
-                    easingType: easingType,
-                    easingMode: easingMode,
-                    delay: delay).StartAsync(item, token));
+                        delay: delay)
+                    .StartAsync(item, token));
 
                 if (isShow)
                 {
@@ -507,8 +515,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            _ = sourceBuilder.Opacity(to: 0, duration: duration, easingType: easingType, easingMode: easingMode);
-            _ = targetBuilder.Opacity(to: 1, duration: duration, easingType: easingType, easingMode: easingMode);
+            _ = sourceBuilder.Opacity(from: 1, to: 0, duration: duration, easingType: easingType, easingMode: easingMode);
+            _ = targetBuilder.Opacity(from: 0, to: 1, duration: duration, easingType: easingType, easingMode: easingMode);
         }
     }
 }

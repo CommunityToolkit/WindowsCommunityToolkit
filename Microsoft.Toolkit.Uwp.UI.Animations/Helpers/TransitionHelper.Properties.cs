@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -142,9 +143,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Gets or sets the translation of the hide animation for independent or unpaired UI elements.
-        /// The default value is Vector3(0, 20, 0).
+        /// The default value is Point(0, 20).
         /// </summary>
-        public Vector3 IndependentElementHideTranslation { get; set; } = new Vector3(0, 20, 0);
+        public Point IndependentElementHideTranslation { get; set; } = new (0, 20);
 
         /// <summary>
         /// Gets or sets the easing function type for animation of independent or unpaired UI elements.
