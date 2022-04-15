@@ -27,8 +27,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private CancellationTokenSource _animateCancellationTokenSource;
         private CancellationTokenSource _reverseCancellationTokenSource;
-        private TaskCompletionSource<object> _animateTaskSource;
-        private TaskCompletionSource<object> _reverseTaskSource;
+        private TaskCompletionSource<bool> _animateTaskSource;
+        private TaskCompletionSource<bool> _reverseTaskSource;
         private bool _needUpdateSourceLayout = false;
         private bool _needUpdateTargetLayout = false;
         private bool _isInterruptedAnimation = false;
@@ -137,7 +137,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             this._reverseCancellationTokenSource = new CancellationTokenSource();
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, _reverseCancellationTokenSource.Token);
-            this._reverseCancellationTokenSource = new CancellationTokenSource();
             await StartInterruptibleAnimationsAsync(true, linkedTokenSource.Token, forceUpdateAnimatedElements);
             this._reverseCancellationTokenSource = null;
         }

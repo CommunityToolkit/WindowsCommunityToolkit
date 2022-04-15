@@ -148,25 +148,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            TaskCompletionSource<object> currentTaskSource;
+            TaskCompletionSource<bool> currentTaskSource;
             if (reversed)
             {
-                currentTaskSource = this._reverseTaskSource = new TaskCompletionSource<object>();
+                currentTaskSource = this._reverseTaskSource = new();
             }
             else
             {
-                currentTaskSource = this._animateTaskSource = new TaskCompletionSource<object>();
+                currentTaskSource = this._animateTaskSource = new();
             }
 
             await this.InitControlsStateAsync(forceUpdateAnimatedElements);
+            if (token.IsCancellationRequested)
+            {
+                _ = currentTaskSource.TrySetResult(false);
+                return;
+            }
+
             await this.AnimateControlsAsync(reversed, token);
             if (token.IsCancellationRequested)
             {
+                _ = currentTaskSource.TrySetResult(false);
                 return;
             }
 
             this.RestoreState(!reversed, false);
-            _ = currentTaskSource.TrySetResult(null);
+            _ = currentTaskSource.TrySetResult(true);
 
             this._isInterruptedAnimation = false;
         }
