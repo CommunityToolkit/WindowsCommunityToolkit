@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
+  - name: MVVM Toolkit, High Performance, or Diagnostic Package? 
+    url: https://aka.ms/toolkit/dotnet
+    about: If you have a question on these, see the .NET Community Toolkit repo:
   - name: Question
     url: https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/questions-help
     about: I have a question about how to use something in the toolkit.
