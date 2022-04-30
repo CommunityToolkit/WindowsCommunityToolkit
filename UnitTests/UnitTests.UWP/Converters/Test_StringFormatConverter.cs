@@ -5,59 +5,157 @@
 using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Globalization;
 
 namespace UnitTests.Converters
 {
     [TestClass]
     public class Test_StringFormatConverter
     {
-        private static readonly object NullString = null;
+        private const string NullLanguage = null;
+
+        private static readonly CultureInfo ConverterCultureInfo = new CultureInfo("pl-pl");        
+        private static readonly object NullString = null;                
         private static readonly object NotEmptyString = "Hello, world";
         private static readonly DateTime Date = DateTime.Now;
+        private static readonly decimal Amount = 333.4m;
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenValueIsNull_ThenReturnNull()
+        [DataRow(NullLanguage)]
+        [DataRow("en-us")]        
+        public void WhenValueIsNull_ThenReturnNull(string language)
         {
             var converter = new StringFormatConverter();
-            var result = converter.Convert(NullString, typeof(string), NullString, "en-us");
+            var result = converter.Convert(NullString, typeof(string), NullString, language);
             Assert.IsNull(result);
         }
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenValueExistsAndParameterIsNull_ThenReturnValue()
+        [DataRow(NullLanguage)]
+        [DataRow("en-us")]
+        public void WhenValueExistsAndParameterIsNull_ThenReturnValue(string language)
         {
             var converter = new StringFormatConverter();
-            var result = converter.Convert(NotEmptyString, typeof(string), NullString, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(string), NullString, language);
             Assert.AreEqual(NotEmptyString, result);
         }
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenParameterIsTimeFormat_ThenReturnValueOfTimeFormat()
+        [DataRow(NullLanguage)]
+        [DataRow("en-us")]
+        public void WhenParameterIsInvalidFormat_ThenReturnValue(string language)
         {
-            var converter = new StringFormatConverter();
-            var result = converter.Convert(Date, typeof(string), "{0:HH:mm}", "en-us");
-            Assert.AreEqual(Date.ToString("HH:mm"), result);
-        }
-
-        [TestCategory("Converters")]
-        [TestMethod]
-        public void WhenParameterIsInvalidFormat_ThenReturnValue()
-        {
-            var converter = new StringFormatConverter();
-            var result = converter.Convert(Date, typeof(string), "{1:}", "en-us");
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = ConverterCultureInfo
+            };
+            var result = converter.Convert(Date, typeof(string), "{1:}", language);
             Assert.AreEqual(Date, result);
         }
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenParameterIsNotAString_ThenReturnValue()
+        [DataRow(NullLanguage)]
+        [DataRow("en-us")]
+        public void WhenParameterIsNotAString_ThenReturnValue(string language)
         {
-            var converter = new StringFormatConverter();
-            var result = converter.Convert(NotEmptyString, typeof(string), 172, "en-us");
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = ConverterCultureInfo
+            };
+            var result = converter.Convert(NotEmptyString, typeof(string), 172, language);
             Assert.AreEqual(NotEmptyString, result);
         }
+        
+        [TestCategory("Converters")]
+        [TestMethod]
+        [DataRow("{0:ddd d MMM}", "ddd d MMM")]
+        [DataRow("{0:HH:mm}", "HH:mm")]
+        [DataRow("{0:hh:mm:ss tt}", "hh:mm:ss tt")]
+        public void WhenValueIsDateTimeAndLanguageIsUnknownAndCultureInfoIsNotSet_ThenReturnValueOfTimeInInvariantCultureFormat(string converterParameter, string expectedFormat)
+        {
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = null
+            };
+            var result = converter.Convert(Date, typeof(string), converterParameter, NullLanguage);
+            Assert.AreEqual(Date.ToString(expectedFormat, CultureInfo.InvariantCulture), result);
+        }
+
+        [TestCategory("Converters")]
+        [TestMethod]
+        [DataRow("{0:ddd d MMM}", "ddd d MMM")]
+        [DataRow("{0:HH:mm}", "HH:mm")]
+        [DataRow("{0:hh:mm:ss tt}", "hh:mm:ss tt")]
+        public void WhenValueIsDateTimeAndLanguageIsUnknownAndCultureInfoIsSet_ThenReturnValueOfTimeInConverterCultureInfoFormat(string converterParameter, string expectedFormat)
+        {
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = ConverterCultureInfo
+            };
+            var result = converter.Convert(Date, typeof(string), converterParameter, NullLanguage);
+            Assert.AreEqual(Date.ToString(expectedFormat, ConverterCultureInfo), result);
+        }
+
+        [TestCategory("Converters")]
+        [TestMethod]        
+        [DataRow("en-us", "{0:ddd d MMM}", "ddd d MMM")]
+        [DataRow("en-us", "{0:HH:mm}", "HH:mm")]
+        [DataRow("en-us", "{0:hh:mm:ss tt}", "hh:mm:ss tt")]
+        public void WhenValueIsDateTimeAndLanguageIsWellKnownAndCultureInfoIsSet_ThenReturnValueOfTimeInLanguageCultureFormat(string language, string converterParameter, string expectedFormat)
+        {
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = ConverterCultureInfo,
+            };
+            var result = converter.Convert(Date, typeof(string), converterParameter, language);
+            Assert.AreEqual(Date.ToString(expectedFormat, CultureInfo.GetCultureInfo(language)), result);
+        }
+
+        [TestCategory("Converters")]
+        [TestMethod]
+        [DataRow("{0:C2}", "C2")]
+        [DataRow("{0:E}", "E")]
+        public void WhenValueIsDecimalAndLanguageIsUnknownAndCultureInfoIsNotSet_ThenReturnValueOfDecimalInInvariantCultureFormat(string converterParameter, string expectedFormat)
+        {
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = null
+            };
+            var result = converter.Convert(Amount, typeof(string), converterParameter, NullLanguage);
+            Assert.AreEqual(Amount.ToString(expectedFormat, CultureInfo.InvariantCulture), result);
+        }
+
+        [TestCategory("Converters")]
+        [TestMethod]
+        [DataRow("{0:C2}", "C2")]        
+        [DataRow("{0:E}", "E")]                
+        public void WhenValueIsDecimalAndLanguageIsUnknownAndCultureInfoIsSet_ThenReturnValueOfDecimalInConverterCultureInfoFormat(string converterParameter, string expectedFormat)
+        {
+            var converter = new StringFormatConverter()
+            {
+                CultureInfo = ConverterCultureInfo
+            };
+            var result = converter.Convert(Amount, typeof(string), converterParameter, NullLanguage);
+            Assert.AreEqual(Amount.ToString(expectedFormat, ConverterCultureInfo), result);
+        }
+
+        [TestCategory("Converters")]
+        [TestMethod]
+        [DataRow("en-us", "{0:C2}", "C2")]
+        [DataRow("en-us", "{0:E}", "E")]
+        [DataRow("fr-FR", "{0:E}", "E")]
+        public void WhenValueIsDecimalAndLanguageIsWellKnownAndCultureInfoIsSet_ThenReturnValueOfDecimalInLanguageCultureFormat(string language, string converterParameter, string expectedFormat)
+        {
+            var converter = new StringFormatConverter() 
+            { 
+                CultureInfo = ConverterCultureInfo,
+            };            
+            var result = converter.Convert(Amount, typeof(string), converterParameter, language);
+            Assert.AreEqual(Amount.ToString(expectedFormat, CultureInfo.GetCultureInfo(language)), result);
+        }        
     }
 }
