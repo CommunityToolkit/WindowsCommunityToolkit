@@ -344,6 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             context.SpriteVisual.Offset = context.Element.CoordinatesFrom(CastTo).ToVector3();
 
             UpdateShadowClip(context);
+            UpdateShadowMask(context);
 
             base.OnSizeChanged(context, newSize, previousSize);
         }
