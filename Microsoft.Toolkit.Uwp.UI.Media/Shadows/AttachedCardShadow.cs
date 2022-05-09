@@ -210,20 +210,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 return;
             }
 
-            // Create a rounded rectangle Visual with a thick outline and no fill, then use a VisualSurface of it as an opacity mask for the shadow.
-            // This will have the effect of clipping the inner content of the shadow, so that the casting element is not covered by the shadow,
-            // while the shadow is still rendered outside of the element. Similar to what takes place in GetVisualClip,
-            // except here we use a brush to mask content instead of a pure geometric clip.
-            var shapeVisual = context.GetResource(OpacityMaskShapeVisualResourceKey) ??
+            // Create ShapeVisual, and CompositionSpriteShape with geometry, these will provide the visuals for the opacity mask.
+            ShapeVisual shapeVisual = context.GetResource(OpacityMaskShapeVisualResourceKey) ??
                 context.AddResource(OpacityMaskShapeVisualResourceKey, context.Compositor.CreateShapeVisual());
 
-            CompositionRoundedRectangleGeometry geom = context.GetResource(OpacityMaskGeometryResourceKey) ??
+            CompositionRoundedRectangleGeometry geometry = context.GetResource(OpacityMaskGeometryResourceKey) ??
                 context.AddResource(OpacityMaskGeometryResourceKey, context.Compositor.CreateRoundedRectangleGeometry());
             CompositionSpriteShape shape = context.GetResource(OpacityMaskSpriteShapeResourceKey) ??
-                context.AddResource(OpacityMaskSpriteShapeResourceKey, context.Compositor.CreateSpriteShape(geom));
+                context.AddResource(OpacityMaskSpriteShapeResourceKey, context.Compositor.CreateSpriteShape(geometry));
 
-            geom.Offset = new Vector2(MaxBlurRadius / 2);
-            geom.CornerRadius = new Vector2((MaxBlurRadius / 2) + (float)CornerRadius);
+            // Set the attributes of the geometry, and add the CompositionSpriteShape to the ShapeVisual.
+            // The geometry will have a thick outline and no fill, meaning that when used as a mask,
+            // the shadow will only be rendered on the outer area covered by the outline, clipping out its inner portion.
+            geometry.Offset = new Vector2(MaxBlurRadius / 2);
+            geometry.CornerRadius = new Vector2((MaxBlurRadius / 2) + (float)CornerRadius);
             shape.StrokeThickness = MaxBlurRadius;
             shape.StrokeBrush = shape.StrokeBrush ?? context.Compositor.CreateColorBrush(Colors.Black);
 
@@ -232,42 +232,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 shapeVisual.Shapes.Add(shape);
             }
 
-            var visualSurface = context.GetResource(OpacityMaskShapeVisualSurfaceResourceKey) ??
+            // Create CompositionVisualSurface using the ShapeVisual as the source visual.
+            CompositionVisualSurface visualSurface = context.GetResource(OpacityMaskShapeVisualSurfaceResourceKey) ??
                 context.AddResource(OpacityMaskShapeVisualSurfaceResourceKey, context.Compositor.CreateVisualSurface());
             visualSurface.SourceVisual = shapeVisual;
 
-            geom.Size = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius);
+            geometry.Size = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius);
             shapeVisual.Size = visualSurface.SourceSize = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius * 2);
 
-            var surfaceBrush = context.GetResource(OpacityMaskShapeVisualSurfaceBrushResourceKey) ??
+            // Create a CompositionSurfaceBrush using the CompositionVisualSurface as the source, this essentially converts the ShapeVisual into a brush.
+            // This brush can then be used as a mask.
+            CompositionSurfaceBrush opacityMask = context.GetResource(OpacityMaskShapeVisualSurfaceBrushResourceKey) ??
                 context.AddResource(OpacityMaskShapeVisualSurfaceBrushResourceKey, context.Compositor.CreateSurfaceBrush());
-            surfaceBrush.Surface = visualSurface;
+            opacityMask.Surface = visualSurface;
         }
 
         /// <inheritdoc/>
         protected override void SetElementChildVisual(AttachedShadowElementContext context)
         {
-            if (context.TryGetResource(OpacityMaskShapeVisualSurfaceBrushResourceKey, out var opacityMask))
+            if (context.TryGetResource(OpacityMaskShapeVisualSurfaceBrushResourceKey, out CompositionSurfaceBrush opacityMask))
             {
-                var visualSurface = context.GetResource(OpacityMaskVisualSurfaceResourceKey) ??
+                // If the resource for OpacityMaskShapeVisualSurfaceBrushResourceKey exists it means this.InnerContentClipMode == CompositionVisualSurface,
+                // which means we need to take some steps to set up an opacity mask.
+
+                // Create a CompositionVisualSurface, and use the SpriteVisual containing the shadow as the source.
+                CompositionVisualSurface shadowVisualSurface = context.GetResource(OpacityMaskVisualSurfaceResourceKey) ??
                     context.AddResource(OpacityMaskVisualSurfaceResourceKey, context.Compositor.CreateVisualSurface());
-                visualSurface.SourceVisual = context.SpriteVisual;
+                shadowVisualSurface.SourceVisual = context.SpriteVisual;
                 context.SpriteVisual.RelativeSizeAdjustment = Vector2.Zero;
                 context.SpriteVisual.Size = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight);
-                visualSurface.SourceOffset = new Vector2(-MaxBlurRadius);
-                visualSurface.SourceSize = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius * 2);
 
-                var surfaceBrush = context.GetResource(OpacityMaskSurfaceBrushResourceKey) ??
+                // Adjust the offset and size of the CompositionVisualSurface to accommodate the thick outline of the shape created in UpdateVisualOpacityMask().
+                shadowVisualSurface.SourceOffset = new Vector2(-MaxBlurRadius);
+                shadowVisualSurface.SourceSize = new Vector2((float)context.Element.ActualWidth, (float)context.Element.ActualHeight) + new Vector2(MaxBlurRadius * 2);
+
+                // Create a CompositionSurfaceBrush from the CompositionVisualSurface. This allows us to render the shadow in a brush.
+                CompositionSurfaceBrush shadowSurfaceBrush = context.GetResource(OpacityMaskSurfaceBrushResourceKey) ??
                     context.AddResource(OpacityMaskSurfaceBrushResourceKey, context.Compositor.CreateSurfaceBrush());
-                surfaceBrush.Surface = visualSurface;
-                surfaceBrush.Stretch = CompositionStretch.None;
+                shadowSurfaceBrush.Surface = shadowVisualSurface;
+                shadowSurfaceBrush.Stretch = CompositionStretch.None;
 
+                // Create a CompositionMaskBrush, using the CompositionSurfaceBrush of the shadow as the source,
+                // and the CompositionSurfaceBrush created in UpdateVisualOpacityMask() as the mask.
+                // This creates a brush that renders the shadow with its inner portion clipped out.
                 CompositionMaskBrush maskBrush = context.GetResource(OpacityMaskBrushResourceKey) ??
                     context.AddResource(OpacityMaskBrushResourceKey, context.Compositor.CreateMaskBrush());
-                maskBrush.Source = surfaceBrush;
+                maskBrush.Source = shadowSurfaceBrush;
                 maskBrush.Mask = opacityMask;
 
-                var visual = context.GetResource(OpacityMaskVisualResourceKey) ??
+                // Create a SpriteVisual and set its brush to the CompositionMaskBrush created in the previous step,
+                // then set it as the child of the element in the context.
+                SpriteVisual visual = context.GetResource(OpacityMaskVisualResourceKey) ??
                     context.AddResource(OpacityMaskVisualResourceKey, context.Compositor.CreateSpriteVisual());
                 visual.RelativeSizeAdjustment = Vector2.One;
                 visual.Offset = new Vector3(-MaxBlurRadius, -MaxBlurRadius, 0);
@@ -288,21 +303,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// <inheritdoc />
         protected internal override void OnSizeChanged(AttachedShadowElementContext context, Size newSize, Size previousSize)
         {
-            var sizeAsVec2 = newSize.ToVector2();
+            Vector2 sizeAsVec2 = newSize.ToVector2();
 
-            var geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
+            CompositionRoundedRectangleGeometry geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
             if (geometry != null)
             {
                 geometry.Size = sizeAsVec2;
             }
 
-            var visualSurface = context.GetResource(VisualSurfaceResourceKey);
+            CompositionVisualSurface visualSurface = context.GetResource(VisualSurfaceResourceKey);
             if (geometry != null)
             {
                 visualSurface.SourceSize = sizeAsVec2;
             }
 
-            var shapeVisual = context.GetResource(ShapeVisualResourceKey);
+            ShapeVisual shapeVisual = context.GetResource(ShapeVisualResourceKey);
             if (geometry != null)
             {
                 shapeVisual.Size = sizeAsVec2;
