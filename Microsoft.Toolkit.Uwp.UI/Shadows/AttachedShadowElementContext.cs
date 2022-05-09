@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>True if the resource exists, false otherwise</returns>
         public bool TryGetResource<T>(string key, out T resource)
         {
-            if (_resources != null && _resources.TryGetValue(key, out var objResource) && objResource is T tResource)
+            if (_resources is not null && _resources.TryGetValue(key, out var objResource) && objResource is T tResource)
             {
                 resource = tResource;
                 return true;
@@ -234,7 +234,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>The resource that was removed, if any</returns>
         public T RemoveResource<T>(string key)
         {
-            if (_resources != null && _resources.TryGetValue(key, out var objResource))
+            if (_resources is not null && _resources.TryGetValue(key, out var objResource))
             {
                 _resources.Remove(key);
                 if (objResource is T resource)
@@ -255,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public T RemoveAndDisposeResource<T>(string key)
             where T : IDisposable
         {
-            if (_resources != null && _resources.TryGetValue(key, out var objResource))
+            if (_resources is not null && _resources.TryGetValue(key, out var objResource))
             {
                 _resources.Remove(key);
                 if (objResource is T resource)
@@ -309,7 +309,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public void ClearAndDisposeResources()
         {
-            if (_resources != null)
+            if (_resources is not null)
             {
                 foreach (var kvp in _resources)
                 {
