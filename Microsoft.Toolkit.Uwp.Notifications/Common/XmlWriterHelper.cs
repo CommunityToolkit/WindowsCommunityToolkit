@@ -18,15 +18,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
         public static void Write(System.Xml.XmlWriter writer, object element)
         {
-            NotificationXmlElementAttribute elAttr = GetElementAttribute(element.GetType());
-
-            // If it isn't an element attribute, don't write anything
-            if (elAttr == null)
+            // If it isn't an XML element, don't write anything
+            if (element is not INotificationXmlElement xmlElement)
             {
                 return;
             }
 
-            writer.WriteStartElement(elAttr.Name);
+            writer.WriteStartElement(xmlElement.Name);
 
             IEnumerable<PropertyInfo> properties = GetProperties(element.GetType());
 
@@ -195,20 +193,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return type.GetTypeInfo().DeclaredProperties;
 #else
             return type.GetProperties();
-#endif
-        }
-
-        private static NotificationXmlElementAttribute GetElementAttribute(Type type)
-        {
-            return GetCustomAttributes(type).OfType<NotificationXmlElementAttribute>().FirstOrDefault();
-        }
-
-        private static IEnumerable<Attribute> GetCustomAttributes(Type type)
-        {
-#if NETFX_CORE
-            return type.GetTypeInfo().GetCustomAttributes();
-#else
-            return type.GetCustomAttributes(true).OfType<Attribute>();
 #endif
         }
 

@@ -6,8 +6,7 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("audio")]
-    internal sealed class Element_ToastAudio
+    internal sealed class Element_ToastAudio : INotificationXmlElement
     {
         internal const bool DEFAULT_LOOP = false;
         internal const bool DEFAULT_SILENT = false;
@@ -26,5 +25,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         [NotificationXmlAttribute("silent", DEFAULT_SILENT)]
         public bool Silent { get; set; } = DEFAULT_SILENT;
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "audio";
     }
 }

@@ -7,8 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("binding")]
-    internal sealed class Element_TileBinding : IElementWithDescendants
+    internal sealed class Element_TileBinding : IElementWithDescendants, INotificationXmlElement
     {
         internal const TileBranding DEFAULT_BRANDING = TileBranding.Auto;
         internal const TileTextStacking DEFAULT_TEXT_STACKING = TileTextStacking.Top;
@@ -119,6 +118,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 }
             }
         }
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "binding";
     }
 
     internal interface IElement_TileBindingChild

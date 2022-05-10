@@ -4,8 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    [NotificationXmlElement("progress")]
-    internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild
+    internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild, INotificationXmlElement
     {
         [NotificationXmlAttribute("value")]
         public string Value { get; set; }
@@ -18,5 +17,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 
         [NotificationXmlAttribute("status")]
         public string Status { get; set; }
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "progress";
     }
 }

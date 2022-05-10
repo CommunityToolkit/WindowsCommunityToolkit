@@ -4,9 +4,11 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("tile")]
-    internal sealed class Element_Tile : BaseElement
+    internal sealed class Element_Tile : BaseElement, INotificationXmlElement
     {
         public Element_TileVisual Visual { get; set; }
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "tile";
     }
 }

@@ -7,8 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("binding")]
-    internal sealed class Element_ToastBinding
+    internal sealed class Element_ToastBinding : INotificationXmlElement
     {
         public Element_ToastBinding(ToastTemplateType template)
         {
@@ -46,6 +45,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string ExperienceType { get; set; }
 
         public IList<IElement_ToastBindingChild> Children { get; private set; } = new List<IElement_ToastBindingChild>();
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "binding";
     }
 
     internal interface IElement_ToastBindingChild

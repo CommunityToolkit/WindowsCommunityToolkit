@@ -4,8 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("text")]
-    internal sealed class Element_ToastText : IElement_ToastBindingChild
+    internal sealed class Element_ToastText : IElement_ToastBindingChild, INotificationXmlElement
     {
         internal const ToastTextPlacement DEFAULT_PLACEMENT = ToastTextPlacement.Inline;
 
@@ -17,6 +16,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         [NotificationXmlAttribute("placement", DEFAULT_PLACEMENT)]
         public ToastTextPlacement Placement { get; set; } = DEFAULT_PLACEMENT;
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "text";
     }
 
     internal enum ToastTextPlacement

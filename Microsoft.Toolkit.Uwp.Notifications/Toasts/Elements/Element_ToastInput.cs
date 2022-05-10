@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("input")]
-    internal sealed class Element_ToastInput : IElement_ToastActionsChild
+    internal sealed class Element_ToastInput : IElement_ToastActionsChild, INotificationXmlElement
     {
         /// <summary>
         /// Gets or sets the required attributes for developers to retrieve user inputs once the app is activated (in the foreground or background).
@@ -37,6 +36,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string DefaultInput { get; set; }
 
         public IList<IElement_ToastInputChild> Children { get; private set; } = new List<IElement_ToastInputChild>();
+
+        /// <inheritdoc/>
+        string INotificationXmlElement.Name => "input";
     }
 
     internal interface IElement_ToastInputChild
