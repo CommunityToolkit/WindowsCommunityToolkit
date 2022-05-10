@@ -4,7 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastImage : IElement_ToastBindingChild, INotificationXmlElement
+    internal sealed class Element_ToastImage : IElement_ToastBindingChild, IHaveXmlName
     {
         internal const ToastImagePlacement DEFAULT_PLACEMENT = ToastImagePlacement.Inline;
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public ToastImageCrop Crop { get; set; } = DEFAULT_CROP;
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "image";
+        string IHaveXmlName.Name => "image";
     }
 
     /// <summary>

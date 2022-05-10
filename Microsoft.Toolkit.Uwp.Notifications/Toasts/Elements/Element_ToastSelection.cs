@@ -4,7 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastSelection : IElement_ToastInputChild, INotificationXmlElement
+    internal sealed class Element_ToastSelection : IElement_ToastInputChild, IHaveXmlName
     {
         /// <summary>
         /// Gets or sets the id attribute for apps to retrieve back the user selected input after the app is activated. Required
@@ -19,6 +19,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string Content { get; set; }
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "selection";
+        string IHaveXmlName.Name => "selection";
     }
 }

@@ -4,7 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastAction : IElement_ToastActionsChild, IElement_ToastActivatable, INotificationXmlElement
+    internal sealed class Element_ToastAction : IElement_ToastActionsChild, IElement_ToastActivatable, IHaveXmlName
     {
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
         internal const ToastAfterActivationBehavior DEFAULT_AFTER_ACTIVATION_BEHAVIOR = ToastAfterActivationBehavior.Default;
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public string HintActionId { get; set; }
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "action";
+        string IHaveXmlName.Name => "action";
     }
 
     internal enum Element_ToastActionPlacement

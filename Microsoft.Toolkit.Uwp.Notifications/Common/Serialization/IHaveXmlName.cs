@@ -5,9 +5,9 @@
 namespace Microsoft.Toolkit.Uwp.Notifications;
 
 /// <summary>
-/// An interface for a notification XML element.
+/// An interface for a notification XML element with a name.
 /// </summary>
-internal interface INotificationXmlElement
+internal interface IHaveXmlName
 {
     /// <summary>
     /// Gets the name of the current element.

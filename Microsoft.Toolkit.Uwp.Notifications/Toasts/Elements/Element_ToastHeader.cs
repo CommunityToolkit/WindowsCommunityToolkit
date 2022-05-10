@@ -6,7 +6,7 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastHeader : IElement_ToastActivatable, INotificationXmlElement
+    internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName
     {
         [NotificationXmlAttribute("id")]
         public string Id { get; set; }
@@ -41,6 +41,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "header";
+        string IHaveXmlName.Name => "header";
     }
 }

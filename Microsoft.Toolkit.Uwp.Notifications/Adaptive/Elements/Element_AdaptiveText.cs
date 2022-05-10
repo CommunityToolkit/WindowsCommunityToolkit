@@ -6,7 +6,7 @@ using System;
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    internal sealed class Element_AdaptiveText : IElement_TileBindingChild, IElement_AdaptiveSubgroupChild, IElement_ToastBindingChild, INotificationXmlElement
+    internal sealed class Element_AdaptiveText : IElement_TileBindingChild, IElement_AdaptiveSubgroupChild, IElement_ToastBindingChild, IHaveXmlName
     {
         internal const AdaptiveTextStyle DEFAULT_STYLE = AdaptiveTextStyle.Default;
         internal const AdaptiveTextAlign DEFAULT_ALIGN = AdaptiveTextAlign.Default;
@@ -92,6 +92,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
         public AdaptiveTextPlacement Placement { get; set; } = DEFAULT_PLACEMENT;
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "text";
+        string IHaveXmlName.Name => "text";
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastActions : INotificationXmlElement
+    internal sealed class Element_ToastActions : IHaveXmlName
     {
         internal const ToastSystemCommand DEFAULT_SYSTEM_COMMAND = ToastSystemCommand.None;
 
@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public IList<IElement_ToastActionsChild> Children { get; private set; } = new List<IElement_ToastActionsChild>();
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "actions";
+        string IHaveXmlName.Name => "actions";
     }
 
     internal interface IElement_ToastActionsChild

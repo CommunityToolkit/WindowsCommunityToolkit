@@ -4,7 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    internal sealed class Element_AdaptiveImage : IElement_TileBindingChild, IElement_ToastBindingChild, IElement_AdaptiveSubgroupChild, INotificationXmlElement
+    internal sealed class Element_AdaptiveImage : IElement_TileBindingChild, IElement_ToastBindingChild, IElement_AdaptiveSubgroupChild, IHaveXmlName
     {
         internal const AdaptiveImagePlacement DEFAULT_PLACEMENT = AdaptiveImagePlacement.Inline;
         internal const AdaptiveImageCrop DEFAULT_CROP = AdaptiveImageCrop.Default;
@@ -68,6 +68,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
         public uint? SpriteSheetStartingFrame { get; set; }
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "image";
+        string IHaveXmlName.Name => "image";
     }
 }

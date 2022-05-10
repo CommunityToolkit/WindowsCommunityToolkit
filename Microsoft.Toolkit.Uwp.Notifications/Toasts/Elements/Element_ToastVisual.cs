@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastVisual : INotificationXmlElement
+    internal sealed class Element_ToastVisual : IHaveXmlName
     {
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
 
@@ -26,6 +26,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public IList<Element_ToastBinding> Bindings { get; private set; } = new List<Element_ToastBinding>();
 
         /// <inheritdoc/>
-        string INotificationXmlElement.Name => "visual";
+        string IHaveXmlName.Name => "visual";
     }
 }

@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public static void Write(System.Xml.XmlWriter writer, object element)
         {
             // If it isn't an XML element, don't write anything
-            if (element is not INotificationXmlElement xmlElement)
+            if (element is not IHaveXmlName xmlElement)
             {
                 return;
             }
