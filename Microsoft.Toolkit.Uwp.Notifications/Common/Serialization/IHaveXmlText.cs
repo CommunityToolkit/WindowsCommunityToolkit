@@ -5,13 +5,13 @@
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// An interface for a notification XML element with a name.
+    /// An interface for a notification XML element with an explicit XML text content.
     /// </summary>
-    internal interface IHaveXmlName
+    internal interface IHaveXmlText
     {
         /// <summary>
-        /// Gets the name of the current element.
+        /// Gets the text content of the current element.
         /// </summary>
-        string Name { get; }
+        string Text { get; }
     }
 }

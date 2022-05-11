@@ -6,51 +6,52 @@ using System;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.Notifications;
-
-/// <summary>
-/// A helper class that can be used to format <see cref="Enum"/> values.
-/// </summary>
-internal static class EnumFormatter
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// Returns a <see cref="string"/> representation of an enum value with pascal casing.
+    /// A helper class that can be used to format <see cref="Enum"/> values.
     /// </summary>
-    /// <typeparam name="T">The <see cref="Enum"/> type to format.</typeparam>
-    /// <param name="value">The <typeparamref name="T"/> value to format.</param>
-    /// <returns>The pascal case <see cref="string"/> representation of <paramref name="value"/>.</returns>
-    public static string? ToPascalCaseString<T>(this T? value)
-        where T : unmanaged, Enum
+    internal static class EnumFormatter
     {
-        if (value is null)
+        /// <summary>
+        /// Returns a <see cref="string"/> representation of an enum value with pascal casing.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Enum"/> type to format.</typeparam>
+        /// <param name="value">The <typeparamref name="T"/> value to format.</param>
+        /// <returns>The pascal case <see cref="string"/> representation of <paramref name="value"/>.</returns>
+        public static string? ToPascalCaseString<T>(this T? value)
+            where T : unmanaged, Enum
         {
-            return null;
+            if (value is null)
+            {
+                return null;
+            }
+
+            return ToPascalCaseString(value.Value);
         }
 
-        return ToPascalCaseString(value.Value);
-    }
-
-    /// <summary>
-    /// Returns a <see cref="string"/> representation of an enum value with pascal casing.
-    /// </summary>
-    /// <typeparam name="T">The <see cref="Enum"/> type to format.</typeparam>
-    /// <param name="value">The <typeparamref name="T"/> value to format.</param>
-    /// <returns>The pascal case <see cref="string"/> representation of <paramref name="value"/>.</returns>
-    public static string? ToPascalCaseString<T>(this T value)
-        where T : unmanaged, Enum
-    {
-        string? text = value.ToString();
-
-        if (text is null or { Length: 0 })
+        /// <summary>
+        /// Returns a <see cref="string"/> representation of an enum value with pascal casing.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Enum"/> type to format.</typeparam>
+        /// <param name="value">The <typeparamref name="T"/> value to format.</param>
+        /// <returns>The pascal case <see cref="string"/> representation of <paramref name="value"/>.</returns>
+        public static string? ToPascalCaseString<T>(this T value)
+            where T : unmanaged, Enum
         {
-            return text;
-        }
+            string? text = value.ToString();
 
-        if (text is { Length: 1 })
-        {
-            return text.ToLowerInvariant();
-        }
+            if (text is null or { Length: 0 })
+            {
+                return text;
+            }
 
-        return $"{char.ToLowerInvariant(text[0])}{text.Substring(1)}";
+            if (text is { Length: 1 })
+            {
+                return text.ToLowerInvariant();
+            }
+
+            return $"{char.ToLowerInvariant(text[0])}{text.Substring(1)}";
+        }
     }
 }

@@ -6,15 +6,16 @@ using System.Collections.Generic;
 
 #nullable enable
 
-namespace Microsoft.Toolkit.Uwp.Notifications;
-
-/// <summary>
-/// An interface for a notification XML element with additional properties.
-/// </summary>
-internal interface IHaveXmlAdditionalProperties
+namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// Gets the mapping of additional properties.
+    /// An interface for a notification XML element with additional properties.
     /// </summary>
-    IReadOnlyDictionary<string, string> AdditionalProperties { get; }
+    internal interface IHaveXmlAdditionalProperties
+    {
+        /// <summary>
+        /// Gets the mapping of additional properties.
+        /// </summary>
+        IReadOnlyDictionary<string, string> AdditionalProperties { get; }
+    }
 }
