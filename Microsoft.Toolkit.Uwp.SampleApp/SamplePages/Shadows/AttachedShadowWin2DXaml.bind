@@ -37,7 +37,8 @@
                                     CornerRadius="32"
                                     Color="@[Color:Brush:Black]"
                                     Offset="@[Offset:Vector3:4,4]"
-                                    Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"/>
+                                    Opacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"
+                                    InnerContentClipMode="@[InnerContentClipMode:Enum:InnerContentClipMode.CompositionGeometricClip]"/>
         </ui:Effects.Shadow>
       </Rectangle>
       <!-- If you want to apply a shadow directly in your visual tree to an untemplated element
