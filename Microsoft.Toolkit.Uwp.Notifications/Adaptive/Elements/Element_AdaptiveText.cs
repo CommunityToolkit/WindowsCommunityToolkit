@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    internal sealed class Element_AdaptiveText : IElement_TileBindingChild, IElement_AdaptiveSubgroupChild, IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_AdaptiveText : IElement_TileBindingChild, IElement_AdaptiveSubgroupChild, IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlText
     {
         internal const AdaptiveTextStyle DEFAULT_STYLE = AdaptiveTextStyle.Default;
         internal const AdaptiveTextAlign DEFAULT_ALIGN = AdaptiveTextAlign.Default;

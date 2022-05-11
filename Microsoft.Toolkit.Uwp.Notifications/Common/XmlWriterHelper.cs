@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // If it's a content attribute
                 else if (attributes.OfType<NotificationXmlContentAttribute>().Any())
                 {
-                    content = propertyValue;
+                    continue;
                 }
 
                 // Otherwise it's an element or collection of elements
@@ -68,7 +68,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 }
             }
 
-            foreach (var property in (element as IHaveAdditionalProperties)?.AdditionalProperties ?? Enumerable.Empty<KeyValuePair<string, string>>())
+            content = (element as IHaveXmlText)?.Text;
+
+            foreach (var property in (element as IHaveXmlAdditionalProperties)?.AdditionalProperties ?? Enumerable.Empty<KeyValuePair<string, string>>())
             {
                 writer.WriteAttributeString(property.Key, property.Value);
             }

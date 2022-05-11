@@ -2,19 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
-
-#nullable enable
-
 namespace Microsoft.Toolkit.Uwp.Notifications;
 
 /// <summary>
-/// An interface for a notification XML element with additional properties.
+/// An interface for a notification XML element with an explicit XML text content.
 /// </summary>
-internal interface IHaveAdditionalProperties
+internal interface IHaveXmlText
 {
     /// <summary>
-    /// Gets the mapping of additional properties.
+    /// Gets the text content of the current element.
     /// </summary>
-    IReadOnlyDictionary<string, string> AdditionalProperties { get; }
+    string Text { get; }
 }

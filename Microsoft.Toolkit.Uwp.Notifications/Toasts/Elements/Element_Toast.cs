@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IHaveAdditionalProperties, IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IHaveXmlAdditionalProperties, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;

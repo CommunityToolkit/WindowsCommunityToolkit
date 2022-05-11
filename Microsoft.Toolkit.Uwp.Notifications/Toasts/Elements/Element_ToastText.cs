@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastText : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_ToastText : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlText
     {
         internal const ToastTextPlacement DEFAULT_PLACEMENT = ToastTextPlacement.Inline;
 
