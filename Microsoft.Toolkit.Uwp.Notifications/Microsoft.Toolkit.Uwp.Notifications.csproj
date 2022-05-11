@@ -43,9 +43,6 @@
   </ItemGroup>
 
   <!-- In order to support .NET Native, we need to include an appropriate .rd.xml for UWP (remove from everything else) -->
-  <ItemGroup Condition="'$(TargetFramework)' != 'uap10.0.19041' and '$(TargetFramework)' != 'native'">
-    <EmbeddedResource Remove="Properties\Microsoft.Toolkit.Uwp.Notifications.rd.xml" />
-  </ItemGroup>
 
   <!-- Desktop Win32 apps -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'netcoreapp3.1'">
