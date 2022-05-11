@@ -41,15 +41,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 object propertyValue = GetPropertyValue(p, element);
 
                 // If it's the additional properties item
-                if (p.Name == nameof(IElement_AdditionalProperties.AdditionalProperties) && element is IElement_AdditionalProperties && p.PropertyType == typeof(IDictionary<string, string>))
+                if (p.Name == nameof(IHaveXmlAdditionalProperties.AdditionalProperties) && element is IHaveXmlAdditionalProperties && p.PropertyType == typeof(IReadOnlyDictionary<string, string>))
                 {
-                    if (propertyValue != null)
-                    {
-                        foreach (var additionalProp in propertyValue as IDictionary<string, string>)
-                        {
-                            writer.WriteAttributeString(additionalProp.Key, additionalProp.Value);
-                        }
-                    }
+                    continue;
                 }
 
                 // If it's an attribute
@@ -72,6 +66,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         elements.Add(propertyValue);
                     }
                 }
+            }
+
+            foreach (var property in (element as IHaveAdditionalProperties)?.AdditionalProperties ?? Enumerable.Empty<KeyValuePair<string, string>>())
+            {
+                writer.WriteAttributeString(property.Key, property.Value);
             }
 
             foreach (var property in (element as IHaveXmlNamedProperties)?.EnumerateNamedProperties() ?? Enumerable.Empty<KeyValuePair<string, object>>())
