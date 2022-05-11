@@ -8,16 +8,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
     internal sealed class Element_AdaptiveProgressBar : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
     {
-        [NotificationXmlAttribute("value")]
         public string Value { get; set; }
 
-        [NotificationXmlAttribute("title")]
         public string Title { get; set; }
 
-        [NotificationXmlAttribute("valueStringOverride")]
         public string ValueStringOverride { get; set; }
 
-        [NotificationXmlAttribute("status")]
         public string Status { get; set; }
 
         /// <inheritdoc/>

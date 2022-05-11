@@ -12,25 +12,18 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         internal const TileBranding DEFAULT_BRANDING = TileBranding.Auto;
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
 
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
-        [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
-        [NotificationXmlAttribute("branding", DEFAULT_BRANDING)]
         public TileBranding Branding { get; set; } = DEFAULT_BRANDING;
 
-        [NotificationXmlAttribute("contentId")]
         public string ContentId { get; set; }
 
-        [NotificationXmlAttribute("displayName")]
         public string DisplayName { get; set; }
 
-        [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
-        [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
 
         public IList<Element_TileBinding> Bindings { get; private set; } = new List<Element_TileBinding>();

@@ -11,16 +11,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
 
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
-        [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
-        [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
-        [NotificationXmlAttribute("version")]
         public int? Version { get; set; }
 
         public IList<Element_ToastBinding> Bindings { get; private set; } = new List<Element_ToastBinding>();

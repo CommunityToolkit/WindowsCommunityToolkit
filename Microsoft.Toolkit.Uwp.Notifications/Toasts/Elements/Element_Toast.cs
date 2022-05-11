@@ -13,13 +13,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
         internal const ToastDuration DEFAULT_DURATION = ToastDuration.Short;
 
-        [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
         public Element_ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
 
-        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
-        [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
         public ToastAfterActivationBehavior AfterActivationBehavior
         {
             get
@@ -36,16 +33,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        [NotificationXmlAttribute("duration", DEFAULT_DURATION)]
         public ToastDuration Duration { get; set; } = DEFAULT_DURATION;
 
-        [NotificationXmlAttribute("launch")]
         public string Launch { get; set; }
 
-        [NotificationXmlAttribute("scenario", DEFAULT_SCENARIO)]
         public ToastScenario Scenario { get; set; } = DEFAULT_SCENARIO;
 
-        [NotificationXmlAttribute("displayTimestamp")]
         public DateTimeOffset? DisplayTimestamp { get; set; }
 
         public Element_ToastVisual Visual { get; set; }
@@ -56,10 +49,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         public Element_ToastHeader Header { get; set; }
 
-        [NotificationXmlAttribute("hint-toastId")]
         public string HintToastId { get; set; }
 
-        [NotificationXmlAttribute("hint-people")]
         public string HintPeople { get; set; }
 
         public IReadOnlyDictionary<string, string> AdditionalProperties { get; set; }
@@ -134,7 +125,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Toast stays on-screen for longer, and then goes into Action Center.
         /// </summary>
-        [EnumString("long")]
         Long
     }
 
@@ -151,19 +141,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Causes the Toast to stay on-screen and expanded until the user takes action. Also causes a looping alarm sound to be selected by default.
         /// </summary>
-        [EnumString("alarm")]
         Alarm,
 
         /// <summary>
         /// Causes the Toast to stay on-screen and expanded until the user takes action.
         /// </summary>
-        [EnumString("reminder")]
         Reminder,
 
         /// <summary>
         /// Causes the Toast to stay on-screen and expanded until the user takes action (on Mobile this expands to full screen). Also causes a looping incoming call sound to be selected by default.
         /// </summary>
-        [EnumString("incomingCall")]
         IncomingCall
     }
 }

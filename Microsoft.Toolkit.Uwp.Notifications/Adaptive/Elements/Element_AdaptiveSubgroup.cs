@@ -11,12 +11,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
     {
         internal const AdaptiveSubgroupTextStacking DEFAULT_TEXT_STACKING = AdaptiveSubgroupTextStacking.Default;
 
-        [NotificationXmlAttribute("hint-textStacking", DEFAULT_TEXT_STACKING)]
         public AdaptiveSubgroupTextStacking TextStacking { get; set; } = DEFAULT_TEXT_STACKING;
 
         private int? _weight;
 
-        [NotificationXmlAttribute("hint-weight")]
         public int? Weight
         {
             get

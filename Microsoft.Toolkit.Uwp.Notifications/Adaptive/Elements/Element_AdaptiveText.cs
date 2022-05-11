@@ -13,21 +13,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
         internal const AdaptiveTextAlign DEFAULT_ALIGN = AdaptiveTextAlign.Default;
         internal const AdaptiveTextPlacement DEFAULT_PLACEMENT = AdaptiveTextPlacement.Inline;
 
-        [NotificationXmlContent]
         public string Text { get; set; }
 
-        [NotificationXmlAttribute("id")]
         public int? Id { get; set; }
 
-        [NotificationXmlAttribute("lang")]
         public string Lang { get; set; }
 
-        [NotificationXmlAttribute("hint-align", DEFAULT_ALIGN)]
         public AdaptiveTextAlign Align { get; set; } = DEFAULT_ALIGN;
 
         private int? _maxLines;
 
-        [NotificationXmlAttribute("hint-maxLines")]
         public int? MaxLines
         {
             get
@@ -56,7 +51,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 
         private int? _minLines;
 
-        [NotificationXmlAttribute("hint-minLines")]
         public int? MinLines
         {
             get
@@ -83,13 +77,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
             }
         }
 
-        [NotificationXmlAttribute("hint-style", DEFAULT_STYLE)]
         public AdaptiveTextStyle Style { get; set; } = DEFAULT_STYLE;
 
-        [NotificationXmlAttribute("hint-wrap")]
         public bool? Wrap { get; set; }
 
-        [NotificationXmlAttribute("placement", DEFAULT_PLACEMENT)]
         public AdaptiveTextPlacement Placement { get; set; } = DEFAULT_PLACEMENT;
 
         /// <inheritdoc/>

@@ -10,7 +10,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
         internal const ToastSystemCommand DEFAULT_SYSTEM_COMMAND = ToastSystemCommand.None;
 
-        [NotificationXmlAttribute("hint-systemCommands", DEFAULT_SYSTEM_COMMAND)]
         public ToastSystemCommand SystemCommands { get; set; } = ToastSystemCommand.None;
 
         public IList<IElement_ToastActionsChild> Children { get; private set; } = new List<IElement_ToastActionsChild>();

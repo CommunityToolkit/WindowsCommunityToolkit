@@ -12,33 +12,24 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
         internal const AdaptiveImageCrop DEFAULT_CROP = AdaptiveImageCrop.Default;
         internal const AdaptiveImageAlign DEFAULT_ALIGN = AdaptiveImageAlign.Default;
 
-        [NotificationXmlAttribute("id")]
         public int? Id { get; set; }
 
-        [NotificationXmlAttribute("src")]
         public string Src { get; set; }
 
-        [NotificationXmlAttribute("alt")]
         public string Alt { get; set; }
 
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
-        [NotificationXmlAttribute("placement", DEFAULT_PLACEMENT)]
         public AdaptiveImagePlacement Placement { get; set; } = DEFAULT_PLACEMENT;
 
-        [NotificationXmlAttribute("hint-align", DEFAULT_ALIGN)]
         public AdaptiveImageAlign Align { get; set; } = DEFAULT_ALIGN;
 
-        [NotificationXmlAttribute("hint-crop", DEFAULT_CROP)]
         public AdaptiveImageCrop Crop { get; set; } = DEFAULT_CROP;
 
-        [NotificationXmlAttribute("hint-removeMargin")]
         public bool? RemoveMargin { get; set; }
 
         private int? _overlay;
 
-        [NotificationXmlAttribute("hint-overlay")]
         public int? Overlay
         {
             get
@@ -57,16 +48,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
             }
         }
 
-        [NotificationXmlAttribute("spritesheet-src")]
         public string SpriteSheetSrc { get; set; }
 
-        [NotificationXmlAttribute("spritesheet-height")]
         public uint? SpriteSheetHeight { get; set; }
 
-        [NotificationXmlAttribute("spritesheet-fps")]
         public uint? SpriteSheetFps { get; set; }
 
-        [NotificationXmlAttribute("spritesheet-startingFrame")]
         public uint? SpriteSheetStartingFrame { get; set; }
 
         /// <inheritdoc/>

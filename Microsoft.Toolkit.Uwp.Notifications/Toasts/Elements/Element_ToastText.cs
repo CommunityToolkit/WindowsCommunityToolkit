@@ -10,13 +10,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     {
         internal const ToastTextPlacement DEFAULT_PLACEMENT = ToastTextPlacement.Inline;
 
-        [NotificationXmlContent]
         public string Text { get; set; }
 
-        [NotificationXmlAttribute("lang")]
         public string Lang { get; set; }
 
-        [NotificationXmlAttribute("placement", DEFAULT_PLACEMENT)]
         public ToastTextPlacement Placement { get; set; } = DEFAULT_PLACEMENT;
 
         /// <inheritdoc/>
@@ -37,8 +34,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     internal enum ToastTextPlacement
     {
         Inline,
-
-        [EnumString("attribution")]
         Attribution
     }
 }

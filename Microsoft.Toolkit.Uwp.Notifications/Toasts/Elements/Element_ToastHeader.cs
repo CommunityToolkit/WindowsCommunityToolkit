@@ -9,22 +9,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName, IHaveXmlNamedProperties
     {
-        [NotificationXmlAttribute("id")]
         public string Id { get; set; }
 
-        [NotificationXmlAttribute("title")]
         public string Title { get; set; }
 
-        [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
 
-        [NotificationXmlAttribute("activationType", Element_ToastActivationType.Foreground)]
         public Element_ToastActivationType ActivationType { get; set; } = Element_ToastActivationType.Foreground;
 
-        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
-        [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
         public ToastAfterActivationBehavior AfterActivationBehavior
         {
             get

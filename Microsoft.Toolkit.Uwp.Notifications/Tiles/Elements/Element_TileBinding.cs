@@ -18,7 +18,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             Template = template;
         }
 
-        [NotificationXmlAttribute("template")]
         public TileTemplateNameV3 Template { get; private set; }
 
         /// <summary>
@@ -30,19 +29,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         ///
         /// "www.website.com/images/hello.png?ms-scale=100&amp;ms-contrast=standard&amp;ms-lang=en-us"
         /// </summary>
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
         /// <summary>
         /// Gets or sets a default base URI that is combined with relative URIs in image source attributes.
         /// </summary>
-        [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
         /// <summary>
         /// Gets or sets the form that the Tile should use to display the app's brand.
         /// </summary>
-        [NotificationXmlAttribute("branding", DEFAULT_BRANDING)]
         public TileBranding Branding { get; set; } = DEFAULT_BRANDING;
 
         /// <summary>
@@ -50,31 +46,24 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         ///
         /// Required: NO
         /// </summary>
-        [NotificationXmlAttribute("contentId")]
         public string ContentId { get; set; }
 
         /// <summary>
         /// Gets or sets an optional string to override the Tile's display name while showing this notification.
         /// </summary>
-        [NotificationXmlAttribute("displayName")]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides that in visual, but can be overridden by that in text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string. See Remarks for when this value isn't specified.
         /// </summary>
-        [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
-        [NotificationXmlAttribute("hint-lockDetailedStatus1")]
         public string LockDetailedStatus1 { get; set; }
 
-        [NotificationXmlAttribute("hint-lockDetailedStatus2")]
         public string LockDetailedStatus2 { get; set; }
 
-        [NotificationXmlAttribute("hint-lockDetailedStatus3")]
         public string LockDetailedStatus3 { get; set; }
 
-        [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
 
         /// <summary>
@@ -89,10 +78,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        [NotificationXmlAttribute("hint-presentation")]
         public TilePresentation? Presentation { get; set; }
 
-        [NotificationXmlAttribute("hint-textStacking", DEFAULT_TEXT_STACKING)]
         public TileTextStacking TextStacking { get; set; } = DEFAULT_TEXT_STACKING;
 
         public IList<IElement_TileBindingChild> Children { get; private set; } = new List<IElement_TileBindingChild>();
