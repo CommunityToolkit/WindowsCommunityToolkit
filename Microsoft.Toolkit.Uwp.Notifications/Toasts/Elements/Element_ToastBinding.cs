@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastBinding : IHaveXmlName
+    internal sealed class Element_ToastBinding : IHaveXmlName, IHaveXmlNamedProperties
     {
         public Element_ToastBinding(ToastTemplateType template)
         {
@@ -48,6 +48,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "binding";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("template", Template);
+            yield return new("addImageQuery", AddImageQuery);
+            yield return new("baseUri", BaseUri);
+            yield return new("lang", Language);
+            yield return new("experienceType", ExperienceType);
+        }
     }
 
     internal interface IElement_ToastBindingChild

@@ -55,13 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 // If it's an attribute
                 else if (attr != null)
                 {
-                    object defaultValue = attr.DefaultValue;
-
-                    // If the value is not the default value (and it's not null) we'll write it
-                    if (!object.Equals(propertyValue, defaultValue) && propertyValue != null)
-                    {
-                        writer.WriteAttributeString(attr.Name, PropertyValueToString(propertyValue));
-                    }
+                    continue;
                 }
 
                 // If it's a content attribute
@@ -77,6 +71,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     {
                         elements.Add(propertyValue);
                     }
+                }
+            }
+
+            foreach (var property in (element as IHaveXmlNamedProperties)?.EnumerateNamedProperties() ?? Enumerable.Empty<KeyValuePair<string, object>>())
+            {
+                if (property.Value is not null)
+                {
+                    writer.WriteAttributeString(property.Key, PropertyValueToString(property.Value));
                 }
             }
 

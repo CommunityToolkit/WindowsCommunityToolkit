@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastImage : IElement_ToastBindingChild, IHaveXmlName
+    internal sealed class Element_ToastImage : IElement_ToastBindingChild, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const ToastImagePlacement DEFAULT_PLACEMENT = ToastImagePlacement.Inline;
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
@@ -27,6 +29,28 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "image";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("src", Src);
+            yield return new("alt", Alt);
+
+            if (AddImageQuery != DEFAULT_ADD_IMAGE_QUERY)
+            {
+                yield return new("addImageQuery", AddImageQuery);
+            }
+
+            if (Placement != DEFAULT_PLACEMENT)
+            {
+                yield return new("placement", Placement.ToPascalCaseString());
+            }
+
+            if (Crop != DEFAULT_CROP)
+            {
+                yield return new("crop", Crop.ToPascalCaseString());
+            }
+        }
     }
 
     /// <summary>

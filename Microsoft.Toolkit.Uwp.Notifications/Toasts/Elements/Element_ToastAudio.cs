@@ -3,10 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastAudio : IHaveXmlName
+    internal sealed class Element_ToastAudio : IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const bool DEFAULT_LOOP = false;
         internal const bool DEFAULT_SILENT = false;
@@ -28,5 +29,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "audio";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("src", Src);
+
+            if (Loop != DEFAULT_LOOP)
+            {
+                yield return new("loop", Loop);
+            }
+
+            if (Silent != DEFAULT_SILENT)
+            {
+                yield return new("silent", Silent);
+            }
+        }
     }
 }

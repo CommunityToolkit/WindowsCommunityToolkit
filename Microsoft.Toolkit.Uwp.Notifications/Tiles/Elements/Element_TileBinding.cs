@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_TileBinding : IElementWithDescendants, IHaveXmlName
+    internal sealed class Element_TileBinding : IElementWithDescendants, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const TileBranding DEFAULT_BRANDING = TileBranding.Auto;
         internal const TileTextStacking DEFAULT_TEXT_STACKING = TileTextStacking.Top;
@@ -121,6 +121,33 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "binding";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("template", Template);
+            yield return new("addImageQuery", AddImageQuery);
+            yield return new("baseUri", BaseUri);
+
+            if (Branding != DEFAULT_BRANDING)
+            {
+                yield return new("branding", Branding);
+            }
+
+            yield return new("contentId", ContentId);
+            yield return new("displayName", DisplayName);
+            yield return new("lang", Language);
+            yield return new("hint-lockDetailedStatus1", LockDetailedStatus1);
+            yield return new("hint-lockDetailedStatus2", LockDetailedStatus2);
+            yield return new("hint-lockDetailedStatus3", LockDetailedStatus3);
+            yield return new("arguments", Arguments);
+            yield return new("hint-presentation", Presentation.ToPascalCaseString());
+
+            if (TextStacking != DEFAULT_TEXT_STACKING)
+            {
+                yield return new("hint-textStacking", TextStacking.ToPascalCaseString());
+            }
+        }
     }
 
     internal interface IElement_TileBindingChild

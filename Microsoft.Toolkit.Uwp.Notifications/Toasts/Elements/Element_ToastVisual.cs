@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastVisual : IHaveXmlName
+    internal sealed class Element_ToastVisual : IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
 
@@ -27,5 +27,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "visual";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("addImageQuery", AddImageQuery);
+            yield return new("baseUri", BaseUri);
+            yield return new("lang", Language);
+            yield return new("version", Version);
+        }
     }
 }

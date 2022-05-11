@@ -3,10 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName
+    internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName, IHaveXmlNamedProperties
     {
         [NotificationXmlAttribute("id")]
         public string Id { get; set; }
@@ -42,5 +43,25 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "header";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("id", Id);
+            yield return new("title", Title);
+            yield return new("arguments", Arguments);
+
+            if (ActivationType != Element_ToastActivationType.Foreground)
+            {
+                yield return new("activationType", ActivationType.ToPascalCaseString());
+            }
+
+            yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+
+            if (AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+            {
+                yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
+            }
+        }
     }
 }

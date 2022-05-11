@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastAction : IElement_ToastActionsChild, IElement_ToastActivatable, IHaveXmlName
+    internal sealed class Element_ToastAction : IElement_ToastActionsChild, IElement_ToastActivatable, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
         internal const ToastAfterActivationBehavior DEFAULT_AFTER_ACTIVATION_BEHAVIOR = ToastAfterActivationBehavior.Default;
@@ -51,6 +53,35 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "action";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("content", Content);
+            yield return new("arguments", Arguments);
+
+            if (ActivationType != DEFAULT_ACTIVATION_TYPE)
+            {
+                yield return new("activationType", ActivationType.ToPascalCaseString());
+            }
+
+            yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+
+            if (AfterActivationBehavior != DEFAULT_AFTER_ACTIVATION_BEHAVIOR)
+            {
+                yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
+            }
+
+            yield return new("imageUri", ImageUri);
+            yield return new("hint-inputId", InputId);
+
+            if (Placement != DEFAULT_PLACEMENT)
+            {
+                yield return new("placement", Placement.ToPascalCaseString());
+            }
+
+            yield return new("hint-actionId", HintActionId);
+        }
     }
 
     internal enum Element_ToastActionPlacement

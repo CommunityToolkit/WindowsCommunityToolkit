@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
+
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    internal sealed class Element_AdaptiveImage : IElement_TileBindingChild, IElement_ToastBindingChild, IElement_AdaptiveSubgroupChild, IHaveXmlName
+    internal sealed class Element_AdaptiveImage : IElement_TileBindingChild, IElement_ToastBindingChild, IElement_AdaptiveSubgroupChild, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const AdaptiveImagePlacement DEFAULT_PLACEMENT = AdaptiveImagePlacement.Inline;
         internal const AdaptiveImageCrop DEFAULT_CROP = AdaptiveImageCrop.Default;
@@ -69,5 +71,36 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "image";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("id", Id);
+            yield return new("src", Src);
+            yield return new("alt", Alt);
+            yield return new("addImageQuery", AddImageQuery);
+
+            if (Placement != DEFAULT_PLACEMENT)
+            {
+                yield return new("placement", Placement.ToPascalCaseString());
+            }
+
+            if (Align != DEFAULT_ALIGN)
+            {
+                yield return new("hint-align", Align.ToPascalCaseString());
+            }
+
+            if (Crop != DEFAULT_CROP)
+            {
+                yield return new("hint-crop", Crop.ToPascalCaseString());
+            }
+
+            yield return new("hint-removeMargin", RemoveMargin);
+            yield return new("hint-overlay", Overlay);
+            yield return new("spritesheet-src", SpriteSheetSrc);
+            yield return new("spritesheet-height", SpriteSheetHeight);
+            yield return new("spritesheet-fps", SpriteSheetFps);
+            yield return new("spritesheet-startingFrame", SpriteSheetStartingFrame);
+        }
     }
 }

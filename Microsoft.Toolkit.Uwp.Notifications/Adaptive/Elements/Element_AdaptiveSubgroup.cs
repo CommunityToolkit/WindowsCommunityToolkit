@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    internal sealed class Element_AdaptiveSubgroup : IElementWithDescendants, IHaveXmlName
+    internal sealed class Element_AdaptiveSubgroup : IElementWithDescendants, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const AdaptiveSubgroupTextStacking DEFAULT_TEXT_STACKING = AdaptiveSubgroupTextStacking.Default;
 
@@ -53,6 +53,17 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "subgroup";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            if (TextStacking != DEFAULT_TEXT_STACKING)
+            {
+                yield return new("hint-textStacking", TextStacking.ToPascalCaseString());
+            }
+
+            yield return new("hint-weight", Weight);
+        }
     }
 
     internal interface IElement_AdaptiveSubgroupChild

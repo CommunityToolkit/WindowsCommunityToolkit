@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastSelection : IElement_ToastInputChild, IHaveXmlName
+    internal sealed class Element_ToastSelection : IElement_ToastInputChild, IHaveXmlName, IHaveXmlNamedProperties
     {
         /// <summary>
         /// Gets or sets the id attribute for apps to retrieve back the user selected input after the app is activated. Required
@@ -20,5 +22,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "selection";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("id", Id);
+            yield return new("content", Content);
+        }
     }
 }

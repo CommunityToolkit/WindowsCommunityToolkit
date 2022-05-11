@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IElement_AdditionalProperties, IHaveXmlName
+    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IElement_AdditionalProperties, IHaveXmlName, IHaveXmlNamedProperties
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
@@ -84,6 +84,38 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "toast";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            if (ActivationType != DEFAULT_ACTIVATION_TYPE)
+            {
+                yield return new("activationType", ActivationType.ToPascalCaseString());
+            }
+
+            yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+
+            if (AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+            {
+                yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
+            }
+
+            if (Duration != DEFAULT_DURATION)
+            {
+                yield return new("duration", Duration.ToPascalCaseString());
+            }
+
+            yield return new("launch", Launch);
+
+            if (Scenario != DEFAULT_SCENARIO)
+            {
+                yield return new("scenario", Scenario.ToPascalCaseString());
+            }
+
+            yield return new("displayTimestamp", DisplayTimestamp);
+            yield return new("hint-toastId", HintToastId);
+            yield return new("hint-people", HintPeople);
+        }
     }
 
     /// <summary>
