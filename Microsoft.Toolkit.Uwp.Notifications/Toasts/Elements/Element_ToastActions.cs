@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_ToastActions : IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_ToastActions : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const ToastSystemCommand DEFAULT_SYSTEM_COMMAND = ToastSystemCommand.None;
 
@@ -17,6 +17,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "actions";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Children;
 
         /// <inheritdoc/>
         IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()

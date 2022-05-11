@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_TileVisual : IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_TileVisual : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const TileBranding DEFAULT_BRANDING = TileBranding.Auto;
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
@@ -37,6 +37,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "visual";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Bindings;
 
         /// <inheritdoc/>
         IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()

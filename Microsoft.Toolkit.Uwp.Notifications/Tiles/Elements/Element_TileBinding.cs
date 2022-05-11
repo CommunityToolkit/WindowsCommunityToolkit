@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_TileBinding : IElementWithDescendants, IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_TileBinding : IElementWithDescendants, IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const TileBranding DEFAULT_BRANDING = TileBranding.Auto;
         internal const TileTextStacking DEFAULT_TEXT_STACKING = TileTextStacking.Top;
@@ -121,6 +121,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "binding";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Children;
 
         /// <inheritdoc/>
         IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()

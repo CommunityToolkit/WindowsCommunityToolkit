@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IHaveXmlAdditionalProperties, IHaveXmlName, IHaveXmlNamedProperties
+    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IHaveXmlAdditionalProperties, IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
@@ -84,6 +84,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         /// <inheritdoc/>
         string IHaveXmlName.Name => "toast";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => new object[] { Visual, Audio, Actions, Header };
 
         /// <inheritdoc/>
         IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()

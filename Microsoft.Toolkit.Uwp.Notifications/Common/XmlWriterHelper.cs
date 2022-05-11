@@ -57,14 +57,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 {
                     continue;
                 }
+                else if (p.Name == nameof(IHaveXmlChildren.Children) && element is IHaveXmlChildren && p.PropertyType == typeof(IEnumerable<object>))
+                {
+                    continue;
+                }
 
                 // Otherwise it's an element or collection of elements
                 else
                 {
-                    if (propertyValue != null)
-                    {
-                        elements.Add(propertyValue);
-                    }
+                    continue;
                 }
             }
 
@@ -83,20 +84,14 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 }
             }
 
+            foreach (var child in (element as IHaveXmlChildren)?.Children ?? Enumerable.Empty<object>())
+            {
+                elements.Add(child);
+            }
+
             // Then write children
             foreach (object el in elements)
             {
-                // If it's a collection of children
-                if (el is IEnumerable)
-                {
-                    foreach (object child in el as IEnumerable)
-                    {
-                        Write(writer, child);
-                    }
-
-                    continue;
-                }
-
                 // Otherwise just write the single element
                 Write(writer, el);
             }
