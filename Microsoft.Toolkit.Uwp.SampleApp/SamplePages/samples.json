@@ -1289,6 +1289,14 @@
         "XamlCodeFile": "EnumValuesExtensionXaml.bind",
         "CodeFile": "EnumValuesExtensionCode.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/EnumValuesExtension.md"
+      },
+      {
+        "Name": "GridExtensions",
+        "Type": "GridExtensionsPage",
+        "About": "Extensions to enable switching grid layouts dynamically",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.UI/Extensions/GridExtensions",
+        "XamlCodeFile": "GridExtensionsCode.bind",
+        "Icon": "/Assets/Helpers.png"
       }
     ]
   },
@@ -1302,7 +1310,7 @@
         "About": "Demonstrate the properties and events of the Gaze Interaction library",
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "CodeFile": "GazeInteractionCode.bind",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
@@ -1311,13 +1319,12 @@
         "Name": "GazeTracing",
         "Type": "GazeTracingPage",
         "About": "Shows how to use the Windows 10 API for eye trackers",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
         "XamlCodeFile": "GazeTracingXaml.bind",
         "CodeFile": "GazeTracingCode.bind",
         "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview",
-        "DocumentationUrl" : "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md"
       }
     ]
-  }
-]
+  }]
