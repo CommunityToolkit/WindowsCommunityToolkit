@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -97,6 +99,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         private Color _value;
+
+        /// <summary>
+        /// Evaluates the current value of the expression
+        /// </summary>
+        /// <returns>The current value of the expression</returns>
+        public Color Evaluate()
+        {
+            switch (NodeType)
+            {
+                case ExpressionNodeType.ConstantValue:
+                    return _value;
+                case ExpressionNodeType.ConstantParameter:
+                    throw new NotImplementedException();
+                case ExpressionNodeType.ReferenceProperty:
+                    var reference = (Children[0] as ReferenceNode).Reference;
+                    return PropertyName switch
+                    {
+                        nameof(CompositionColorBrush.Color) => (reference as CompositionColorBrush).Color,
+                        _ => GetProperty()
+                    };
+
+                    Color GetProperty()
+                    {
+                        reference.Properties.TryGetColor(PropertyName, out var value);
+                        return value;
+                    }
+
+                case ExpressionNodeType.Conditional:
+                    return
+                        (Children[0] as BooleanNode).Evaluate() ?
+                        (Children[1] as ColorNode).Evaluate() :
+                        (Children[2] as ColorNode).Evaluate();
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 #pragma warning restore CS0660, CS0661
 }

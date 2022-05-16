@@ -231,6 +231,7 @@
     <Compile Include="PrivateType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
+    <Compile Include="UI\Animations\Test_ExpressionNode.cs" />
     <Compile Include="UI\Animations\Test_AnimationBuilderStart.cs" />
     <Compile Include="UI\Collection\DataSource.cs" />
     <Compile Include="UI\Collection\Test_IncrementalLoadingCollection.cs" />

@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -301,6 +303,70 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         private Vector2 _value;
+
+        /// <summary>
+        /// Evaluates the current value of the expression
+        /// </summary>
+        /// <returns>The current value of the expression</returns>
+        public Vector2 Evaluate()
+        {
+            switch (NodeType)
+            {
+                case ExpressionNodeType.ConstantValue:
+                    return _value;
+                case ExpressionNodeType.ConstantParameter:
+                    throw new NotImplementedException();
+                case ExpressionNodeType.ReferenceProperty:
+                    var reference = (Children[0] as ReferenceNode).Reference;
+                    return PropertyName switch
+                    {
+                        nameof(Visual.Size) => (reference as Visual).Size,
+                        nameof(Visual.AnchorPoint) => (reference as Visual).AnchorPoint,
+                        _ => GetProperty()
+                    };
+
+                    Vector2 GetProperty()
+                    {
+                        reference.Properties.TryGetVector2(PropertyName, out var value);
+                        return value;
+                    }
+
+                case ExpressionNodeType.Conditional:
+                    return
+                        (Children[0] as BooleanNode).Evaluate() ?
+                        (Children[1] as Vector2Node).Evaluate() :
+                        (Children[2] as Vector2Node).Evaluate();
+                case ExpressionNodeType.Add:
+                    return
+                        (Children[0] as Vector2Node).Evaluate() +
+                        (Children[1] as Vector2Node).Evaluate();
+                case ExpressionNodeType.Subtract:
+                    return
+                        (Children[0] as Vector2Node).Evaluate() -
+                        (Children[1] as Vector2Node).Evaluate();
+                case ExpressionNodeType.Negate:
+                    return
+                        -(Children[0] as Vector2Node).Evaluate();
+                case ExpressionNodeType.Multiply:
+                    return (Children[0], Children[1]) switch
+                    {
+                        (Vector2Node v1, Vector2Node v2) => v1.Evaluate() * v2.Evaluate(),
+                        (Vector2Node v1, ScalarNode s2) => v1.Evaluate() * s2.Evaluate(),
+                        (ScalarNode s1, Vector2Node v2) => s1.Evaluate() * v2.Evaluate(),
+                        _ => throw new NotImplementedException()
+                    };
+                case ExpressionNodeType.Divide:
+                    return
+                        (Children[0] as Vector2Node).Evaluate() /
+                        (Children[1] as Vector2Node).Evaluate();
+                case ExpressionNodeType.Vector2:
+                    return new Vector2((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Swizzle:
+                    return new Vector2(Children[0].EvaluateSubchannel(Subchannels[0]), Children[0].EvaluateSubchannel(Subchannels[1]));
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 #pragma warning restore CS0660, CS0661
 }
