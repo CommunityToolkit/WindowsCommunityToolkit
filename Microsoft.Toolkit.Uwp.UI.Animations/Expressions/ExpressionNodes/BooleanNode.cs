@@ -140,8 +140,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             {
                 case ExpressionNodeType.ConstantValue:
                     return _value;
-                case ExpressionNodeType.ConstantParameter:
-                    throw new NotImplementedException();
                 case ExpressionNodeType.Equals:
                     return Equals(Children[0], Children[1]);
                 case ExpressionNodeType.NotEquals:

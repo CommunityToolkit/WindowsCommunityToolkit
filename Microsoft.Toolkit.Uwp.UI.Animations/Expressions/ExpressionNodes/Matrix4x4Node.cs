@@ -423,8 +423,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             {
                 case ExpressionNodeType.ConstantValue:
                     return _value;
-                case ExpressionNodeType.ConstantParameter:
-                    throw new NotImplementedException();
                 case ExpressionNodeType.ReferenceProperty:
                     var reference = (Children[0] as ReferenceNode).Reference;
                     return PropertyName switch

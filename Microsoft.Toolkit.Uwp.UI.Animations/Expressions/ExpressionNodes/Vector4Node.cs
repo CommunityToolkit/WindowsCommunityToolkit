@@ -358,8 +358,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             switch (NodeType)
             {
-                case ExpressionNodeType.ConstantValue:
-                    return _value;
                 case ExpressionNodeType.ConstantParameter:
                     throw new NotImplementedException();
                 case ExpressionNodeType.ReferenceProperty:
