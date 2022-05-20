@@ -154,7 +154,7 @@
                             <TextBlock Margin="0,20,0,0"
                                        FontSize="14"
                                        Foreground="{ThemeResource Brush-Link-Normal}"
-                                       Text="The Windows Community Toolkit is a collection of helpers, extensions, and custom controls. It simplifies and demonstrates common developer tasks for building UWP and .NET apps for Windows 10."
+                                       Text="The Windows Community Toolkit is a collection of helpers, extensions, and custom controls. It simplifies and demonstrates common .NET developer tasks for building UWP and WinUI 3 apps for Windows 10 and Windows 11."
                                        TextWrapping="Wrap" />
                         </StackPanel>
 
