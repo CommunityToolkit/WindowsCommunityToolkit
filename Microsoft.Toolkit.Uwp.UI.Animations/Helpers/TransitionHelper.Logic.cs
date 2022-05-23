@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private Task AnimateControlsAsync(bool reversed, CancellationToken token)
         {
-            var duration = this.AnimationDuration;
+            var duration = this.Duration;
             if (this._isInterruptedAnimation)
             {
                 duration *= this.interruptedAnimationReverseDurationRatio;
@@ -285,18 +285,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 duration,
                 config.EasingType,
                 config.EasingMode);
-            TimeSpan opacityAnimationDuration = config.OpacityMode switch
-            {
-                OpacityAnimationMode.Normal => duration,
-                OpacityAnimationMode.Faster => duration * 1 / 3,
-                _ => duration
-            };
             this.AnimateUIElementsOpacity(
                 sourceBuilder,
                 targetBuilder,
-                opacityAnimationDuration,
-                config.EasingType,
-                config.EasingMode);
+                duration,
+                config.TransitionMode);
             switch (config.ScaleMode)
             {
                 case ScaleMode.Scale:
@@ -351,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             var animationTasks = new List<Task>();
             var duration = isShow ? this.IndependentElementShowDuration : this.IndependentElementHideDuration;
-            var delay = isShow ? this.IndependentElementShowDelayDuration : TimeSpan.Zero;
+            var delay = isShow ? this.IndependentElementShowDelay : TimeSpan.Zero;
             if (this._isInterruptedAnimation)
             {
                 duration *= this.interruptedAnimationReverseDurationRatio;
@@ -389,7 +382,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (isShow)
                 {
-                    delay += this.IndependentElementShowStepDuration;
+                    delay += this.IndependentElementShowInterval;
                 }
             }
 
@@ -502,8 +495,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             TimeSpan duration,
-            EasingType easingType,
-            EasingMode easingMode)
+            TransitionMode transitionMode)
         {
             if (this._isInterruptedAnimation)
             {
@@ -512,8 +504,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            _ = sourceBuilder.Opacity(from: 1, to: 0, duration: duration, easingType: easingType, easingMode: easingMode);
-            _ = targetBuilder.Opacity(from: 0, to: 1, duration: duration, easingType: easingType, easingMode: easingMode);
+            switch (transitionMode)
+            {
+                case TransitionMode.Normal:
+                    _ = sourceBuilder.Opacity().TimedKeyFrames(
+                        build: b => b
+                            .KeyFrame(TimeSpan.Zero, 1)
+                            .KeyFrame(duration / 3, 0, easingType: EasingType.Linear)
+                            .KeyFrame(duration, 0));
+                    break;
+                case TransitionMode.Image:
+                    _ = sourceBuilder.Opacity().TimedKeyFrames(
+                        build: b => b
+                            .KeyFrame(TimeSpan.Zero, 1)
+                            .KeyFrame(duration / 3, 1)
+                            .KeyFrame(duration, 0, easingType: EasingType.Linear));
+                    break;
+                default:
+                    break;
+            }
+
+            _ = targetBuilder.Opacity().TimedKeyFrames(
+                build: b => b
+                    .KeyFrame(TimeSpan.Zero, 0)
+                    .KeyFrame(duration / 3, 1, easingType: EasingType.Linear)
+                    .KeyFrame(duration, 1));
         }
     }
 }

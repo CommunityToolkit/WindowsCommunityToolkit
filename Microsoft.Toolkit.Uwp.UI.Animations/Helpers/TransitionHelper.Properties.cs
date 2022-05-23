@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets or sets the duration of the connected animation between two UI elements.
         /// The default value is 600ms.
         /// </summary>
-        public TimeSpan AnimationDuration { get; set; } = TimeSpan.FromMilliseconds(600);
+        public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(600);
 
         /// <summary>
         /// Gets or sets the duration of the show animation for independent or unpaired UI elements.
@@ -125,13 +125,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets or sets the delay of the show animation for independent or unpaired UI elements.
         /// The default value is 300ms.
         /// </summary>
-        public TimeSpan IndependentElementShowDelayDuration { get; set; } = TimeSpan.FromMilliseconds(300);
+        public TimeSpan IndependentElementShowDelay { get; set; } = TimeSpan.FromMilliseconds(300);
 
         /// <summary>
-        /// Gets or sets the duration of the interval between the show animations for independent or unpaired UI elements.
+        /// Gets or sets the interval between the show animations for independent or unpaired UI elements.
         /// The default value is 50ms.
         /// </summary>
-        public TimeSpan IndependentElementShowStepDuration { get; set; } = TimeSpan.FromMilliseconds(50);
+        public TimeSpan IndependentElementShowInterval { get; set; } = TimeSpan.FromMilliseconds(50);
 
         /// <summary>
         /// Gets or sets the duration of the hide animation for independent or unpaired UI elements.
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets or sets the translation of the hide animation for independent or unpaired UI elements.
         /// The default value is (0, 20).
         /// </summary>
-        public Point IndependentElementHideTranslation { get; set; } = new (0, 20);
+        public Point IndependentElementHideTranslation { get; set; } = new(0, 20);
 
         /// <summary>
         /// Gets or sets the easing function type for animation of independent or unpaired UI elements.

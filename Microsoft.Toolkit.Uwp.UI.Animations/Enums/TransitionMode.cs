@@ -5,18 +5,18 @@
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Indicates the strategy for animating the opacity of a UI element.
+    /// Indicates the transition strategy between controls.
     /// </summary>
-    public enum OpacityAnimationMode
+    public enum TransitionMode
     {
         /// <summary>
-        /// Animating the opacity of a UI element using default speed.
+        /// The default transition strategy.
         /// </summary>
         Normal,
 
         /// <summary>
-        /// Animating the opacity of a UI element using faster speed.
+        /// The transition strategy for image or other UI elements that require smoother transitions.
         /// </summary>
-        Faster,
+        Image,
     }
 }

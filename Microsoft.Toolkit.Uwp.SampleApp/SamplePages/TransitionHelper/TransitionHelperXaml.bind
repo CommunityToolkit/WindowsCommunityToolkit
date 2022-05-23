@@ -6,15 +6,13 @@
       xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
-      xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
       mc:Ignorable="d">
     <Page.Resources>
         <ani:TransitionHelper x:Key="MyTransitionHelper">
             <ani:AnimationConfig Id="background"
-                                 OpacityMode="Normal"
                                  ScaleMode="Scale" />
             <ani:AnimationConfig Id="image"
+                                 TransitionMode="Image"
                                  ScaleMode="Scale" />
             <ani:AnimationConfig Id="name"
                                  ScaleMode="ScaleY" />
@@ -30,14 +28,8 @@
             <Grid Width="50"
                   Height="50">
                 <Border ani:TransitionHelper.Id="background"
-                        Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                        CornerRadius="4">
-                    <ui:Effects.Shadow>
-                        <media:AttachedCardShadow BlurRadius="4"
-                                                  CornerRadius="4"
-                                                  Opacity="0.4" />
-                    </ui:Effects.Shadow>
-                </Border>
+                        Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                        CornerRadius="4"/>
                 <Border Width="36"
                         Height="36"
                         ani:TransitionHelper.Id="image"
@@ -79,14 +71,8 @@
               VerticalAlignment="Top"
               Visibility="Collapsed">
             <Border ani:TransitionHelper.Id="background"
-                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                    CornerRadius="8">
-                <ui:Effects.Shadow>
-                    <media:AttachedCardShadow BlurRadius="4"
-                                              CornerRadius="8"
-                                              Opacity="0.4" />
-                </ui:Effects.Shadow>
-            </Border>
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                    CornerRadius="8"/>
             <StackPanel Padding="20"
                         Orientation="Horizontal"
                         Spacing="20">
@@ -145,14 +131,8 @@
               VerticalAlignment="Center"
               Visibility="Collapsed">
             <Border ani:TransitionHelper.Id="background"
-                    Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                    CornerRadius="8">
-                <ui:Effects.Shadow>
-                    <media:AttachedCardShadow BlurRadius="4"
-                                              CornerRadius="8"
-                                              Opacity="0.4" />
-                </ui:Effects.Shadow>
-            </Border>
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                    CornerRadius="8"/>
             <StackPanel Padding="20"
                         HorizontalAlignment="Center"
                         Spacing="20">
