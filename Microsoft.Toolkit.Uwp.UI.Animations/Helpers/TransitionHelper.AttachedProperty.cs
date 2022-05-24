@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return false;
                 }
 
-                return GetId(x) is string xId && GetId(y) is string yId && xId == yId;
+                return GetId(x) is { } xId && GetId(y) is { } yId && xId.Equals(yId);
             }
 
             public int GetHashCode(DependencyObject obj)
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public static readonly DependencyProperty IsIndependentProperty =
             DependencyProperty.RegisterAttached("IsIndependent", typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
 
-        private static IEnumerable<UIElement> GetAnimatedElements(UIElement targetElement)
+        private static IEnumerable<UIElement> GetAnimatedElements(DependencyObject targetElement)
         {
             return targetElement?.FindDescendantsOrSelf()
                     .Where(element => GetId(element) is not null || GetIsIndependent(element))

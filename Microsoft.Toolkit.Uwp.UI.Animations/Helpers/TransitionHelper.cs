@@ -18,20 +18,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     [ContentProperty(Name = nameof(AnimationConfigs))]
     public sealed partial class TransitionHelper
     {
+        private const double InterruptedAnimationReverseDurationRatio = 0.7;
         private readonly Dictionary<string, UIElement> sourceConnectedAnimatedElements = new();
         private readonly Dictionary<string, UIElement> targetConnectedAnimatedElements = new();
         private readonly List<UIElement> sourceIndependentAnimatedElements = new();
         private readonly List<UIElement> targetIndependentAnimatedElements = new();
-        private readonly double interruptedAnimationReverseDurationRatio = 0.7;
         private readonly TimeSpan almostZeroDuration = TimeSpan.FromMilliseconds(1);
 
         private CancellationTokenSource _animateCancellationTokenSource;
         private CancellationTokenSource _reverseCancellationTokenSource;
         private TaskCompletionSource<bool> _animateTaskSource;
         private TaskCompletionSource<bool> _reverseTaskSource;
-        private bool _needUpdateSourceLayout = false;
-        private bool _needUpdateTargetLayout = false;
-        private bool _isInterruptedAnimation = false;
+        private bool _needUpdateSourceLayout;
+        private bool _needUpdateTargetLayout;
+        private bool _isInterruptedAnimation;
 
         private IEnumerable<UIElement> SourceAnimatedElements => this.sourceConnectedAnimatedElements.Values.Concat(this.sourceIndependentAnimatedElements);
 
