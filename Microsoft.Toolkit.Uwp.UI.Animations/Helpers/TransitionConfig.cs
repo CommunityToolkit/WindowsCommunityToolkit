@@ -8,17 +8,17 @@ using Windows.UI.Xaml.Media.Animation;
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
     /// <summary>
-    /// Configuration used for UI element animation.
+    /// Configuration used for the transition between UI elements.
     /// </summary>
-    public class AnimationConfig
+    public class TransitionConfig
     {
         /// <summary>
-        /// Gets or sets id of a UI element.
+        /// Gets or sets an id to indicate the target UI elements.
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the scale strategy of a UI element.
+        /// Gets or sets the scale strategy of the transition.
         /// The default value is <see cref="ScaleMode.None"/>.
         /// </summary>
         public ScaleMode ScaleMode { get; set; } = ScaleMode.None;
@@ -38,13 +38,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TransitionMode TransitionMode { get; set; } = TransitionMode.Normal;
 
         /// <summary>
-        /// Gets or sets the easing function type for animation.
+        /// Gets or sets the easing function type for the transition.
         /// The default value is <see cref="EasingType.Default"/>.
         /// </summary>
         public EasingType EasingType { get; set; } = EasingType.Default;
 
         /// <summary>
-        /// Gets or sets the easing function mode for animation.
+        /// Gets or sets the easing function mode for the transition.
         /// The default value is <see cref="EasingMode.EaseInOut"/>.
         /// </summary>
         public EasingMode EasingMode { get; set; } = EasingMode.EaseInOut;

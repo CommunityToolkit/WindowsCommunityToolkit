@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// A animation helper that morphs between two controls.
     /// </summary>
-    [ContentProperty(Name = nameof(AnimationConfigs))]
+    [ContentProperty(Name = nameof(Configs))]
     public sealed partial class TransitionHelper
     {
         private const double InterruptedAnimationReverseDurationRatio = 0.7;

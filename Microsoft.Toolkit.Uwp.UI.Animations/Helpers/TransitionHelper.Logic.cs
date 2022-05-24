@@ -104,8 +104,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 var source = this.sourceConnectedAnimatedElements[key];
                 var target = this.targetConnectedAnimatedElements[key];
-                var animationConfig = this.AnimationConfigs.FirstOrDefault(config => config.Id == key) ??
-                                      this.DefaultAnimationConfig;
+                var animationConfig = this.Configs.FirstOrDefault(config => config.Id == key) ??
+                                      this.DefaultConfig;
                 animationTasks.Add(
                     this.AnimateElementsAsync(
                         reversed ? target : source,
@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateTargetLayoutTaskSource.Task;
         }
 
-        private Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, AnimationConfig config, CancellationToken token)
+        private Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, TransitionConfig config, CancellationToken token)
         {
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
@@ -511,21 +511,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     _ = sourceBuilder.Opacity().TimedKeyFrames(
                         b => b
                             .KeyFrame(TimeSpan.Zero, 1)
-                            .KeyFrame(duration / 3, 0, easingType: EasingType.Linear));
+                            .KeyFrame(duration / 3, 0, EasingType.Linear));
                     break;
                 case TransitionMode.Image:
                     _ = sourceBuilder.Opacity().TimedKeyFrames(
                         b => b
                             .KeyFrame(TimeSpan.Zero, 1)
                             .KeyFrame(duration / 3, 1)
-                            .KeyFrame(duration * 2 / 3, 0, easingType: EasingType.Linear));
+                            .KeyFrame(duration * 2 / 3, 0, EasingType.Linear));
                     break;
             }
 
             _ = targetBuilder.Opacity().TimedKeyFrames(
                 b => b
                     .KeyFrame(TimeSpan.Zero, 0)
-                    .KeyFrame(duration / 3, 1, easingType: EasingType.Linear));
+                    .KeyFrame(duration / 3, 1, EasingType.Linear));
         }
     }
 }

@@ -2,28 +2,28 @@
 var transitionHelper = new TransitionHelper();
 
 // Configure TransitionHelper.
-transitionHelper.AnimationConfigs = new List<AnimationConfig>
+transitionHelper.Configs = new List<TransitionConfig>
     {
-        new AnimationConfig
+        new TransitionConfig
         {
             Id = "background",
             ScaleMode = ScaleMode.Scale
         },
-        new AnimationConfig
+        new TransitionConfig
         {
             Id = "image",
             ScaleMode = ScaleMode.Scale
         },
-        new AnimationConfig
+        new TransitionConfig
         {
             Id = "guide",
         },
-        new AnimationConfig
+        new TransitionConfig
         {
             Id = "name",
             ScaleMode = ScaleMode.ScaleY
         },
-        new AnimationConfig
+        new TransitionConfig
         {
             Id = "desc",
         },

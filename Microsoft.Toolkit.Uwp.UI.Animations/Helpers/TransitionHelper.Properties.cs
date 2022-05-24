@@ -76,14 +76,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Gets or sets the collection of animation configurations of UI elements that need to be connected by animation.
+        /// Gets or sets transition configurations of UI elements that need to be connected by animation.
         /// </summary>
-        public List<AnimationConfig> AnimationConfigs { get; set; } = new();
+        public List<TransitionConfig> Configs { get; set; } = new();
 
         /// <summary>
-        /// Gets or sets the default animation configuration.
+        /// Gets or sets the default transition configuration.
         /// </summary>
-        public AnimationConfig DefaultAnimationConfig { get; set; } = new();
+        public TransitionConfig DefaultConfig { get; set; } = new();
 
         /// <summary>
         /// Gets a value indicating whether the source control has been morphed to the target control.

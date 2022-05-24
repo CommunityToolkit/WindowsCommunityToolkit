@@ -9,10 +9,10 @@
       mc:Ignorable="d">
     <Page.Resources>
         <ani:TransitionHelper x:Key="MyTransitionHelper">
-            <ani:AnimationConfig Id="icon"
-                                 ScaleMode="Scale" />
-            <ani:AnimationConfig Id="name"
-                                 ScaleMode="ScaleY" />
+            <ani:TransitionConfig Id="icon"
+                                  ScaleMode="Scale" />
+            <ani:TransitionConfig Id="name"
+                                  ScaleMode="ScaleY" />
         </ani:TransitionHelper>
     </Page.Resources>
     <StackPanel Margin="50,20"
