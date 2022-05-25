@@ -9,7 +9,6 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -60,26 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     independentAnimatedElements.Add(item);
                 }
             }
-        }
-
-        private static void ToggleVisualState(UIElement target, VisualStateToggleMethod method, bool isVisible)
-        {
-            if (target is null)
-            {
-                return;
-            }
-
-            switch (method)
-            {
-                case VisualStateToggleMethod.ByVisibility:
-                    target.Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
-                    break;
-                case VisualStateToggleMethod.ByIsVisible:
-                    target.GetVisual().IsVisible = isVisible;
-                    break;
-            }
-
-            target.IsHitTestVisible = isVisible;
         }
 
         private Task AnimateControlsAsync(bool reversed, CancellationToken token)
@@ -188,18 +167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             else
             {
                 RestoreUIElements(isTargetState ? this.SourceAnimatedElements : this.TargetAnimatedElements);
-            }
-        }
-
-        private static void RestoreUIElements(IEnumerable<UIElement> animatedElements)
-        {
-            foreach (var animatedElement in animatedElements)
-            {
-                ElementCompositionPreview.SetIsTranslationEnabled(animatedElement, true);
-                var visual = animatedElement.GetVisual();
-                visual.Opacity = 1;
-                visual.Scale = Vector3.One;
-                visual.Properties.InsertVector3("Translation", Vector3.Zero);
             }
         }
 

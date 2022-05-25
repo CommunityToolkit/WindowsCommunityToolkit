@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
-using System.Linq;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -13,24 +11,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
-        private class AnimatedElementComparer : IEqualityComparer<DependencyObject>
-        {
-            public bool Equals(DependencyObject x, DependencyObject y)
-            {
-                if (GetIsIndependent(x) || GetIsIndependent(y))
-                {
-                    return false;
-                }
-
-                return GetId(x) is { } xId && GetId(y) is { } yId && xId.Equals(yId);
-            }
-
-            public int GetHashCode(DependencyObject obj)
-            {
-                return 0;
-            }
-        }
-
         /// <summary>
         /// Get the animation id of the UI element.
         /// </summary>
@@ -77,13 +57,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public static readonly DependencyProperty IsIndependentProperty =
             DependencyProperty.RegisterAttached("IsIndependent", typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
-
-        private static IEnumerable<UIElement> GetAnimatedElements(DependencyObject targetElement)
-        {
-            return targetElement?.FindDescendantsOrSelf()
-                    .Where(element => GetId(element) is not null || GetIsIndependent(element))
-                    .Distinct(new AnimatedElementComparer())
-                    .OfType<UIElement>();
-        }
     }
 }
