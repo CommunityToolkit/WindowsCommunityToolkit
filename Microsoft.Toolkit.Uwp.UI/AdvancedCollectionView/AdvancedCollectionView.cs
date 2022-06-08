@@ -683,7 +683,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                 }
                 else if (newStartingIndex == _source.Count - 1)
                 {
-                    newViewIndex = _view.Count - 1;
+                    newViewIndex = _view.Count;
                 }
                 else if (viewIndex.HasValue)
                 {
