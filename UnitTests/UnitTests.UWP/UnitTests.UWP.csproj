@@ -145,8 +145,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
-      <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
+      <Version>13.0.1</Version>
+      <!-- DO NOT UPGRADE THIS PACKAGE FROM 13.0.1, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
     </PackageReference>
     <PackageReference Include="System.Text.Json">
       <Version>5.0.2</Version>
