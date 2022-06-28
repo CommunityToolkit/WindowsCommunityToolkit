@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (this._source is not null)
                 {
-                    RestoreUIElements(this.SourceAnimatedElements);
+                    RestoreElements(this.SourceAnimatedElements);
                 }
 
                 this._source = value;
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (this._target is not null)
                 {
-                    RestoreUIElements(this.TargetAnimatedElements);
+                    RestoreElements(this.TargetAnimatedElements);
                 }
 
                 this._target = value;

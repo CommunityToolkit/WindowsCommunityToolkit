@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private Task AnimateControlsAsync(bool reversed, CancellationToken token)
+        private Task AnimateControls(bool reversed, CancellationToken token)
         {
             var duration = this.Duration;
             if (this._isInterruptedAnimation)
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animationConfig = this.Configs.FirstOrDefault(config => config.Id == key) ??
                                       this.DefaultConfig;
                 animationTasks.Add(
-                    this.AnimateElementsAsync(
+                    this.AnimateElements(
                         reversed ? target : source,
                         reversed ? source : target,
                         duration,
@@ -96,14 +96,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             animationTasks.Add(
-                this.AnimateIndependentElementsAsync(
+                this.AnimateIndependentElements(
                     this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements),
                     reversed,
                     token,
                     IndependentElementEasingType,
                     IndependentElementEasingMode));
             animationTasks.Add(
-                this.AnimateIndependentElementsAsync(
+                this.AnimateIndependentElements(
                     this.targetIndependentAnimatedElements.Concat(targetUnpairedElements),
                     !reversed,
                     token,
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            await this.AnimateControlsAsync(reversed, token);
+            await this.AnimateControls(reversed, token);
             if (token.IsCancellationRequested)
             {
                 _ = currentTaskSource.TrySetResult(false);
@@ -164,12 +164,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
             if (restoreAllChildElements)
             {
-                RestoreUIElements(this.SourceAnimatedElements);
-                RestoreUIElements(this.TargetAnimatedElements);
+                RestoreElements(this.SourceAnimatedElements);
+                RestoreElements(this.TargetAnimatedElements);
             }
             else
             {
-                RestoreUIElements(isTargetState ? this.SourceAnimatedElements : this.TargetAnimatedElements);
+                RestoreElements(isTargetState ? this.SourceAnimatedElements : this.TargetAnimatedElements);
             }
         }
 
@@ -179,8 +179,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Canvas.SetZIndex(this.IsTargetState ? this.Source : this.Target, maxZIndex);
 
             await Task.WhenAll(
-                this.InitControlStateAsync(this.Source, this._needUpdateSourceLayout),
-                this.InitControlStateAsync(this.Target, this._needUpdateTargetLayout));
+                this.InitControlState(this.Source, this._needUpdateSourceLayout),
+                this.InitControlState(this.Target, this._needUpdateTargetLayout));
 
             this._needUpdateSourceLayout = false;
             this._needUpdateTargetLayout = false;
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private Task InitControlStateAsync(FrameworkElement target, bool needUpdateLayout)
+        private Task InitControlState(FrameworkElement target, bool needUpdateLayout)
         {
             var updateLayoutTask = Task.CompletedTask;
             if (target is null)
@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 target.Visibility = Visibility.Visible;
                 if (needUpdateLayout)
                 {
-                    updateLayoutTask = this.UpdateControlLayoutAsync(target);
+                    updateLayoutTask = this.UpdateControlLayout(target);
                 }
             }
 
@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateLayoutTask;
         }
 
-        private Task UpdateControlLayoutAsync(FrameworkElement target)
+        private Task UpdateControlLayout(FrameworkElement target)
         {
             var updateTargetLayoutTaskSource = new TaskCompletionSource<object>();
             void OnTargetLayoutUpdated(object sender, object e)
@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateTargetLayoutTaskSource.Task;
         }
 
-        private Task AnimateElementsAsync(UIElement source, UIElement target, TimeSpan duration, TransitionConfig config, CancellationToken token)
+        private Task AnimateElements(UIElement source, UIElement target, TimeSpan duration, TransitionConfig config, CancellationToken token)
         {
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
@@ -248,7 +248,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 new Vector3(source.ActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
             target.GetVisual().CenterPoint =
                 new Vector3(target.ActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
-            this.AnimateUIElementsTranslation(
+            this.AnimateTranslation(
                 sourceBuilder,
                 targetBuilder,
                 source,
@@ -257,14 +257,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 duration,
                 config.EasingType,
                 config.EasingMode);
-            this.AnimateUIElementsOpacity(
+            this.AnimateOpacity(
                 sourceBuilder,
                 targetBuilder,
                 duration);
             switch (config.ScaleMode)
             {
                 case ScaleMode.Scale:
-                    this.AnimateUIElementsScale(
+                    this.AnimateScale(
                         sourceBuilder,
                         targetBuilder,
                         source,
@@ -274,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         config.EasingMode);
                     break;
                 case ScaleMode.ScaleX:
-                    this.AnimateUIElementsScaleX(
+                    this.AnimateScaleX(
                         sourceBuilder,
                         targetBuilder,
                         source,
@@ -284,7 +284,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         config.EasingMode);
                     break;
                 case ScaleMode.ScaleY:
-                    this.AnimateUIElementsScaleY(
+                    this.AnimateScaleY(
                         sourceBuilder,
                         targetBuilder,
                         source,
@@ -301,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
 
-        private Task AnimateIndependentElementsAsync(
+        private Task AnimateIndependentElements(
             IEnumerable<UIElement> independentElements,
             bool isShow,
             CancellationToken token,
@@ -363,7 +363,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(animationTasks);
         }
 
-        private void AnimateUIElementsTranslation(
+        private void AnimateTranslation(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             UIElement source,
@@ -395,7 +395,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     .KeyFrame(duration, Vector3.Zero));
         }
 
-        private void AnimateUIElementsScale(
+        private void AnimateScale(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             UIElement source,
@@ -407,10 +407,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var scaleX = target.ActualSize.X / source.ActualSize.X;
             var scaleY = target.ActualSize.Y / source.ActualSize.Y;
             var scale = new Vector3(scaleX, scaleY, 1);
-            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateUIElementsScaleX(
+        private void AnimateScaleX(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             UIElement source,
@@ -421,10 +421,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var scaleX = target.ActualSize.X / source.ActualSize.X;
             var scale = new Vector3(scaleX, scaleX, 1);
-            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateUIElementsScaleY(
+        private void AnimateScaleY(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             UIElement source,
@@ -435,10 +435,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var scaleY = target.ActualSize.Y / source.ActualSize.Y;
             var scale = new Vector3(scaleY, scaleY, 1);
-            this.AnimateUIElementsScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateUIElementsScale(
+        private void AnimateScale(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             Vector3 targetScale,
@@ -464,7 +464,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     .KeyFrame(duration, Vector3.One));
         }
 
-        private void AnimateUIElementsOpacity(
+        private void AnimateOpacity(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             TimeSpan duration)

@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             target.IsHitTestVisible = isVisible;
         }
 
-        private static void RestoreUIElements(IEnumerable<UIElement> animatedElements)
+        private static void RestoreElements(IEnumerable<UIElement> animatedElements)
         {
             foreach (var animatedElement in animatedElements)
             {
