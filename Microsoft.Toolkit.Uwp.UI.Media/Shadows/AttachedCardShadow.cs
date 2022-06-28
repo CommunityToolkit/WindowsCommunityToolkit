@@ -326,6 +326,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 shapeVisual.Size = sizeAsVec2;
             }
 
+            if (context.TryGetResource(OpacityMaskVisualSurfaceResourceKey, out CompositionVisualSurface opacityMaskVisualSurface))
+            {
+                opacityMaskVisualSurface.SourceSize = sizeAsVec2 + new Vector2(MaxBlurRadius * 2);
+            }
+
+            if (InnerContentClipMode is InnerContentClipMode.CompositionMaskBrush)
+            {
+                context.SpriteVisual.Size = sizeAsVec2;
+            }
+
             UpdateShadowClip(context);
             UpdateVisualOpacityMask(context);
 
