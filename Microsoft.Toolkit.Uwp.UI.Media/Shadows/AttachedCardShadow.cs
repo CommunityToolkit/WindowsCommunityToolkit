@@ -305,20 +305,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             Vector2 sizeAsVec2 = newSize.ToVector2();
 
-            CompositionRoundedRectangleGeometry geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
-            if (geometry != null)
+            if (context.TryGetResource(RoundedRectangleGeometryResourceKey, out CompositionRoundedRectangleGeometry geometry))
             {
                 geometry.Size = sizeAsVec2;
             }
 
-            CompositionVisualSurface visualSurface = context.GetResource(VisualSurfaceResourceKey);
-            if (geometry != null)
+            if (context.TryGetResource(VisualSurfaceResourceKey, out CompositionVisualSurface visualSurface))
             {
                 visualSurface.SourceSize = sizeAsVec2;
             }
 
-            ShapeVisual shapeVisual = context.GetResource(ShapeVisualResourceKey);
-            if (geometry != null)
+            if (context.TryGetResource(ShapeVisualResourceKey, out ShapeVisual shapeVisual))
             {
                 shapeVisual.Size = sizeAsVec2;
             }
