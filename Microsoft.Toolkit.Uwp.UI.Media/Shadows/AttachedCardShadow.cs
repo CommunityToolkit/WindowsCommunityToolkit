@@ -293,6 +293,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             else
             {
                 base.SetElementChildVisual(context);
+
+                // Reset context.SpriteVisual.Size and RelativeSizeAdjustment to default values
+                // as they may be changed in the block above.
+                context.SpriteVisual.Size = Vector2.Zero;
+                context.SpriteVisual.RelativeSizeAdjustment = Vector2.One;
+
                 context.RemoveAndDisposeResource(OpacityMaskVisualSurfaceResourceKey);
                 context.RemoveAndDisposeResource(OpacityMaskSurfaceBrushResourceKey);
                 context.RemoveAndDisposeResource(OpacityMaskVisualResourceKey);
@@ -321,6 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
 
             UpdateShadowClip(context);
+            UpdateVisualOpacityMask(context);
 
             base.OnSizeChanged(context, newSize, previousSize);
         }
