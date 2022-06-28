@@ -9,6 +9,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -157,6 +158,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void RestoreState(bool isTargetState, bool restoreAllChildElements)
         {
             this.IsTargetState = isTargetState;
+            Canvas.SetZIndex(this.Source, _sourceZIndex);
+            Canvas.SetZIndex(this.Target, _targetZIndex);
             ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
             ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
             if (restoreAllChildElements)
@@ -172,6 +175,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private async Task InitControlsStateAsync(bool forceUpdateAnimatedElements = false)
         {
+            var maxZIndex = Math.Max(_sourceZIndex, _targetZIndex) + 1;
+            Canvas.SetZIndex(this.IsTargetState ? this.Source : this.Target, maxZIndex);
+
             await Task.WhenAll(
                 this.InitControlStateAsync(this.Source, this._needUpdateSourceLayout),
                 this.InitControlStateAsync(this.Target, this._needUpdateTargetLayout));
@@ -254,8 +260,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this.AnimateUIElementsOpacity(
                 sourceBuilder,
                 targetBuilder,
-                duration,
-                config.TransitionMode);
+                duration);
             switch (config.ScaleMode)
             {
                 case ScaleMode.Scale:
@@ -462,8 +467,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void AnimateUIElementsOpacity(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
-            TimeSpan duration,
-            TransitionMode transitionMode)
+            TimeSpan duration)
         {
             if (this._isInterruptedAnimation)
             {
@@ -472,27 +476,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            switch (transitionMode)
-            {
-                case TransitionMode.Normal:
-                    _ = sourceBuilder.Opacity().TimedKeyFrames(
-                        b => b
-                            .KeyFrame(TimeSpan.Zero, 1)
-                            .KeyFrame(duration / 3, 0, EasingType.Linear));
-                    break;
-                case TransitionMode.Image:
-                    _ = sourceBuilder.Opacity().TimedKeyFrames(
-                        b => b
-                            .KeyFrame(TimeSpan.Zero, 1)
-                            .KeyFrame(duration / 3, 1)
-                            .KeyFrame(duration * 2 / 3, 0, EasingType.Linear));
-                    break;
-            }
-
+            var useDuration = TimeSpan.FromMilliseconds(Math.Min(200, duration.TotalMilliseconds / 3));
+            _ = sourceBuilder.Opacity().TimedKeyFrames(
+                b => b
+                    .KeyFrame(TimeSpan.Zero, 1)
+                    .KeyFrame(useDuration, 0, EasingType.Cubic, EasingMode.EaseIn));
             _ = targetBuilder.Opacity().TimedKeyFrames(
                 b => b
                     .KeyFrame(TimeSpan.Zero, 0)
-                    .KeyFrame(duration / 3, 1, EasingType.Linear));
+                    .KeyFrame(useDuration, 1, EasingType.Cubic, EasingMode.EaseOut));
         }
     }
 }

@@ -1,7 +1,7 @@
 // Create a TransitionHelper.
 var transitionHelper = new TransitionHelper();
 
-// Configure TransitionHelper.
+// Configure TransitionHelper.Items that use the default configuration do not need to be listed here.
 transitionHelper.Configs = new List<TransitionConfig>
     {
         new TransitionConfig
@@ -16,23 +16,15 @@ transitionHelper.Configs = new List<TransitionConfig>
         },
         new TransitionConfig
         {
-            Id = "guide",
-        },
-        new TransitionConfig
-        {
             Id = "name",
             ScaleMode = ScaleMode.ScaleY
-        },
-        new TransitionConfig
-        {
-            Id = "desc",
-        },
+        }
     };
 transitionHelper.Source = FirstControl;
 transitionHelper.Target = SecondControl;
 
 // Animate.
-await transitionHelper.AnimateAsync()
+await transitionHelper.AnimateAsync();
 
 // Reverse.
 await transitionHelper.ReverseAsync();

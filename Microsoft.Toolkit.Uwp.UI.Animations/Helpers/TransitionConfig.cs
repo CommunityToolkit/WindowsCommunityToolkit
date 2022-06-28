@@ -32,12 +32,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public Point NormalizedCenterPoint { get; set; } = default;
 
         /// <summary>
-        /// Gets or sets the transition strategy.
-        /// The default value is <see cref="TransitionMode.Normal"/>.
-        /// </summary>
-        public TransitionMode TransitionMode { get; set; } = TransitionMode.Normal;
-
-        /// <summary>
         /// Gets or sets the easing function type for the transition.
         /// The default value is <see cref="EasingType.Default"/>.
         /// </summary>

@@ -12,7 +12,6 @@
             <ani:TransitionConfig Id="background"
                                   ScaleMode="Scale" />
             <ani:TransitionConfig Id="image"
-                                  TransitionMode="Image"
                                   ScaleMode="Scale" />
             <ani:TransitionConfig Id="name"
                                   ScaleMode="ScaleY" />

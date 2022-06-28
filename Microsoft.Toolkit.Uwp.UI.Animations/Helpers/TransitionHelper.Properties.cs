@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -16,7 +17,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class TransitionHelper
     {
         private FrameworkElement _source;
+        private int _sourceZIndex = -1;
         private FrameworkElement _target;
+        private int _targetZIndex = -1;
 
         /// <summary>
         /// Gets or sets the source control.
@@ -41,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 this._source = value;
+                this._sourceZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateSourceLayout = true;
                 this.UpdateSourceAnimatedElements();
             }
@@ -69,6 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 this._target = value;
+                this._targetZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateTargetLayout = true;
                 this.IsTargetState = false;
                 this.UpdateTargetAnimatedElements();
