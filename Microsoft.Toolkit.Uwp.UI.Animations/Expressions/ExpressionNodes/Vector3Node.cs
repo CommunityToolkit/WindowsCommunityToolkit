@@ -366,6 +366,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     return
                         (Children[0] as Vector3Node).Evaluate() -
                         (Children[1] as Vector3Node).Evaluate();
+                case ExpressionNodeType.Lerp:
+                {
+                    var t = (Children[2] as ScalarNode).Evaluate();
+                    return
+                        (Children[0] as Vector3Node).Evaluate() * t -
+                        (Children[1] as Vector3Node).Evaluate() * (1 - t);
+                }
                 case ExpressionNodeType.Negate:
                     return
                         -(Children[0] as Vector3Node).Evaluate();

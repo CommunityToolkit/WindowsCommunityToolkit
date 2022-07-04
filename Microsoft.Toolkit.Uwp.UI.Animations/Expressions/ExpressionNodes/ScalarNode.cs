@@ -318,8 +318,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                     return MathF.Acos((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Atan:
                     return MathF.Atan((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Ceil:
+                    return MathF.Ceiling((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Floor:
+                    return MathF.Floor((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Ln:
+                    return MathF.Log((Children[0] as ScalarNode).Evaluate());
                 case ExpressionNodeType.Log10:
                     return MathF.Log10((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Pow:
+                    return MathF.Pow((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Round:
+                    return MathF.Round((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Square:
+                    return MathF.Pow((Children[0] as ScalarNode).Evaluate(), 2);
+                case ExpressionNodeType.Sqrt:
+                    return MathF.Sqrt((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.ToDegrees:
+                    return 180 * (Children[0] as ScalarNode).Evaluate() / MathF.PI;
+                case ExpressionNodeType.ToRadians:
+                    return MathF.PI * (Children[0] as ScalarNode).Evaluate() / 180;
+                case ExpressionNodeType.Modulus:
+                    return (Children[0] as ScalarNode).Evaluate() % (Children[1] as ScalarNode).Evaluate();
                 case ExpressionNodeType.Conditional:
                     return (Children[0] as BooleanNode).Evaluate() ? (Children[1] as ScalarNode).Evaluate() : (Children[2] as ScalarNode).Evaluate();
                 case ExpressionNodeType.Distance:
