@@ -308,8 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType,
             EasingMode easingMode)
         {
-            var uiElements = independentElements as UIElement[] ?? independentElements.ToArray();
-            if (!uiElements.Any())
+            if (independentElements?.ToArray() is not { Length: > 0 } elements)
             {
                 return Task.CompletedTask;
             }
@@ -317,43 +316,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var animationTasks = new List<Task>();
             var duration = isShow ? this.IndependentElementShowDuration : this.IndependentElementHideDuration;
             var delay = isShow ? this.IndependentElementShowDelay : TimeSpan.Zero;
+            var translationFrom = isShow ? this.IndependentElementHideTranslation.ToVector3() : Vector3.Zero;
+            var translationTo = isShow ? Vector3.Zero : this.IndependentElementHideTranslation.ToVector3();
+            var opacityFrom = isShow ? 0 : 1;
+            var opacityTo = isShow ? 1 : 0;
             if (this._isInterruptedAnimation)
             {
                 duration *= InterruptedAnimationReverseDurationRatio;
                 delay *= InterruptedAnimationReverseDurationRatio;
             }
 
-            foreach (var item in uiElements)
+            foreach (var item in elements)
             {
-                if (this.IndependentElementHideTranslation != default)
+                var animationBuilder = AnimationBuilder.Create();
+                if (Math.Abs(this.IndependentElementHideTranslation.X) > 0.01 ||
+                    Math.Abs(this.IndependentElementHideTranslation.Y) > 0.01)
                 {
-                    animationTasks.Add(
-                        AnimationBuilder
-                            .Create()
-                            .Translation(
-                                from: this._isInterruptedAnimation
-                                    ? null
-                                    : (isShow ? this.IndependentElementHideTranslation.ToVector3() : Vector3.Zero),
-                                to: isShow ? Vector3.Zero : this.IndependentElementHideTranslation.ToVector3(),
-                                duration: duration,
-                                easingType: easingType,
-                                easingMode: easingMode,
-                                delay: delay)
-                            .StartAsync(item, token));
+                    animationBuilder.Translation(
+                        translationTo,
+                        this._isInterruptedAnimation ? null : translationFrom,
+                        delay,
+                        duration: duration,
+                        easingType: easingType,
+                        easingMode: easingMode);
                 }
 
-                animationTasks.Add(
-                    AnimationBuilder
-                        .Create()
-                        .Opacity(
-                            from: this._isInterruptedAnimation ? null : (isShow ? 0 : 1),
-                            to: isShow ? 1 : 0,
-                            duration: duration,
-                            easingType: easingType,
-                            easingMode: easingMode,
-                            delay: delay)
-                        .StartAsync(item, token));
+                animationBuilder.Opacity(
+                    opacityTo,
+                    this._isInterruptedAnimation ? null : opacityFrom,
+                    delay,
+                    duration,
+                    easingType: easingType,
+                    easingMode: easingMode);
 
+                animationTasks.Add(animationBuilder.StartAsync(item, token));
                 if (isShow)
                 {
                     delay += this.IndependentElementShowInterval;
