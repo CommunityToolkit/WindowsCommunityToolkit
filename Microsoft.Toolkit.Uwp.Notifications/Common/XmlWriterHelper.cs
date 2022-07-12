@@ -3,222 +3,64 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-
-#if WINDOWS_UWP
-
-#endif
+using System.Xml;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal static class XmlWriterHelper
     {
-        public static void Write(System.Xml.XmlWriter writer, object element)
+        public static void Write(XmlWriter writer, object element)
         {
-            NotificationXmlElementAttribute elAttr = GetElementAttribute(element.GetType());
-
-            // If it isn't an element attribute, don't write anything
-            if (elAttr == null)
+            // If it isn't an XML element, don't write anything
+            if (element is not IHaveXmlName xmlElement)
             {
                 return;
             }
 
-            writer.WriteStartElement(elAttr.Name);
+            writer.WriteStartElement(xmlElement.Name);
 
-            IEnumerable<PropertyInfo> properties = GetProperties(element.GetType());
-
-            List<object> elements = new List<object>();
-            object content = null;
-
-            // Write the attributes first
-            foreach (PropertyInfo p in properties)
+            // Write all named properties
+            foreach (var property in (element as IHaveXmlNamedProperties)?.EnumerateNamedProperties() ?? Enumerable.Empty<KeyValuePair<string, object>>())
             {
-                IEnumerable<Attribute> attributes = GetCustomAttributes(p);
-
-                NotificationXmlAttributeAttribute attr = attributes.OfType<NotificationXmlAttributeAttribute>().FirstOrDefault();
-
-                object propertyValue = GetPropertyValue(p, element);
-
-                // If it's the additional properties item
-                if (p.Name == nameof(IElement_AdditionalProperties.AdditionalProperties) && element is IElement_AdditionalProperties && p.PropertyType == typeof(IDictionary<string, string>))
+                if (property.Value is not null)
                 {
-                    if (propertyValue != null)
-                    {
-                        foreach (var additionalProp in propertyValue as IDictionary<string, string>)
-                        {
-                            writer.WriteAttributeString(additionalProp.Key, additionalProp.Value);
-                        }
-                    }
-                }
-
-                // If it's an attribute
-                else if (attr != null)
-                {
-                    object defaultValue = attr.DefaultValue;
-
-                    // If the value is not the default value (and it's not null) we'll write it
-                    if (!object.Equals(propertyValue, defaultValue) && propertyValue != null)
-                    {
-                        writer.WriteAttributeString(attr.Name, PropertyValueToString(propertyValue));
-                    }
-                }
-
-                // If it's a content attribute
-                else if (attributes.OfType<NotificationXmlContentAttribute>().Any())
-                {
-                    content = propertyValue;
-                }
-
-                // Otherwise it's an element or collection of elements
-                else
-                {
-                    if (propertyValue != null)
-                    {
-                        elements.Add(propertyValue);
-                    }
+                    writer.WriteAttributeString(property.Key, PropertyValueToString(property.Value));
                 }
             }
 
-            // Then write children
-            foreach (object el in elements)
+            // Write all additional properties
+            foreach (var property in (element as IHaveXmlAdditionalProperties)?.AdditionalProperties ?? Enumerable.Empty<KeyValuePair<string, string>>())
             {
-                // If it's a collection of children
-                if (el is IEnumerable)
-                {
-                    foreach (object child in el as IEnumerable)
-                    {
-                        Write(writer, child);
-                    }
-
-                    continue;
-                }
-
-                // Otherwise just write the single element
-                Write(writer, el);
+                writer.WriteAttributeString(property.Key, property.Value);
             }
 
-            // Then write any content if there is content
-            if (content != null)
+            // Write the inner text, if any
+            if ((element as IHaveXmlText)?.Text is string { Length: > 0 } text)
             {
-                string contentString = content.ToString();
-                if (!string.IsNullOrWhiteSpace(contentString))
-                {
-                    writer.WriteString(contentString);
-                }
+                writer.WriteString(text);
+            }
+
+            // Write all children, if any
+            foreach (var child in (element as IHaveXmlChildren)?.Children ?? Enumerable.Empty<object>())
+            {
+                Write(writer, child);
             }
 
             writer.WriteEndElement();
         }
 
-        private static object GetPropertyValue(PropertyInfo propertyInfo, object obj)
-        {
-#if NETFX_CORE
-            return propertyInfo.GetValue(obj);
-#else
-            return propertyInfo.GetValue(obj, null);
-#endif
-        }
-
         private static string PropertyValueToString(object propertyValue)
         {
-            Type type = propertyValue.GetType();
-
-            if (IsEnum(type))
+            return propertyValue switch
             {
-                EnumStringAttribute enumStringAttr = GetEnumStringAttribute(propertyValue as Enum);
-
-                if (enumStringAttr != null)
-                {
-                    return enumStringAttr.String;
-                }
-            }
-            else if (propertyValue is bool)
-            {
-                if ((bool)propertyValue)
-                {
-                    return "true";
-                }
-
-                return "false";
-            }
-            else if (propertyValue is DateTimeOffset?)
-            {
-                DateTimeOffset? dateTime = propertyValue as DateTimeOffset?;
-                if (dateTime.HasValue)
-                {
-                    // ISO 8601 format
-                    return System.Xml.XmlConvert.ToString(dateTime.Value);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-
-            return propertyValue.ToString();
-        }
-
-        private static EnumStringAttribute GetEnumStringAttribute(Enum enumValue)
-        {
-#if NETFX_CORE
-            return enumValue.GetType().GetTypeInfo().GetDeclaredField(enumValue.ToString()).GetCustomAttribute<EnumStringAttribute>();
-#else
-            MemberInfo[] memberInfo = enumValue.GetType().GetMember(enumValue.ToString());
-
-            if (memberInfo != null && memberInfo.Length > 0)
-            {
-                object[] attrs = memberInfo[0].GetCustomAttributes(typeof(EnumStringAttribute), false);
-
-                if (attrs != null && attrs.Length > 0)
-                    return attrs[0] as EnumStringAttribute;
-            }
-
-            return null;
-#endif
-        }
-
-        private static bool IsEnum(Type type)
-        {
-#if NETFX_CORE
-            return type.GetTypeInfo().IsEnum;
-#else
-            return type.IsEnum;
-#endif
-        }
-
-        private static IEnumerable<PropertyInfo> GetProperties(Type type)
-        {
-#if NETFX_CORE
-            return type.GetTypeInfo().DeclaredProperties;
-#else
-            return type.GetProperties();
-#endif
-        }
-
-        private static NotificationXmlElementAttribute GetElementAttribute(Type type)
-        {
-            return GetCustomAttributes(type).OfType<NotificationXmlElementAttribute>().FirstOrDefault();
-        }
-
-        private static IEnumerable<Attribute> GetCustomAttributes(Type type)
-        {
-#if NETFX_CORE
-            return type.GetTypeInfo().GetCustomAttributes();
-#else
-            return type.GetCustomAttributes(true).OfType<Attribute>();
-#endif
-        }
-
-        private static IEnumerable<Attribute> GetCustomAttributes(PropertyInfo propertyInfo)
-        {
-#if NETFX_CORE
-            return propertyInfo.GetCustomAttributes();
-#else
-            return propertyInfo.GetCustomAttributes(true).OfType<Attribute>();
-#endif
+                true => "true",
+                false => "false",
+                DateTimeOffset dateTime => XmlConvert.ToString(dateTime), // ISO 8601 format
+                { } value => value.ToString(),
+                _ => null
+            };
         }
 
         /// <summary>

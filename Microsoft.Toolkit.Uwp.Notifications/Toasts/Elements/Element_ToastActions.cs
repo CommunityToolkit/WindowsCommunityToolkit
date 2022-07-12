@@ -6,15 +6,28 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("actions")]
-    internal sealed class Element_ToastActions
+    internal sealed class Element_ToastActions : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const ToastSystemCommand DEFAULT_SYSTEM_COMMAND = ToastSystemCommand.None;
 
-        [NotificationXmlAttribute("hint-systemCommands", DEFAULT_SYSTEM_COMMAND)]
         public ToastSystemCommand SystemCommands { get; set; } = ToastSystemCommand.None;
 
         public IList<IElement_ToastActionsChild> Children { get; private set; } = new List<IElement_ToastActionsChild>();
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "actions";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Children;
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            if (SystemCommands != DEFAULT_SYSTEM_COMMAND)
+            {
+                yield return new("hint-systemCommands", SystemCommands);
+            }
+        }
     }
 
     internal interface IElement_ToastActionsChild

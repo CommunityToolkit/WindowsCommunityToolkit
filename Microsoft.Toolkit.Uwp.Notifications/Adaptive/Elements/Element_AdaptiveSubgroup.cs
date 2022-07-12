@@ -7,17 +7,14 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    [NotificationXmlElement("subgroup")]
-    internal sealed class Element_AdaptiveSubgroup : IElementWithDescendants
+    internal sealed class Element_AdaptiveSubgroup : IElementWithDescendants, IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const AdaptiveSubgroupTextStacking DEFAULT_TEXT_STACKING = AdaptiveSubgroupTextStacking.Default;
 
-        [NotificationXmlAttribute("hint-textStacking", DEFAULT_TEXT_STACKING)]
         public AdaptiveSubgroupTextStacking TextStacking { get; set; } = DEFAULT_TEXT_STACKING;
 
         private int? _weight;
 
-        [NotificationXmlAttribute("hint-weight")]
         public int? Weight
         {
             get
@@ -50,6 +47,23 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
                 // Return each child (we know there's no further descendants)
                 yield return child;
             }
+        }
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "subgroup";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Children;
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            if (TextStacking != DEFAULT_TEXT_STACKING)
+            {
+                yield return new("hint-textStacking", TextStacking.ToPascalCaseString());
+            }
+
+            yield return new("hint-weight", Weight);
         }
     }
 

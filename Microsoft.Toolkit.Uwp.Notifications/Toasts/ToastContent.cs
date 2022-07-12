@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 Scenario = Scenario,
                 DisplayTimestamp = strippedDisplayTimestamp,
                 HintToastId = HintToastId,
-                AdditionalProperties = AdditionalProperties
+                AdditionalProperties = (Dictionary<string, string>)AdditionalProperties
             };
 
             ActivationOptions?.PopulateElement(toast);

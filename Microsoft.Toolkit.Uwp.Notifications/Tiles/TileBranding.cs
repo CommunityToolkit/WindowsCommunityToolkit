@@ -17,25 +17,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// No branding will be displayed.
         /// </summary>
-        [EnumString("none")]
         None,
 
         /// <summary>
         /// The DisplayName will be shown.
         /// </summary>
-        [EnumString("name")]
         Name,
 
         /// <summary>
         /// Desktop-only. The Square44x44Logo will be shown. On Mobile, this will fallback to Name.
         /// </summary>
-        [EnumString("logo")]
         Logo,
 
         /// <summary>
         /// Desktop-only. Both the DisplayName and Square44x44Logo will be shown. On Mobile, this will fallback to Name.
         /// </summary>
-        [EnumString("nameAndLogo")]
         NameAndLogo
     }
 }
