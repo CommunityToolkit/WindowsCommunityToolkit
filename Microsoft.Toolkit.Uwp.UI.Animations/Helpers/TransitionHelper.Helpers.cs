@@ -69,6 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var visual = animatedElement.GetVisual();
                 visual.Opacity = 1;
                 visual.Scale = Vector3.One;
+                visual.Clip = null;
                 visual.Properties.InsertVector3("Translation", Vector3.Zero);
             }
         }

@@ -149,28 +149,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            this.RestoreState(!reversed, false);
+            this.RestoreState(!reversed);
             _ = currentTaskSource.TrySetResult(true);
 
             this._isInterruptedAnimation = false;
         }
 
-        private void RestoreState(bool isTargetState, bool restoreAllChildElements)
+        private void RestoreState(bool isTargetState)
         {
             this.IsTargetState = isTargetState;
             Canvas.SetZIndex(this.Source, _sourceZIndex);
             Canvas.SetZIndex(this.Target, _targetZIndex);
             ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
             ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
-            if (restoreAllChildElements)
-            {
-                RestoreElements(this.SourceAnimatedElements);
-                RestoreElements(this.TargetAnimatedElements);
-            }
-            else
-            {
-                RestoreElements(isTargetState ? this.SourceAnimatedElements : this.TargetAnimatedElements);
-            }
+            RestoreElements(this.SourceAnimatedElements.Concat(this.TargetAnimatedElements));
         }
 
         private async Task InitControlsStateAsync(bool forceUpdateAnimatedElements = false)
@@ -244,16 +236,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var sourceBuilder = AnimationBuilder.Create();
             var targetBuilder = AnimationBuilder.Create();
 
-            source.GetVisual().CenterPoint =
-                new Vector3(source.ActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
-            target.GetVisual().CenterPoint =
-                new Vector3(target.ActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
+            var sourceActualSize = source is FrameworkElement sourceElement ? new Vector2((float)sourceElement.ActualWidth, (float)sourceElement.ActualHeight) : source.ActualSize;
+            var targetActualSize = target is FrameworkElement targetElement ? new Vector2((float)targetElement.ActualWidth, (float)targetElement.ActualHeight) : target.ActualSize;
+            var sourceCenterPoint = sourceActualSize * config.NormalizedCenterPoint.ToVector2();
+            var targetCenterPoint = targetActualSize * config.NormalizedCenterPoint.ToVector2();
+
+            source.GetVisual().CenterPoint = new Vector3(sourceCenterPoint, 0);
+            target.GetVisual().CenterPoint = new Vector3(targetCenterPoint, 0);
             this.AnimateTranslation(
                 sourceBuilder,
                 targetBuilder,
                 source,
                 target,
-                config.NormalizedCenterPoint.ToVector2(),
+                sourceCenterPoint,
+                targetCenterPoint,
                 duration,
                 config.EasingType,
                 config.EasingMode);
@@ -261,14 +257,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 sourceBuilder,
                 targetBuilder,
                 duration);
+            if (config is { EnableClipAnimation: true, ScaleMode: not ScaleMode.Scale })
+            {
+                Axis? axis = config.ScaleMode switch
+                {
+                    ScaleMode.Scale => null,
+                    ScaleMode.ScaleX => Axis.Y,
+                    ScaleMode.ScaleY => Axis.X,
+                    _ => null,
+                };
+                this.AnimateClip(
+                    sourceBuilder,
+                    targetBuilder,
+                    sourceActualSize,
+                    targetActualSize,
+                    sourceCenterPoint,
+                    targetCenterPoint,
+                    duration,
+                    config.EasingType,
+                    config.EasingMode,
+                    axis);
+            }
+
             switch (config.ScaleMode)
             {
                 case ScaleMode.Scale:
                     this.AnimateScale(
                         sourceBuilder,
                         targetBuilder,
-                        source,
-                        target,
+                        sourceActualSize,
+                        targetActualSize,
                         duration,
                         config.EasingType,
                         config.EasingMode);
@@ -277,8 +295,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.AnimateScaleX(
                         sourceBuilder,
                         targetBuilder,
-                        source,
-                        target,
+                        sourceActualSize,
+                        targetActualSize,
                         duration,
                         config.EasingType,
                         config.EasingMode);
@@ -287,8 +305,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.AnimateScaleY(
                         sourceBuilder,
                         targetBuilder,
-                        source,
-                        target,
+                        sourceActualSize,
+                        targetActualSize,
                         duration,
                         config.EasingType,
                         config.EasingMode);
@@ -364,7 +382,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             AnimationBuilder targetBuilder,
             UIElement source,
             UIElement target,
-            Vector2 normalizedCenterPoint,
+            Vector2 sourceCenterPoint,
+            Vector2 targetCenterPoint,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
@@ -376,10 +395,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var sourceNormalizedCenterPoint = source.ActualSize * normalizedCenterPoint;
-            var targetNormalizedCenterPoint = target.ActualSize * normalizedCenterPoint;
-            var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() -
-                sourceNormalizedCenterPoint + targetNormalizedCenterPoint;
+            var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
             _ = sourceBuilder.Translation().TimedKeyFrames(
                 b => b
                     .KeyFrame(duration - almostZeroDuration, new Vector3(diff, 0), easingType, easingMode)
@@ -394,14 +410,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void AnimateScale(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
-            UIElement source,
-            UIElement target,
+            Vector2 sourceActualSize,
+            Vector2 targetActualSize,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            var scaleX = target.ActualSize.X / source.ActualSize.X;
-            var scaleY = target.ActualSize.Y / source.ActualSize.Y;
+            var scaleX = targetActualSize.X / sourceActualSize.X;
+            var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector3(scaleX, scaleY, 1);
             this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
@@ -409,13 +425,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void AnimateScaleX(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
-            UIElement source,
-            UIElement target,
+            Vector2 sourceActualSize,
+            Vector2 targetActualSize,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            var scaleX = target.ActualSize.X / source.ActualSize.X;
+            var scaleX = targetActualSize.X / sourceActualSize.X;
             var scale = new Vector3(scaleX, scaleX, 1);
             this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
@@ -423,13 +439,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void AnimateScaleY(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
-            UIElement source,
-            UIElement target,
+            Vector2 sourceActualSize,
+            Vector2 targetActualSize,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            var scaleY = target.ActualSize.Y / source.ActualSize.Y;
+            var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector3(scaleY, scaleY, 1);
             this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
@@ -481,6 +497,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 b => b
                     .KeyFrame(TimeSpan.Zero, 0)
                     .KeyFrame(useDuration, 1, EasingType.Cubic, EasingMode.EaseOut));
+        }
+
+        private void AnimateClip(
+            AnimationBuilder sourceBuilder,
+            AnimationBuilder targetBuilder,
+            Vector2 sourceActualSize,
+            Vector2 targetActualSize,
+            Vector2 sourceCenterPoint,
+            Vector2 targetCenterPoint,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode,
+            Axis? axis)
+        {
+            // -4 is used to prevent shadows from being cropped.
+            var defaultValue = -4;
+            var defaultThickness = new Thickness(defaultValue);
+            if (this._isInterruptedAnimation)
+            {
+                _ = sourceBuilder.Clip(defaultThickness, duration: almostZeroDuration);
+                _ = targetBuilder.Clip(defaultThickness, duration: duration, easingType: easingType, easingMode: easingMode);
+                return;
+            }
+
+            var left = axis == Axis.X
+                ? Math.Max(defaultValue, targetCenterPoint.X - sourceCenterPoint.X)
+                : defaultValue;
+            var top = axis == Axis.Y
+                ? Math.Max(defaultValue, targetCenterPoint.Y - sourceCenterPoint.Y)
+                : defaultValue;
+            var right = axis == Axis.X
+                ? Math.Max(defaultValue, targetActualSize.X - sourceActualSize.X - left)
+                : defaultValue;
+            var bottom = axis == Axis.Y
+                ? Math.Max(defaultValue, targetActualSize.Y - sourceActualSize.Y - top)
+                : defaultValue;
+
+            _ = sourceBuilder.Clip(
+                new Thickness(left, top, right, bottom),
+                duration: duration,
+                easingType: easingType,
+                easingMode: easingMode);
+            _ = targetBuilder.Clip(
+                defaultThickness,
+                new Thickness(left, top, right, bottom),
+                duration: duration,
+                easingType: easingType,
+                easingMode: easingMode);
         }
     }
 }

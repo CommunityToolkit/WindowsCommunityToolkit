@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             this._isInterruptedAnimation = false;
-            this.RestoreState(!toInitialState, true);
+            this.RestoreState(!toInitialState);
         }
     }
 }

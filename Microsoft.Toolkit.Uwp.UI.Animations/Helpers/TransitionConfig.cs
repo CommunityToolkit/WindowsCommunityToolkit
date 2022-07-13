@@ -24,6 +24,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public ScaleMode ScaleMode { get; set; } = ScaleMode.None;
 
         /// <summary>
+        /// Gets or sets a value indicating whether clip animations are enabled for the target UI elements.
+        /// </summary>
+        public bool EnableClipAnimation { get; set; }
+
+        /// <summary>
         /// Gets or sets the center point used to calculate the element's translation or scale when animating.
         /// Value is normalized with respect to the size of the animated element.
         /// For example, a value of (0.0, 0.5) means that this point is at the leftmost point of the element horizontally and the center of the element vertically.
