@@ -261,6 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Axis? axis = config.ScaleMode switch
                 {
+                    ScaleMode.None => null,
                     ScaleMode.Scale => null,
                     ScaleMode.ScaleX => Axis.Y,
                     ScaleMode.ScaleY => Axis.X,
