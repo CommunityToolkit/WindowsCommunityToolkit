@@ -257,6 +257,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 sourceBuilder,
                 targetBuilder,
                 duration);
+            var targetScale = config.ScaleMode switch
+            {
+                ScaleMode.None => Vector2.One,
+                ScaleMode.Scale => this.AnimateScale(
+                    sourceBuilder,
+                    targetBuilder,
+                    sourceActualSize,
+                    targetActualSize,
+                    duration,
+                    config.EasingType,
+                    config.EasingMode),
+                ScaleMode.ScaleX => this.AnimateScaleX(
+                    sourceBuilder,
+                    targetBuilder,
+                    sourceActualSize,
+                    targetActualSize,
+                    duration,
+                    config.EasingType,
+                    config.EasingMode),
+                ScaleMode.ScaleY => this.AnimateScaleY(
+                    sourceBuilder,
+                    targetBuilder,
+                    sourceActualSize,
+                    targetActualSize,
+                    duration,
+                    config.EasingType,
+                    config.EasingMode),
+                _ => Vector2.One,
+            };
+
             if (config is { EnableClipAnimation: true, ScaleMode: not ScaleMode.Scale })
             {
                 Axis? axis = config.ScaleMode switch
@@ -274,48 +304,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     targetActualSize,
                     sourceCenterPoint,
                     targetCenterPoint,
+                    targetScale,
                     duration,
                     config.EasingType,
                     config.EasingMode,
                     axis);
             }
 
-            switch (config.ScaleMode)
-            {
-                case ScaleMode.Scale:
-                    this.AnimateScale(
-                        sourceBuilder,
-                        targetBuilder,
-                        sourceActualSize,
-                        targetActualSize,
-                        duration,
-                        config.EasingType,
-                        config.EasingMode);
-                    break;
-                case ScaleMode.ScaleX:
-                    this.AnimateScaleX(
-                        sourceBuilder,
-                        targetBuilder,
-                        sourceActualSize,
-                        targetActualSize,
-                        duration,
-                        config.EasingType,
-                        config.EasingMode);
-                    break;
-                case ScaleMode.ScaleY:
-                    this.AnimateScaleY(
-                        sourceBuilder,
-                        targetBuilder,
-                        sourceActualSize,
-                        targetActualSize,
-                        duration,
-                        config.EasingType,
-                        config.EasingMode);
-                    break;
-                case ScaleMode.None:
-                default:
-                    break;
-            }
+
 
             return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
@@ -391,24 +387,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             if (this._isInterruptedAnimation)
             {
-                _ = sourceBuilder.Translation(Vector3.Zero, duration: almostZeroDuration);
-                _ = targetBuilder.Translation(Vector3.Zero, duration: duration, easingType: easingType, easingMode: easingMode);
+                _ = sourceBuilder.Translation(Vector2.Zero, duration: almostZeroDuration);
+                _ = targetBuilder.Translation(Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode);
                 return;
             }
 
             var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
-            _ = sourceBuilder.Translation().TimedKeyFrames(
-                b => b
-                    .KeyFrame(duration - almostZeroDuration, new Vector3(diff, 0), easingType, easingMode)
-                    .KeyFrame(duration, Vector3.Zero));
-            _ = targetBuilder.Translation().TimedKeyFrames(
-                b => b
-                    .KeyFrame(TimeSpan.Zero, new Vector3(-diff, 0))
-                    .KeyFrame(duration - almostZeroDuration, Vector3.Zero, easingType, easingMode)
-                    .KeyFrame(duration, Vector3.Zero));
+            _ = sourceBuilder.Translation(diff, duration: duration, easingType: easingType, easingMode: easingMode);
+            _ = targetBuilder.Translation(Vector2.Zero, -diff, duration: duration, easingType: easingType, easingMode: easingMode);
         }
 
-        private void AnimateScale(
+        private Vector2 AnimateScale(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             Vector2 sourceActualSize,
@@ -419,11 +408,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var scaleX = targetActualSize.X / sourceActualSize.X;
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
-            var scale = new Vector3(scaleX, scaleY, 1);
-            this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            var scale = new Vector2(scaleX, scaleY);
+            return this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateScaleX(
+        private Vector2 AnimateScaleX(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             Vector2 sourceActualSize,
@@ -433,11 +422,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode easingMode)
         {
             var scaleX = targetActualSize.X / sourceActualSize.X;
-            var scale = new Vector3(scaleX, scaleX, 1);
-            this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            var scale = new Vector2(scaleX, scaleX);
+            return this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateScaleY(
+        private Vector2 AnimateScaleY(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
             Vector2 sourceActualSize,
@@ -447,34 +436,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode easingMode)
         {
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
-            var scale = new Vector3(scaleY, scaleY, 1);
-            this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            var scale = new Vector2(scaleY, scaleY);
+            return this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
         }
 
-        private void AnimateScale(
+        private Vector2 AnimateScale(
             AnimationBuilder sourceBuilder,
             AnimationBuilder targetBuilder,
-            Vector3 targetScale,
+            Vector2 targetScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
             if (this._isInterruptedAnimation)
             {
-                _ = sourceBuilder.Scale(Vector3.One, duration: almostZeroDuration);
-                _ = targetBuilder.Scale(Vector3.One, duration: duration, easingType: easingType, easingMode: easingMode);
-                return;
+                _ = sourceBuilder.Scale(Vector2.One, duration: almostZeroDuration);
+                _ = targetBuilder.Scale(Vector2.One, duration: duration, easingType: easingType, easingMode: easingMode);
             }
 
-            _ = sourceBuilder.Scale().TimedKeyFrames(
-                b => b
-                    .KeyFrame(duration - almostZeroDuration, targetScale, easingType, easingMode)
-                    .KeyFrame(duration, Vector3.One));
-            _ = targetBuilder.Scale().TimedKeyFrames(
-                b => b
-                    .KeyFrame(TimeSpan.Zero, new Vector3(1 / targetScale.X, 1 / targetScale.Y, 1))
-                    .KeyFrame(duration - almostZeroDuration, Vector3.One, easingType, easingMode)
-                    .KeyFrame(duration, Vector3.One));
+            _ = sourceBuilder.Scale(targetScale, duration: duration, easingType: easingType, easingMode: easingMode);
+            _ = targetBuilder.Scale(Vector2.One, GetInverseScale(targetScale), duration: duration, easingType: easingType, easingMode: easingMode);
+            return targetScale;
         }
 
         private void AnimateOpacity(
@@ -507,6 +489,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Vector2 targetActualSize,
             Vector2 sourceCenterPoint,
             Vector2 targetCenterPoint,
+            Vector2 targetScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode,
@@ -522,27 +505,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var left = axis == Axis.X
-                ? Math.Max(defaultValue, targetCenterPoint.X - sourceCenterPoint.X)
-                : defaultValue;
-            var top = axis == Axis.Y
-                ? Math.Max(defaultValue, targetCenterPoint.Y - sourceCenterPoint.Y)
-                : defaultValue;
-            var right = axis == Axis.X
-                ? Math.Max(defaultValue, targetActualSize.X - sourceActualSize.X - left)
-                : defaultValue;
-            var bottom = axis == Axis.Y
-                ? Math.Max(defaultValue, targetActualSize.Y - sourceActualSize.Y - top)
-                : defaultValue;
+            var inverseScale = GetInverseScale(targetScale);
+
+            var sourceLeft = axis is Axis.Y ? 0 : sourceCenterPoint.X - targetCenterPoint.X;
+            var sourceTop = axis is Axis.X ? 0 : sourceCenterPoint.Y - targetCenterPoint.Y;
+            var targetLeft = axis is Axis.Y ? 0 : targetCenterPoint.X - sourceCenterPoint.X;
+            var targetTop = axis is Axis.X ? 0 : targetCenterPoint.Y - sourceCenterPoint.Y;
+            var sourceEndViewportWidth = axis is Axis.Y ? sourceActualSize.X * targetScale.X : targetActualSize.X;
+            var sourceEndViewportHeight = axis is Axis.X ? sourceActualSize.Y * targetScale.Y : targetActualSize.Y;
+            var targetBeginViewportWidth = axis is Axis.Y ? targetActualSize.X * inverseScale.X : sourceActualSize.X;
+            var targetBeginViewportHeight = axis is Axis.X ? targetActualSize.Y * inverseScale.Y : sourceActualSize.Y;
+
+            var scaleMatrix = Matrix3x2.CreateScale(targetScale, sourceCenterPoint);
+            var inverseScaleMatrix = Matrix3x2.CreateScale(inverseScale, targetCenterPoint);
+
+            Matrix3x2.Invert(scaleMatrix, out Matrix3x2 scaleMatrixInvert);
+            Matrix3x2.Invert(inverseScaleMatrix, out Matrix3x2 inverseScaleMatrixInvert);
+
+            var sourceLeftTop = Vector2.Transform(new Vector2(sourceLeft, sourceTop), scaleMatrixInvert);
+            var sourceRightBottom = Vector2.Transform(new Vector2(sourceLeft + sourceEndViewportWidth, sourceTop + sourceEndViewportHeight), scaleMatrixInvert);
+            var sourceRight = sourceActualSize.X - sourceRightBottom.X;
+            var sourceBottom = sourceActualSize.Y - sourceRightBottom.Y;
+
+            var targetLeftTop = Vector2.Transform(new Vector2(targetLeft, targetTop), inverseScaleMatrixInvert);
+            var targetRightBottom = Vector2.Transform(new Vector2(targetLeft + targetBeginViewportWidth, targetTop + targetBeginViewportHeight), inverseScaleMatrixInvert);
+            var targetRight = targetActualSize.X - targetRightBottom.X;
+            var targetBottom = targetActualSize.Y - targetRightBottom.Y;
 
             _ = sourceBuilder.Clip(
-                new Thickness(left, top, right, bottom),
+                GetFixedThickness(new Thickness(sourceLeftTop.X, sourceLeftTop.Y, sourceRight, sourceBottom), defaultValue),
+                from: defaultThickness,
                 duration: duration,
                 easingType: easingType,
                 easingMode: easingMode);
             _ = targetBuilder.Clip(
                 defaultThickness,
-                new Thickness(left, top, right, bottom),
+                GetFixedThickness(new Thickness(targetLeftTop.X, targetLeftTop.Y, targetRight, targetBottom), defaultValue),
                 duration: duration,
                 easingType: easingType,
                 easingMode: easingMode);
