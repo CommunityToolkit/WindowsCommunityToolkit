@@ -311,8 +311,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     axis);
             }
 
-
-
             return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
 
@@ -507,28 +505,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             var inverseScale = GetInverseScale(targetScale);
 
-            var sourceLeft = axis is Axis.Y ? 0 : sourceCenterPoint.X - targetCenterPoint.X;
-            var sourceTop = axis is Axis.X ? 0 : sourceCenterPoint.Y - targetCenterPoint.Y;
-            var targetLeft = axis is Axis.Y ? 0 : targetCenterPoint.X - sourceCenterPoint.X;
-            var targetTop = axis is Axis.X ? 0 : targetCenterPoint.Y - sourceCenterPoint.Y;
-            var sourceEndViewportWidth = axis is Axis.Y ? sourceActualSize.X * targetScale.X : targetActualSize.X;
-            var sourceEndViewportHeight = axis is Axis.X ? sourceActualSize.Y * targetScale.Y : targetActualSize.Y;
-            var targetBeginViewportWidth = axis is Axis.Y ? targetActualSize.X * inverseScale.X : sourceActualSize.X;
-            var targetBeginViewportHeight = axis is Axis.X ? targetActualSize.Y * inverseScale.Y : sourceActualSize.Y;
+            var sourceEndViewportLeft = (axis is Axis.Y ? -sourceCenterPoint.X * targetScale.X : -targetCenterPoint.X) + (sourceCenterPoint.X * targetScale.X);
+            var sourceEndViewportTop = (axis is Axis.X ? -sourceCenterPoint.Y * targetScale.Y : -targetCenterPoint.Y) + (sourceCenterPoint.Y * targetScale.Y);
+            var sourceEndViewportRight = (axis is Axis.Y ? (sourceActualSize.X - sourceCenterPoint.X) * targetScale.X : targetActualSize.X - targetCenterPoint.X) + (sourceCenterPoint.X * targetScale.X);
+            var sourceEndViewportBottom = (axis is Axis.X ? (sourceActualSize.Y - sourceCenterPoint.Y) * targetScale.Y : targetActualSize.Y - targetCenterPoint.Y) + (sourceCenterPoint.Y * targetScale.Y);
 
-            var scaleMatrix = Matrix3x2.CreateScale(targetScale, sourceCenterPoint);
-            var inverseScaleMatrix = Matrix3x2.CreateScale(inverseScale, targetCenterPoint);
+            var targetBeginViewportLeft = (axis is Axis.Y ? -targetCenterPoint.X * inverseScale.X : -sourceCenterPoint.X) + (targetCenterPoint.X * inverseScale.X);
+            var targetBeginViewportTop = (axis is Axis.X ? -targetCenterPoint.Y * inverseScale.Y : -sourceCenterPoint.Y) + (targetCenterPoint.Y * inverseScale.Y);
+            var targetBeginViewportRight = (axis is Axis.Y ? (targetActualSize.X - targetCenterPoint.X) * inverseScale.X : sourceActualSize.X - sourceCenterPoint.X) + (targetCenterPoint.X * inverseScale.X);
+            var targetBeginViewportBottom = (axis is Axis.X ? (targetActualSize.Y - targetCenterPoint.Y) * inverseScale.Y : sourceActualSize.Y - sourceCenterPoint.Y) + (targetCenterPoint.Y * inverseScale.Y);
 
-            Matrix3x2.Invert(scaleMatrix, out Matrix3x2 scaleMatrixInvert);
-            Matrix3x2.Invert(inverseScaleMatrix, out Matrix3x2 inverseScaleMatrixInvert);
-
-            var sourceLeftTop = Vector2.Transform(new Vector2(sourceLeft, sourceTop), scaleMatrixInvert);
-            var sourceRightBottom = Vector2.Transform(new Vector2(sourceLeft + sourceEndViewportWidth, sourceTop + sourceEndViewportHeight), scaleMatrixInvert);
+            var sourceLeftTop = new Vector2(sourceEndViewportLeft, sourceEndViewportTop) * inverseScale;
+            var sourceRightBottom = new Vector2(sourceEndViewportRight, sourceEndViewportBottom) * inverseScale;
             var sourceRight = sourceActualSize.X - sourceRightBottom.X;
             var sourceBottom = sourceActualSize.Y - sourceRightBottom.Y;
 
-            var targetLeftTop = Vector2.Transform(new Vector2(targetLeft, targetTop), inverseScaleMatrixInvert);
-            var targetRightBottom = Vector2.Transform(new Vector2(targetLeft + targetBeginViewportWidth, targetTop + targetBeginViewportHeight), inverseScaleMatrixInvert);
+            var targetLeftTop = new Vector2(targetBeginViewportLeft, targetBeginViewportTop) * targetScale;
+            var targetRightBottom = new Vector2(targetBeginViewportRight, targetBeginViewportBottom) * targetScale;
             var targetRight = targetActualSize.X - targetRightBottom.X;
             var targetBottom = targetActualSize.Y - targetRightBottom.Y;
 
