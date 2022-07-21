@@ -62,96 +62,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private Task AnimateControls(bool reversed, CancellationToken token)
+        private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, float? startProgress, TimeSpan totalDuration)
         {
-            var duration = this.Duration;
-            if (this._isInterruptedAnimation)
-            {
-                duration *= InterruptedAnimationReverseDurationRatio;
-            }
+            this._lastAnimationDuration = totalDuration * (1 - startProgress);
+            _lastAnimationStartTime = DateTime.Now;
 
-            var animationTasks = new List<Task>();
-            var sourceUnpairedElements = this.sourceConnectedAnimatedElements
-                .Where(item => !this.targetConnectedAnimatedElements.ContainsKey(item.Key))
-                .Select(item => item.Value);
-            var targetUnpairedElements = this.targetConnectedAnimatedElements
-                .Where(item => !this.sourceConnectedAnimatedElements.ContainsKey(item.Key))
-                .Select(item => item.Value);
-            var pairedElementKeys = this.sourceConnectedAnimatedElements
-                .Where(item => this.targetConnectedAnimatedElements.ContainsKey(item.Key))
-                .Select(item => item.Key);
-            foreach (var key in pairedElementKeys)
-            {
-                var source = this.sourceConnectedAnimatedElements[key];
-                var target = this.targetConnectedAnimatedElements[key];
-                var animationConfig = this.Configs.FirstOrDefault(config => config.Id == key) ??
-                                      this.DefaultConfig;
-                animationTasks.Add(
-                    this.AnimateElements(
-                        reversed ? target : source,
-                        reversed ? source : target,
-                        duration,
-                        animationConfig,
-                        token));
-            }
-
-            animationTasks.Add(
-                this.AnimateIndependentElements(
-                    this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements),
-                    reversed,
-                    token,
-                    IndependentElementEasingType,
-                    IndependentElementEasingMode));
-            animationTasks.Add(
-                this.AnimateIndependentElements(
-                    this.targetIndependentAnimatedElements.Concat(targetUnpairedElements),
-                    !reversed,
-                    token,
-                    IndependentElementEasingType,
-                    IndependentElementEasingMode));
-
-            return Task.WhenAll(animationTasks);
-        }
-
-        private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, bool forceUpdateAnimatedElements)
-        {
-            if (!this._isInterruptedAnimation && IsTargetState != reversed)
-            {
-                return;
-            }
-
+            await this.AnimateControls(totalDuration, startProgress, reversed, token);
             if (token.IsCancellationRequested)
             {
-                return;
-            }
-
-            TaskCompletionSource<bool> currentTaskSource;
-            if (reversed)
-            {
-                currentTaskSource = this._reverseTaskSource = new();
-            }
-            else
-            {
-                currentTaskSource = this._animateTaskSource = new();
-            }
-
-            await this.InitControlsStateAsync(forceUpdateAnimatedElements);
-            if (token.IsCancellationRequested)
-            {
-                _ = currentTaskSource.TrySetResult(false);
-                return;
-            }
-
-            await this.AnimateControls(reversed, token);
-            if (token.IsCancellationRequested)
-            {
-                _ = currentTaskSource.TrySetResult(false);
                 return;
             }
 
             this.RestoreState(!reversed);
-            _ = currentTaskSource.TrySetResult(true);
-
+            this._lastAnimationStartTime = null;
+            this._lastAnimationDuration = null;
+            this._lastStartProgress = null;
             this._isInterruptedAnimation = false;
         }
 
@@ -231,61 +156,127 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateTargetLayoutTaskSource.Task;
         }
 
-        private Task AnimateElements(UIElement source, UIElement target, TimeSpan duration, TransitionConfig config, CancellationToken token)
+        private Task AnimateControls(TimeSpan duration, float? startProgress, bool reversed, CancellationToken token)
         {
-            var sourceBuilder = AnimationBuilder.Create();
-            var targetBuilder = AnimationBuilder.Create();
+            var animationTasks = new List<Task>(3);
+            var sourceUnpairedElements = this.sourceConnectedAnimatedElements
+                .Where(item => !this.targetConnectedAnimatedElements.ContainsKey(item.Key))
+                .Select(item => item.Value);
+            var targetUnpairedElements = this.targetConnectedAnimatedElements
+                .Where(item => !this.sourceConnectedAnimatedElements.ContainsKey(item.Key))
+                .Select(item => item.Value);
+            var pairedElementKeys = this.sourceConnectedAnimatedElements
+                .Where(item => this.targetConnectedAnimatedElements.ContainsKey(item.Key))
+                .Select(item => item.Key);
+            if (_currentAnimationGroupController is null)
+            {
+                _currentAnimationGroupController = new KeyFrameAnimationGroupController();
+                foreach (var key in pairedElementKeys)
+                {
+                    var source = this.sourceConnectedAnimatedElements[key];
+                    var target = this.targetConnectedAnimatedElements[key];
+                    var animationConfig = this.Configs.FirstOrDefault(config => config.Id == key) ??
+                                          this.DefaultConfig;
+                    this.BuildConnectedAnimationController(
+                        _currentAnimationGroupController,
+                        source,
+                        target,
+                        duration,
+                        animationConfig);
+                }
+            }
 
+            animationTasks.Add(reversed
+                        ? _currentAnimationGroupController.ReverseAsync(token, duration, startProgress)
+                        : _currentAnimationGroupController.StartAsync(token, duration, startProgress));
+
+            animationTasks.Add(
+                this.AnimateIndependentElements(
+                    this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements),
+                    reversed,
+                    token,
+                    duration,
+                    startProgress,
+                    IndependentElementEasingType,
+                    IndependentElementEasingMode));
+            animationTasks.Add(
+                this.AnimateIndependentElements(
+                    this.targetIndependentAnimatedElements.Concat(targetUnpairedElements),
+                    !reversed,
+                    token,
+                    duration,
+                    startProgress,
+                    IndependentElementEasingType,
+                    IndependentElementEasingMode));
+
+            return Task.WhenAll(animationTasks);
+        }
+
+        private void BuildConnectedAnimationController(KeyFrameAnimationGroupController controller, UIElement source, UIElement target, TimeSpan duration, TransitionConfig config)
+        {
             var sourceActualSize = source is FrameworkElement sourceElement ? new Vector2((float)sourceElement.ActualWidth, (float)sourceElement.ActualHeight) : source.ActualSize;
             var targetActualSize = target is FrameworkElement targetElement ? new Vector2((float)targetElement.ActualWidth, (float)targetElement.ActualHeight) : target.ActualSize;
             var sourceCenterPoint = sourceActualSize * config.NormalizedCenterPoint.ToVector2();
             var targetCenterPoint = targetActualSize * config.NormalizedCenterPoint.ToVector2();
 
+            var currentSourceScale = GetXY(source.GetVisual().Scale);
+
             source.GetVisual().CenterPoint = new Vector3(sourceCenterPoint, 0);
             target.GetVisual().CenterPoint = new Vector3(targetCenterPoint, 0);
-            this.AnimateTranslation(
-                sourceBuilder,
-                targetBuilder,
+            var (sourceTranslationAnimation, targetTranslationAnimation) = this.AnimateTranslation(
                 source,
                 target,
                 sourceCenterPoint,
                 targetCenterPoint,
+                currentSourceScale,
                 duration,
                 config.EasingType,
                 config.EasingMode);
-            this.AnimateOpacity(
-                sourceBuilder,
-                targetBuilder,
-                duration);
-            var targetScale = config.ScaleMode switch
+            var (sourceOpacityAnimation, targetOpacityAnimation) = this.AnimateOpacity(duration);
+            var (sourceScaleAnimation, targetScaleAnimation, targetScale) = config.ScaleMode switch
             {
-                ScaleMode.None => Vector2.One,
+                ScaleMode.None => (null, null, Vector2.One),
                 ScaleMode.Scale => this.AnimateScale(
-                    sourceBuilder,
-                    targetBuilder,
                     sourceActualSize,
                     targetActualSize,
+                    currentSourceScale,
                     duration,
                     config.EasingType,
                     config.EasingMode),
                 ScaleMode.ScaleX => this.AnimateScaleX(
-                    sourceBuilder,
-                    targetBuilder,
                     sourceActualSize,
                     targetActualSize,
+                    currentSourceScale,
                     duration,
                     config.EasingType,
                     config.EasingMode),
                 ScaleMode.ScaleY => this.AnimateScaleY(
-                    sourceBuilder,
-                    targetBuilder,
                     sourceActualSize,
                     targetActualSize,
+                    currentSourceScale,
                     duration,
                     config.EasingType,
                     config.EasingMode),
-                _ => Vector2.One,
+                _ => (null, null, Vector2.One),
             };
+
+            controller.AddAnimationGroupFor(
+                source,
+                new[]
+                {
+                    sourceTranslationAnimation,
+                    sourceOpacityAnimation,
+                    sourceScaleAnimation
+                });
+
+            controller.AddAnimationGroupFor(
+                target,
+                new[]
+                {
+                    targetTranslationAnimation,
+                    targetOpacityAnimation,
+                    targetScaleAnimation
+                });
 
             if (config is { EnableClipAnimation: true, ScaleMode: not ScaleMode.Scale })
             {
@@ -297,9 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     ScaleMode.ScaleY => Axis.X,
                     _ => null,
                 };
-                this.AnimateClip(
-                    sourceBuilder,
-                    targetBuilder,
+                var (sourceClipAnimationGroup, targetClipAnimationGroup) = this.AnimateClip(
                     sourceActualSize,
                     targetActualSize,
                     sourceCenterPoint,
@@ -309,15 +298,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     config.EasingType,
                     config.EasingMode,
                     axis);
+                controller.AddAnimationGroupFor(source, sourceClipAnimationGroup);
+                controller.AddAnimationGroupFor(target, targetClipAnimationGroup);
             }
-
-            return Task.WhenAll(sourceBuilder.StartAsync(source, token), targetBuilder.StartAsync(target, token));
         }
 
         private Task AnimateIndependentElements(
             IEnumerable<UIElement> independentElements,
             bool isShow,
             CancellationToken token,
+            TimeSpan totalDuration,
+            float? startProgress,
             EasingType easingType,
             EasingMode easingMode)
         {
@@ -326,11 +317,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return Task.CompletedTask;
             }
 
-            var animationTasks = new List<Task>();
+            var startTime = TimeSpan.Zero;
+            if (startProgress.HasValue)
+            {
+                startTime = totalDuration * startProgress.Value;
+            }
+
+            var controller = new KeyFrameAnimationGroupController();
+
             var duration = isShow ? this.IndependentElementShowDuration : this.IndependentElementHideDuration;
             var delay = isShow ? this.IndependentElementShowDelay : TimeSpan.Zero;
-            var translationFrom = isShow ? this.IndependentElementHideTranslation.ToVector3() : Vector3.Zero;
-            var translationTo = isShow ? Vector3.Zero : this.IndependentElementHideTranslation.ToVector3();
+            var translationFrom = isShow ? this.IndependentElementHideTranslation.ToVector2() : Vector2.Zero;
+            var translationTo = isShow ? Vector2.Zero : this.IndependentElementHideTranslation.ToVector2();
             var opacityFrom = isShow ? 0 : 1;
             var opacityTo = isShow ? 1 : 0;
             if (this._isInterruptedAnimation)
@@ -341,65 +339,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             foreach (var item in elements)
             {
-                var animationBuilder = AnimationBuilder.Create();
-                if (Math.Abs(this.IndependentElementHideTranslation.X) > 0.01 ||
-                    Math.Abs(this.IndependentElementHideTranslation.Y) > 0.01)
+                if (delay < startTime)
                 {
-                    animationBuilder.Translation(
-                        translationTo,
-                        this._isInterruptedAnimation ? null : translationFrom,
+                    if (isShow)
+                    {
+                        RestoreElement(item);
+                    }
+                    else
+                    {
+                        item.GetVisual().Opacity = 0;
+                    }
+                }
+                else
+                {
+                    var useDelay = delay - startTime;
+                    if (Math.Abs(this.IndependentElementHideTranslation.X) > 0.01 ||
+                    Math.Abs(this.IndependentElementHideTranslation.Y) > 0.01)
+                    {
+                        controller.AddAnimationFor(item, this.Translation(
+                            translationTo,
+                            this._isInterruptedAnimation ? null : translationFrom,
+                            useDelay,
+                            duration: duration,
+                            easingType: easingType,
+                            easingMode: easingMode));
+                    }
+
+                    controller.AddAnimationFor(item, this.Opacity(
+                        opacityTo,
+                        this._isInterruptedAnimation ? null : opacityFrom,
                         delay,
-                        duration: duration,
+                        duration,
                         easingType: easingType,
-                        easingMode: easingMode);
+                        easingMode: easingMode));
                 }
 
-                animationBuilder.Opacity(
-                    opacityTo,
-                    this._isInterruptedAnimation ? null : opacityFrom,
-                    delay,
-                    duration,
-                    easingType: easingType,
-                    easingMode: easingMode);
-
-                animationTasks.Add(animationBuilder.StartAsync(item, token));
                 if (isShow)
                 {
                     delay += this.IndependentElementShowInterval;
                 }
             }
 
-            return Task.WhenAll(animationTasks);
+            return controller.StartAsync(token, null, null);
         }
 
-        private void AnimateTranslation(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateTranslation(
             UIElement source,
             UIElement target,
             Vector2 sourceCenterPoint,
             Vector2 targetCenterPoint,
+            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            if (this._isInterruptedAnimation)
-            {
-                _ = sourceBuilder.Translation(Vector2.Zero, duration: almostZeroDuration);
-                _ = targetBuilder.Translation(Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode);
-                return;
-            }
-
-            var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
-            _ = sourceBuilder.Translation(diff, duration: duration, easingType: easingType, easingMode: easingMode);
-            _ = targetBuilder.Translation(Vector2.Zero, -diff, duration: duration, easingType: easingType, easingMode: easingMode);
+            var diff = ((target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint) * initialScale) + targetCenterPoint;
+            return (this.Translation(diff, Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode),
+                this.Translation(Vector2.Zero, -diff, duration: duration, easingType: easingType, easingMode: easingMode));
         }
 
-        private Vector2 AnimateScale(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScale(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
+            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
@@ -407,82 +409,66 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var scaleX = targetActualSize.X / sourceActualSize.X;
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector2(scaleX, scaleY);
-            return this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, initialScale, duration, easingType, easingMode);
+            return (sourceFactory, targetFactory, scale);
         }
 
-        private Vector2 AnimateScaleX(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScaleX(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
+            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
             var scaleX = targetActualSize.X / sourceActualSize.X;
             var scale = new Vector2(scaleX, scaleX);
-            return this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, initialScale, duration, easingType, easingMode);
+            return (sourceFactory, targetFactory, scale);
         }
 
-        private Vector2 AnimateScaleY(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScaleY(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
+            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector2(scaleY, scaleY);
-            return this.AnimateScale(sourceBuilder, targetBuilder, scale, duration, easingType, easingMode);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, initialScale, duration, easingType, easingMode);
+            return (sourceFactory, targetFactory, scale);
         }
 
-        private Vector2 AnimateScale(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateScaleImp(
             Vector2 targetScale,
+            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            if (this._isInterruptedAnimation)
-            {
-                _ = sourceBuilder.Scale(Vector2.One, duration: almostZeroDuration);
-                _ = targetBuilder.Scale(Vector2.One, duration: duration, easingType: easingType, easingMode: easingMode);
-            }
-
-            _ = sourceBuilder.Scale(targetScale, duration: duration, easingType: easingType, easingMode: easingMode);
-            _ = targetBuilder.Scale(Vector2.One, GetInverseScale(targetScale), duration: duration, easingType: easingType, easingMode: easingMode);
-            return targetScale;
+            return (this.Scale(targetScale, initialScale, duration: duration, easingType: easingType, easingMode: easingMode),
+                this.Scale(Vector2.One, GetInverseScale(targetScale / initialScale), duration: duration, easingType: easingType, easingMode: easingMode));
         }
 
-        private void AnimateOpacity(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
-            TimeSpan duration)
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateOpacity(TimeSpan duration)
         {
-            if (this._isInterruptedAnimation)
-            {
-                _ = sourceBuilder.Opacity(0, duration: almostZeroDuration);
-                _ = targetBuilder.Opacity(1, duration: almostZeroDuration);
-                return;
-            }
-
             var useDuration = TimeSpan.FromMilliseconds(Math.Min(200, duration.TotalMilliseconds / 3));
-            _ = sourceBuilder.Opacity().TimedKeyFrames(
-                b => b
-                    .KeyFrame(TimeSpan.Zero, 1)
-                    .KeyFrame(useDuration, 0, EasingType.Cubic, EasingMode.EaseIn));
-            _ = targetBuilder.Opacity().TimedKeyFrames(
-                b => b
-                    .KeyFrame(TimeSpan.Zero, 0)
-                    .KeyFrame(useDuration, 1, EasingType.Cubic, EasingMode.EaseOut));
+            var normalizedProgress = (float)(useDuration / duration);
+            var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            {
+                [normalizedProgress] = (0, EasingType.Cubic, EasingMode.EaseIn)
+            };
+            var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            {
+                [normalizedProgress] = (1, EasingType.Cubic, EasingMode.EaseOut)
+            };
+            return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames),
+                this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames));
         }
 
-        private void AnimateClip(
-            AnimationBuilder sourceBuilder,
-            AnimationBuilder targetBuilder,
+        private (IKeyFrameCompositionAnimationFactory[], IKeyFrameCompositionAnimationFactory[]) AnimateClip(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
             Vector2 sourceCenterPoint,
@@ -496,13 +482,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // -4 is used to prevent shadows from being cropped.
             var defaultValue = -4;
             var defaultThickness = new Thickness(defaultValue);
-            if (this._isInterruptedAnimation)
-            {
-                _ = sourceBuilder.Clip(defaultThickness, duration: almostZeroDuration);
-                _ = targetBuilder.Clip(defaultThickness, duration: duration, easingType: easingType, easingMode: easingMode);
-                return;
-            }
-
             var inverseScale = GetInverseScale(targetScale);
 
             var sourceEndViewportLeft = (axis is Axis.Y ? -sourceCenterPoint.X * targetScale.X : -targetCenterPoint.X) + (sourceCenterPoint.X * targetScale.X);
@@ -525,18 +504,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var targetRight = targetActualSize.X - targetRightBottom.X;
             var targetBottom = targetActualSize.Y - targetRightBottom.Y;
 
-            _ = sourceBuilder.Clip(
-                GetFixedThickness(new Thickness(sourceLeftTop.X, sourceLeftTop.Y, sourceRight, sourceBottom), defaultValue),
-                from: defaultThickness,
-                duration: duration,
-                easingType: easingType,
-                easingMode: easingMode);
-            _ = targetBuilder.Clip(
-                defaultThickness,
-                GetFixedThickness(new Thickness(targetLeftTop.X, targetLeftTop.Y, targetRight, targetBottom), defaultValue),
-                duration: duration,
-                easingType: easingType,
-                easingMode: easingMode);
+            return (
+                this.Clip(
+                    GetFixedThickness(new Thickness(sourceLeftTop.X, sourceLeftTop.Y, sourceRight, sourceBottom), defaultValue),
+                    from: defaultThickness,
+                    duration: duration,
+                    easingType: easingType,
+                    easingMode: easingMode),
+                this.Clip(
+                    defaultThickness,
+                    GetFixedThickness(new Thickness(targetLeftTop.X, targetLeftTop.Y, targetRight, targetBottom), defaultValue),
+                    duration: duration,
+                    easingType: easingType,
+                    easingMode: easingMode)
+                );
         }
     }
 }

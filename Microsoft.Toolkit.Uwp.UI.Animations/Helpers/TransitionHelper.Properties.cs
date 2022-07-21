@@ -121,6 +121,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(600);
 
         /// <summary>
+        /// Gets or sets the reverse duration of the connected animation between two UI elements.
+        /// The default value is 600ms.
+        /// </summary>
+        public TimeSpan ReverseDuration { get; set; } = TimeSpan.FromMilliseconds(600);
+
+        /// <summary>
         /// Gets or sets the duration of the show animation for independent or unpaired UI elements.
         /// The default value is 200ms.
         /// </summary>

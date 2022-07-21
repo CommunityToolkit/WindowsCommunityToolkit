@@ -65,16 +65,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             foreach (var animatedElement in animatedElements)
             {
-                ElementCompositionPreview.SetIsTranslationEnabled(animatedElement, true);
-                var visual = animatedElement.GetVisual();
-                visual.Opacity = 1;
-                visual.Scale = Vector3.One;
-                visual.Clip = null;
-                visual.Properties.InsertVector3("Translation", Vector3.Zero);
+                RestoreElement(animatedElement);
             }
         }
 
-        private static Vector2 GetInverseScale(Vector2 scale) => new Vector2(1 / scale.X, 1 / scale.Y);
+        private static void RestoreElement(UIElement animatedElement)
+        {
+            ElementCompositionPreview.SetIsTranslationEnabled(animatedElement, true);
+            var visual = animatedElement.GetVisual();
+            visual.Opacity = 1;
+            visual.Scale = Vector3.One;
+            visual.Clip = null;
+            visual.Properties.InsertVector3("Translation", Vector3.Zero);
+        }
+
+        private static Vector2 GetInverseScale(Vector2 scale) => new(1 / scale.X, 1 / scale.Y);
+
+        private static Vector2 GetXY(Vector3 value) => new(value.X, value.Y);
 
         private static Thickness GetFixedThickness(Thickness thickness, double defaultValue)
         {
