@@ -260,7 +260,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     sourceOpacityAnimation,
                     sourceScaleAnimation
                 });
-
             controller.AddAnimationGroupFor(
                 target,
                 new[]
@@ -269,8 +268,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     targetOpacityAnimation,
                     targetScaleAnimation
                 });
-
-            if (config is { EnableClipAnimation: true, ScaleMode: not ScaleMode.Scale })
+            if (config.EnableClipAnimation)
             {
                 Axis? axis = config.ScaleMode switch
                 {
@@ -431,11 +429,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [0.5f] = (0, EasingType.Cubic, EasingMode.EaseInOut)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [0.5f] = (1, EasingType.Cubic, EasingMode.EaseInOut)
             };
             return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames),
                 this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames));

@@ -81,8 +81,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static Vector2 GetInverseScale(Vector2 scale) => new(1 / scale.X, 1 / scale.Y);
 
-        private static Vector2 GetXY(Vector3 value) => new(value.X, value.Y);
-
         private static Thickness GetFixedThickness(Thickness thickness, double defaultValue)
         {
             var left = thickness.Left < AlmostZero ? defaultValue : thickness.Left;
