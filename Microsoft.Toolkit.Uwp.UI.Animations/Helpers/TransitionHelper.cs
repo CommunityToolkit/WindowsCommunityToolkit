@@ -69,7 +69,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (this._reverseCancellationTokenSource is not null)
             {
                 this._reverseCancellationTokenSource.Cancel();
-                this._reverseCancellationTokenSource = null;
             }
             else if (this.IsTargetState)
             {
@@ -83,8 +82,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             this._animateCancellationTokenSource = new CancellationTokenSource();
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._animateCancellationTokenSource.Token);
-            await StartInterruptibleAnimationsAsync(false, linkedTokenSource.Token, this.Duration);
+            await this.AnimateControls(this.Duration, false, linkedTokenSource.Token);
             this._animateCancellationTokenSource = null;
+            if (linkedTokenSource.Token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            this.RestoreState(true);
         }
 
         /// <summary>
@@ -122,7 +127,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (this._animateCancellationTokenSource is not null)
             {
                 this._animateCancellationTokenSource.Cancel();
-                this._animateCancellationTokenSource = null;
             }
             else if (this.IsTargetState is false)
             {
@@ -136,8 +140,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             this._reverseCancellationTokenSource = new CancellationTokenSource();
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._reverseCancellationTokenSource.Token);
-            await StartInterruptibleAnimationsAsync(true, linkedTokenSource.Token, this.ReverseDuration);
+            await this.AnimateControls(this.ReverseDuration, true, linkedTokenSource.Token);
             this._reverseCancellationTokenSource = null;
+            if (linkedTokenSource.Token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            this.RestoreState(false);
         }
 
         /// <summary>

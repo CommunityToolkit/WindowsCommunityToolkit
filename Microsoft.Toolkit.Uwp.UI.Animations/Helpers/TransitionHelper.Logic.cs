@@ -62,17 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, TimeSpan totalDuration)
-        {
-            await this.AnimateControls(totalDuration, reversed, token);
-            if (token.IsCancellationRequested)
-            {
-                return;
-            }
-
-            this.RestoreState(!reversed);
-        }
-
         private void RestoreState(bool isTargetState)
         {
             this.IsTargetState = isTargetState;
