@@ -62,22 +62,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, float? startProgress, TimeSpan totalDuration)
+        private async Task StartInterruptibleAnimationsAsync(bool reversed, CancellationToken token, TimeSpan totalDuration)
         {
-            this._lastAnimationDuration = totalDuration * (1 - startProgress);
-            _lastAnimationStartTime = DateTime.Now;
-
-            await this.AnimateControls(totalDuration, startProgress, reversed, token);
+            await this.AnimateControls(totalDuration, reversed, token);
             if (token.IsCancellationRequested)
             {
                 return;
             }
 
             this.RestoreState(!reversed);
-            this._lastAnimationStartTime = null;
-            this._lastAnimationDuration = null;
-            this._lastStartProgress = null;
-            this._isInterruptedAnimation = false;
         }
 
         private void RestoreState(bool isTargetState)
@@ -156,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateTargetLayoutTaskSource.Task;
         }
 
-        private Task AnimateControls(TimeSpan duration, float? startProgress, bool reversed, CancellationToken token)
+        private Task AnimateControls(TimeSpan duration, bool reversed, CancellationToken token)
         {
             var animationTasks = new List<Task>(3);
             var sourceUnpairedElements = this.sourceConnectedAnimatedElements
@@ -186,17 +179,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
+            TimeSpan? startTime = null;
+            if (_currentAnimationGroupController.LastStopProgress.HasValue)
+            {
+                var startProgress = reversed ? (1 - _currentAnimationGroupController.LastStopProgress.Value) : _currentAnimationGroupController.LastStopProgress.Value;
+                startTime = startProgress * duration;
+            }
+
             animationTasks.Add(reversed
-                        ? _currentAnimationGroupController.ReverseAsync(token, duration, startProgress)
-                        : _currentAnimationGroupController.StartAsync(token, duration, startProgress));
+                        ? _currentAnimationGroupController.ReverseAsync(token, duration)
+                        : _currentAnimationGroupController.StartAsync(token, duration));
 
             animationTasks.Add(
                 this.AnimateIndependentElements(
                     this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements),
                     reversed,
                     token,
-                    duration,
-                    startProgress,
+                    startTime,
                     IndependentElementEasingType,
                     IndependentElementEasingMode));
             animationTasks.Add(
@@ -204,8 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     this.targetIndependentAnimatedElements.Concat(targetUnpairedElements),
                     !reversed,
                     token,
-                    duration,
-                    startProgress,
+                    startTime,
                     IndependentElementEasingType,
                     IndependentElementEasingMode));
 
@@ -307,20 +305,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             IEnumerable<UIElement> independentElements,
             bool isShow,
             CancellationToken token,
-            TimeSpan totalDuration,
-            float? startProgress,
+            TimeSpan? startTime,
             EasingType easingType,
             EasingMode easingMode)
         {
             if (independentElements?.ToArray() is not { Length: > 0 } elements)
             {
                 return Task.CompletedTask;
-            }
-
-            var startTime = TimeSpan.Zero;
-            if (startProgress.HasValue)
-            {
-                startTime = totalDuration * startProgress.Value;
             }
 
             var controller = new KeyFrameAnimationGroupController();
@@ -331,15 +322,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var translationTo = isShow ? Vector2.Zero : this.IndependentElementHideTranslation.ToVector2();
             var opacityFrom = isShow ? 0 : 1;
             var opacityTo = isShow ? 1 : 0;
-            if (this._isInterruptedAnimation)
-            {
-                duration *= InterruptedAnimationReverseDurationRatio;
-                delay *= InterruptedAnimationReverseDurationRatio;
-            }
 
             foreach (var item in elements)
             {
-                if (delay < startTime)
+                if (startTime.HasValue && delay < startTime)
                 {
                     if (isShow)
                     {
@@ -353,12 +339,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 else
                 {
                     var useDelay = delay - startTime;
-                    if (Math.Abs(this.IndependentElementHideTranslation.X) > 0.01 ||
-                    Math.Abs(this.IndependentElementHideTranslation.Y) > 0.01)
+                    if (Math.Abs(this.IndependentElementHideTranslation.X) > AlmostZero ||
+                    Math.Abs(this.IndependentElementHideTranslation.Y) > AlmostZero)
                     {
                         controller.AddAnimationFor(item, this.Translation(
                             translationTo,
-                            this._isInterruptedAnimation ? null : translationFrom,
+                            startTime.HasValue ? null : translationFrom,
                             useDelay,
                             duration: duration,
                             easingType: easingType,
@@ -367,7 +353,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                     controller.AddAnimationFor(item, this.Opacity(
                         opacityTo,
-                        this._isInterruptedAnimation ? null : opacityFrom,
+                        startTime.HasValue ? null : opacityFrom,
                         delay,
                         duration,
                         easingType: easingType,
@@ -380,7 +366,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            return controller.StartAsync(token, null, null);
+            return controller.StartAsync(token);
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateTranslation(

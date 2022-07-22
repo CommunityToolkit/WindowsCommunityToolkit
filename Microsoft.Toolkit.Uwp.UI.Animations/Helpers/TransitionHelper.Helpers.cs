@@ -85,10 +85,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static Thickness GetFixedThickness(Thickness thickness, double defaultValue)
         {
-            var left = thickness.Left < 0.1 ? defaultValue : thickness.Left;
-            var top = thickness.Top < 0.1 ? defaultValue : thickness.Top;
-            var right = thickness.Right < 0.1 ? defaultValue : thickness.Right;
-            var bottom = thickness.Bottom < 0.1 ? defaultValue : thickness.Bottom;
+            var left = thickness.Left < AlmostZero ? defaultValue : thickness.Left;
+            var top = thickness.Top < AlmostZero ? defaultValue : thickness.Top;
+            var right = thickness.Right < AlmostZero ? defaultValue : thickness.Right;
+            var bottom = thickness.Bottom < AlmostZero ? defaultValue : thickness.Bottom;
             return new Thickness(left, top, right, bottom);
         }
     }

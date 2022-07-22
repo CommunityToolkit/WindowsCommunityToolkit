@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     [ContentProperty(Name = nameof(Configs))]
     public sealed partial class TransitionHelper
     {
-        private const double InterruptedAnimationReverseDurationRatio = 0.7;
+        private const double AlmostZero = 0.01;
         private readonly Dictionary<string, UIElement> sourceConnectedAnimatedElements = new();
         private readonly Dictionary<string, UIElement> targetConnectedAnimatedElements = new();
         private readonly List<UIElement> sourceIndependentAnimatedElements = new();
@@ -28,10 +28,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private CancellationTokenSource _reverseCancellationTokenSource;
         private bool _needUpdateSourceLayout;
         private bool _needUpdateTargetLayout;
-        private bool _isInterruptedAnimation;
-        private DateTime? _lastAnimationStartTime;
-        private float? _lastStartProgress;
-        private TimeSpan? _lastAnimationDuration;
 
         private KeyFrameAnimationGroupController _currentAnimationGroupController;
 
@@ -73,9 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (this._reverseCancellationTokenSource is not null)
             {
-                this._isInterruptedAnimation = !this._isInterruptedAnimation;
                 this._reverseCancellationTokenSource.Cancel();
-                this._lastStartProgress = GetStartProgress(this.ReverseDuration);
                 this._reverseCancellationTokenSource = null;
             }
             else if (this.IsTargetState)
@@ -90,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             this._animateCancellationTokenSource = new CancellationTokenSource();
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._animateCancellationTokenSource.Token);
-            await StartInterruptibleAnimationsAsync(false, linkedTokenSource.Token, this._lastStartProgress, this.Duration);
+            await StartInterruptibleAnimationsAsync(false, linkedTokenSource.Token, this.Duration);
             this._animateCancellationTokenSource = null;
         }
 
@@ -128,9 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (this._animateCancellationTokenSource is not null)
             {
-                this._isInterruptedAnimation = !this._isInterruptedAnimation;
                 this._animateCancellationTokenSource.Cancel();
-                this._lastStartProgress = GetStartProgress(this.Duration);
                 this._animateCancellationTokenSource = null;
             }
             else if (this.IsTargetState is false)
@@ -145,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             this._reverseCancellationTokenSource = new CancellationTokenSource();
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._reverseCancellationTokenSource.Token);
-            await StartInterruptibleAnimationsAsync(true, linkedTokenSource.Token, this._lastStartProgress, this.ReverseDuration);
+            await StartInterruptibleAnimationsAsync(true, linkedTokenSource.Token, this.ReverseDuration);
             this._reverseCancellationTokenSource = null;
         }
 
@@ -167,24 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this._reverseCancellationTokenSource = null;
             }
 
-            this._isInterruptedAnimation = false;
             this.RestoreState(!toInitialState);
-        }
-
-        private float? GetStartProgress(TimeSpan lastTotalDuration)
-        {
-            var startProgress = 1 - this._lastStartProgress ?? 1;
-            if (_lastAnimationStartTime.HasValue)
-            {
-                var elapsedProgress = (DateTime.Now - _lastAnimationStartTime.Value) / lastTotalDuration;
-                startProgress -= (float)elapsedProgress;
-            }
-            else
-            {
-                return null;
-            }
-
-            return Math.Max(0, Math.Min(startProgress, 1));
         }
     }
 }

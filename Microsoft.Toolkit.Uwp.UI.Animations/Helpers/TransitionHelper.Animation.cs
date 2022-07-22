@@ -25,6 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private interface IKeyFrameAnimationGroupController
         {
+            float? LastStopProgress { get; }
+
             Task StartAsync(CancellationToken token, TimeSpan? duration, float? startProgress);
 
             Task ReverseAsync(CancellationToken token, TimeSpan? duration, float? startProgress);
@@ -250,9 +252,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             private readonly Dictionary<UIElement, List<IKeyFrameCompositionAnimationFactory>> animationFactories = new();
 
+            public float? LastStopProgress { get; private set; } = null;
+
             public void AddAnimationFor(UIElement target, IKeyFrameCompositionAnimationFactory factory)
             {
-                if(factory is null)
+                if (factory is null)
                 {
                     return;
                 }
@@ -285,46 +289,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            public Task StartAsync(CancellationToken token, TimeSpan? duration, float? startProgress)
+            public Task StartAsync(CancellationToken token, TimeSpan? duration = null, float? startProgress = null)
             {
-                return AnimateAsync(false, token, duration, startProgress);
+                return AnimateAsync(false, token, duration, startProgress ?? this.LastStopProgress);
             }
 
-            public Task ReverseAsync(CancellationToken token, TimeSpan? duration, float? startProgress)
+            public Task ReverseAsync(CancellationToken token, TimeSpan? duration = null, float? startProgress = null)
             {
-                return AnimateAsync(true, token, duration, startProgress);
+                return AnimateAsync(true, token, duration, startProgress ?? (1 - this.LastStopProgress));
             }
 
             private Task AnimateAsync(bool reversed, CancellationToken token, TimeSpan? duration, float? startProgress)
             {
                 List<Task> tasks = null;
                 List<(CompositionObject Target, string Path)> compositionAnimations = null;
+                DateTime? animationStartTime = null;
+                this.LastStopProgress = null;
                 if (this.animationFactories.Count > 0)
                 {
+                    if (duration.HasValue)
+                    {
+                        var elapsedDuration = duration.Value * (startProgress ?? 0d);
+                        animationStartTime = DateTime.Now - elapsedDuration;
+                    }
+
                     tasks = new List<Task>(this.animationFactories.Count);
                     compositionAnimations = new List<(CompositionObject Target, string Path)>();
                     foreach (var item in this.animationFactories)
                     {
-                        tasks.Add(StartFor(item.Key, reversed, duration, startProgress, compositionAnimations));
+                        tasks.Add(StartForAsync(item.Key, reversed, duration, startProgress, compositionAnimations));
                     }
                 }
 
                 static void Stop(object state)
                 {
-                    if (state is List<(CompositionObject Target, string Path)> animations)
+                    var (controller, reversed, duration, animationStartTime, animations) = ((KeyFrameAnimationGroupController, bool, TimeSpan?, DateTime?, List<(CompositionObject Target, string Path)>))state;
+                    foreach (var (target, path) in animations)
                     {
-                        foreach (var (target, path) in animations)
-                        {
-                            target.StopAnimation(path);
-                        }
+                        target.StopAnimation(path);
                     }
+
+                    if (duration.HasValue is false || animationStartTime.HasValue is false)
+                    {
+                        return;
+                    }
+
+                    var stopProgress = Math.Max(0, Math.Min((DateTime.Now - animationStartTime.Value) / duration.Value, 1));
+                    controller.LastStopProgress = (float)(reversed ? 1 - stopProgress : stopProgress);
                 }
 
-                token.Register(static obj => Stop(obj), compositionAnimations);
+                if (compositionAnimations is not null)
+                {
+                    token.Register(static obj => Stop(obj), (this, reversed, duration, animationStartTime, compositionAnimations));
+                }
+
                 return Task.WhenAll(tasks);
             }
 
-            private Task StartFor(UIElement element, bool reversed, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
+            private Task StartForAsync(UIElement element, bool reversed, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
             {
                 if (!this.animationFactories.TryGetValue(element, out var factories) || factories.Count > 0 is false)
                 {
@@ -333,8 +355,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 ElementCompositionPreview.SetIsTranslationEnabled(element, true);
                 var visual = element.GetVisual();
-                CompositionScopedBatch batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
-                TaskCompletionSource<object> taskCompletionSource = new();
+                var batch = visual.Compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
+                var taskCompletionSource = new TaskCompletionSource<object>();
                 batch.Completed += (_, _) => taskCompletionSource.SetResult(null);
                 foreach (var factory in factories)
                 {
