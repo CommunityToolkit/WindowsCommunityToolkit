@@ -347,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     token.Register(static obj => Stop(obj), (this, reversed, duration, animationStartTime, compositionAnimations));
                 }
 
-                return Task.WhenAll(tasks);
+                return tasks is null ? Task.CompletedTask : Task.WhenAll(tasks);
             }
 
             private Task StartForAsync(UIElement element, bool reversed, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
