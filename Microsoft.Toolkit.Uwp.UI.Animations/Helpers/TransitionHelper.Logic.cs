@@ -417,14 +417,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.5f] = (0, EasingType.Cubic, EasingMode.EaseInOut)
+                [0.3f] = (0, EasingType.Cubic, EasingMode.EaseIn)
+            };
+            var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            {
+                [0.7f] = (1, null, null),
+                [1] = (0, EasingType.Cubic, EasingMode.EaseIn)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.5f] = (1, EasingType.Cubic, EasingMode.EaseInOut)
+                [0.3f] = (1, EasingType.Cubic, EasingMode.EaseOut)
             };
-            return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames),
-                this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames));
+            var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            {
+                [0.7f] = (0, null, null),
+                [1] = (1, EasingType.Cubic, EasingMode.EaseOut)
+            };
+            return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
+                this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedTargetNormalizedKeyFrames));
         }
 
         private (IKeyFrameCompositionAnimationFactory[], IKeyFrameCompositionAnimationFactory[]) AnimateClip(

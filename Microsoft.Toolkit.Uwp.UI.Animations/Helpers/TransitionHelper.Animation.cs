@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private interface IKeyFrameCompositionAnimationFactory
         {
-            KeyFrameAnimation GetAnimation(CompositionObject targetHint, out CompositionObject target);
+            KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, out CompositionObject target);
         }
 
         private interface IKeyFrameAnimationGroupController
@@ -48,13 +48,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? Duration,
             EasingType? EasingType,
             EasingMode? EasingMode,
-            Dictionary<float, (T, EasingType?, EasingMode?)> NormalizedKeyFrames)
+            Dictionary<float, (T, EasingType?, EasingMode?)> NormalizedKeyFrames,
+            Dictionary<float, (T, EasingType?, EasingMode?)> ReversedNormalizedKeyFrames)
             : IKeyFrameCompositionAnimationFactory
             where T : unmanaged
         {
-            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, out CompositionObject target)
+            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, out CompositionObject target)
             {
                 target = null;
+
+                var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
+                var keyFrames = reversed ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
 
                 if (typeof(T) == typeof(float))
                 {
@@ -65,11 +69,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         GetEasingFunction(targetHint.Compositor, EasingType, EasingMode),
-                        iterationBehavior: AnimationIterationBehavior.Count,
-                        iterationCount: 1);
-                    if (NormalizedKeyFrames?.Count > 0)
+                        direction: direction);
+                    if (keyFrames?.Count > 0)
                     {
-                        foreach (var item in NormalizedKeyFrames)
+                        foreach (var item in keyFrames)
                         {
                             var (value, easingType, easingMode) = item.Value;
                             scalarAnimation.InsertKeyFrame(item.Key, CastTo<float>(value), GetEasingFunction(targetHint.Compositor, easingType, easingMode));
@@ -88,11 +91,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         Delay,
                         Duration,
                         GetEasingFunction(targetHint.Compositor, EasingType, EasingMode),
-                        iterationBehavior: AnimationIterationBehavior.Count,
-                        iterationCount: 1);
-                    if (NormalizedKeyFrames?.Count > 0)
+                        direction: direction);
+                    if (keyFrames?.Count > 0)
                     {
-                        foreach (var item in NormalizedKeyFrames)
+                        foreach (var item in keyFrames)
                         {
                             var (value, easingType, easingMode) = item.Value;
                             vector2Animation.InsertKeyFrame(item.Key, CastTo<Vector2>(value), GetEasingFunction(targetHint.Compositor, easingType, easingMode));
@@ -139,20 +141,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode? EasingMode)
             : IKeyFrameCompositionAnimationFactory
         {
-            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, out CompositionObject target)
+            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, out CompositionObject target)
             {
-                Visual visual = (Visual)targetHint;
-                InsetClip clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
-                CompositionEasingFunction easingFunction = GetEasingFunction(clip.Compositor, EasingType, EasingMode);
-                ScalarKeyFrameAnimation animation = clip.Compositor.CreateScalarKeyFrameAnimation(
+                var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
+                var visual = (Visual)targetHint;
+                var clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
+                var easingFunction = GetEasingFunction(clip.Compositor, EasingType, EasingMode);
+                var animation = clip.Compositor.CreateScalarKeyFrameAnimation(
                     Property,
                     To,
                     From,
                     Delay,
                     Duration,
                     easingFunction,
-                    iterationBehavior: AnimationIterationBehavior.Count,
-                    iterationCount: 1);
+                    direction: direction);
 
                 target = clip;
 
@@ -223,9 +225,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? duration = null,
             EasingType? easingType = null,
             EasingMode? easingMode = null,
-            Dictionary<float, (Vector2, EasingType?, EasingMode?)> normalizedKeyFrames = null)
+            Dictionary<float, (Vector2, EasingType?, EasingMode?)> normalizedKeyFrames = null,
+            Dictionary<float, (Vector2, EasingType?, EasingMode?)> reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<Vector2>("Translation.XY", to, from, delay, duration, easingType, easingMode, normalizedKeyFrames);
+            return new KeyFrameAnimationFactory<Vector2>("Translation.XY", to, from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private IKeyFrameCompositionAnimationFactory Opacity(
@@ -235,9 +238,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? duration = null,
             EasingType? easingType = null,
             EasingMode? easingMode = null,
-            Dictionary<float, (float, EasingType?, EasingMode?)> normalizedKeyFrames = null)
+            Dictionary<float, (float, EasingType?, EasingMode?)> normalizedKeyFrames = null,
+            Dictionary<float, (float, EasingType?, EasingMode?)> reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<float>(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, easingType, easingMode, normalizedKeyFrames);
+            return new KeyFrameAnimationFactory<float>(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private IKeyFrameCompositionAnimationFactory Scale(
@@ -247,9 +251,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             TimeSpan? duration = null,
             EasingType? easingType = null,
             EasingMode? easingMode = null,
-            Dictionary<float, (Vector2, EasingType?, EasingMode?)> normalizedKeyFrames = null)
+            Dictionary<float, (Vector2, EasingType?, EasingMode?)> normalizedKeyFrames = null,
+            Dictionary<float, (Vector2, EasingType?, EasingMode?)> reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<Vector2>("Scale.XY", to, from, delay, duration, easingType, easingMode, normalizedKeyFrames);
+            return new KeyFrameAnimationFactory<Vector2>("Scale.XY", to, from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private sealed class KeyFrameAnimationGroupController : IKeyFrameAnimationGroupController
@@ -364,15 +369,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 batch.Completed += (_, _) => taskCompletionSource.SetResult(null);
                 foreach (var factory in factories)
                 {
-                    var animation = factory.GetAnimation(visual, out var target);
+                    var animation = factory.GetAnimation(visual, reversed, out var target);
                     if (duration.HasValue)
                     {
                         animation.Duration = duration.Value;
-                    }
-
-                    if (reversed)
-                    {
-                        animation.Direction = AnimationDirection.Reverse;
                     }
 
                     (target ?? visual).StartAnimation(animation.Target, animation);
