@@ -151,10 +151,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan IndependentElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
 
         /// <summary>
-        /// Gets or sets the translation of the hide animation for independent or unpaired UI elements.
+        /// Gets or sets the default translation used by the show or hide animation for independent or unpaired UI elements.
         /// The default value is (0, 20).
         /// </summary>
-        public Point IndependentElementHideTranslation { get; set; } = new(0, 20);
+        public Point DefaultIndependentTranslation { get; set; } = new(0, 20);
 
         /// <summary>
         /// Gets or sets the easing function type for animation of independent or unpaired UI elements.

@@ -1,24 +1,29 @@
 // Create a TransitionHelper.
 var transitionHelper = new TransitionHelper();
 
-// Configure TransitionHelper.Items that use the default configuration do not need to be listed here.
+// Configure the elements that need to be connected by animation, if the elements use the default configuration, they do not need to be listed here.
 transitionHelper.Configs = new List<TransitionConfig>
     {
-        new TransitionConfig
+        new()
         {
             Id = "background",
             ScaleMode = ScaleMode.Scale
         },
-        new TransitionConfig
+        new()
         {
             Id = "image",
             ScaleMode = ScaleMode.Scale
         },
-        new TransitionConfig
+        new()
         {
             Id = "name",
             ScaleMode = ScaleMode.ScaleY
-        }
+        },
+        new()
+        {
+            Id = "desc",
+            EnableClipAnimation = true
+        },
     };
 transitionHelper.Source = FirstControl;
 transitionHelper.Target = SecondControl;

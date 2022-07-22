@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Windows.Foundation;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
@@ -57,5 +58,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public static readonly DependencyProperty IsIndependentProperty =
             DependencyProperty.RegisterAttached("IsIndependent", typeof(bool), typeof(TransitionHelper), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Get the translation used by the show or hide animation for independent or unpaired UI elements.
+        /// </summary>
+        /// <returns>A bool value indicating whether the UI element needs to be connected by animation.</returns>
+        public static Point? GetIndependentTranslation(DependencyObject obj)
+        {
+            return (Point?)obj.GetValue(IndependentTranslationProperty);
+        }
+
+        /// <summary>
+        /// Set the translation used by the show or hide animation for independent or unpaired UI elements.
+        /// </summary>
+        public static void SetIndependentTranslation(DependencyObject obj, Point? value)
+        {
+            obj.SetValue(IndependentTranslationProperty, value);
+        }
+
+        /// <summary>
+        /// IsIndependent is used by the show or hide animation for independent or unpaired UI elements.
+        /// </summary>
+        public static readonly DependencyProperty IndependentTranslationProperty =
+            DependencyProperty.RegisterAttached("IndependentTranslation", typeof(Point?), typeof(TransitionHelper), null);
     }
 }

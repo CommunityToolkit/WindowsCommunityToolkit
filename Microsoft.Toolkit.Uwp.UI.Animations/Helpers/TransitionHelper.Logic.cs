@@ -307,14 +307,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var controller = new KeyFrameAnimationGroupController();
-
             var duration = isShow ? this.IndependentElementShowDuration : this.IndependentElementHideDuration;
             var delay = isShow ? this.IndependentElementShowDelay : TimeSpan.Zero;
-            var translationFrom = isShow ? this.IndependentElementHideTranslation.ToVector2() : Vector2.Zero;
-            var translationTo = isShow ? Vector2.Zero : this.IndependentElementHideTranslation.ToVector2();
             var opacityFrom = isShow ? 0 : 1;
             var opacityTo = isShow ? 1 : 0;
-
             foreach (var item in elements)
             {
                 if (startTime.HasValue && delay < startTime)
@@ -330,9 +326,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else
                 {
+                    var independentTranslation = GetIndependentTranslation(item) ?? this.DefaultIndependentTranslation;
+                    var translationFrom = isShow ? independentTranslation.ToVector2() : Vector2.Zero;
+                    var translationTo = isShow ? Vector2.Zero : independentTranslation.ToVector2();
                     var useDelay = delay - startTime;
-                    if (Math.Abs(this.IndependentElementHideTranslation.X) > AlmostZero ||
-                    Math.Abs(this.IndependentElementHideTranslation.Y) > AlmostZero)
+                    if (Math.Abs(independentTranslation.X) > AlmostZero ||
+                        Math.Abs(independentTranslation.Y) > AlmostZero)
                     {
                         controller.AddAnimationFor(item, this.Translation(
                             translationTo,
