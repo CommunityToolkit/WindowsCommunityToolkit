@@ -217,8 +217,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var sourceCenterPoint = sourceActualSize * config.NormalizedCenterPoint.ToVector2();
             var targetCenterPoint = targetActualSize * config.NormalizedCenterPoint.ToVector2();
 
-            var currentSourceScale = GetXY(source.GetVisual().Scale);
-
             source.GetVisual().CenterPoint = new Vector3(sourceCenterPoint, 0);
             target.GetVisual().CenterPoint = new Vector3(targetCenterPoint, 0);
             var (sourceTranslationAnimation, targetTranslationAnimation) = this.AnimateTranslation(
@@ -226,7 +224,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 target,
                 sourceCenterPoint,
                 targetCenterPoint,
-                currentSourceScale,
                 duration,
                 config.EasingType,
                 config.EasingMode);
@@ -237,21 +234,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ScaleMode.Scale => this.AnimateScale(
                     sourceActualSize,
                     targetActualSize,
-                    currentSourceScale,
                     duration,
                     config.EasingType,
                     config.EasingMode),
                 ScaleMode.ScaleX => this.AnimateScaleX(
                     sourceActualSize,
                     targetActualSize,
-                    currentSourceScale,
                     duration,
                     config.EasingType,
                     config.EasingMode),
                 ScaleMode.ScaleY => this.AnimateScaleY(
                     sourceActualSize,
                     targetActualSize,
-                    currentSourceScale,
                     duration,
                     config.EasingType,
                     config.EasingMode),
@@ -374,12 +368,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             UIElement target,
             Vector2 sourceCenterPoint,
             Vector2 targetCenterPoint,
-            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            var diff = ((target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint) * initialScale) + targetCenterPoint;
+            var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
             return (this.Translation(diff, Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode),
                 this.Translation(Vector2.Zero, -diff, duration: duration, easingType: easingType, easingMode: easingMode));
         }
@@ -387,7 +380,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScale(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
-            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
@@ -395,60 +387,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var scaleX = targetActualSize.X / sourceActualSize.X;
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector2(scaleX, scaleY);
-            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, initialScale, duration, easingType, easingMode);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
             return (sourceFactory, targetFactory, scale);
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScaleX(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
-            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
             var scaleX = targetActualSize.X / sourceActualSize.X;
             var scale = new Vector2(scaleX, scaleX);
-            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, initialScale, duration, easingType, easingMode);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
             return (sourceFactory, targetFactory, scale);
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScaleY(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
-            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector2(scaleY, scaleY);
-            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, initialScale, duration, easingType, easingMode);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
             return (sourceFactory, targetFactory, scale);
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateScaleImp(
             Vector2 targetScale,
-            Vector2 initialScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            return (this.Scale(targetScale, initialScale, duration: duration, easingType: easingType, easingMode: easingMode),
-                this.Scale(Vector2.One, GetInverseScale(targetScale / initialScale), duration: duration, easingType: easingType, easingMode: easingMode));
+            return (this.Scale(targetScale, Vector2.One, duration: duration, easingType: easingType, easingMode: easingMode),
+                this.Scale(Vector2.One, GetInverseScale(targetScale), duration: duration, easingType: easingType, easingMode: easingMode));
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateOpacity(TimeSpan duration)
         {
-            var useDuration = TimeSpan.FromMilliseconds(Math.Min(200, duration.TotalMilliseconds / 3));
-            var normalizedProgress = (float)(useDuration / duration);
             var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [normalizedProgress] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [0.3f] = (0, EasingType.Cubic, EasingMode.EaseIn)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [normalizedProgress] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [0.3f] = (1, EasingType.Cubic, EasingMode.EaseOut)
             };
             return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames),
                 this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames));
