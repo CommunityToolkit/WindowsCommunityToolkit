@@ -318,7 +318,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     var independentTranslation = GetIndependentTranslation(item) ?? this.DefaultIndependentTranslation;
                     var translationFrom = isShow ? independentTranslation.ToVector2() : Vector2.Zero;
                     var translationTo = isShow ? Vector2.Zero : independentTranslation.ToVector2();
-                    var useDelay = delay - startTime;
+                    var useDelay = delay - (startTime ?? TimeSpan.Zero);
                     if (Math.Abs(independentTranslation.X) > AlmostZero ||
                         Math.Abs(independentTranslation.Y) > AlmostZero)
                     {
@@ -334,7 +334,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     controller.AddAnimationFor(item, this.Opacity(
                         opacityTo,
                         startTime.HasValue ? null : opacityFrom,
-                        delay,
+                        useDelay,
                         duration,
                         easingType: easingType,
                         easingMode: easingMode));
@@ -417,21 +417,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [0.3f] = (1, null, null),
+                [0.6f] = (0, EasingType.Cubic, EasingMode.EaseIn)
             };
             var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.7f] = (1, null, null),
-                [1] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [0.4f] = (1, null, null),
+                [0.7f] = (0, EasingType.Cubic, EasingMode.EaseIn),
+                [1] = (0, null, null)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [0.3f] = (0, null, null),
+                [0.6f] = (1, EasingType.Cubic, EasingMode.EaseOut)
             };
             var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.7f] = (0, null, null),
-                [1] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [0.4f] = (0, null, null),
+                [0.7f] = (1, EasingType.Cubic, EasingMode.EaseOut),
+                [1] = (1, null, null)
             };
             return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
                 this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedTargetNormalizedKeyFrames));
