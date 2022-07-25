@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Gets or sets the delay of the show animation for independent or unpaired UI elements.
         /// The default value is 300ms.
         /// </summary>
-        public TimeSpan IndependentElementShowDelay { get; set; } = TimeSpan.FromMilliseconds(400);
+        public TimeSpan IndependentElementShowDelay { get; set; } = TimeSpan.FromMilliseconds(300);
 
         /// <summary>
         /// Gets or sets the interval between the show animations for independent or unpaired UI elements.
