@@ -47,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this._sourceZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateSourceLayout = true;
                 this.UpdateSourceAnimatedElements();
+                this.Reset(true);
             }
         }
 
@@ -75,8 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this._target = value;
                 this._targetZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateTargetLayout = true;
-                this.IsTargetState = false;
                 this.UpdateTargetAnimatedElements();
+                this.Reset(true);
             }
         }
 

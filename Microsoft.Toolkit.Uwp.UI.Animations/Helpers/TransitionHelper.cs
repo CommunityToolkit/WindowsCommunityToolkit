@@ -168,6 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this._reverseCancellationTokenSource = null;
             }
 
+            this._currentAnimationGroupController = null;
             this.RestoreState(!toInitialState);
         }
     }

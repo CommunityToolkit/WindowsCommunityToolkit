@@ -65,10 +65,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void RestoreState(bool isTargetState)
         {
             this.IsTargetState = isTargetState;
-            Canvas.SetZIndex(this.Source, _sourceZIndex);
-            Canvas.SetZIndex(this.Target, _targetZIndex);
-            ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
-            ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
+            if(this.Source is not null)
+            {
+                Canvas.SetZIndex(this.Source, _sourceZIndex);
+                ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
+            }
+
+            if(this.Target is not null)
+            {
+                Canvas.SetZIndex(this.Target, _targetZIndex);
+                ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
+            }
+
             RestoreElements(this.SourceAnimatedElements.Concat(this.TargetAnimatedElements));
         }
 
