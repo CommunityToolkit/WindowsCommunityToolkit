@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 var (a, b) = AnimationExtensions.EasingMaps[(easingType.Value, easingMode.Value)];
 
-                return inverse ? compositor.CreateCubicBezierEasingFunction(b, a) : compositor.CreateCubicBezierEasingFunction(a, b);
+                return inverse ? compositor.CreateCubicBezierEasingFunction(new(a.Y, a.X), new(b.Y, b.X)) : compositor.CreateCubicBezierEasingFunction(a, b);
             }
 
             return easingFunction;
