@@ -38,9 +38,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Gets or sets the easing function type for the transition.
-        /// The default value is <see cref="EasingType.Cubic"/>.
+        /// The default value is <see cref="EasingType.Default"/>.
         /// </summary>
-        public EasingType EasingType { get; set; } = EasingType.Cubic;
+        public EasingType EasingType { get; set; } = EasingType.Default;
 
         /// <summary>
         /// Gets or sets the easing function mode for the transition.

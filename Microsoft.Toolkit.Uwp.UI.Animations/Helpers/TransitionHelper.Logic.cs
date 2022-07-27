@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             animationTasks.Add(reversed
-                        ? _currentAnimationGroupController.ReverseAsync(token, duration)
+                        ? _currentAnimationGroupController.ReverseAsync(token, this.InverseEasingFunctionWhenReversing, duration)
                         : _currentAnimationGroupController.StartAsync(token, duration));
 
             animationTasks.Add(
@@ -425,25 +425,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (1, null, null),
-                [0.6f] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [0.3f] = (0, EasingType.Cubic, EasingMode.EaseIn)
             };
             var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.4f] = (1, null, null),
-                [0.7f] = (0, EasingType.Cubic, EasingMode.EaseIn),
-                [1] = (0, null, null)
+                [0.7f] = (1, null, null),
+                [1] = (0, EasingType.Cubic, EasingMode.EaseIn)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (0, null, null),
-                [0.6f] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [0.3f] = (1, EasingType.Cubic, EasingMode.EaseOut)
             };
             var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.4f] = (0, null, null),
-                [0.7f] = (1, EasingType.Cubic, EasingMode.EaseOut),
-                [1] = (1, null, null)
+                [0.7f] = (0, null, null),
+                [1] = (1, EasingType.Cubic, EasingMode.EaseOut)
             };
             return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
                 this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedTargetNormalizedKeyFrames));

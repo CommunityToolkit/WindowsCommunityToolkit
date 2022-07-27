@@ -128,6 +128,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan ReverseDuration { get; set; } = TimeSpan.FromMilliseconds(600);
 
         /// <summary>
+        /// Gets or sets a value indicating whether to use the inverse easing function when animating in reverse direction.
+        /// </summary>
+        public bool InverseEasingFunctionWhenReversing { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets the duration of the show animation for independent or unpaired UI elements.
         /// The default value is 200ms.
         /// </summary>

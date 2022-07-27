@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private interface IKeyFrameCompositionAnimationFactory
         {
-            KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, out CompositionObject target);
+            KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool inverseEasingFunction, out CompositionObject target);
         }
 
         private interface IKeyFrameAnimationGroupController
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             Task StartAsync(CancellationToken token, TimeSpan? duration, float? startProgress);
 
-            Task ReverseAsync(CancellationToken token, TimeSpan? duration, float? startProgress);
+            Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress);
 
             void AddAnimationFor(UIElement target, IKeyFrameCompositionAnimationFactory factory);
 
@@ -53,12 +53,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             : IKeyFrameCompositionAnimationFactory
             where T : unmanaged
         {
-            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, out CompositionObject target)
+            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool inverseEasingFunction, out CompositionObject target)
             {
                 target = null;
 
                 var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
-                var keyFrames = reversed ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
+                var keyFrames = (reversed && inverseEasingFunction && ReversedNormalizedKeyFrames is not null) ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
 
                 if (typeof(T) == typeof(float))
                 {
@@ -68,14 +68,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         CastToNullable<float>(From),
                         Delay,
                         Duration,
-                        GetEasingFunction(targetHint.Compositor, EasingType, EasingMode),
+                        GetEasingFunction(targetHint.Compositor, inverseEasingFunction, EasingType, EasingMode),
                         direction: direction);
                     if (keyFrames?.Count > 0)
                     {
                         foreach (var item in keyFrames)
                         {
                             var (value, easingType, easingMode) = item.Value;
-                            scalarAnimation.InsertKeyFrame(item.Key, CastTo<float>(value), GetEasingFunction(targetHint.Compositor, easingType, easingMode));
+                            scalarAnimation.InsertKeyFrame(item.Key, CastTo<float>(value), GetEasingFunction(targetHint.Compositor, inverseEasingFunction, easingType, easingMode));
                         }
                     }
 
@@ -90,14 +90,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         CastToNullable<Vector2>(From),
                         Delay,
                         Duration,
-                        GetEasingFunction(targetHint.Compositor, EasingType, EasingMode),
+                        GetEasingFunction(targetHint.Compositor, inverseEasingFunction, EasingType, EasingMode),
                         direction: direction);
                     if (keyFrames?.Count > 0)
                     {
                         foreach (var item in keyFrames)
                         {
                             var (value, easingType, easingMode) = item.Value;
-                            vector2Animation.InsertKeyFrame(item.Key, CastTo<Vector2>(value), GetEasingFunction(targetHint.Compositor, easingType, easingMode));
+                            vector2Animation.InsertKeyFrame(item.Key, CastTo<Vector2>(value), GetEasingFunction(targetHint.Compositor, inverseEasingFunction, easingType, easingMode));
                         }
                     }
 
@@ -141,12 +141,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode? EasingMode)
             : IKeyFrameCompositionAnimationFactory
         {
-            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, out CompositionObject target)
+            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool inverseEasingFunction, out CompositionObject target)
             {
                 var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
                 var visual = (Visual)targetHint;
                 var clip = visual.Clip as InsetClip ?? (InsetClip)(visual.Clip = visual.Compositor.CreateInsetClip());
-                var easingFunction = GetEasingFunction(clip.Compositor, EasingType, EasingMode);
+                var easingFunction = GetEasingFunction(clip.Compositor, inverseEasingFunction, EasingType, EasingMode);
                 var animation = clip.Compositor.CreateScalarKeyFrameAnimation(
                     Property,
                     To,
@@ -162,12 +162,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static CompositionEasingFunction GetEasingFunction(Compositor compositor, EasingType? easingType, EasingMode? easingMode)
+        private static CompositionEasingFunction GetEasingFunction(Compositor compositor, bool inverse, EasingType? easingType, EasingMode? easingMode)
         {
             CompositionEasingFunction easingFunction = null;
             if (easingType.HasValue && easingMode.HasValue)
             {
-                easingFunction = compositor.TryCreateEasingFunction(easingType.Value, easingMode.Value);
+                if (easingType == EasingType.Default && easingMode == EasingMode.EaseInOut)
+                {
+                    return inverse ? compositor.CreateCubicBezierEasingFunction(new(1, 0), new(1, 1)) : null;
+                }
+
+                if (easingType == EasingType.Linear)
+                {
+                    return compositor.CreateLinearEasingFunction();
+                }
+
+                var (a, b) = AnimationExtensions.EasingMaps[(easingType.Value, easingMode.Value)];
+
+                return inverse ? compositor.CreateCubicBezierEasingFunction(b, a) : compositor.CreateCubicBezierEasingFunction(a, b);
             }
 
             return easingFunction;
@@ -300,15 +312,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             public Task StartAsync(CancellationToken token, TimeSpan? duration = null, float? startProgress = null)
             {
-                return AnimateAsync(false, token, duration, startProgress ?? this.LastStopProgress);
+                return AnimateAsync(false, token, false, duration, startProgress ?? this.LastStopProgress);
             }
 
-            public Task ReverseAsync(CancellationToken token, TimeSpan? duration = null, float? startProgress = null)
+            public Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration = null, float? startProgress = null)
             {
-                return AnimateAsync(true, token, duration, startProgress ?? (1 - this.LastStopProgress));
+                var start = startProgress;
+                if (startProgress.HasValue is false && this.LastStopProgress.HasValue)
+                {
+                    start = 1 - this.LastStopProgress.Value;
+                }
+
+                var inverse = (start.HasValue is false) && inverseEasingFunction;
+                return AnimateAsync(true, token, inverse, duration, start);
             }
 
-            private Task AnimateAsync(bool reversed, CancellationToken token, TimeSpan? duration, float? startProgress)
+            private Task AnimateAsync(bool reversed, CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress)
             {
                 List<Task> tasks = null;
                 List<(CompositionObject Target, string Path)> compositionAnimations = null;
@@ -326,7 +345,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     compositionAnimations = new List<(CompositionObject Target, string Path)>();
                     foreach (var item in this.animationFactories)
                     {
-                        tasks.Add(StartForAsync(item.Key, reversed, duration, startProgress, compositionAnimations));
+                        tasks.Add(StartForAsync(item.Key, reversed, inverseEasingFunction, duration, startProgress, compositionAnimations));
                     }
                 }
 
@@ -355,7 +374,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return tasks is null ? Task.CompletedTask : Task.WhenAll(tasks);
             }
 
-            private Task StartForAsync(UIElement element, bool reversed, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
+            private Task StartForAsync(UIElement element, bool reversed, bool inverseEasingFunction, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
             {
                 if (!this.animationFactories.TryGetValue(element, out var factories) || factories.Count > 0 is false)
                 {
@@ -369,7 +388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 batch.Completed += (_, _) => taskCompletionSource.SetResult(null);
                 foreach (var factory in factories)
                 {
-                    var animation = factory.GetAnimation(visual, reversed, out var target);
+                    var animation = factory.GetAnimation(visual, reversed, inverseEasingFunction, out var target);
                     if (duration.HasValue)
                     {
                         animation.Duration = duration.Value;
