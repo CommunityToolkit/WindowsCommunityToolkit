@@ -429,8 +429,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             };
             var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.7f] = (1, null, null),
-                [1] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [0.5f] = (1, null, null),
+                [1] = (0, EasingType.Cubic, EasingMode.EaseOut)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
@@ -438,8 +438,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             };
             var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.7f] = (0, null, null),
-                [1] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [0.5f] = (0, null, null),
+                [1] = (1, EasingType.Cubic, EasingMode.EaseIn)
             };
             return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
                 this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedTargetNormalizedKeyFrames));
