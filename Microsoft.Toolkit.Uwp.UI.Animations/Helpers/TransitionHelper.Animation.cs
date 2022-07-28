@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private interface IKeyFrameCompositionAnimationFactory
         {
-            KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool inverseEasingFunction, out CompositionObject target);
+            KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool useReversedKeyframes, bool inverseEasingFunction, out CompositionObject target);
         }
 
         private interface IKeyFrameAnimationGroupController
@@ -53,12 +53,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             : IKeyFrameCompositionAnimationFactory
             where T : unmanaged
         {
-            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool inverseEasingFunction, out CompositionObject target)
+            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool useReversedKeyframes, bool inverseEasingFunction, out CompositionObject target)
             {
                 target = null;
 
                 var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
-                var keyFrames = (reversed && inverseEasingFunction && ReversedNormalizedKeyFrames is not null) ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
+                var keyFrames = (reversed && useReversedKeyframes && ReversedNormalizedKeyFrames is not null) ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
 
                 if (typeof(T) == typeof(float))
                 {
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode? EasingMode)
             : IKeyFrameCompositionAnimationFactory
         {
-            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool inverseEasingFunction, out CompositionObject target)
+            public KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool useReversedKeyframes, bool inverseEasingFunction, out CompositionObject target)
             {
                 var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
                 var visual = (Visual)targetHint;
@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 if (easingType == EasingType.Default && easingMode == EasingMode.EaseInOut)
                 {
-                    return inverse ? compositor.CreateCubicBezierEasingFunction(new(1, 0), new(1, 1)) : null;
+                    return inverse ? compositor.CreateCubicBezierEasingFunction(new(0.94f, 0), new(0.52f, 0.41f)) : null;
                 }
 
                 if (easingType == EasingType.Linear)
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 var (a, b) = AnimationExtensions.EasingMaps[(easingType.Value, easingMode.Value)];
 
-                return inverse ? compositor.CreateCubicBezierEasingFunction(b, a) : compositor.CreateCubicBezierEasingFunction(a, b);
+                return inverse ? compositor.CreateCubicBezierEasingFunction(new(b.Y, b.X), new(a.Y, a.X)) : compositor.CreateCubicBezierEasingFunction(a, b);
             }
 
             return easingFunction;
@@ -275,6 +275,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             public float? LastStopProgress { get; private set; } = null;
 
+            private bool _lastInverseEasingFunction = false;
+
             public void AddAnimationFor(UIElement target, IKeyFrameCompositionAnimationFactory factory)
             {
                 if (factory is null)
@@ -312,7 +314,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             public Task StartAsync(CancellationToken token, TimeSpan? duration = null, float? startProgress = null)
             {
-                return AnimateAsync(false, token, false, duration, startProgress ?? this.LastStopProgress);
+                var start = startProgress ?? this.LastStopProgress;
+                var isInterruptedAnimation = start.HasValue;
+                var inverse = isInterruptedAnimation && this._lastInverseEasingFunction;
+                return AnimateAsync(false, false, token, inverse, duration, start);
             }
 
             public Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration = null, float? startProgress = null)
@@ -323,16 +328,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     start = 1 - this.LastStopProgress.Value;
                 }
 
-                var inverse = (start.HasValue is false) && inverseEasingFunction;
-                return AnimateAsync(true, token, inverse, duration, start);
+                var isInterruptedAnimation = start.HasValue;
+                var inverse = (isInterruptedAnimation && this._lastInverseEasingFunction) || (!isInterruptedAnimation && inverseEasingFunction);
+                return AnimateAsync(true, !isInterruptedAnimation, token, inverse, duration, start);
             }
 
-            private Task AnimateAsync(bool reversed, CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress)
+            private Task AnimateAsync(bool reversed, bool useReversedKeyframes, CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress)
             {
                 List<Task> tasks = null;
                 List<(CompositionObject Target, string Path)> compositionAnimations = null;
                 DateTime? animationStartTime = null;
                 this.LastStopProgress = null;
+                this._lastInverseEasingFunction = inverseEasingFunction;
                 if (this.animationFactories.Count > 0)
                 {
                     if (duration.HasValue)
@@ -345,7 +352,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     compositionAnimations = new List<(CompositionObject Target, string Path)>();
                     foreach (var item in this.animationFactories)
                     {
-                        tasks.Add(StartForAsync(item.Key, reversed, inverseEasingFunction, duration, startProgress, compositionAnimations));
+                        tasks.Add(StartForAsync(item.Key, reversed, useReversedKeyframes, inverseEasingFunction, duration, startProgress, compositionAnimations));
                     }
                 }
 
@@ -374,7 +381,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return tasks is null ? Task.CompletedTask : Task.WhenAll(tasks);
             }
 
-            private Task StartForAsync(UIElement element, bool reversed, bool inverseEasingFunction, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
+            private Task StartForAsync(UIElement element, bool reversed, bool useReversedKeyframes, bool inverseEasingFunction, TimeSpan? duration, float? startProgress, List<(CompositionObject Target, string Path)> animations)
             {
                 if (!this.animationFactories.TryGetValue(element, out var factories) || factories.Count > 0 is false)
                 {
@@ -388,7 +395,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 batch.Completed += (_, _) => taskCompletionSource.SetResult(null);
                 foreach (var factory in factories)
                 {
-                    var animation = factory.GetAnimation(visual, reversed, inverseEasingFunction, out var target);
+                    var animation = factory.GetAnimation(visual, reversed, useReversedKeyframes, inverseEasingFunction, out var target);
                     if (duration.HasValue)
                     {
                         animation.Duration = duration.Value;

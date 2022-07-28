@@ -129,6 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Gets or sets a value indicating whether to use the inverse easing function when animating in reverse direction.
+        /// The default value is true.
         /// </summary>
         public bool InverseEasingFunctionWhenReversing { get; set; } = true;
 
