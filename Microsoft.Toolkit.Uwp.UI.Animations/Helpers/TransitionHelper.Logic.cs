@@ -216,14 +216,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             source.GetVisual().CenterPoint = new Vector3(sourceCenterPoint, 0);
             target.GetVisual().CenterPoint = new Vector3(targetCenterPoint, 0);
+            var easingType = config.EasingType ?? this.DefaultEasingType;
+            var easingMode = config.EasingMode ?? this.DefaultEasingMode;
             var (sourceTranslationAnimation, targetTranslationAnimation) = this.AnimateTranslation(
                 source,
                 target,
                 sourceCenterPoint,
                 targetCenterPoint,
                 duration,
-                config.EasingType,
-                config.EasingMode);
+                easingType,
+                easingMode);
             var (sourceOpacityAnimation, targetOpacityAnimation) = this.AnimateOpacity(duration);
             var (sourceScaleAnimation, targetScaleAnimation, targetScale) = config.ScaleMode switch
             {
@@ -232,20 +234,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     sourceActualSize,
                     targetActualSize,
                     duration,
-                    config.EasingType,
-                    config.EasingMode),
+                    easingType,
+                    easingMode),
                 ScaleMode.ScaleX => this.AnimateScaleX(
                     sourceActualSize,
                     targetActualSize,
                     duration,
-                    config.EasingType,
-                    config.EasingMode),
+                    easingType,
+                    easingMode),
                 ScaleMode.ScaleY => this.AnimateScaleY(
                     sourceActualSize,
                     targetActualSize,
                     duration,
-                    config.EasingType,
-                    config.EasingMode),
+                    easingType,
+                    easingMode),
                 _ => (null, null, Vector2.One),
             };
 
@@ -282,8 +284,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     targetCenterPoint,
                     targetScale,
                     duration,
-                    config.EasingType,
-                    config.EasingMode,
+                    easingType,
+                    easingMode,
                     axis);
                 controller.AddAnimationGroupFor(source, sourceClipAnimationGroup);
                 controller.AddAnimationGroupFor(target, targetClipAnimationGroup);

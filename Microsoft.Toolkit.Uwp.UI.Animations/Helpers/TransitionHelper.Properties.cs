@@ -158,6 +158,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public TimeSpan IndependentElementHideDuration { get; set; } = TimeSpan.FromMilliseconds(100);
 
         /// <summary>
+        /// Gets or sets the default easing function type for the transition.
+        /// The default value is <see cref="EasingType.Default"/>.
+        /// </summary>
+        public EasingType DefaultEasingType { get; set; } = EasingType.Default;
+
+        /// <summary>
+        /// Gets or sets the default easing function mode for the transition.
+        /// The default value is <see cref="EasingMode.EaseInOut"/>.
+        /// </summary>
+        public EasingMode DefaultEasingMode { get; set; } = EasingMode.EaseInOut;
+
+        /// <summary>
         /// Gets or sets the default translation used by the show or hide animation for independent or unpaired UI elements.
         /// The default value is (0, 20).
         /// </summary>

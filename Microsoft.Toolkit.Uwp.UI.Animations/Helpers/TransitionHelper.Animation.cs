@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 if (easingType == EasingType.Default && easingMode == EasingMode.EaseInOut)
                 {
-                    return inverse ? compositor.CreateCubicBezierEasingFunction(new(0.94f, 0), new(0.52f, 0.41f)) : null;
+                    return inverse ? compositor.CreateCubicBezierEasingFunction(new(1f, 0.06f), new(0.59f, 0.48f)) : null;
                 }
 
                 if (easingType == EasingType.Linear)
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 var (a, b) = AnimationExtensions.EasingMaps[(easingType.Value, easingMode.Value)];
 
-                return inverse ? compositor.CreateCubicBezierEasingFunction(new(b.Y, b.X), new(a.Y, a.X)) : compositor.CreateCubicBezierEasingFunction(a, b);
+                return inverse ? compositor.CreateCubicBezierEasingFunction(new(1 - b.X, 1 - b.Y), new(1 - a.X, 1 - a.Y)) : compositor.CreateCubicBezierEasingFunction(a, b);
             }
 
             return easingFunction;

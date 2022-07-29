@@ -38,14 +38,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Gets or sets the easing function type for the transition.
-        /// The default value is <see cref="EasingType.Default"/>.
+        /// If this value is not set, it will fall back to the value in <see cref="TransitionHelper.DefaultEasingType"/>.
         /// </summary>
-        public EasingType EasingType { get; set; } = EasingType.Default;
+        public EasingType? EasingType { get; set; } = null;
 
         /// <summary>
         /// Gets or sets the easing function mode for the transition.
-        /// The default value is <see cref="EasingMode.EaseInOut"/>.
+        /// If this value is not set, it will fall back to the value in <see cref="TransitionHelper.DefaultEasingMode"/>.
         /// </summary>
-        public EasingMode EasingMode { get; set; } = EasingMode.EaseInOut;
+        public EasingMode? EasingMode { get; set; } = null;
     }
 }
