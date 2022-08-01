@@ -176,6 +176,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public Point DefaultIndependentTranslation { get; set; } = new(0, 20);
 
         /// <summary>
+        /// Gets or sets the key point of opacity transition.
+        /// The time the keyframe of opacity from 0 to 1 or from 1 to 0 should occur at, expressed as a percentage of the animation duration. The allowed values are from (0, 0) to (1, 1).
+        /// <see cref="OpacityTransitionProgressKey"/>.X will be used in the animation of the normal direction.
+        /// <see cref="OpacityTransitionProgressKey"/>.Y will be used in the animation of the reverse direction.
+        /// The default value is (0.3, 0.3).
+        /// </summary>
+        public Point OpacityTransitionProgressKey { get; set; } = new(0.3, 0.3);
+
+        /// <summary>
         /// Gets or sets the easing function type for animation of independent or unpaired UI elements.
         /// The default value is <see cref="EasingType.Default"/>.
         /// </summary>

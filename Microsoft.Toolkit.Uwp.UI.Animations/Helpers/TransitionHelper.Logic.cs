@@ -8,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -226,7 +227,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 duration,
                 easingType,
                 easingMode);
-            var (sourceOpacityAnimation, targetOpacityAnimation) = this.AnimateOpacity(duration);
+            var (sourceOpacityAnimation, targetOpacityAnimation) = this.AnimateOpacity(duration, this.OpacityTransitionProgressKey);
             var (sourceScaleAnimation, targetScaleAnimation, targetScale) = config.ScaleMode switch
             {
                 ScaleMode.None => (null, null, Vector2.One),
@@ -423,24 +424,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 this.Scale(Vector2.One, GetInverseScale(targetScale), duration: duration, easingType: easingType, easingMode: easingMode));
         }
 
-        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateOpacity(TimeSpan duration)
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateOpacity(TimeSpan duration, Point opacityTransitionProgressKey)
         {
+            var normalKey = (float)Math.Max(0, Math.Min(opacityTransitionProgressKey.X, 1));
+            var reversedKey = (float)Math.Max(0, Math.Min(1 - opacityTransitionProgressKey.Y, 1));
             var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [normalKey] = (0, EasingType.Cubic, EasingMode.EaseIn)
             };
             var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.5f] = (1, null, null),
+                [reversedKey] = (1, null, null),
                 [1] = (0, EasingType.Cubic, EasingMode.EaseOut)
             };
             var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.3f] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [normalKey] = (1, EasingType.Cubic, EasingMode.EaseOut)
             };
             var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
             {
-                [0.5f] = (0, null, null),
+                [reversedKey] = (0, null, null),
                 [1] = (1, EasingType.Cubic, EasingMode.EaseIn)
             };
             return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
