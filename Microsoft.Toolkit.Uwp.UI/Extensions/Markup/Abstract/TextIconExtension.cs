@@ -20,14 +20,14 @@ namespace Microsoft.Toolkit.Uwp.UI
         public double FontSize { get; set; }
 
         [ThreadStatic]
-        private static FontFamily segoeMDL2AssetsFontFamily;
+        private static FontFamily symbolThemeFontFamily;
 
         /// <summary>
-        /// Gets the reusable "Segoe MDL2 Assets" <see cref="FontFamily"/> instance.
+        /// Gets the reusable "Segoe Fluent Icons,Segoe MDL2 Assets" <see cref="FontFamily"/> instance.
         /// </summary>
-        protected static FontFamily SegoeMDL2AssetsFontFamily
+        protected static FontFamily SymbolThemeFontFamily
         {
-            get => segoeMDL2AssetsFontFamily ??= new FontFamily("Segoe MDL2 Assets");
+            get => symbolThemeFontFamily ??= new FontFamily("Segoe Fluent Icons,Segoe MDL2 Assets");
         }
 
         /// <summary>

@@ -17,25 +17,21 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Image stretches to fill available width (and potentially available height too, depending on where the image is).
         /// </summary>
-        [EnumString("stretch")]
         Stretch,
 
         /// <summary>
         /// Align the image to the left, displaying the image at its native resolution.
         /// </summary>
-        [EnumString("left")]
         Left,
 
         /// <summary>
         /// Align the image in the center horizontally, displaying the image at its native resolution.
         /// </summary>
-        [EnumString("center")]
         Center,
 
         /// <summary>
         /// Align the image to the right, displaying the image at its native resolution.
         /// </summary>
-        [EnumString("right")]
         Right
     }
 
@@ -52,13 +48,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Image is not cropped.
         /// </summary>
-        [EnumString("none")]
         None,
 
         /// <summary>
         /// Image is cropped to a circle shape.
         /// </summary>
-        [EnumString("circle")]
         Circle
     }
 }

@@ -2,17 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-#if WINDOWS_UWP
-
-#endif
-
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
     /// <summary>
-    /// This attribute should be specified at most one time on an Element class. The property's value will be written as a string in the element's body.
+    /// An interface for a notification XML element with an explicit XML text content.
     /// </summary>
-    internal sealed class NotificationXmlContentAttribute : Attribute
+    internal interface IHaveXmlText
     {
+        /// <summary>
+        /// Gets the text content of the current element.
+        /// </summary>
+        string Text { get; }
     }
 }

@@ -617,7 +617,7 @@
       },
       {
         "Name": "Lottie",
-        "About": "Lottie-Windows is a library and tools for rendering Lottie animations on Windows 10.",
+        "About": "Lottie-Windows is a library and tools for rendering Lottie animations on Windows 10 and Windows 11.",
         "Subcategory": "Effect",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Lottie.md",
@@ -1310,7 +1310,7 @@
       {
         "Name": "GazeTracing",
         "Type": "GazeTracingPage",
-        "About": "Shows how to use the Windows 10 API for eye trackers",
+        "About": "Shows how to use the Windows API for eye trackers",
         "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Uwp.Input.GazeInteraction",
         "XamlCodeFile": "GazeTracingXaml.bind",
         "CodeFile": "GazeTracingCode.bind",

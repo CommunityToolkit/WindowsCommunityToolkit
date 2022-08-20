@@ -7,20 +7,16 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("toast")]
-    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IElement_AdditionalProperties
+    internal sealed class Element_Toast : BaseElement, IElement_ToastActivatable, IHaveXmlAdditionalProperties, IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const ToastScenario DEFAULT_SCENARIO = ToastScenario.Default;
         internal const Element_ToastActivationType DEFAULT_ACTIVATION_TYPE = Element_ToastActivationType.Foreground;
         internal const ToastDuration DEFAULT_DURATION = ToastDuration.Short;
 
-        [NotificationXmlAttribute("activationType", DEFAULT_ACTIVATION_TYPE)]
         public Element_ToastActivationType ActivationType { get; set; } = DEFAULT_ACTIVATION_TYPE;
 
-        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
-        [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
         public ToastAfterActivationBehavior AfterActivationBehavior
         {
             get
@@ -37,16 +33,12 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-        [NotificationXmlAttribute("duration", DEFAULT_DURATION)]
         public ToastDuration Duration { get; set; } = DEFAULT_DURATION;
 
-        [NotificationXmlAttribute("launch")]
         public string Launch { get; set; }
 
-        [NotificationXmlAttribute("scenario", DEFAULT_SCENARIO)]
         public ToastScenario Scenario { get; set; } = DEFAULT_SCENARIO;
 
-        [NotificationXmlAttribute("displayTimestamp")]
         public DateTimeOffset? DisplayTimestamp { get; set; }
 
         public Element_ToastVisual Visual { get; set; }
@@ -57,13 +49,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
         public Element_ToastHeader Header { get; set; }
 
-        [NotificationXmlAttribute("hint-toastId")]
         public string HintToastId { get; set; }
 
-        [NotificationXmlAttribute("hint-people")]
         public string HintPeople { get; set; }
 
-        public IDictionary<string, string> AdditionalProperties { get; set; }
+        public IReadOnlyDictionary<string, string> AdditionalProperties { get; set; }
 
         public static Element_ToastActivationType ConvertActivationType(ToastActivationType publicType)
         {
@@ -82,6 +72,44 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                     throw new NotImplementedException();
             }
         }
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "toast";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => new object[] { Visual, Audio, Actions, Header };
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            if (ActivationType != DEFAULT_ACTIVATION_TYPE)
+            {
+                yield return new("activationType", ActivationType.ToPascalCaseString());
+            }
+
+            yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+
+            if (AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+            {
+                yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
+            }
+
+            if (Duration != DEFAULT_DURATION)
+            {
+                yield return new("duration", Duration.ToPascalCaseString());
+            }
+
+            yield return new("launch", Launch);
+
+            if (Scenario != DEFAULT_SCENARIO)
+            {
+                yield return new("scenario", Scenario.ToPascalCaseString());
+            }
+
+            yield return new("displayTimestamp", DisplayTimestamp);
+            yield return new("hint-toastId", HintToastId);
+            yield return new("hint-people", HintPeople);
+        }
     }
 
     /// <summary>
@@ -97,7 +125,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Toast stays on-screen for longer, and then goes into Action Center.
         /// </summary>
-        [EnumString("long")]
         Long
     }
 
@@ -114,19 +141,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Causes the Toast to stay on-screen and expanded until the user takes action. Also causes a looping alarm sound to be selected by default.
         /// </summary>
-        [EnumString("alarm")]
         Alarm,
 
         /// <summary>
         /// Causes the Toast to stay on-screen and expanded until the user takes action.
         /// </summary>
-        [EnumString("reminder")]
         Reminder,
 
         /// <summary>
         /// Causes the Toast to stay on-screen and expanded until the user takes action (on Mobile this expands to full screen). Also causes a looping incoming call sound to be selected by default.
         /// </summary>
-        [EnumString("incomingCall")]
         IncomingCall
     }
 }

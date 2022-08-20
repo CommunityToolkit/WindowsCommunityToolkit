@@ -62,6 +62,35 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_XML_Toast_Scenario_Default()
+        {
+            var toast = new ToastContent()
+            {
+                Scenario = ToastScenario.Default
+            };
+
+            AssertPayload("<toast />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_Scenarios()
+        {
+            AssertToastScenario(ToastScenario.Reminder, "reminder");
+            AssertToastScenario(ToastScenario.Alarm, "alarm");
+            AssertToastScenario(ToastScenario.IncomingCall, "incomingCall");
+        }
+
+        private void AssertToastScenario(ToastScenario scenario, string scenarioText)
+        {
+            var toast = new ToastContent()
+            {
+                Scenario = scenario
+            };
+
+            AssertPayload("<toast scenario='" + scenarioText + "'/>", toast);
+        }
+
+        [TestMethod]
         public void Test_Toast_XML_Toast_Duration_Short()
         {
             var toast = new ToastContent()
