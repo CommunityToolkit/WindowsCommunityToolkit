@@ -18,21 +18,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class TransitionHelper
     {
         private const double AlmostZero = 0.01;
-        private readonly Dictionary<string, UIElement> sourceConnectedAnimatedElements = new();
-        private readonly Dictionary<string, UIElement> targetConnectedAnimatedElements = new();
-        private readonly List<UIElement> sourceIndependentAnimatedElements = new();
-        private readonly List<UIElement> targetIndependentAnimatedElements = new();
+        private readonly Dictionary<string, UIElement> sourceConnectedElements = new();
+        private readonly Dictionary<string, UIElement> targetConnectedElements = new();
+        private readonly Dictionary<string, List<UIElement>> sourceCoordinatedElements = new();
+        private readonly Dictionary<string, List<UIElement>> targetCoordinatedElements = new();
+        private readonly List<UIElement> sourceIndependentElements = new();
+        private readonly List<UIElement> targetIndependentElements = new();
 
         private CancellationTokenSource _animateCancellationTokenSource;
         private CancellationTokenSource _reverseCancellationTokenSource;
         private bool _needUpdateSourceLayout;
         private bool _needUpdateTargetLayout;
 
-        private KeyFrameAnimationGroupController _currentAnimationGroupController;
+        private IKeyFrameAnimationGroupController _currentAnimationGroupController;
 
-        private IEnumerable<UIElement> SourceAnimatedElements => this.sourceConnectedAnimatedElements.Values.Concat(this.sourceIndependentAnimatedElements);
+        private IEnumerable<UIElement> SourceAnimatedElements => this.sourceConnectedElements.Values.Concat(this.sourceIndependentElements).Concat(this.sourceCoordinatedElements.SelectMany(item => item.Value));
 
-        private IEnumerable<UIElement> TargetAnimatedElements => this.targetConnectedAnimatedElements.Values.Concat(this.targetIndependentAnimatedElements);
+        private IEnumerable<UIElement> TargetAnimatedElements => this.targetConnectedElements.Values.Concat(this.targetIndependentElements).Concat(this.targetCoordinatedElements.SelectMany(item => item.Value));
 
         /// <summary>
         /// Morphs from source control to target control.
@@ -61,6 +63,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task StartAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
+            IsNotNullAndIsLoaded(this.Source, nameof(this.Source));
+            IsNotNullAndIsLoaded(this.Target, nameof(this.Target));
             if (this._animateCancellationTokenSource is not null)
             {
                 return;
@@ -119,6 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task ReverseAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
+            IsNotNullAndIsLoaded(this.Source, nameof(this.Source));
+            IsNotNullAndIsLoaded(this.Target, nameof(this.Target));
             if (this._reverseCancellationTokenSource is not null)
             {
                 return;

@@ -73,7 +73,7 @@
                                FontWeight="SemiBold">
                         Windows Community Toolkit
                     </TextBlock>
-                    <TextBlock ani:TransitionHelper.Id="desc"
+                    <TextBlock ani:TransitionHelper.CoordinatedTarget="name"
                                TextWrapping="Wrap">
                         The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows.
                     </TextBlock>

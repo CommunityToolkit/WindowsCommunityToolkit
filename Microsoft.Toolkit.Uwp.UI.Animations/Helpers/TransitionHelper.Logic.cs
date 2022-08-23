@@ -22,43 +22,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private void UpdateSourceAnimatedElements()
         {
-            if (this.Source is null)
-            {
-                return;
-            }
-
-            UpdateAnimatedElements(this.Source, this.sourceConnectedAnimatedElements, this.sourceIndependentAnimatedElements);
+            UpdateAnimatedElements(this.Source, this.sourceConnectedElements, this.sourceCoordinatedElements, this.sourceIndependentElements);
         }
 
         private void UpdateTargetAnimatedElements()
         {
-            if (this.Target is null)
-            {
-                return;
-            }
-
-            UpdateAnimatedElements(this.Target, this.targetConnectedAnimatedElements, this.targetIndependentAnimatedElements);
+            UpdateAnimatedElements(this.Target, this.targetConnectedElements, this.targetCoordinatedElements, this.targetIndependentElements);
         }
 
-        private void UpdateAnimatedElements(DependencyObject parent, IDictionary<string, UIElement> connectedAnimatedElements, ICollection<UIElement> independentAnimatedElements)
+        private void UpdateAnimatedElements(DependencyObject parent, IDictionary<string, UIElement> connectedElements, IDictionary<string, List<UIElement>> coordinatedElements, ICollection<UIElement> independentElements)
         {
-            if (this.Source is null)
+            connectedElements.Clear();
+            coordinatedElements.Clear();
+            independentElements.Clear();
+
+            if (parent is null)
             {
                 return;
             }
-
-            connectedAnimatedElements.Clear();
-            independentAnimatedElements.Clear();
 
             foreach (var item in GetAnimatedElements(parent))
             {
                 if (GetId(item) is { } id)
                 {
-                    connectedAnimatedElements[id] = item;
+                    connectedElements[id] = item;
+                }
+                else if (GetCoordinatedTarget(item) is { } targetId)
+                {
+                    if (coordinatedElements.ContainsKey(targetId) is false)
+                    {
+                        coordinatedElements[targetId] = new List<UIElement> { item };
+                    }
+                    else
+                    {
+                        coordinatedElements[targetId].Add(item);
+                    }
                 }
                 else
                 {
-                    independentAnimatedElements.Add(item);
+                    independentElements.Add(item);
                 }
             }
         }
@@ -66,13 +68,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private void RestoreState(bool isTargetState)
         {
             this.IsTargetState = isTargetState;
-            if(this.Source is not null)
+            if (this.Source is not null)
             {
                 Canvas.SetZIndex(this.Source, _sourceZIndex);
                 ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
             }
 
-            if(this.Target is not null)
+            if (this.Target is not null)
             {
                 Canvas.SetZIndex(this.Target, _targetZIndex);
                 ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
@@ -115,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 target.Visibility = Visibility.Visible;
                 if (needUpdateLayout)
                 {
-                    updateLayoutTask = this.UpdateControlLayout(target);
+                    updateLayoutTask = UpdateControlLayout(target);
                 }
             }
 
@@ -133,45 +135,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return updateLayoutTask;
         }
 
-        private Task UpdateControlLayout(FrameworkElement target)
-        {
-            var updateTargetLayoutTaskSource = new TaskCompletionSource<object>();
-            void OnTargetLayoutUpdated(object sender, object e)
-            {
-                target.LayoutUpdated -= OnTargetLayoutUpdated;
-                _ = updateTargetLayoutTaskSource.TrySetResult(null);
-            }
-
-            target.LayoutUpdated += OnTargetLayoutUpdated;
-            target.UpdateLayout();
-            return updateTargetLayoutTaskSource.Task;
-        }
-
         private Task AnimateControls(TimeSpan duration, bool reversed, CancellationToken token)
         {
             var animationTasks = new List<Task>(3);
-            var sourceUnpairedElements = this.sourceConnectedAnimatedElements
-                .Where(item => !this.targetConnectedAnimatedElements.ContainsKey(item.Key))
-                .Select(item => item.Value);
-            var targetUnpairedElements = this.targetConnectedAnimatedElements
-                .Where(item => !this.sourceConnectedAnimatedElements.ContainsKey(item.Key))
-                .Select(item => item.Value);
-            var pairedElementKeys = this.sourceConnectedAnimatedElements
-                .Where(item => this.targetConnectedAnimatedElements.ContainsKey(item.Key))
+            var sourceUnpairedElements = this.sourceConnectedElements
+                .Where(item => !this.targetConnectedElements.ContainsKey(item.Key))
+                .SelectMany(item =>
+                {
+                    var result = new List<UIElement>(1) { item.Value };
+                    if (this.sourceCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
+                    {
+                        return result.Concat(coordinatedElements);
+                    };
+
+                    return result;
+                });
+            var targetUnpairedElements = this.targetConnectedElements
+                .Where(item => !this.sourceConnectedElements.ContainsKey(item.Key))
+                .SelectMany(item =>
+                {
+                    var result = new List<UIElement>(1) { item.Value };
+                    if (this.targetCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
+                    {
+                        return result.Concat(coordinatedElements);
+                    };
+
+                    return result;
+                });
+            var pairedElementKeys = this.sourceConnectedElements
+                .Where(item => this.targetConnectedElements.ContainsKey(item.Key))
                 .Select(item => item.Key);
             if (_currentAnimationGroupController is null)
             {
                 _currentAnimationGroupController = new KeyFrameAnimationGroupController();
                 foreach (var key in pairedElementKeys)
                 {
-                    var source = this.sourceConnectedAnimatedElements[key];
-                    var target = this.targetConnectedAnimatedElements[key];
+                    var source = this.sourceConnectedElements[key];
+                    var target = this.targetConnectedElements[key];
                     var animationConfig = this.Configs.FirstOrDefault(config => config.Id == key) ??
                                           this.DefaultConfig;
+                    this.sourceCoordinatedElements.TryGetValue(key, out var sourceAttachedElements);
+                    this.targetCoordinatedElements.TryGetValue(key, out var targetAttachedElements);
                     this.BuildConnectedAnimationController(
                         _currentAnimationGroupController,
                         source,
                         target,
+                        sourceAttachedElements,
+                        targetAttachedElements,
                         duration,
                         animationConfig);
                 }
@@ -185,12 +195,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             animationTasks.Add(reversed
-                        ? _currentAnimationGroupController.ReverseAsync(token, this.InverseEasingFunctionWhenReversing, duration)
-                        : _currentAnimationGroupController.StartAsync(token, duration));
+                        ? _currentAnimationGroupController.ReverseAsync(token, this.InverseEasingFunctionWhenReversing, duration, null)
+                        : _currentAnimationGroupController.StartAsync(token, duration, null));
 
             animationTasks.Add(
                 this.AnimateIndependentElements(
-                    this.sourceIndependentAnimatedElements.Concat(sourceUnpairedElements),
+                    this.sourceIndependentElements.Concat(sourceUnpairedElements),
                     reversed,
                     token,
                     startTime,
@@ -198,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     IndependentElementEasingMode));
             animationTasks.Add(
                 this.AnimateIndependentElements(
-                    this.targetIndependentAnimatedElements.Concat(targetUnpairedElements),
+                    this.targetIndependentElements.Concat(targetUnpairedElements),
                     !reversed,
                     token,
                     startTime,
@@ -208,7 +218,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return Task.WhenAll(animationTasks);
         }
 
-        private void BuildConnectedAnimationController(KeyFrameAnimationGroupController controller, UIElement source, UIElement target, TimeSpan duration, TransitionConfig config)
+        private void BuildConnectedAnimationController(
+            IKeyFrameAnimationGroupController controller,
+            UIElement source,
+            UIElement target,
+            List<UIElement> sourceAttachedElements,
+            List<UIElement> targetAttachedElements,
+            TimeSpan duration, TransitionConfig config)
         {
             var sourceActualSize = source is FrameworkElement sourceElement ? new Vector2((float)sourceElement.ActualWidth, (float)sourceElement.ActualHeight) : source.ActualSize;
             var targetActualSize = target is FrameworkElement targetElement ? new Vector2((float)targetElement.ActualWidth, (float)targetElement.ActualHeight) : target.ActualSize;
@@ -219,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             target.GetVisual().CenterPoint = new Vector3(targetCenterPoint, 0);
             var easingType = config.EasingType ?? this.DefaultEasingType;
             var easingMode = config.EasingMode ?? this.DefaultEasingMode;
-            var (sourceTranslationAnimation, targetTranslationAnimation) = this.AnimateTranslation(
+            var (sourceTranslationAnimation, targetTranslationAnimation, translation) = this.AnimateTranslation(
                 source,
                 target,
                 sourceCenterPoint,
@@ -268,6 +284,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     targetOpacityAnimation,
                     targetScaleAnimation
                 });
+            if (sourceAttachedElements?.Count > 0)
+            {
+                var targetControlBounds = new Rect(0, 0, this.Target.ActualWidth, this.Target.ActualHeight);
+                var targetTransformedBounds = this.Target.TransformToVisual(this.Source).TransformBounds(targetControlBounds);
+                var scale = targetScale;
+                foreach (var coordinatedElement in sourceAttachedElements)
+                {
+                    var coordinatedElementActualSize = coordinatedElement is FrameworkElement coordinatedFrameworkElement ? new Vector2((float)coordinatedFrameworkElement.ActualWidth, (float)coordinatedFrameworkElement.ActualHeight) : coordinatedElement.ActualSize;
+                    coordinatedElement.GetVisual().CenterPoint = new Vector3(coordinatedElementActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
+                    controller.AddAnimationGroupFor(
+                        coordinatedElement,
+                        new[]
+                        {
+                            sourceTranslationAnimation,
+                            sourceOpacityAnimation,
+                            sourceScaleAnimation
+                        });
+                    var location = coordinatedElement.TransformToVisual(this.Source).TransformPoint(translation.ToPoint());
+                    var targetClip = GetCoordinatedElementClip(scale, location, (coordinatedElementActualSize * scale).ToSize(), targetTransformedBounds);
+                    if (targetClip.HasValue)
+                    {
+                        controller.AddAnimationGroupFor(
+                            coordinatedElement,
+                            this.Clip(
+                                targetClip.Value,
+                                duration: duration,
+                                easingType: easingType,
+                                easingMode: easingMode));
+                    }
+                }
+            }
+
+            if (targetAttachedElements?.Count > 0)
+            {
+                var sourceControlBounds = new Rect(0, 0, this.Source.ActualWidth, this.Source.ActualHeight);
+                var sourceTransformedBounds = this.Source.TransformToVisual(this.Target).TransformBounds(sourceControlBounds);
+                var scale = GetInverseScale(targetScale);
+                foreach (var coordinatedElement in targetAttachedElements)
+                {
+                    var coordinatedElementActualSize = coordinatedElement is FrameworkElement coordinatedFrameworkElement ? new Vector2((float)coordinatedFrameworkElement.ActualWidth, (float)coordinatedFrameworkElement.ActualHeight) : coordinatedElement.ActualSize;
+                    coordinatedElement.GetVisual().CenterPoint = new Vector3(coordinatedElementActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
+                    controller.AddAnimationGroupFor(
+                        coordinatedElement,
+                        new[]
+                        {
+                            targetTranslationAnimation,
+                            targetOpacityAnimation,
+                            targetScaleAnimation
+                        });
+                    var location = coordinatedElement.TransformToVisual(this.Target).TransformPoint((-translation).ToPoint());
+                    var targetClip = GetCoordinatedElementClip(scale, location, (coordinatedElementActualSize * scale).ToSize(), sourceTransformedBounds);
+                    if (targetClip.HasValue)
+                    {
+                        controller.AddAnimationGroupFor(
+                            coordinatedElement,
+                            this.Clip(
+                                default,
+                                from: targetClip.Value,
+                                duration: duration,
+                                easingType: easingType,
+                                easingMode: easingMode));
+                    }
+                }
+            }
+
             if (config.EnableClipAnimation)
             {
                 Axis? axis = config.ScaleMode switch
@@ -288,8 +369,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     easingType,
                     easingMode,
                     axis);
-                controller.AddAnimationGroupFor(source, sourceClipAnimationGroup);
-                controller.AddAnimationGroupFor(target, targetClipAnimationGroup);
+                if (sourceClipAnimationGroup is not null)
+                {
+                    controller.AddAnimationGroupFor(source, sourceClipAnimationGroup);
+                }
+
+                if (targetClipAnimationGroup is not null)
+                {
+                    controller.AddAnimationGroupFor(target, targetClipAnimationGroup);
+                }
             }
         }
 
@@ -357,10 +445,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            return controller.StartAsync(token);
+            return controller.StartAsync(token, null, null);
         }
 
-        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateTranslation(
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateTranslation(
             UIElement source,
             UIElement target,
             Vector2 sourceCenterPoint,
@@ -369,9 +457,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType,
             EasingMode easingMode)
         {
-            var diff = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
-            return (this.Translation(diff, Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode),
-                this.Translation(Vector2.Zero, -diff, duration: duration, easingType: easingType, easingMode: easingMode));
+            var translation = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
+            return (this.Translation(translation, Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode),
+                this.Translation(Vector2.Zero, -translation, duration: duration, easingType: easingType, easingMode: easingMode),
+                translation);
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScale(
@@ -461,44 +550,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode easingMode,
             Axis? axis)
         {
-            // -4 is used to prevent shadows from being cropped.
-            var defaultValue = -4;
-            var defaultThickness = new Thickness(defaultValue);
-            var inverseScale = GetInverseScale(targetScale);
-
-            var sourceEndViewportLeft = (axis is Axis.Y ? -sourceCenterPoint.X * targetScale.X : -targetCenterPoint.X) + (sourceCenterPoint.X * targetScale.X);
-            var sourceEndViewportTop = (axis is Axis.X ? -sourceCenterPoint.Y * targetScale.Y : -targetCenterPoint.Y) + (sourceCenterPoint.Y * targetScale.Y);
-            var sourceEndViewportRight = (axis is Axis.Y ? (sourceActualSize.X - sourceCenterPoint.X) * targetScale.X : targetActualSize.X - targetCenterPoint.X) + (sourceCenterPoint.X * targetScale.X);
-            var sourceEndViewportBottom = (axis is Axis.X ? (sourceActualSize.Y - sourceCenterPoint.Y) * targetScale.Y : targetActualSize.Y - targetCenterPoint.Y) + (sourceCenterPoint.Y * targetScale.Y);
-
-            var targetBeginViewportLeft = (axis is Axis.Y ? -targetCenterPoint.X * inverseScale.X : -sourceCenterPoint.X) + (targetCenterPoint.X * inverseScale.X);
-            var targetBeginViewportTop = (axis is Axis.X ? -targetCenterPoint.Y * inverseScale.Y : -sourceCenterPoint.Y) + (targetCenterPoint.Y * inverseScale.Y);
-            var targetBeginViewportRight = (axis is Axis.Y ? (targetActualSize.X - targetCenterPoint.X) * inverseScale.X : sourceActualSize.X - sourceCenterPoint.X) + (targetCenterPoint.X * inverseScale.X);
-            var targetBeginViewportBottom = (axis is Axis.X ? (targetActualSize.Y - targetCenterPoint.Y) * inverseScale.Y : sourceActualSize.Y - sourceCenterPoint.Y) + (targetCenterPoint.Y * inverseScale.Y);
-
-            var sourceLeftTop = new Vector2(sourceEndViewportLeft, sourceEndViewportTop) * inverseScale;
-            var sourceRightBottom = new Vector2(sourceEndViewportRight, sourceEndViewportBottom) * inverseScale;
-            var sourceRight = sourceActualSize.X - sourceRightBottom.X;
-            var sourceBottom = sourceActualSize.Y - sourceRightBottom.Y;
-
-            var targetLeftTop = new Vector2(targetBeginViewportLeft, targetBeginViewportTop) * targetScale;
-            var targetRightBottom = new Vector2(targetBeginViewportRight, targetBeginViewportBottom) * targetScale;
-            var targetRight = targetActualSize.X - targetRightBottom.X;
-            var targetBottom = targetActualSize.Y - targetRightBottom.Y;
-
+            var sourceToClip = GetConnectedElementClip(axis, targetScale, sourceActualSize, sourceCenterPoint, new Rect((-targetCenterPoint).ToPoint(), targetActualSize.ToSize()));
+            var targetFromClip = GetConnectedElementClip(axis, GetInverseScale(targetScale), targetActualSize, targetCenterPoint, new Rect((-sourceCenterPoint).ToPoint(), sourceActualSize.ToSize()));
             return (
-                this.Clip(
-                    GetFixedThickness(new Thickness(sourceLeftTop.X, sourceLeftTop.Y, sourceRight, sourceBottom), defaultValue),
-                    from: defaultThickness,
-                    duration: duration,
-                    easingType: easingType,
-                    easingMode: easingMode),
-                this.Clip(
-                    defaultThickness,
-                    GetFixedThickness(new Thickness(targetLeftTop.X, targetLeftTop.Y, targetRight, targetBottom), defaultValue),
-                    duration: duration,
-                    easingType: easingType,
-                    easingMode: easingMode)
+                sourceToClip.HasValue
+                    ? this.Clip(
+                        sourceToClip.Value,
+                        GetFixedThickness(default),
+                        duration: duration,
+                        easingType: easingType,
+                        easingMode: easingMode)
+                    : null,
+                targetFromClip.HasValue
+                    ? this.Clip(
+                        GetFixedThickness(default),
+                        targetFromClip.Value,
+                        duration: duration,
+                        easingType: easingType,
+                        easingMode: easingMode)
+                    : null
                 );
         }
     }

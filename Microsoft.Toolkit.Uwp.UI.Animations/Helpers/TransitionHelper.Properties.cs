@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     RestoreElements(this.SourceAnimatedElements);
                 }
 
+                this._currentAnimationGroupController = null;
                 this._source = value;
                 this._sourceZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateSourceLayout = true;
@@ -73,6 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     RestoreElements(this.TargetAnimatedElements);
                 }
 
+                this._currentAnimationGroupController = null;
                 this._target = value;
                 this._targetZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateTargetLayout = true;

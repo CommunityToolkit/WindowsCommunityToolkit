@@ -81,5 +81,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         public static readonly DependencyProperty IndependentTranslationProperty =
             DependencyProperty.RegisterAttached("IndependentTranslation", typeof(Point?), typeof(TransitionHelper), null);
+
+        /// <summary>
+        /// Get the target animation id for coordinated animation of the UI element.
+        /// </summary>
+        /// <returns>The target animation id for coordinated animation of the UI element.</returns>
+        public static string GetCoordinatedTarget(DependencyObject obj)
+        {
+            return (string)obj.GetValue(CoordinatedTargetProperty);
+        }
+
+        /// <summary>
+        /// Set the target animation id for coordinated animation of the UI element.
+        /// </summary>
+        public static void SetCoordinatedTarget(DependencyObject obj, string value)
+        {
+            obj.SetValue(CoordinatedTargetProperty, value);
+        }
+
+        /// <summary>
+        /// CoordinatedTarget is used to mark the target animation id of coordinated animation.
+        /// These elements that use coordinated animation will travel alongside the target UI element.
+        /// </summary>
+        public static readonly DependencyProperty CoordinatedTargetProperty =
+            DependencyProperty.RegisterAttached("CoordinatedTarget", typeof(string), typeof(TransitionHelper), null);
     }
 }

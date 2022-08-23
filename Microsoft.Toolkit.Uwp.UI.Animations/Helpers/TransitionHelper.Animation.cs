@@ -22,6 +22,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
+        private const string TranslationPropertyName = "Translation";
+        private const string TranslationXYPropertyName = "Translation.XY";
+        private const string ScaleXYPropertyName = "Scale.XY";
+
         private interface IKeyFrameCompositionAnimationFactory
         {
             KeyFrameAnimation GetAnimation(CompositionObject targetHint, bool reversed, bool useReversedKeyframes, bool inverseEasingFunction, out CompositionObject target);
@@ -240,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Dictionary<float, (Vector2, EasingType?, EasingMode?)> normalizedKeyFrames = null,
             Dictionary<float, (Vector2, EasingType?, EasingMode?)> reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<Vector2>("Translation.XY", to, from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
+            return new KeyFrameAnimationFactory<Vector2>(TranslationXYPropertyName, to, from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private IKeyFrameCompositionAnimationFactory Opacity(
@@ -266,7 +270,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Dictionary<float, (Vector2, EasingType?, EasingMode?)> normalizedKeyFrames = null,
             Dictionary<float, (Vector2, EasingType?, EasingMode?)> reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<Vector2>("Scale.XY", to, from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
+            return new KeyFrameAnimationFactory<Vector2>(ScaleXYPropertyName, to, from, delay, duration, easingType, easingMode, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private sealed class KeyFrameAnimationGroupController : IKeyFrameAnimationGroupController
@@ -312,7 +316,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            public Task StartAsync(CancellationToken token, TimeSpan? duration = null, float? startProgress = null)
+            public Task StartAsync(CancellationToken token, TimeSpan? duration, float? startProgress)
             {
                 var start = startProgress ?? this.LastStopProgress;
                 var isInterruptedAnimation = start.HasValue;
@@ -320,7 +324,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return AnimateAsync(false, false, token, inverse, duration, start);
             }
 
-            public Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration = null, float? startProgress = null)
+            public Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress)
             {
                 var start = startProgress;
                 if (startProgress.HasValue is false && this.LastStopProgress.HasValue)
