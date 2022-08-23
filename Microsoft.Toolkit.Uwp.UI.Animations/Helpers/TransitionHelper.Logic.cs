@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             target.GetVisual().CenterPoint = new Vector3(targetCenterPoint, 0);
             var easingType = config.EasingType ?? this.DefaultEasingType;
             var easingMode = config.EasingMode ?? this.DefaultEasingMode;
-            var (sourceTranslationAnimation, targetTranslationAnimation, translation) = this.AnimateTranslation(
+            var (sourceTranslationAnimation, targetTranslationAnimation, sourceTargetTranslation) = this.AnimateTranslation(
                 source,
                 target,
                 sourceCenterPoint,
@@ -245,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 easingType,
                 easingMode);
             var (sourceOpacityAnimation, targetOpacityAnimation) = this.AnimateOpacity(duration, this.OpacityTransitionProgressKey);
-            var (sourceScaleAnimation, targetScaleAnimation, targetScale) = config.ScaleMode switch
+            var (sourceScaleAnimation, targetScaleAnimation, sourceTargetScale) = config.ScaleMode switch
             {
                 ScaleMode.None => (null, null, Vector2.One),
                 ScaleMode.Scale => this.AnimateScale(
@@ -289,7 +289,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 var targetControlBounds = new Rect(0, 0, this.Target.ActualWidth, this.Target.ActualHeight);
                 var targetTransformedBounds = this.Target.TransformToVisual(this.Source).TransformBounds(targetControlBounds);
-                var scale = targetScale;
+                var targetScale = sourceTargetScale;
                 foreach (var coordinatedElement in sourceAttachedElements)
                 {
                     var coordinatedElementActualSize = coordinatedElement is FrameworkElement coordinatedFrameworkElement ? new Vector2((float)coordinatedFrameworkElement.ActualWidth, (float)coordinatedFrameworkElement.ActualHeight) : coordinatedElement.ActualSize;
@@ -302,8 +302,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             sourceOpacityAnimation,
                             sourceScaleAnimation
                         });
-                    var location = coordinatedElement.TransformToVisual(this.Source).TransformPoint(translation.ToPoint());
-                    var targetClip = GetCoordinatedElementClip(scale, location, (coordinatedElementActualSize * scale).ToSize(), targetTransformedBounds);
+                    var location = coordinatedElement.TransformToVisual(this.Source).TransformPoint(sourceTargetTranslation.ToPoint());
+                    var targetClip = GetCoordinatedElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), targetTransformedBounds);
                     if (targetClip.HasValue)
                     {
                         controller.AddAnimationGroupFor(
@@ -321,7 +321,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 var sourceControlBounds = new Rect(0, 0, this.Source.ActualWidth, this.Source.ActualHeight);
                 var sourceTransformedBounds = this.Source.TransformToVisual(this.Target).TransformBounds(sourceControlBounds);
-                var scale = GetInverseScale(targetScale);
+                var targetScale = GetInverseScale(sourceTargetScale);
                 foreach (var coordinatedElement in targetAttachedElements)
                 {
                     var coordinatedElementActualSize = coordinatedElement is FrameworkElement coordinatedFrameworkElement ? new Vector2((float)coordinatedFrameworkElement.ActualWidth, (float)coordinatedFrameworkElement.ActualHeight) : coordinatedElement.ActualSize;
@@ -334,8 +334,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             targetOpacityAnimation,
                             targetScaleAnimation
                         });
-                    var location = coordinatedElement.TransformToVisual(this.Target).TransformPoint((-translation).ToPoint());
-                    var targetClip = GetCoordinatedElementClip(scale, location, (coordinatedElementActualSize * scale).ToSize(), sourceTransformedBounds);
+                    var location = coordinatedElement.TransformToVisual(this.Target).TransformPoint((-sourceTargetTranslation).ToPoint());
+                    var targetClip = GetCoordinatedElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), sourceTransformedBounds);
                     if (targetClip.HasValue)
                     {
                         controller.AddAnimationGroupFor(
@@ -365,7 +365,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     targetActualSize,
                     sourceCenterPoint,
                     targetCenterPoint,
-                    targetScale,
+                    sourceTargetScale,
                     duration,
                     easingType,
                     easingMode,
@@ -545,14 +545,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Vector2 targetActualSize,
             Vector2 sourceCenterPoint,
             Vector2 targetCenterPoint,
-            Vector2 targetScale,
+            Vector2 sourceTargetScale,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode,
             Axis? axis)
         {
-            var sourceToClip = GetConnectedElementClip(axis, targetScale, sourceActualSize, sourceCenterPoint, new Rect((-targetCenterPoint).ToPoint(), targetActualSize.ToSize()));
-            var targetFromClip = GetConnectedElementClip(axis, GetInverseScale(targetScale), targetActualSize, targetCenterPoint, new Rect((-sourceCenterPoint).ToPoint(), sourceActualSize.ToSize()));
+            var sourceToClip = GetConnectedElementClip(axis, sourceTargetScale, sourceActualSize, sourceCenterPoint, new Rect((-targetCenterPoint).ToPoint(), targetActualSize.ToSize()));
+            var targetFromClip = GetConnectedElementClip(axis, GetInverseScale(sourceTargetScale), targetActualSize, targetCenterPoint, new Rect((-sourceCenterPoint).ToPoint(), sourceActualSize.ToSize()));
             return (
                 sourceToClip.HasValue
                     ? this.Clip(
