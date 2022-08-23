@@ -195,8 +195,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             animationTasks.Add(reversed
-                        ? _currentAnimationGroupController.ReverseAsync(token, this.InverseEasingFunctionWhenReversing, duration, null)
-                        : _currentAnimationGroupController.StartAsync(token, duration, null));
+                        ? _currentAnimationGroupController.ReverseAsync(token, this.InverseEasingFunctionWhenReversing, duration)
+                        : _currentAnimationGroupController.StartAsync(token, duration));
 
             animationTasks.Add(
                 this.AnimateIndependentElements(
@@ -446,7 +446,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            return controller.StartAsync(token, null, null);
+            return controller.StartAsync(token, null);
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateTranslation(

@@ -35,9 +35,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             float? LastStopProgress { get; }
 
-            Task StartAsync(CancellationToken token, TimeSpan? duration, float? startProgress);
+            Task StartAsync(CancellationToken token, TimeSpan? duration);
 
-            Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress);
+            Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration);
 
             void AddAnimationFor(UIElement target, IKeyFrameCompositionAnimationFactory factory);
 
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 target = null;
 
                 var direction = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
-                var keyFrames = (reversed && useReversedKeyframes && ReversedNormalizedKeyFrames is not null) ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
+                var keyFrames = (useReversedKeyframes && ReversedNormalizedKeyFrames is not null) ? ReversedNormalizedKeyFrames : NormalizedKeyFrames;
 
                 if (typeof(T) == typeof(float))
                 {
@@ -281,6 +281,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             private bool _lastInverseEasingFunction = false;
 
+            private bool _lastStartInNormalDirection = true;
+
             public void AddAnimationFor(UIElement target, IKeyFrameCompositionAnimationFactory factory)
             {
                 if (factory is null)
@@ -316,25 +318,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
             }
 
-            public Task StartAsync(CancellationToken token, TimeSpan? duration, float? startProgress)
+            public Task StartAsync(CancellationToken token, TimeSpan? duration)
             {
-                var start = startProgress ?? this.LastStopProgress;
+                var start = this.LastStopProgress;
                 var isInterruptedAnimation = start.HasValue;
-                var inverse = isInterruptedAnimation && this._lastInverseEasingFunction;
-                return AnimateAsync(false, false, token, inverse, duration, start);
+                if (isInterruptedAnimation is false)
+                {
+                    this._lastStartInNormalDirection = true;
+                }
+
+                var inverseEasing = isInterruptedAnimation && this._lastInverseEasingFunction;
+                var useReversedKeyframes = isInterruptedAnimation && !this._lastStartInNormalDirection;
+                return AnimateAsync(false, useReversedKeyframes, token, inverseEasing, duration, start);
             }
 
-            public Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress)
+            public Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration)
             {
-                var start = startProgress;
-                if (startProgress.HasValue is false && this.LastStopProgress.HasValue)
+                float? start = null;
+                if (this.LastStopProgress.HasValue)
                 {
                     start = 1 - this.LastStopProgress.Value;
                 }
 
                 var isInterruptedAnimation = start.HasValue;
-                var inverse = (isInterruptedAnimation && this._lastInverseEasingFunction) || (!isInterruptedAnimation && inverseEasingFunction);
-                return AnimateAsync(true, !isInterruptedAnimation, token, inverse, duration, start);
+                if (isInterruptedAnimation is false)
+                {
+                    this._lastStartInNormalDirection = false;
+                }
+
+                var inverseEasing = (isInterruptedAnimation && this._lastInverseEasingFunction) || (!isInterruptedAnimation && inverseEasingFunction);
+                var useReversedKeyframes = !isInterruptedAnimation || !this._lastStartInNormalDirection;
+                return AnimateAsync(true, useReversedKeyframes, token, inverseEasing, duration, start);
             }
 
             private Task AnimateAsync(bool reversed, bool useReversedKeyframes, CancellationToken token, bool inverseEasingFunction, TimeSpan? duration, float? startProgress)
