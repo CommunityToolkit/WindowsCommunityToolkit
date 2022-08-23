@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public static readonly DependencyProperty AnimationProperty = DependencyProperty.Register(
             nameof(Animation),
             typeof(AnimationSet),
-            typeof(StartAnimationActivity),
+            typeof(StopAnimationActivity),
             new PropertyMetadata(null));
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public static readonly DependencyProperty TargetObjectProperty = DependencyProperty.Register(
             nameof(TargetObject),
             typeof(UIElement),
-            typeof(StartAnimationActivity),
+            typeof(StopAnimationActivity),
             new PropertyMetadata(null));
 
         /// <inheritdoc/>
