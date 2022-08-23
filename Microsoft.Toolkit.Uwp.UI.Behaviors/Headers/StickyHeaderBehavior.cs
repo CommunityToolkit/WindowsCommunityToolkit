@@ -46,10 +46,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         }
 
         /// <summary>
-        /// The UIElement that will be faded.
+        /// The UIElement that will be sticky.
         /// </summary>
         public static readonly DependencyProperty HeaderElementProperty = DependencyProperty.Register(
-            nameof(HeaderElement), typeof(UIElement), typeof(QuickReturnHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
+            nameof(HeaderElement), typeof(UIElement), typeof(StickyHeaderBehavior), new PropertyMetadata(null, PropertyChangedCallback));
 
         private ScrollViewer _scrollViewer;
         private double _previousVerticalScrollOffset;
