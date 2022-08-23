@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     if (this.sourceCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
                     {
                         return result.Concat(coordinatedElements);
-                    };
+                    }
 
                     return result;
                 });
@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     if (this.targetCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
                     {
                         return result.Concat(coordinatedElements);
-                    };
+                    }
 
                     return result;
                 });
@@ -224,7 +224,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             UIElement target,
             List<UIElement> sourceAttachedElements,
             List<UIElement> targetAttachedElements,
-            TimeSpan duration, TransitionConfig config)
+            TimeSpan duration,
+            TransitionConfig config)
         {
             var sourceActualSize = source is FrameworkElement sourceElement ? new Vector2((float)sourceElement.ActualWidth, (float)sourceElement.ActualHeight) : source.ActualSize;
             var targetActualSize = target is FrameworkElement targetElement ? new Vector2((float)targetElement.ActualWidth, (float)targetElement.ActualHeight) : target.ActualSize;
