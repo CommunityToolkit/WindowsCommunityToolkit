@@ -41,7 +41,7 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <AssetTargetFallback>net5.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\UITests.App\UITests.App.csproj</EntryPointProjectUniqueName>
     <EntryPointExe>UITests.App.exe</EntryPointExe>
     <AppxPackageName>UITests.App</AppxPackageName>
@@ -81,6 +81,7 @@
     <AppxPlatform Condition="'$(Platform)' == '' or '$(Platform)' == 'AnyCPU'">$(arch)</AppxPlatform>
     <AppxPlatform Condition="'$(Platform)' == 'Win32'">x86</AppxPlatform>
     <AppxPlatform Condition="'$(AppxPlatform)' == ''">$(Platform)</AppxPlatform>
+    <PackageCertificateThumbprint>E6D06D70A0FB8B69843E534CC07B74B92DDEC58C</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="[$(WindowsAppSDKVersion)]">

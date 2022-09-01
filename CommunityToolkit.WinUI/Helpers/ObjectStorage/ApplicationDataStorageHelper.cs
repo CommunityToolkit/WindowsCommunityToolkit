@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Common.Helpers;
+using CommunityToolkit.Helpers; //// TODO: See https://github.com/CommunityToolkit/dotnet/issues/403
 using Windows.Storage;
 using Windows.System;
 

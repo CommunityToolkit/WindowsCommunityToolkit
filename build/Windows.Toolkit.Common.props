@@ -26,7 +26,7 @@
     <TargetPlatformBaseVersion>10.0</TargetPlatformBaseVersion>
     <TargetPlatformRevision>18362</TargetPlatformRevision>
     <TargetPlatformMinRevision>17763</TargetPlatformMinRevision>
-    <WindowsAppSDKVersion>1.0.0</WindowsAppSDKVersion>
+    <WindowsAppSDKVersion>1.0.4</WindowsAppSDKVersion>
     <MicrosoftCsWinRTVersion>1.3.5</MicrosoftCsWinRTVersion>
   </PropertyGroup>
 

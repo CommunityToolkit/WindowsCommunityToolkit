@@ -38,9 +38,9 @@ jobs:
       forceReinstallCredentialProvider: true
 
   - task: UseDotNet@2
-    displayName: 'Install .NET Core SDK'
+    displayName: 'Install .NET SDK'
     inputs:
-      version: 5.0.403
+      version: 6.0.400
       performMultiLevelLookup: true
 
   - task: DotNetCoreCLI@2

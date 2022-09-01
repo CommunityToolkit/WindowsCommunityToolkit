@@ -27,7 +27,7 @@
       <Version>10.1901.28001</Version>
     </PackageReference>-->
     <PackageReference Include="CommunityToolkit.Common">
-      <Version>7.1.2</Version>
+      <Version>8.0.0</Version>
     </PackageReference>
     <!-- TODO Reintroduce graph controls
     <PackageReference Include="CommunityToolkit.Common.Graph.Controls">
