@@ -23,7 +23,7 @@
   </ItemGroup>
   
   <ItemGroup>
-	<PackageReference Include="CommunityToolkit.Common" Version="7.1.2" />
+	<PackageReference Include="CommunityToolkit.Common" Version="8.0.0" />
 	<!-- MSTest -->
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.6-preview-20211011-01" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.6-preview-20211011-01" />

@@ -40,7 +40,7 @@ namespace UITests.Tests
                 Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
 
 #if USING_TAEF
-                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
+                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme!App";
                 string installerName = "UITests.App";
 #else
                 var exclude = new[] { "Microsoft.WindowsAppRuntime", "Microsoft.VCLibs" };
@@ -65,14 +65,14 @@ namespace UITests.Tests
                     }
                 }
 
-                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App";
+                string testAppName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme!App";
                 string installerName = mostRecentlyBuiltPackage.Replace(".msix", string.Empty);
 #endif
 
                 return new TestApplicationInfo(
                     testAppPackageName: "UITests.App",
                     testAppName: testAppName,
-                    testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
+                    testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme",
                     testAppMainWindowTitle: "UITests.App",
                     processName: "UITests.App.exe",
                     installerName: installerName,

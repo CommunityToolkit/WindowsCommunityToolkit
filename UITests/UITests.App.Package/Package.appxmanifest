@@ -1,4 +1,4 @@
-<Package
+﻿<Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
@@ -7,14 +7,14 @@
 
   <Identity
     Name="3568ebdf-5b6b-4ddd-bb17-462d614ba50f"
-    Publisher="CN=alzollin"
+    Publisher="CN=toolkit"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="3568ebdf-5b6b-4ddd-bb17-462d614ba50f" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>UITests.App</DisplayName>
-    <PublisherDisplayName>alzollin</PublisherDisplayName>
+    <PublisherDisplayName>toolkit</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

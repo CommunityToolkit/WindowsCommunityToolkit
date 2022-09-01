@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 
     <RootNamespace>UITests.App</RootNamespace>
@@ -38,14 +38,8 @@
       <Version>3.0.0-zmain.210930.1</Version>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-	<PackageReference Include="CommunityToolkit.Common">
-		<Version>7.1.2</Version>
-	</PackageReference>
-	<PackageReference Include="CommunityToolkit.Diagnostics">
-		<Version>7.1.2</Version>
-	</PackageReference>
 	<PackageReference Include="CommunityToolkit.Mvvm">
-		<Version>7.1.2</Version>
+		<Version>8.0.0</Version>
 	</PackageReference>
     <PackageReference Include="Microsoft.Windows.CsWinRT" Version="$(MicrosoftCsWinRTVersion)" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
@@ -53,7 +47,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.17.3" />
     <PackageReference Include="Grpc.Tools" Version="2.38.1" PrivateAssets="All" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="System.Text.Json" Version="6.0.5" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(PkgMicrosoft_Internal_MUXAppTestHelpers_WinUI)\content\AppTestAutomationHelpers\TestAutomationHelpersPanel.xaml">

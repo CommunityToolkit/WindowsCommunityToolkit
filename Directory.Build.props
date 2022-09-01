@@ -64,7 +64,7 @@
   <Import Project="$(BuildToolsDirectory)Windows.Toolkit.VisualStudio.Design.props" Condition="$(IsDesignProject)" />
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.109" PrivateAssets="All" />
   </ItemGroup>
 
   <Choose>
@@ -78,7 +78,7 @@
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
       </ItemGroup>
     </When>
   </Choose>
