@@ -2,11 +2,13 @@ trigger:
 - main
 - dev/*
 - rel/*
+- winui
 
 pr:
 - main
 - dev/*
 - rel/*
+- winui
 
 pool:
   vmImage: windows-2022
