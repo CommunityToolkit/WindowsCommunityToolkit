@@ -290,7 +290,11 @@ namespace Microsoft.Toolkit.Uwp.UI
                     // Create a ShapeVisual so that our geometry can be rendered to a visual
                     var shapeVisual = context.GetResource(ShapeVisualResourceKey) ??
                                       context.AddResource(ShapeVisualResourceKey, context.Compositor.CreateShapeVisual());
-                    shapeVisual.Shapes.Add(shape);
+
+                    if (!shapeVisual.Shapes.Contains(shape))
+                    {
+                        shapeVisual.Shapes.Add(shape);
+                    }
 
                     // Create a CompositionVisualSurface, which renders our ShapeVisual to a texture
                     var visualSurface = context.GetResource(VisualSurfaceResourceKey) ??
@@ -344,6 +348,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             context.SpriteVisual.Offset = context.Element.CoordinatesFrom(CastTo).ToVector3();
 
             UpdateShadowClip(context);
+            UpdateShadowMask(context);
 
             base.OnSizeChanged(context, newSize, previousSize);
         }
