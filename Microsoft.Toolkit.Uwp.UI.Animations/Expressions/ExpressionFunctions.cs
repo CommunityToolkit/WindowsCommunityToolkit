@@ -1199,11 +1199,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             where T : ExpressionNode
         {
             T newNode = ExpressionNode.CreateExpressionNode<T>();
+            newNode.NodeType = nodeType;
 
-            (newNode as ExpressionNode).NodeType = nodeType;
             foreach (var param in expressionFunctionParams)
             {
-                (newNode as ExpressionNode).Children.Add(param);
+                newNode.Children.Add(param);
             }
 
             return newNode;
