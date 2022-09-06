@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Gets the reference parameter string.
         /// </summary>
         /// <returns>System.String.</returns>
-        internal string GetReferenceParamString()
+        internal string GetReferenceNodeString()
         {
             if (NodeType == ExpressionNodeType.TargetReference)
             {
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
             else
             {
-                return ParamName;
+                return NodeName;
             }
         }
 
