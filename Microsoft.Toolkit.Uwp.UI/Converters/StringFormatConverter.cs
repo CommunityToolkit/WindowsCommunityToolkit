@@ -14,19 +14,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     public class StringFormatConverter : IValueConverter
     {
         /// <summary>
-        /// Gets or sets the CultureInfo to make converter culture sensitive. The default value is <see cref="CultureInfo.CurrentCulture"/>
-        /// </summary>
-        public CultureInfo CultureInfo { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StringFormatConverter"/> class.
-        /// </summary>
-        public StringFormatConverter()
-        {
-            CultureInfo = CultureInfo.CurrentCulture;
-        }
-
-        /// <summary>
         /// Return the formatted string version of the source object.
         /// </summary>
         /// <param name="value">Object to transform to string.</param>
@@ -36,18 +23,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <returns>Formatted string.</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }
 
-            string formatParameter = parameter as string;
-            if (formatParameter == null)
+            // Retrieve the format string and use it to format the value.
+            string formatString = parameter as string;
+            CultureInfo culture = string.IsNullOrWhiteSpace(language) ? CultureInfo.InvariantCulture : new CultureInfo(language);
+
+            if (string.IsNullOrEmpty(formatString))
+            {
+                // If the format string is null or empty, simply call ToString()
+                // on the value.
+                return value.ToString();
+            }
+
+            try
+            {
+                return string.Format(culture, formatString, value);
+            }
+            catch
             {
                 return value;
             }
-
-            return FormatToString(value, formatParameter, GetCultureInfoOrDefault(language, () => GetDefaultCultureInfo()));
         }
 
         /// <summary>
@@ -61,54 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
-        }
-
-        private object FormatToString(object value, string parameter, CultureInfo cultureInfo)
-        {
-            try
-            {
-                return string.Format(cultureInfo, parameter, value);
-            }
-            catch
-            {
-                return value;
-            }
-        }
-
-        private CultureInfo GetCultureInfoOrDefault(string language, Func<CultureInfo> getDefaultCultureInfo)
-        {
-            CultureInfo cultureInfo;
-            if (!TryGetCultureInfo(language, out cultureInfo))
-            {
-                cultureInfo = getDefaultCultureInfo();
-            }
-
-            return cultureInfo;
-        }
-
-        private bool TryGetCultureInfo(string language, out CultureInfo cultureInfo)
-        {
-            cultureInfo = null;
-            if (string.IsNullOrEmpty(language))
-            {
-                return false;
-            }
-
-            try
-            {
-                cultureInfo = CultureInfo.GetCultureInfo(language);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private CultureInfo GetDefaultCultureInfo()
-        {
-            return CultureInfo ?? CultureInfo.InvariantCulture;
         }
     }
 }
