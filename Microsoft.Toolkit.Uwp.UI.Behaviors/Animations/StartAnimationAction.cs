@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         public static readonly DependencyProperty TargetObjectProperty = DependencyProperty.Register(
             nameof(TargetObject),
             typeof(UIElement),
-            typeof(StartAnimationActivity),
+            typeof(StartAnimationAction),
             new PropertyMetadata(null));
 
         /// <inheritdoc/>
