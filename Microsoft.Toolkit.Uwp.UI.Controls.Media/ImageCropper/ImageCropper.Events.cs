@@ -189,8 +189,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 UpdateSelectionThumbs();
             }
 
-            UpdateMaskArea();
-
             if (TryUpdateAspectRatio())
             {
                 if (TryUpdateImageLayout())
