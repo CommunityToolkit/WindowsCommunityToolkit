@@ -30,7 +30,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (IsValidRect(_restrictedCropRect))
                 {
                     _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, ActualAspectRatio) : _restrictedCropRect;
-                    UpdateImageLayout(animate);
+
+                    if (TryUpdateImageLayout(animate))
+                    {
+                        UpdateSelectionThumbs(animate);
+                        UpdateMaskArea(animate);
+                    }
                 }
             }
 
@@ -41,19 +46,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Update image source transform.
         /// </summary>
         /// <param name="animate">Whether animation is enabled.</param>
-        private bool UpdateImageLayout(bool animate = false)
+        private bool TryUpdateImageLayout(bool animate = false)
         {
             if (Source != null && IsValidRect(CanvasRect))
             {
                 var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
 
-                if (TryUpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate))
-                {
-                    UpdateSelectionThumbs(animate);
-                    UpdateMaskArea(animate);
-                }
-
-                return true;
+                return TryUpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
             }
 
             return false;

@@ -455,7 +455,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _currentCroppedRect = rect;
-            UpdateImageLayout(true);
+            if (TryUpdateImageLayout(true))
+            {
+                UpdateSelectionThumbs(true);
+                UpdateMaskArea(true);
+            }
+
             return true;
         }
     }

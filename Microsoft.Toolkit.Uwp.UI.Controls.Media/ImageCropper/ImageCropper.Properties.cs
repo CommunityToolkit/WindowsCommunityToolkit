@@ -54,7 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (target.TryUpdateAspectRatio())
             {
-                target.UpdateImageLayout(true);
+                if (target.TryUpdateImageLayout(true))
+                {
+                    target.UpdateSelectionThumbs(true);
+                    target.UpdateMaskArea(true);
+                }
             }
         }
 
@@ -67,7 +71,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (target.TryUpdateAspectRatio())
             {
-                target.UpdateImageLayout();
+                if (target.TryUpdateImageLayout())
+                {
+                    target.UpdateSelectionThumbs();
+                    target.UpdateMaskArea();
+                }
             }
 
             target.UpdateMaskArea();
