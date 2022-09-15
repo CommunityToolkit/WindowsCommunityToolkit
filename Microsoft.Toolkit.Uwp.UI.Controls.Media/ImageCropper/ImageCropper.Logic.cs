@@ -75,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var endPoint = GetSafePoint(_restrictedSelectRect, new Point(
                 selectedRect.X + selectedRect.Width,
                 selectedRect.Y + selectedRect.Height));
+
             if (animate)
             {
                 AnimateUIElementOffset(new Point(_imageTransform.TranslateX, _imageTransform.TranslateY), _animationDuration, _sourceImage);
@@ -87,7 +88,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 targetVisual.Scale = new Vector3((float)imageScale);
             }
 
-            UpdateSelectedRect(startPoint, endPoint, animate);
+            UpdateSelectionThumbs(startPoint, endPoint, animate);
+            UpdateMaskArea(animate);
         }
 
         /// <summary>
@@ -277,17 +279,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                UpdateSelectedRect(startPoint, endPoint);
+                UpdateSelectionThumbs(startPoint, endPoint);
+                UpdateMaskArea();
             }
         }
 
         /// <summary>
-        /// Update selection area.
+        /// Positions the thumbs for the selection rectangle.
         /// </summary>
         /// <param name="startPoint">The point on the upper left corner.</param>
         /// <param name="endPoint">The point on the lower right corner.</param>
         /// <param name="animate">Whether animation is enabled.</param>
-        private void UpdateSelectedRect(Point startPoint, Point endPoint, bool animate = false)
+        private void UpdateSelectionThumbs(Point startPoint, Point endPoint, bool animate = false)
         {
             _startX = startPoint.X;
             _startY = startPoint.Y;
@@ -417,8 +420,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 storyboard.Begin();
             }
-
-            UpdateMaskArea(animate);
         }
 
         /// <summary>
