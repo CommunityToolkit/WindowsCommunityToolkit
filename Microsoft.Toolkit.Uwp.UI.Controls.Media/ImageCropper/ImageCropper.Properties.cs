@@ -51,7 +51,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
-            target.UpdateAspectRatio(true);
+
+            if (target.TryUpdateAspectRatio())
+            {
+                target.UpdateImageLayout(true);
+            }
         }
 
         private static void OnCropShapeChanged(
@@ -60,7 +64,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var target = (ImageCropper)d;
             target.UpdateCropShape();
             target.UpdateThumbsVisibility();
-            target.UpdateAspectRatio();
+
+            if (target.TryUpdateAspectRatio())
+            {
+                target.UpdateImageLayout();
+            }
+
             target.UpdateMaskArea();
         }
 

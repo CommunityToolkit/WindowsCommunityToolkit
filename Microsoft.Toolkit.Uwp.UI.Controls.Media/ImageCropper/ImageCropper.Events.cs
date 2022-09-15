@@ -173,7 +173,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             UpdateImageLayout();
             UpdateMaskArea();
-            UpdateAspectRatio();
+
+            if (TryUpdateAspectRatio())
+            {
+                UpdateImageLayout();
+            }
         }
     }
 }

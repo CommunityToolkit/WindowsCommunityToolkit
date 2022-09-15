@@ -36,15 +36,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateThumbsVisibility();
         }
 
-        private bool ShouldUpdateImageLayout => Source != null && IsValidRect(CanvasRect);
-
         /// <summary>
         /// Update image source transform.
         /// </summary>
         /// <param name="animate">Whether animation is enabled.</param>
         private void UpdateImageLayout(bool animate = false)
         {
-            if (ShouldUpdateImageLayout)
+            if (Source != null && IsValidRect(CanvasRect))
             {
                 var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
                 UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
@@ -506,16 +504,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
         }
 
-        private bool ShouldUpdateAspectRatio => KeepAspectRatio && Source != null && IsValidRect(_restrictedSelectRect);
-
         /// <summary>
         /// Update image aspect ratio.
         /// </summary>
-        private void UpdateAspectRatio(bool animate = false)
+        private bool TryUpdateAspectRatio()
         {
-            if (!ShouldUpdateAspectRatio)
+            if (!(KeepAspectRatio && Source != null && IsValidRect(_restrictedSelectRect)))
             {
-                return;
+                return false;
             }
 
             var center = SelectionAreaCenter;
@@ -542,7 +538,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Sentinal value. Equivelant to setting KeepAspectRatio to false. Causes AspectRatio to be recalculated.
                     AspectRatio = -1;
-                    return;
+                    return false;
                 }
             }
 
@@ -573,7 +569,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             croppedRect.Intersect(_restrictedCropRect);
             _currentCroppedRect = croppedRect;
 
-            UpdateImageLayout(animate);
+            return true;
         }
 
         /// <summary>
