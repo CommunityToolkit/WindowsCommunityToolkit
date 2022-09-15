@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Net;
 using System.Numerics;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -40,13 +41,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Update image source transform.
         /// </summary>
         /// <param name="animate">Whether animation is enabled.</param>
-        private void UpdateImageLayout(bool animate = false)
+        private bool UpdateImageLayout(bool animate = false)
         {
             if (Source != null && IsValidRect(CanvasRect))
             {
                 var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
-                UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
+
+                if (TryUpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate))
+                {
+                    UpdateSelectionThumbs(animate);
+                    UpdateMaskArea(animate);
+                }
+
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -55,11 +65,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="viewport">Viewport</param>
         /// <param name="viewportImageRect"> The real image area of viewport.</param>
         /// <param name="animate">Whether animation is enabled.</param>
-        private void UpdateImageLayoutWithViewport(Rect viewport, Rect viewportImageRect, bool animate = false)
+        private bool TryUpdateImageLayoutWithViewport(Rect viewport, Rect viewportImageRect, bool animate = false)
         {
             if (!IsValidRect(viewport) || !IsValidRect(viewportImageRect))
             {
-                return;
+                return false;
             }
 
             var imageScale = viewport.Width / viewportImageRect.Width;
@@ -69,12 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inverseImageTransform.ScaleX = _inverseImageTransform.ScaleY = 1 / imageScale;
             _inverseImageTransform.TranslateX = -_imageTransform.TranslateX / imageScale;
             _inverseImageTransform.TranslateY = -_imageTransform.TranslateY / imageScale;
-            var selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
             _restrictedSelectRect = _imageTransform.TransformBounds(_restrictedCropRect);
-            var startPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X, selectedRect.Y));
-            var endPoint = GetSafePoint(_restrictedSelectRect, new Point(
-                selectedRect.X + selectedRect.Width,
-                selectedRect.Y + selectedRect.Height));
 
             if (animate)
             {
@@ -88,8 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 targetVisual.Scale = new Vector3((float)imageScale);
             }
 
-            UpdateSelectionThumbs(startPoint, endPoint, animate);
-            UpdateMaskArea(animate);
+            return true;
         }
 
         /// <summary>
@@ -275,13 +279,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _currentCroppedRect = croppedRect;
                 var viewportRect = GetUniformRect(CanvasRect, selectedRect.Width / selectedRect.Height);
                 var viewportImgRect = _inverseImageTransform.TransformBounds(selectedRect);
-                UpdateImageLayoutWithViewport(viewportRect, viewportImgRect);
+
+                if (TryUpdateImageLayoutWithViewport(viewportRect, viewportImgRect))
+                {
+                    UpdateSelectionThumbs();
+                    UpdateMaskArea();
+                }
             }
             else
             {
                 UpdateSelectionThumbs(startPoint, endPoint);
                 UpdateMaskArea();
             }
+        }
+
+        private void UpdateSelectionThumbs(bool animate = false)
+        {
+            var selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
+            var startPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X, selectedRect.Y));
+            var endPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X + selectedRect.Width, selectedRect.Y + selectedRect.Height));
+
+            UpdateSelectionThumbs(startPoint, endPoint, animate);
         }
 
         /// <summary>
