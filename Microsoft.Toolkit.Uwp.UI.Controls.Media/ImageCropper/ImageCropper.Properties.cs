@@ -74,7 +74,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (target.TryUpdateImageLayout())
                 {
                     target.UpdateSelectionThumbs();
-                    target.UpdateMaskArea();
                 }
             }
 
