@@ -134,8 +134,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             ReadValueAsync();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
-            characteristic.ValueChanged += Characteristic_ValueChanged;
         }
 
         /// <summary>
@@ -152,6 +150,16 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             {
                 if (_characteristic != value)
                 {
+                    if (value is not null)
+                    {
+                        value.ValueChanged += Characteristic_ValueChanged;
+                    }
+
+                    if (_characteristic is not null)
+                    {
+                        _characteristic.ValueChanged -= Characteristic_ValueChanged;
+                    }
+
                     _characteristic = value;
                     OnPropertyChanged();
                 }
