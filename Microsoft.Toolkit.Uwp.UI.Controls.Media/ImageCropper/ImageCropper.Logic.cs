@@ -526,7 +526,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private bool TryUpdateAspectRatio()
         {
-            if (!(KeepAspectRatio && Source != null && IsValidRect(_restrictedSelectRect)))
+            if (KeepAspectRatio is false || Source is null || IsValidRect(_restrictedSelectRect) is false)
             {
                 return false;
             }
