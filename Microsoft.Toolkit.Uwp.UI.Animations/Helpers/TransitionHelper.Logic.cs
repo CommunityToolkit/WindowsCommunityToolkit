@@ -303,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             sourceScaleAnimation
                         });
                     var location = coordinatedElement.TransformToVisual(this.Source).TransformPoint(sourceTargetTranslation.ToPoint());
-                    var targetClip = GetCoordinatedElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), targetTransformedBounds);
+                    var targetClip = GetElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), targetTransformedBounds);
                     if (targetClip.HasValue)
                     {
                         controller.AddAnimationGroupFor(
@@ -335,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             targetScaleAnimation
                         });
                     var location = coordinatedElement.TransformToVisual(this.Target).TransformPoint((-sourceTargetTranslation).ToPoint());
-                    var targetClip = GetCoordinatedElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), sourceTransformedBounds);
+                    var targetClip = GetElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), sourceTransformedBounds);
                     if (targetClip.HasValue)
                     {
                         controller.AddAnimationGroupFor(

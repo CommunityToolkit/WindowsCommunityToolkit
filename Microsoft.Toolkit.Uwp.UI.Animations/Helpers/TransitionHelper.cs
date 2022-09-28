@@ -37,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private IEnumerable<UIElement> TargetAnimatedElements => this.targetConnectedElements.Values.Concat(this.targetIndependentElements).Concat(this.targetCoordinatedElements.SelectMany(item => item.Value));
 
         /// <summary>
+        /// Gets a value indicating whether the source and target controls are animating.
+        /// </summary>
+        public bool IsAnimating => _animateCancellationTokenSource is not null || _reverseCancellationTokenSource is not null;
+
+        /// <summary>
         /// Morphs from source control to target control.
         /// </summary>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
@@ -63,8 +68,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task StartAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
-            IsNotNullAndIsLoaded(this.Source, nameof(this.Source));
-            IsNotNullAndIsLoaded(this.Target, nameof(this.Target));
+            IsNotNullAndIsInVisualTree(this.Source, nameof(this.Source));
+            IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
             if (this._animateCancellationTokenSource is not null)
             {
                 return;
@@ -123,8 +128,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
         public async Task ReverseAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
-            IsNotNullAndIsLoaded(this.Source, nameof(this.Source));
-            IsNotNullAndIsLoaded(this.Target, nameof(this.Target));
+            IsNotNullAndIsInVisualTree(this.Source, nameof(this.Source));
+            IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
             if (this._reverseCancellationTokenSource is not null)
             {
                 return;
@@ -162,15 +167,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="toInitialState">Indicates whether to reset to initial state. default value is True, if it is False, it will be reset to target state.</param>
         public void Reset(bool toInitialState = true)
         {
-            if (this._animateCancellationTokenSource is not null)
+            if (IsAnimating)
             {
-                this._animateCancellationTokenSource.Cancel();
+                this._animateCancellationTokenSource?.Cancel();
                 this._animateCancellationTokenSource = null;
-            }
-
-            if (_reverseCancellationTokenSource is not null)
-            {
-                this._reverseCancellationTokenSource.Cancel();
+                this._reverseCancellationTokenSource?.Cancel();
                 this._reverseCancellationTokenSource = null;
             }
 

@@ -11,6 +11,7 @@ using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -94,16 +95,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             visual.Properties.InsertVector3(TranslationPropertyName, Vector3.Zero);
         }
 
-        private static void IsNotNullAndIsLoaded(FrameworkElement target, string name)
+        private static void IsNotNullAndIsInVisualTree(FrameworkElement target, string name)
         {
             if (target is null)
             {
                 throw new ArgumentNullException(name);
             }
 
-            if (target.IsLoaded is false)
+            if (VisualTreeHelper.GetParent(target) is null)
             {
-                throw new ArgumentException($"The {name} element has not been loaded yet.", name);
+                throw new ArgumentException($"The {name} element is not in the visual tree.", name);
             }
         }
 
@@ -132,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return new Thickness(left, top, right, bottom);
         }
 
-        private static Thickness? GetCoordinatedElementClip(Vector2 scale, Point targetLocation, Size targetSize, Rect targetParentBounds)
+        private static Thickness? GetElementClip(Vector2 scale, Point targetLocation, Size targetSize, Rect targetParentBounds)
         {
             var inverseScale = GetInverseScale(scale);
             var targetBounds = new Rect(targetLocation, targetSize);
@@ -166,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 targetParentBounds.X = minX;
             }
 
-            return GetCoordinatedElementClip(scale, targetLocation.ToPoint(), targetSize, targetParentBounds);
+            return GetElementClip(scale, targetLocation.ToPoint(), targetSize, targetParentBounds);
         }
     }
 }
