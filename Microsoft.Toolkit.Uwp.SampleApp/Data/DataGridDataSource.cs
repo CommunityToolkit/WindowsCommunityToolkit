@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                             Coordinates = values[4],
                             Prominence = uint.Parse(values[5]),
                             Parent_mountain = values[6],
-                            First_ascent = DateTimeOffset.Parse(values[7]),
+                            First_ascent = DateTimeOffset.Parse(values[7], CultureInfo.InvariantCulture.DateTimeFormat),
                             Ascents = values[8],
                         });
                 }

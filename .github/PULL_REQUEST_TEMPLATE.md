@@ -1,5 +1,7 @@
 <!-- 🚨 Please Do Not skip any instructions and information mentioned below as they are all required and essential to evaluate and test the PR. By fulfilling all the required information you will be able to reduce the volume of questions and most likely help merge the PR faster 🚨 -->
 
+<!-- ⚠ We will not merge the PR to the main repo if your changes are not in a *feature branch* of your forked repository. Create a new branch in your repo, **do not use the `main` branch in your repo**! ⚠ -->
+
 <!-- 👉 It is imperative to resolve ONE ISSUE PER PR and avoid making multiple changes unless the changes interrelate with each other -->
 
 <!-- 📝 Please always keep the "☑️ Allow edits by maintainers" button checked in the Pull Request Template as it increases collaboration with the Toolkit maintainers by permitting commits to your PR branch (only) created from your fork. This can let us quickly make fixes for minor typos or forgotten StyleCop issues during review without needing to wait on you doing extra work. Let us help you help us! 🎉 -->
@@ -37,6 +39,8 @@ What kind of change does this PR introduce?
 
 Please check if your PR fulfills the following requirements: <!-- and remove the ones that are not applicable to the current PR -->
 
+- [ ] Created a feature/dev branch in your fork (vs. submitting directly from a commit on main)
+- [ ] Based off latest main branch of toolkit
 - [ ] Tested code with current [supported SDKs](../#supported)
 - [ ] New component
   - [ ] Pull Request has been submitted to the documentation repository [instructions](../blob/main/Contributing.md#docs). Link: <!-- docs PR link -->

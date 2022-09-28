@@ -2,12 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
-
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal interface IElement_AdditionalProperties
+    /// <summary>
+    /// An interface for a notification XML element with a name.
+    /// </summary>
+    internal interface IHaveXmlName
     {
-        IDictionary<string, string> AdditionalProperties { get; set; }
+        /// <summary>
+        /// Gets the name of the current element.
+        /// </summary>
+        string Name { get; }
     }
 }

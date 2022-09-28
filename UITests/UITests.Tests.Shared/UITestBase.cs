@@ -58,8 +58,8 @@ namespace UITests.Tests
 
                 return new TestApplicationInfo(
                     testAppPackageName: "UITests.App",
-                    testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t!App",
-                    testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t",
+                    testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme!App",
+                    testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme",
                     testAppMainWindowTitle: "UITests.App",
                     processName: "UITests.App.exe",
                     installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
