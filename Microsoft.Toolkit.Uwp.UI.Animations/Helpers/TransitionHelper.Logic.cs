@@ -89,8 +89,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Canvas.SetZIndex(this.IsTargetState ? this.Source : this.Target, maxZIndex);
 
             await Task.WhenAll(
-                this.InitControlState(this.Source, this._needUpdateSourceLayout),
-                this.InitControlState(this.Target, this._needUpdateTargetLayout));
+                this.InitControlStateAsync(this.Source, this._needUpdateSourceLayout),
+                this.InitControlStateAsync(this.Target, this._needUpdateTargetLayout));
 
             this._needUpdateSourceLayout = false;
             this._needUpdateTargetLayout = false;
@@ -102,47 +102,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private Task InitControlState(FrameworkElement target, bool needUpdateLayout)
+        private async Task InitControlStateAsync(FrameworkElement target, bool needUpdateLayout)
         {
-            var updateLayoutTask = Task.CompletedTask;
             if (target is null)
             {
-                return updateLayoutTask;
+                return;
             }
 
             target.IsHitTestVisible = IsHitTestVisibleWhenAnimating;
-
             if (target.Visibility == Visibility.Collapsed)
             {
                 target.Visibility = Visibility.Visible;
                 if (needUpdateLayout)
                 {
-                    updateLayoutTask = UpdateControlLayout(target);
+                    await UpdateControlLayout(target);
                 }
             }
-
-            if (target.Opacity < 0.01)
+            else if (target.Opacity < AlmostZero)
             {
                 target.Opacity = 1;
             }
-
-            var targetVisual = target.GetVisual();
-            if (!targetVisual.IsVisible)
+            else if (target.GetVisual() is { IsVisible: false } visual)
             {
-                targetVisual.IsVisible = true;
+                visual.IsVisible = true;
             }
-
-            return updateLayoutTask;
         }
 
         private Task AnimateControls(TimeSpan duration, bool reversed, CancellationToken token)
         {
-            var animationTasks = new List<Task>(3);
             var sourceUnpairedElements = this.sourceConnectedElements
                 .Where(item => !this.targetConnectedElements.ContainsKey(item.Key))
                 .SelectMany(item =>
                 {
-                    var result = new List<UIElement>(1) { item.Value };
+                    var result = new[] { item.Value };
                     if (this.sourceCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
                     {
                         return result.Concat(coordinatedElements);
@@ -154,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 .Where(item => !this.sourceConnectedElements.ContainsKey(item.Key))
                 .SelectMany(item =>
                 {
-                    var result = new List<UIElement>(1) { item.Value };
+                    var result = new[] { item.Value };
                     if (this.targetCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
                     {
                         return result.Concat(coordinatedElements);
@@ -194,26 +186,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 startTime = startProgress * duration;
             }
 
-            animationTasks.Add(reversed
+            var animationTasks = new[]
+            {
+                reversed
                         ? _currentAnimationGroupController.ReverseAsync(token, this.InverseEasingFunctionWhenReversing, duration)
-                        : _currentAnimationGroupController.StartAsync(token, duration));
+                        : _currentAnimationGroupController.StartAsync(token, duration),
 
-            animationTasks.Add(
                 this.AnimateIndependentElements(
                     this.sourceIndependentElements.Concat(sourceUnpairedElements),
                     reversed,
                     token,
                     startTime,
                     IndependentElementEasingType,
-                    IndependentElementEasingMode));
-            animationTasks.Add(
+                    IndependentElementEasingMode),
                 this.AnimateIndependentElements(
                     this.targetIndependentElements.Concat(targetUnpairedElements),
                     !reversed,
                     token,
                     startTime,
                     IndependentElementEasingType,
-                    IndependentElementEasingMode));
+                    IndependentElementEasingMode)
+            };
 
             return Task.WhenAll(animationTasks);
         }

@@ -40,10 +40,68 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static IEnumerable<UIElement> GetAnimatedElements(DependencyObject targetElement)
         {
-            return targetElement?.FindDescendantsOrSelf()
-                .Where(element => GetId(element) is not null || GetCoordinatedTarget(element) is not null || GetIsIndependent(element))
+            return FindDescendantsWithBFSAndPruneAndPredicate(targetElement, IsNotVisible, IsAnimatedElement)
                 .Distinct(new AnimatedElementComparer())
                 .OfType<UIElement>();
+        }
+
+        private static bool IsNotVisible(DependencyObject element)
+        {
+            if (element is not UIElement target
+                || target.Visibility == Visibility.Collapsed
+                || target.Opacity < AlmostZero)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsAnimatedElement(DependencyObject element)
+        {
+            return GetId(element) is not null || GetCoordinatedTarget(element) is not null || GetIsIndependent(element);
+        }
+
+        private static IEnumerable<DependencyObject> FindDescendantsWithBFSAndPruneAndPredicate(DependencyObject element, Func<DependencyObject, bool> prune, Func<DependencyObject, bool> predicate)
+        {
+            if (predicate(element))
+            {
+                yield return element;
+                yield break;
+            }
+
+            var searchQueue = new List<DependencyObject>();
+            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            for (var i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(element, i);
+                if (predicate(child))
+                {
+                    yield return child;
+                }
+                else if (prune(child) is false)
+                {
+                    searchQueue.Add(child);
+                }
+            }
+
+            for (var i = 0; i < searchQueue.Count; i++)
+            {
+                var parent = searchQueue[i];
+                childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+                for (var j = 0; j < childrenCount; j++)
+                {
+                    var child = VisualTreeHelper.GetChild(parent, j);
+                    if (predicate(child))
+                    {
+                        yield return child;
+                    }
+                    else if (prune(child) is false)
+                    {
+                        searchQueue.Add(child);
+                    }
+                }
+            }
         }
 
         private static void ToggleVisualState(UIElement target, VisualStateToggleMethod method, bool isVisible)
