@@ -6,25 +6,15 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal enum TilePresentation
     {
-        [EnumString("people")]
         People,
-
-        [EnumString("photos")]
         Photos,
-
-        [EnumString("contact")]
         Contact
     }
 
     internal enum TileImagePlacement
     {
-        [EnumString("inline")]
         Inline,
-
-        [EnumString("background")]
         Background,
-
-        [EnumString("peek")]
         Peek
     }
 }

@@ -1,11 +1,14 @@
 
 # 🧰 Windows Community Toolkit
 
-The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
+The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10 and Windows 11. It contains components and helpers for both UWP and WinUI 3/WinAppSDK applications. Find out more about our support for [WinUI 3 here](https://aka.ms/wct-winui3).
+
+**Note**: Our general helpers for .NET are now the [.NET Community Toolkit](https://aka.ms/toolkit/dotnet), including the [MVVM Toolkit](https://aka.ms/mvvmtoolkit).
 
 | Target | Branch | Status | Recommended package version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/7.1.1 | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/7.1.1)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10&branchName=rel/7.1.1) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) |
+| Production (UWP) | rel/7.1.2 | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/7.1.2)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10&branchName=rel/7.1.2) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/profiles/Microsoft.Toolkit) |
+| Production (WinAppSDK/WinUI 3) | rel/winui/7.1.2 | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/winui/7.1.2)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10&branchName=rel/winui/7.1.2) | [![NuGet](https://img.shields.io/nuget/v/CommunityToolkit.WinUI.svg)](https://www.nuget.org/packages?q=CommunityToolkit.WinUI) |
 | Previews | main | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=main)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10) | [![DevOps](https://vsrm.dev.azure.com/dotnet/_apis/public/Release/badge/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/1/1)](https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-MainLatest) |
 
 ## 🙌 Getting Started
@@ -19,6 +22,14 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 ## 📱 Windows Community Toolkit Sample App
 
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
+
+## 🧪 Windows Community Toolkit Labs 💻
+
+We're in the process of migrating our development process to the upcoming Toolkit Labs for Windows, find out more [here](https://aka.ms/toolkit/labs/windows).
+
+## ⁉ Support
+
+If you need help with something or have an idea, feel free to start a [Discussion](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions) or find us on [Discord](https://aka.ms/wct/discord). If you have detailed repro steps, open an [issue here instead](https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/new/choose).
 
 ## 🚀 Contribution
 
@@ -35,10 +46,12 @@ The [Features list](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs
 ## 💠 Principles
 
 1. The toolkit will be kept simple.
-2. As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
-3. All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
+2. As soon as a comparable feature is available in the Windows SDK for Windows, it will be marked as deprecated.
+3. All features will be supported for two Windows SDK for Windows release cycles or until another principle supersedes it.
 
 ## 🌍 Roadmap
+
+[See our 2022 Plans here](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/4486).
 
 Read what we [plan for next iterations](https://github.com/CommunityToolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
@@ -54,10 +67,8 @@ For more information see the [.NET Foundation Code of Conduct](CODE_OF_CONDUCT.m
 
 This project is supported by the [.NET Foundation](http://dotnetfoundation.org).
 
-## Contributors
+## 🏆 Contributors
 
-<a href="https://github.com/CommunityToolkit/WindowsCommunityToolkit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=CommunityToolkit/WindowsCommunityToolkit" />
-</a>
+[![Toolkit Contributors](https://contrib.rocks/image?repo=CommunityToolkit/WindowsCommunityToolkit)](https://github.com/CommunityToolkit/WindowsCommunityToolkit/graphs/contributors)
 
 Made with [contrib.rocks](https://contrib.rocks).

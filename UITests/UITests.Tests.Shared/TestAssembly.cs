@@ -52,7 +52,7 @@ namespace UITests.Tests
 
             // Use Windows.ApplicationModel.Package.Current.Id.FamilyName
             // within the app service provider to get this value.
-            CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_gspb8g6x97k2t";
+            CommunicationService.PackageFamilyName = "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme";
 
             var status = await CommunicationService.OpenAsync();
 

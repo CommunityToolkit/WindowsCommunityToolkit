@@ -7,33 +7,48 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("visual")]
-    internal sealed class Element_TileVisual
+    internal sealed class Element_TileVisual : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const TileBranding DEFAULT_BRANDING = TileBranding.Auto;
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
 
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
-        [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
-        [NotificationXmlAttribute("branding", DEFAULT_BRANDING)]
         public TileBranding Branding { get; set; } = DEFAULT_BRANDING;
 
-        [NotificationXmlAttribute("contentId")]
         public string ContentId { get; set; }
 
-        [NotificationXmlAttribute("displayName")]
         public string DisplayName { get; set; }
 
-        [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
-        [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
 
         public IList<Element_TileBinding> Bindings { get; private set; } = new List<Element_TileBinding>();
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "visual";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Bindings;
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("addImageQuery", AddImageQuery);
+            yield return new("baseUri", BaseUri);
+
+            if (Branding != DEFAULT_BRANDING)
+            {
+                yield return new("branding", Branding.ToPascalCaseString());
+            }
+
+            yield return new("contentId", ContentId);
+            yield return new("displayName", DisplayName);
+            yield return new("lang", Language);
+            yield return new("arguments", Arguments);
+        }
     }
 }

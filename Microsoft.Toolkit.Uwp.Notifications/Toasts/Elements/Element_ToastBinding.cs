@@ -7,15 +7,13 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("binding")]
-    internal sealed class Element_ToastBinding
+    internal sealed class Element_ToastBinding : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         public Element_ToastBinding(ToastTemplateType template)
         {
             Template = template;
         }
 
-        [NotificationXmlAttribute("template")]
         public ToastTemplateType Template { get; private set; }
 
         /// <summary>
@@ -27,25 +25,37 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         ///
         /// "www.website.com/images/hello.png?ms-scale=100&amp;ms-contrast=standard&amp;ms-lang=en-us"
         /// </summary>
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
         /// <summary>
         /// Gets or sets a default base URI that is combined with relative URIs in image source attributes.
         /// </summary>
-        [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
         /// <summary>
         /// Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides that in visual, but can be overridden by that in text. If this value is a literal string, this attribute defaults to the user's UI language. If this value is a string reference, this attribute defaults to the locale chosen by Windows Runtime in resolving the string. See Remarks for when this value isn't specified.
         /// </summary>
-        [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
-        [NotificationXmlAttribute("experienceType")]
         public string ExperienceType { get; set; }
 
         public IList<IElement_ToastBindingChild> Children { get; private set; } = new List<IElement_ToastBindingChild>();
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "binding";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Children;
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("template", Template);
+            yield return new("addImageQuery", AddImageQuery);
+            yield return new("baseUri", BaseUri);
+            yield return new("lang", Language);
+            yield return new("experienceType", ExperienceType);
+        }
     }
 
     internal interface IElement_ToastBindingChild
