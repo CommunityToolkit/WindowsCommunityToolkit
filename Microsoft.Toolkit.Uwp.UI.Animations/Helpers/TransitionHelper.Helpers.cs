@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
-        private class AnimatedElementComparer : IEqualityComparer<DependencyObject>
+        private sealed class AnimatedElementComparer : IEqualityComparer<DependencyObject>
         {
             public bool Equals(DependencyObject x, DependencyObject y)
             {
