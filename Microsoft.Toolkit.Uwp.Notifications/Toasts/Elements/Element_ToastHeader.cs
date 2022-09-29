@@ -3,28 +3,22 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("header")]
-    internal sealed class Element_ToastHeader : IElement_ToastActivatable
+    internal sealed class Element_ToastHeader : IElement_ToastActivatable, IHaveXmlName, IHaveXmlNamedProperties
     {
-        [NotificationXmlAttribute("id")]
         public string Id { get; set; }
 
-        [NotificationXmlAttribute("title")]
         public string Title { get; set; }
 
-        [NotificationXmlAttribute("arguments")]
         public string Arguments { get; set; }
 
-        [NotificationXmlAttribute("activationType", Element_ToastActivationType.Foreground)]
         public Element_ToastActivationType ActivationType { get; set; } = Element_ToastActivationType.Foreground;
 
-        [NotificationXmlAttribute("protocolActivationTargetApplicationPfn")]
         public string ProtocolActivationTargetApplicationPfn { get; set; }
 
-        [NotificationXmlAttribute("afterActivationBehavior", ToastAfterActivationBehavior.Default)]
         public ToastAfterActivationBehavior AfterActivationBehavior
         {
             get
@@ -38,6 +32,29 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 {
                     throw new InvalidOperationException("AfterActivationBehavior on ToastHeader only supports the Default value.");
                 }
+            }
+        }
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "header";
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("id", Id);
+            yield return new("title", Title);
+            yield return new("arguments", Arguments);
+
+            if (ActivationType != Element_ToastActivationType.Foreground)
+            {
+                yield return new("activationType", ActivationType.ToPascalCaseString());
+            }
+
+            yield return new("protocolActivationTargetApplicationPfn", ProtocolActivationTargetApplicationPfn);
+
+            if (AfterActivationBehavior != ToastAfterActivationBehavior.Default)
+            {
+                yield return new("afterActivationBehavior", AfterActivationBehavior.ToPascalCaseString());
             }
         }
     }

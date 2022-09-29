@@ -7,23 +7,33 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    [NotificationXmlElement("visual")]
-    internal sealed class Element_ToastVisual
+    internal sealed class Element_ToastVisual : IHaveXmlName, IHaveXmlNamedProperties, IHaveXmlChildren
     {
         internal const bool DEFAULT_ADD_IMAGE_QUERY = false;
 
-        [NotificationXmlAttribute("addImageQuery")]
         public bool? AddImageQuery { get; set; }
 
-        [NotificationXmlAttribute("baseUri")]
         public Uri BaseUri { get; set; }
 
-        [NotificationXmlAttribute("lang")]
         public string Language { get; set; }
 
-        [NotificationXmlAttribute("version")]
         public int? Version { get; set; }
 
         public IList<Element_ToastBinding> Bindings { get; private set; } = new List<Element_ToastBinding>();
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "visual";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Bindings;
+
+        /// <inheritdoc/>
+        IEnumerable<KeyValuePair<string, object>> IHaveXmlNamedProperties.EnumerateNamedProperties()
+        {
+            yield return new("addImageQuery", AddImageQuery);
+            yield return new("baseUri", BaseUri);
+            yield return new("lang", Language);
+            yield return new("version", Version);
+        }
     }
 }

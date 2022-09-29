@@ -393,11 +393,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.GamepadLeftThumbstickDown:
                     if (Orientation == Orientation.Vertical)
                     {
-                        if (SelectedIndex < Items.Count - 1)
-                        {
-                            SelectedIndex++;
-                        }
-                        else if (e.OriginalKey != Windows.System.VirtualKey.Down)
+                        bool changed = BoundIncrement();
+                        if (!changed && e.OriginalKey != Windows.System.VirtualKey.Down)
                         {
                             FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
                         }
@@ -411,11 +408,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.GamepadLeftThumbstickUp:
                     if (Orientation == Orientation.Vertical)
                     {
-                        if (SelectedIndex > 0)
-                        {
-                            SelectedIndex--;
-                        }
-                        else if (e.OriginalKey != Windows.System.VirtualKey.Up)
+                        bool changed = BoundDecrement();
+                        if (!changed && e.OriginalKey != Windows.System.VirtualKey.Up)
                         {
                             FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
                         }
@@ -429,11 +423,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.GamepadLeftThumbstickLeft:
                     if (Orientation == Orientation.Horizontal)
                     {
-                        if (SelectedIndex > 0)
-                        {
-                            SelectedIndex--;
-                        }
-                        else if (e.OriginalKey != Windows.System.VirtualKey.Left)
+                        bool changed = FlowDirection == FlowDirection.LeftToRight ? BoundDecrement() : BoundIncrement();
+                        if (!changed && e.OriginalKey != Windows.System.VirtualKey.Left)
                         {
                             FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
                         }
@@ -447,11 +438,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case Windows.System.VirtualKey.GamepadLeftThumbstickRight:
                     if (Orientation == Orientation.Horizontal)
                     {
-                        if (SelectedIndex < Items.Count - 1)
-                        {
-                            SelectedIndex++;
-                        }
-                        else if (e.OriginalKey != Windows.System.VirtualKey.Right)
+                        bool changed = FlowDirection == FlowDirection.LeftToRight ? BoundIncrement() : BoundDecrement();
+                        if (!changed && e.OriginalKey != Windows.System.VirtualKey.Right)
                         {
                             FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
                         }
@@ -466,14 +454,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
             var index = e.GetCurrentPoint(null).Properties.MouseWheelDelta > 0 ? -1 : 1;
-            if (index == -1 && SelectedIndex > 0)
+            if (index == -1)
             {
-                SelectedIndex--;
+                BoundDecrement();
             }
-
-            if (index == 1 && SelectedIndex < Items.Count - 1)
+            else if (index == 1)
             {
-                SelectedIndex++;
+                BoundIncrement();
             }
 
             e.Handled = true;
@@ -546,6 +533,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var item = ItemFromContainer(owner);
             SelectedItem = item;
+        }
+
+        private bool BoundIncrement()
+        {
+            if (SelectedIndex < Items.Count - 1)
+            {
+                SelectedIndex++;
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool BoundDecrement()
+        {
+            if (SelectedIndex > 0)
+            {
+                SelectedIndex--;
+                return true;
+            }
+
+            return false;
         }
     }
 }

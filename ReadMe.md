@@ -23,9 +23,9 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
-## 🧪 Toolkit Labs for Windows 💻
+## 🧪 Windows Community Toolkit Labs 💻
 
-We're in the process of migrating our development process to the upcoming Toolkit Labs for Windows, find out more in [this issue here](https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4487).
+We're in the process of migrating our development process to the upcoming Toolkit Labs for Windows, find out more [here](https://aka.ms/toolkit/labs/windows).
 
 ## ⁉ Support
 

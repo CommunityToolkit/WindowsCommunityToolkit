@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
 {
-    [NotificationXmlElement("group")]
-    internal sealed class Element_AdaptiveGroup : IElement_TileBindingChild, IElement_ToastBindingChild, IElementWithDescendants
+    internal sealed class Element_AdaptiveGroup : IElement_TileBindingChild, IElement_ToastBindingChild, IElementWithDescendants, IHaveXmlName, IHaveXmlChildren
     {
         public IList<Element_AdaptiveSubgroup> Children { get; private set; } = new List<Element_AdaptiveSubgroup>();
 
@@ -25,5 +24,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications.Adaptive.Elements
                 }
             }
         }
+
+        /// <inheritdoc/>
+        string IHaveXmlName.Name => "group";
+
+        /// <inheritdoc/>
+        IEnumerable<object> IHaveXmlChildren.Children => Children;
     }
 }

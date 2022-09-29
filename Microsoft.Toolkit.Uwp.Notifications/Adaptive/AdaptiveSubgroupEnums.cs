@@ -17,19 +17,16 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Vertical align to the top.
         /// </summary>
-        [EnumString("top")]
         Top,
 
         /// <summary>
         /// Vertical align to the center.
         /// </summary>
-        [EnumString("center")]
         Center,
 
         /// <summary>
         /// Vertical align to the bottom.
         /// </summary>
-        [EnumString("bottom")]
         Bottom
     }
 }

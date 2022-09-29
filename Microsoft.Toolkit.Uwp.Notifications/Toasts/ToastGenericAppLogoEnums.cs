@@ -17,13 +17,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <summary>
         /// Image is not cropped.
         /// </summary>
-        [EnumString("none")]
         None,
 
         /// <summary>
         /// Image is cropped to a circle shape.
         /// </summary>
-        [EnumString("circle")]
         Circle
     }
 }

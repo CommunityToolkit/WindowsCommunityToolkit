@@ -293,6 +293,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             else
             {
                 base.SetElementChildVisual(context);
+
+                // Reset context.SpriteVisual.Size and RelativeSizeAdjustment to default values
+                // as they may be changed in the block above.
+                context.SpriteVisual.Size = Vector2.Zero;
+                context.SpriteVisual.RelativeSizeAdjustment = Vector2.One;
+
                 context.RemoveAndDisposeResource(OpacityMaskVisualSurfaceResourceKey);
                 context.RemoveAndDisposeResource(OpacityMaskSurfaceBrushResourceKey);
                 context.RemoveAndDisposeResource(OpacityMaskVisualResourceKey);
@@ -305,25 +311,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             Vector2 sizeAsVec2 = newSize.ToVector2();
 
-            CompositionRoundedRectangleGeometry geometry = context.GetResource(RoundedRectangleGeometryResourceKey);
-            if (geometry != null)
+            if (context.TryGetResource(RoundedRectangleGeometryResourceKey, out CompositionRoundedRectangleGeometry geometry))
             {
                 geometry.Size = sizeAsVec2;
             }
 
-            CompositionVisualSurface visualSurface = context.GetResource(VisualSurfaceResourceKey);
-            if (geometry != null)
+            if (context.TryGetResource(VisualSurfaceResourceKey, out CompositionVisualSurface visualSurface))
             {
                 visualSurface.SourceSize = sizeAsVec2;
             }
 
-            ShapeVisual shapeVisual = context.GetResource(ShapeVisualResourceKey);
-            if (geometry != null)
+            if (context.TryGetResource(ShapeVisualResourceKey, out ShapeVisual shapeVisual))
             {
                 shapeVisual.Size = sizeAsVec2;
             }
 
+            if (context.TryGetResource(OpacityMaskVisualSurfaceResourceKey, out CompositionVisualSurface opacityMaskVisualSurface))
+            {
+                opacityMaskVisualSurface.SourceSize = sizeAsVec2 + new Vector2(MaxBlurRadius * 2);
+            }
+
+            if (InnerContentClipMode is InnerContentClipMode.CompositionMaskBrush)
+            {
+                context.SpriteVisual.Size = sizeAsVec2;
+            }
+
             UpdateShadowClip(context);
+            UpdateVisualOpacityMask(context);
 
             base.OnSizeChanged(context, newSize, previousSize);
         }
