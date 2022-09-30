@@ -28,8 +28,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
                 if (IsValidRect(_restrictedCropRect))
                 {
-                    _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
-                    UpdateImageLayout(animate);
+                    _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, ActualAspectRatio) : _restrictedCropRect;
+
+                    if (TryUpdateImageLayout(animate))
+                    {
+                        UpdateSelectionThumbs(animate);
+                        UpdateMaskArea(animate);
+                    }
                 }
             }
 
@@ -40,13 +45,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Update image source transform.
         /// </summary>
         /// <param name="animate">Whether animation is enabled.</param>
-        private void UpdateImageLayout(bool animate = false)
+        private bool TryUpdateImageLayout(bool animate = false)
         {
             if (Source != null && IsValidRect(CanvasRect))
             {
                 var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
-                UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
+
+                return TryUpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
             }
+
+            return false;
         }
 
         /// <summary>
@@ -55,11 +63,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="viewport">Viewport</param>
         /// <param name="viewportImageRect"> The real image area of viewport.</param>
         /// <param name="animate">Whether animation is enabled.</param>
-        private void UpdateImageLayoutWithViewport(Rect viewport, Rect viewportImageRect, bool animate = false)
+        private bool TryUpdateImageLayoutWithViewport(Rect viewport, Rect viewportImageRect, bool animate = false)
         {
             if (!IsValidRect(viewport) || !IsValidRect(viewportImageRect))
             {
-                return;
+                return false;
             }
 
             var imageScale = viewport.Width / viewportImageRect.Width;
@@ -69,12 +77,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inverseImageTransform.ScaleX = _inverseImageTransform.ScaleY = 1 / imageScale;
             _inverseImageTransform.TranslateX = -_imageTransform.TranslateX / imageScale;
             _inverseImageTransform.TranslateY = -_imageTransform.TranslateY / imageScale;
-            var selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
             _restrictedSelectRect = _imageTransform.TransformBounds(_restrictedCropRect);
-            var startPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X, selectedRect.Y));
-            var endPoint = GetSafePoint(_restrictedSelectRect, new Point(
-                selectedRect.X + selectedRect.Width,
-                selectedRect.Y + selectedRect.Height));
+
             if (animate)
             {
                 AnimateUIElementOffset(new Point(_imageTransform.TranslateX, _imageTransform.TranslateY), _animationDuration, _sourceImage);
@@ -87,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 targetVisual.Scale = new Vector3((float)imageScale);
             }
 
-            UpdateSelectedRect(startPoint, endPoint, animate);
+            return true;
         }
 
         /// <summary>
@@ -105,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double radian = 0d, diffPointRadian = 0d;
             if (KeepAspectRatio)
             {
-                radian = Math.Atan(UsedAspectRatio);
+                radian = Math.Atan(ActualAspectRatio);
                 diffPointRadian = Math.Atan(diffPos.X / diffPos.Y);
             }
 
@@ -117,8 +121,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.Top:
                     if (KeepAspectRatio)
                     {
-                        var originSizeChange = new Point(-diffPos.Y * UsedAspectRatio, -diffPos.Y);
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var originSizeChange = new Point(-diffPos.Y * ActualAspectRatio, -diffPos.Y);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         startPoint.X += -safeChange.X / 2;
                         endPoint.X += safeChange.X / 2;
                         startPoint.Y += -safeChange.Y;
@@ -132,8 +136,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.Bottom:
                     if (KeepAspectRatio)
                     {
-                        var originSizeChange = new Point(diffPos.Y * UsedAspectRatio, diffPos.Y);
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var originSizeChange = new Point(diffPos.Y * ActualAspectRatio, diffPos.Y);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         startPoint.X += -safeChange.X / 2;
                         endPoint.X += safeChange.X / 2;
                         endPoint.Y += safeChange.Y;
@@ -147,8 +151,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.Left:
                     if (KeepAspectRatio)
                     {
-                        var originSizeChange = new Point(-diffPos.X, -diffPos.X / UsedAspectRatio);
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var originSizeChange = new Point(-diffPos.X, -diffPos.X / ActualAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         startPoint.Y += -safeChange.Y / 2;
                         endPoint.Y += safeChange.Y / 2;
                         startPoint.X += -safeChange.X;
@@ -162,8 +166,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.Right:
                     if (KeepAspectRatio)
                     {
-                        var originSizeChange = new Point(diffPos.X, diffPos.X / UsedAspectRatio);
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var originSizeChange = new Point(diffPos.X, diffPos.X / ActualAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         startPoint.Y += -safeChange.Y / 2;
                         endPoint.Y += safeChange.Y / 2;
                         endPoint.X += safeChange.X;
@@ -179,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         diffPos.X = -safeChange.X;
                         diffPos.Y = -safeChange.Y;
                     }
@@ -193,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         diffPointRadian = -diffPointRadian;
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         diffPos.X = safeChange.X;
                         diffPos.Y = -safeChange.Y;
                     }
@@ -207,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         diffPointRadian = -diffPointRadian;
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         diffPos.X = -safeChange.X;
                         diffPos.Y = safeChange.Y;
                     }
@@ -220,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         var effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
                         var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
-                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, ActualAspectRatio);
                         diffPos.X = safeChange.X;
                         diffPos.Y = safeChange.Y;
                     }
@@ -273,28 +277,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _currentCroppedRect = croppedRect;
                 var viewportRect = GetUniformRect(CanvasRect, selectedRect.Width / selectedRect.Height);
                 var viewportImgRect = _inverseImageTransform.TransformBounds(selectedRect);
-                UpdateImageLayoutWithViewport(viewportRect, viewportImgRect);
+
+                if (TryUpdateImageLayoutWithViewport(viewportRect, viewportImgRect))
+                {
+                    UpdateSelectionThumbs();
+                    UpdateMaskArea();
+                }
             }
             else
             {
-                UpdateSelectedRect(startPoint, endPoint);
+                UpdateSelectionThumbs(startPoint, endPoint);
+                UpdateMaskArea();
             }
         }
 
+        private void UpdateSelectionThumbs(bool animate = false)
+        {
+            var selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
+            var startPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X, selectedRect.Y));
+            var endPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X + selectedRect.Width, selectedRect.Y + selectedRect.Height));
+
+            UpdateSelectionThumbs(startPoint, endPoint, animate);
+        }
+
         /// <summary>
-        /// Update selection area.
+        /// Positions the thumbs for the selection rectangle.
         /// </summary>
         /// <param name="startPoint">The point on the upper left corner.</param>
         /// <param name="endPoint">The point on the lower right corner.</param>
         /// <param name="animate">Whether animation is enabled.</param>
-        private void UpdateSelectedRect(Point startPoint, Point endPoint, bool animate = false)
+        private void UpdateSelectionThumbs(Point startPoint, Point endPoint, bool animate = false)
         {
             _startX = startPoint.X;
             _startY = startPoint.Y;
             _endX = endPoint.X;
             _endY = endPoint.Y;
-            var centerX = ((_endX - _startX) / 2) + _startX;
-            var centerY = ((_endY - _startY) / 2) + _startY;
+            var center = SelectionAreaCenter;
+
             Storyboard storyboard = null;
             if (animate)
             {
@@ -305,12 +324,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(centerX, _animationDuration, _topThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(center.X, _animationDuration, _topThumb, nameof(ImageCropperThumb.X), true));
                     storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _topThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
-                    _topThumb.X = centerX;
+                    _topThumb.X = center.X;
                     _topThumb.Y = _startY;
                 }
             }
@@ -319,12 +338,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(centerX, _animationDuration, _bottomThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(center.X, _animationDuration, _bottomThumb, nameof(ImageCropperThumb.X), true));
                     storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _bottomThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
-                    _bottomThumb.X = centerX;
+                    _bottomThumb.X = center.X;
                     _bottomThumb.Y = _endY;
                 }
             }
@@ -334,12 +353,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (animate)
                 {
                     storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _leftThumb, nameof(ImageCropperThumb.X), true));
-                    storyboard.Children.Add(CreateDoubleAnimation(centerY, _animationDuration, _leftThumb, nameof(ImageCropperThumb.Y), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(center.Y, _animationDuration, _leftThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
                     _leftThumb.X = _startX;
-                    _leftThumb.Y = centerY;
+                    _leftThumb.Y = center.Y;
                 }
             }
 
@@ -348,12 +367,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (animate)
                 {
                     storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _rightThumb, nameof(ImageCropperThumb.X), true));
-                    storyboard.Children.Add(CreateDoubleAnimation(centerY, _animationDuration, _rightThumb, nameof(ImageCropperThumb.Y), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(center.Y, _animationDuration, _rightThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
                     _rightThumb.X = _endX;
-                    _rightThumb.Y = centerY;
+                    _rightThumb.Y = center.Y;
                 }
             }
 
@@ -417,8 +436,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 storyboard.Begin();
             }
-
-            UpdateMaskArea(animate);
         }
 
         /// <summary>
@@ -507,58 +524,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Update image aspect ratio.
         /// </summary>
-        private void UpdateAspectRatio(bool animate = false)
+        private bool TryUpdateAspectRatio()
         {
-            if (KeepAspectRatio && Source != null && IsValidRect(_restrictedSelectRect))
+            if (KeepAspectRatio is false || Source is null || IsValidRect(_restrictedSelectRect) is false)
             {
-                var centerX = ((_endX - _startX) / 2) + _startX;
-                var centerY = ((_endY - _startY) / 2) + _startY;
-                var restrictedMinLength = MinCroppedPixelLength * _imageTransform.ScaleX;
-                var maxSelectedLength = Math.Max(_endX - _startX, _endY - _startY);
-                var viewRect = new Rect(centerX - (maxSelectedLength / 2), centerY - (maxSelectedLength / 2), maxSelectedLength, maxSelectedLength);
-                var uniformSelectedRect = GetUniformRect(viewRect, UsedAspectRatio);
+                return false;
+            }
+
+            var center = SelectionAreaCenter;
+            var restrictedMinLength = MinCroppedPixelLength * _imageTransform.ScaleX;
+            var maxSelectedLength = Math.Max(_endX - _startX, _endY - _startY);
+            var viewRect = new Rect(center.X - (maxSelectedLength / 2), center.Y - (maxSelectedLength / 2), maxSelectedLength, maxSelectedLength);
+
+            var uniformSelectedRect = GetUniformRect(viewRect, ActualAspectRatio);
+            if (uniformSelectedRect.Width > _restrictedSelectRect.Width || uniformSelectedRect.Height > _restrictedSelectRect.Height)
+            {
+                uniformSelectedRect = GetUniformRect(_restrictedSelectRect, ActualAspectRatio);
+            }
+
+            // If selection area is smaller than allowed.
+            if (uniformSelectedRect.Width < restrictedMinLength || uniformSelectedRect.Height < restrictedMinLength)
+            {
+                // Scale selection area to fit.
+                var scale = restrictedMinLength / Math.Min(uniformSelectedRect.Width, uniformSelectedRect.Height);
+                uniformSelectedRect.Width *= scale;
+                uniformSelectedRect.Height *= scale;
+
+                // If selection area is larger than allowed.
                 if (uniformSelectedRect.Width > _restrictedSelectRect.Width || uniformSelectedRect.Height > _restrictedSelectRect.Height)
                 {
-                    uniformSelectedRect = GetUniformRect(_restrictedSelectRect, UsedAspectRatio);
+                    // Sentinal value. Equivelant to setting KeepAspectRatio to false. Causes AspectRatio to be recalculated.
+                    AspectRatio = -1;
+                    return false;
                 }
-
-                if (uniformSelectedRect.Width < restrictedMinLength || uniformSelectedRect.Height < restrictedMinLength)
-                {
-                    var scale = restrictedMinLength / Math.Min(uniformSelectedRect.Width, uniformSelectedRect.Height);
-                    uniformSelectedRect.Width *= scale;
-                    uniformSelectedRect.Height *= scale;
-                    if (uniformSelectedRect.Width > _restrictedSelectRect.Width || uniformSelectedRect.Height > _restrictedSelectRect.Height)
-                    {
-                        AspectRatio = -1;
-                        return;
-                    }
-                }
-
-                if (_restrictedSelectRect.X > uniformSelectedRect.X)
-                {
-                    uniformSelectedRect.X += _restrictedSelectRect.X - uniformSelectedRect.X;
-                }
-
-                if (_restrictedSelectRect.Y > uniformSelectedRect.Y)
-                {
-                    uniformSelectedRect.Y += _restrictedSelectRect.Y - uniformSelectedRect.Y;
-                }
-
-                if ((_restrictedSelectRect.X + _restrictedSelectRect.Width) < (uniformSelectedRect.X + uniformSelectedRect.Width))
-                {
-                    uniformSelectedRect.X += (_restrictedSelectRect.X + _restrictedSelectRect.Width) - (uniformSelectedRect.X + uniformSelectedRect.Width);
-                }
-
-                if ((_restrictedSelectRect.Y + _restrictedSelectRect.Height) < (uniformSelectedRect.Y + uniformSelectedRect.Height))
-                {
-                    uniformSelectedRect.Y += (_restrictedSelectRect.Y + _restrictedSelectRect.Height) - (uniformSelectedRect.Y + uniformSelectedRect.Height);
-                }
-
-                var croppedRect = _inverseImageTransform.TransformBounds(uniformSelectedRect);
-                croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
-                UpdateImageLayout(animate);
             }
+
+            // Fix positioning
+            if (_restrictedSelectRect.X > uniformSelectedRect.X)
+            {
+                uniformSelectedRect.X += _restrictedSelectRect.X - uniformSelectedRect.X;
+            }
+
+            if (_restrictedSelectRect.Y > uniformSelectedRect.Y)
+            {
+                uniformSelectedRect.Y += _restrictedSelectRect.Y - uniformSelectedRect.Y;
+            }
+
+            // Fix size
+            if ((_restrictedSelectRect.X + _restrictedSelectRect.Width) < (uniformSelectedRect.X + uniformSelectedRect.Width))
+            {
+                uniformSelectedRect.X += (_restrictedSelectRect.X + _restrictedSelectRect.Width) - (uniformSelectedRect.X + uniformSelectedRect.Width);
+            }
+
+            if ((_restrictedSelectRect.Y + _restrictedSelectRect.Height) < (uniformSelectedRect.Y + uniformSelectedRect.Height))
+            {
+                uniformSelectedRect.Y += (_restrictedSelectRect.Y + _restrictedSelectRect.Height) - (uniformSelectedRect.Y + uniformSelectedRect.Height);
+            }
+
+            // Apply transformation
+            var croppedRect = _inverseImageTransform.TransformBounds(uniformSelectedRect);
+            croppedRect.Intersect(_restrictedCropRect);
+            _currentCroppedRect = croppedRect;
+
+            return true;
         }
 
         /// <summary>
@@ -632,5 +660,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _lowerRigthThumb.Visibility = cornerThumbsVisibility;
             }
         }
+
+        /// <summary>
+        /// Gets a value that indicates the center of the visible selection rectangle.
+        /// </summary>
+        private Point SelectionAreaCenter => new Point(((_endX - _startX) / 2) + _startX, ((_endY - _startY) / 2) + _startY);
     }
 }

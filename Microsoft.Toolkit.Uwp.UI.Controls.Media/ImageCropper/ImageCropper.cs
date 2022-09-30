@@ -49,10 +49,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ImageCropperThumb _upperRightThumb;
         private ImageCropperThumb _lowerLeftThumb;
         private ImageCropperThumb _lowerRigthThumb;
+
+        // Selection area
         private double _startX;
         private double _startY;
         private double _endX;
         private double _endY;
+
         private Rect _currentCroppedRect = Rect.Empty;
         private Rect _restrictedCropRect = Rect.Empty;
         private Rect _restrictedSelectRect = Rect.Empty;
@@ -70,23 +73,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private Rect CanvasRect => new Rect(0, 0, _imageCanvas?.ActualWidth ?? 0, _imageCanvas?.ActualHeight ?? 0);
 
-        private bool KeepAspectRatio => UsedAspectRatio > 0;
+        /// <summary>
+        /// Gets a value indicating whether the user-provided <see cref="AspectRatio"/> is valid and should be kept during manipulation of the image cropper.
+        /// </summary>
+        private bool KeepAspectRatio => ActualAspectRatio > 0;
 
-        private double UsedAspectRatio
+        /// <summary>
+        /// Gets the internally used aspect ratio, rather than the user-provided value. Adjusted to handle crop shape and invalid values.
+        /// </summary>
+        private double ActualAspectRatio
         {
             get
             {
-                var aspectRatio = AspectRatio;
-                switch (CropShape)
+                var aspectRatio = CropShape switch
                 {
-                    case CropShape.Rectangular:
-                        break;
-                    case CropShape.Circular:
-                        aspectRatio = 1;
-                        break;
-                }
+                    CropShape.Rectangular => AspectRatio,
+                    CropShape.Circular => 1,
+                    _ => AspectRatio,
+                };
 
-                return aspectRatio != null && aspectRatio > 0 ? aspectRatio.Value : -1;
+                if (aspectRatio is not null && aspectRatio > 0)
+                {
+                    // When not null or 0.
+                    return aspectRatio.Value;
+                }
+                else
+                {
+                    // Fallback to sentinal value.
+                    // Used to indicate aspect ratio should be discarded and reset during manipulation of the image cropper.
+                    return -1;
+                }
             }
         }
 
@@ -97,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                var aspectRatio = KeepAspectRatio ? UsedAspectRatio : 1;
+                var aspectRatio = KeepAspectRatio ? ActualAspectRatio : 1;
                 var size = new Size(MinCroppedPixelLength, MinCroppedPixelLength);
                 if (aspectRatio >= 1)
                 {
@@ -123,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var minLength = Math.Min(realMinSelectSize.Width, realMinSelectSize.Height);
                 if (minLength < MinSelectedLength)
                 {
-                    var aspectRatio = KeepAspectRatio ? UsedAspectRatio : 1;
+                    var aspectRatio = KeepAspectRatio ? ActualAspectRatio : 1;
                     var minSelectSize = new Size(MinSelectedLength, MinSelectedLength);
                     if (aspectRatio >= 1)
                     {
@@ -433,13 +449,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // If an aspect ratio is set, reject regions that don't respect it
             // If cropping a circle, reject regions where the aspect ratio is not 1
-            if (KeepAspectRatio && UsedAspectRatio != rect.Width / rect.Height)
+            if (KeepAspectRatio && ActualAspectRatio != rect.Width / rect.Height)
             {
                 return false;
             }
 
             _currentCroppedRect = rect;
-            UpdateImageLayout(true);
+            if (TryUpdateImageLayout(true))
+            {
+                UpdateSelectionThumbs(true);
+                UpdateMaskArea(true);
+            }
+
             return true;
         }
     }
