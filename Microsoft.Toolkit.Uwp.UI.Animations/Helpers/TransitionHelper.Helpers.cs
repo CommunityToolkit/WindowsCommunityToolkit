@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 yield break;
             }
 
-            var searchQueue = new List<DependencyObject>();
+            var searchQueue = new Queue<DependencyObject>();
             var childrenCount = VisualTreeHelper.GetChildrenCount(element);
             for (var i = 0; i < childrenCount; i++)
             {
@@ -81,13 +81,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
                 else if (prune(child) is false)
                 {
-                    searchQueue.Add(child);
+                    searchQueue.Enqueue(child);
                 }
             }
 
-            for (var i = 0; i < searchQueue.Count; i++)
+            while (searchQueue.Count > 0)
             {
-                var parent = searchQueue[i];
+                var parent = searchQueue.Dequeue();
                 childrenCount = VisualTreeHelper.GetChildrenCount(parent);
                 for (var j = 0; j < childrenCount; j++)
                 {
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     }
                     else if (prune(child) is false)
                     {
-                        searchQueue.Add(child);
+                        searchQueue.Enqueue(child);
                     }
                 }
             }
