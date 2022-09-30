@@ -168,19 +168,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
+        /// Stop all animations.
+        /// </summary>
+        public void Stop()
+        {
+            if (IsAnimating is false)
+            {
+                return;
+            }
+
+            this._animateCancellationTokenSource?.Cancel();
+            this._animateCancellationTokenSource = null;
+            this._reverseCancellationTokenSource?.Cancel();
+            this._reverseCancellationTokenSource = null;
+        }
+
+        /// <summary>
         /// Reset to initial or target state.
         /// </summary>
         /// <param name="toInitialState">Indicates whether to reset to initial state. default value is True, if it is False, it will be reset to target state.</param>
         public void Reset(bool toInitialState = true)
         {
-            if (IsAnimating)
-            {
-                this._animateCancellationTokenSource?.Cancel();
-                this._animateCancellationTokenSource = null;
-                this._reverseCancellationTokenSource?.Cancel();
-                this._reverseCancellationTokenSource = null;
-            }
-
+            this.Stop();
             this._currentAnimationGroupController = null;
             this.RestoreState(!toInitialState);
         }

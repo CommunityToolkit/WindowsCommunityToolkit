@@ -38,17 +38,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
-                if (this._source is not null)
+                var needReset = IsAnimating || IsTargetState;
+                if (IsAnimating && this._source is not null)
                 {
+                    this.Stop();
                     RestoreElements(this.SourceAnimatedElements.All());
+                }
+
+                if (value is { IsLoaded: false } or { Visibility: Visibility.Collapsed })
+                {
+                    this._needUpdateSourceLayout = true;
                 }
 
                 this._currentAnimationGroupController = null;
                 this._source = value;
                 this._sourceZIndex = value is null ? -1 : Canvas.GetZIndex(value);
-                this._needUpdateSourceLayout = true;
                 this._sourceAnimatedElements = null;
-                this.Reset(true);
+                if (needReset)
+                {
+                    this.Reset(true);
+                }
             }
         }
 
@@ -69,17 +78,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
-                if (this._target is not null)
+                var needReset = IsAnimating || IsTargetState;
+                if (IsAnimating && this._target is not null)
                 {
+                    this.Stop();
                     RestoreElements(this.TargetAnimatedElements.All());
+                }
+
+                if (value is { IsLoaded: false } or { Visibility: Visibility.Collapsed })
+                {
+                    this._needUpdateTargetLayout = true;
                 }
 
                 this._currentAnimationGroupController = null;
                 this._target = value;
                 this._targetZIndex = value is null ? -1 : Canvas.GetZIndex(value);
-                this._needUpdateTargetLayout = true;
                 this._targetAnimatedElements = null;
-                this.Reset(true);
+                if (needReset)
+                {
+                    this.Reset(true);
+                }
             }
         }
 
