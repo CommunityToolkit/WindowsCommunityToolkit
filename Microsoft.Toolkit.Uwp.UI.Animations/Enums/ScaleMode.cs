@@ -15,20 +15,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         None,
 
         /// <summary>
-        /// Apply the scale changes to the horizontal and vertical directions of the UI element.
+        /// Apply the scaling changes to the horizontal and vertical directions of the UI element.
         /// </summary>
         Scale,
 
         /// <summary>
-        /// Apply the scale changes to the horizontal and vertical directions of the UI element,
-        /// but the value is calculated based on the changes in the horizontal direction.
+        /// Apply the scaling changes to the horizontal and vertical directions of the UI element,
+        /// but the value is calculated based on the change in the horizontal direction.
         /// </summary>
         ScaleX,
 
         /// <summary>
-        /// Apply scale changes to the horizontal and vertical directions of the UI element,
+        /// Apply scaling changes to the horizontal and vertical directions of the UI element,
         /// but the value is calculated based on the change in the vertical direction.
         /// </summary>
         ScaleY,
+
+        /// <summary>
+        /// Apply the scaling changes calculated by using custom scale handler.
+        /// </summary>
+        Custom,
     }
 }

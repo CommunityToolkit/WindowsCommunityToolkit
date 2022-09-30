@@ -214,6 +214,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     duration,
                     easingType,
                     easingMode),
+                ScaleMode.Custom => this.AnimateScaleWithScaleHandler(
+                    source,
+                    target,
+                    config.CustomScaleHandler,
+                    duration,
+                    easingType,
+                    easingMode),
                 _ => (null, null, Vector2.One),
             };
 
@@ -306,6 +313,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     ScaleMode.Scale => null,
                     ScaleMode.ScaleX => Axis.Y,
                     ScaleMode.ScaleY => Axis.X,
+                    ScaleMode.Custom => null,
                     _ => null,
                 };
                 var (sourceClipAnimationGroup, targetClipAnimationGroup) = this.AnimateClip(
@@ -448,6 +456,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             var scaleY = targetActualSize.Y / sourceActualSize.Y;
             var scale = new Vector2(scaleY, scaleY);
+            var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
+            return (sourceFactory, targetFactory, scale);
+        }
+
+        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScaleWithScaleHandler(
+            UIElement source,
+            UIElement target,
+            ScaleHandler handler,
+            TimeSpan duration,
+            EasingType easingType,
+            EasingMode easingMode)
+        {
+            if (handler is null)
+            {
+                return (null, null, Vector2.One);
+            }
+
+            var (scaleX, scaleY) = handler(source, target);
+            var scale = new Vector2((float)scaleX, (float)scaleY);
             var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
             return (sourceFactory, targetFactory, scale);
         }
