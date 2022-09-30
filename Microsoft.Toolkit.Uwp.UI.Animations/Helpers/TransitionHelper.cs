@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public sealed partial class TransitionHelper
     {
         private sealed record AnimatedElements<T>(
-            Dictionary<string, T> ConnectedElements,
-            Dictionary<string, List<T>> CoordinatedElements,
-            List<T> IndependentElements)
+            IDictionary<string, T> ConnectedElements,
+            IDictionary<string, IList<T>> CoordinatedElements,
+            IList<T> IndependentElements)
         {
             public IEnumerable<T> All()
             {
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private const double AlmostZero = 0.01;
         private AnimatedElements<UIElement> _sourceAnimatedElements;
         private AnimatedElements<UIElement> _targetAnimatedElements;
-        private CancellationTokenSource _animationCancellationTokenSource;
+        private CancellationTokenSource _currentAnimationCancellationTokenSource;
         private IKeyFrameAnimationGroupController _currentAnimationGroupController;
         private bool _needUpdateSourceLayout;
         private bool _needUpdateTargetLayout;
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets a value indicating whether the source and target controls are animating.
         /// </summary>
-        public bool IsAnimating => _animationCancellationTokenSource is not null && this._currentAnimationGroupController is not null;
+        public bool IsAnimating => _currentAnimationCancellationTokenSource is not null && this._currentAnimationGroupController is not null;
 
         /// <summary>
         /// Morphs from source control to target control.
@@ -115,8 +115,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            this._animationCancellationTokenSource?.Cancel();
-            this._animationCancellationTokenSource = null;
+            this._currentAnimationCancellationTokenSource?.Cancel();
+            this._currentAnimationCancellationTokenSource = null;
         }
 
         /// <summary>

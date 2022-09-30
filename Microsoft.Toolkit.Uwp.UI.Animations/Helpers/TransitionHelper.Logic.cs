@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
             if (IsAnimating)
             {
-                if ((_currentAnimationGroupController?.CurrentDirection is AnimationDirection.Reverse) == reversed)
+                if ((_currentAnimationGroupController.CurrentDirection is AnimationDirection.Reverse) == reversed)
                 {
                     return;
                 }
@@ -109,8 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 await this.InitControlsStateAsync(forceUpdateAnimatedElements);
             }
 
-            this._animationCancellationTokenSource = new CancellationTokenSource();
-            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._animationCancellationTokenSource.Token);
+            this._currentAnimationCancellationTokenSource = new CancellationTokenSource();
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._currentAnimationCancellationTokenSource.Token);
             await this.AnimateControlsImpAsync(reversed ? this.ReverseDuration : this.Duration, reversed, linkedTokenSource.Token);
             if (linkedTokenSource.Token.IsCancellationRequested)
             {
@@ -208,8 +208,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             IKeyFrameAnimationGroupController controller,
             UIElement source,
             UIElement target,
-            List<UIElement> sourceAttachedElements,
-            List<UIElement> targetAttachedElements,
+            IList<UIElement> sourceAttachedElements,
+            IList<UIElement> targetAttachedElements,
             TimeSpan duration,
             TransitionConfig config)
         {

@@ -40,7 +40,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static AnimatedElements<UIElement> GetAnimatedElements(DependencyObject parent)
         {
-            var animatedElements = new AnimatedElements<UIElement>(new(), new(), new());
+            var animatedElements = new AnimatedElements<UIElement>(
+                new Dictionary<string, UIElement>(),
+                new Dictionary<string, IList<UIElement>>(),
+                new List<UIElement>());
             if (parent is null)
             {
                 return null;
