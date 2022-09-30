@@ -17,24 +17,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     [ContentProperty(Name = nameof(Configs))]
     public sealed partial class TransitionHelper
     {
-        private const double AlmostZero = 0.01;
-        private readonly Dictionary<string, UIElement> sourceConnectedElements = new();
-        private readonly Dictionary<string, UIElement> targetConnectedElements = new();
-        private readonly Dictionary<string, List<UIElement>> sourceCoordinatedElements = new();
-        private readonly Dictionary<string, List<UIElement>> targetCoordinatedElements = new();
-        private readonly List<UIElement> sourceIndependentElements = new();
-        private readonly List<UIElement> targetIndependentElements = new();
+        private sealed record AnimatedElements<T>(
+            Dictionary<string, T> ConnectedElements,
+            Dictionary<string, List<T>> CoordinatedElements,
+            List<T> IndependentElements)
+        {
+            public IEnumerable<T> All()
+            {
+                return this.ConnectedElements.Values.Concat(this.IndependentElements).Concat(this.CoordinatedElements.SelectMany(item => item.Value));
+            }
+        }
 
+        private const double AlmostZero = 0.01;
+        private AnimatedElements<UIElement> _sourceAnimatedElements;
+        private AnimatedElements<UIElement> _targetAnimatedElements;
         private CancellationTokenSource _animateCancellationTokenSource;
         private CancellationTokenSource _reverseCancellationTokenSource;
         private bool _needUpdateSourceLayout;
         private bool _needUpdateTargetLayout;
 
+        private AnimatedElements<UIElement> SourceAnimatedElements => _sourceAnimatedElements ??= GetAnimatedElements(this.Source);
+
+        private AnimatedElements<UIElement> TargetAnimatedElements => _targetAnimatedElements ??= GetAnimatedElements(this.Target);
+
         private IKeyFrameAnimationGroupController _currentAnimationGroupController;
-
-        private IEnumerable<UIElement> SourceAnimatedElements => this.sourceConnectedElements.Values.Concat(this.sourceIndependentElements).Concat(this.sourceCoordinatedElements.SelectMany(item => item.Value));
-
-        private IEnumerable<UIElement> TargetAnimatedElements => this.targetConnectedElements.Values.Concat(this.targetIndependentElements).Concat(this.targetCoordinatedElements.SelectMany(item => item.Value));
 
         /// <summary>
         /// Gets a value indicating whether the source and target controls are animating.

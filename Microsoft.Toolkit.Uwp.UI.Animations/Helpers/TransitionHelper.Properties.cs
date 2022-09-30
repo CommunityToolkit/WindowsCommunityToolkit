@@ -40,14 +40,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (this._source is not null)
                 {
-                    RestoreElements(this.SourceAnimatedElements);
+                    RestoreElements(this.SourceAnimatedElements.All());
                 }
 
                 this._currentAnimationGroupController = null;
                 this._source = value;
                 this._sourceZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateSourceLayout = true;
-                this.UpdateSourceAnimatedElements();
+                this._sourceAnimatedElements = null;
                 this.Reset(true);
             }
         }
@@ -71,14 +71,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 if (this._target is not null)
                 {
-                    RestoreElements(this.TargetAnimatedElements);
+                    RestoreElements(this.TargetAnimatedElements.All());
                 }
 
                 this._currentAnimationGroupController = null;
                 this._target = value;
                 this._targetZIndex = value is null ? -1 : Canvas.GetZIndex(value);
                 this._needUpdateTargetLayout = true;
-                this.UpdateTargetAnimatedElements();
+                this._targetAnimatedElements = null;
                 this.Reset(true);
             }
         }

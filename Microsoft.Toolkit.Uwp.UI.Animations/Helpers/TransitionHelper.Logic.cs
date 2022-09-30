@@ -20,51 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public sealed partial class TransitionHelper
     {
-        private void UpdateSourceAnimatedElements()
-        {
-            UpdateAnimatedElements(this.Source, this.sourceConnectedElements, this.sourceCoordinatedElements, this.sourceIndependentElements);
-        }
-
-        private void UpdateTargetAnimatedElements()
-        {
-            UpdateAnimatedElements(this.Target, this.targetConnectedElements, this.targetCoordinatedElements, this.targetIndependentElements);
-        }
-
-        private void UpdateAnimatedElements(DependencyObject parent, IDictionary<string, UIElement> connectedElements, IDictionary<string, List<UIElement>> coordinatedElements, ICollection<UIElement> independentElements)
-        {
-            connectedElements.Clear();
-            coordinatedElements.Clear();
-            independentElements.Clear();
-
-            if (parent is null)
-            {
-                return;
-            }
-
-            foreach (var item in GetAnimatedElements(parent))
-            {
-                if (GetId(item) is { } id)
-                {
-                    connectedElements[id] = item;
-                }
-                else if (GetCoordinatedTarget(item) is { } targetId)
-                {
-                    if (coordinatedElements.ContainsKey(targetId) is false)
-                    {
-                        coordinatedElements[targetId] = new List<UIElement> { item };
-                    }
-                    else
-                    {
-                        coordinatedElements[targetId].Add(item);
-                    }
-                }
-                else
-                {
-                    independentElements.Add(item);
-                }
-            }
-        }
-
         private void RestoreState(bool isTargetState)
         {
             this.IsTargetState = isTargetState;
@@ -72,15 +27,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 Canvas.SetZIndex(this.Source, _sourceZIndex);
                 ToggleVisualState(this.Source, this.SourceToggleMethod, !isTargetState);
+                RestoreElements(this.SourceAnimatedElements.All());
             }
 
             if (this.Target is not null)
             {
                 Canvas.SetZIndex(this.Target, _targetZIndex);
                 ToggleVisualState(this.Target, this.TargetToggleMethod, isTargetState);
+                RestoreElements(this.TargetAnimatedElements.All());
             }
-
-            RestoreElements(this.SourceAnimatedElements.Concat(this.TargetAnimatedElements));
         }
 
         private async Task InitControlsStateAsync(bool forceUpdateAnimatedElements = false)
@@ -97,8 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (forceUpdateAnimatedElements)
             {
-                this.UpdateSourceAnimatedElements();
-                this.UpdateTargetAnimatedElements();
+                _sourceAnimatedElements = null;
+                _targetAnimatedElements = null;
             }
         }
 
@@ -130,44 +85,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private Task AnimateControls(TimeSpan duration, bool reversed, CancellationToken token)
         {
-            var sourceUnpairedElements = this.sourceConnectedElements
-                .Where(item => !this.targetConnectedElements.ContainsKey(item.Key))
+            var sourceUnpairedElements = this.SourceAnimatedElements.ConnectedElements
+                .Where(item => !this.TargetAnimatedElements.ConnectedElements.ContainsKey(item.Key))
                 .SelectMany(item =>
                 {
                     var result = new[] { item.Value };
-                    if (this.sourceCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
+                    if (this.SourceAnimatedElements.CoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
                     {
                         return result.Concat(coordinatedElements);
                     }
 
                     return result;
                 });
-            var targetUnpairedElements = this.targetConnectedElements
-                .Where(item => !this.sourceConnectedElements.ContainsKey(item.Key))
+            var targetUnpairedElements = this.TargetAnimatedElements.ConnectedElements
+                .Where(item => !this.SourceAnimatedElements.ConnectedElements.ContainsKey(item.Key))
                 .SelectMany(item =>
                 {
                     var result = new[] { item.Value };
-                    if (this.targetCoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
+                    if (this.TargetAnimatedElements.CoordinatedElements.TryGetValue(item.Key, out var coordinatedElements))
                     {
                         return result.Concat(coordinatedElements);
                     }
 
                     return result;
                 });
-            var pairedElementKeys = this.sourceConnectedElements
-                .Where(item => this.targetConnectedElements.ContainsKey(item.Key))
+            var pairedElementKeys = this.SourceAnimatedElements.ConnectedElements
+                .Where(item => this.TargetAnimatedElements.ConnectedElements.ContainsKey(item.Key))
                 .Select(item => item.Key);
             if (_currentAnimationGroupController is null)
             {
                 _currentAnimationGroupController = new KeyFrameAnimationGroupController();
                 foreach (var key in pairedElementKeys)
                 {
-                    var source = this.sourceConnectedElements[key];
-                    var target = this.targetConnectedElements[key];
+                    var source = this.SourceAnimatedElements.ConnectedElements[key];
+                    var target = this.TargetAnimatedElements.ConnectedElements[key];
                     var animationConfig = this.Configs.FirstOrDefault(config => config.Id == key) ??
                                           this.DefaultConfig;
-                    this.sourceCoordinatedElements.TryGetValue(key, out var sourceAttachedElements);
-                    this.targetCoordinatedElements.TryGetValue(key, out var targetAttachedElements);
+                    this.SourceAnimatedElements.CoordinatedElements.TryGetValue(key, out var sourceAttachedElements);
+                    this.TargetAnimatedElements.CoordinatedElements.TryGetValue(key, out var targetAttachedElements);
                     this.BuildConnectedAnimationController(
                         _currentAnimationGroupController,
                         source,
@@ -193,14 +148,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         : _currentAnimationGroupController.StartAsync(token, duration),
 
                 this.AnimateIndependentElements(
-                    this.sourceIndependentElements.Concat(sourceUnpairedElements),
+                    this.SourceAnimatedElements.IndependentElements.Concat(sourceUnpairedElements),
                     reversed,
                     token,
                     startTime,
                     IndependentElementEasingType,
                     IndependentElementEasingMode),
                 this.AnimateIndependentElements(
-                    this.targetIndependentElements.Concat(targetUnpairedElements),
+                    this.TargetAnimatedElements.IndependentElements.Concat(targetUnpairedElements),
                     !reversed,
                     token,
                     startTime,

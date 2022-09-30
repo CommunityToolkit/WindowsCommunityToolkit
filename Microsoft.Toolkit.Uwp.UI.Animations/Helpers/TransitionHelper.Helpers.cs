@@ -38,11 +38,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static IEnumerable<UIElement> GetAnimatedElements(DependencyObject targetElement)
+        private static AnimatedElements<UIElement> GetAnimatedElements(DependencyObject parent)
         {
-            return FindDescendantsWithBFSAndPruneAndPredicate(targetElement, IsNotVisible, IsAnimatedElement)
+            var animatedElements = new AnimatedElements<UIElement>(new(), new(), new());
+            if (parent is null)
+            {
+                return null;
+            }
+
+            var allAnimatedElements = FindDescendantsWithBFSAndPruneAndPredicate(parent, IsNotVisible, IsAnimatedElement)
                 .Distinct(new AnimatedElementComparer())
                 .OfType<UIElement>();
+            foreach (var item in allAnimatedElements)
+            {
+                if (GetId(item) is { } id)
+                {
+                    animatedElements.ConnectedElements[id] = item;
+                }
+                else if (GetCoordinatedTarget(item) is { } targetId)
+                {
+                    if (animatedElements.CoordinatedElements.ContainsKey(targetId) is false)
+                    {
+                        animatedElements.CoordinatedElements[targetId] = new List<UIElement> { item };
+                    }
+                    else
+                    {
+                        animatedElements.CoordinatedElements[targetId].Add(item);
+                    }
+                }
+                else
+                {
+                    animatedElements.IndependentElements.Add(item);
+                }
+            }
+
+            return animatedElements;
         }
 
         private static bool IsNotVisible(DependencyObject element)
