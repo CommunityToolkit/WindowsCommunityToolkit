@@ -35,6 +35,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         {
             float? LastStopProgress { get; }
 
+            AnimationDirection? CurrentDirection { get; }
+
             Task StartAsync(CancellationToken token, TimeSpan? duration);
 
             Task ReverseAsync(CancellationToken token, bool inverseEasingFunction, TimeSpan? duration);
@@ -279,6 +281,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             public float? LastStopProgress { get; private set; } = null;
 
+            public AnimationDirection? CurrentDirection { get; private set; } = null;
+
             private bool _lastInverseEasingFunction = false;
 
             private bool _lastStartInNormalDirection = true;
@@ -357,6 +361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 List<(CompositionObject Target, string Path)> compositionAnimations = null;
                 DateTime? animationStartTime = null;
                 this.LastStopProgress = null;
+                this.CurrentDirection = reversed ? AnimationDirection.Reverse : AnimationDirection.Normal;
                 this._lastInverseEasingFunction = inverseEasingFunction;
                 if (this.animationFactories.Count > 0)
                 {

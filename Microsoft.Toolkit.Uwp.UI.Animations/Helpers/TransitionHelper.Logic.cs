@@ -9,6 +9,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -83,7 +84,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private Task AnimateControls(TimeSpan duration, bool reversed, CancellationToken token)
+        private async Task AnimateControlsAsync(bool reversed, CancellationToken token, bool forceUpdateAnimatedElements)
+        {
+            IsNotNullAndIsInVisualTree(this.Source, nameof(this.Source));
+            IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
+            if (IsAnimating)
+            {
+                if ((_currentAnimationGroupController?.CurrentDirection is AnimationDirection.Reverse) == reversed)
+                {
+                    return;
+                }
+                else
+                {
+                    this.Stop();
+                }
+            }
+            else if (this.IsTargetState == !reversed)
+            {
+                return;
+            }
+            else
+            {
+                this._currentAnimationGroupController = null;
+                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
+            }
+
+            this._animationCancellationTokenSource = new CancellationTokenSource();
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._animationCancellationTokenSource.Token);
+            await this.AnimateControlsImpAsync(reversed ? this.ReverseDuration : this.Duration, reversed, linkedTokenSource.Token);
+            if (linkedTokenSource.Token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            this._currentAnimationGroupController = null;
+            this.RestoreState(!reversed);
+        }
+
+        private Task AnimateControlsImpAsync(TimeSpan duration, bool reversed, CancellationToken token)
         {
             var sourceUnpairedElements = this.SourceAnimatedElements.ConnectedElements
                 .Where(item => !this.TargetAnimatedElements.ConnectedElements.ContainsKey(item.Key))

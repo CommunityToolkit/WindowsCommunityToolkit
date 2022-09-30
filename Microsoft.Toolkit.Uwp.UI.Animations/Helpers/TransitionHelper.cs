@@ -31,8 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private const double AlmostZero = 0.01;
         private AnimatedElements<UIElement> _sourceAnimatedElements;
         private AnimatedElements<UIElement> _targetAnimatedElements;
-        private CancellationTokenSource _animateCancellationTokenSource;
-        private CancellationTokenSource _reverseCancellationTokenSource;
+        private CancellationTokenSource _animationCancellationTokenSource;
         private bool _needUpdateSourceLayout;
         private bool _needUpdateTargetLayout;
 
@@ -45,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets a value indicating whether the source and target controls are animating.
         /// </summary>
-        public bool IsAnimating => _animateCancellationTokenSource is not null || _reverseCancellationTokenSource is not null;
+        public bool IsAnimating => _animationCancellationTokenSource is not null && this._currentAnimationGroupController is not null;
 
         /// <summary>
         /// Morphs from source control to target control.
@@ -72,39 +71,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="token">The cancellation token to stop animations while they're running.</param>
         /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of the child element list before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
-        public async Task StartAsync(CancellationToken token, bool forceUpdateAnimatedElements)
+        public Task StartAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
-            IsNotNullAndIsInVisualTree(this.Source, nameof(this.Source));
-            IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
-            if (this._animateCancellationTokenSource is not null)
-            {
-                return;
-            }
-
-            if (this._reverseCancellationTokenSource is not null)
-            {
-                this._reverseCancellationTokenSource.Cancel();
-            }
-            else if (this.IsTargetState)
-            {
-                return;
-            }
-            else
-            {
-                this._currentAnimationGroupController = null;
-                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
-            }
-
-            this._animateCancellationTokenSource = new CancellationTokenSource();
-            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._animateCancellationTokenSource.Token);
-            await this.AnimateControls(this.Duration, false, linkedTokenSource.Token);
-            this._animateCancellationTokenSource = null;
-            if (linkedTokenSource.Token.IsCancellationRequested)
-            {
-                return;
-            }
-
-            this.RestoreState(true);
+            return this.AnimateControlsAsync(false, token, forceUpdateAnimatedElements);
         }
 
         /// <summary>
@@ -132,39 +101,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="token">The cancellation token to stop animations while they're running.</param>
         /// <param name="forceUpdateAnimatedElements">Indicates whether to force the update of child elements before the animation starts.</param>
         /// <returns>A <see cref="Task"/> that completes when all animations have completed.</returns>
-        public async Task ReverseAsync(CancellationToken token, bool forceUpdateAnimatedElements)
+        public Task ReverseAsync(CancellationToken token, bool forceUpdateAnimatedElements)
         {
-            IsNotNullAndIsInVisualTree(this.Source, nameof(this.Source));
-            IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
-            if (this._reverseCancellationTokenSource is not null)
-            {
-                return;
-            }
-
-            if (this._animateCancellationTokenSource is not null)
-            {
-                this._animateCancellationTokenSource.Cancel();
-            }
-            else if (this.IsTargetState is false)
-            {
-                return;
-            }
-            else
-            {
-                this._currentAnimationGroupController = null;
-                await this.InitControlsStateAsync(forceUpdateAnimatedElements);
-            }
-
-            this._reverseCancellationTokenSource = new CancellationTokenSource();
-            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, this._reverseCancellationTokenSource.Token);
-            await this.AnimateControls(this.ReverseDuration, true, linkedTokenSource.Token);
-            this._reverseCancellationTokenSource = null;
-            if (linkedTokenSource.Token.IsCancellationRequested)
-            {
-                return;
-            }
-
-            this.RestoreState(false);
+            return this.AnimateControlsAsync(true, token, forceUpdateAnimatedElements);
         }
 
         /// <summary>
@@ -177,10 +116,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            this._animateCancellationTokenSource?.Cancel();
-            this._animateCancellationTokenSource = null;
-            this._reverseCancellationTokenSource?.Cancel();
-            this._reverseCancellationTokenSource = null;
+            this._animationCancellationTokenSource?.Cancel();
+            this._animationCancellationTokenSource = null;
         }
 
         /// <summary>
