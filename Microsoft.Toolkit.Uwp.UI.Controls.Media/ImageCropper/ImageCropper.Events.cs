@@ -106,7 +106,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _currentCroppedRect = croppedRect;
             }
 
-            UpdateImageLayout(true);
+            if (TryUpdateImageLayout(true))
+            {
+                UpdateSelectionThumbs(true);
+                UpdateMaskArea(true);
+            }
         }
 
         private void ImageCropperThumb_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
@@ -119,7 +123,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _currentCroppedRect = croppedRect;
             }
 
-            UpdateImageLayout(true);
+            if (TryUpdateImageLayout(true))
+            {
+                UpdateSelectionThumbs(true);
+                UpdateMaskArea(true);
+            }
         }
 
         private void ImageCropperThumb_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -161,7 +169,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
             croppedRect.Intersect(_restrictedCropRect);
             _currentCroppedRect = croppedRect;
-            UpdateImageLayout();
+
+            if (TryUpdateImageLayout())
+            {
+                UpdateSelectionThumbs();
+                UpdateMaskArea();
+            }
         }
 
         private void ImageCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -171,8 +184,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            UpdateImageLayout();
-            UpdateMaskArea();
+            if (TryUpdateImageLayout())
+            {
+                UpdateSelectionThumbs();
+            }
+
+            if (TryUpdateAspectRatio())
+            {
+                UpdateSelectionThumbs();
+                UpdateMaskArea();
+            }
         }
     }
 }
