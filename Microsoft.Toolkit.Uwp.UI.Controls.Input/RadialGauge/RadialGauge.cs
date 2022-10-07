@@ -415,72 +415,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tickBrush = ReadLocalValue(TickBrushProperty) as SolidColorBrush;
             _foreground = ReadLocalValue(ForegroundProperty) as SolidColorBrush;
 
-            // Register event handlers.
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.Control,
-                VirtualKey.Left,
-                (ka, kaea) =>
-                {
-                    Value = Math.Max(Minimum, Value - LargeChange);
-                    kaea.Handled = true;
-                });
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.None,
-                VirtualKey.Left,
-                (ka, kaea) =>
-                {
-                    Value = Math.Max(Minimum, Value - SmallChange);
-                    kaea.Handled = true;
-                });
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.Control,
-                VirtualKey.Down,
-                (ka, kaea) =>
-                {
-                    Value = Math.Max(Minimum, Value - LargeChange);
-                    kaea.Handled = true;
-                });
+            // Small step
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Left, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
 
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.None,
-                VirtualKey.Down,
-                (ka, kaea) =>
-                {
-                    Value = Math.Max(Minimum, Value - SmallChange);
-                    kaea.Handled = true;
-                });
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.Control,
-                VirtualKey.Right,
-                (ka, kaea) =>
-                {
-                    Value = Math.Min(Maximum, Value + LargeChange);
-                    kaea.Handled = true;
-                });
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.None,
-                VirtualKey.Right,
-                (ka, kaea) =>
-                {
-                    Value = Math.Min(Maximum, Value + SmallChange);
-                    kaea.Handled = true;
-                });
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.Control,
-                VirtualKey.Up,
-                (ka, kaea) =>
-                {
-                    Value = Math.Min(Maximum, Value + LargeChange);
-                    kaea.Handled = true;
-                });
-            AddKeyboardAccelerator(
-                VirtualKeyModifiers.None,
-                VirtualKey.Up,
-                (ka, kaea) =>
-                {
-                    Value = Math.Min(Maximum, Value + SmallChange);
-                    kaea.Handled = true;
-                });
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Up, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None,VirtualKey.Right, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Down, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            // Large step
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Left, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Up, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Right, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Down, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
             PointerReleased += RadialGauge_PointerReleased;
             ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
 
