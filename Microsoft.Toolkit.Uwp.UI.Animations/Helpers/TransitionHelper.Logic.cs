@@ -286,7 +286,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 foreach (var coordinatedElement in sourceAttachedElements)
                 {
                     var coordinatedElementActualSize = coordinatedElement is FrameworkElement coordinatedFrameworkElement ? new Vector2((float)coordinatedFrameworkElement.ActualWidth, (float)coordinatedFrameworkElement.ActualHeight) : coordinatedElement.ActualSize;
-                    coordinatedElement.GetVisual().CenterPoint = new Vector3(coordinatedElementActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
+                    var coordinatedElementCenterPoint = coordinatedElementActualSize * config.NormalizedCenterPoint.ToVector2();
+                    coordinatedElement.GetVisual().CenterPoint = new Vector3(coordinatedElementCenterPoint, 0);
                     controller.AddAnimationGroupFor(
                         coordinatedElement,
                         new[]
@@ -295,8 +296,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             sourceOpacityAnimation,
                             sourceScaleAnimation
                         });
-                    var location = coordinatedElement.TransformToVisual(this.Source).TransformPoint(sourceTargetTranslation.ToPoint());
-                    var targetClip = GetElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), targetTransformedBounds);
+                    var initialLocation = coordinatedElement.TransformToVisual(this.Source).TransformPoint(default).ToVector2();
+                    var targetClip = GetTargetClip(initialLocation, coordinatedElementActualSize, coordinatedElementCenterPoint, targetScale, sourceTargetTranslation, targetTransformedBounds);
                     if (targetClip.HasValue)
                     {
                         controller.AddAnimationGroupFor(
@@ -318,7 +319,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 foreach (var coordinatedElement in targetAttachedElements)
                 {
                     var coordinatedElementActualSize = coordinatedElement is FrameworkElement coordinatedFrameworkElement ? new Vector2((float)coordinatedFrameworkElement.ActualWidth, (float)coordinatedFrameworkElement.ActualHeight) : coordinatedElement.ActualSize;
-                    coordinatedElement.GetVisual().CenterPoint = new Vector3(coordinatedElementActualSize * config.NormalizedCenterPoint.ToVector2(), 0);
+                    var coordinatedElementCenterPoint = coordinatedElementActualSize * config.NormalizedCenterPoint.ToVector2();
+                    coordinatedElement.GetVisual().CenterPoint = new Vector3(coordinatedElementCenterPoint, 0);
                     controller.AddAnimationGroupFor(
                         coordinatedElement,
                         new[]
@@ -327,8 +329,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             targetOpacityAnimation,
                             targetScaleAnimation
                         });
-                    var location = coordinatedElement.TransformToVisual(this.Target).TransformPoint((-sourceTargetTranslation).ToPoint());
-                    var targetClip = GetElementClip(targetScale, location, (coordinatedElementActualSize * targetScale).ToSize(), sourceTransformedBounds);
+                    var initialLocation = coordinatedElement.TransformToVisual(this.Target).TransformPoint(default).ToVector2();
+                    var targetClip = GetTargetClip(initialLocation, coordinatedElementActualSize, coordinatedElementCenterPoint, targetScale, -sourceTargetTranslation, sourceTransformedBounds);
                     if (targetClip.HasValue)
                     {
                         controller.AddAnimationGroupFor(
@@ -345,15 +347,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             if (config.EnableClipAnimation)
             {
-                Axis? axis = config.ScaleMode switch
-                {
-                    ScaleMode.None => null,
-                    ScaleMode.Scale => null,
-                    ScaleMode.ScaleX => Axis.Y,
-                    ScaleMode.ScaleY => Axis.X,
-                    ScaleMode.Custom => null,
-                    _ => null,
-                };
                 var (sourceClipAnimationGroup, targetClipAnimationGroup) = this.AnimateClip(
                     sourceActualSize,
                     targetActualSize,
@@ -362,8 +355,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     sourceTargetScale,
                     duration,
                     easingType,
-                    easingMode,
-                    axis);
+                    easingMode);
                 if (sourceClipAnimationGroup is not null)
                 {
                     controller.AddAnimationGroupFor(source, sourceClipAnimationGroup);
@@ -561,23 +553,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Vector2 sourceTargetScale,
             TimeSpan duration,
             EasingType easingType,
-            EasingMode easingMode,
-            Axis? axis)
+            EasingMode easingMode)
         {
-            var sourceToClip = GetConnectedElementClip(axis, sourceTargetScale, sourceActualSize, sourceCenterPoint, new Rect((-targetCenterPoint).ToPoint(), targetActualSize.ToSize()));
-            var targetFromClip = GetConnectedElementClip(axis, GetInverseScale(sourceTargetScale), targetActualSize, targetCenterPoint, new Rect((-sourceCenterPoint).ToPoint(), sourceActualSize.ToSize()));
+            var sourceToClip = GetTargetClip(-sourceCenterPoint, sourceActualSize, sourceCenterPoint, sourceTargetScale, default, new Rect((-targetCenterPoint).ToPoint(), targetActualSize.ToSize()));
+            var targetFromClip = GetTargetClip(-targetCenterPoint, targetActualSize, targetCenterPoint, GetInverseScale(sourceTargetScale), default, new Rect((-sourceCenterPoint).ToPoint(), sourceActualSize.ToSize()));
             return (
                 sourceToClip.HasValue
                     ? this.Clip(
                         sourceToClip.Value,
-                        GetFixedThickness(default),
+                        default,
                         duration: duration,
                         easingType: easingType,
                         easingMode: easingMode)
                     : null,
                 targetFromClip.HasValue
                     ? this.Clip(
-                        GetFixedThickness(default),
+                        default,
                         targetFromClip.Value,
                         duration: duration,
                         easingType: easingType,

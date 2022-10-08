@@ -215,50 +215,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static Vector2 GetInverseScale(Vector2 scale) => new(1 / scale.X, 1 / scale.Y);
 
-        private static Thickness GetFixedThickness(Thickness thickness, double defaultValue = -4 /* -4 is used to prevent shadows from being cropped.*/)
+        private static Thickness GetFixedThickness(double left, double top, double right, double bottom, double defaultValue = -4 /* -4 is used to prevent shadows from being cropped.*/)
         {
-            var left = thickness.Left < AlmostZero ? defaultValue : thickness.Left;
-            var top = thickness.Top < AlmostZero ? defaultValue : thickness.Top;
-            var right = thickness.Right < AlmostZero ? defaultValue : thickness.Right;
-            var bottom = thickness.Bottom < AlmostZero ? defaultValue : thickness.Bottom;
-            return new Thickness(left, top, right, bottom);
+            var fixedLeft = left < AlmostZero ? defaultValue : left;
+            var fixedTop = top < AlmostZero ? defaultValue : top;
+            var fixedRight = right < AlmostZero ? defaultValue : right;
+            var fixedBottom = bottom < AlmostZero ? defaultValue : bottom;
+            return new Thickness(fixedLeft, fixedTop, fixedRight, fixedBottom);
         }
 
-        private static Thickness? GetElementClip(Vector2 scale, Point targetLocation, Size targetSize, Rect targetParentBounds)
+        private static Rect GetTransformedBounds(Vector2 initialLocation, Vector2 initialSize, Vector2 centerPoint, Vector2 targetScale)
         {
-            var inverseScale = GetInverseScale(scale);
-            var targetBounds = new Rect(targetLocation, targetSize);
-            if (targetParentBounds.Contains(targetLocation) && targetParentBounds.Contains(new Point(targetBounds.Right, targetBounds.Bottom)))
+            var targetMatrix3x2 = Matrix3x2.CreateScale(targetScale, centerPoint);
+            return new Rect((initialLocation + Vector2.Transform(default, targetMatrix3x2)).ToPoint(), (initialSize * targetScale).ToSize());
+        }
+
+        private static Thickness? GetTargetClip(Vector2 initialLocation, Vector2 initialSize, Vector2 centerPoint, Vector2 targetScale, Vector2 translation, Rect targetParentBounds)
+        {
+            var transformedBounds = GetTransformedBounds(initialLocation + translation, initialSize, centerPoint, targetScale);
+            var inverseScale = GetInverseScale(targetScale);
+            if (targetParentBounds.Contains(new Point(transformedBounds.Left, transformedBounds.Top)) && targetParentBounds.Contains(new Point(transformedBounds.Right, transformedBounds.Bottom)))
             {
                 return null;
             }
 
             return GetFixedThickness(
-                new Thickness(
-                    (targetParentBounds.X - targetBounds.X) * inverseScale.X,
-                    (targetParentBounds.Y - targetBounds.Y) * inverseScale.Y,
-                    (targetBounds.Right - targetParentBounds.Right) * inverseScale.X,
-                    (targetBounds.Bottom - targetParentBounds.Bottom) * inverseScale.X));
-        }
-
-        private static Thickness? GetConnectedElementClip(Axis? axis, Vector2 scale, Vector2 actualSize, Vector2 centerPoint, Rect targetParentBounds)
-        {
-            var targetLocation = -centerPoint * scale;
-            var targetSize = (actualSize * scale).ToSize();
-            if (axis is Axis.X)
-            {
-                var minY = Math.Min(targetParentBounds.Y, targetLocation.Y);
-                targetParentBounds.Height = Math.Max(targetParentBounds.Bottom, targetLocation.Y + targetSize.Height) - minY;
-                targetParentBounds.Y = minY;
-            }
-            else if (axis is Axis.Y)
-            {
-                var minX = Math.Min(targetParentBounds.X, targetLocation.X);
-                targetParentBounds.Width = Math.Max(targetParentBounds.Right, targetLocation.X + targetSize.Width) - minX;
-                targetParentBounds.X = minX;
-            }
-
-            return GetElementClip(scale, targetLocation.ToPoint(), targetSize, targetParentBounds);
+                    (targetParentBounds.X - transformedBounds.X) * inverseScale.X,
+                    (targetParentBounds.Y - transformedBounds.Y) * inverseScale.Y,
+                    (transformedBounds.Right - targetParentBounds.Right) * inverseScale.X,
+                    (transformedBounds.Bottom - targetParentBounds.Bottom) * inverseScale.X);
         }
     }
 }
