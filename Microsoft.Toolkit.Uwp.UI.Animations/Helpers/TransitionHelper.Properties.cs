@@ -45,11 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     RestoreElements(this.SourceAnimatedElements.All());
                 }
 
-                if (value is { IsLoaded: false } or { Visibility: Visibility.Collapsed })
-                {
-                    this._needUpdateSourceLayout = true;
-                }
-
                 this._currentAnimationGroupController = null;
                 this._source = value;
                 this._sourceZIndex = value is null ? -1 : Canvas.GetZIndex(value);
@@ -83,11 +78,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     this.Stop();
                     RestoreElements(this.TargetAnimatedElements.All());
-                }
-
-                if (value is { IsLoaded: false } or { Visibility: Visibility.Collapsed })
-                {
-                    this._needUpdateTargetLayout = true;
                 }
 
                 this._currentAnimationGroupController = null;

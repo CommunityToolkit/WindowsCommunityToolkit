@@ -35,8 +35,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private AnimatedElements<UIElement>? _targetAnimatedElements;
         private CancellationTokenSource? _currentAnimationCancellationTokenSource;
         private IKeyFrameAnimationGroupController? _currentAnimationGroupController;
-        private bool _needUpdateSourceLayout;
-        private bool _needUpdateTargetLayout;
 
         private AnimatedElements<UIElement> SourceAnimatedElements => _sourceAnimatedElements ??= GetAnimatedElements(this.Source);
 

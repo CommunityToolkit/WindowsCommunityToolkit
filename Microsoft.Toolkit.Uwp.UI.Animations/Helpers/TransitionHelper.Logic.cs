@@ -47,11 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             Canvas.SetZIndex(this.IsTargetState ? this.Source : this.Target, maxZIndex);
 
             await Task.WhenAll(
-                this.InitControlStateAsync(this.Source, this._needUpdateSourceLayout),
-                this.InitControlStateAsync(this.Target, this._needUpdateTargetLayout));
-
-            this._needUpdateSourceLayout = false;
-            this._needUpdateTargetLayout = false;
+                this.InitControlStateAsync(this.Source),
+                this.InitControlStateAsync(this.Target));
 
             if (forceUpdateAnimatedElements)
             {
@@ -60,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private async Task InitControlStateAsync(FrameworkElement target, bool needUpdateLayout)
+        private async Task InitControlStateAsync(FrameworkElement target)
         {
             if (target is null)
             {
@@ -71,10 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (target.Visibility == Visibility.Collapsed)
             {
                 target.Visibility = Visibility.Visible;
-                if (needUpdateLayout)
-                {
-                    await UpdateControlLayout(target);
-                }
+                await UpdateControlLayout(target);
             }
             else if (target.Opacity < AlmostZero)
             {
