@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             IsNotNullAndIsInVisualTree(this.Target, nameof(this.Target));
             if (IsAnimating)
             {
-                if ((_currentAnimationGroupController.CurrentDirection is AnimationDirection.Reverse) == reversed)
+                if ((_currentAnimationGroupController?.CurrentDirection is AnimationDirection.Reverse) == reversed)
                 {
                     return;
                 }
@@ -304,9 +306,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             coordinatedElement,
                             this.Clip(
                                 targetClip.Value,
-                                duration: duration,
-                                easingType: easingType,
-                                easingMode: easingMode));
+                                GetEasingFunctionFactory(easingType, easingMode),
+                                duration: duration));
                     }
                 }
             }
@@ -337,10 +338,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                             coordinatedElement,
                             this.Clip(
                                 default,
+                                GetEasingFunctionFactory(easingType, easingMode),
                                 from: targetClip.Value,
-                                duration: duration,
-                                easingType: easingType,
-                                easingMode: easingMode));
+                                duration: duration));
                     }
                 }
             }
@@ -410,20 +410,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     {
                         controller.AddAnimationFor(item, this.Translation(
                             translationTo,
+                            GetEasingFunctionFactory(easingType, easingMode),
                             startTime.HasValue ? null : translationFrom,
                             useDelay,
-                            duration: duration,
-                            easingType: easingType,
-                            easingMode: easingMode));
+                            duration: duration));
                     }
 
                     controller.AddAnimationFor(item, this.Opacity(
                         opacityTo,
+                        GetEasingFunctionFactory(easingType, easingMode),
                         startTime.HasValue ? null : opacityFrom,
                         useDelay,
-                        duration,
-                        easingType: easingType,
-                        easingMode: easingMode));
+                        duration));
                 }
 
                 if (isShow)
@@ -445,8 +443,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingMode easingMode)
         {
             var translation = target.TransformToVisual(source).TransformPoint(default).ToVector2() - sourceCenterPoint + targetCenterPoint;
-            return (this.Translation(translation, Vector2.Zero, duration: duration, easingType: easingType, easingMode: easingMode),
-                this.Translation(Vector2.Zero, -translation, duration: duration, easingType: easingType, easingMode: easingMode),
+            return (this.Translation(translation, GetEasingFunctionFactory(easingType, easingMode), Vector2.Zero, duration: duration),
+                this.Translation(Vector2.Zero, GetEasingFunctionFactory(easingType, easingMode), -translation, duration: duration),
                 translation);
         }
 
@@ -490,10 +488,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return (sourceFactory, targetFactory, scale);
         }
 
-        private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory, Vector2) AnimateScaleWithScaleHandler(
+        private (IKeyFrameCompositionAnimationFactory?, IKeyFrameCompositionAnimationFactory?, Vector2) AnimateScaleWithScaleHandler(
             UIElement source,
             UIElement target,
-            ScaleHandler handler,
+            ScaleHandler? handler,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
@@ -515,37 +513,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingType easingType,
             EasingMode easingMode)
         {
-            return (this.Scale(targetScale, Vector2.One, duration: duration, easingType: easingType, easingMode: easingMode),
-                this.Scale(Vector2.One, GetInverseScale(targetScale), duration: duration, easingType: easingType, easingMode: easingMode));
+            return (this.Scale(targetScale, GetEasingFunctionFactory(easingType, easingMode), Vector2.One, duration: duration),
+                this.Scale(Vector2.One, GetEasingFunctionFactory(easingType, easingMode), GetInverseScale(targetScale), duration: duration));
         }
 
         private (IKeyFrameCompositionAnimationFactory, IKeyFrameCompositionAnimationFactory) AnimateOpacity(TimeSpan duration, Point opacityTransitionProgressKey)
         {
             var normalKey = (float)Math.Max(0, Math.Min(opacityTransitionProgressKey.X, 1));
             var reversedKey = (float)Math.Max(0, Math.Min(1 - opacityTransitionProgressKey.Y, 1));
-            var sourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            var sourceNormalizedKeyFrames = new Dictionary<float, (float, IEasingFunctionFactory?)>
             {
-                [normalKey] = (0, EasingType.Cubic, EasingMode.EaseIn)
+                [normalKey] = (0, GetEasingFunctionFactory(EasingType.Cubic, EasingMode.EaseIn))
             };
-            var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            var reversedSourceNormalizedKeyFrames = new Dictionary<float, (float, IEasingFunctionFactory?)>
             {
-                [reversedKey] = (1, null, null),
-                [1] = (0, EasingType.Cubic, EasingMode.EaseOut)
+                [reversedKey] = (1, null),
+                [1] = (0, GetEasingFunctionFactory(EasingType.Cubic, EasingMode.EaseIn, true))
             };
-            var targetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            var targetNormalizedKeyFrames = new Dictionary<float, (float, IEasingFunctionFactory?)>
             {
-                [normalKey] = (1, EasingType.Cubic, EasingMode.EaseOut)
+                [normalKey] = (1, GetEasingFunctionFactory(EasingType.Cubic, EasingMode.EaseOut))
             };
-            var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, EasingType?, EasingMode?)>
+            var reversedTargetNormalizedKeyFrames = new Dictionary<float, (float, IEasingFunctionFactory?)>
             {
-                [reversedKey] = (0, null, null),
-                [1] = (1, EasingType.Cubic, EasingMode.EaseIn)
+                [reversedKey] = (0, null),
+                [1] = (1, GetEasingFunctionFactory(EasingType.Cubic, EasingMode.EaseOut, true))
             };
-            return (this.Opacity(0, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
-                this.Opacity(1, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedTargetNormalizedKeyFrames));
+            return (this.Opacity(0, null, 1, duration: duration, normalizedKeyFrames: sourceNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedSourceNormalizedKeyFrames),
+                this.Opacity(1, null, 0, duration: duration, normalizedKeyFrames: targetNormalizedKeyFrames, reversedNormalizedKeyFrames: reversedTargetNormalizedKeyFrames));
         }
 
-        private (IKeyFrameCompositionAnimationFactory[], IKeyFrameCompositionAnimationFactory[]) AnimateClip(
+        private (IKeyFrameCompositionAnimationFactory[]?, IKeyFrameCompositionAnimationFactory[]?) AnimateClip(
             Vector2 sourceActualSize,
             Vector2 targetActualSize,
             Vector2 sourceCenterPoint,
@@ -561,18 +559,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 sourceToClip.HasValue
                     ? this.Clip(
                         sourceToClip.Value,
+                        GetEasingFunctionFactory(easingType, easingMode),
                         default,
-                        duration: duration,
-                        easingType: easingType,
-                        easingMode: easingMode)
+                        duration: duration)
                     : null,
                 targetFromClip.HasValue
                     ? this.Clip(
                         default,
+                        GetEasingFunctionFactory(easingType, easingMode),
                         targetFromClip.Value,
-                        duration: duration,
-                        easingType: easingType,
-                        easingMode: easingMode)
+                        duration: duration)
                     : null
                 );
         }

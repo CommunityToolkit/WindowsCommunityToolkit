@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
@@ -24,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets an id to indicate the target UI elements.
         /// </summary>
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the scale strategy of the transition.
@@ -37,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Only works when <see cref="ScaleMode"/> is <see cref="ScaleMode.Custom"/>.
         /// If this value is not set, the scale strategy will fall back to <see cref="ScaleMode.None"/>.
         /// </summary>
-        public ScaleHandler CustomScaleHandler { get; set; } = null;
+        public ScaleHandler? CustomScaleHandler { get; set; } = null;
 
         /// <summary>
         /// Gets or sets a value indicating whether clip animations are enabled for the target UI elements.

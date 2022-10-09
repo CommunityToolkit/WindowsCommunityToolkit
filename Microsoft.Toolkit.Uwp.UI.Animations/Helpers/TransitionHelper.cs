@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,10 +31,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         private const double AlmostZero = 0.01;
-        private AnimatedElements<UIElement> _sourceAnimatedElements;
-        private AnimatedElements<UIElement> _targetAnimatedElements;
-        private CancellationTokenSource _currentAnimationCancellationTokenSource;
-        private IKeyFrameAnimationGroupController _currentAnimationGroupController;
+        private AnimatedElements<UIElement>? _sourceAnimatedElements;
+        private AnimatedElements<UIElement>? _targetAnimatedElements;
+        private CancellationTokenSource? _currentAnimationCancellationTokenSource;
+        private IKeyFrameAnimationGroupController? _currentAnimationGroupController;
         private bool _needUpdateSourceLayout;
         private bool _needUpdateTargetLayout;
 

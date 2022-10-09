@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -46,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 new List<UIElement>());
             if (parent is null)
             {
-                return null;
+                return animatedElements;
             }
 
             var allAnimatedElements = FindDescendantsWithBFSAndPruneAndPredicate(parent, IsNotVisible, IsAnimatedElement)
@@ -201,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static Task UpdateControlLayout(FrameworkElement target)
         {
-            var updateTargetLayoutTaskSource = new TaskCompletionSource<object>();
+            var updateTargetLayoutTaskSource = new TaskCompletionSource<object?>();
             void OnTargetLayoutUpdated(object sender, object e)
             {
                 target.LayoutUpdated -= OnTargetLayoutUpdated;
@@ -244,6 +247,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     (targetParentBounds.Y - transformedBounds.Y) * inverseScale.Y,
                     (transformedBounds.Right - targetParentBounds.Right) * inverseScale.X,
                     (transformedBounds.Bottom - targetParentBounds.Bottom) * inverseScale.X);
+        }
+
+        private static readonly Dictionary<(EasingType, EasingMode, bool), IEasingFunctionFactory> EasingFunctionFactoryCache = new();
+
+        private static IEasingFunctionFactory GetEasingFunctionFactory(EasingType type = EasingType.Default, EasingMode mode = EasingMode.EaseInOut, bool inverse = false)
+        {
+            if (EasingFunctionFactoryCache.TryGetValue((type, mode, inverse), out var easingFunctionFactory))
+            {
+                return easingFunctionFactory;
+            }
+
+            var factory = new EasingFunctionFactory(type, mode, inverse);
+            EasingFunctionFactoryCache[(type, mode, inverse)] = factory;
+            return factory;
         }
     }
 }
