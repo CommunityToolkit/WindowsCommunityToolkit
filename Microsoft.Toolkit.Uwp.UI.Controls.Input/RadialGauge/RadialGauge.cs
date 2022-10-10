@@ -428,7 +428,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 kaea.Handled = true;
             });
 
-            AddKeyboardAccelerator(VirtualKeyModifiers.None,VirtualKey.Right, (_, kaea) =>
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Right, (_, kaea) =>
             {
                 Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
                 kaea.Handled = true;
