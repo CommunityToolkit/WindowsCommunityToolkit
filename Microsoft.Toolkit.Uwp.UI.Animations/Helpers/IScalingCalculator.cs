@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Helpers
     public interface IScalingCalculator
     {
         /// <summary>
-        /// Handler used to calculate the change in the scaling of an element when it is in transition.
+        /// Gets the scaling changes when the source element transitions to the target element.
         /// </summary>
         /// <param name="source">The source element.</param>
         /// <param name="target">The target element.</param>
