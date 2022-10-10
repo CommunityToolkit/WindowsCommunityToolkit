@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         ScaleY,
 
         /// <summary>
-        /// Apply the scaling changes calculated by using custom scale handler.
+        /// Apply the scaling changes calculated by using custom scaling calculator.
         /// </summary>
         Custom,
     }
