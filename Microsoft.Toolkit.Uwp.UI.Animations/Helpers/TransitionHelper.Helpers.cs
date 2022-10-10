@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private static Vector2 GetInverseScale(Vector2 scale) => new(1 / scale.X, 1 / scale.Y);
 
-        private static Thickness GetFixedThickness(double left, double top, double right, double bottom, double defaultValue = -4 /* -4 is used to prevent shadows from being cropped.*/)
+        private static Thickness GetFixedThickness(double left, double top, double right, double bottom, double defaultValue = 0)
         {
             var fixedLeft = left < AlmostZero ? defaultValue : left;
             var fixedTop = top < AlmostZero ? defaultValue : top;

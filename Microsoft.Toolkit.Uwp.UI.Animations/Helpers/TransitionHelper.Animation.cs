@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private sealed record EasingFunctionFactory(
            EasingType Type = EasingType.Default,
            EasingMode Mode = EasingMode.EaseInOut,
-           bool InverseCurvature = false)
+           bool Inverse = false)
            : IEasingFunctionFactory
         {
             public CompositionEasingFunction? GetEasingFunction(Compositor compositor, bool inverse)
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return compositor.CreateLinearEasingFunction();
                 }
 
-                var inversed = InverseCurvature ^ inverse;
+                var inversed = Inverse ^ inverse;
                 if (Type == EasingType.Default && Mode == EasingMode.EaseInOut)
                 {
                     return inversed ? compositor.CreateCubicBezierEasingFunction(new(1f, 0.06f), new(0.59f, 0.48f)) : null;
@@ -192,7 +192,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     direction: direction);
 
                 target = clip;
-
                 return animation;
             }
         }
