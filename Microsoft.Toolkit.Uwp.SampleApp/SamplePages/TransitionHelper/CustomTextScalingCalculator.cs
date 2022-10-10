@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed class CustomTextScalingCalculator : IScalingCalculator
     {
+        /// <inheritdoc/>
         public Point GetScaling(UIElement source, UIElement target)
         {
             var sourceTextElement = source?.FindDescendantOrSelf<TextBlock>();
