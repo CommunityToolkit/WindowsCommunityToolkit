@@ -565,6 +565,7 @@
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\TransitionHelper\CustomTextScalingCalculator.cs" />
     <Compile Include="SamplePages\TransitionHelper\TransitionHelperPage.xaml.cs">
       <DependentUpon>TransitionHelperPage.xaml</DependentUpon>
     </Compile>

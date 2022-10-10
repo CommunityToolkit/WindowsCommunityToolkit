@@ -10,6 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Animations.Helpers;
 using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -251,7 +252,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ScaleMode.Custom => this.AnimateScaleWithScaleHandler(
                     source,
                     target,
-                    config.CustomScaleHandler,
+                    config.CustomScalingCalculator,
                     duration,
                     easingType,
                     easingMode),
@@ -485,18 +486,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private (IKeyFrameCompositionAnimationFactory?, IKeyFrameCompositionAnimationFactory?, Vector2) AnimateScaleWithScaleHandler(
             UIElement source,
             UIElement target,
-            ScaleHandler? handler,
+            IScalingCalculator? scalingCalculator,
             TimeSpan duration,
             EasingType easingType,
             EasingMode easingMode)
         {
-            if (handler is null)
+            if (scalingCalculator is null)
             {
                 return (null, null, Vector2.One);
             }
 
-            var (scaleX, scaleY) = handler(source, target);
-            var scale = new Vector2((float)scaleX, (float)scaleY);
+            var scale = scalingCalculator.GetScaling(source, target).ToVector2();
             var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
             return (sourceFactory, targetFactory, scale);
         }

@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     <Page.Resources>
@@ -14,9 +15,13 @@
             <ani:TransitionConfig Id="image"
                                   ScaleMode="Scale" />
             <ani:TransitionConfig Id="name"
-                                  ScaleMode="ScaleY" />
-            <ani:TransitionConfig Id="desc"
-                                  EnableClipAnimation="true" />
+                                  ScaleMode="Custom">
+                <ani:TransitionConfig.CustomScalingCalculator>
+                    <local:CustomTextScalingCalculator />
+                </ani:TransitionConfig.CustomScalingCalculator>
+            </ani:TransitionConfig>
+            <ani:TransitionConfig EnableClipAnimation="true"
+                                  Id="desc" />
         </ani:TransitionHelper>
     </Page.Resources>
     <Grid>
@@ -146,10 +151,13 @@
                     </Border.Background>
                 </Border>
                 <StackPanel Spacing="5">
-                    <TextBlock HorizontalAlignment="Center"
+                    <TextBlock MaxWidth="200"
+                               HorizontalAlignment="Center"
                                ani:TransitionHelper.Id="name"
-                               FontSize="24">
-                        Magic
+                               FontSize="24"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap" >
+                        Magic is my cat's name
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center"
                                ani:TransitionHelper.Id="desc">
