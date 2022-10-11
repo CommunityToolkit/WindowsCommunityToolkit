@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
     public abstract class ExpressionNode : IDisposable
     {
         private List<ReferenceInfo> _objRefList = null;
-        private Dictionary<CompositionObject, string> _compObjToParamNameMap = null;
+        private Dictionary<CompositionObject, string> _compObjToNodeNameMap = null;
         private Dictionary<string, object> _constParamMap = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         public void Dispose()
         {
             _objRefList = null;
-            _compObjToParamNameMap = null;
+            this._compObjToNodeNameMap = null;
             _constParamMap = null;
             Subchannels = null;
             PropertyName = null;
@@ -227,16 +227,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         {
             T node = CreateExpressionNode<T>();
 
-            (node as ExpressionNode).ParamName = null;
+            node.ParamName = null;
 
             switch (keywordKind)
             {
                 case ValueKeywordKind.CurrentValue:
-                    (node as ExpressionNode).NodeType = ExpressionNodeType.CurrentValueProperty;
+                    node.NodeType = ExpressionNodeType.CurrentValueProperty;
                     break;
 
                 case ValueKeywordKind.StartingValue:
-                    (node as ExpressionNode).NodeType = ExpressionNodeType.StartingValueProperty;
+                    node.NodeType = ExpressionNodeType.StartingValueProperty;
                     break;
 
                 default:
@@ -263,11 +263,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Clears the reference information.
         /// </summary>
-        /// <exception cref="System.Exception">Reference and paramName can't both be null</exception>
+        /// <exception cref="Exception">Reference and paramName can't both be null</exception>
         internal void ClearReferenceInfo()
         {
             _objRefList = null;
-            ParamName = null;
+            this.NodeName = null;
             foreach (var child in Children)
             {
                 child.ClearReferenceInfo();
@@ -277,7 +277,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Ensures the reference information.
         /// </summary>
-        /// <exception cref="System.Exception">Reference and paramName can't both be null</exception>
+        /// <exception cref="Exception">Reference and paramName can't both be null</exception>
         internal void EnsureReferenceInfo()
         {
             if (_objRefList == null)
@@ -290,20 +290,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 HashSet<CompositionObject> compObjects = new HashSet<CompositionObject>();
                 foreach (var refNode in referenceNodes)
                 {
-                    if ((refNode.Reference != null) && (refNode.GetReferenceParamString() == null))
+                    if ((refNode.Reference != null) && (refNode.GetReferenceNodeString() == null))
                     {
                         compObjects.Add(refNode.Reference);
                     }
                 }
 
                 // Create a map to store the generated paramNames for each CompObj
-                _compObjToParamNameMap = new Dictionary<CompositionObject, string>();
+                this._compObjToNodeNameMap = new Dictionary<CompositionObject, string>();
                 var paramCount = 0u;
                 foreach (var compObj in compObjects)
                 {
-                    string paramName = CreateUniqueParamNameFromIndex(paramCount++);
+                    string nodeName = !string.IsNullOrWhiteSpace(ParamName) ? ParamName : CreateUniqueNodeNameFromIndex(paramCount++);
 
-                    _compObjToParamNameMap.Add(compObj, paramName);
+                    this._compObjToNodeNameMap.Add(compObj, nodeName);
                 }
 
                 // Go through all reference nodes again to create our full list of referenceInfo. This time, if
@@ -311,21 +311,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 _objRefList = new List<ReferenceInfo>();
                 foreach (var refNode in referenceNodes)
                 {
-                    string paramName = refNode.GetReferenceParamString();
+                    string nodeName = refNode.GetReferenceNodeString();
 
-                    if ((refNode.Reference == null) && (paramName == null))
+                    if ((refNode.Reference == null) && (nodeName == null))
                     {
                         // This can't happen - if the ref is null it must be because it's a named param
-                        throw new Exception("Reference and paramName can't both be null");
+                        throw new Exception($"{nameof(refNode.Reference)} and {nameof(nodeName)} can't both be null");
                     }
 
-                    if (paramName == null)
+                    if (nodeName == null)
                     {
-                        paramName = _compObjToParamNameMap[refNode.Reference];
+                        nodeName = this._compObjToNodeNameMap[refNode.Reference];
                     }
 
-                    _objRefList.Add(new ReferenceInfo(paramName, refNode.Reference));
-                    refNode.ParamName = paramName;
+                    _objRefList.Add(new ReferenceInfo(nodeName, refNode.Reference));
+                    refNode.NodeName = nodeName;
                 }
             }
 
@@ -335,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             // important in this context as the only critical property to maintain is to have
             // a unique mapping to each input value to the resulting sequence of letters.
             [SkipLocalsInit]
-            static unsafe string CreateUniqueParamNameFromIndex(uint i)
+            static unsafe string CreateUniqueNodeNameFromIndex(uint i)
             {
                 const int alphabetLength = 'Z' - 'A' + 1;
 
@@ -592,7 +592,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                             throw new Exception("References cannot have children");
                         }
 
-                        ret = (this as ReferenceNode).GetReferenceParamString();
+                        ret = (this as ReferenceNode).GetReferenceNodeString();
                     }
                     else if (NodeType == ExpressionNodeType.ReferenceProperty)
                     {
@@ -700,10 +700,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         internal List<ExpressionNode> Children { get; set; } = new List<ExpressionNode>();
 
         /// <summary>
-        /// Gets or sets the name of the parameter.
+        /// Gets or sets the user-defined name of the parameter.
         /// </summary>
         /// <value>The name of the parameter.</value>
         internal string ParamName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique name for the expression node. Can be user-defined or generated.
+        /// </summary>
+        /// <value>The name of the parameter.</value>
+        internal string NodeName { get; set; }
 
         /// <summary>
         /// Gets or sets the expression animation.
