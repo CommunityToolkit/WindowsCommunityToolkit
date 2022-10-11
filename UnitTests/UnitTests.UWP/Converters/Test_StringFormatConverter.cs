@@ -5,58 +5,63 @@
 using Microsoft.Toolkit.Uwp.UI.Converters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Globalization;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace UnitTests.Converters
 {
     [TestClass]
     public class Test_StringFormatConverter
     {
-        private static readonly object NullString = null;
         private static readonly object NotEmptyString = "Hello, world";
         private static readonly DateTime Date = DateTime.Now;
-
+        
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenValueIsNull_ThenReturnNull()
+        [DataRow(null)]
+        [DataRow("en-us")]
+        public void WhenValueIsNull_ThenReturnNull(string language)
         {
             var converter = new StringFormatConverter();
-            var result = converter.Convert(NullString, typeof(string), NullString, "en-us");
+            var result = converter.Convert(null, typeof(string), null, language);
+
             Assert.IsNull(result);
         }
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenValueExistsAndParameterIsNull_ThenReturnValue()
+        [DataRow(null)]
+        [DataRow("en-us")]
+        public void WhenValueExistsAndParameterIsNull_ThenReturnValue(string language)
         {
             var converter = new StringFormatConverter();
-            var result = converter.Convert(NotEmptyString, typeof(string), NullString, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(string), null, language);
+
             Assert.AreEqual(NotEmptyString, result);
         }
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenParameterIsTimeFormat_ThenReturnValueOfTimeFormat()
+        [DataRow(null)]
+        [DataRow("en-us")]
+        public void WhenParameterIsInvalidFormat_ThenReturnValue(string language)
         {
             var converter = new StringFormatConverter();
-            var result = converter.Convert(Date, typeof(string), "{0:HH:mm}", "en-us");
-            Assert.AreEqual(Date.ToString("HH:mm"), result);
-        }
+            var result = converter.Convert(Date, typeof(string), "{1:}", language);
 
-        [TestCategory("Converters")]
-        [TestMethod]
-        public void WhenParameterIsInvalidFormat_ThenReturnValue()
-        {
-            var converter = new StringFormatConverter();
-            var result = converter.Convert(Date, typeof(string), "{1:}", "en-us");
             Assert.AreEqual(Date, result);
         }
 
         [TestCategory("Converters")]
         [TestMethod]
-        public void WhenParameterIsNotAString_ThenReturnValue()
+        [DataRow(null)]
+        [DataRow("en-us")]
+        public void WhenParameterIsNotAString_ThenReturnValue(string language)
         {
             var converter = new StringFormatConverter();
-            var result = converter.Convert(NotEmptyString, typeof(string), 172, "en-us");
+            var result = converter.Convert(NotEmptyString, typeof(string), 172, language);
+
             Assert.AreEqual(NotEmptyString, result);
         }
     }
