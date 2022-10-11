@@ -193,34 +193,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnColorsChanged();
         }
 
-        private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            double step = SmallChange;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
-            {
-                step = LargeChange;
-            }
-
-            step = Math.Max(StepSize, step);
-            if ((e.Key == VirtualKey.Left) || (e.Key == VirtualKey.Down))
-            {
-                Value = Math.Max(Minimum, Value - step);
-                e.Handled = true;
-                return;
-            }
-
-            if ((e.Key == VirtualKey.Right) || (e.Key == VirtualKey.Up))
-            {
-                Value = Math.Min(Maximum, Value + step);
-                e.Handled = true;
-            }
-        }
-
         private void RadialGauge_Unloaded(object sender, RoutedEventArgs e)
         {
             // Unregister event handlers.
-            KeyDown -= RadialGauge_KeyDown;
+            KeyboardAccelerators.Clear();
             ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
             PointerReleased -= RadialGauge_PointerReleased;
             Unloaded -= RadialGauge_Unloaded;
@@ -439,10 +415,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tickBrush = ReadLocalValue(TickBrushProperty) as SolidColorBrush;
             _foreground = ReadLocalValue(ForegroundProperty) as SolidColorBrush;
 
-            // Register event handlers.
+            // Small step
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Left, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Up, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Right, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Down, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, SmallChange));
+                kaea.Handled = true;
+            });
+
+            // Large step
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Left, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Up, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Right, (_, kaea) =>
+            {
+                Value = Math.Min(Maximum, Value + Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Down, (_, kaea) =>
+            {
+                Value = Math.Max(Minimum, Value - Math.Max(StepSize, LargeChange));
+                kaea.Handled = true;
+            });
+
             PointerReleased += RadialGauge_PointerReleased;
             ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
-            KeyDown += RadialGauge_KeyDown;
 
             // Apply color scheme.
             OnColorsChanged();
@@ -829,6 +853,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return number + modulo;
+        }
+
+        private void AddKeyboardAccelerator(
+            VirtualKeyModifiers keyModifiers,
+            VirtualKey key,
+            TypedEventHandler<KeyboardAccelerator, KeyboardAcceleratorInvokedEventArgs> handler)
+        {
+            var accelerator = new KeyboardAccelerator()
+            {
+                Modifiers = keyModifiers,
+                Key = key
+            };
+            accelerator.Invoked += handler;
+            KeyboardAccelerators.Add(accelerator);
         }
     }
 }
