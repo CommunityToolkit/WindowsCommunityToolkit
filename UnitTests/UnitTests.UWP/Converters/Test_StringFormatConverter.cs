@@ -16,7 +16,6 @@ namespace UnitTests.Converters
     {
         private static readonly object NotEmptyString = "Hello, world";
         private static readonly DateTime Date = DateTime.Now;
-        private static readonly decimal Amount = 333.4m;
         
         [TestCategory("Converters")]
         [TestMethod]
