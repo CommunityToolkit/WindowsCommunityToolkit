@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private IKeyFrameCompositionAnimationFactory[] Clip(
             Thickness to,
-            IEasingFunctionFactory? EasingFunctionFactory,
+            IEasingFunctionFactory? easingFunctionFactory,
             Thickness? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null)
@@ -211,65 +211,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     (float?)from?.Left,
                     delay,
                     duration,
-                    EasingFunctionFactory),
+                    easingFunctionFactory),
                 new ClipScalarAnimationFactory(
                     nameof(InsetClip.TopInset),
                     (float)to.Top,
                     (float?)from?.Top,
                     delay,
                     duration,
-                    EasingFunctionFactory),
+                    easingFunctionFactory),
                 new ClipScalarAnimationFactory(
                     nameof(InsetClip.RightInset),
                     (float)to.Right,
                     (float?)from?.Right,
                     delay,
                     duration,
-                    EasingFunctionFactory),
+                    easingFunctionFactory),
                 new ClipScalarAnimationFactory(
                     nameof(InsetClip.BottomInset),
                     (float)to.Bottom,
                     (float?)from?.Bottom,
                     delay,
                     duration,
-                    EasingFunctionFactory)
+                    easingFunctionFactory)
             };
         }
 
         private IKeyFrameCompositionAnimationFactory Translation(
             Vector2 to,
-            IEasingFunctionFactory? EasingFunctionFactory,
+            IEasingFunctionFactory? easingFunctionFactory,
             Vector2? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             Dictionary<float, (Vector2, IEasingFunctionFactory?)>? normalizedKeyFrames = null,
             Dictionary<float, (Vector2, IEasingFunctionFactory?)>? reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<Vector2>(TranslationXYPropertyName, to, from, delay, duration, EasingFunctionFactory, normalizedKeyFrames, reversedNormalizedKeyFrames);
+            return new KeyFrameAnimationFactory<Vector2>(TranslationXYPropertyName, to, from, delay, duration, easingFunctionFactory, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private IKeyFrameCompositionAnimationFactory Opacity(
             double to,
-            IEasingFunctionFactory? EasingFunctionFactory,
+            IEasingFunctionFactory? easingFunctionFactory,
             double? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             Dictionary<float, (float, IEasingFunctionFactory?)>? normalizedKeyFrames = null,
             Dictionary<float, (float, IEasingFunctionFactory?)>? reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<float>(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, EasingFunctionFactory, normalizedKeyFrames, reversedNormalizedKeyFrames);
+            return new KeyFrameAnimationFactory<float>(nameof(Visual.Opacity), (float)to, (float?)from, delay, duration, easingFunctionFactory, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private IKeyFrameCompositionAnimationFactory Scale(
             Vector2 to,
-            IEasingFunctionFactory? EasingFunctionFactory,
+            IEasingFunctionFactory? easingFunctionFactory,
             Vector2? from = null,
             TimeSpan? delay = null,
             TimeSpan? duration = null,
             Dictionary<float, (Vector2, IEasingFunctionFactory?)>? normalizedKeyFrames = null,
             Dictionary<float, (Vector2, IEasingFunctionFactory?)>? reversedNormalizedKeyFrames = null)
         {
-            return new KeyFrameAnimationFactory<Vector2>(ScaleXYPropertyName, to, from, delay, duration, EasingFunctionFactory, normalizedKeyFrames, reversedNormalizedKeyFrames);
+            return new KeyFrameAnimationFactory<Vector2>(ScaleXYPropertyName, to, from, delay, duration, easingFunctionFactory, normalizedKeyFrames, reversedNormalizedKeyFrames);
         }
 
         private sealed class KeyFrameAnimationGroupController : IKeyFrameAnimationGroupController
