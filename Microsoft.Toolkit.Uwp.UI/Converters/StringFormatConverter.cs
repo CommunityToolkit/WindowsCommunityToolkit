@@ -30,8 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
 
             // Retrieve the format string and use it to format the value.
             string formatString = parameter as string;
-            CultureInfo culture = string.IsNullOrWhiteSpace(language) ? CultureInfo.InvariantCulture : new CultureInfo(language);
-
             if (string.IsNullOrEmpty(formatString))
             {
                 // If the format string is null or empty, simply call ToString()
@@ -41,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
 
             try
             {
+                CultureInfo culture = string.IsNullOrWhiteSpace(language) ? CultureInfo.InvariantCulture : new CultureInfo(language);
                 return string.Format(culture, formatString, value);
             }
             catch
