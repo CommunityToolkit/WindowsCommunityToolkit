@@ -101,31 +101,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.LostFocus += AutoSuggestBox_LostFocus;
 
                 // Setup a binding to the QueryIcon of the Parent if we're the last box.
-                if (Content is ITokenStringContainer str && str.IsLast)
+                if (Content is ITokenStringContainer str)
                 {
-                    // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
-                    if (Owner.QueryIcon is FontIconSource fis &&
-                        fis.ReadLocalValue(FontIconSource.FontSizeProperty) == DependencyProperty.UnsetValue)
-                    {
-                        // This can be expensive, could we optimize?
-                        // Also, this is changing the FontSize on the IconSource (which could be shared?)
-                        fis.FontSize = Owner.TryFindResource("TokenizingTextBoxIconFontSize") as double? ?? 16;
-                    }
-
-                    var iconBinding = new Binding()
-                    {
-                        Source = Owner,
-                        Path = new PropertyPath(nameof(Owner.QueryIcon)),
-                        RelativeSource = new RelativeSource() { Mode = RelativeSourceMode.TemplatedParent }
-                    };
-
-                    var iconSourceElement = new IconSourceElement();
-
-                    iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
-
-                    _autoSuggestBox.QueryIcon = iconSourceElement;
-
+                    // We need to set our initial text in all cases.
                     _autoSuggestBox.Text = str.Text;
+
+                    // We only set/bind some properties on the last textbox to mimic the autosuggestbox look
+                    if (str.IsLast)
+                    {
+                        // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
+                        if (Owner.QueryIcon is FontIconSource fis &&
+                            fis.ReadLocalValue(FontIconSource.FontSizeProperty) == DependencyProperty.UnsetValue)
+                        {
+                            // This can be expensive, could we optimize?
+                            // Also, this is changing the FontSize on the IconSource (which could be shared?)
+                            fis.FontSize = Owner.TryFindResource("TokenizingTextBoxIconFontSize") as double? ?? 16;
+                        }
+
+                        var iconBinding = new Binding()
+                        {
+                            Source = Owner,
+                            Path = new PropertyPath(nameof(Owner.QueryIcon)),
+                            RelativeSource = new RelativeSource() { Mode = RelativeSourceMode.TemplatedParent }
+                        };
+
+                        var iconSourceElement = new IconSourceElement();
+
+                        iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
+
+                        _autoSuggestBox.QueryIcon = iconSourceElement;
+                    }
                 }
             }
         }
@@ -184,18 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var hasDelimiter = !string.IsNullOrEmpty(Owner.TokenDelimiter) && sender.Text?.Contains(Owner.TokenDelimiter) == true;
-
-            // Ignore in the case we've been set from the parent and already equal the owning text,
-            // unless we contain our delimiter.
-            if (!hasDelimiter && EqualityComparer<string>.Default.Equals(sender.Text, Owner.Text))
+            if (!EqualityComparer<string>.Default.Equals(sender.Text, Owner.Text))
             {
-                return;
+                Owner.Text = sender.Text; // Update parent text property, if different
             }
-
-            var t = sender.Text.Trim();
-
-            Owner.Text = sender.Text; // Update parent text property
 
             // Override our programmatic manipulation as we're redirecting input for the user
             if (UseCharacterAsUser)
@@ -207,8 +204,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Owner.RaiseTextChanged(sender, args);
 
+            var t = sender.Text?.Trim() ?? string.Empty;
+
             // Look for Token Delimiters to create new tokens when text changes.
-            if (hasDelimiter)
+            if (!string.IsNullOrEmpty(Owner.TokenDelimiter) && t.Contains(Owner.TokenDelimiter))
             {
                 bool lastDelimited = t[t.Length - 1] == Owner.TokenDelimiter[0];
 
