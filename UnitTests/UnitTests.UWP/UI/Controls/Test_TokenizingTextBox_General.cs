@@ -5,6 +5,7 @@
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Threading.Tasks;
@@ -198,6 +199,51 @@ namespace UnitTests.UWP.UI.Controls
 
                 Assert.IsNotNull(autoSuggestBox, "Could not find inner autosuggestbox");
                 Assert.AreEqual("Some Text", autoSuggestBox.Text, "Inner text not set based on initial value of TokenizingTextBox");
+            });
+        }
+
+        [TestCategory("Test_TokenizingTextBox_General")]
+        [TestMethod]
+        public async Task Test_ChangeText()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(
+@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+
+    <controls:TokenizingTextBox x:Name=""tokenboxname""/>
+
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                await SetTestContentAsync(treeRoot);
+
+                var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
+
+                Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
+                Assert.AreEqual(1, tokenBox.Items.Count, "Token default items failed"); // AutoSuggestBox
+
+                // Test initial value of property
+                Assert.AreEqual(string.Empty, tokenBox.Text, "Text should start as empty.");
+
+                // Reach into AutoSuggestBox's text to check it was set properly
+                var autoSuggestBox = tokenBox.FindDescendant<AutoSuggestBox>();
+
+                Assert.IsNotNull(autoSuggestBox, "Could not find inner autosuggestbox");
+                Assert.AreEqual(string.Empty, autoSuggestBox.Text, "Inner text not set based on initial value of TokenizingTextBox");
+
+                // Change Text
+                tokenBox.Text = "New Text";
+
+                // Wait for update
+                await CompositionTargetHelper.ExecuteAfterCompositionRenderingAsync(() => { });
+
+                Assert.AreEqual("New Text", tokenBox.Text, "Text should be changed now.");
+                Assert.AreEqual("New Text", autoSuggestBox.Text, "Inner text not set based on value of TokenizingTextBox");
             });
         }
 
