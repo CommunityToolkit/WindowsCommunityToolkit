@@ -164,5 +164,84 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.AreEqual("TokenItem1", tokenBox.Items[0]);
             });
         }
+
+        [TestCategory("Test_TokenizingTextBox_General")]
+        [TestMethod]
+        public async Task Test_SetInitialText()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(
+@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+
+    <controls:TokenizingTextBox x:Name=""tokenboxname"" Text=""Some Text""/>
+
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                await SetTestContentAsync(treeRoot);
+
+                var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
+
+                Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
+                Assert.AreEqual(1, tokenBox.Items.Count, "Token default items failed"); // AutoSuggestBox
+
+                // Test initial value of property
+                Assert.AreEqual("Some Text", tokenBox.Text, "Token text not equal to starting value.");
+
+                // Reach into AutoSuggestBox's text to check it was set properly
+                var autoSuggestBox = tokenBox.FindDescendant<AutoSuggestBox>();
+
+                Assert.IsNotNull(autoSuggestBox, "Could not find inner autosuggestbox");
+                Assert.AreEqual("Some Text", autoSuggestBox.Text, "Inner text not set based on initial value of TokenizingTextBox");
+            });
+        }
+
+        [TestCategory("Test_TokenizingTextBox_General")]
+        [TestMethod]
+        public async Task Test_ClearText()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(
+@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+
+    <controls:TokenizingTextBox x:Name=""tokenboxname"" Text=""Some Text""/>
+
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                await SetTestContentAsync(treeRoot);
+
+                var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
+
+                Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
+                Assert.AreEqual(1, tokenBox.Items.Count, "Token default items failed"); // AutoSuggestBox
+
+                // TODO: When in Labs, we should inject text via keyboard here vs. setting an initial value (more independent of SetInitialText test).
+
+                // Test initial value of property
+                Assert.AreEqual("Some Text", tokenBox.Text, "Token text not equal to starting value.");
+
+                // Reach into AutoSuggestBox's text to check it was set properly
+                var autoSuggestBox = tokenBox.FindDescendant<AutoSuggestBox>();
+
+                Assert.IsNotNull(autoSuggestBox, "Could not find inner autosuggestbox");
+                Assert.AreEqual("Some Text", autoSuggestBox.Text, "Inner text not set based on initial value of TokenizingTextBox");
+
+                await tokenBox.ClearAsync();
+
+                Assert.AreEqual(string.Empty, autoSuggestBox.Text, "Inner text was not cleared.");
+                Assert.AreEqual(string.Empty, tokenBox.Text, "TokenizingTextBox text was not cleared.");
+            });
+        }
     }
 }
