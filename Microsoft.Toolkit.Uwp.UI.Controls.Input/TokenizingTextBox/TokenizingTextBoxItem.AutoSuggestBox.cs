@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -123,6 +124,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
 
                     _autoSuggestBox.QueryIcon = iconSourceElement;
+
+                    _autoSuggestBox.Text = str.Text;
                 }
             }
         }
@@ -156,8 +159,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Owner.RaiseSuggestionChosen(sender, args);
         }
 
+        // Called to update text by link:TokenizingTextBox.Properties.cs:TextPropertyChanged
+        internal void UpdateText(string text)
+        {
+            if (_autoSuggestBox != null)
+            {
+                _autoSuggestBox.Text = text;
+            }
+            else
+            {
+                void WaitForLoad(object s, RoutedEventArgs eargs)
+                {
+                    if (_autoSuggestTextBox != null)
+                    {
+                        _autoSuggestTextBox.Text = text;
+                    }
+
+                    AutoSuggestTextBoxLoaded -= WaitForLoad;
+                }
+
+                AutoSuggestTextBoxLoaded += WaitForLoad;
+            }
+        }
+
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            var hasDelimiter = !string.IsNullOrEmpty(Owner.TokenDelimiter) && sender.Text?.Contains(Owner.TokenDelimiter) == true;
+
+            // Ignore in the case we've been set from the parent and already equal the owning text,
+            // unless we contain our delimiter.
+            if (!hasDelimiter && EqualityComparer<string>.Default.Equals(sender.Text, Owner.Text))
+            {
+                return;
+            }
+
             var t = sender.Text.Trim();
 
             Owner.Text = sender.Text; // Update parent text property
@@ -173,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Owner.RaiseTextChanged(sender, args);
 
             // Look for Token Delimiters to create new tokens when text changes.
-            if (!string.IsNullOrEmpty(Owner.TokenDelimiter) && t.Contains(Owner.TokenDelimiter))
+            if (hasDelimiter)
             {
                 bool lastDelimited = t[t.Length - 1] == Owner.TokenDelimiter[0];
 
