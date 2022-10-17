@@ -243,5 +243,84 @@ namespace UnitTests.UWP.UI.Controls
                 Assert.AreEqual(string.Empty, tokenBox.Text, "TokenizingTextBox text was not cleared.");
             });
         }
+
+        [TestCategory("Test_TokenizingTextBox_General")]
+        [TestMethod]
+        public async Task Test_SetInitialTextWithDelimiter()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(
+@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+
+    <controls:TokenizingTextBox x:Name=""tokenboxname"" TokenDelimiter="","" Text=""Token 1, Token 2, Token 3""/>
+
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                await SetTestContentAsync(treeRoot);
+
+                var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
+
+                Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
+                Assert.AreEqual(1, tokenBox.Items.Count, "Tokens not created"); // AutoSuggestBox
+
+                Assert.AreEqual("Token 1, Token 2, Token 3", tokenBox.Text, "Token text not equal to starting value.");
+
+                await Task.Delay(500); // TODO: Wait for a loaded event?
+
+                Assert.AreEqual(1 + 2, tokenBox.Items.Count, "Tokens not created");
+
+                // Test initial value of property
+                Assert.AreEqual("Token 3", tokenBox.Text, "Token text should be last value now.");
+
+                Assert.AreEqual("Token 1", tokenBox.Items[0]);
+                Assert.AreEqual("Token 2", tokenBox.Items[1]);
+            });
+        }
+
+        [TestCategory("Test_TokenizingTextBox_General")]
+        [TestMethod]
+        public async Task Test_SetInitialTextWithDelimiterAll()
+        {
+            await App.DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var treeRoot = XamlReader.Load(
+@"<Page
+    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
+    xmlns:controls=""using:Microsoft.Toolkit.Uwp.UI.Controls"">
+
+    <controls:TokenizingTextBox x:Name=""tokenboxname"" TokenDelimiter="","" Text=""Token 1, Token 2, Token 3,   ""/>
+
+</Page>") as FrameworkElement;
+
+                Assert.IsNotNull(treeRoot, "Could not load XAML tree.");
+
+                await SetTestContentAsync(treeRoot);
+
+                var tokenBox = treeRoot.FindChild("tokenboxname") as TokenizingTextBox;
+
+                Assert.IsNotNull(tokenBox, "Could not find TokenizingTextBox in tree.");
+                Assert.AreEqual(1, tokenBox.Items.Count, "Tokens not created"); // AutoSuggestBox
+
+                Assert.AreEqual("Token 1, Token 2, Token 3,   ", tokenBox.Text, "Token text not equal to starting value.");
+
+                await Task.Delay(500); // TODO: Wait for a loaded event?
+
+                Assert.AreEqual(1 + 3, tokenBox.Items.Count, "Tokens not created");
+
+                // Test initial value of property
+                Assert.AreEqual(string.Empty, tokenBox.Text, "Token text should be blank now.");
+
+                Assert.AreEqual("Token 1", tokenBox.Items[0]);
+                Assert.AreEqual("Token 2", tokenBox.Items[1]);
+                Assert.AreEqual("Token 3", tokenBox.Items[2]);
+            });
+        }
     }
 }

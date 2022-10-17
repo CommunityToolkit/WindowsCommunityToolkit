@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    sender.Text = tokens[tokens.Length - 1];
+                    sender.Text = tokens[tokens.Length - 1].Trim();
                 }
             }
         }
