@@ -259,8 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     kaea.Handled = true;
                 }
             });
-
-            Unloaded += RadialGauge_Unloaded;
         }
 
         private void ThemeListener_ThemeChanged(ThemeListener sender)
@@ -270,6 +268,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RadialGauge_Unloaded(object sender, RoutedEventArgs e)
         {
+            // TODO: We should just use a WeakEventListener for ThemeChanged here, but ours currently doesn't support it.
+            // See proposal for general helper here: https://github.com/CommunityToolkit/dotnet/issues/404
             ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
             PointerReleased -= RadialGauge_PointerReleased;
             Unloaded -= RadialGauge_Unloaded;
@@ -480,6 +480,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            PointerReleased -= RadialGauge_PointerReleased;
+            ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            Unloaded -= RadialGauge_Unloaded;
+
             // Remember local brushes.
             _needleBrush = ReadLocalValue(NeedleBrushProperty) as SolidColorBrush;
             _trailBrush = ReadLocalValue(TrailBrushProperty) as SolidColorBrush;
@@ -490,6 +494,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             PointerReleased += RadialGauge_PointerReleased;
             ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            Unloaded += RadialGauge_Unloaded;
 
             // Apply color scheme.
             OnColorsChanged();
