@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Networking.Connectivity;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -14,6 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
     /// </summary>
     public class NetworkConnectionStateTrigger : StateTriggerBase
     {
+        private readonly WeakEventListener<NetworkConnectionStateTrigger, object, EventArgs> _weakEvent;
+
         private DispatcherQueue _dispatcherQueue;
 
         /// <summary>
@@ -22,19 +25,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         public NetworkConnectionStateTrigger()
         {
             _dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            var weakEvent =
-                new WeakEventListener<NetworkConnectionStateTrigger, object>(this)
-                {
-                    OnEventAction = (instance, source) => NetworkInformation_NetworkStatusChanged(source),
-                    OnDetachAction = (weakEventListener) => NetworkInformation.NetworkStatusChanged -= weakEventListener.OnEvent
-                };
-            NetworkInformation.NetworkStatusChanged += weakEvent.OnEvent;
+
+            _weakEvent = new WeakEventListener<NetworkConnectionStateTrigger, object, EventArgs>(this)
+            {
+                OnEventAction = static (instance, source, eventArgs) => { instance.NetworkInformation_NetworkStatusChanged(source); },
+                OnDetachAction = listener => { NetworkInformation.NetworkStatusChanged -= OnNetworkEvent; }
+            };
+
+            NetworkInformation.NetworkStatusChanged += OnNetworkEvent;
             UpdateState();
         }
 
         private void NetworkInformation_NetworkStatusChanged(object sender)
         {
             _ = _dispatcherQueue.EnqueueAsync(UpdateState, DispatcherQueuePriority.Normal);
+        }
+
+        private void OnNetworkEvent(object source)
+        {
+            _weakEvent?.OnEvent(source, EventArgs.Empty);
         }
 
         private void UpdateState()
@@ -68,70 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         {
             var obj = (NetworkConnectionStateTrigger)d;
             obj.UpdateState();
-        }
-
-        private class WeakEventListener<TInstance, TSource>
-            where TInstance : class
-        {
-            /// <summary>
-            /// WeakReference to the instance listening for the event.
-            /// </summary>
-            private WeakReference _weakInstance;
-
-            /// <summary>
-            /// Gets or sets the method to call when the event fires.
-            /// </summary>
-            public Action<TInstance, TSource> OnEventAction { get; set; }
-
-            /// <summary>
-            /// Gets or sets the method to call when detaching from the event.
-            /// </summary>
-            public Action<WeakEventListener<TInstance, TSource>> OnDetachAction { get; set; }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="WeakEventListener{TInstance, TSource}"/> class.
-            /// </summary>
-            /// <param name="instance">Instance subscribing to the event.</param>
-            public WeakEventListener(TInstance instance)
-            {
-                if (instance == null)
-                {
-                    throw new ArgumentNullException("instance");
-                }
-
-                _weakInstance = new WeakReference(instance);
-            }
-
-            /// <summary>
-            /// Handler for the subscribed event calls OnEventAction to handle it.
-            /// </summary>
-            /// <param name="source">Event source.</param>
-            public void OnEvent(TSource source)
-            {
-                TInstance target = (TInstance)_weakInstance.Target;
-                if (target != null)
-                {
-                    // Call registered action
-                    OnEventAction?.Invoke(target, source);
-                }
-                else
-                {
-                    // Detach from event
-                    Detach();
-                }
-            }
-
-            /// <summary>
-            /// Detaches from the subscribed event.
-            /// </summary>
-            public void Detach()
-            {
-                if (OnDetachAction != null)
-                {
-                    OnDetachAction(this);
-                    OnDetachAction = null;
-                }
-            }
         }
     }
 
