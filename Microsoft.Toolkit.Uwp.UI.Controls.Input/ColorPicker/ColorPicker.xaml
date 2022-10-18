@@ -44,6 +44,7 @@
                 <localconverters:ColorToColorShadeConverter x:Key="ColorToColorShadeConverter" />
                 <converters:ColorToDisplayNameConverter x:Key="ColorToDisplayNameConverter" />
                 <localconverters:ColorToHexConverter x:Key="ColorToHexConverter" />
+                <localconverters:ColorToSelectedValueConverter x:Key="ColorToSelectedValueConverter" />
 
                 <Style x:Key="InputTextBoxStyle"
                        TargetType="TextBox">
@@ -157,7 +158,7 @@
                               Padding="0"
                               ItemContainerStyle="{StaticResource PaletteGridViewItemStyle}"
                               ItemsSource="{TemplateBinding CustomPaletteColors}"
-                              SelectedValue="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Mode=TwoWay}"
+                              SelectedValue="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Mode=TwoWay, Converter={StaticResource ColorToSelectedValueConverter}}"
                               SelectionMode="Single"
                               Tag="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Mode=OneWay}">
                         <GridView.ItemsPanel>
