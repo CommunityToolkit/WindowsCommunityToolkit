@@ -185,7 +185,80 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             SmallChange = 1;
             LargeChange = 10;
-            Unloaded += RadialGauge_Unloaded;
+
+            // Small step
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Left, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Max(gauge.Minimum, gauge.Value - Math.Max(gauge.StepSize, gauge.SmallChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Up, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Min(gauge.Maximum, gauge.Value + Math.Max(gauge.StepSize, gauge.SmallChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Right, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Min(gauge.Maximum, gauge.Value + Math.Max(gauge.StepSize, gauge.SmallChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Down, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Max(gauge.Minimum, gauge.Value - Math.Max(gauge.StepSize, gauge.SmallChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            // Large step
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Left, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Max(gauge.Minimum, gauge.Value - Math.Max(gauge.StepSize, gauge.LargeChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Up, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Min(gauge.Maximum, gauge.Value + Math.Max(gauge.StepSize, gauge.LargeChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Right, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Min(gauge.Maximum, gauge.Value + Math.Max(gauge.StepSize, gauge.LargeChange));
+                    kaea.Handled = true;
+                }
+            });
+
+            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Down, static (_, kaea) =>
+            {
+                if (kaea.Element is RadialGauge gauge)
+                {
+                    gauge.Value = Math.Max(gauge.Minimum, gauge.Value - Math.Max(gauge.StepSize, gauge.LargeChange));
+                    kaea.Handled = true;
+                }
+            });
         }
 
         private void ThemeListener_ThemeChanged(ThemeListener sender)
@@ -195,8 +268,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RadialGauge_Unloaded(object sender, RoutedEventArgs e)
         {
-            // Unregister event handlers.
-            KeyboardAccelerators.Clear();
+            // TODO: We should just use a WeakEventListener for ThemeChanged here, but ours currently doesn't support it.
+            // See proposal for general helper here: https://github.com/CommunityToolkit/dotnet/issues/404
             ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
             PointerReleased -= RadialGauge_PointerReleased;
             Unloaded -= RadialGauge_Unloaded;
@@ -407,6 +480,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            PointerReleased -= RadialGauge_PointerReleased;
+            ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            Unloaded -= RadialGauge_Unloaded;
+
             // Remember local brushes.
             _needleBrush = ReadLocalValue(NeedleBrushProperty) as SolidColorBrush;
             _trailBrush = ReadLocalValue(TrailBrushProperty) as SolidColorBrush;
@@ -415,58 +492,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tickBrush = ReadLocalValue(TickBrushProperty) as SolidColorBrush;
             _foreground = ReadLocalValue(ForegroundProperty) as SolidColorBrush;
 
-            // Small step
-            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Left, (_, kaea) =>
-            {
-                Value = Math.Max(Minimum, Value - Math.Max(StepSize, SmallChange));
-                kaea.Handled = true;
-            });
-
-            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Up, (_, kaea) =>
-            {
-                Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
-                kaea.Handled = true;
-            });
-
-            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Right, (_, kaea) =>
-            {
-                Value = Math.Min(Maximum, Value + Math.Max(StepSize, SmallChange));
-                kaea.Handled = true;
-            });
-
-            AddKeyboardAccelerator(VirtualKeyModifiers.None, VirtualKey.Down, (_, kaea) =>
-            {
-                Value = Math.Max(Minimum, Value - Math.Max(StepSize, SmallChange));
-                kaea.Handled = true;
-            });
-
-            // Large step
-            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Left, (_, kaea) =>
-            {
-                Value = Math.Max(Minimum, Value - Math.Max(StepSize, LargeChange));
-                kaea.Handled = true;
-            });
-
-            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Up, (_, kaea) =>
-            {
-                Value = Math.Min(Maximum, Value + Math.Max(StepSize, LargeChange));
-                kaea.Handled = true;
-            });
-
-            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Right, (_, kaea) =>
-            {
-                Value = Math.Min(Maximum, Value + Math.Max(StepSize, LargeChange));
-                kaea.Handled = true;
-            });
-
-            AddKeyboardAccelerator(VirtualKeyModifiers.Control, VirtualKey.Down, (_, kaea) =>
-            {
-                Value = Math.Max(Minimum, Value - Math.Max(StepSize, LargeChange));
-                kaea.Handled = true;
-            });
-
             PointerReleased += RadialGauge_PointerReleased;
             ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            Unloaded += RadialGauge_Unloaded;
 
             // Apply color scheme.
             OnColorsChanged();

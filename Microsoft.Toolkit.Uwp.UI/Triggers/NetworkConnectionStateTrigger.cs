@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             var weakEvent =
                 new WeakEventListener<NetworkConnectionStateTrigger, object>(this)
                 {
-                    OnEventAction = (instance, source) => NetworkInformation_NetworkStatusChanged(source),
+                    OnEventAction = static (instance, source) => instance.NetworkInformation_NetworkStatusChanged(source),
                     OnDetachAction = (weakEventListener) => NetworkInformation.NetworkStatusChanged -= weakEventListener.OnEvent
                 };
             NetworkInformation.NetworkStatusChanged += weakEvent.OnEvent;

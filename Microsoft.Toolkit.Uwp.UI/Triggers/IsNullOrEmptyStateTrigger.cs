@@ -47,9 +47,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             var valNotifyCollection = val as INotifyCollectionChanged;
             if (valNotifyCollection != null)
             {
-                var weakEvent = new WeakEventListener<INotifyCollectionChanged, object, NotifyCollectionChangedEventArgs>(valNotifyCollection)
+                var weakEvent = new WeakEventListener<IsNullOrEmptyStateTrigger, object, NotifyCollectionChangedEventArgs>(obj)
                 {
-                    OnEventAction = (instance, source, args) => obj.SetActive(IsNullOrEmpty(instance)),
+                    OnEventAction = static (instance, source, args) => instance.SetActive(IsNullOrEmpty(source)),
                     OnDetachAction = (weakEventListener) => valNotifyCollection.CollectionChanged -= weakEventListener.OnEvent
                 };
 
@@ -61,9 +61,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             var valObservableVector = val as IObservableVector<object>;
             if (valObservableVector != null)
             {
-                var weakEvent = new WeakEventListener<IObservableVector<object>, object, IVectorChangedEventArgs>(valObservableVector)
+                var weakEvent = new WeakEventListener<IsNullOrEmptyStateTrigger, object, IVectorChangedEventArgs>(obj)
                 {
-                    OnEventAction = (instance, source, args) => obj.SetActive(IsNullOrEmpty(instance)),
+                    OnEventAction = static (instance, source, args) => instance.SetActive(IsNullOrEmpty(source)),
                     OnDetachAction = (weakEventListener) => valObservableVector.VectorChanged -= weakEventListener.OnEvent
                 };
 
@@ -75,9 +75,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             var valObservableMap = val as IObservableMap<object, object>;
             if (valObservableMap != null)
             {
-                var weakEvent = new WeakEventListener<IObservableMap<object, object>, object, IMapChangedEventArgs<object>>(valObservableMap)
+                var weakEvent = new WeakEventListener<IsNullOrEmptyStateTrigger, object, IMapChangedEventArgs<object>>(obj)
                 {
-                    OnEventAction = (instance, source, args) => obj.SetActive(IsNullOrEmpty(instance)),
+                    OnEventAction = static (instance, source, args) => instance.SetActive(IsNullOrEmpty(source)),
                     OnDetachAction = (weakEventListener) => valObservableMap.MapChanged -= weakEventListener.OnEvent
                 };
 
