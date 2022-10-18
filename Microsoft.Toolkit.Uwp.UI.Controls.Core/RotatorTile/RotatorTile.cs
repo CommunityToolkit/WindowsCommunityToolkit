@@ -440,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var incc = (INotifyCollectionChanged)newValue;
                     _inccWeakEventListener = new WeakEventListener<RotatorTile, object, NotifyCollectionChangedEventArgs>(this)
                     {
-                        OnEventAction = (instance, source, eventArgs) => instance.Incc_CollectionChanged(source, eventArgs),
+                        OnEventAction = static (instance, source, eventArgs) => instance.Incc_CollectionChanged(source, eventArgs),
                         OnDetachAction = (listener) => incc.CollectionChanged -= listener.OnEvent
                     };
                     incc.CollectionChanged += _inccWeakEventListener.OnEvent;
