@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Predicates
         private readonly TState state;
 
         /// <summary>
-        /// The predicate to use to match items.
+        /// The predicatee to use to match items.
         /// </summary>
         private readonly Func<T, TState, bool> predicate;
 
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Predicates
         /// Initializes a new instance of the <see cref="PredicateByFunc{T, TState}"/> struct.
         /// </summary>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicate to use to match items.</param>
+        /// <param name="predicate">The predicatee to use to match items.</param>
         public PredicateByFunc(TState state, Func<T, TState, bool> predicate)
         {
             this.state = state;
