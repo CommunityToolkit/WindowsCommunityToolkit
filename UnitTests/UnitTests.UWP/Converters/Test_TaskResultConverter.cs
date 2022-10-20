@@ -23,23 +23,23 @@ namespace UnitTests.Converters
 
             TaskCompletionSource<int> tcs = new();
 
-            Assert.AreEqual(null, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(0, (int)converter.Convert(tcs.Task, typeof(int), null, null));
 
             tcs.SetCanceled();
 
-            Assert.AreEqual(null, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(0, (int)converter.Convert(tcs.Task, typeof(int), null, null));
 
             tcs = new TaskCompletionSource<int>();
 
             tcs.SetException(new InvalidOperationException("Test"));
 
-            Assert.AreEqual(null, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(0, (int)converter.Convert(tcs.Task, typeof(int), null, null));
 
             tcs = new TaskCompletionSource<int>();
 
             tcs.SetResult(42);
 
-            Assert.AreEqual(42, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(42, (int)converter.Convert(tcs.Task, typeof(int), null, null));
         }
 
         [TestCategory("Converters")]
@@ -50,38 +50,60 @@ namespace UnitTests.Converters
 
             TaskCompletionSource<string> tcs = new();
 
-            Assert.AreEqual(null, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(null, (string)converter.Convert(tcs.Task, typeof(string), null, null));
 
             tcs.SetCanceled();
 
-            Assert.AreEqual(null, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(null, (string)converter.Convert(tcs.Task, typeof(string), null, null));
 
-            tcs = new TaskCompletionSource<string>();
+            tcs = new();
 
             tcs.SetException(new InvalidOperationException("Test"));
 
-            Assert.AreEqual(null, converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual(null, (string)converter.Convert(tcs.Task, typeof(string), null, null));
 
-            tcs = new TaskCompletionSource<string>();
+            tcs = new();
 
             tcs.SetResult("Hello world");
 
-            Assert.AreEqual("Hello world", converter.Convert(tcs.Task, null, null, null));
+            Assert.AreEqual("Hello world", (string)converter.Convert(tcs.Task, typeof(string), null, null));
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_TaskResultConverter_Instance_UnsetValue()
+        public void Test_TaskResultConverter_Instance_RawValue()
         {
             TaskResultConverter converter = new();
 
-            Assert.AreEqual(DependencyProperty.UnsetValue, converter.Convert(null, null, null, null));
-            Assert.AreEqual(DependencyProperty.UnsetValue, converter.Convert("Hello world", null, null, null));
+            Assert.AreEqual(42, converter.Convert(42, null, null, null));
+
+            Assert.AreEqual(42, converter.Convert(42, typeof(int), null, null));
+
+            Assert.AreEqual("Hello world", converter.Convert("Hello world", null, null, null));
+
+            Assert.AreEqual("Hello world", converter.Convert("Hello world", typeof(string), null, null));
         }
 
         [TestCategory("Converters")]
         [UITestMethod]
-        public void Test_TaskResultConverter_Instance_Null()
+        public void Test_TaskResultConverter_Instance_NullObject()
+        {
+            TaskResultConverter converter = new();
+
+            Assert.AreEqual(null, converter.Convert(null, null, null, null));
+
+            Assert.AreEqual(0, (int)converter.Convert(null, typeof(int), null, null));
+
+            Assert.AreEqual(false, (bool)converter.Convert(null, typeof(bool), null, null));
+
+            Assert.AreEqual(null, (int?)converter.Convert(null, typeof(int?), null, null));
+
+            Assert.AreEqual(null, (string)converter.Convert(null, typeof(string), null, null));
+        }
+
+        [TestCategory("Converters")]
+        [UITestMethod]
+        public void Test_TaskResultConverter_Instance_TaskNull()
         {
             TaskResultConverter converter = new();
 
@@ -92,14 +114,6 @@ namespace UnitTests.Converters
             Assert.AreEqual(null, converter.Convert(Task.FromCanceled(cts.Token), null, null, null));
             Assert.AreEqual(null, converter.Convert(Task.FromException(new Exception()), null, null, null));
             Assert.AreEqual(null, converter.Convert(Task.CompletedTask, null, null, null));
-
-            TaskCompletionSource<int> tcs1 = new();
-
-            Assert.AreEqual(null, converter.Convert(tcs1.Task, null, null, null));
-
-            TaskCompletionSource<string> tcs2 = new();
-
-            Assert.AreEqual(null, converter.Convert(tcs2.Task, null, null, null));
         }
 
         [TestCategory("Converters")]
