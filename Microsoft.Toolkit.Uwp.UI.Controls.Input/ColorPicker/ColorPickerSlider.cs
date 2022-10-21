@@ -38,6 +38,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             : base()
         {
             this.DefaultStyleKey = typeof(ColorPickerSlider);
+
+            this.ActualThemeChanged += this.ColorPickerSlider_ActualThemeChanged;
         }
 
         /***************************************************************************************
@@ -295,6 +297,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 this.UpdateColors();
             }
 
+            return;
+        }
+
+        /// <summary>
+        /// Event handler for when the control's theme changes.
+        /// </summary>
+        private void ColorPickerSlider_ActualThemeChanged(FrameworkElement sender, object args)
+        {
+            this.UpdateColors();
             return;
         }
     }
