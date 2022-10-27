@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -100,29 +101,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.LostFocus += AutoSuggestBox_LostFocus;
 
                 // Setup a binding to the QueryIcon of the Parent if we're the last box.
-                if (Content is ITokenStringContainer str && str.IsLast)
+                if (Content is ITokenStringContainer str)
                 {
-                    // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
-                    if (Owner.QueryIcon is FontIconSource fis &&
-                        fis.ReadLocalValue(FontIconSource.FontSizeProperty) == DependencyProperty.UnsetValue)
+                    // We need to set our initial text in all cases.
+                    _autoSuggestBox.Text = str.Text;
+
+                    // We only set/bind some properties on the last textbox to mimic the autosuggestbox look
+                    if (str.IsLast)
                     {
-                        // This can be expensive, could we optimize?
-                        // Also, this is changing the FontSize on the IconSource (which could be shared?)
-                        fis.FontSize = Owner.TryFindResource("TokenizingTextBoxIconFontSize") as double? ?? 16;
+                        // Workaround for https://github.com/microsoft/microsoft-ui-xaml/issues/2568
+                        if (Owner.QueryIcon is FontIconSource fis &&
+                            fis.ReadLocalValue(FontIconSource.FontSizeProperty) == DependencyProperty.UnsetValue)
+                        {
+                            // This can be expensive, could we optimize?
+                            // Also, this is changing the FontSize on the IconSource (which could be shared?)
+                            fis.FontSize = Owner.TryFindResource("TokenizingTextBoxIconFontSize") as double? ?? 16;
+                        }
+
+                        var iconBinding = new Binding()
+                        {
+                            Source = Owner,
+                            Path = new PropertyPath(nameof(Owner.QueryIcon)),
+                            RelativeSource = new RelativeSource() { Mode = RelativeSourceMode.TemplatedParent }
+                        };
+
+                        var iconSourceElement = new IconSourceElement();
+
+                        iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
+
+                        _autoSuggestBox.QueryIcon = iconSourceElement;
                     }
-
-                    var iconBinding = new Binding()
-                    {
-                        Source = Owner,
-                        Path = new PropertyPath(nameof(Owner.QueryIcon)),
-                        RelativeSource = new RelativeSource() { Mode = RelativeSourceMode.TemplatedParent }
-                    };
-
-                    var iconSourceElement = new IconSourceElement();
-
-                    iconSourceElement.SetBinding(IconSourceElement.IconSourceProperty, iconBinding);
-
-                    _autoSuggestBox.QueryIcon = iconSourceElement;
                 }
             }
         }
@@ -156,11 +164,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Owner.RaiseSuggestionChosen(sender, args);
         }
 
+        // Called to update text by link:TokenizingTextBox.Properties.cs:TextPropertyChanged
+        internal void UpdateText(string text)
+        {
+            if (_autoSuggestBox != null)
+            {
+                _autoSuggestBox.Text = text;
+            }
+            else
+            {
+                void WaitForLoad(object s, RoutedEventArgs eargs)
+                {
+                    if (_autoSuggestTextBox != null)
+                    {
+                        _autoSuggestTextBox.Text = text;
+                    }
+
+                    AutoSuggestTextBoxLoaded -= WaitForLoad;
+                }
+
+                AutoSuggestTextBoxLoaded += WaitForLoad;
+            }
+        }
+
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var t = sender.Text.Trim();
-
-            Owner.Text = sender.Text; // Update parent text property
+            if (!EqualityComparer<string>.Default.Equals(sender.Text, Owner.Text))
+            {
+                Owner.Text = sender.Text; // Update parent text property, if different
+            }
 
             // Override our programmatic manipulation as we're redirecting input for the user
             if (UseCharacterAsUser)
@@ -171,6 +203,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Owner.RaiseTextChanged(sender, args);
+
+            var t = sender.Text?.Trim() ?? string.Empty;
 
             // Look for Token Delimiters to create new tokens when text changes.
             if (!string.IsNullOrEmpty(Owner.TokenDelimiter) && t.Contains(Owner.TokenDelimiter))
@@ -195,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    sender.Text = tokens[tokens.Length - 1];
+                    sender.Text = tokens[tokens.Length - 1].Trim();
                 }
             }
         }

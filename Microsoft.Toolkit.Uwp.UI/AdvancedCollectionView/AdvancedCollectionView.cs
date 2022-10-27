@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                         new WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs>(this)
                         {
                             // Call the actual collection changed event
-                            OnEventAction = (source, changed, arg3) => SourceNcc_CollectionChanged(source, arg3),
+                            OnEventAction = static (instance, source, arg3) => instance.SourceNcc_CollectionChanged(source, arg3),
 
                             // The source doesn't exist anymore
                             OnDetachAction = (listener) => sourceNcc.CollectionChanged -= _sourceWeakEventListener.OnEvent

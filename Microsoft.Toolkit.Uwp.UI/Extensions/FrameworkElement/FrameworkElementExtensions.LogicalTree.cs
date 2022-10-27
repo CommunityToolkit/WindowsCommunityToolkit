@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicate to use to match the child nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
         /// <returns>The child that was found, or <see langword="null"/>.</returns>
         public static T? FindChild<T>(this FrameworkElement element, Func<T, bool> predicate)
             where T : notnull, FrameworkElement
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The root element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicate to use to match the child nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
         /// <returns>The child that was found, or <see langword="null"/>.</returns>
         public static T? FindChild<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicate to use to match the child nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
         /// <returns>The child that was found, or <see langword="null"/>.</returns>
         private static T? FindChild<T, TPredicate>(this FrameworkElement element, ref TPredicate predicate)
             where T : notnull, FrameworkElement
@@ -296,7 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The root element.</param>
-        /// <param name="predicate">The predicate to use to match the child nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
         /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindChildOrSelf<T>(this FrameworkElement element, Func<T, bool> predicate)
             where T : notnull, FrameworkElement
@@ -316,7 +316,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The root element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicate to use to match the child nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the child nodes.</param>
         /// <returns>The child (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindChildOrSelf<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement
@@ -490,7 +490,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The starting element.</param>
-        /// <param name="predicate">The predicate to use to match the parent nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
         /// <returns>The parent that was found, or <see langword="null"/>.</returns>
         public static T? FindParent<T>(this FrameworkElement element, Func<T, bool> predicate)
             where T : notnull, FrameworkElement
@@ -507,7 +507,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The starting element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicate to use to match the parent nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
         /// <returns>The parent that was found, or <see langword="null"/>.</returns>
         public static T? FindParent<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement
@@ -523,7 +523,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <typeparam name="TPredicate">The type of predicate in use.</typeparam>
         /// <param name="element">The starting element.</param>
-        /// <param name="predicate">The predicate to use to match the parent nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
         /// <returns>The parent that was found, or <see langword="null"/>.</returns>
         private static T? FindParent<T, TPredicate>(this FrameworkElement element, ref TPredicate predicate)
             where T : notnull, FrameworkElement
@@ -600,7 +600,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         /// <typeparam name="T">The type of elements to match.</typeparam>
         /// <param name="element">The starting element.</param>
-        /// <param name="predicate">The predicate to use to match the parent nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
         /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindParentOrSelf<T>(this FrameworkElement element, Func<T, bool> predicate)
             where T : notnull, FrameworkElement
@@ -620,7 +620,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <typeparam name="TState">The type of state to use when matching nodes.</typeparam>
         /// <param name="element">The starting element.</param>
         /// <param name="state">The state to give as input to <paramref name="predicate"/>.</param>
-        /// <param name="predicate">The predicate to use to match the parent nodes.</param>
+        /// <param name="predicate">The predicatee to use to match the parent nodes.</param>
         /// <returns>The parent (or self) that was found, or <see langword="null"/>.</returns>
         public static T? FindParentOrSelf<T, TState>(this FrameworkElement element, TState state, Func<T, TState, bool> predicate)
             where T : notnull, FrameworkElement

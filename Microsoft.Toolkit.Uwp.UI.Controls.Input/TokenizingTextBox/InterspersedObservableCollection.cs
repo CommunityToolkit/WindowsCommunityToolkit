@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var weakPropertyChangedListener = new WeakEventListener<InterspersedObservableCollection, object, NotifyCollectionChangedEventArgs>(this)
                 {
-                    OnEventAction = (instance, source, eventArgs) => instance.ItemsSource_CollectionChanged(source, eventArgs),
+                    OnEventAction = static (instance, source, eventArgs) => instance.ItemsSource_CollectionChanged(source, eventArgs),
                     OnDetachAction = (weakEventListener) => notifier.CollectionChanged -= weakEventListener.OnEvent // Use Local Reference Only
                 };
                 notifier.CollectionChanged += weakPropertyChangedListener.OnEvent;

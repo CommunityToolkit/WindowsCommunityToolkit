@@ -89,7 +89,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true);
+                // Add our text box at the end of items and set its default value to our initial text, fix for #4749
+                _currentTextEdit = _lastTextEdit = new PretokenStringContainer(true) { Text = Text };
                 _innerItemsSource.Insert(_innerItemsSource.Count, _currentTextEdit);
                 ItemsSource = _innerItemsSource;
             }

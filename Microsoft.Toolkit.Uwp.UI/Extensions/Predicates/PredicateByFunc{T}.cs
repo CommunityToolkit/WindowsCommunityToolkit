@@ -15,14 +15,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Predicates
         where T : class
     {
         /// <summary>
-        /// The predicate to use to match items.
+        /// The predicatee to use to match items.
         /// </summary>
         private readonly Func<T, bool> predicate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PredicateByFunc{T}"/> struct.
         /// </summary>
-        /// <param name="predicate">The predicate to use to match items.</param>
+        /// <param name="predicate">The predicatee to use to match items.</param>
         public PredicateByFunc(Func<T, bool> predicate)
         {
             this.predicate = predicate;

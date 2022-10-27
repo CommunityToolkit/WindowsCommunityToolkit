@@ -28,10 +28,10 @@ jobs:
     displayName: Setup Environment Variables
 
   - task: NuGetToolInstaller@0
-    displayName: Use NuGet 5.6.0
+    displayName: Use NuGet 5.11.x
     inputs:
-      versionSpec: 5.6.0
-
+      versionSpec: 5.11.x
+      
   - task: DotNetCoreCLI@2
     inputs:
       command: custom
