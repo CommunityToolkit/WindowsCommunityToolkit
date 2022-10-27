@@ -34,9 +34,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.Unloaded -= MarqueeText_Unloaded;
             _marqueeContainer.SizeChanged -= Container_SizeChanged;
 
-            if (_marqueeStoryboad != null)
+            if (_marqueeStoryboard != null)
             {
-                _marqueeStoryboad.Completed -= StoryBoard_Completed;
+                _marqueeStoryboard.Completed -= StoryBoard_Completed;
             }
         }
 

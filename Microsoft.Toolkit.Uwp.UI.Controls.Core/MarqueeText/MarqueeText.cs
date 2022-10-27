@@ -51,8 +51,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Panel _marqueeContainer;
         private FrameworkElement _segment1;
         private FrameworkElement _segment2;
-        private TranslateTransform _marqueeTranform;
-        private Storyboard _marqueeStoryboad;
+        private TranslateTransform _marqueeTransform;
+        private Storyboard _marqueeStoryboard;
 
         private bool _isActive;
 
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _marqueeContainer = (Panel)GetTemplateChild(MarqueeContainerPartName);
             _segment1 = (FrameworkElement)GetTemplateChild(Segment1PartName);
             _segment2 = (FrameworkElement)GetTemplateChild(Segment2PartName);
-            _marqueeTranform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
+            _marqueeTransform = (TranslateTransform)GetTemplateChild(MarqueeTransformPartName);
 
             _marqueeContainer.SizeChanged += Container_SizeChanged;
             Unloaded += MarqueeText_Unloaded;
@@ -167,14 +167,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 containerSize = _marqueeContainer.ActualWidth;
                 segmentSize = _segment1.ActualWidth;
-                value = _marqueeTranform.X;
+                value = _marqueeTransform.X;
                 property = "(TranslateTransform.X)";
             }
             else
             {
                 containerSize = _marqueeContainer.ActualHeight;
                 segmentSize = _segment1.ActualHeight;
-                value = _marqueeTranform.Y;
+                value = _marqueeTransform.Y;
                 property = "(TranslateTransform.Y)";
             }
 
@@ -197,28 +197,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Swap the start and end to inverse direction for right or upwards
             if (IsDirectionInverse)
             {
-                double swap = start;
-                start = end;
-                end = swap;
+                (start, end) = (end, start);
             }
 
             _segment2.Visibility = IsLooping ? Visibility.Visible : Visibility.Collapsed;
 
             TimeSpan duration = TimeSpan.FromSeconds(distance / Speed);
 
-            if (_marqueeStoryboad != null)
+            if (_marqueeStoryboard != null)
             {
-                _marqueeStoryboad.Completed -= StoryBoard_Completed;
+                _marqueeStoryboard.Completed -= StoryBoard_Completed;
             }
 
-            _marqueeStoryboad = new Storyboard()
+            _marqueeStoryboard = new Storyboard()
             {
                 Duration = duration,
                 RepeatBehavior = RepeatBehavior,
                 AutoReverse = IsBouncing,
             };
 
-            _marqueeStoryboad.Completed += StoryBoard_Completed;
+            _marqueeStoryboard.Completed += StoryBoard_Completed;
 
             var animation = new DoubleAnimationUsingKeyFrames
             {
@@ -239,17 +237,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             animation.KeyFrames.Add(frame1);
             animation.KeyFrames.Add(frame2);
-            _marqueeStoryboad.Children.Add(animation);
-            Storyboard.SetTarget(animation, _marqueeTranform);
+            _marqueeStoryboard.Children.Add(animation);
+            Storyboard.SetTarget(animation, _marqueeTransform);
             Storyboard.SetTargetProperty(animation, property);
 
             VisualStateManager.GoToState(this, MarqueeActiveState, true);
-            _marqueeStoryboad.Begin();
+            _marqueeStoryboard.Begin();
 
             if (resume)
             {
                 double progress = Math.Abs(start - value) / distance;
-                _marqueeStoryboad.Seek(duration * progress);
+                _marqueeStoryboard.Seek(TimeSpan.FromTicks((long)(duration.Ticks * progress)));
             }
 
             return true;
