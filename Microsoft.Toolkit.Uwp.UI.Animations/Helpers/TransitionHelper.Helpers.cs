@@ -262,5 +262,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             EasingFunctionFactoryCache[(type, mode, inverse)] = factory;
             return factory;
         }
+
+        private static float GetOpacityTransitionStartKey(float normalizedKey, float halfTransitionNormalizedDuration = 0.1f) => Math.Clamp(normalizedKey - halfTransitionNormalizedDuration, 0, 1);
+
+        private static float GetOpacityTransitionEndKey(float normalizedKey, float halfTransitionNormalizedDuration = 0.1f) => Math.Clamp(normalizedKey + halfTransitionNormalizedDuration, 0, 1);
     }
 }

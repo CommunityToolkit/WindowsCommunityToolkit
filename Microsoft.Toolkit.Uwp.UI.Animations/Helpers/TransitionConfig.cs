@@ -57,5 +57,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// If this value is not set, it will fall back to the value in <see cref="TransitionHelper.DefaultEasingMode"/>.
         /// </summary>
         public EasingMode? EasingMode { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the key point of opacity transition.
+        /// The time the keyframe of opacity from 0 to 1 or from 1 to 0 should occur at, expressed as a percentage of the animation duration. The allowed values are from (0, 0) to (1, 1).
+        /// <see cref="OpacityTransitionProgressKey"/>.X will be used in the animation of the normal direction.
+        /// <see cref="OpacityTransitionProgressKey"/>.Y will be used in the animation of the reverse direction.
+        /// If this value is not set, it will fall back to the value in <see cref="TransitionHelper.DefaultOpacityTransitionProgressKey"/>.
+        /// </summary>
+        public Point? OpacityTransitionProgressKey { get; set; } = null;
     }
 }
