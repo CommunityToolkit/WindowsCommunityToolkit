@@ -4,7 +4,7 @@
 
 #nullable enable
 
-using Windows.Foundation;
+using System.Numerics;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Helpers
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Helpers
         /// </summary>
         /// <param name="source">The source element.</param>
         /// <param name="target">The target element.</param>
-        /// <returns>A <see cref="Point"/> whose X value represents the horizontal scaling change and whose Y represents the vertical scaling change.</returns>
-        Point GetScaling(UIElement source, UIElement target);
+        /// <returns>A <see cref="Vector2"/> whose X value represents the horizontal scaling change and whose Y represents the vertical scaling change.</returns>
+        Vector2 GetScaling(UIElement source, UIElement target);
     }
 }

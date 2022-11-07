@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public ScaleMode ScaleMode { get; set; } = ScaleMode.None;
 
         /// <summary>
-        /// Gets or sets the custom scale handler.
+        /// Gets or sets the custom scale calculator.
         /// Only works when <see cref="ScaleMode"/> is <see cref="ScaleMode.Custom"/>.
         /// If this value is not set, the scale strategy will fall back to <see cref="ScaleMode.None"/>.
         /// </summary>

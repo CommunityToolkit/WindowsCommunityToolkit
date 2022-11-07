@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     duration,
                     easingType,
                     easingMode),
-                ScaleMode.Custom => this.AnimateScaleWithScaleHandler(
+                ScaleMode.Custom => this.AnimateScaleWithScaleCalculator(
                     source,
                     target,
                     config.CustomScalingCalculator,
@@ -483,7 +483,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             return (sourceFactory, targetFactory, scale);
         }
 
-        private (IKeyFrameCompositionAnimationFactory?, IKeyFrameCompositionAnimationFactory?, Vector2) AnimateScaleWithScaleHandler(
+        private (IKeyFrameCompositionAnimationFactory?, IKeyFrameCompositionAnimationFactory?, Vector2) AnimateScaleWithScaleCalculator(
             UIElement source,
             UIElement target,
             IScalingCalculator? scalingCalculator,
@@ -496,7 +496,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return (null, null, Vector2.One);
             }
 
-            var scale = scalingCalculator.GetScaling(source, target).ToVector2();
+            var scale = scalingCalculator.GetScaling(source, target);
             var (sourceFactory, targetFactory) = this.AnimateScaleImp(scale, duration, easingType, easingMode);
             return (sourceFactory, targetFactory, scale);
         }
