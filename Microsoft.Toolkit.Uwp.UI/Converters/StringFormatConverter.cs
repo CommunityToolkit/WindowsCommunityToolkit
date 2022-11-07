@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Globalization;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
@@ -18,29 +19,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         /// <param name="value">Object to transform to string.</param>
         /// <param name="targetType">The type of the target property, as a type reference</param>
         /// <param name="parameter">An optional parameter to be used in the string.Format method.</param>
-        /// <param name="language">The language of the conversion (not used).</param>
+        /// <param name="language">The language of the conversion. If language is null or empty then <see cref="CultureInfo"/> will be used.</param>
         /// <returns>Formatted string.</returns>
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }
 
-            if (parameter == null)
+            // Retrieve the format string and use it to format the value.
+            string formatString = parameter as string;
+            if (string.IsNullOrEmpty(formatString))
             {
-                return value;
+                // If the format string is null or empty, simply call ToString()
+                // on the value.
+                return value.ToString();
             }
 
             try
             {
-                return string.Format((string)parameter, value);
+                CultureInfo culture = string.IsNullOrWhiteSpace(language) ? CultureInfo.InvariantCulture : new CultureInfo(language);
+                return string.Format(culture, formatString, value);
             }
             catch
             {
+                return value;
             }
-
-            return value;
         }
 
         /// <summary>

@@ -314,7 +314,6 @@
                                     ItemsSource="{Binding Path=Owner.SuggestedItemsSource, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     PlaceholderText="{Binding Path=Owner.PlaceholderText, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                     Style="{StaticResource SystemAutoSuggestBoxStyle}"
-                                    Text="{Binding Text, Mode=TwoWay}"
                                     TextBoxStyle="{StaticResource TokenizingTextBoxTextBoxStyle}"/>
                 </ControlTemplate>
             </Setter.Value>

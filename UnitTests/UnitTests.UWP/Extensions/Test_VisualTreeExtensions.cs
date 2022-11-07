@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp;
@@ -46,43 +45,6 @@ namespace UnitTests.Extensions
 
                 // Main Test
                 var textBlock = treeRoot.FindDescendant("TargetElement");
-
-                Assert.IsNotNull(textBlock, "Expected to find something.");
-                Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
-                Assert.AreEqual("TargetElement", textBlock.Name, "Didn't find named element.");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
-        [DataRow(SearchType.DepthFirst)]
-        [DataRow(SearchType.BreadthFirst)]
-        public async Task Test_VisualTree_FindDescendantByName_Exists(SearchType searchType)
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid>
-        <Grid>
-            <Border/>
-            <StackPanel>
-                <TextBox/>
-                <TextBlock x:Name=""TargetElement""/> <!-- Target -->
-            </StackPanel>
-        </Grid>
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Main Test
-                var textBlock = treeRoot.FindDescendant("TargetElement", StringComparison.Ordinal, searchType);
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
@@ -159,42 +121,6 @@ namespace UnitTests.Extensions
 
         [TestCategory("VisualTree")]
         [TestMethod]
-        [DataRow(SearchType.DepthFirst)]
-        [DataRow(SearchType.BreadthFirst)]
-        public async Task Test_VisualTree_FindDescendant_Exists(SearchType searchType)
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid>
-        <Grid>
-            <Border/>
-            <StackPanel>
-                <TextBox/>
-                <TextBlock/> <!-- Target -->
-            </StackPanel>
-        </Grid>
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Main Test
-                var textBlock = treeRoot.FindDescendant<TextBlock>(searchType);
-
-                Assert.IsNotNull(textBlock, "Expected to find something.");
-                Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
         public async Task Test_VisualTree_FindDescendant_ItemsControl_Exists()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
@@ -225,46 +151,6 @@ namespace UnitTests.Extensions
 
                 // Main Test
                 var textBlock = treeRoot.FindDescendant<TextBlock>();
-
-                Assert.IsNotNull(textBlock, "Expected to find something.");
-                Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
-        [DataRow(SearchType.DepthFirst)]
-        [DataRow(SearchType.BreadthFirst)]
-        public async Task Test_VisualTree_FindDescendant_ItemsControl_Exists(SearchType searchType)
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid>
-        <Grid>
-            <Border/>
-            <Pivot>
-                <PivotItem>
-                    <TextBox/>
-                </PivotItem>
-                <PivotItem>
-                    <TextBlock/> <!-- Target -->
-                </PivotItem>
-            </Pivot>
-        </Grid>
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Main Test
-                var textBlock = treeRoot.FindDescendant<TextBlock>(searchType);
 
                 Assert.IsNotNull(textBlock, "Expected to find something.");
                 Assert.IsInstanceOfType(textBlock, typeof(TextBlock), "Didn't find expected typed element.");
@@ -353,55 +239,6 @@ namespace UnitTests.Extensions
 
         [TestCategory("VisualTree")]
         [TestMethod]
-        [DataRow(SearchType.DepthFirst)]
-        [DataRow(SearchType.BreadthFirst)]
-        public async Task Test_VisualTree_FindDescendants_Exists(SearchType searchType)
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid>
-        <Grid>
-            <Border/>
-            <TextBlock x:Name=""One""/> <!-- Target -->
-            <StackPanel>
-                <TextBox/> <!-- Hidden Target -->
-                <TextBlock x:Name=""Two""/> <!-- Target -->
-            </StackPanel>
-        </Grid>
-        <TextBlock x:Name=""Three""/> <!-- Target -->
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Main Test
-                var textBlocks = treeRoot.FindDescendants(searchType).OfType<TextBlock>();
-
-                Assert.IsNotNull(textBlocks, "Expected to find something.");
-
-                var array = textBlocks.ToArray();
-
-                Assert.AreEqual(4, array.Length, "Expected to find 4 TextBlock elements.");
-
-                // I don't think we want to guarantee order here, so just care that we can find each one.
-                Assert.IsTrue(array.Any((tb) => tb.Name == "One"), "Couldn't find TextBlock 'One'");
-                Assert.IsTrue(array.Any((tb) => tb.Name == "Two"), "Couldn't find TextBlock 'Two'");
-                Assert.IsTrue(array.Any((tb) => tb.Name == "Three"), "Couldn't find TextBlock 'Three'");
-
-                // TextBox has one in its template!
-                Assert.IsTrue(array.Any((tb) => tb.Name == "PlaceholderTextContentPresenter"), "Couldn't find hidden TextBlock from TextBox.");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
         public async Task Test_VisualTree_FindDescendants_NotFound()
         {
             await App.DispatcherQueue.EnqueueAsync(async () =>
@@ -436,103 +273,6 @@ namespace UnitTests.Extensions
                 var array = thing.ToArray();
 
                 Assert.AreEqual(0, array.Length, "Expected to find no elements.");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
-        public async Task Test_VisualTree_FindFirstLevelDescendants_Exists()
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid>
-        <Border x:Name=""A""/>
-        <TextBlock x:Name=""B""/>
-        <StackPanel x:Name=""C"">
-            <TextBox/>
-            <TextBlock/>
-        </StackPanel>
-        <Grid x:Name=""D"">
-            <TextBlock/>
-            <StackPanel>
-                <TextBox/>
-                <TextBlock/>
-            </StackPanel>
-            <TextBlock/>
-        </Grid>
-        <TextBlock x:Name=""E""/>
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Main Test
-                var rootGrid = treeRoot.FindDescendant<Grid>();
-                var children = rootGrid.FindFirstLevelDescendants().ToArray();
-
-                Assert.AreEqual(5, children.Length, "Expected to find 5 children.");
-
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'A'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "B"), "Couldn't find child 'B'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "C"), "Couldn't find child 'C'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "D"), "Couldn't find child 'D'");
-                Assert.IsTrue(children.Any(c => ((FrameworkElement)c).Name == "E"), "Couldn't find child 'E'");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
-        public async Task Test_VisualTree_FindFirstLevelDescendantsOrSelf_Exists()
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid x:Name=""RootGrid"">
-        <Border x:Name=""A""/>
-        <TextBlock x:Name=""B""/>
-        <StackPanel x:Name=""C"">
-            <TextBox/>
-            <TextBlock/>
-        </StackPanel>
-        <Grid x:Name=""D"">
-            <TextBlock/>
-            <StackPanel>
-                <TextBox/>
-                <TextBlock/>
-            </StackPanel>
-            <TextBlock/>
-        </Grid>
-        <TextBlock x:Name=""E""/>
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Main Test
-                var rootGrid = treeRoot.FindDescendant<Grid>();
-                var childrenOrSelf = rootGrid.FindFirstLevelDescendantsOrSelf().ToArray();
-
-                Assert.AreEqual(6, childrenOrSelf.Length, "Expected to find 6 children or self.");
-
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "RootGrid"), "Couldn't find self");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "A"), "Couldn't find child 'A'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "B"), "Couldn't find child 'B'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "C"), "Couldn't find child 'C'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "D"), "Couldn't find child 'D'");
-                Assert.IsTrue(childrenOrSelf.Any(c => ((FrameworkElement)c).Name == "E"), "Couldn't find child 'E'");
             });
         }
 
@@ -777,54 +517,6 @@ namespace UnitTests.Extensions
                 Assert.IsInstanceOfType(array[1], typeof(StackPanel), "Didn't find expected StackPanel");
                 Assert.IsInstanceOfType(array[2], typeof(Grid), "Didn't find expected Grid");
                 Assert.IsInstanceOfType(array[3], typeof(Page), "Didn't find expected Page");
-            });
-        }
-
-        [TestCategory("VisualTree")]
-        [TestMethod]
-        public async Task Test_VisualTree_IsAscendantOrDescendantOf()
-        {
-            await App.DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var treeRoot = XamlReader.Load(@"<Page
-    xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
-    xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""> <!-- Starting Point -->
-    <Grid x:Name=""RootGrid"">
-        <Grid>
-            <Border x:Name=""NestedBorder""/>
-            <StackPanel>
-                <TextBox/>
-                <TextBlock x:Name=""TargetElement""/> <!-- Target -->
-            </StackPanel>
-        </Grid>
-    </Grid>
-</Page>") as Page;
-
-                // Test Setup
-                Assert.IsNotNull(treeRoot, "XAML Failed to Load");
-
-                // Initialize Visual Tree
-                await SetTestContentAsync(treeRoot);
-
-                // Get the root and target elements
-                var rootGrid = treeRoot.FindDescendant("RootGrid");
-                var nestedBorder = treeRoot.FindDescendant("NestedBorder");
-                var textBlock = treeRoot.FindDescendant("TargetElement");
-
-                Assert.IsTrue(rootGrid.IsAscendantOf(nestedBorder));
-                Assert.IsTrue(rootGrid.IsAscendantOf(textBlock));
-                Assert.IsFalse(rootGrid.IsDescendantOf(nestedBorder));
-                Assert.IsFalse(rootGrid.IsDescendantOf(textBlock));
-
-                Assert.IsTrue(nestedBorder.IsDescendantOf(rootGrid));
-                Assert.IsFalse(nestedBorder.IsDescendantOf(textBlock));
-                Assert.IsFalse(nestedBorder.IsAscendantOf(rootGrid));
-                Assert.IsFalse(nestedBorder.IsAscendantOf(textBlock));
-
-                Assert.IsTrue(textBlock.IsDescendantOf(rootGrid));
-                Assert.IsFalse(textBlock.IsDescendantOf(nestedBorder));
-                Assert.IsFalse(textBlock.IsAscendantOf(rootGrid));
-                Assert.IsFalse(textBlock.IsAscendantOf(nestedBorder));
             });
         }
 

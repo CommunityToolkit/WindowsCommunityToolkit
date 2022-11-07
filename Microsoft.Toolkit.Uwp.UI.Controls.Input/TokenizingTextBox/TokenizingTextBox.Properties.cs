@@ -109,6 +109,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (d is TokenizingTextBox ttb && ttb._currentTextEdit != null)
             {
                 ttb._currentTextEdit.Text = e.NewValue as string;
+
+                // Notify inner container of text change, see issue #4749
+                var item = ttb.ContainerFromItem(ttb._currentTextEdit) as TokenizingTextBoxItem;
+                item?.UpdateText(ttb._currentTextEdit.Text);
             }
         }
 

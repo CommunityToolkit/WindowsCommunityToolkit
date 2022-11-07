@@ -14,8 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// This is needed because accessing <see cref="Task{TResult}.Result"/> when the task has not
     /// completed yet will block the current thread and might cause a deadlock (eg. if the task was
     /// scheduled on the same synchronization context where the result is being retrieved from).
-    /// The methods in this converter will safely return <see langword="default"/> if the input
-    /// task is still running, or if it has faulted or has been canceled.
+    /// The methods in this converter will safely return <see langword="null"/> if the input
+    /// task is not set yet, still running, has faulted, or has been canceled.
     /// </summary>
     public sealed class TaskResultConverter : IValueConverter
     {
@@ -26,8 +26,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
             {
                 return task.GetResultOrDefault();
             }
+            else if (value is null)
+            {
+                return null;
+            }
 
-            return DependencyProperty.UnsetValue;
+            // Otherwise, we'll just pass through whatever value/result was given to us.
+            return value;
         }
 
         /// <inheritdoc/>

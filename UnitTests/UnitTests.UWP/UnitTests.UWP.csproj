@@ -143,7 +143,7 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>2.2.5</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="16.11.0" /> <!-- Had to do this for local release mode, think issue with updates to NuGet warnings, don't understand where duplicate is coming from... -->
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
       <!-- DO NOT UPGRADE THIS PACKAGE FROM 10.0.3, this is used for upgrade testing between 6.1.1 and 7.0.0 for the Object Serializers -->
