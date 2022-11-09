@@ -97,11 +97,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         public List<TransitionConfig> Configs { get; set; } = new();
 
         /// <summary>
-        /// Gets or sets the default transition configuration.
-        /// </summary>
-        public TransitionConfig DefaultConfig { get; set; } = new();
-
-        /// <summary>
         /// Gets a value indicating whether the source control has been morphed to the target control.
         /// The default value is false.
         /// </summary>

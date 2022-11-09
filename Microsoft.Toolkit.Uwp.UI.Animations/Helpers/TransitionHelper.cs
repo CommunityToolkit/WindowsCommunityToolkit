@@ -40,6 +40,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         private AnimatedElements<UIElement> TargetAnimatedElements => _targetAnimatedElements ??= GetAnimatedElements(this.Target);
 
+        private TransitionConfig DefaultConfig => new()
+        {
+            EasingMode = DefaultEasingMode,
+            EasingType = DefaultEasingType,
+            OpacityTransitionProgressKey = DefaultIndependentTranslation
+        };
+
         /// <summary>
         /// Gets a value indicating whether the source and target controls are animating.
         /// </summary>
