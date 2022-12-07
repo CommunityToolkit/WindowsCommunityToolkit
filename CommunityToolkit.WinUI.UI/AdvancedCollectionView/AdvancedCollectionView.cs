@@ -694,15 +694,22 @@ namespace CommunityToolkit.WinUI.UI
                 {
                     for (int i = 0, j = 0; i < _source.Count; i++)
                     {
-                        if (i == newStartingIndex)
+                        if (j < _view.Count - 1)
                         {
-                            newViewIndex = j;
-                            break;
-                        }
+                            if (i == newStartingIndex)
+                            {
+                                newViewIndex = j;
+                                break;
+                            }
 
-                        if (_view[j] == _source[i])
+                            if (_view[j] == _source[i])
+                            {
+                                j++;
+                            }
+                        }
+                        else
                         {
-                            j++;
+                            break;
                         }
                     }
                 }
