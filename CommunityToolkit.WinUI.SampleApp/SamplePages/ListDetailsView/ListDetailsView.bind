@@ -11,7 +11,8 @@
         <controls:ListDetailsView BackButtonBehavior="Automatic"
                                     ItemsSource="{Binding Emails}"
                                     NoSelectionContent="Select an item to view"
-                                    CompactModeThresholdWidth="720">
+                                    CompactModeThresholdWidth="720"
+                                    ListPaneWidth="400">
             <controls:ListDetailsView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8">

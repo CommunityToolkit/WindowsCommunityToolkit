@@ -469,7 +469,10 @@ namespace CommunityToolkit.WinUI.UI.Controls
         /// </summary>
         private void OnListPaneWidthChanged()
         {
-            _twoPaneView.Pane1Length = new GridLength(ListPaneWidth);
+            if (_twoPaneView != null)
+            {
+                _twoPaneView.Pane1Length = new GridLength(ListPaneWidth);
+            }
         }
     }
 }
