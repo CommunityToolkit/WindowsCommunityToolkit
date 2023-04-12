@@ -123,13 +123,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     return list.Count;
                 }
 
-#if FEATURE_PAGEDCOLLECTIONVIEW
-                PagedCollectionView collectionView = this.DataSource as PagedCollectionView;
+                var collectionView = this.DataSource as ICollectionView;
                 if (collectionView != null)
                 {
                     return collectionView.Count;
                 }
-#endif
 
                 int count = 0;
                 IEnumerable enumerable = this.DataSource;
@@ -498,13 +496,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                 return (index < list.Count) ? list[index] : null;
             }
 
-#if FEATURE_PAGEDCOLLECTIONVIEW
-            PagedCollectionView collectionView = this.DataSource as PagedCollectionView;
+            var collectionView = this.DataSource as ICollectionView;
             if (collectionView != null)
             {
-                return (index < collectionView.Count) ? collectionView.GetItemAt(index) : null;
+                return (index < collectionView.Count) ? collectionView[index] : null;
             }
-#endif
 
             IEnumerable enumerable = this.DataSource;
             if (enumerable != null)
@@ -579,13 +575,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                 return list.IndexOf(dataItem);
             }
 
-#if FEATURE_PAGEDCOLLECTIONVIEW
-            PagedCollectionView cv = this.DataSource as PagedCollectionView;
-            if (cv != null)
+            var collectionView = this.DataSource as ICollectionView;
+            if (collectionView != null)
             {
-                return cv.IndexOf(dataItem);
+                return collectionView.IndexOf(dataItem);
             }
-#endif
 
             IEnumerable enumerable = this.DataSource;
             if (enumerable != null && dataItem != null)
