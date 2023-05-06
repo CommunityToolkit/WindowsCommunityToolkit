@@ -54,7 +54,7 @@
 
   <ItemGroup>
     <!-- System packages -->
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
     <!-- Microsoft.UI.Xaml TAEF Extensions -->
     <PackageReference Include="MUXTestInfra.TAEF" Version="0.0.4" />
     <PackageReference Include="MUXCustomBuildTasks" Version="1.0.67" GeneratePathProperty="true" />

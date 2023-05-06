@@ -65,6 +65,9 @@
   <ItemGroup Condition="'$(TargetFramework)' != 'native'">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+  </ItemGroup>
 
   <!-- Set the nuspec properties. Dependent on version which isn't updated till after 'GetBuildVersion'. Condition ensures we only set once since this runs multiple times for each target. -->
   <Target Name="SetNuspecProperties" AfterTargets="GetBuildVersion">

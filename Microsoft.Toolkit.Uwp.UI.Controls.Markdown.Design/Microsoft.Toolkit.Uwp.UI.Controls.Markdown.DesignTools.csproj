@@ -16,4 +16,9 @@
 
   <Import Project="$(BuildToolsDirectory)Windows.Toolkit.VisualStudio.Design.targets" />
 
+  <ItemGroup>
+    <PackageReference Update="Microsoft.VisualStudio.DesignTools.Extensibility" Version="17.5.33428.366" />
+    <PackageReference Update="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+  </ItemGroup>
+
 </Project>
