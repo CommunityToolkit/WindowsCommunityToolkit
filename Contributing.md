@@ -26,7 +26,7 @@ WCT also has a list of issues that are labeled as [help wanted](https://github.c
 
 ## 📬 Add New Feature <a name="feature"></a>
 
-* To contribute a new feature, fill out the [Feature Request Template](https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/new?template=feature_request.md&labels=feature+request+:mailbox_with_mail:&title=[Feature]) and provide detailed information to express the proposal.
+* To contribute a new feature, fill out the [Feature Request Template](https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/new?assignees=&labels=feature+request+%3Amailbox_with_mail%3A&projects=&template=feature_request.yml&title=%5BFeature%5D) and provide detailed information to express the proposal.
 * Once the Feature Request is submitted, it will be open for discussion.
 * If it gets approved by the team, proceed to submit a PR of the proposed Feature.
 * If the PR contains an error-free code and the reviewer signs off, the PR will be merged.
