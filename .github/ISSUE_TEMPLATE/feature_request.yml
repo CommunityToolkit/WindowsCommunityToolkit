@@ -1,23 +1,21 @@
 name: Feature request
-description: Create a report to help us fix something that isn't working as expected
+description: Create a report to suggest a new feature or an update
 title: "[Feature]"
 labels: "feature request :mailbox_with_mail:"
 body:
 - type: markdown
-  attributes: 
+  attributes:
     value: |
-      ## Before you begin
+      "## Before you begin"
       🚨 **Please do not skip instructions**🚨
       
-      This info is essential to help us understand your feature request.
-      
-      If you're uncertain about the feature, find or start an [Ideas](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/ideas) discussion, where you can get insight from the community regarding your issue. 
+      This info is essential to help us understand your feature request. If you're uncertain about the feature, find or start an [Ideas](https://github.com/CommunityToolkit/WindowsCommunityToolkit/discussions/categories/ideas) discussion, where you can get insight from the community regarding your issue.
 
 - type: textarea
   id: problem-description
-  validations: 
+  validations:
     required: true
-  attributes: 
+  attributes:
     label: Describe the problem
     description: Describe the problem this feature would solve.
     placeholder: |
@@ -27,13 +25,13 @@ body:
        
        Provide examples of the restrictions in the current environment that hinders the work your users or you want to perform. What are the ways this new feature will help transform and deliver those results
        
-       For example, I am currently using the InfiniteCanvas control which lacks the TabbedCommandBar control feature. I am looking to improve user experience therefore i would like to use that in my project to provide ease of accessibility and a user-friendly interface. This new feature will provide quick access to the toolbar, enhance space utilization, etc [...]
+       For example: I am currently using the InfiniteCanvas control which lacks the TabbedCommandBar control feature. I am looking to improve user experience therefore i would like to use that in my project to provide ease of accessibility and a user-friendly interface. This new feature will provide quick access to the toolbar, enhance space utilization, etc [...]
 
 - type: textarea
   id: solution-description
-  validations: 
+  validations:
     required: true
-  attributes: 
+  attributes:
     label: Describe the solution
     description: Describe the solution to the problem.
     placeholder: |
@@ -41,7 +39,7 @@ body:
 
 - type: textarea
   id: alternatives
-  attributes: 
+  attributes:
     label: Alternatives
     description: Describe alternatives you've considered
     placeholder: |
