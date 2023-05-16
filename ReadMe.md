@@ -11,6 +11,12 @@ The Windows Community Toolkit is a collection of helper functions, custom contro
 | Production (WinAppSDK/WinUI 3) | rel/winui/7.1.2 | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=rel/winui/7.1.2)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10&branchName=rel/winui/7.1.2) | [![NuGet](https://img.shields.io/nuget/v/CommunityToolkit.WinUI.svg)](https://www.nuget.org/packages?q=CommunityToolkit.WinUI) |
 | Previews | main | [![Build Status](https://dev.azure.com/dotnet/CommunityToolkit/_apis/build/status/Toolkit-CI?branchName=main)](https://dev.azure.com/dotnet/CommunityToolkit/_build/latest?definitionId=10) | [![DevOps](https://vsrm.dev.azure.com/dotnet/_apis/public/Release/badge/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/1/1)](https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-MainLatest) |
 
+## 📢 WCT vNext Preview
+
+The toolkit is being migrated to new infrastructure in [this repository](https://github.com/CommunityToolkit/Windows).
+
+[Read the blog post](https://devblogs.microsoft.com/ifdef-windows/the-windows-community-toolkit-2023-update/)
+
 ## 🙌 Getting Started
 
 Please read the [Getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
@@ -22,10 +28,6 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 ## 📱 Windows Community Toolkit Sample App
 
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
-
-## 🧪 Windows Community Toolkit Labs 💻
-
-We're in the process of migrating our development process to the upcoming Toolkit Labs for Windows, find out more [here](https://aka.ms/toolkit/labs/windows).
 
 ## ⁉ Support
 
