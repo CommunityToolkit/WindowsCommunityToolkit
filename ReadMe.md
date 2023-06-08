@@ -17,6 +17,11 @@ The toolkit is being migrated to new infrastructure in [this repository](https:/
 
 [Read the blog post](https://devblogs.microsoft.com/ifdef-windows/the-windows-community-toolkit-2023-update/)
 
+## 🧪 Windows Community Toolkit Labs 💻
+Labs makes it easy to contribute to the Windows Community Toolkit, try out new features still in development, and collaborate with others.
+
+Find out more [here](https://aka.ms/toolkit/labs/windows).
+
 ## 🙌 Getting Started
 
 Please read the [Getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
