@@ -13,7 +13,7 @@
             VerticalStep="@[VerticalStep:Slider:20:5-100]" />
 
     <StackPanel Margin="40" BorderThickness="1" BorderBrush="{ThemeResource SystemControlForegroundAccentBrush}">
-      <TextBlock Margin="0,0,0,30" Text="You can use the AlignmentGrid to check if your UI elements are corrected aligned" />
+      <TextBlock Margin="0,0,0,30" Text="You can use the AlignmentGrid to check if your UI elements are correctly aligned" />
       <TextBlock Margin="0,0,0,30" Text="The container of these texts has a margin of (40, 40, 40, 40)" />
       <TextBlock Margin="20,0,0,20" Text="This text has a margin of (20, 0, 0, 20)" />
       <TextBlock Margin="40,0,0,20" Text="This text has a margin of (40, 0, 0, 20)" />
