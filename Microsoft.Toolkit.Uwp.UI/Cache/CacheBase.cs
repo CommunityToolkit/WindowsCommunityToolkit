@@ -308,7 +308,12 @@ namespace Microsoft.Toolkit.Uwp.UI
             return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
         }
 
-        private static string GetCacheFileName(Uri uri)
+        /// <summary>
+        /// Get cache file name for given Uri
+        /// </summary>
+        /// <param name="uri">Uri of the item.</param>
+        /// <returns>file name</returns>
+        protected virtual string GetCacheFileName(Uri uri)
         {
             return CreateHash64(uri.ToString()).ToString();
         }
