@@ -119,16 +119,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
 
             var boolValue = false;
 
-            if (GreaterThan != double.NaN && LessThan != double.NaN &&
-                vd > GreaterThan && vd < LessThan)
+            if (!double.IsNaN(GreaterThan) && !double.IsNaN(LessThan))
+            {
+                if (vd > GreaterThan && vd < LessThan)
+                {
+                    boolValue = true;
+                }
+            }
+            else if (!double.IsNaN(GreaterThan) && vd > GreaterThan)
             {
                 boolValue = true;
             }
-            else if (GreaterThan != double.NaN && vd > GreaterThan)
-            {
-                boolValue = true;
-            }
-            else if (LessThan != double.NaN && vd < LessThan)
+            else if (!double.IsNaN(LessThan) && vd < LessThan)
             {
                 boolValue = true;
             }
