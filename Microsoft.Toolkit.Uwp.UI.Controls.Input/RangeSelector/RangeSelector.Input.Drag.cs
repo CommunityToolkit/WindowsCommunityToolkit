@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return _containerCanvas.ActualWidth - _maxThumb.Width;
         }
 
-        private double DragThumb(Thumb thumb, double min, double max, double nextPos)
+        private double DragThumb(RangeThumb thumb, double min, double max, double nextPos)
         {
             nextPos = Math.Max(min, nextPos);
             nextPos = Math.Min(max, nextPos);
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return Minimum + ((nextPos / DragWidth()) * (Maximum - Minimum));
         }
 
-        private void Thumb_DragStarted(Thumb thumb)
+        private void Thumb_DragStarted(RangeThumb thumb)
         {
             var useMin = thumb == _minThumb;
             var otherThumb = useMin ? _maxThumb : _minThumb;
