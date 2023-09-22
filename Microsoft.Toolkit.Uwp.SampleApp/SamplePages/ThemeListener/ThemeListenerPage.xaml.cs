@@ -5,6 +5,7 @@
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -16,9 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ThemeListenerPage()
         {
             this.InitializeComponent();
-            Listener = new ThemeListener();
             this.Loaded += ThemeListenerPage_Loaded;
-            Listener.ThemeChanged += Listener_ThemeChanged;
             SampleController.Current.ThemeChanged += Current_ThemeChanged;
         }
 
@@ -32,17 +31,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             UpdateThemeState();
         }
 
-        private void Listener_ThemeChanged(ThemeListener sender)
-        {
-            UpdateThemeState();
-        }
-
         private void UpdateThemeState()
         {
-            SystemTheme.Text = Listener.CurrentThemeName;
+            SystemTheme.Text = SampleController.Current.ThemeListener.CurrentThemeName;
             CurrentTheme.Text = SampleController.Current.GetCurrentTheme().ToString();
         }
 
-        public ThemeListener Listener { get; }
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Loaded -= ThemeListenerPage_Loaded;
+            SampleController.Current.ThemeChanged -= Current_ThemeChanged;
+        }
     }
 }

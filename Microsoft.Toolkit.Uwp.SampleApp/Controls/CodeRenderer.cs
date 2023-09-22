@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// <returns>Element Theme</returns>
         private ElementTheme SystemTheme()
         {
-            return SampleController.Current.SystemTheme() == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+            return SampleController.Current.GetSystemTheme() == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
         }
     }
 }
