@@ -39,6 +39,8 @@
         <controls:ColorPickerButton x:Key="ColorPickerButton" />
         <primitives:ColorPickerSlider x:Key="ColorPickerSlider" />
         <controls:RangeSelector x:Key="RangeSelector" />
+        <TextBox x:Key="ResourceStringExtension"
+                 Text="{ui:ResourceString Name=ResourceStringExtensionTitle}" />
         <TextBox x:Key="TextBoxExtensions">
             <ui:TextBoxExtensions.SurfaceDialOptions>
                 <ui:SurfaceDialOptions />
