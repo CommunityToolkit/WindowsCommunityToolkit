@@ -5,6 +5,7 @@
                     xmlns:localconverters="using:Microsoft.Toolkit.Uwp.UI.Controls.ColorPickerConverters"
                     xmlns:primitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
                     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+                    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
                     xmlns:winuiprimitives="using:Microsoft.UI.Xaml.Controls.Primitives">
 
     <SolidColorBrush x:Key="CheckerboardColor0">
@@ -41,14 +42,13 @@
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}">
             <Grid.Resources>
-                <localconverters:ColorToColorShadeConverter x:Key="ColorToColorShadeConverter" />
                 <converters:ColorToDisplayNameConverter x:Key="ColorToDisplayNameConverter" />
                 <localconverters:ColorToHexConverter x:Key="ColorToHexConverter" />
                 <localconverters:ColorToSelectedValueConverter x:Key="ColorToSelectedValueConverter" />
 
                 <Style x:Key="InputTextBoxStyle"
                        TargetType="TextBox">
-                    <Setter Property="CornerRadius" Value="0,2,2,0" />
+                    <Setter Property="CornerRadius" Value="0,4,4,0" />
                     <!--  TODO: Is there a theme resource we can use for this from the system?  -->
                 </Style>
             </Grid.Resources>
@@ -217,7 +217,7 @@
                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                           BorderThickness="1"
                                           Content="RGB"
-                                          CornerRadius="2,0,0,2"
+                                          CornerRadius="4,0,0,4"
                                           IsThreeState="False" />
                             <ToggleButton x:Name="HsvToggleButton"
                                           Grid.Column="1"
@@ -226,7 +226,7 @@
                                           BorderBrush="{ThemeResource ToggleButtonBackgroundChecked}"
                                           BorderThickness="1"
                                           Content="HSV"
-                                          CornerRadius="0,2,2,0"
+                                          CornerRadius="0,4,4,0"
                                           IsThreeState="False" />
                             <Grid x:Name="HexInputGrid"
                                   Grid.Column="3">
@@ -239,7 +239,7 @@
                                         Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                         BorderBrush="{ThemeResource TextControlBorderBrush}"
                                         BorderThickness="1,1,0,1"
-                                        CornerRadius="2,0,0,2">
+                                        CornerRadius="4,0,0,4">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                FontWeight="SemiBold"
@@ -259,12 +259,12 @@
                         <!--  Channel 1 RGB:Red HSV:Hue  -->
                         <Border Grid.Row="2"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=Channel1TextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=Channel1NumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="Channel1TextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -272,12 +272,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="R" />
                         </Border>
-                        <TextBox x:Name="Channel1TextBox"
-                                 Grid.Row="2"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Red Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="Channel1NumberBox"
+                                        AutomationProperties.Name="Red Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="2"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="Channel1Slider"
                                                       Grid.Row="2"
                                                       Grid.Column="2"
@@ -289,12 +289,12 @@
                         <!--  Channel 2 RGB:Green HSV:Saturation  -->
                         <Border Grid.Row="3"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=Channel2TextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=Channel2NumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="Channel2TextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -302,12 +302,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="G" />
                         </Border>
-                        <TextBox x:Name="Channel2TextBox"
-                                 Grid.Row="3"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Green Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="Channel2NumberBox"
+                                        AutomationProperties.Name="Green Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="3"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="Channel2Slider"
                                                       Grid.Row="3"
                                                       Grid.Column="2"
@@ -319,12 +319,12 @@
                         <!--  Channel 3 RGB:Blue HSV:Value  -->
                         <Border Grid.Row="4"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=Channel3TextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=Channel3NumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="Channel3TextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -332,12 +332,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="B" />
                         </Border>
-                        <TextBox x:Name="Channel3TextBox"
-                                 Grid.Row="4"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Blue Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="Channel3NumberBox"
+                                        AutomationProperties.Name="Blue Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="4"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="Channel3Slider"
                                                       Grid.Row="4"
                                                       Grid.Column="2"
@@ -350,12 +350,12 @@
                         <Border x:Name="AlphaChannelBorder"
                                 Grid.Row="5"
                                 Grid.Column="0"
-                                Height="{Binding ElementName=AlphaChannelTextBox, Path=ActualHeight}"
+                                Height="{Binding ElementName=AlphaChannelNumberBox, Path=ActualHeight}"
                                 VerticalAlignment="Center"
                                 Background="{ThemeResource TextBoxDisabledBackgroundThemeBrush}"
                                 BorderBrush="{ThemeResource TextControlBorderBrush}"
                                 BorderThickness="1,1,0,1"
-                                CornerRadius="2,0,0,2">
+                                CornerRadius="4,0,0,4">
                             <TextBlock x:Name="AlphaChannelTextBlock"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -363,12 +363,12 @@
                                        Foreground="{ThemeResource TextBoxDisabledForegroundThemeBrush}"
                                        Text="A" />
                         </Border>
-                        <TextBox x:Name="AlphaChannelTextBox"
-                                 Grid.Row="5"
-                                 Grid.Column="1"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Alpha Channel"
-                                 Style="{StaticResource InputTextBoxStyle}" />
+                        <muxc:NumberBox x:Name="AlphaChannelNumberBox"
+                                        AutomationProperties.Name="Alpha Channel"
+                                        Grid.Column="1"
+                                        Grid.Row="5"
+                                        CornerRadius="0,4,4,0"
+                                        VerticalAlignment="Center" />
                         <primitives:ColorPickerSlider x:Name="AlphaChannelSlider"
                                                       Grid.Row="5"
                                                       Grid.Column="2"
@@ -386,100 +386,9 @@
                   Grid.Row="2"
                   Height="48"
                   Margin="12,0,12,12">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="4" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="4" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <!--  Left-side Preview Darker Shades  -->
-                <Border x:Name="CheckeredBackground2Border"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" />
-                <Border x:Name="N2PreviewBorder"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2,0,0,2">
-                    <Border.Background>
-                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShadeConverter}, ConverterParameter='-2'}" />
-                    </Border.Background>
-                </Border>
-                <!--
-                    The -1 and +1 accent preview originally had a drop shadow as well.
-                    However, due to Z-order issues with the checkered background,
-                    shadow and preview border, it would have required its own
-                    checkered background. This was judged not worth the performance
-                    trade-off so shadows were removed.
-                -->
-                <Border x:Name="N1PreviewBorder"
-                        Grid.Row="1"
-                        Grid.Column="1">
-                    <Border.Background>
-                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShadeConverter}, ConverterParameter='-1'}" />
-                    </Border.Background>
-                </Border>
-                <!--  Right-side Preview Lighter Shades  -->
-                <Border x:Name="CheckeredBackground4Border"
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Grid.ColumnSpan="2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" />
-                <Border x:Name="P1PreviewBorder"
-                        Grid.Row="1"
-                        Grid.Column="3">
-                    <Border.Background>
-                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShadeConverter}, ConverterParameter='1'}" />
-                    </Border.Background>
-                </Border>
-                <Border x:Name="P2PreviewBorder"
-                        Grid.Row="1"
-                        Grid.Column="4"
-                        CornerRadius="0,2,2,0">
-                    <Border.Background>
-                        <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color, Converter={StaticResource ColorToColorShadeConverter}, ConverterParameter='2'}" />
-                    </Border.Background>
-                </Border>
-                <!--  Main Color Preview Box at Bottom  -->
-                <!--  Must be last for drop shadow Z-index  -->
-                <!--<controls:DropShadowPanel Grid.RowSpan="3"
-                                          Grid.Column="2"
-                                          HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
-                                          BlurRadius="10.0"
-                                          OffsetX="0.0"
-                                          OffsetY="0.0"
-                                          ShadowOpacity="0.75"
-                                          Color="Black"> Not too far off without it, maybe we can fake?-->
-                <Grid Grid.RowSpan="3"
-                      Grid.Column="2"
-                      HorizontalAlignment="Stretch"
-                      VerticalAlignment="Stretch">
-                    <Border HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="{ThemeResource FlyoutPresenterBackground}"
-                            CornerRadius="2" />
-                    <Border x:Name="CheckeredBackground3Border"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            CornerRadius="2" />
-                    <Border x:Name="PreviewBorder"
-                            CornerRadius="2">
-                        <Border.Background>
-                            <SolidColorBrush Color="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Color}" />
-                        </Border.Background>
-                    </Border>
-                </Grid>
+                <primitives:ColorPreviewer
+                    x:Name="ColorPreviewer"
+                    ShowAccentColors="{TemplateBinding ShowAccentColors}" />
             </Grid>
             <VisualStateManager.VisualStateGroups>
 
@@ -552,7 +461,7 @@
                         <VisualState.Setters>
                             <Setter Target="ColorSpectrumAlphaSlider.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelBorder.Visibility" Value="Collapsed" />
-                            <Setter Target="AlphaChannelTextBox.Visibility" Value="Collapsed" />
+                            <Setter Target="AlphaChannelNumberBox.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelSlider.Visibility" Value="Collapsed" />
                         </VisualState.Setters>
                     </VisualState>
@@ -579,7 +488,7 @@
                     <VisualState x:Name="AlphaTextInputVisible" />
                     <VisualState x:Name="AlphaTextInputCollapsed">
                         <VisualState.Setters>
-                            <Setter Target="AlphaChannelTextBox.Visibility" Value="Collapsed" />
+                            <Setter Target="AlphaChannelNumberBox.Visibility" Value="Collapsed" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -590,9 +499,9 @@
                             <Setter Target="Channel1TextBlock.Text" Value="H" />
                             <Setter Target="Channel2TextBlock.Text" Value="S" />
                             <Setter Target="Channel3TextBlock.Text" Value="V" />
-                            <Setter Target="Channel1TextBox.(AutomationProperties.Name)" Value="Hue Channel" />
-                            <Setter Target="Channel2TextBox.(AutomationProperties.Name)" Value="Saturation Channel" />
-                            <Setter Target="Channel3TextBox.(AutomationProperties.Name)" Value="Value Channel" />
+                            <Setter Target="Channel1NumberBox.(AutomationProperties.Name)" Value="Hue Channel" />
+                            <Setter Target="Channel2NumberBox.(AutomationProperties.Name)" Value="Saturation Channel" />
+                            <Setter Target="Channel3NumberBox.(AutomationProperties.Name)" Value="Value Channel" />
                             <Setter Target="Channel1Slider.(AutomationProperties.Name)" Value="Hue Channel" />
                             <Setter Target="Channel2Slider.(AutomationProperties.Name)" Value="Saturation Channel" />
                             <Setter Target="Channel3Slider.(AutomationProperties.Name)" Value="Value Channel" />
@@ -613,7 +522,7 @@
                         <VisualState.Setters>
                             <Setter Target="ColorSpectrumAlphaSlider.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelBorder.Visibility" Value="Collapsed" />
-                            <Setter Target="AlphaChannelTextBox.Visibility" Value="Collapsed" />
+                            <Setter Target="AlphaChannelNumberBox.Visibility" Value="Collapsed" />
                             <Setter Target="AlphaChannelSlider.Visibility" Value="Collapsed" />
                         </VisualState.Setters>
                     </VisualState>

@@ -30,7 +30,8 @@
                             Color="Navy"
                             ColorSpectrumShape="Box"
                             IsAlphaEnabled="False"
-                            IsHexInputVisible="True" />
+                            IsHexInputVisible="True"
+                            ShowAccentColors="False" />
       <!-- Example 2 -->
       <Border Background="{ThemeResource SystemChromeMediumColor}"
               CornerRadius="4"

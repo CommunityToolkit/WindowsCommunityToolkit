@@ -115,5 +115,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
         }
+
+        /// <summary>
+        /// Identifies the <see cref="ShowAccentColors"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ShowAccentColorsProperty =
+            DependencyProperty.Register(
+                nameof(ShowAccentColors),
+                typeof(bool),
+                typeof(ColorPicker),
+                new PropertyMetadata(
+                    true,
+                    (s, e) => (s as ColorPicker)?.OnDependencyPropertyChanged(s, e)));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether accent colors are shown along
+        /// with the preview color.
+        /// </summary>
+        public bool ShowAccentColors
+        {
+            get => (bool)this.GetValue(ShowAccentColorsProperty);
+            set
+            {
+                if (object.Equals(value, this.GetValue(ShowAccentColorsProperty)) == false)
+                {
+                    this.SetValue(ShowAccentColorsProperty, value);
+                }
+            }
+        }
     }
 }
