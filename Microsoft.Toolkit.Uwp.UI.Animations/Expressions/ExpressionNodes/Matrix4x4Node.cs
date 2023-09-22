@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
+using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -410,6 +412,77 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         private Matrix4x4 _value;
+
+        /// <summary>
+        /// Evaluates the current value of the expression
+        /// </summary>
+        /// <returns>The current value of the expression</returns>
+        public Matrix4x4 Evaluate()
+        {
+            switch (NodeType)
+            {
+                case ExpressionNodeType.ConstantValue:
+                    return _value;
+                case ExpressionNodeType.ReferenceProperty:
+                    var reference = (Children[0] as ReferenceNode).Reference;
+                    return PropertyName switch
+                    {
+                        nameof(Visual.TransformMatrix) => (reference as Visual).TransformMatrix,
+                        _ => GetProperty()
+                    };
+
+                    Matrix4x4 GetProperty()
+                    {
+                        reference.Properties.TryGetMatrix4x4(PropertyName, out var value);
+                        return value;
+                    }
+
+                case ExpressionNodeType.Add:
+                    return
+                        (Children[0] as Matrix4x4Node).Evaluate() +
+                        (Children[1] as Matrix4x4Node).Evaluate();
+                case ExpressionNodeType.Subtract:
+                    return
+                        (Children[0] as Matrix4x4Node).Evaluate() -
+                        (Children[1] as Matrix4x4Node).Evaluate();
+                case ExpressionNodeType.Negate:
+                    return
+                        -(Children[0] as Matrix4x4Node).Evaluate();
+                case ExpressionNodeType.Multiply:
+                    return (Children[0], Children[1]) switch
+                    {
+                        (Matrix4x4Node v1, Matrix4x4Node v2) => v1.Evaluate() * v2.Evaluate(),
+                        (Matrix4x4Node v1, ScalarNode s2) => v1.Evaluate() * s2.Evaluate(),
+                        (ScalarNode s1, Matrix4x4Node v2) => v2.Evaluate() * s1.Evaluate(),
+                        _ => throw new NotImplementedException()
+                    };
+                case ExpressionNodeType.Conditional:
+                    return
+                        (Children[0] as BooleanNode).Evaluate() ?
+                        (Children[1] as Matrix4x4Node).Evaluate() :
+                        (Children[2] as Matrix4x4Node).Evaluate();
+                case ExpressionNodeType.Swizzle:
+                    return new Matrix4x4(
+                        Children[0].EvaluateSubchannel(Subchannels[0]),
+                        Children[0].EvaluateSubchannel(Subchannels[1]),
+                        Children[0].EvaluateSubchannel(Subchannels[2]),
+                        Children[0].EvaluateSubchannel(Subchannels[3]),
+                        Children[0].EvaluateSubchannel(Subchannels[4]),
+                        Children[0].EvaluateSubchannel(Subchannels[5]),
+                        Children[0].EvaluateSubchannel(Subchannels[6]),
+                        Children[0].EvaluateSubchannel(Subchannels[7]),
+                        Children[0].EvaluateSubchannel(Subchannels[8]),
+                        Children[0].EvaluateSubchannel(Subchannels[9]),
+                        Children[0].EvaluateSubchannel(Subchannels[10]),
+                        Children[0].EvaluateSubchannel(Subchannels[11]),
+                        Children[0].EvaluateSubchannel(Subchannels[12]),
+                        Children[0].EvaluateSubchannel(Subchannels[13]),
+                        Children[0].EvaluateSubchannel(Subchannels[14]),
+                        Children[0].EvaluateSubchannel(Subchannels[15]));
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 #pragma warning restore CS0660, CS0661
 }

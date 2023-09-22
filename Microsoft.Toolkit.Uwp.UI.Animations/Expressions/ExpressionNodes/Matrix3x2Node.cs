@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
@@ -336,6 +337,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         private Matrix3x2 _value;
+
+        /// <summary>
+        /// Evaluates the current value of the expression
+        /// </summary>
+        /// <returns>The current value of the expression</returns>
+        public Matrix3x2 Evaluate()
+        {
+            switch (NodeType)
+            {
+                case ExpressionNodeType.ConstantValue:
+                    return _value;
+                case ExpressionNodeType.ReferenceProperty:
+                    var reference = (Children[0] as ReferenceNode).Reference;
+                    reference.Properties.TryGetMatrix3x2(PropertyName, out var referencedProperty);
+                    return referencedProperty;
+                case ExpressionNodeType.Add:
+                    return
+                        (Children[0] as Matrix3x2Node).Evaluate() +
+                        (Children[1] as Matrix3x2Node).Evaluate();
+                case ExpressionNodeType.Subtract:
+                    return
+                        (Children[0] as Matrix3x2Node).Evaluate() -
+                        (Children[1] as Matrix3x2Node).Evaluate();
+                case ExpressionNodeType.Negate:
+                    return
+                        -(Children[0] as Matrix3x2Node).Evaluate();
+                case ExpressionNodeType.Multiply:
+                    return (Children[0], Children[1]) switch
+                    {
+                        (Matrix3x2Node v1, Matrix3x2Node v2) => v1.Evaluate() * v2.Evaluate(),
+                        (Matrix3x2Node v1, ScalarNode s2) => v1.Evaluate() * s2.Evaluate(),
+                        (ScalarNode s1, Matrix3x2Node v2) => v2.Evaluate() * s1.Evaluate(),
+                        _ => throw new NotImplementedException()
+                    };
+                case ExpressionNodeType.Conditional:
+                    return
+                        (Children[0] as BooleanNode).Evaluate() ?
+                        (Children[1] as Matrix3x2Node).Evaluate() :
+                        (Children[2] as Matrix3x2Node).Evaluate();
+                case ExpressionNodeType.Swizzle:
+                    return new Matrix3x2(
+                        Children[0].EvaluateSubchannel(Subchannels[0]),
+                        Children[0].EvaluateSubchannel(Subchannels[1]),
+                        Children[0].EvaluateSubchannel(Subchannels[2]),
+                        Children[0].EvaluateSubchannel(Subchannels[3]),
+                        Children[0].EvaluateSubchannel(Subchannels[4]),
+                        Children[0].EvaluateSubchannel(Subchannels[5]));
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 #pragma warning restore CS0660, CS0661
 }
