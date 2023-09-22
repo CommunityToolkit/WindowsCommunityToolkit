@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Diagnostics;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -81,6 +82,9 @@ namespace Microsoft.Toolkit.Uwp.UI
                     break;
                 case ValidationType.Characters:
                     regexMatch = textBox.Text.IsCharacterString();
+                    break;
+                case ValidationType.Currency:
+                    regexMatch = decimal.TryParse(textBox.Text, NumberStyles.Currency, CultureInfo.CurrentCulture, out _);
                     break;
             }
 
