@@ -16,7 +16,7 @@ using Microsoft.Toolkit.Uwp;
 namespace UnitTests.Extensions
 {
     [TestClass]
-    [Ignore("Ignored until issue on .Net Native is fixed. These are working.")]
+    [Ignore("Ignored until issue on .NET Native is fixed. These are working.")]
     public class Test_DispatcherQueueExtensions
     {
         private const int TIME_OUT = 5000;

@@ -1,5 +1,5 @@
 #####
-# This script downloads the specified version of NuGet packages for 
+# This script downloads the specified version of NuGet packages for
 # the required smoke tests from NuGet.
 # This is useful for performing current analysis on prior builds of the Toolkit.
 #

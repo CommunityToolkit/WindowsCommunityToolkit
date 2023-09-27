@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup Condition="'$(CurrentProject)' == ''">
@@ -11,7 +11,7 @@
   <!-- - - - - - Don't check-in changes in between this lines. Used for development. - - - - - -->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProjectGuid>{A6E4CB52-1025-4BBA-9C65-BB871D1FB53F}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -37,8 +37,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(CurrentProject)' != ''">
     <AppxPackageName>SmokeTest_$(CurrentProject)</AppxPackageName>
-    <IntermediateOutputPath>obj\$(CurrentProject)\</IntermediateOutputPath>
-    <OutputPath>bin\$(CurrentProject)\$(Platform)\$(Configuration)\</OutputPath>
+    <BaseOutputPath>bin\$(CurrentProject)\</BaseOutputPath>
+    <BaseIntermediateOutputPath>obj\$(CurrentProject)\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -129,6 +129,4 @@
     <Error Condition="'@(NuGetPackageFiltered)' == '' and $(CurrentProject) != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI'" Text="NuGet '$(CurrentProject).[SEMVER].nupkg' doesn't exist!" />
     <Error Condition="'$(CurrentProject)' != 'UWPBaseline' and '$(CurrentProject)' != 'UWPBaselineWinUI' and '$(NuGetPackageVersion)' == 'To Fill In With Local Version Number'" Text="Please set 'NuGetPackageVersion' at the top of 'SmokeTest.csproj' with the version to smoke test locally." />
   </Target>
-  <!-- No-op to avoid build error when packing solution from commandline -->
-  <Target Name="Pack" />
 </Project>

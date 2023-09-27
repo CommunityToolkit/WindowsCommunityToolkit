@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>
@@ -83,6 +83,10 @@
       <Implicit>true</Implicit>
     </SDKReference>
   </ItemGroup>
+  <PropertyGroup Condition="'$(BaseOutputPath)' != ''">
+    <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
+    <OutputPath Condition="'$(Platform)' != 'AnyCPU'">$(OutputPath)$(Platform)</OutputPath>
+  </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <Target Name="_StompSourceProjectForWapProject" BeforeTargets="_ConvertItems">
     <ItemGroup>
@@ -94,6 +98,4 @@
       </_FilteredNonWapProjProjectOutput>
     </ItemGroup>
   </Target>
-  <!-- No-op to avoid build error when packing solution from commandline -->
-  <Target Name="Pack" />
 </Project>

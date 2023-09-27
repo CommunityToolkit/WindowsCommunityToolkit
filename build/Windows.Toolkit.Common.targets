@@ -1,11 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <!-- TODO: Dynamically generate Title if one wasn't set -->
     <Title Condition="'$(Title)' == ''">$(Product) Asset</Title>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <CommonTags Condition="$(IsCoreProject)">$(CommonTags);.NET</CommonTags>
     <CommonTags Condition="$(IsUwpProject)">$(CommonTags);UWP</CommonTags>
     <PackageTags Condition="'$(PackageTags)' != ''">$(CommonTags);$(PackageTags)</PackageTags>
@@ -13,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsPackable)">
-    <None Include="$(BuildToolsDirectory)nuget.png" Pack="true" PackagePath="\Icon.png" />
-    <None Include="$(RepositoryDirectory)License.md" Pack="true" PackagePath="\" />
-    <None Include="$(RepositoryDirectory)ThirdPartyNotices.txt" Pack="true" PackagePath="\" />
+    <None Pack="true" PackagePath="\" Visible="False" Include="$(BuildToolsDirectory)Icon.png" />
+    <None Pack="true" PackagePath="\" Visible="False" Include="$(RepositoryDirectory)License.md" />
+    <None Pack="true" PackagePath="\" Visible="False" Include="$(RepositoryDirectory)ThirdPartyNotices.txt" />
   </ItemGroup>
 
   <ItemGroup>

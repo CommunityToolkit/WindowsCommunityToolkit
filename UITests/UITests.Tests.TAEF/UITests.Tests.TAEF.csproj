@@ -2,28 +2,36 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <PlatformTarget>x86</PlatformTarget>
-    <RuntimeIdentifier>win10-x86</RuntimeIdentifier>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
     <IsTestHarness>true</IsTestHarness>
+    <DefineConstants>USING_TAEF</DefineConstants>
     <EnableDefaultItems>false</EnableDefaultItems>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <DefineConstants>$(DefineConstants);USING_TAEF</DefineConstants>
-    <TaefRootDirectory>$(PkgTAEF_Redist_Wlk)\build\Binaries\$(PlatformTarget)\CoreClr\</TaefRootDirectory>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="MainClass.cs" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <!-- Paths of UITests.App project -->
+    <ParentProjectDirectory>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', 'UITests.App'))</ParentProjectDirectory>
+    <ParentAppxPackageDir>$([MSBuild]::NormalizeDirectory('$(ParentProjectDirectory)', 'AppPackages'))</ParentAppxPackageDir>
+    <!-- Paths of TAEF Support packages -->
+    <MuxToolsDirectory>$([MSBuild]::NormalizeDirectory('$(PkgMUXCustomBuildTasks)', 'tools', '$(PlatformTarget)'))</MuxToolsDirectory>
+    <TaefRootDirectory>$([MSBuild]::NormalizeDirectory('$(PkgTAEF_Redist_Wlk)', 'build', 'Binaries', '$(PlatformTarget)', 'CoreClr'))</TaefRootDirectory>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\*.msix" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\AppPackages\*\Dependencies\$(PlatformTarget)\*.appx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(MSBuildThisFileDirectory)\..\UITests.App\*.pfx" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="$(PkgMUXCustomBuildTasks)\tools\$(PlatformTarget)\WttLog.dll" CopyToOutputDirectory="PreserveNewest" />
+    <None CopyToOutputDirectory="PreserveNewest" Visible="False" Include="$(ParentProjectDirectory)*.pfx" />
+    <None CopyToOutputDirectory="PreserveNewest" Visible="False" Include="$(ParentAppxPackageDir)*\*.msix" />
+    <None CopyToOutputDirectory="PreserveNewest" Visible="False" Include="$(ParentAppxPackageDir)*\Dependencies\$(PlatformTarget)\*.appx" />
+    <None CopyToOutputDirectory="PreserveNewest" Visible="False" Include="$(MuxToolsDirectory)WttLog.dll" />
   </ItemGroup>
 
   <ItemGroup>

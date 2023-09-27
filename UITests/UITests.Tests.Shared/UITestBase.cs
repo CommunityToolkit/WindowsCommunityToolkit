@@ -23,27 +23,37 @@ namespace UITests.Tests
 {
     public abstract class UITestBase
     {
-        private TestSetupHelper helper;
-
-        internal static TestApplicationInfo WinUICsUWPSampleApp
+        internal static TestApplicationInfo WinUICSharpUWPSampleApp
         {
             get
             {
-                string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
+                string assemblyDir = Path.GetDirectoryName(typeof(TestApplicationInfo).Assembly.Location);
+                DirectoryInfo baseDir = Directory.GetParent(assemblyDir);
 
-                Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
-
-                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
-                var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
-
-                if (files.Count() == 0)
+                for (int i = 0; i < 10; i++)
                 {
-                    throw new Exception(string.Format("Failed to find '*.msix' in {0}'!", baseDirectory));
+                    if (baseDir.EnumerateDirectories().Any(d => d.Name.Equals("bin", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        break;
+                    }
+
+                    baseDir = baseDir.Parent;
                 }
 
-                string mostRecentlyBuiltPackage = string.Empty;
-                DateTime timeMostRecentlyBuilt = DateTime.MinValue;
+                string publishDir = Path.Combine(baseDir.FullName, "AppPackages", "UITests.App");
+
+                Log.Comment($"Base Package Search Directory = \"{publishDir}\"");
+
+                var excludes = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
+                var files = Directory.EnumerateFiles(publishDir, "*.msix", SearchOption.AllDirectories).Where(f => !excludes.Any(Path.GetFileNameWithoutExtension(f).Contains));
+
+                if (!files.Any())
+                {
+                    throw new Exception($"Failed to find '*.msix' in '{publishDir}'!");
+                }
+
+                var mostRecentlyBuiltPackage = string.Empty;
+                var timeMostRecentlyBuilt = DateTime.MinValue;
 
                 foreach (string file in files)
                 {
@@ -64,46 +74,17 @@ namespace UITests.Tests
                     processName: "UITests.App.exe",
                     installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
                     certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
-                    baseAppxDir: baseDirectory);
+                    baseAppxDir: publishDir);
             }
         }
+
+        private TestSetupHelper helper;
 
         private static TestSetupHelper.TestSetupHelperOptions TestSetupHelperOptions
             => new()
             {
                 AutomationIdOfSafeItemToClick = string.Empty
             };
-
-        public TestContext TestContext { get; set; }
-
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
-            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
-            // our loading.
-            helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
-
-            var pageName = GetPageForTest(TestContext);
-
-            var rez = await TestAssembly.OpenPage(pageName);
-
-            if (!rez)
-            {
-                // Error case, we didn't get confirmation of test starting.
-                throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
-            }
-
-            Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
-            Wait.ForIdle();
-            Log.Comment("[Harness] Starting Test for {0}...", pageName);
-        }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            helper.Dispose();
-        }
 
         private static string GetPageForTest(TestContext testContext)
         {
@@ -132,15 +113,45 @@ namespace UITests.Tests
 
             Log.Comment($"Found {testMethodString}.");
 
-            var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
+            var testPageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
             if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
             {
-                throw new Exception($"Could not find {testpageAttributeString}.");
+                throw new Exception($"Could not find {testPageAttributeString}.");
             }
 
-            Log.Comment($"Found {testpageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
+            Log.Comment($"Found {testPageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
 
             return attribute.XamlFile;
+        }
+
+        public TestContext TestContext { get; set; }
+
+        [TestInitialize]
+        public async Task TestInitialize()
+        {
+            // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
+            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete our loading.
+            helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
+
+            var pageName = GetPageForTest(TestContext);
+
+            var rez = await TestAssembly.OpenPage(pageName);
+
+            if (!rez)
+            {
+                // Error case, we didn't get confirmation of test starting.
+                throw new InvalidOperationException("Test host didn't confirm test ready to execute page: " + pageName);
+            }
+
+            Log.Comment("[Harness] Received Host Ready with Page: {0}", pageName);
+            Wait.ForIdle();
+            Log.Comment("[Harness] Starting Test for {0}...", pageName);
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            helper.Dispose();
         }
     }
 }

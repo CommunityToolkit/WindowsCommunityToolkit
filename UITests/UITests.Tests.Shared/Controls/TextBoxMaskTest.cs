@@ -25,7 +25,7 @@ namespace UITests.Tests
         [TestProperty("Platform", "Any")]
         public static void ClassInitialize(TestContext testContext)
         {
-            TestEnvironment.Initialize(testContext, WinUICsUWPSampleApp);
+            TestEnvironment.Initialize(testContext, WinUICSharpUWPSampleApp);
         }
 
         [TestMethod]

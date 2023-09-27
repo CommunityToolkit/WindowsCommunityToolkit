@@ -16,7 +16,7 @@ namespace UnitTests.Helpers
     {
         private const string Sampletext = "Lorem ipsum dolor sit amet";
         private const string Filename = "Test_StorageFileHelper_file.txt";
-        private const string PackagedFilePath = @"Assets\Samples\lorem.txt";
+        private const string PackagedFilePath = @"Assets\Samples\LoremText.UTF-16LE.txt";
 
         [TestCategory("Helpers")]
         [TestMethod]

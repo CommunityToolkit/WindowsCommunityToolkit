@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
   <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>
@@ -75,7 +75,9 @@
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup Condition="'$(BaseOutputPath)' != ''">
+    <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
+    <OutputPath Condition="'$(Platform)' != 'AnyCPU'">$(OutputPath)$(Platform)</OutputPath>
+  </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
-  <!-- No-op to avoid build error when packing solution from commandline -->
-  <Target Name="Pack" />
 </Project>
