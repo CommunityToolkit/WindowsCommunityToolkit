@@ -10,10 +10,8 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Parser for CanvasGeometry.
@@ -66,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
 
                     // Process the 'Additional' Group which contains just the attributes
                     figures.AddRange(from Capture capture in figureMatch.Groups["Additional"].Captures
-                                     select PathElementFactory.CreateAdditionalPathFigure(type, capture, figureRootIndex + capture.Index, figure.IsRelative));
+                        select PathElementFactory.CreateAdditionalPathFigure(type, capture, figureRootIndex + capture.Index, figure.IsRelative));
                 }
             }
 
@@ -128,6 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Parsers
             return CanvasGeometry.CreatePath(pathBuilder);
 
             static void ThrowForZeroCount() => throw new ArgumentException("PATH_ERR000:Invalid Path data! No matching path data found!");
+
             static void ThrowForNotOneCount() => throw new ArgumentException("PATH_ERR001:Multiple FillRule elements present in Path Data!\n" +
                                                                              "There should be only one FillRule within the Path Data. " +
                                                                              "You can either remove additional FillRule elements or split the Path Data " +

@@ -5,9 +5,9 @@
 using System.Numerics;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Class representing the Smooth Quadratic Bezier Element in a Path Geometry

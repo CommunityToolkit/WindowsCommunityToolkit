@@ -4,9 +4,8 @@
 
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas;
-using Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Stroke
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Abstract base class for Stroke Element.

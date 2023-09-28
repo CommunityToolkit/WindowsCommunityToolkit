@@ -5,8 +5,9 @@
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Geometry;
+using Microsoft.Toolkit.Uwp.UI.Media.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
+namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Interface to represent the Stroke which can be used to render an outline on a <see cref="CanvasGeometry"/>.
