@@ -1957,7 +1957,7 @@ namespace UnitTests.Notifications
                     { AdaptiveProgressBarBindableProperty.Value, "progressValue" }
                 },
 #else
-                Value = new BindableProgressBarValue("progressValue"),
+                Value = new AdaptiveProgressBarValue("progressValue"),
 #endif
                 Status = "Downloading..."
             });
@@ -2032,7 +2032,7 @@ namespace UnitTests.Notifications
                     { AdaptiveProgressBarBindableProperty.Status, "progressStatus" }
                 }
 #else
-                Value = new BindableProgressBarValue("progressValue"),
+                Value = new AdaptiveProgressBarValue("progressValue"),
                 Title = new BindableString("progressTitle"),
                 ValueStringOverride = new BindableString("progressValueOverride"),
                 Status = new BindableString("progressStatus")
