@@ -117,6 +117,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Identifies the <see cref="KeepTextAfterQuerySubmitted"/> property.
+        /// </summary>
+        public static readonly DependencyProperty KeepTextAfterQuerySubmittedProperty = DependencyProperty.Register(
+            nameof(KeepTextAfterQuerySubmitted),
+            typeof(bool),
+            typeof(TokenizingTextBox),
+            new PropertyMetadata(false));
+
+
+        /// <summary>
         /// Identifies the <see cref="SuggestedItemsSource"/> property.
         /// </summary>
         public static readonly DependencyProperty SuggestedItemsSourceProperty = DependencyProperty.Register(
@@ -280,6 +290,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control should keep or clear the text
+        /// after the query is submitted. Default is false (to clear the text).
+        /// </summary>
+        public bool KeepTextAfterQuerySubmitted
+        {
+            get => (bool)GetValue(KeepTextAfterQuerySubmittedProperty);
+            set => SetValue(KeepTextAfterQuerySubmittedProperty, value);
         }
 
         /// <summary>

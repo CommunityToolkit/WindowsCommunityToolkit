@@ -153,8 +153,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (chosenItem != null)
             {
                 await Owner.AddTokenAsync(chosenItem); // TODO: Need to pass index?
-                sender.Text = string.Empty;
-                Owner.Text = string.Empty;
+                if (!Owner.KeepTextAfterQuerySubmitted)
+                {
+                    sender.Text = string.Empty;
+                    Owner.Text = string.Empty;
+                }
+
                 sender.Focus(FocusState.Programmatic);
             }
         }
