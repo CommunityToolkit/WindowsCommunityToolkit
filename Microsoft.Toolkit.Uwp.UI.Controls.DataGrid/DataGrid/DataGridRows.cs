@@ -605,6 +605,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        internal void RemoveRowAt(int rowIndex)
+        {
+            object item = GetRow(rowIndex)?.DataContext;
+            RemoveElementAt(SlotFromRowIndex(rowIndex), item, true);
+        }
+
         internal void RemoveRowAt(int rowIndex, object item)
         {
             RemoveElementAt(SlotFromRowIndex(rowIndex), item, true);
@@ -1373,6 +1379,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             row.SetDetailsVisibilityInternal(
                 GetRowDetailsVisibility(row.Index),
                 raiseNotification);
+        }
+
+        private DataGridRow GetRow(int index)
+        {
+            if (_rowsPresenter != null)
+            {
+                return _rowsPresenter.Children[index] as DataGridRow;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private IEnumerable<DataGridRow> GetAllRows()
