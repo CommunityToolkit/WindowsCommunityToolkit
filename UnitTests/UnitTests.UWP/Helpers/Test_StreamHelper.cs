@@ -18,7 +18,7 @@ namespace UnitTests.Helpers
     {
         private const string SampleText = "Lorem ipsum dolor sit amet";
         private const string Filename = "Test_StreamHelper_file.txt";
-        private const string PackagedFilePath = @"Assets\Samples\lorem.txt";
+        private const string PackagedFilePath = @"Assets\Samples\LoremText.UTF-16LE.txt";
 
         [TestCategory("Helpers")]
         [TestMethod]

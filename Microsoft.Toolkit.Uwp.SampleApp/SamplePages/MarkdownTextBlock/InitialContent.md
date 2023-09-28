@@ -412,11 +412,11 @@ which renders in:
 
 MarkdownTextblock supports links wrapped with Images.
 
->\[!\[image](https\://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+>\[!\[image](https\://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/Icon.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 will render into
 
-[![image](https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+[![image](https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/Icon.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 and when clicked will go to the Linked Page.
 
@@ -425,7 +425,7 @@ MarkdownTextBlock also supports Reference based links.
 ```
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png
+[1]:https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/Icon.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 ```
@@ -434,7 +434,7 @@ will render into
 
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png
+[1]:https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/Icon.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 *****

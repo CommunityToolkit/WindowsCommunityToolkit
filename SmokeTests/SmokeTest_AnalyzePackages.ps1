@@ -5,9 +5,9 @@ Write-Host "Running Smoke Test Package Analyis"
 Write-Host "----------------------------------"
 
 #####
-# This script analyzes the final packaged outputs of  
+# This script analyzes the final packaged outputs of
 # There are two things analyzed:
-# - The MSIX UPLOAD package has the raw dependencies before .NET Native compilation, 
+# - The MSIX UPLOAD package has the raw dependencies before .NET Native compilation,
 #   this can help determine the maximum impact of the package if everything were to be included.
 # - The MSIX BUNDLE package is the final .NET Native compiled app,
 #   this can be used to help determine the minimal impact of the package if only a few things are used.
@@ -96,7 +96,7 @@ function Expand-MsixBundlePackage {
 }
 
 if (Test-Path $PackagePath)
-{    
+{
     Push-Location $PackagePath
 
     Write-Host "Extracting Baseline..."
@@ -133,7 +133,7 @@ if (Test-Path $PackagePath)
 
         #$ProgressPreference="SilentlyContinue"
         Expand-MsixUploadPackage $Package.Name -Destination $TempFolder
-        
+
         # Also expand the final bundle based on the namespace name within the package.
         Expand-MsixBundlePackage ($DirPattern -f $PackageShortName) -Destination $TempFolder2
         #$ProgressPreference="Continue"
@@ -184,7 +184,7 @@ if (Test-Path $PackagePath)
             {
                 Write-Host ("  Lib (self): {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor White
             }
-            else 
+            else
             {
                 Write-Host ("  Additional: {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor Yellow
             }
@@ -233,7 +233,7 @@ if (Test-Path $PackagePath)
             {
                 Write-Host ("  Lib (self): {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor White
             }
-            else 
+            else
             {
                 Write-Host ("  Additional: {0} = {1:n0}" -f $file.Name, $file.Length) -ForegroundColor Yellow
             }
@@ -251,7 +251,7 @@ if (Test-Path $PackagePath)
 
     Pop-Location
 }
-else 
+else
 {
-    Write-Error "Path $PackagePath not found for analysis!"        
+    Write-Error "Path $PackagePath not found for analysis!"
 }

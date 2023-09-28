@@ -31,7 +31,7 @@ jobs:
     displayName: Use NuGet 5.11.x
     inputs:
       versionSpec: 5.11.x
-      
+
   - task: DotNetCoreCLI@2
     inputs:
       command: custom
@@ -139,5 +139,5 @@ jobs:
       artifactType: container
       artifactName: SmokeTestBundles
 
-  - powershell: .\SmokeTests\SmokeTestAnalysis.ps1
+  - powershell: .\SmokeTests\SmokeTest_AnalyzePackages.ps1
     displayName: Analyze Package Sizes

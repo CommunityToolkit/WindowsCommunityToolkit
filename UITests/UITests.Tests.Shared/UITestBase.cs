@@ -25,7 +25,7 @@ namespace UITests.Tests
     {
         private TestSetupHelper helper;
 
-        internal static TestApplicationInfo WinUICsUWPSampleApp
+        internal static TestApplicationInfo WinUICSharpUWPSampleApp
         {
             get
             {
@@ -132,13 +132,13 @@ namespace UITests.Tests
 
             Log.Comment($"Found {testMethodString}.");
 
-            var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
+            var testPageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
             if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
             {
-                throw new Exception($"Could not find {testpageAttributeString}.");
+                throw new Exception($"Could not find {testPageAttributeString}.");
             }
 
-            Log.Comment($"Found {testpageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
+            Log.Comment($"Found {testPageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
 
             return attribute.XamlFile;
         }
