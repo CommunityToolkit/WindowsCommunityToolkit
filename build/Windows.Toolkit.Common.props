@@ -11,7 +11,6 @@
     <PackageProjectUrl>https://github.com/CommunityToolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/CommunityToolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <PackageIcon>Icon.png</PackageIcon>
-    <PackageIconUrl>https://raw.githubusercontent.com/CommunityToolkit/WindowsCommunityToolkit/main/build/nuget.png</PackageIconUrl>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -34,6 +33,8 @@
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject>$(MSBuildProjectName.Contains('.Uwp'))</IsUwpProject>
     <IsUwpProject Condition="$(IsDesignProject)">False</IsUwpProject>
+    <IsControlsProject>$(MSBuildProjectName.Contains('.Controls.'))</IsControlsProject>
+    <IsControlsProject Condition="$(IsDesignProject)">False</IsControlsProject>
     <IsCoreProject Condition="$(IsDesignProject) or $(IsSampleProject) or $(IsTestProject)">False</IsCoreProject>
     <IsCoreProject Condition="'$(IsCoreProject)' == ''">True</IsCoreProject>
   </PropertyGroup>
@@ -42,6 +43,25 @@
     <IsPackable>true</IsPackable>
     <IsPublishable>true</IsPublishable>
     <ContinuousIntegrationBuild>$(TF_BUILD)</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Common Outputs -->
+    <BuildDir>~build\</BuildDir>
+    <PublishDir>~publish\</PublishDir>
+    <!-- Build Outputs -->
+    <BaseOutputPath>$(BuildDir)bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(BuildDir)obj\</BaseIntermediateOutputPath>
+    <!-- Restore Outputs-->
+    <MSBuildProjectExtensionsPath>$(BuildDir)ext\</MSBuildProjectExtensionsPath>
+    <RestoreOutputPath>$(MSBuildProjectExtensionsPath)</RestoreOutputPath>
+    <!-- Pack Outputs -->
+    <PackageOutputPath>$(RepositoryDirectory)~packages\bin\</PackageOutputPath>
+    <NuSpecOutputPath>$(RepositoryDirectory)~packages\obj\</NuSpecOutputPath>
+    <!-- Test Outputs -->
+    <VSTestResultsDirectory>$(PublishDir)TestResults\</VSTestResultsDirectory>
+    <!-- AppX Outputs -->
+    <AppxPackageDir>$(PublishDir)</AppxPackageDir>
   </PropertyGroup>
 
 </Project>

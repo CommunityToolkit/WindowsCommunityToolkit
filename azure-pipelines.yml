@@ -28,10 +28,10 @@ jobs:
     displayName: Setup Environment Variables
 
   - task: NuGetToolInstaller@0
-    displayName: Use NuGet 5.11.x
+    displayName: Use NuGet 5.11
     inputs:
       versionSpec: 5.11.x
-      
+
   - task: DotNetCoreCLI@2
     inputs:
       command: custom
@@ -91,13 +91,13 @@ jobs:
     env:
       SignClientUser: $(SignClientUser)
       SignClientSecret: $(SignClientSecret)
-      ArtifactDirectory: bin\nupkg
+      ArtifactDirectory: ~packages\bin
     condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
   - task: PublishPipelineArtifact@1
     displayName: Publish Package Artifacts
     inputs:
-      targetPath: .\bin\nupkg
+      targetPath: .\~packages\bin
       artifactName: Packages
 
 ### Smoke Tests ###
@@ -111,7 +111,7 @@ jobs:
     displayName: Download NuGet Packages Artifact
     inputs:
       artifact: Packages
-      path: .\bin\nupkg
+      path: .\~packages\bin
 
   - task: DotNetCoreCLI@2
     inputs:

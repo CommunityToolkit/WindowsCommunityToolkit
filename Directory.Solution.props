@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
+    <RestoreUseStaticGraphEvaluation>True</RestoreUseStaticGraphEvaluation>
+  </PropertyGroup>
+
+  <!-- Options that are supported only when using the Full MSBuild! -->
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Full'">
+    <!-- Static Graph Restore doesn't yet support targets like uap10.0 framework -->
+    <RestoreUseStaticGraphEvaluation>False</RestoreUseStaticGraphEvaluation>
+  </PropertyGroup>
+
+</Project>

@@ -44,7 +44,7 @@
     <Message Importance="High" Text="Building project %(ProjectsToBuild.Identity): (%(ProjectsToBuild.Configuration)|%(ProjectsToBuild.Platform))" />
 
     <MSBuild Projects="SmokeTest.csproj"
-              Targets="restore;build"
+              Targets="Restore;Build"
               Properties="CurrentProject=%(ProjectsToBuild.Identity);Configuration=%(ProjectsToBuild.Configuration);Platform=%(ProjectsToBuild.Platform);NuGetPackageVersion=$(NuGetPackageVersion)" />
   </Target>
 
@@ -56,7 +56,6 @@
 
       <ToolkitProject Include="@(ToolkitPackage)">
         <Platforms>x86;x64;ARM;ARM64</Platforms>
-        <BinDir>bin</BinDir>
         <AssemblyName>%(ToolkitPackage.Identity)</AssemblyName>
       </ToolkitProject>
 
@@ -78,7 +77,7 @@
 
   <Target Name="CheckNuGetPackages">
     <PropertyGroup>
-      <NuGetOutputPath>$(MSBuildThisFileDirectory)..\bin\nupkg</NuGetOutputPath>
+      <NuGetOutputPath>$(MSBuildThisFileDirectory)..\~packages\bin</NuGetOutputPath>
     </PropertyGroup>
     <ItemGroup>
       <NuGetPackage Include="$(NuGetOutputPath)\*.nupkg" />

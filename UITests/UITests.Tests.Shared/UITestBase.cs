@@ -25,46 +25,65 @@ namespace UITests.Tests
     {
         private TestSetupHelper helper;
 
-        internal static TestApplicationInfo WinUICsUWPSampleApp
+        internal static TestApplicationInfo WinUICSharpUWPSampleApp
         {
             get
             {
-                string assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string baseDirectory = Path.Combine(Directory.GetParent(assemblyDir).Parent.Parent.Parent.Parent.FullName, "UITests.App");
-
-                Log.Comment($"Base Package Search Directory = \"{baseDirectory}\"");
-
-                var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
-                var files = Directory.GetFiles(baseDirectory, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
-
-                if (files.Count() == 0)
+                try
                 {
-                    throw new Exception(string.Format("Failed to find '*.msix' in {0}'!", baseDirectory));
-                }
+                    string assemblyDir = Path.GetDirectoryName(typeof(TestApplicationInfo).Assembly.Location);
+                    var baseDir = Directory.GetParent(assemblyDir);
 
-                string mostRecentlyBuiltPackage = string.Empty;
-                DateTime timeMostRecentlyBuilt = DateTime.MinValue;
-
-                foreach (string file in files)
-                {
-                    DateTime fileWriteTime = File.GetLastWriteTime(file);
-
-                    if (fileWriteTime > timeMostRecentlyBuilt)
+                    for (int i = 0; i < 10; i++)
                     {
-                        timeMostRecentlyBuilt = fileWriteTime;
-                        mostRecentlyBuiltPackage = file;
-                    }
-                }
+                        if (baseDir.EnumerateDirectories().Any(d => d.Name.Equals("~build", StringComparison.OrdinalIgnoreCase)))
+                        {
+                            break;
+                        }
 
-                return new TestApplicationInfo(
-                    testAppPackageName: "UITests.App",
-                    testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme!App",
-                    testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme",
-                    testAppMainWindowTitle: "UITests.App",
-                    processName: "UITests.App.exe",
-                    installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
-                    certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
-                    baseAppxDir: baseDirectory);
+                        baseDir = baseDir.Parent;
+                    }
+
+                    string publishDir = Path.Combine(baseDir.FullName, "~publish");
+
+                    Log.Comment($"Base Package Search Directory = \"{publishDir}\"");
+
+                    var exclude = new[] { "Microsoft.NET.CoreRuntime", "Microsoft.VCLibs", "Microsoft.UI.Xaml", "Microsoft.NET.CoreFramework.Debug" };
+                    var files = Directory.EnumerateFiles(publishDir, "*.msix", SearchOption.AllDirectories).Where(f => !exclude.Any(Path.GetFileNameWithoutExtension(f).Contains));
+
+                    if (!files.Any())
+                    {
+                        throw new Exception($"Failed to find '*.msix' in {publishDir}'!");
+                    }
+
+                    string mostRecentlyBuiltPackage = string.Empty;
+                    DateTime timeMostRecentlyBuilt = DateTime.MinValue;
+
+                    foreach (string file in files)
+                    {
+                        DateTime fileWriteTime = File.GetLastWriteTime(file);
+
+                        if (fileWriteTime > timeMostRecentlyBuilt)
+                        {
+                            timeMostRecentlyBuilt = fileWriteTime;
+                            mostRecentlyBuiltPackage = file;
+                        }
+                    }
+
+                    return new TestApplicationInfo(
+                        testAppPackageName: "UITests.App",
+                        testAppName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme!App",
+                        testAppPackageFamilyName: "3568ebdf-5b6b-4ddd-bb17-462d614ba50f_yeyc6z1eztrme",
+                        testAppMainWindowTitle: "UITests.App",
+                        processName: "UITests.App.exe",
+                        installerName: mostRecentlyBuiltPackage.Replace(".msix", string.Empty),
+                        certSerialNumber: "24d62f3b13b8b9514ead9c4de48cc30f7cc6151d",
+                        baseAppxDir: publishDir);
+                }
+                catch (Exception e)
+                {
+                    throw new AggregateException("Can't get Test Application info from the published MSIX packages. Check Output paths.", e);
+                }
             }
         }
 
@@ -80,8 +99,7 @@ namespace UITests.Tests
         public async Task TestInitialize()
         {
             // This will reset the test for each run (as from original WinUI https://github.com/microsoft/microsoft-ui-xaml/blob/master/test/testinfra/MUXTestInfra/Infra/TestHelpers.cs)
-            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete
-            // our loading.
+            // We construct it so it doesn't try to run any tests since we use the AppService Bridge to complete our loading.
             helper = new TestSetupHelper(new string[] { }, TestSetupHelperOptions);
 
             var pageName = GetPageForTest(TestContext);
@@ -132,13 +150,13 @@ namespace UITests.Tests
 
             Log.Comment($"Found {testMethodString}.");
 
-            var testpageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
+            var testPageAttributeString = $"\"{typeof(TestPageAttribute)}\" on {testMethodString}";
             if (method.GetCustomAttribute(typeof(TestPageAttribute), true) is not TestPageAttribute attribute)
             {
-                throw new Exception($"Could not find {testpageAttributeString}.");
+                throw new Exception($"Could not find {testPageAttributeString}.");
             }
 
-            Log.Comment($"Found {testpageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
+            Log.Comment($"Found {testPageAttributeString}. {nameof(TestPageAttribute.XamlFile)}: {attribute.XamlFile}.");
 
             return attribute.XamlFile;
         }

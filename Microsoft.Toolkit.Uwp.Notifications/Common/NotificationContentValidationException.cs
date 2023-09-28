@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-#if WINDOWS_UWP
+#if WINDOWS_UAP
 
 #endif
 

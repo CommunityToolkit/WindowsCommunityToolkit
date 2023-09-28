@@ -5,7 +5,7 @@
 using System.IO;
 using System.Text;
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
 using Windows.Data.Xml.Dom;
 #endif
 
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             }
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
         /// <summary>
         /// Retrieves the notification XML content as a WinRT XML document.
         /// </summary>

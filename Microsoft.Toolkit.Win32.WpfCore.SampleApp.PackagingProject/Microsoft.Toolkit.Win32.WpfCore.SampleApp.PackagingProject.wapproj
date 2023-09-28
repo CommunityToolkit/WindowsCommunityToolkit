@@ -75,6 +75,10 @@
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup Condition="'$(BaseOutputPath)' != ''">
+    <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
+    <OutputPath Condition="'$(Platform)' != 'AnyCPU'">$(OutputPath)$(Platform)</OutputPath>
+  </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
   <!-- No-op to avoid build error when packing solution from commandline -->
   <Target Name="Pack" />

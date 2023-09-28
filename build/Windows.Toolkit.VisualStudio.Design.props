@@ -9,14 +9,13 @@
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>False</AppendRuntimeIdentifierToOutputPath>
-    <EmbeddedResourceUseDependentUponConvention>True</EmbeddedResourceUseDependentUponConvention>
     <ParentTargetFramework>uap$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision)</ParentTargetFramework>
     <ParentProjectName>$(MSBuildProjectName.Remove($(MSBuildProjectName.LastIndexOf('.'))))</ParentProjectName>
   </PropertyGroup>
 
   <ItemGroup>
     <AppDesigner Include="Properties\"/>
-      <!-- The 'LogicalName' metadata changes the default manifest naming scheme -->
+    <!-- The 'LogicalName' metadata changes the default manifest naming scheme -->
     <EmbeddedResource Include="Icons\*.icon.png" LogicalName="$(ParentProjectRootNamespace).%(Filename)%(Extension)"/>
     <EmbeddedResource Include="$(ParentProjectOutputPath)$(ParentProjectName).xml" LinkBase="Properties\" LogicalName="%(Filename)%(Extension)"/>
   </ItemGroup>

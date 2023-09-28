@@ -271,7 +271,7 @@ namespace UnitTests.Notifications
         {
             AssertHelper.AssertXml(expected.ToLower(), toast.GetContent().ToLower());
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
             // For WinRT, we'll test the XmlDocument method too, make sure it works.
             AssertHelper.AssertXml(expected, toast.GetXml().GetXml());
 #endif
@@ -281,7 +281,7 @@ namespace UnitTests.Notifications
         {
             AssertHelper.AssertXml(expected.ToLower(), tile.GetContent().ToLower());
 
-#if WINDOWS_UWP
+#if WINDOWS_UAP
             // For WinRT, we'll test the XmlDocument method too, make sure it works.
             AssertHelper.AssertXml(expected, tile.GetXml().GetXml());
 #endif

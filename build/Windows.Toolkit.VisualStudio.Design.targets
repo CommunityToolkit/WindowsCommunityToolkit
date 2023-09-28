@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <ParentProjectRootNamespace>$(RootNamespace.Remove($(RootNamespace.LastIndexOf('.'))))</ParentProjectRootNamespace>
-    <ParentProjectOutputPath>..\$(ParentProjectName)\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
+    <ParentProjectOutputPath>..\$(ParentProjectName)\~build\bin\$(Configuration)\$(ParentTargetFramework)\</ParentProjectOutputPath>
     <OutputPath>$(ParentProjectOutputPath)Design\</OutputPath>
   </PropertyGroup>
 
@@ -34,8 +34,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.DesignTools.Extensibility" Version="16.4.29519.181" ExcludeAssets="Runtime" />
-    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="$(TargetPlatformBaseVersion).$(TargetPlatformMinRevision).*" />
+    <PackageReference Include="Microsoft.VisualStudio.DesignTools.Extensibility" ExcludeAssets="Runtime" />
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" />
   </ItemGroup>
 
 </Project>
