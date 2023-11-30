@@ -52,6 +52,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
+            FlowDirectionPicker.SelectedIndex = (int)DemoFlowDirection;
+            FlowDirectionPicker.SelectionChanged += this.FlowDirectionPicker_SelectionChanged;
+
             DocumentationTextBlock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
@@ -661,6 +664,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
+        private void FlowDirectionPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DemoFlowDirection = (FlowDirection)FlowDirectionPicker.SelectedIndex;
+        }
+
         public Sample CurrentSample { get; private set; }
 
         public ObservableCollection<SampleCommand> Commands { get; } = new ObservableCollection<SampleCommand>();
@@ -692,6 +700,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 _useBackground = value;
                 UpdateProperty(nameof(UseBackground));
             }
+        }
+
+        private FlowDirection DemoFlowDirection
+        {
+            get => DemoAreaGrid.FlowDirection;
+            set => DemoAreaGrid.FlowDirection = value;
         }
 
         // The Loaded Instance of the backing .xaml.cs Page (if any)
