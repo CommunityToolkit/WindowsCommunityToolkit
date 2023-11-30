@@ -28,14 +28,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
         /// Identifies the <see cref="Value"/> DependencyProperty
         /// </summary>
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(true, OnValuePropertyChanged));
+            DependencyProperty.Register(nameof(Value), typeof(object), typeof(IsNullOrEmptyStateTrigger), new PropertyMetadata(null, OnValuePropertyChanged));
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IsNullOrEmptyStateTrigger"/> class.
+        /// </summary>
+        public IsNullOrEmptyStateTrigger()
+        {
+            SetActive(true);
+        }
 
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var obj = (IsNullOrEmptyStateTrigger)d;
             var val = e.NewValue;
-
-            obj.SetActive(IsNullOrEmpty(val));
 
             if (val == null)
             {
@@ -43,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             }
 
             // Try to listen for various notification events
-            // Starting with INorifyCollectionChanged
+            // Starting with INotifyCollectionChanged
             var valNotifyCollection = val as INotifyCollectionChanged;
             if (valNotifyCollection != null)
             {
