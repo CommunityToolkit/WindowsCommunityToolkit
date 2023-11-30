@@ -22,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class DataGridTextColumn : DataGridBoundColumn
     {
         private const string DATAGRIDTEXTCOLUMN_fontFamilyName = "FontFamily";
+        private const string DATAGRIDTEXTCOLUMN_textAlignmentName = "TextAlignment";
         private const string DATAGRIDTEXTCOLUMN_fontSizeName = "FontSize";
         private const string DATAGRIDTEXTCOLUMN_fontStyleName = "FontStyle";
         private const string DATAGRIDTEXTCOLUMN_fontWeightName = "FontWeight";
@@ -65,6 +66,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DataGridTextColumn textColumn = d as DataGridTextColumn;
             textColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontFamilyName);
+        }
+
+        /// <summary>
+        /// Gets or sets the text alignment.
+        /// </summary>
+        public TextAlignment TextAlignment
+        {
+            get { return (TextAlignment)GetValue(TextAlignmentProperty); }
+            set { SetValue(TextAlignmentProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the TextAlignment dependency property.
+        /// </summary>
+        public static readonly DependencyProperty TextAlignmentProperty =
+            DependencyProperty.Register(
+                DATAGRIDTEXTCOLUMN_textAlignmentName,
+                typeof(TextAlignment),
+                typeof(DataGridTextColumn),
+                new PropertyMetadata(TextAlignment.Left, OnTextAlignmentPropertyChanged));
+
+        private static void OnTextAlignmentPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGridTextColumn textColumn = d as DataGridTextColumn;
+            textColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_textAlignmentName);
         }
 
         /// <summary>
@@ -181,6 +207,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBox.FontFamily = this.FontFamily;
             }
 
+            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.TextAlignmentProperty))
+            {
+                textBox.TextAlignment = this.TextAlignment;
+            }
+
             if (_fontSize.HasValue)
             {
                 textBox.FontSize = _fontSize.Value;
@@ -220,6 +251,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
             {
                 textBlockElement.FontFamily = this.FontFamily;
+            }
+
+            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.TextAlignmentProperty))
+            {
+                textBlockElement.TextAlignment = this.TextAlignment;
             }
 
             if (_fontSize.HasValue)
@@ -301,6 +337,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBlock.FontFamily = this.FontFamily;
                 }
+                else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
+                {
+                    textBlock.TextAlignment = this.TextAlignment;
+                }
                 else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
                 {
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
@@ -324,6 +364,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         textBlock.FontFamily = this.FontFamily;
                     }
 
+                    if (this.FontFamily != null)
+                    {
+                        textBlock.TextAlignment = this.TextAlignment;
+                    }
+
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
                     textBlock.FontStyle = this.FontStyle;
                     textBlock.FontWeight = this.FontWeight;
@@ -336,6 +381,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (propertyName == DATAGRIDTEXTCOLUMN_fontFamilyName)
             {
                 textBox.FontFamily = this.FontFamily;
+            }
+            else if (propertyName == DATAGRIDTEXTCOLUMN_textAlignmentName)
+            {
+                textBox.TextAlignment = this.TextAlignment;
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
             {
@@ -358,6 +407,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.FontFamily != null)
                 {
                     textBox.FontFamily = this.FontFamily;
+                }
+
+                if (this.FontFamily != null)
+                {
+                    textBox.TextAlignment = this.TextAlignment;
                 }
 
                 SetTextFontSize(textBox, TextBox.FontSizeProperty);
