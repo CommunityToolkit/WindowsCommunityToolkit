@@ -2,6 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Numerics;
+using Windows.UI.Composition;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     // Ignore warning: 'ScalarNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
@@ -258,6 +262,124 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         private float _value;
+
+        /// <summary>
+        /// Evaluates the current value of the expression
+        /// </summary>
+        /// <returns>The current value of the expression</returns>
+        public float Evaluate()
+        {
+            switch (NodeType)
+            {
+                case ExpressionNodeType.ConstantValue:
+                    return _value;
+                case ExpressionNodeType.ReferenceProperty:
+                    var reference = (Children[0] as ReferenceNode).Reference;
+                    return PropertyName switch
+                    {
+                        nameof(Visual.Opacity) => (reference as Visual).Opacity,
+                        nameof(Visual.RotationAngle) => (reference as Visual).RotationAngle,
+                        nameof(InsetClip.BottomInset) => (reference as InsetClip).BottomInset,
+                        nameof(InsetClip.LeftInset) => (reference as InsetClip).LeftInset,
+                        nameof(InsetClip.RightInset) => (reference as InsetClip).RightInset,
+                        nameof(InsetClip.TopInset) => (reference as InsetClip).TopInset,
+                        _ => GetProperty()
+                    };
+
+                    float GetProperty()
+                    {
+                        reference.Properties.TryGetScalar(PropertyName, out var value);
+                        return value;
+                    }
+
+                case ExpressionNodeType.Negate:
+                    return -(Children[0] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Add:
+                    return (Children[0] as ScalarNode).Evaluate() + (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Subtract:
+                    return (Children[0] as ScalarNode).Evaluate() - (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Multiply:
+                    return (Children[0] as ScalarNode).Evaluate() * (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Divide:
+                    return (Children[0] as ScalarNode).Evaluate() / (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Min:
+                    return MathF.Min((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Max:
+                    return MathF.Max((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Absolute:
+                    return MathF.Abs((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Sin:
+                    return MathF.Sin((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Cos:
+                    return MathF.Cos((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Asin:
+                    return MathF.Asin((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Acos:
+                    return MathF.Acos((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Atan:
+                    return MathF.Atan((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Ceil:
+                    return MathF.Ceiling((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Floor:
+                    return MathF.Floor((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Ln:
+                    return MathF.Log((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Log10:
+                    return MathF.Log10((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Pow:
+                    return MathF.Pow((Children[0] as ScalarNode).Evaluate(), (Children[1] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Round:
+                    return MathF.Round((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.Square:
+                    return MathF.Pow((Children[0] as ScalarNode).Evaluate(), 2);
+                case ExpressionNodeType.Sqrt:
+                    return MathF.Sqrt((Children[0] as ScalarNode).Evaluate());
+                case ExpressionNodeType.ToDegrees:
+                    return 180 * (Children[0] as ScalarNode).Evaluate() / MathF.PI;
+                case ExpressionNodeType.ToRadians:
+                    return MathF.PI * (Children[0] as ScalarNode).Evaluate() / 180;
+                case ExpressionNodeType.Modulus:
+                    return (Children[0] as ScalarNode).Evaluate() % (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Conditional:
+                    return (Children[0] as BooleanNode).Evaluate() ? (Children[1] as ScalarNode).Evaluate() : (Children[2] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Distance:
+                    return Vector2.Distance((Children[0] as Vector2Node).Evaluate(), (Children[1] as Vector2Node).Evaluate());
+                case ExpressionNodeType.Lerp:
+                {
+                    var start = (Children[0] as ScalarNode).Evaluate();
+                    var end = (Children[1] as ScalarNode).Evaluate();
+                    var progress = (Children[2] as ScalarNode).Evaluate();
+                    return start + (progress * (end - start));
+                }
+
+                case ExpressionNodeType.Swizzle:
+                    return Children[0] switch
+                    {
+                        ScalarNode n => n.Evaluate(),
+                        Vector2Node n => Subchannels[0] switch
+                        {
+                            "X" => n.Evaluate().X,
+                            _ => n.Evaluate().Y,
+                        },
+                        Vector3Node n => Subchannels[0] switch
+                        {
+                            "X" => n.Evaluate().X,
+                            "Y" => n.Evaluate().Y,
+                            _ => n.Evaluate().Z,
+                        },
+                        Vector4Node n => Subchannels[0] switch
+                        {
+                            "X" => n.Evaluate().X,
+                            "Y" => n.Evaluate().Y,
+                            "Z" => n.Evaluate().Z,
+                            _ => n.Evaluate().W,
+                        },
+                        _ => throw new NotImplementedException()
+                    };
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 #pragma warning restore CS0660, CS0661
 }

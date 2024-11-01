@@ -263,5 +263,46 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 
             return expressionNode.ExpressionAnimation;
         }
+
+        internal static float EvaluateSubchannel(this ExpressionNode node, string subchannel) => (node, subchannel) switch
+        {
+            (Vector2Node n, "X") => n.Evaluate().X,
+            (Vector2Node n, "Y") => n.Evaluate().Y,
+
+            (Vector3Node n, "X") => n.Evaluate().X,
+            (Vector3Node n, "Y") => n.Evaluate().Y,
+            (Vector3Node n, "Z") => n.Evaluate().Z,
+
+            (Vector4Node n, "X") => n.Evaluate().X,
+            (Vector4Node n, "Y") => n.Evaluate().Y,
+            (Vector4Node n, "Z") => n.Evaluate().Z,
+            (Vector4Node n, "W") => n.Evaluate().W,
+
+            (Matrix3x2Node n, "Channel11") => n.Evaluate().M11,
+            (Matrix3x2Node n, "Channel12") => n.Evaluate().M12,
+            (Matrix3x2Node n, "Channel21") => n.Evaluate().M21,
+            (Matrix3x2Node n, "Channel22") => n.Evaluate().M22,
+            (Matrix3x2Node n, "Channel31") => n.Evaluate().M31,
+            (Matrix3x2Node n, "Channel32") => n.Evaluate().M32,
+
+            (Matrix4x4Node n, "Channel11") => n.Evaluate().M11,
+            (Matrix4x4Node n, "Channel12") => n.Evaluate().M12,
+            (Matrix4x4Node n, "Channel13") => n.Evaluate().M13,
+            (Matrix4x4Node n, "Channel14") => n.Evaluate().M14,
+            (Matrix4x4Node n, "Channel21") => n.Evaluate().M21,
+            (Matrix4x4Node n, "Channel22") => n.Evaluate().M22,
+            (Matrix4x4Node n, "Channel23") => n.Evaluate().M23,
+            (Matrix4x4Node n, "Channel24") => n.Evaluate().M24,
+            (Matrix4x4Node n, "Channel31") => n.Evaluate().M31,
+            (Matrix4x4Node n, "Channel32") => n.Evaluate().M32,
+            (Matrix4x4Node n, "Channel33") => n.Evaluate().M33,
+            (Matrix4x4Node n, "Channel34") => n.Evaluate().M34,
+            (Matrix4x4Node n, "Channel41") => n.Evaluate().M41,
+            (Matrix4x4Node n, "Channel42") => n.Evaluate().M42,
+            (Matrix4x4Node n, "Channel43") => n.Evaluate().M43,
+            (Matrix4x4Node n, "Channel44") => n.Evaluate().M44,
+
+            _ => 0
+        };
     }
 }

@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
     // Ignore warning: 'BooleanNode' defines operator == or operator != but does not override Object.Equals(object o) && Object.GetHashCode()
@@ -127,6 +129,67 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         }
 
         private bool _value;
+
+        /// <summary>
+        /// Evaluates the current value of the expression
+        /// </summary>
+        /// <returns>The current value of the expression</returns>
+        public bool Evaluate()
+        {
+            switch (NodeType)
+            {
+                case ExpressionNodeType.ConstantValue:
+                    return _value;
+                case ExpressionNodeType.Equals:
+                    return Equals(Children[0], Children[1]);
+                case ExpressionNodeType.NotEquals:
+                    return !Equals(Children[0], Children[1]);
+                case ExpressionNodeType.And:
+                    return (Children[0] as BooleanNode).Evaluate() && (Children[1] as BooleanNode).Evaluate();
+                case ExpressionNodeType.Or:
+                    return (Children[0] as BooleanNode).Evaluate() || (Children[1] as BooleanNode).Evaluate();
+                case ExpressionNodeType.LessThan:
+                    return (Children[0] as ScalarNode).Evaluate() < (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.LessThanEquals:
+                    return (Children[0] as ScalarNode).Evaluate() <= (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.GreaterThan:
+                    return (Children[0] as ScalarNode).Evaluate() > (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.GreaterThanEquals:
+                    return (Children[0] as ScalarNode).Evaluate() >= (Children[1] as ScalarNode).Evaluate();
+                case ExpressionNodeType.Not:
+                    return !(Children[0] as BooleanNode).Evaluate();
+                case ExpressionNodeType.ReferenceProperty:
+                    var reference = (Children[0] as ReferenceNode).Reference;
+                    switch (PropertyName)
+                    {
+                        default:
+                            reference.Properties.TryGetBoolean(PropertyName, out var referencedProperty);
+                            return referencedProperty;
+                    }
+
+                case ExpressionNodeType.Conditional:
+                    return
+                        (Children[0] as BooleanNode).Evaluate() ?
+                        (Children[1] as BooleanNode).Evaluate() :
+                        (Children[2] as BooleanNode).Evaluate();
+                default:
+                    throw new NotImplementedException();
+            }
+
+            bool Equals(ExpressionNode e1, ExpressionNode e2) => (e1, e2) switch
+                {
+                    (BooleanNode n1, BooleanNode n2) => n1.Evaluate() == n2.Evaluate(),
+                    (ScalarNode n1, ScalarNode n2) => n1.Evaluate() == n2.Evaluate(),
+                    (Vector2Node n1, Vector2Node n2) => n1.Evaluate() == n2.Evaluate(),
+                    (Vector3Node n1, Vector3Node n2) => n1.Evaluate() == n2.Evaluate(),
+                    (Vector4Node n1, Vector4Node n2) => n1.Evaluate() == n2.Evaluate(),
+                    (ColorNode n1, ColorNode n2) => n1.Evaluate() == n2.Evaluate(),
+                    (QuaternionNode n1, QuaternionNode n2) => n1.Evaluate() == n2.Evaluate(),
+                    (Matrix3x2Node n1, Matrix3x2Node n2) => n1.Evaluate() == n2.Evaluate(),
+                    (Matrix4x4Node n1, Matrix4x4Node n2) => n1.Evaluate() == n2.Evaluate(),
+                    _ => false
+                };
+        }
     }
 #pragma warning restore CS0660, CS0661
 }
