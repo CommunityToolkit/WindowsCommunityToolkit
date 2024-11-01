@@ -279,6 +279,7 @@
     <Content Include="SamplePages\Graph\LoginButton.png" />
     <Content Include="SamplePages\Graph\PeoplePicker.png" />
     <Content Include="SamplePages\Graph\PersonView.png" />
+    <Content Include="SamplePages\ResourceString\ResourceString.png" />
     <Content Include="SamplePages\Primitives\ConstrainedBox.png" />
     <Content Include="SamplePages\Primitives\SwitchPresenter.png" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBox.png" />
@@ -392,6 +393,8 @@
     <Content Include="SamplePages\samples.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <PRIResource Include="Assets\Strings\en-US\Resources.resw" />
+    <PRIResource Include="Assets\Strings\es-ES\Resources.resw" />
     <None Include="readme.md" />
     <Content Include="SamplePages\LiveTile\LiveTileCode.bind" />
     <Content Include="SamplePages\Toast\ToastCode.bind" />
@@ -514,6 +517,9 @@
     </Compile>
     <Compile Include="SamplePages\MetadataControl\MetadataControlPage.xaml.cs">
       <DependentUpon>MetadataControlPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ResourceString\ResourceStringPage.xaml.cs">
+      <DependentUpon>ResourceStringPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Shadows\AttachedDropShadowPage.xaml.cs">
       <DependentUpon>AttachedDropShadowPage.xaml</DependentUpon>
@@ -647,6 +653,7 @@
     <Content Include="SamplePages\Animations\Shadows\AnimatedCardShadowXaml.bind" />
     <Content Include="SamplePages\KeyDownTriggerBehavior\KeyDownTriggerBehaviorXaml.bind" />
     <Content Include="SamplePages\RichSuggestBox\RichSuggestBoxCode.bind" />
+    <Content Include="SamplePages\ResourceString\ResourceStringXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1002,6 +1009,10 @@
     <Content Include="SamplePages\Primitives\SwitchPresenter.bind">
       <SubType>Designer</SubType>
     </Content>
+    <Page Include="SamplePages\ResourceString\ResourceStringPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SamplePages\Shadows\AttachedDropShadowPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

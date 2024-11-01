@@ -1266,10 +1266,19 @@
         "Name": "OnDevice",
         "Type": "OnDevicePage",
         "About": "The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/OnDeviceExtension.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/OnDeviceExtension.cs",
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
+      },
+      {
+        "Name": "ResourceString",
+        "Type": "ResourceStringPage",
+        "About": "The ResourceString markup extension allows you to easily access resource strings through bindings instead of Uid.",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/ResourceStringExtension.cs",
+        "Icon": "/SamplePages/ResourceString/ResourceString.png",
+        "XamlCodeFile": "ResourceStringXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ResourceStringMarkup.md"
       },
       {
         "Name": "IconExtensions",
@@ -1284,7 +1293,7 @@
         "Name": "EnumValuesExtension",
         "Type": "EnumValuesExtensionPage",
         "About": "The EnumValuesExtension markup extension allows you to easily retrieve a collection of all values from an enum type.",
-        "CodeUrl" : "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/EnumValuesExtension.cs",
+        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/blob/main/Microsoft.Toolkit.Uwp.UI/Extensions/Markup/EnumValuesExtension.cs",
         "Icon": "/Assets/Helpers.png",
         "XamlCodeFile": "EnumValuesExtensionXaml.bind",
         "CodeFile": "EnumValuesExtensionCode.bind",
