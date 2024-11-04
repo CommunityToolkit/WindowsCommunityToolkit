@@ -32,6 +32,7 @@
             <StaticResource x:Key="DataGridRowGroupHeaderPressedBackgroundBrush" ResourceKey="SystemControlBackgroundListMediumBrush"/>
             <StaticResource x:Key="DataGridRowGroupHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseHighBrush"/>
             <StaticResource x:Key="DataGridRowHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
+            <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="InvalidBrush" Color="#FFFF00"/>
@@ -49,6 +50,7 @@
             <StaticResource x:Key="DataGridRowGroupHeaderPressedBackgroundBrush" ResourceKey="SystemControlBackgroundListMediumBrush"/>
             <StaticResource x:Key="DataGridRowGroupHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseHighBrush"/>
             <StaticResource x:Key="DataGridRowHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
+            <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="InvalidBrush" Color="#C50500"/>
@@ -66,6 +68,7 @@
             <StaticResource x:Key="DataGridRowGroupHeaderPressedBackgroundBrush" ResourceKey="SystemControlBackgroundListMediumBrush"/>
             <StaticResource x:Key="DataGridRowGroupHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseHighBrush"/>
             <StaticResource x:Key="DataGridRowHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
+            <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -91,7 +94,6 @@
 
     <StaticResource x:Key="GridLinesBrush" ResourceKey="SystemControlGridLinesBaseMediumLowBrush"/>
 
-    <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush"/>
     <StaticResource x:Key="DataGridFillerColumnGridLinesBrush" ResourceKey="FillerGridLinesBrush"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColor"/>
     <StaticResource x:Key="DataGridRowSelectedBackgroundOpacity" ResourceKey="ListAccentLowOpacity"/>

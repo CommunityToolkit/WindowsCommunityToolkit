@@ -448,7 +448,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.DefaultStyleKey = typeof(DataGrid);
 
+            ActualThemeChanged += this.DataGrid_ActualThemeChanged;
+
             HookDataGridEvents();
+        }
+
+        private void DataGrid_ActualThemeChanged(FrameworkElement sender, object args)
+        {
+            DataGrid dataGrid = sender as DataGrid;
+            foreach (DataGridRow row in dataGrid.GetAllRows())
+            {
+                row.EnsureBackground();
+                row.EnsureForeground();
+            }
         }
 
         /// <summary>
@@ -5890,6 +5902,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _showingMouseIndicators = false;
             _keepScrollBarsShowing = false;
+
+            ActualThemeChanged -= this.DataGrid_ActualThemeChanged;
         }
 
 #if FEATURE_VALIDATION
