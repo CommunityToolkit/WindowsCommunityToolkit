@@ -20,7 +20,7 @@
     <!-- Microsoft.UI.Xaml MSTest Extension -->
     <PackageReference Include="MUXTestInfra.MSTest" Version="0.0.4" />
     <!-- System packages -->
-    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.5.1" />
