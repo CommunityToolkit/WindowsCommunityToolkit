@@ -253,6 +253,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ValidationSummaryItem _selectedValidationSummaryItem;
 #endif
 
+        private DateTime _scrollAdjustmentTimeWindow = DateTime.MinValue;
+        private FrameworkElement _scrollAdjustmentTarget;
+
         // An approximation of the sum of the heights in pixels of the scrolling rows preceding
         // the first displayed scrolling row.  Since the scrolled off rows are discarded, the grid
         // does not know their actual height. The heights used for the approximation are the ones
@@ -5914,6 +5917,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PreparingCellForEditPrivate(element);
         }
 
+        private void EditingElement_SizeChanged(object sender, SizeChangedEventArgs args)
+        {
+            if (sender is not FrameworkElement element)
+            {
+                return;
+            }
+
+            if (_scrollAdjustmentTarget != element ||
+                _scrollAdjustmentTimeWindow < DateTime.Now)
+            {
+                element.SizeChanged -= EditingElement_SizeChanged;
+                return;
+            }
+
+            // Workaround for https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4983
+            // Scroll-into-view is based the cell's size in normal mode. For cell that expands in edit-mode,
+            // the scroll h/v offsets could be off. So we scroll again using with newly updated size.
+            if (_editingColumnIndex != -1 &&
+                EditingRow?.Cells[_editingColumnIndex] is { Content: FrameworkElement editor } cell &&
+                editor == element)
+            {
+                var shouldScroll = new
+                {
+                    Horizontally = args.PreviousSize.Width < args.NewSize.Width,
+                    Vertically = args.PreviousSize.Height < args.NewSize.Height,
+                };
+                if (shouldScroll.Horizontally || shouldScroll.Vertically)
+                {
+                    ComputeScrollBarsLayout();
+                }
+
+                if (shouldScroll.Horizontally)
+                {
+                    ScrollColumnIntoView(cell.ColumnIndex);
+                }
+
+                if (shouldScroll.Vertically)
+                {
+                    ScrollSlotIntoView(cell.RowIndex, scrolledHorizontally: false);
+                }
+            }
+        }
+
         private bool EndCellEdit(DataGridEditAction editAction, bool exitEditingMode, bool keepFocus, bool raiseEvents)
         {
             if (_editingColumnIndex == -1)
@@ -6700,8 +6746,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         element.SetStyleWithType(dataGridBoundColumn.EditingElementStyle);
                     }
 
+                    _scrollAdjustmentTimeWindow = DateTime.Now.AddSeconds(.5);
+                    _scrollAdjustmentTarget = element;
+
                     // Subscribe to the new element's events
                     element.Loaded += new RoutedEventHandler(EditingElement_Loaded);
+                    element.SizeChanged += new SizeChangedEventHandler(EditingElement_SizeChanged);
                 }
             }
             else
