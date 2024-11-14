@@ -1245,6 +1245,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _horizontalOffset -= GetEdgedColumnWidth(dataGridColumn);
                             dataGridColumn = this.ColumnsInternal.GetPreviousVisibleScrollingColumn(dataGridColumn);
                         }
+
+                        if (_horizontalOffset == 0 && cx < displayWidth)
+                        {
+                            // if the columns have been scrolled, and all visible columns are fully rendered in the available space,
+                            // then HorizontalAdjustment needs to be updated so that DataGridCellsPresenter.ShouldDisplayCell
+                            // don't hide columns based on the old value.
+                            HorizontalAdjustment = displayWidth - cx;
+                        }
                     }
 
                     // third try to partially scroll in first scrolled off column
