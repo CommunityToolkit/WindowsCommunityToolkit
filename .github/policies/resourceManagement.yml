@@ -1,0 +1,370 @@
+id: 
+name: GitOps.PullRequestIssueManagement
+description: GitOps.PullRequestIssueManagement primitive
+owner: 
+resource: repository
+disabled: false
+where: 
+configuration:
+  resourceManagementConfiguration:
+    scheduledSearches:
+    - description: Close stale issues
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isIssue
+      - isOpen
+      - hasLabel:
+          label: 'needs author feedback :memo:'
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      - noActivitySince:
+          days: 30
+      actions:
+      - addReply:
+          reply: ${issueAuthor} This issue has been automatically closed because it was marked as requiring author feedback but has not had any activity for over **45 days**.
+      - closeIssue
+    - description: Add no recent activity label to issues
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isIssue
+      - isOpen
+      - hasLabel:
+          label: 'needs author feedback :memo:'
+      - noActivitySince:
+          days: 15
+      - isNotLabeledWith:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      actions:
+      - addLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      - addReply:
+          reply: ${issueAuthor} This issue has been automatically marked as stale because it has been marked as requiring author feedback but has not had any activity for **15 days**. It will be closed if no further activity occurs **within 30 days of this comment**.
+    - description: Close duplicate issues
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isIssue
+      - isOpen
+      - hasLabel:
+          label: 'duplicate :busts_in_silhouette:'
+      - noActivitySince:
+          days: 1
+      actions:
+      - addReply:
+          reply: This issue has been marked as duplicate and has not had any activity for **1 day**. It will be closed for housekeeping purposes.
+      - closeIssue
+    - description: 'Issue needs attention '
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isOpen
+      - isIssue
+      - hasLabel:
+          label: 'needs triage :mag:'
+      - noActivitySince:
+          days: 15
+      actions:
+      - addLabel:
+          label: 'needs attention :wave:'
+      - addReply:
+          reply: "This issue has been marked as \"needs attention \U0001F44B\" due to no activity for **15 days**.  Please triage the issue so the fix can be established. "
+    - description: Close Stale pull requests
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isPullRequest
+      - isOpen
+      - hasLabel:
+          label: 'needs author feedback :memo:'
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      - noActivitySince:
+          days: 45
+      actions:
+      - closeIssue
+    - description: Add no recent activity label to pull requests
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isPullRequest
+      - isOpen
+      - hasLabel:
+          label: 'needs author feedback :memo:'
+      - noActivitySince:
+          days: 15
+      - isNotLabeledWith:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      actions:
+      - addLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      - addReply:
+          reply: This pull request has been automatically marked as stale because it has been marked as requiring author feedback but has not had any activity for **15 days**. It will be closed if no further activity occurs **within 30 days of this comment**.
+    - description: Close "Not an issue" issues
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - hasLabel:
+          label: 'not an issue :x:'
+      - isIssue
+      - isOpen
+      - noActivitySince:
+          days: 1
+      actions:
+      - addReply:
+          reply: 'This issue has been marked as being beyond the support scope of Windows Community Toolkit. It will now be closed automatically for house-keeping purposes. '
+      - closeIssue
+    - description: Close issues that marked as won't fix
+      frequencies:
+      - hourly:
+          hour: 3
+      filters:
+      - isOpen
+      - isIssue
+      - hasLabel:
+          label: 'wontfix :x:'
+      - noActivitySince:
+          days: 3
+      actions:
+      - closeIssue
+    eventResponderTasks:
+    - if:
+      - payloadType: Issue_Comment
+      - isAction:
+          action: Created
+      - isActivitySender:
+          issueAuthor: True
+      - hasLabel:
+          label: 'needs author feedback :memo:'
+      - isOpen
+      then:
+      - addLabel:
+          label: 'needs attention :wave:'
+      - removeLabel:
+          label: 'needs author feedback :memo:'
+      description: Replace needs author feedback label with needs attention label when the author comments on an issue
+    - if:
+      - payloadType: Issues
+      - not:
+          isAction:
+            action: Closed
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      - isAction:
+          action: Edited
+      then:
+      - removeLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      description: Remove no recent activity label from issues
+    - if:
+      - payloadType: Issue_Comment
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      then:
+      - removeLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      description: Remove no recent activity label when an issue is commented on
+    - if:
+      - payloadType: Pull_Request
+      - isAction:
+          action: Opened
+      then:
+      - addReply:
+          reply: "Thanks ${issueAuthor} for opening a Pull Request! The reviewers will test the PR and highlight if there is any conflict or changes required. If the PR is approved we will proceed to merge the pull request \U0001F64C"
+      - requestReview:
+          reviewer: michael-hawker
+      - requestReview:
+          reviewer: azchohfi
+      - requestReview:
+          reviewer: Kyaa-dost
+      - requestReview:
+          reviewer: RosarioPulella
+      description: Opened Pull Request
+    - if:
+      - payloadType: Pull_Request
+      then:
+      - inPrLabel:
+          label: 'In-PR :rocket:'
+      description: 'Issues labeled as "In-PR" and "Fixed" when the merge is in-progress and completes '
+    - if:
+      - payloadType: Pull_Request_Review
+      - isAction:
+          action: Submitted
+      - isReviewState:
+          reviewState: Changes_requested
+      then:
+      - addLabel:
+          label: 'needs author feedback :memo:'
+      description: Add "needs author feedback" label to pull requests when changes are requested
+    - if:
+      - payloadType: Pull_Request
+      - isActivitySender:
+          issueAuthor: True
+      - not:
+          isAction:
+            action: Closed
+      - hasLabel:
+          label: 'needs author feedback :memo:'
+      then:
+      - removeLabel:
+          label: 'needs author feedback :memo:'
+      - addLabel:
+          label: 'needs attention :wave:'
+      - addReply:
+          reply: "This PR has been marked as \"needs attention \U0001F44B\" and awaiting a response from the team. "
+      description: Remove needs author feedback label when the author responds to a pull request
+    - if:
+      - payloadType: Pull_Request
+      - not:
+          isAction:
+            action: Closed
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      then:
+      - removeLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      description: Remove no recent activity label from pull requests
+    - if:
+      - payloadType: Issue_Comment
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      then:
+      - removeLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      description: Remove no recent activity label when a pull request is commented on
+    - if:
+      - payloadType: Pull_Request_Review
+      - hasLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      then:
+      - removeLabel:
+          label: 'no-recent-activity :chart_with_downwards_trend:'
+      description: Remove no recent activity label when a pull request is reviewed
+    - if:
+      - payloadType: Pull_Request
+      - hasLabel:
+          label: 'auto merge :zap:'
+      then:
+      - enableAutoMerge:
+          mergeMethod: Merge
+      description: Automatically merge pull requests
+    - if:
+      - payloadType: Pull_Request
+      - labelRemoved:
+          label: 'auto merge :zap:'
+      then:
+      - disableAutoMerge
+      description: Automatically merge pull requests
+    - if:
+      - payloadType: Issue_Comment
+      then:
+      - cleanEmailReply
+      description: 'Remove Quoted Email Content '
+    - if:
+      - payloadType: Issue_Comment
+      - isAction:
+          action: Created
+      - not:
+          isActivitySender:
+            issueAuthor: True
+      - hasLabel:
+          label: 'needs attention :wave:'
+      - isOpen
+      then:
+      - removeLabel:
+          label: 'needs attention :wave:'
+      description: Remove Needs Attention label
+    - if:
+      - payloadType: Pull_Request
+      then:
+      - labelSync:
+          pattern: bug
+      - labelSync:
+          pattern: bulb
+      - labelSync:
+          pattern: document
+      - labelSync:
+          pattern: sample
+      - labelSync:
+          pattern: 'improvements '
+      - labelSync:
+          pattern: DataGrid
+      - labelSync:
+          pattern: 'accessibility '
+      - labelSync:
+          pattern: breaking change
+      - labelSync:
+          pattern: controls
+      - labelSync:
+          pattern: markdown
+      - labelSync:
+          pattern: parsers
+      - labelSync:
+          pattern: extensions
+      - labelSync:
+          pattern: nuget
+      - labelSync:
+          pattern: UI
+      - labelSync:
+          pattern: hacktoberfest
+      - labelSync:
+          pattern: fix
+      - labelSync:
+          pattern: priority
+      - labelSync:
+          pattern: feature
+      description: Sync Issues Label to PR's
+    - if:
+      - payloadType: Issues
+      - hasLabel:
+          label: 'In-PR :rocket:'
+      - hasLabel:
+          label: 'help wanted :raising_hand:'
+      - isLabeled
+      then:
+      - removeLabel:
+          label: 'help wanted :raising_hand:'
+      description: Remove Help Wanted label from issues if the PR is created
+    - if:
+      - payloadType: Issues
+      - hasLabel:
+          label: 'In-PR :rocket:'
+      - hasLabel:
+          label: 'needs triage :mag:'
+      - isLabeled
+      then:
+      - removeLabel:
+          label: 'needs triage :mag:'
+      description: Remove Need Triage label from issues if the PR is created
+    - if:
+      - payloadType: Pull_Request
+      - isAction:
+          action: Opened
+      - activitySenderHasAssociation:
+          association: FirstTimeContributor
+      then:
+      - addLabel:
+          label: 'First Time Contributor :wave:'
+      - addReply:
+          reply: >-
+            ${issueAuthor} Welcome to the Windows Community Toolkit 💙💙💙
+
+
+            We always love to see new contributors joining the community and taking initiatives to contribute and add value to the toolkit 🙌
+
+
+            If you haven't had a chance to explore our [Contribution Wiki page](https://github.com/windows-toolkit/WindowsCommunityToolkit/wiki) then please feel free to do as it will help you transition smoothly.
+
+
+            Once again Thank you so much for the contribution and we are certainly looking forward to working with you more in the future 🚀🚀
+      description: Welcome message to the first time Github Committer when opening a new PR
+onFailure: 
+onSuccess: 
