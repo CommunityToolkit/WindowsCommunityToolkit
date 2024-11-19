@@ -262,6 +262,7 @@
     <Compile Include="UI\Controls\Test_WrapPanel_Visibility.cs" />
     <Compile Include="UI\Controls\Test_WrapPanel_BasicLayout.cs" />
     <Compile Include="UI\Extensions\Test_VisualExtensions.cs" />
+    <Compile Include="UI\Extensions\TextBox\Test_TextBoxExtensions_Regex.cs" />
     <Compile Include="UI\Person.cs" />
     <Compile Include="UI\Test_AdvancedCollectionView.cs" />
     <Compile Include="UI\Triggers\Test_ControlSizeTrigger.cs" />
