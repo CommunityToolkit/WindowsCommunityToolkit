@@ -135,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // TODO: Update the DetailsHeightEstimate
                 double totalDetailsHeight = detailsCount * this.RowDetailsHeightEstimate;
                 double newEdgedRowsHeightCalculated = totalRowsHeight + totalDetailsHeight;
-                bool loadMoreDataFromIncrementalItemsSource = newEdgedRowsHeightCalculated < _oldEdgedRowsHeightCalculated;
+                bool loadMoreDataFromIncrementalItemsSource = newEdgedRowsHeightCalculated < _oldEdgedRowsHeightCalculated || (newEdgedRowsHeightCalculated == _oldEdgedRowsHeightCalculated && newEdgedRowsHeightCalculated < CellsHeight);
 
                 _oldEdgedRowsHeightCalculated = newEdgedRowsHeightCalculated;
 
