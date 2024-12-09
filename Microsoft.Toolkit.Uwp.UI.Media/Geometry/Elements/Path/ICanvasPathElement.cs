@@ -3,11 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Graphics.Canvas.Geometry;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Elements.Path
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Interface for a Path Element which serves

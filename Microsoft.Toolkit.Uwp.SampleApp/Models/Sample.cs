@@ -479,156 +479,158 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_propertyDescriptor == null)
             {
-                // Get Xaml code
-                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(XamlCodeFile.StartsWith('/') ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
+                try
                 {
-                    XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
-
-                    // Look for @[] values and generate associated properties
-                    var regularExpression = new Regex("(?<=\\\")@\\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\\]@?(?=\\\")");
-
-                    _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
-                    var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
-
-                    foreach (Match match in regularExpression.Matches(XamlCode))
+                    // Get Xaml code
+                    using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync(XamlCodeFile.StartsWith('/') ? XamlCodeFile : $"SamplePages/{Name}/{XamlCodeFile}"))
                     {
-                        var label = match.Groups["name"].Value;
-                        var name = label.Replace(" ", string.Empty); // Allow us to have nicer display names, but create valid properties.
-                        var type = match.Groups["type"].Value;
-                        var value = match.Groups["value"].Value;
+                        XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
-                        var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
+                        // Look for @[] values and generate associated properties
+                        var regularExpression = new Regex("(?<=\\\")@\\[(?<name>.+?)(:(?<type>.+?):(?<value>.+?)(:(?<parameters>.+?))?(:(?<options>.*))*)?\\]@?(?=\\\")");
 
-                        if (existingOption == null && string.IsNullOrWhiteSpace(type))
+                        _propertyDescriptor = new PropertyDescriptor { Expando = new ExpandoObject() };
+                        var proxy = (IDictionary<string, object>)_propertyDescriptor.Expando;
+
+                        foreach (Match match in regularExpression.Matches(XamlCode))
                         {
-                            throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurrence in {XamlCodeFile}.");
-                        }
+                            var label = match.Groups["name"].Value;
+                            var name = label.Replace(" ", string.Empty); // Allow us to have nicer display names, but create valid properties.
+                            var type = match.Groups["type"].Value;
+                            var value = match.Groups["value"].Value;
 
-                        if (Enum.TryParse(type, out PropertyKind kind))
-                        {
-                            if (existingOption != null)
+                            var existingOption = _propertyDescriptor.Options.Where(o => o.Name == name).FirstOrDefault();
+
+                            if (existingOption == null && string.IsNullOrWhiteSpace(type))
                             {
-                                if (existingOption.Kind != kind)
-                                {
-                                    throw new NotSupportedException($"Multiple options with same name but different type not supported: {XamlCodeFile}:{name}");
-                                }
-
-                                continue;
+                                throw new NotSupportedException($"Unrecognized short identifier '{name}'; Define type and parameters of property in first occurrence in {XamlCodeFile}.");
                             }
 
-                            PropertyOptions options;
-
-                            switch (kind)
+                            if (Enum.TryParse(type, out PropertyKind kind))
                             {
-                                case PropertyKind.Slider:
-                                case PropertyKind.DoubleSlider:
-                                    try
+                                if (existingOption != null)
+                                {
+                                    if (existingOption.Kind != kind)
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value, CultureInfo.InvariantCulture) };
-                                        var parameters = match.Groups["parameters"].Value;
-                                        var split = parameters.Split('-');
-                                        int minIndex = 0;
-                                        int minMultiplier = 1;
-                                        if (string.IsNullOrEmpty(split[0]))
+                                        throw new NotSupportedException($"Multiple options with same name but different type not supported: {XamlCodeFile}:{name}");
+                                    }
+
+                                    continue;
+                                }
+
+                                PropertyOptions options;
+
+                                switch (kind)
+                                {
+                                    case PropertyKind.Slider:
+                                    case PropertyKind.DoubleSlider:
+                                        try
                                         {
-                                            minIndex = 1;
-                                            minMultiplier = -1;
+                                            var sliderOptions = new SliderPropertyOptions { DefaultValue = double.Parse(value, CultureInfo.InvariantCulture) };
+                                            var parameters = match.Groups["parameters"].Value;
+                                            var split = parameters.Split('-');
+                                            int minIndex = 0;
+                                            int minMultiplier = 1;
+                                            if (string.IsNullOrEmpty(split[0]))
+                                            {
+                                                minIndex = 1;
+                                                minMultiplier = -1;
+                                            }
+
+                                            sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                            sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
+                                            if (split.Length > 2 + minIndex)
+                                            {
+                                                sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
+                                            }
+
+                                            options = sliderOptions;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                            TrackingManager.TrackException(ex);
+                                            continue;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
-                                        if (split.Length > 2 + minIndex)
+                                        break;
+
+                                    case PropertyKind.TimeSpan:
+                                        try
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
+                                            var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture)) };
+                                            var parameters = match.Groups["parameters"].Value;
+                                            var split = parameters.Split('-');
+                                            int minIndex = 0;
+                                            int minMultiplier = 1;
+                                            if (string.IsNullOrEmpty(split[0]))
+                                            {
+                                                minIndex = 1;
+                                                minMultiplier = -1;
+                                            }
+
+                                            sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
+                                            sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
+                                            if (split.Length > 2 + minIndex)
+                                            {
+                                                sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
+                                            }
+
+                                            options = sliderOptions;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
+                                            TrackingManager.TrackException(ex);
+                                            continue;
                                         }
 
-                                        options = sliderOptions;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
-                                        TrackingManager.TrackException(ex);
-                                        continue;
-                                    }
+                                        break;
 
-                                    break;
-
-                                case PropertyKind.TimeSpan:
-                                    try
-                                    {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture)) };
-                                        var parameters = match.Groups["parameters"].Value;
-                                        var split = parameters.Split('-');
-                                        int minIndex = 0;
-                                        int minMultiplier = 1;
-                                        if (string.IsNullOrEmpty(split[0]))
+                                    case PropertyKind.Enum:
+                                        try
                                         {
-                                            minIndex = 1;
-                                            minMultiplier = -1;
+                                            options = new PropertyOptions();
+                                            var split = value.Split('.');
+                                            var typeName = string.Join(".", split.Take(split.Length - 1));
+                                            var enumType = LookForTypeByName(typeName);
+                                            options.DefaultValue = Enum.Parse(enumType, split.Last());
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
+                                            TrackingManager.TrackException(ex);
+                                            continue;
                                         }
 
-                                        sliderOptions.MinValue = minMultiplier * double.Parse(split[minIndex], CultureInfo.InvariantCulture);
-                                        sliderOptions.MaxValue = double.Parse(split[minIndex + 1], CultureInfo.InvariantCulture);
-                                        if (split.Length > 2 + minIndex)
+                                        break;
+
+                                    case PropertyKind.Bool:
+                                        try
                                         {
-                                            sliderOptions.Step = double.Parse(split[split.Length - 1], CultureInfo.InvariantCulture);
+                                            options = new PropertyOptions { DefaultValue = bool.Parse(value) };
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                            continue;
                                         }
 
-                                        options = sliderOptions;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
-                                        TrackingManager.TrackException(ex);
-                                        continue;
-                                    }
+                                        break;
 
-                                    break;
+                                    case PropertyKind.Brush:
+                                        try
+                                        {
+                                            options = new PropertyOptions { DefaultValue = value };
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+                                            TrackingManager.TrackException(ex);
+                                            continue;
+                                        }
 
-                                case PropertyKind.Enum:
-                                    try
-                                    {
-                                        options = new PropertyOptions();
-                                        var split = value.Split('.');
-                                        var typeName = string.Join(".", split.Take(split.Length - 1));
-                                        var enumType = LookForTypeByName(typeName);
-                                        options.DefaultValue = Enum.Parse(enumType, split.Last());
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
-                                        TrackingManager.TrackException(ex);
-                                        continue;
-                                    }
-
-                                    break;
-
-                                case PropertyKind.Bool:
-                                    try
-                                    {
-                                        options = new PropertyOptions { DefaultValue = bool.Parse(value) };
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
-                                        continue;
-                                    }
-
-                                    break;
-
-                                case PropertyKind.Brush:
-                                    try
-                                    {
-                                        options = new PropertyOptions { DefaultValue = value };
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
-                                        TrackingManager.TrackException(ex);
-                                        continue;
-                                    }
-
-                                    break;
+                                        break;
 
                                 case PropertyKind.Thickness:
                                     try
@@ -658,23 +660,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                         continue;
                                     }
 
-                                    break;
+                                        break;
 
-                                default:
-                                    options = new PropertyOptions { DefaultValue = value };
-                                    break;
+                                    default:
+                                        options = new PropertyOptions { DefaultValue = value };
+                                        break;
+                                }
+
+                                options.Label = label;
+                                options.Name = name;
+                                options.OriginalString = match.Value;
+                                options.Kind = kind;
+                                options.IsTwoWayBinding = options.OriginalString.EndsWith("@");
+                                proxy[name] = new ValueHolder(options.DefaultValue);
+
+                                _propertyDescriptor.Options.Add(options);
                             }
-
-                            options.Label = label;
-                            options.Name = name;
-                            options.OriginalString = match.Value;
-                            options.Kind = kind;
-                            options.IsTwoWayBinding = options.OriginalString.EndsWith("@");
-                            proxy[name] = new ValueHolder(options.DefaultValue);
-
-                            _propertyDescriptor.Options.Add(options);
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    var msg = e.Message;
                 }
             }
         }

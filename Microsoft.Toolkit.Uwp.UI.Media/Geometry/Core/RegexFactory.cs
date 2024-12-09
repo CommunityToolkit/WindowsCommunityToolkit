@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 [assembly: InternalsVisibleTo("UnitTests.UWP")]
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry.Core
+namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
 {
     /// <summary>
     /// Contains all the Regular Expressions which are used for parsing the Win2d Path Mini Language.

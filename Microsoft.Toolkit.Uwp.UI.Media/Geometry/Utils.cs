@@ -4,7 +4,6 @@
 
 using System;
 using System.Numerics;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -31,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first double to compare. </param>
         /// <param name="value2"> The second double to compare. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsCloseTo(this double value1, double value2)
         {
@@ -55,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first double to compare. </param>
         /// <param name="value2"> The second double to compare. </param>
         /// <returns>
-        /// bool - the result of the LessThan comparison.
+        /// bool - the result of the LessThan comparision.
         /// </returns>
         public static bool IsLessThan(this double value1, double value2)
         {
@@ -68,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first double to compare. </param>
         /// <param name="value2"> The second double to compare. </param>
         /// <returns>
-        /// bool - the result of the GreaterThan comparison.
+        /// bool - the result of the GreaterThan comparision.
         /// </returns>
         public static bool IsGreaterThan(this double value1, double value2)
         {
@@ -81,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The double to compare to 1. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsOne(this double value)
         {
@@ -94,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The double to compare to 0. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsZero(this double value)
         {
@@ -107,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first float to compare. </param>
         /// <param name="value2"> The second float to compare. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsCloseTo(this float value1, float value2)
         {
@@ -131,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first float to compare. </param>
         /// <param name="value2"> The second float to compare. </param>
         /// <returns>
-        /// bool - the result of the LessThan comparison.
+        /// bool - the result of the LessThan comparision.
         /// </returns>
         public static bool IsLessThan(this float value1, float value2)
         {
@@ -144,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// <param name="value1"> The first float to compare. </param>
         /// <param name="value2"> The second float to compare. </param>
         /// <returns>
-        /// bool - the result of the GreaterThan comparison.
+        /// bool - the result of the GreaterThan comparision.
         /// </returns>
         public static bool IsGreaterThan(this float value1, float value2)
         {
@@ -157,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The float to compare to 1. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsOne(this float value)
         {
@@ -170,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
         /// </summary>
         /// <param name="value"> The float to compare to 0. </param>
         /// <returns>
-        /// bool - the result of the AreClose comparison.
+        /// bool - the result of the AreClose comparision.
         /// </returns>
         public static bool IsZero(this float value)
         {
@@ -812,6 +811,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Geometry
             }
 
             return new Rect(left, top, targetWidth, targetHeight);
+        }
+
+        /// <summary>
+        /// Converts <see cref="MatrixTransform"/> to <see cref="Matrix3x2"/>
+        /// </summary>
+        /// <param name="transform"><see cref="MatrixTransform"/></param>
+        /// <returns><see cref="Matrix3x2"/></returns>
+        public static Matrix3x2 ToMatrix3x2(this MatrixTransform transform)
+        {
+            return new Matrix3x2(
+                (float)transform.Matrix.M11,
+                (float)transform.Matrix.M12,
+                (float)transform.Matrix.M21,
+                (float)transform.Matrix.M22,
+                (float)transform.Matrix.OffsetX,
+                (float)transform.Matrix.OffsetY);
+        }
+
+        /// <summary>
+        /// Converts <see cref="Matrix3x2"/> to <see cref="MatrixTransform"/>
+        /// </summary>
+        /// <param name="matrix"><see cref="Matrix3x2"/></param>
+        /// <returns><see cref="MatrixTransform"/></returns>
+        public static MatrixTransform ToMatrixTransform(this Matrix3x2 matrix)
+        {
+            return new MatrixTransform()
+            {
+                Matrix = new Matrix(
+                    matrix.M11,
+                    matrix.M12,
+                    matrix.M21,
+                    matrix.M22,
+                    matrix.M31,
+                    matrix.M32)
+            };
         }
     }
 }
