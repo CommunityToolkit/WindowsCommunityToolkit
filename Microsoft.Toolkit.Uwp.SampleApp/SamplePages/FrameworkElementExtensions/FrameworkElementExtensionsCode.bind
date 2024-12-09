@@ -86,6 +86,17 @@
                Stroke="{ThemeResource Brush-Grey-04}"
                StrokeThickness="1" />
 
+    <Border Width="200"
+            Height="200"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            ui:FrameworkElementExtensions.CanDragElement="True"
+            ui:FrameworkElementExtensions.ConstrainDragToParentBounds="True"
+            Background="DeepSkyBlue">
+        <TextBlock Text="You can drag this element with the mouse"
+                   TextWrapping="Wrap" />
+    </Border>
+
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup>
         <VisualState x:Name="Full">
