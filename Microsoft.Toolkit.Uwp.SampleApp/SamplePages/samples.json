@@ -924,30 +924,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
       {
-        "Name": "Guard APIs",
-        "Subcategory": "Developer",
-        "About": "The Guard APIs can be used to validate method arguments in a streamlined manner, which is also faster, less verbose, more expressive and less error prone than manually writing checks and throwing exceptions.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Diagnostics",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/Guard.md"
-      },
-      {
-        "Name": "High Performance APIs",
-        "Subcategory": "Developer",
-        "About": "The High Performance package contains a set of APIs that are heavily focused on optimization. All the new APIs have been carefully crafted to achieve the best possible performance when using them, either through reduced memory allocation, micro-optimizations at the assembly level, or by structuring the APIs in a way that facilitates writing performance oriented code in general.",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.HighPerformance",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/high-performance/Introduction.md"
-      },
-      {
-        "Name": "MVVM Toolkit",
-        "Subcategory": "Developer",
-        "About": "The MVVM Toolkit package is a modern, fast, and modular MVVM library for .NET Standard 2.0.",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/mvvm/Introduction.md",
-        "CodeUrl": "https://github.com/CommunityToolkit/WindowsCommunityToolkit/tree/main/Microsoft.Toolkit.Mvvm"
-      },
-      {
         "Name": "CompareStateTrigger",
         "Subcategory": "State Triggers",
         "About": "Enables a state if the value is equal to, greater than, or less than another value",
