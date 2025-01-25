@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
@@ -1063,6 +1064,120 @@ namespace UnitTests.UI
             }
 
             public int Compare(object x, object y) => _func(x, y);
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Shaping_OutOfRangeCheck()
+        {
+            var random = new Random();
+            var models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
+            {
+                Id = i + 1,
+                Title = $"Title: {i + 1}",
+                Year = random.Next(2015, 2020)
+            }));
+
+            IAdvancedCollectionView view1 = new AdvancedCollectionView(models, true);
+            view1.ObserveFilterProperty(nameof(Model.Year));
+            view1.Filter = model => ((Model)model).Year <= 2020;
+
+            IAdvancedCollectionView view2 = new AdvancedCollectionView(models, true);
+            view2.ObserveFilterProperty(nameof(Model.Year));
+            view2.Filter = model => ((Model)model).Year >= 2021;
+            
+            // In an attempt to reproduce the bug, initially we need to remove the first item ...
+            Model model1 = view1.FirstOrDefault(x => ((Model)x).Id == 1) as Model;
+            if(model1 != null)
+            {
+                view1.Remove(model1);
+                model1.Year = random.Next(2021, 2030);
+                view2.Add(model1);
+            }
+
+            Assert.IsTrue(!view1.Contains(model1));
+            Assert.IsTrue(view2.Contains(model1));
+
+            // ... and continue on by removing the fifth item, which had led to an issue with Drag & Drop
+            //      - see https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4339
+            Model model5 = view1.FirstOrDefault(x => ((Model)x).Id == 5) as Model;
+            if (model5 != null)
+            {
+                view1.Remove(model5);
+                model5.Year = random.Next(2021, 2030);
+                view2.Add(model5);
+            }
+
+            Assert.IsTrue(!view1.Contains(model5));
+            Assert.IsTrue(view2.Contains(model5));
+        }
+
+        [TestCategory("AdvancedCollectionView")]
+        [UITestMethod]
+        public void Test_AdvancedCollectionView_Shaping_RemoveLastItem()
+        {
+            var random = new Random();
+            var models = new ObservableCollection<Model>(Enumerable.Range(0, 20).Select(i => new Model
+            {
+                Id = i + 1,
+                Title = $"Title: {i + 1}",
+                Year = random.Next(2015, 2020)
+            }));
+
+            IAdvancedCollectionView view1 = new AdvancedCollectionView(models, true);
+            view1.ObserveFilterProperty(nameof(Model.Year));
+            view1.Filter = model => ((Model)model).Year <= 2020;
+
+            IAdvancedCollectionView view2 = new AdvancedCollectionView(models, true);
+            view2.ObserveFilterProperty(nameof(Model.Year));
+            view2.Filter = model => ((Model)model).Year >= 2021;
+
+            int lastIndex = view1.Count - 1;
+            if(lastIndex >= 0)
+            {
+                Model modelLast = (Model)view1[lastIndex];
+
+                if (modelLast != null)
+                {
+                    view1.Remove(modelLast);
+                    modelLast.Year = random.Next(2021, 2030);
+                    view2.Add(modelLast);
+                }
+
+                Assert.IsTrue(!view1.Contains(modelLast));
+                Assert.IsTrue(view2.Contains(modelLast));
+            }
+        }
+
+        /// <summary>
+        /// Test class, kept the same as reported in the GitHub issue
+        ///     - https://github.com/CommunityToolkit/WindowsCommunityToolkit/issues/4339
+        /// </summary>
+        public class Model : ObservableObject
+        {
+            private int _id;
+
+            public int Id
+            {
+                get { return _id; }
+                set { SetProperty(ref _id, value); }
+            }
+
+            private string _title;
+
+            public string Title
+            {
+                get { return _title; }
+                set { SetProperty(ref _title, value); }
+            }
+
+            private int _year;
+
+            public int Year
+            {
+                get { return _year; }
+                set { SetProperty(ref _year, value); }
+            }
         }
     }
 }
