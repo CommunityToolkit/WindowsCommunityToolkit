@@ -31,6 +31,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         public static SampleController Current { get; private set; }
 
+        public ThemeListener ThemeListener => _themeListener;
+
         public SampleController()
         {
             _themeListener = new ThemeListener();
@@ -71,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// Gets the current System Theme.
         /// </summary>
         /// <returns>System Theme</returns>
-        public ApplicationTheme SystemTheme()
+        public ApplicationTheme GetSystemTheme()
         {
             return _themeListener.CurrentTheme;
         }
