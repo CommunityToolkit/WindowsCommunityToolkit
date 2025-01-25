@@ -33,6 +33,18 @@
           </VisualState.Setters>
         </VisualState>
       </VisualStateGroup>
+      <VisualStateGroup x:Name="ListViewStates">
+        <VisualState x:Name="SelectedItemNotNullState" />
+        <VisualState x:Name="SelectedItemNullState">
+            <VisualState.StateTriggers>
+                <triggers:IsNullOrEmptyStateTrigger Value="{Binding SelectedItem, ElementName=SelectList}"/>
+            </VisualState.StateTriggers>
+            <VisualState.Setters>
+                <Setter Target="RemoveSelection.IsEnabled" Value="False" />
+                <Setter Target="SelectionEmptyMessage.Visibility" Value="Visible" />
+            </VisualState.Setters>
+        </VisualState>
+      </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -43,7 +55,7 @@
         <TextBlock x:Name="OurTextBoxError" Text="* Required" Foreground="Red" Margin="10 0 0 0" Visibility="Collapsed" VerticalAlignment="Center" />
       </StackPanel>
 
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal" Margin="0,40,0,0">
         <Button x:Name="AddButton" Content="Add" Margin="0 0 10 0"/>
         <Button x:Name="RemoveButton" Content="Remove"/>
       </StackPanel>
@@ -63,7 +75,20 @@
           </Style>
         </ListBox.ItemContainerStyle>
       </ListBox>
+      <Border BorderBrush="Gold" BorderThickness="1" Margin="0,80,0,0" Width="275">
+        <StackPanel>
+            <Button x:Name="RemoveSelection" Content="Deselect" />
+            <TextBlock x:Name="SelectionEmptyMessage" Text="SelectedItem is empty, select an item" Visibility="Collapsed"
+                        Margin="5,0,0,0"/>
+            <ListView x:Name="SelectList" HorizontalAlignment="Left">
+                <ListView.Items>
+                    <TextBlock Text="One" />
+                    <TextBlock Text="Two" />
+                    <TextBlock Text="Three" />
+                </ListView.Items>
+            </ListView>
+        </StackPanel>            
+      </Border>
     </StackPanel>
-
   </Grid>
 </Page>
