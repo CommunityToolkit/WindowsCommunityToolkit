@@ -1,9 +1,0 @@
-<FileList>
-  <File Reference="Microsoft.Toolkit.Uwp.UI.Controls.Markdown.dll">
-    <ToolboxItems UIFramework="UAP"
-        VSCategory="Windows Community Toolkit"
-        BlendCategory="Windows Community Toolkit">
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.MarkdownTextBlock" />
-    </ToolboxItems>
-  </File>
-</FileList>
